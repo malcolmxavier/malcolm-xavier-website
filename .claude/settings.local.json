@@ -1,7 +1,47 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx create-next-app@latest *)"
+      "Bash(npx create-next-app@latest *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} \\(%{time_total}s\\) — %{size_download} bytes\\\\n\" http://localhost:3001/)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} \\(%{time_total}s\\) — %{size_download} bytes\\\\n\" http://localhost:3001/styles)",
+      "Bash(jq '.purple.\"600\".\"$value\" = \"#5d08a6\" | .purple.\"700\".\"$value\" = \"#46067d\"' '_design/tokens/Brand/Mode 1.json')",
+      "Bash(mv /tmp/brand-fix.json \"_design/tokens/Brand/Mode 1.json\")",
+      "Bash(node *)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:3001/styles)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:3001/)",
+      "Bash(jq '.\"font-family\" = { *)",
+      "Bash(awk '/data-subbrand=\"film\"/,/^}/' /Users/mal/Desktop/malcolm-xavier-website/app/globals.css)",
+      "Bash(curl -s -o /tmp/home.html -w \"STATUS=%{http_code}\\\\nSIZE=%{size_download}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /tmp/styles.html -w \"STATUS=%{http_code}\\\\nSIZE=%{size_download}\\\\n\" http://localhost:3000/styles)",
+      "Bash(curl -s -o /tmp/home-3001.html -w \"HOME STATUS=%{http_code} SIZE=%{size_download}\\\\n\" http://localhost:3001/)",
+      "Bash(curl -s -o /tmp/styles-3001.html -w \"STYLES STATUS=%{http_code} SIZE=%{size_download}\\\\n\" http://localhost:3001/styles)",
+      "Bash(npx tsc *)",
+      "Bash(curl -s -o /tmp/styles2.html -w \"STATUS=%{http_code} SIZE=%{size_download}\\\\n\" http://localhost:3001/styles)",
+      "Read(//tmp/**)",
+      "Bash(python3 -c \"import pypdf; print\\(pypdf.__version__\\)\")",
+      "Bash(mdimport -t -d2 _design/source/malcolm-xavier-resume.pdf)",
+      "Bash(mdls -name kMDItemTextContent _design/source/malcolm-xavier-resume.pdf)",
+      "Bash(pip3 install *)",
+      "Bash(python3 -)",
+      "WebFetch(domain:docs.google.com)",
+      "Bash(cp \"/Users/mal/Downloads/Malcolm Xavier Main Product Manager Resume.pdf\" /Users/mal/Desktop/malcolm-xavier-website/_design/source/malcolm-xavier-resume.pdf)",
+      "Bash(cp \"/Users/mal/Downloads/Malcolm Xavier Main Product Manager Resume.pdf\" /Users/mal/Desktop/malcolm-xavier-website/public/resume/malcolm-xavier-resume.pdf)",
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s -o /tmp/resume.html -w \"STATUS=%{http_code} SIZE=%{size_download}\\\\n\" http://localhost:3001/resume)",
+      "Bash(curl -s -I http://localhost:3001/resume/malcolm-xavier-resume.pdf)",
+      "Bash(curl -s -o /tmp/resume2.html -w \"STATUS=%{http_code} SIZE=%{size_download}\\\\n\" http://localhost:3001/resume)",
+      "Bash(python3 *)",
+      "Bash(curl *)",
+      "Bash(lsof -i :3001 -sTCP:LISTEN)",
+      "Bash(awk '/next-server/ && !/grep/ {print $3\"% CPU\"}')",
+      "Bash(kill -9 23766 23763)",
+      "Bash(awk '{print $2}')",
+      "Bash(xargs -r kill -9)",
+      "Bash(echo \"PID=$!\")",
+      "Bash(gh auth *)",
+      "Bash(git add *)"
     ]
   }
 }

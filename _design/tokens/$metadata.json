@@ -1,0 +1,18 @@
+{
+  "tokenSetOrder": [
+    "global",
+    "Brand/Mode 1",
+    "Alias/newsletter",
+    "Alias/film",
+    "Alias/tv",
+    "Alias/music",
+    "Alias/podcast",
+    "Alias/games",
+    "Alias/books",
+    "Mapped/light",
+    "Mapped/dark",
+    "Responsive/desktop",
+    "Responsive/mobile",
+    "Responsive/tablet"
+  ]
+}
