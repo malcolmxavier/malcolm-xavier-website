@@ -41,7 +41,14 @@
       "Bash(xargs -r kill -9)",
       "Bash(echo \"PID=$!\")",
       "Bash(gh auth *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(gh repo *)",
+      "Bash(git *)",
+      "Read(//Users/mal/Desktop/**)",
+      "Bash(npx eslint *)",
+      "Bash(kill bx44v116r *)",
+      "Bash(chmod 644 /Users/mal/Desktop/malcolm-xavier-website/public/headshot.jpg)"
     ]
   }
 }

@@ -360,7 +360,7 @@ function CaseStudyCard({ study }: { study: ResumeCaseStudy }) {
           {study.title}
         </Headline>
         <Body size="md">{study.description}</Body>
-        <Link href={study.href}>Read the case study →</Link>
+        <Link href={study.href}>Read the case study</Link>
       </Stack>
     </Card>
   );
@@ -433,27 +433,19 @@ export default function ResumePage() {
           >
             <li className="inline-flex items-center gap-1.5">
               <IconPhone />
-              <Link href={telHref} quiet>
-                {CONTACT.phone}
-              </Link>
+              <Link href={telHref}>{CONTACT.phone}</Link>
             </li>
             <li className="inline-flex items-center gap-1.5">
               <IconEmail />
-              <Link href={mailHref} quiet>
-                {CONTACT.email}
-              </Link>
+              <Link href={mailHref}>{CONTACT.email}</Link>
             </li>
             <li className="inline-flex items-center gap-1.5">
               <IconLinkedIn />
-              <Link href={CONTACT.linkedin} quiet>
-                LinkedIn
-              </Link>
+              <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>
             </li>
             <li className="inline-flex items-center gap-1.5">
               <IconGitHub />
-              <Link href={CONTACT.github} quiet>
-                GitHub
-              </Link>
+              <Link href={CONTACT.github}>GitHub ↗</Link>
             </li>
             <li className="inline-flex items-center gap-1.5">
               <IconLocation />
@@ -584,7 +576,7 @@ export default function ResumePage() {
             slot for a{" "}
             <Link href={CONTACT.calendly}>30-minute product chat</Link>,
             send an <Link href={mailHref}>email</Link>, or reach out
-            on <Link href={CONTACT.linkedin}>LinkedIn</Link>.
+            on <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>.
           </Body>
         </Stack>
       </Section>

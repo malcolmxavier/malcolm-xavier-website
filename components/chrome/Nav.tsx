@@ -3,10 +3,23 @@
 // middle/right (when any are live), theme toggle on the far right.
 //
 // Per the project's "no public placeholders" rule, route links are
-// driven by an explicit `LIVE_ROUTES` registry. Routes don't appear
-// in nav until their pages actually exist. As Resume / About /
-// Contact ship on Day 3–4, they get added to the registry one line
-// at a time.
+// driven by explicit `SUB_BRAND_ROUTES` + `MAIN_ROUTES` registries.
+// Routes don't appear in nav until their pages actually exist.
+//
+// Visual / behavioral rules baked in here (per Malcolm 2026-04-25):
+//
+//   • Order (left → right): sub-brand routes, separator, main routes.
+//     Concretely today: Music | About, Resume, Contact.
+//   • Active route: underlined ahead of hover so users can tell on
+//     glance which page they're on.
+//   • Inactive routes: underline appears on hover/focus only (matches
+//     footer treatment, intentionally subordinate to active state).
+//   • Sub-brand routes: the Music link (and future Newsletter /
+//     Film / etc.) always renders in its sub-brand color regardless
+//     of which page the user is currently on. Achieved by setting
+//     data-subbrand on the anchor itself; the components.css
+//     `a[data-subbrand="X"]` rule applies the color. Main brand
+//     routes (About, Resume, Contact) keep default text color.
 //
 // Sticky positioning + a subtle backdrop-blur keeps the nav legible
 // over scrolling content without going opaque.
@@ -17,22 +30,53 @@
 //     the layout — Nav assumes `#main` is the landmark below).
 //   - <nav> with aria-label="Primary" so multiple landmarks (Footer
 //     also uses <nav>) are distinguishable to assistive tech.
+//   - Active route gets aria-current="page" for screen-reader
+//     awareness, beyond the visual underline cue.
 // ─────────────────────────────────────────────────────────────────
 
+"use client";
+
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
 import { Container } from "@/components/layout/Container";
 import { ThemeToggle } from "./ThemeToggle";
 
-// As pages ship, add them here. Order = nav order.
-// Format: { label shown to user, href }
-type NavRoute = { label: string; href: string };
-const LIVE_ROUTES: NavRoute[] = [
-  { label: "Resume", href: "/resume" },
-  // { label: "About", href: "/about" },
-  // { label: "Contact", href: "/contact" },
+type NavRoute = {
+  label: string;
+  href: string;
+  /** Sub-brand slug (music, newsletter, film, ...) — present for
+   *  sub-brand routes only. Drives the always-on color treatment
+   *  via `a[data-subbrand="X"]` rules in components.css. */
+  subbrand?: string;
+};
+
+// Sub-brand routes — added to this list as Newsletter / Film / TV /
+// Games / Books / Podcast ship. The `subbrand` slug per entry must
+// match a `[data-subbrand="X"]` rule in components.css.
+const SUB_BRAND_ROUTES: NavRoute[] = [
+  { label: "Music", href: "/music", subbrand: "music" },
 ];
 
+// Main brand routes — recruiter-facing pages (default grey alias).
+const MAIN_ROUTES: NavRoute[] = [
+  { label: "About", href: "/about" },
+  { label: "Resume", href: "/resume" },
+  { label: "Contact", href: "/contact" },
+];
+
+/**
+ * True when the given route href matches the current pathname,
+ * either exactly or as a prefix (so /music/[playlistId] keeps
+ * the Music nav item active).
+ */
+function isActiveRoute(routeHref: string, pathname: string): boolean {
+  if (routeHref === "/") return pathname === "/";
+  return pathname === routeHref || pathname.startsWith(routeHref + "/");
+}
+
 export function Nav() {
+  const pathname = usePathname();
+
   return (
     <header
       // Sticky so the wordmark + theme toggle stay reachable as the
@@ -51,10 +95,17 @@ export function Nav() {
           aria-label="Primary"
           className="flex items-center justify-between py-4"
         >
-          {/* Wordmark: links home, doubles as logo */}
+          {/* Wordmark: links home, doubles as logo. Active when
+              we're on the landing page itself. */}
           <NextLink
             href="/"
-            className="focus-visible:outline-2 focus-visible:outline-offset-4 rounded-sm"
+            className={[
+              "rounded-sm",
+              "transition-opacity motion-reduce:transition-none",
+              "focus-visible:outline-2 focus-visible:outline-offset-4",
+              "hover:opacity-70",
+              isActiveRoute("/", pathname) ? "underline underline-offset-4 decoration-2" : "no-underline",
+            ].join(" ")}
             style={{
               fontFamily: "var(--font-primary)",
               fontSize: "var(--p-lg-font-size)",
@@ -62,43 +113,107 @@ export function Nav() {
               color: "var(--text-heading)",
               outlineColor: "var(--border-focus)",
             }}
+            aria-current={isActiveRoute("/", pathname) ? "page" : undefined}
           >
             Malcolm Xavier
           </NextLink>
 
-          {/* Route list + theme toggle */}
+          {/* Route lists + theme toggle. Sub-brand routes on the
+              left of a divider, main routes on the right. */}
           <div className="flex items-center gap-6">
-            {LIVE_ROUTES.length > 0 ? (
-              <ul className="flex items-center gap-6">
-                {LIVE_ROUTES.map((route) => (
-                  <li key={route.href}>
-                    <NextLink
-                      href={route.href}
-                      className={[
-                        "rounded-sm",
-                        "transition-colors motion-reduce:transition-none",
-                        "hover:[color:var(--text-action-hover)]",
-                        "focus-visible:outline-2 focus-visible:outline-offset-4",
-                      ].join(" ")}
-                      style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: "var(--p-xs-font-size)",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.08em",
-                        color: "var(--text-body)",
-                        outlineColor: "var(--border-focus)",
-                      }}
-                    >
-                      {route.label}
-                    </NextLink>
-                  </li>
-                ))}
-              </ul>
+            {SUB_BRAND_ROUTES.length > 0 ? (
+              <NavRouteList routes={SUB_BRAND_ROUTES} pathname={pathname} />
             ) : null}
+
+            {SUB_BRAND_ROUTES.length > 0 && MAIN_ROUTES.length > 0 ? (
+              // Visual divider between sub-brand and main routes.
+              // aria-hidden because it's purely decorative — the
+              // separation reads from spacing + grouping for AT.
+              <span
+                aria-hidden
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "var(--p-xs-font-size)",
+                  color: "var(--text-caption)",
+                  opacity: 0.5,
+                }}
+              >
+                |
+              </span>
+            ) : null}
+
+            {MAIN_ROUTES.length > 0 ? (
+              <NavRouteList routes={MAIN_ROUTES} pathname={pathname} />
+            ) : null}
+
             <ThemeToggle />
           </div>
         </nav>
       </Container>
     </header>
+  );
+}
+
+// ─── Route list sub-component ────────────────────────────────────
+// Extracted so the active-state logic + class-building stays in one
+// place across both groups (sub-brand and main). Each route's link
+// gets:
+//   • underline + decoration-2 when active (visible identifier)
+//   • underline on hover/focus when inactive (consistent w/ footer)
+//   • aria-current="page" when active (screen-reader cue)
+
+function NavRouteList({
+  routes,
+  pathname,
+}: {
+  routes: NavRoute[];
+  pathname: string;
+}) {
+  return (
+    <ul className="flex items-center gap-6">
+      {routes.map((route) => {
+        const active = isActiveRoute(route.href, pathname);
+        return (
+          <li key={route.href}>
+            <NextLink
+              href={route.href}
+              // data-subbrand on the anchor itself drives the
+              // a[data-subbrand="X"] color rule in components.css —
+              // sub-brand routes always render in their sub-brand
+              // color, regardless of the current page.
+              data-subbrand={route.subbrand}
+              className={[
+                "rounded-sm",
+                "transition-colors motion-reduce:transition-none",
+                "hover:[color:var(--text-action-hover)]",
+                "focus-visible:outline-2 focus-visible:outline-offset-4",
+                // Active state: always underlined.
+                // Inactive: underline on hover/focus only.
+                active
+                  ? "underline underline-offset-4 decoration-2"
+                  : "no-underline hover:underline focus-visible:underline underline-offset-4 decoration-2",
+              ].join(" ")}
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--p-xs-font-size)",
+                textTransform: "uppercase",
+                letterSpacing: "0.08em",
+                // Color is set by the a[data-subbrand="X"] rules in
+                // components.css when subbrand is present, otherwise
+                // defaults to body text color. Unset here so the CSS
+                // rule wins without inline-style override.
+                ...(route.subbrand
+                  ? null
+                  : { color: "var(--text-body)" }),
+                outlineColor: "var(--border-focus)",
+              }}
+              aria-current={active ? "page" : undefined}
+            >
+              {route.label}
+            </NextLink>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

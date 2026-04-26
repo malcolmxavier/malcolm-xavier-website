@@ -27,8 +27,8 @@ import { Dateline } from "@/components/typography/Dateline";
 // Spotify confirmed via brain-dump; LinkedIn + Substack pending and
 // will be added when Malcolm provides URLs.
 const STAY_IN_TOUCH = [
-  { label: "Email", href: "mailto:malcolm.x.evans@gmail.com" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/malxavi/" },
+  { label: "Email", href: "mailto:malcolm.x.evans@gmail.com" },
   { label: "GitHub", href: "https://github.com/malcolmxavier" },
 ];
 

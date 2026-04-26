@@ -9,6 +9,9 @@ import { ThemeProvider } from "next-themes";
 import { Nav } from "@/components/chrome/Nav";
 import { Footer } from "@/components/chrome/Footer";
 import "./globals.css";
+// Loaded AFTER globals.css so unlayered component overrides beat
+// any Tailwind utility rules in @layer utilities.
+import "./components.css";
 
 // ─────────────────────────────────────────────────────────────────
 // Type system — locked 2026-04-24

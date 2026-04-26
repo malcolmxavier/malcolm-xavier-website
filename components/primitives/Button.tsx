@@ -47,34 +47,47 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
   lg: "px-6 py-3 text-[length:var(--p-md-font-size)]",
 };
 
-// Variant styles are applied as inline styles (not Tailwind classes)
-// because they reference CSS custom properties that flip per-theme
-// and per-subbrand. Inline style keeps the resolution dynamic.
-function variantStyles(variant: ButtonVariant): React.CSSProperties {
+// Variant styles emitted as Tailwind arbitrary-value utility classes
+// rather than inline styles. Why the switch from inline:
+//   • Tailwind compiles these to real CSS rules in the utilities
+//     layer, where their var() references resolve cleanly and win
+//     specificity battles against preflight reset rules.
+//   • In practice, inline-style declarations like
+//     `style={{ backgroundColor: "var(--text-heading)" }}` were being
+//     visually overridden in production despite (a) emitting in the
+//     HTML correctly and (b) having higher cascade precedence than
+//     Tailwind preflight's `a { color: inherit }`. Symptom: primary
+//     buttons rendering as transparent outlines instead of filled
+//     pills. Switching to utility-class emission makes the resolution
+//     work everywhere.
+//
+// Each variant returns the className fragment that goes onto the
+// element. The CSS variables (--text-heading, --surface-page,
+// --text-body) flip per-theme and per-subbrand exactly as they did
+// under the inline-style approach.
+function variantClasses(variant: ButtonVariant): string {
   switch (variant) {
     case "primary":
       // High-contrast inversion of the page surface — black-on-light,
-      // white-on-dark. This gives a dominant CTA without depending on
-      // --surface-action, which on grey-default pages resolves to a
-      // near-invisible grey-500. The text-heading / surface-page pair
-      // flips automatically per theme via the mapped tokens.
-      return {
-        background: "var(--text-heading)",
-        color: "var(--surface-page)",
-        border: "1px solid var(--text-heading)",
-      };
+      // white-on-dark. Dominant CTA. The text-heading / surface-page
+      // pair flips automatically per theme via the mapped tokens.
+      return [
+        "bg-[var(--text-heading)]",
+        "text-[color:var(--surface-page)]",
+        "border border-solid border-[var(--text-heading)]",
+      ].join(" ");
     case "secondary":
-      return {
-        background: "transparent",
-        color: "var(--text-body)",
-        border: "1px solid var(--text-heading)",
-      };
+      return [
+        "bg-transparent",
+        "text-[color:var(--text-body)]",
+        "border border-solid border-[var(--text-heading)]",
+      ].join(" ");
     case "ghost":
-      return {
-        background: "transparent",
-        color: "var(--text-body)",
-        border: "1px solid transparent",
-      };
+      return [
+        "bg-transparent",
+        "text-[color:var(--text-body)]",
+        "border border-solid border-transparent",
+      ].join(" ");
   }
 }
 
@@ -95,14 +108,17 @@ export function Button(props: ButtonProps) {
 
   // Shared visual + a11y classes. Focus ring is keyboard-only thanks
   // to focus-visible. motion-reduce shuts off the hover transition.
+  // no-underline kills the user-agent default underline that <a> tags
+  // pick up — without it, `as="a"` buttons render as underlined text.
   const sharedClasses = [
     "inline-flex items-center justify-center gap-2",
-    "rounded-md font-medium",
+    "rounded-md font-medium no-underline",
     "transition-colors motion-reduce:transition-none",
     "focus-visible:outline-2 focus-visible:outline-offset-2",
     "disabled:opacity-50 disabled:pointer-events-none",
     "hover:opacity-90",
     SIZE_CLASSES[size],
+    variantClasses(variant),
     className,
   ]
     .filter(Boolean)
@@ -111,19 +127,31 @@ export function Button(props: ButtonProps) {
   const sharedStyle: React.CSSProperties = {
     fontFamily: "var(--font-secondary)",
     outlineColor: "var(--border-focus)",
-    ...variantStyles(variant),
+    // Defense in depth — kill underline at the inline-style level too,
+    // in case a higher-specificity stylesheet rule sneaks one in.
+    textDecoration: "none",
     ...style,
   };
 
   if (as === "a") {
     return (
-      <a className={sharedClasses} style={sharedStyle} {...rest}>
+      <a
+        className={sharedClasses}
+        style={sharedStyle}
+        data-variant={variant}
+        {...rest}
+      >
         {children}
       </a>
     );
   }
   return (
-    <button className={sharedClasses} style={sharedStyle} {...rest}>
+    <button
+      className={sharedClasses}
+      style={sharedStyle}
+      data-variant={variant}
+      {...rest}
+    >
       {children}
     </button>
   );

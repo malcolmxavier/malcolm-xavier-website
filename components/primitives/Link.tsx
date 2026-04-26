@@ -21,17 +21,37 @@
 import NextLink from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
 
+/**
+ * Optional color override drawn from the design-system color
+ * ramps. Useful when a specific link wants to carry a third-
+ * party brand color (e.g. People → yellow, Muck Rack → blue) or
+ * a sub-brand accent in a context where the default green isn't
+ * what's wanted. Maps to `.link-accent-{accent}` rules in
+ * app/components.css.
+ */
+type LinkAccent =
+  | "yellow"
+  | "blue"
+  | "green"
+  | "red"
+  | "orange"
+  | "purple"
+  | "pink";
+
 type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
   href: string;
   children: ReactNode;
   /** Drop default underline; underline appears on hover/focus only. */
   quiet?: boolean;
+  /** Override the default link color with a specific palette ramp. */
+  accent?: LinkAccent;
 };
 
 export function Link({
   href,
   children,
   quiet = false,
+  accent,
   className = "",
   style,
   ...rest
@@ -49,19 +69,52 @@ export function Link({
     ? "no-underline hover:underline focus-visible:underline"
     : "underline";
 
+  // Underline thickness: loud links get 2px so they read as clearly
+  // tappable inside body copy (the previous 1px was disappearing on
+  // recruiter pages where --text-action sits visually close to body
+  // text). Quiet links keep 1px — they're meant to be subordinate in
+  // chrome / footer / "elsewhere" lists.
+  const decorationClass = quiet ? "decoration-1" : "decoration-2";
+
+  // Hover behavior: loud links get a subtle opacity drop (clear
+  // tactile feedback that doesn't depend on a color shift, since
+  // the previous color-shift hover went BLACK → GREY on default
+  // pages, which reads as "becoming disabled" rather than
+  // "interactive"). Quiet links keep the color-shift to action-
+  // hover since they start grey-ish anyway.
+  const hoverClass = quiet
+    ? "hover:[color:var(--text-action-hover)]"
+    : "hover:opacity-70";
+
   const sharedClasses = [
     underlineClass,
-    "underline-offset-4 decoration-1",
-    "transition-colors motion-reduce:transition-none",
+    `underline-offset-4 ${decorationClass}`,
+    quiet ? "transition-colors" : "transition-opacity",
+    "motion-reduce:transition-none",
     "focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm",
-    "hover:[color:var(--text-action-hover)]",
+    hoverClass,
+    // Loud links carry a class used by app/components.css to set
+    // their color: newsletter green by default, swapping to the
+    // sub-brand primary inside any [data-subbrand] context (so
+    // Music's links read purple, Film's would read orange, etc.).
+    // Class-based so the cascade works without inline-style
+    // overrides — see components.css for the rules.
+    quiet ? "" : "link-loud",
+    // Optional per-link accent color override (yellow / blue /
+    // red / etc.) — wins over the default loud color. See
+    // app/components.css for the rules.
+    accent ? `link-accent-${accent}` : "",
     className,
   ]
     .filter(Boolean)
     .join(" ");
 
+  // Color: quiet links keep --text-action (subordinate by design,
+  // used in chrome / footer / "elsewhere" contexts). Loud links
+  // omit the inline color and let the .link-loud rule in
+  // components.css take over — see comment above.
   const sharedStyle: React.CSSProperties = {
-    color: "var(--text-action)",
+    ...(quiet ? { color: "var(--text-action)" } : null),
     outlineColor: "var(--border-focus)",
     textDecorationColor: "currentColor",
     ...style,

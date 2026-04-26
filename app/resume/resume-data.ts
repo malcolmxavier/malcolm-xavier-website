@@ -19,6 +19,9 @@ export type ResumeContact = {
   github: string;
   /** Direct Calendly booking link (the 30-min product chat slot). */
   calendly: string;
+  /** Root Calendly profile URL — shows all available event types.
+   *  Used as the fallback link when the inline widget can't load. */
+  calendlyRoot: string;
 };
 
 export type ResumeRole = {
@@ -73,6 +76,7 @@ export const CONTACT: ResumeContact = {
   linkedin: "https://www.linkedin.com/in/malxavi/",
   github: "https://github.com/malcolmxavier",
   calendly: "https://calendly.com/malcolmxavier/product-chat-30",
+  calendlyRoot: "https://calendly.com/malcolmxavier",
 };
 
 // Status line shown in the hero — the recruiter-facing "where I am

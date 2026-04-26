@@ -29,10 +29,15 @@ type SectionProps = HTMLAttributes<HTMLElement> & {
   bordered?: boolean;
 };
 
+// Tightened from the original (sm: 12/16, md: 16/24, lg: 24/32) on
+// 2026-04-25 — the previous values inflated scroll length without
+// earning their keep, especially on landing where multiple stacked
+// sections compounded the negative space. New values keep editorial
+// breathing room without burning visual real estate.
 const PADDING_CLASSES: Record<SectionPadding, string> = {
-  sm: "py-12 sm:py-16",
-  md: "py-16 sm:py-24",
-  lg: "py-24 sm:py-32",
+  sm: "py-8 sm:py-10",
+  md: "py-10 sm:py-14",
+  lg: "py-14 sm:py-20",
 };
 
 export function Section({
