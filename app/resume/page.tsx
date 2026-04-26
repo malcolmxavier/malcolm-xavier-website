@@ -87,7 +87,11 @@ function RoleBlock({ role }: { role: ResumeRole }) {
   return (
     <article>
       <Stack gap="300">
-        {/* Anchor line: Company — Location */}
+        {/* Anchor line: Company — Location.
+            Company name renders as a Link when role.url is present.
+            Color via the accent prop, which maps to the
+            link-accent-* classes in components.css (yellow / blue /
+            red / etc. — roughly each company's brand color). */}
         <Headline
           level={3}
           style={{
@@ -95,7 +99,13 @@ function RoleBlock({ role }: { role: ResumeRole }) {
             lineHeight: "var(--h4-line-height)",
           }}
         >
-          {role.company}
+          {role.url ? (
+            <Link href={role.url} accent={role.accent}>
+              {role.company}
+            </Link>
+          ) : (
+            role.company
+          )}
           {role.location ? (
             <span
               style={{
@@ -145,24 +155,32 @@ function RoleBlock({ role }: { role: ResumeRole }) {
           {role.context}
         </Body>
 
-        {/* Achievement bullets */}
-        <ul className="list-disc" style={{ paddingInlineStart: "1.25rem" }}>
-          {role.bullets.map((bullet, idx) => (
-            <li
-              key={idx}
-              style={{
-                fontFamily: "var(--font-secondary)",
-                fontSize: "var(--p-md-font-size)",
-                lineHeight: "var(--p-md-line-height)",
-                color: "var(--text-body)",
-                marginBlockEnd: "var(--scale-200)",
-                maxWidth: "70ch",
-              }}
-            >
-              {bullet}
-            </li>
-          ))}
-        </ul>
+        {/* Achievement bullets — only render the <ul> when there
+            are any. Some roles (e.g. Independent Consulting) collapse
+            their content into the context line above and have an
+            empty bullets array. */}
+        {role.bullets.length > 0 ? (
+          <ul
+            className="list-disc"
+            style={{ paddingInlineStart: "1.25rem" }}
+          >
+            {role.bullets.map((bullet, idx) => (
+              <li
+                key={idx}
+                style={{
+                  fontFamily: "var(--font-secondary)",
+                  fontSize: "var(--p-md-font-size)",
+                  lineHeight: "var(--p-md-line-height)",
+                  color: "var(--text-body)",
+                  marginBlockEnd: "var(--scale-200)",
+                  maxWidth: "70ch",
+                }}
+              >
+                {bullet}
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </Stack>
     </article>
   );
@@ -509,10 +527,7 @@ export default function ResumePage() {
         bordered
       >
         <Stack gap="700">
-          <Stack gap="200">
-            <Kicker>01 · Work experience</Kicker>
-            <Headline level={2}>Where I've shipped</Headline>
-          </Stack>
+          <Kicker>01 · Work experience</Kicker>
           {ROLES.map((role) => (
             <RoleBlock key={`${role.company}-${role.dates}`} role={role} />
           ))}
@@ -527,10 +542,7 @@ export default function ResumePage() {
         bordered
       >
         <Stack gap="700">
-          <Stack gap="200">
-            <Kicker>02 · Education</Kicker>
-            <Headline level={2}>Where I studied</Headline>
-          </Stack>
+          <Kicker>02 · Education</Kicker>
           {EDUCATION.map((entry) => (
             <EducationBlock key={entry.institution} entry={entry} />
           ))}
@@ -547,7 +559,6 @@ export default function ResumePage() {
         <Stack gap="600">
           <Stack gap="200">
             <Kicker>03 · Case studies</Kicker>
-            <Headline level={2}>Selected work</Headline>
             <Body>
               More to come. The first case study lives in its own
               standalone deployment; it'll move into this site post-MVP.

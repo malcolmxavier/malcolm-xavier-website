@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "tokens:build": "node scripts/build-tokens.mjs",
+    "resume:docx": "node scripts/build-resume-docx.mjs",
     "prebuild": "npm run tokens:build"
   },
   "dependencies": {
@@ -26,6 +27,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "docx": "^9.6.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",

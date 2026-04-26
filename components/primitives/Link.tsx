@@ -29,7 +29,7 @@ import type { AnchorHTMLAttributes, ReactNode } from "react";
  * what's wanted. Maps to `.link-accent-{accent}` rules in
  * app/components.css.
  */
-type LinkAccent =
+export type LinkAccent =
   | "yellow"
   | "blue"
   | "green"

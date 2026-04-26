@@ -9,7 +9,14 @@
 //
 // Kept separate from page.tsx so the layout and content live in
 // different files — easier to edit copy without scrolling past JSX.
+//
+// File extension is .tsx (not .ts) so individual bullet entries can
+// embed inline <Link> components — used to link out to organizations
+// referenced in bullet copy (Artist Growth, NEFA, etc.) where the
+// destination doesn't have a top-level role of its own.
 // ─────────────────────────────────────────────────────────────────
+
+import { Link, type LinkAccent } from "@/components/primitives/Link";
 
 export type ResumeContact = {
   email: string;
@@ -27,6 +34,13 @@ export type ResumeContact = {
 export type ResumeRole = {
   /** Company or org name — bold visual anchor for each block. */
   company: string;
+  /** Optional company URL — when present, the company name renders
+   *  as a link to this destination. */
+  url?: string;
+  /** Optional accent color drawn from the design system's color
+   *  ramps — used to tint the company link to roughly match each
+   *  brand's primary color. */
+  accent?: LinkAccent;
   /** "Remote", "New York, NY", etc. Optional when implied. */
   location?: string;
   /** Specific title held during the role. */
@@ -35,8 +49,11 @@ export type ResumeRole = {
   dates: string;
   /** One-line context: what the company is + what Malcolm did. */
   context: string;
-  /** Achievement bullets, written in past-tense action voice. */
-  bullets: string[];
+  /** Achievement bullets, written in past-tense action voice.
+   *  React.ReactNode (not just string) so individual bullets can
+   *  embed inline <Link>s for orgs / projects mentioned in the
+   *  copy that don't get a top-level role of their own. */
+  bullets: React.ReactNode[];
 };
 
 export type ResumeEducation = {
@@ -96,45 +113,49 @@ export const SUMMARY =
 export const ROLES: ResumeRole[] = [
   {
     company: "People Inc.",
+    url: "https://people.inc",
+    accent: "yellow",
     location: "Remote",
     title: "Senior Product Manager, Audience Relationships",
     dates: "Feb 2024 – Oct 2025",
     context:
       "America's largest publisher (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
     bullets: [
-      "Grew email revenue 33% YoY with reusable components and lifecycle marketing playbooks.",
-      "Partnered with data science to scale a recipe recommendation service and drive 2x traffic.",
-      "Introduced a content-specific newsletter program with 3x open rates and 2x user LTV.",
-      "Operationalized experiments to enable AI-based personalized acquisition and engagement.",
-      "Built models in SQL, BigQuery, and Connected Sheets to identify achievable outcomes that informed the AI-based personalization strategy.",
-      "Concurrently developed LLM prompt engineering and RAG workflow expertise (see DataAnnotation, below).",
+      "Grew email revenue 33% YoY with reusable components and lifecycle marketing playbooks",
+      "Partnered with data science to scale a recipe recommendation service and drive 2x traffic",
+      "Introduced a content-specific newsletter program with 3x open rates and 2x user LTV",
+      "Operationalized experiments to enable AI-based personalized acquisition and engagement",
+      "Built models in SQL, BigQuery, and Connected Sheets to identify achievable outcomes that informed the AI-based personalization strategy",
+      "Concurrently developed LLM prompt engineering and RAG workflow expertise (see freelance Prompt Engineer role, below)",
     ],
   },
   {
-    company: "DataAnnotation.tech",
-    title: "Freelance Prompt Engineer",
+    company: "Freelance",
+    title: "Prompt Engineer",
     dates: "Sep 2023 – Oct 2025",
     context:
       "Trained LLM models (GPT-5, Gemini 2.5 Pro, etc.) across various agentic and RAG use cases.",
     bullets: [
-      "Applied prompting techniques (CoT, meta-prompting, etc.) to fine-tune models for legal use cases.",
-      "Developed and used complex criteria and rubrics to evaluate LLM and agent performance.",
-      "Peer-reviewed and revised work submissions to maintain optimal model performance.",
+      "Applied prompting techniques (CoT, meta-prompting, etc.) to fine-tune models for legal use cases",
+      "Developed and used complex criteria and rubrics to evaluate LLM and agent performance",
+      "Peer-reviewed and revised work submissions to maintain optimal model performance",
     ],
   },
   {
     company: "Muck Rack",
+    url: "https://muckrack.com",
+    accent: "blue",
     location: "Remote",
     title: "Technical Product Manager, Content & Data Ingestion",
     dates: "Sep 2022 – Feb 2024",
     context:
       "SaaS reporting tool for PR professionals. Scaled the content platform; enabled search and monitoring features.",
     bullets: [
-      "Scaled ingestion 350% YoY, enabling downstream ML classification, search, and reporting.",
-      "Improved core AI/ML model accuracy, reducing parsing errors by 45% YoY.",
-      "Backfilled content and data to achieve a 500% increase in historical coverage.",
-      "Led the initiative to decompose the ingestion monolith, improving ETL cost, scalability, and reliability.",
-      "Liaised with external content vendors and developers to ensure data-processing compliance.",
+      "Scaled ingestion 350% YoY, enabling downstream ML classification, search, and reporting",
+      "Improved core AI/ML model accuracy, reducing parsing errors by 45% YoY",
+      "Backfilled content and data to achieve a 500% increase in historical coverage",
+      "Led the initiative to decompose the ingestion monolith, improving ETL cost, scalability, and reliability",
+      "Liaised with external content vendors and developers to ensure data-processing compliance",
     ],
   },
   {
@@ -144,47 +165,63 @@ export const ROLES: ResumeRole[] = [
     context:
       "Transition period bridging User Interviews and Muck Rack.",
     bullets: [
-      "Product consulting for Artist Growth (SaaS, music industry).",
-      "Developed content strategy for the New England Foundation for the Arts.",
-      "Built analytics architecture and data strategy for a private client.",
+      <>
+        Product consulting for{" "}
+        <Link href="https://www.artistgrowth.com">Artist Growth</Link>{" "}
+        (SaaS, music industry)
+      </>,
+      <>
+        Developed content strategy for the{" "}
+        <Link href="https://www.nefa.org">
+          New England Foundation for the Arts
+        </Link>
+      </>,
+      "Built analytics architecture and data strategy for a private client",
     ],
   },
   {
     company: "User Interviews",
+    url: "https://www.userinterviews.com",
+    // No accent override — defaults to the loud-link green, which
+    // happens to match User Interviews' own brand color.
     location: "Remote",
     title: "Product Manager",
     dates: "Sep 2020 – Feb 2022",
     context:
       "SaaS UXR tool and marketplace for researchers and participants. Led core and platform teams.",
     bullets: [
-      "Improved marketplace management by driving a 135% increase in participant re-recruitment.",
-      "Implemented targeting features that improved the core marketplace fulfillment metric by 15%.",
-      "Designed, analyzed, and reported on A/B tests for email-notification system model updates.",
-      "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations.",
+      "Improved marketplace management by driving a 135% increase in participant re-recruitment",
+      "Implemented targeting features that improved the core marketplace fulfillment metric by 15%",
+      "Designed, analyzed, and reported on A/B tests for email-notification system model updates",
+      "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations",
     ],
   },
   {
     company: "Fullstack Academy",
+    url: "https://www.fullstackacademy.com",
+    accent: "red",
     location: "New York, NY",
     title: "Admissions Lead (Project Manager)",
     dates: "Jun 2018 – Feb 2020",
     context:
       "Web-development bootcamp (and The Grace Hopper Program). Scaled and optimized the enrollment system to exceed growth targets.",
     bullets: [
-      "Generated $30M+ in annual revenue (170% YoY increase) by scaling enrollment.",
-      "Partnered with engineering to optimize integrations, automations, and system architecture.",
+      "Generated $30M+ in annual revenue (170% YoY increase) by scaling enrollment",
+      "Partnered with engineering to optimize integrations, automations, and system architecture",
     ],
   },
   {
     company: "Fractured Atlas",
+    url: "https://www.fracturedatlas.org",
+    accent: "purple",
     location: "New York, NY",
     title: "Program Associate",
     dates: "Mar 2014 – Oct 2017",
     context:
       "SaaS arts-administration tool. Provided administrative support to end users.",
     bullets: [
-      "Tracked and reported on user analytics as inputs for roadmap prioritization.",
-      "Conducted quality-assurance testing of new features and bug fixes.",
+      "Tracked and reported on user analytics as inputs for roadmap prioritization",
+      "Conducted quality-assurance testing of new features and bug fixes",
     ],
   },
 ];
@@ -201,9 +238,9 @@ export const EDUCATION: ResumeEducation[] = [
     context:
       "Applied privacy law and IP strategy frameworks to PM work in data platforms, AI personalization, and user-data governance.",
     details: [
-      "Teaching Assistant: Negotiations Skills and Strategies (Professor Lynn Cohn).",
-      "Relevant courses: Privacy Law and Regulation; IP Strategy and Management.",
-      "Presentation: \"The Revolution Will Not Be Live Streamed: Privacy Law in the Social Media Era.\"",
+      "Teaching Assistant: Negotiations Skills and Strategies (Professor Lynn Cohn)",
+      "Relevant courses: Privacy Law and Regulation; IP Strategy and Management",
+      "Presentation: \"The Revolution Will Not Be Live Streamed: Privacy Law in the Social Media Era\"",
     ],
   },
   {
@@ -213,8 +250,8 @@ export const EDUCATION: ResumeEducation[] = [
     credential: "Data Science Certificate",
     honors: "Honors · Johnson & Johnson Distinguished Scholar",
     details: [
-      "Relevant technologies: Python, Pandas, Jupyter Notebook, Google Data Studio.",
-      "Presentation: \"Oceans Rise, Properties Fall.\"",
+      "Relevant technologies: Python, Pandas, Jupyter Notebook, Google Data Studio",
+      "Presentation: \"Oceans Rise, Properties Fall\"",
     ],
   },
   {
@@ -223,7 +260,7 @@ export const EDUCATION: ResumeEducation[] = [
     dates: "Mar 2020 – Sep 2020",
     credential: "Web Development Certificate",
     details: [
-      "Relevant technologies: HTML, CSS, JavaScript, React, Node, Visual Studio Code, GitHub.",
+      "Relevant technologies: HTML, CSS, JavaScript, React, Node, Visual Studio Code, GitHub",
     ],
   },
   {
@@ -244,7 +281,7 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     slug: "basecamp-coffee",
     title: "Basecamp Coffee — Find your ritual",
     description:
-      "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Next.js, served on Vercel.",
+      "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
     href: "https://quiz-project-flax-beta.vercel.app/case-study",
   },
 ];

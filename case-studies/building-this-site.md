@@ -265,6 +265,85 @@ codebase: theme-aware components use direct color values via theme
 selectors, not variables. Variables are still fine for sub-brand
 flips and one-off tokens, but the buck stops at the visual baseline.
 
+## Two resumes, one source of truth (almost)
+
+The /resume page on this site is built for recruiters: scannable,
+web-native, links to live work, theme-aware, and lives inside the
+same design system as everything else. It's not, however, what gets
+emailed to a hiring manager or uploaded to a Workday portal. That
+artifact has to survive ATS extraction, which means: single column,
+no tables, no fancy typography, and ideally tailored to the specific
+job posting before submission.
+
+So I built two resumes from the same content:
+
+- **The web resume** at `/resume`, rendered in the site's editorial
+  typography (Instrument Serif + DM Sans) with company links in their
+  actual brand colors, an inline TOC for desktop, and a case-study
+  card grid.
+- **A `.docx` template** at
+  `/resume/malcolm-xavier-resume-template.docx`, generated from a
+  Node script (`scripts/build-resume-docx.mjs`, using the `docx`
+  package). The intended workflow: upload to Google Drive → open as
+  Google Doc → File → Make a copy → tailor for the application →
+  Download → PDF.
+
+The dual-output isn't shared source of truth (yet). The web copy lives
+in `app/resume/resume-data.tsx` (it's `.tsx` because some bullets
+embed inline JSX links). The `.docx` script hardcodes its own copy.
+They're parallel, not piped — when content changes, both get edited.
+The pragmatic case is real: the script runs in Node, the data file
+uses JSX, bridging them means a TS compiler step plus a React-element
+walker for an artifact regenerated maybe once a month. Accepted dual
+source of truth here, with a comment at the top of each file pointing
+at the other.
+
+The two artifacts also intentionally diverge. The web version shows
+more (Trinity College stays, Independent Consulting keeps three
+sub-bullets) because there's no one-page constraint and the audience
+is browsing. The `.docx` template is tighter (Trinity dropped,
+Independent Consulting collapses to a one-line context with inline
+links) because the audience is scanning a printed page. Same person,
+two reading contexts, two editorial decisions.
+
+A few PM-craft details worth flagging for anyone building something
+similar:
+
+- **`keepNext: true` on every paragraph in an entry except the last.**
+  Prevents Word from breaking a single role across pages, which is
+  the rule any recruiter would tell you about a resume but no
+  template enforces by default.
+- **`titlePage: true` to suppress the page header on page 1.** Page 1
+  carries the full hero (name, headline, contact, summary) in the
+  body. Pages 2+ get a minimal header so a printed-and-stapled resume
+  still identifies itself if the pages get separated. ATS extractors
+  that skip headers don't lose anything — every contact field is also
+  in the page-1 body.
+- **Hyperlinks preserved through the .docx → Google Docs → PDF
+  pipeline.** Every company name, every contact item, every
+  case-study title carries a real `href`. ATS that strip formatting
+  still get the URL as text; humans clicking through the PDF in Gmail
+  get a working link.
+- **Friendly link labels** ("LinkedIn · GitHub · Personal Website")
+  instead of bare URLs in the contact strip. Easier to scan, less
+  visual noise, the underlying hyperlink still resolves.
+
+And a small detail almost no one would notice: the company URLs use
+whatever hostname each company actually canonicalizes to. People
+Inc., Muck Rack, GitHub, and Calendly canonicalize to apex (no
+`www.`); LinkedIn, User Interviews, Fullstack Academy, Fractured
+Atlas, Artist Growth, and NEFA canonicalize to `www.`. Matching each
+site's canonical avoids a 301 redirect hop when the link is clicked
+and quietly signals "this person knows what canonicalization is."
+That's approximately zero recruiter value and a non-zero number of
+senior engineers will notice. Brand-craft is mostly the details
+no one's supposed to consciously notice.
+
+> *Voice flag: this section is mostly product-craft — a counterweight
+> to the incident vignettes above. The www. callout in particular is
+> a "delight a small subset of readers" detail that costs nothing to
+> leave in. Trim if the case study runs long.*
+
 ## What got cut, and why
 
 PM judgment is mostly about what *not* to ship. A short list:
