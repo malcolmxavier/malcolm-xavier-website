@@ -1,0 +1,524 @@
+// ─────────────────────────────────────────────────────────────────
+// MusicShell — client wrapper around the /music grid.
+//
+// Owns two pieces of UI state on top of the server-fetched playlist
+// data:
+//
+//   1. View mode — "all" (default paginated grid) vs "collections"
+//      (named groupings from spotify-config.COLLECTIONS).
+//
+//   2. Pagination (only meaningful in "all" mode). Page size is
+//      responsive: 12 per page at sm+ breakpoints, 6 per page below
+//      sm (single-column mobile). Users can browse all 37 playlists
+//      across roughly 3-7 pages depending on viewport.
+//
+// Why client component: matchMedia / page state / scroll-into-view
+// all need a client runtime. PlaylistCard itself stays "shared" (no
+// "use client") so it can be rendered both here and from server
+// contexts without forcing duplicate bundles.
+// ─────────────────────────────────────────────────────────────────
+
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Headline } from "@/components/typography/Headline";
+import { Kicker } from "@/components/typography/Kicker";
+import { Stack } from "@/components/layout/Stack";
+import type { EnrichedPlaylist } from "@/lib/feeds/spotify-utils";
+import type { Collection } from "@/lib/feeds/spotify-config";
+import { PlaylistCard } from "./PlaylistCard";
+
+type Props = {
+  playlists: EnrichedPlaylist[];
+  collections: ReadonlyArray<Collection>;
+};
+
+// Page sizes per viewport. Spec'd by Malcolm:
+//   - Desktop / tablet (sm+): 12 per page (3 rows × 4-up at xl,
+//     4 rows × 3-up at lg, 6 rows × 2-up at sm-md)
+//   - Mobile (< sm): 6 per page (1-column, half the page size so
+//     the vertical scroll stays manageable)
+const PAGE_SIZE_DESKTOP = 12;
+const PAGE_SIZE_MOBILE = 6;
+const MOBILE_BREAKPOINT_PX = 640; // matches Tailwind's `sm` breakpoint
+
+type ViewMode = "all" | "collections";
+
+export function MusicShell({ playlists, collections }: Props) {
+  // Initial state honors URL params so the view + page are
+  // deep-linkable, shareable, and (most importantly) survive
+  // browser-back from a playlist detail page. Defaults: view="all",
+  // page=0.
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const initialView: ViewMode =
+    searchParams?.get("view") === "collections" ? "collections" : "all";
+  const initialPage = Math.max(
+    0,
+    Number.parseInt(searchParams?.get("page") ?? "1", 10) - 1 || 0,
+  );
+
+  const [viewMode, setViewMode] = useState<ViewMode>(initialView);
+  const [page, setPage] = useState(initialPage);
+  const [pageSize, setPageSize] = useState(PAGE_SIZE_DESKTOP);
+
+  // Sync state → URL via replaceState so each pagination click doesn't
+  // pollute the browser history stack — but the LATEST URL still
+  // captures the current page+view so router.back() from a detail
+  // page lands the user where they were.
+  //
+  // Run on every state change after mount; skip the initial render
+  // (we just READ from URL above; writing now would be a no-op or
+  // worse, drop a stale param).
+  const didMountRef = useRef(false);
+  useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+    const params = new URLSearchParams();
+    if (viewMode === "collections") params.set("view", "collections");
+    if (viewMode === "all" && page > 0) params.set("page", String(page + 1));
+    const query = params.toString();
+    const next = query ? `/music?${query}` : "/music";
+    router.replace(next, { scroll: false });
+  }, [viewMode, page, router]);
+
+  // Anchor we scroll back to when user paginates or switches views,
+  // so they don't have to manually scroll up after clicking "Next".
+  const gridAnchorRef = useRef<HTMLDivElement>(null);
+
+  // Listen for breakpoint crossings and update page size on the fly.
+  // matchMedia is the right tool here (vs. a resize listener) because
+  // we only care about a single threshold, not every pixel of width.
+  useEffect(() => {
+    const mq = window.matchMedia(
+      `(max-width: ${MOBILE_BREAKPOINT_PX - 1}px)`,
+    );
+    const update = () =>
+      setPageSize(mq.matches ? PAGE_SIZE_MOBILE : PAGE_SIZE_DESKTOP);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // If the user is on page 4 with 12-per-page (rows 37-48 → only
+  // 1 card visible) and resizes to mobile (6-per-page → that page
+  // doesn't exist), drop them onto the last valid page.
+  useEffect(() => {
+    const totalPages = Math.max(1, Math.ceil(playlists.length / pageSize));
+    if (page >= totalPages) setPage(totalPages - 1);
+  }, [pageSize, playlists.length, page]);
+
+  const totalPages = Math.max(1, Math.ceil(playlists.length / pageSize));
+  const start = page * pageSize;
+  const visiblePlaylists = playlists.slice(start, start + pageSize);
+
+  const goToPage = (next: number) => {
+    setPage(next);
+    // Smooth-scroll the grid anchor into view at the top of the
+    // viewport. Use rAF so the scroll happens after the new page
+    // has rendered and laid out.
+    requestAnimationFrame(() => {
+      gridAnchorRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    });
+  };
+
+  // Switching views resets page to 0. Otherwise a user could be on
+  // grid page 3, switch to Collections, switch back, and land on
+  // page 3 of a possibly-different content order.
+  const switchView = (next: ViewMode) => {
+    if (next === viewMode) return;
+    setViewMode(next);
+    setPage(0);
+  };
+
+  // Index playlists by id once for O(1) lookup when assembling
+  // collection groupings.
+  const playlistsById = new Map(playlists.map((p) => [p.id, p]));
+
+  return (
+    <Stack gap="600">
+      {/* ── View toggle ────────────────────────────────────────── */}
+      <ViewToggle viewMode={viewMode} onChange={switchView} />
+
+      {/* Anchor the page scrolls back to on pagination / view change. */}
+      <div ref={gridAnchorRef} aria-hidden style={{ scrollMarginTop: 24 }} />
+
+      {viewMode === "all" ? (
+        <Stack gap="800">
+          <PlaylistGrid playlists={visiblePlaylists} />
+          {totalPages > 1 ? (
+            <Pagination
+              page={page}
+              totalPages={totalPages}
+              onChange={goToPage}
+            />
+          ) : null}
+        </Stack>
+      ) : (
+        <CollectionsView
+          collections={collections}
+          playlistsById={playlistsById}
+        />
+      )}
+    </Stack>
+  );
+}
+
+// ─── View toggle ───────────────────────────────────────────────────
+
+function ViewToggle({
+  viewMode,
+  onChange,
+}: {
+  viewMode: ViewMode;
+  onChange: (next: ViewMode) => void;
+}) {
+  return (
+    <div
+      role="group"
+      aria-label="Music view"
+      className="flex items-center gap-6"
+    >
+      <ToggleButton
+        active={viewMode === "all"}
+        onClick={() => onChange("all")}
+      >
+        All
+      </ToggleButton>
+      <ToggleButton
+        active={viewMode === "collections"}
+        onClick={() => onChange("collections")}
+      >
+        Collections
+      </ToggleButton>
+    </div>
+  );
+}
+
+function ToggleButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      style={{
+        fontFamily: "var(--font-mono)",
+        fontSize: "var(--p-xs-font-size)",
+        lineHeight: "var(--p-xs-line-height)",
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        // Use --primary-default directly — see Pagination button
+        // for the same workaround note. --text-action is the alias
+        // that's broken inside sub-brand contexts.
+        color: active
+          ? "var(--primary-default)"
+          : "var(--text-caption)",
+        background: "none",
+        border: "none",
+        padding: "0 0 4px",
+        // Active state gets a 2px sub-brand underline; inactive gets
+        // hover underline so the button still reads as interactive.
+        borderBottom: active
+          ? "2px solid var(--primary-default)"
+          : "2px solid transparent",
+        cursor: "pointer",
+      }}
+      className="transition-colors hover:[color:var(--text-action-hover)] focus-visible:outline-2 focus-visible:outline-offset-4"
+    >
+      {children}
+    </button>
+  );
+}
+
+// ─── Grid (used inside the All view + each collection section) ────
+
+function PlaylistGrid({ playlists }: { playlists: EnrichedPlaylist[] }) {
+  return (
+    <ul
+      // Same uniform-card grid used in the original page. auto-rows-fr
+      // + uniform card heights = every card identical size per row.
+      className={[
+        "grid auto-rows-fr gap-x-8 gap-y-12",
+        "grid-cols-1",
+        "sm:grid-cols-2",
+        "lg:grid-cols-3",
+        "xl:grid-cols-4",
+      ].join(" ")}
+      style={{ listStyle: "none", padding: 0, margin: 0 }}
+    >
+      {playlists.map((p) => (
+        <li key={p.id} className="h-full">
+          <PlaylistCard playlist={p} />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// ─── Pagination controls ──────────────────────────────────────────
+
+/**
+ * Build the visible page-number window: 2 pages out in either
+ * direction from the current page, clamped to [0, totalPages-1].
+ *
+ * Examples (totalPages = 7):
+ *   page 0 → [0, 1, 2]
+ *   page 3 → [1, 2, 3, 4, 5]
+ *   page 6 → [4, 5, 6]
+ *
+ * Users can click any visible number directly. To reach pages
+ * outside the window, click any visible number to widen the window
+ * (or use Prev/Next).
+ */
+function pageNumberWindow(current: number, totalPages: number): number[] {
+  const candidates = [
+    current - 2,
+    current - 1,
+    current,
+    current + 1,
+    current + 2,
+  ];
+  return candidates.filter((n) => n >= 0 && n < totalPages);
+}
+
+function Pagination({
+  page,
+  totalPages,
+  onChange,
+}: {
+  page: number;
+  totalPages: number;
+  onChange: (next: number) => void;
+}) {
+  const atStart = page === 0;
+  const atEnd = page === totalPages - 1;
+  const visible = pageNumberWindow(page, totalPages);
+
+  return (
+    <nav
+      aria-label="Playlist pages"
+      className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap"
+    >
+      <PaginationButton
+        onClick={() => onChange(page - 1)}
+        disabled={atStart}
+        aria-label="Previous page"
+      >
+        ← Prev
+      </PaginationButton>
+
+      {/* Number buttons. The current page renders as a styled
+          non-interactive marker (aria-current="page") so screen
+          readers announce the active state and clicks on the
+          current page are no-ops by design. */}
+      <ol
+        className="flex items-center gap-2"
+        style={{ listStyle: "none", padding: 0, margin: 0 }}
+      >
+        {visible.map((n) => {
+          const isCurrent = n === page;
+          return (
+            <li key={n}>
+              <button
+                type="button"
+                onClick={() => !isCurrent && onChange(n)}
+                aria-current={isCurrent ? "page" : undefined}
+                aria-label={`Page ${n + 1}`}
+                // Intentionally NOT setting `disabled` on the current-
+                // page button. Chrome's user-agent styles for
+                // button:disabled override inline `color` and
+                // `border-color`, which made the purple underline
+                // render white. aria-current="page" already tells
+                // assistive tech this is the active page; the click
+                // handler no-ops when isCurrent so the click behavior
+                // matches what `disabled` would have given us.
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "var(--p-xs-font-size)",
+                  lineHeight: "var(--p-xs-line-height)",
+                  letterSpacing: "0.08em",
+                  // Current page: sub-brand color (purple on /music) +
+                  // underline. Inactive pages: muted, clickable.
+                  //
+                  // Use --primary-default (the per-sub-brand brand
+                  // swatch) directly instead of --text-action, which
+                  // is the semantic alias `var(--primary-default)`.
+                  // Tailwind 4's @theme inline interaction breaks the
+                  // alias-chain cascade — `var(--text-action)`
+                  // resolves to the :root grey rather than the
+                  // current sub-brand's color. Direct reference works.
+                  color: isCurrent
+                    ? "var(--primary-default)"
+                    : "var(--text-caption)",
+                  fontWeight: isCurrent ? 600 : 400,
+                  background: "none",
+                  border: "none",
+                  padding: "6px 10px",
+                  cursor: isCurrent ? "default" : "pointer",
+                  borderBottom: isCurrent
+                    ? "2px solid var(--primary-default)"
+                    : "2px solid transparent",
+                  minWidth: 32,
+                }}
+                className="transition-colors hover:[color:var(--text-action-hover)] focus-visible:outline-2 focus-visible:outline-offset-4"
+              >
+                {n + 1}
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+
+      <PaginationButton
+        onClick={() => onChange(page + 1)}
+        disabled={atEnd}
+        aria-label="Next page"
+      >
+        Next →
+      </PaginationButton>
+    </nav>
+  );
+}
+
+function PaginationButton({
+  onClick,
+  disabled,
+  children,
+  ...rest
+}: {
+  onClick: () => void;
+  disabled: boolean;
+  children: React.ReactNode;
+  "aria-label": string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      style={{
+        fontFamily: "var(--font-mono)",
+        fontSize: "var(--p-xs-font-size)",
+        lineHeight: "var(--p-xs-line-height)",
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        // --primary-default workaround: see Pagination button.
+        color: disabled
+          ? "var(--text-disabled)"
+          : "var(--primary-default)",
+        background: "none",
+        border: "none",
+        padding: "8px 12px",
+        cursor: disabled ? "not-allowed" : "pointer",
+        opacity: disabled ? 0.5 : 1,
+      }}
+      className="transition-opacity hover:[color:var(--text-action-hover)] focus-visible:outline-2 focus-visible:outline-offset-4"
+      {...rest}
+    >
+      {children}
+    </button>
+  );
+}
+
+// ─── Collections view ─────────────────────────────────────────────
+
+/** Resolve an array of playlist IDs to live EnrichedPlaylist records,
+ *  silently dropping any ID that isn't in the current playlist map
+ *  (could be excluded by EXCLUDE_IDS or made private on Spotify). */
+function resolveMembers(
+  ids: readonly string[],
+  byId: Map<string, EnrichedPlaylist>,
+): EnrichedPlaylist[] {
+  return ids
+    .map((id) => byId.get(id))
+    .filter((p): p is EnrichedPlaylist => p !== undefined);
+}
+
+function CollectionsView({
+  collections,
+  playlistsById,
+}: {
+  collections: ReadonlyArray<Collection>;
+  playlistsById: Map<string, EnrichedPlaylist>;
+}) {
+  return (
+    <Stack gap="900">
+      {collections.map((collection) => {
+        // Volumed collection: render one shared header + one grid
+        // per volume, with a sub-kicker per volume.
+        if ("volumes" in collection) {
+          const populatedVolumes = collection.volumes
+            .map((v) => ({
+              label: v.label,
+              members: resolveMembers(v.ids, playlistsById),
+            }))
+            .filter((v) => v.members.length > 0);
+
+          if (populatedVolumes.length === 0) return null;
+
+          const totalCount = populatedVolumes.reduce(
+            (sum, v) => sum + v.members.length,
+            0,
+          );
+
+          return (
+            <section key={collection.name}>
+              <Stack gap="600">
+                <Stack gap="200">
+                  <Kicker accent>
+                    Collection · {populatedVolumes.length} volumes ·{" "}
+                    {totalCount} playlist{totalCount === 1 ? "" : "s"}
+                  </Kicker>
+                  <Headline level={2}>{collection.name}</Headline>
+                </Stack>
+                {populatedVolumes.map((v) => (
+                  <Stack key={v.label} gap="400">
+                    <Kicker>
+                      {v.label} · {v.members.length} playlist
+                      {v.members.length === 1 ? "" : "s"}
+                    </Kicker>
+                    <PlaylistGrid playlists={v.members} />
+                  </Stack>
+                ))}
+              </Stack>
+            </section>
+          );
+        }
+
+        // Flat collection: single grid, single kicker.
+        const members = resolveMembers(collection.ids, playlistsById);
+        if (members.length === 0) return null;
+
+        return (
+          <section key={collection.name}>
+            <Stack gap="500">
+              <Stack gap="200">
+                <Kicker accent>
+                  Collection · {members.length} playlist
+                  {members.length === 1 ? "" : "s"}
+                </Kicker>
+                <Headline level={2}>{collection.name}</Headline>
+              </Stack>
+              <PlaylistGrid playlists={members} />
+            </Stack>
+          </section>
+        );
+      })}
+    </Stack>
+  );
+}

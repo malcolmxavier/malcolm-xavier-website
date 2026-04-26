@@ -31,6 +31,7 @@ import {
   type EnrichedPlaylist,
 } from "@/lib/feeds/spotify";
 import { APPLE_MUSIC_LINKS } from "@/lib/feeds/spotify-config";
+import { BackToPlaylists } from "./BackToPlaylists";
 
 export const revalidate = 3600;
 
@@ -68,6 +69,14 @@ export default async function PlaylistDetailPage(
   return (
     <div data-subbrand="music">
       <Container size="md">
+        {/* ─── Back nav ──────────────────────────────────────────────
+             Small "← All playlists" chip at the top so the user can
+             return to the grid. Goes via router.back() when there's
+             history, falling back to /music for direct entries. */}
+        <Section padding="md">
+          <BackToPlaylists />
+        </Section>
+
         {/* ─── Hero ──────────────────────────────────────────────── */}
         <Section padding="lg">
           {/* Cover left, copy right at md+. Stacks at small. */}

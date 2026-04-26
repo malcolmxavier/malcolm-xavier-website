@@ -38,6 +38,38 @@
 
 import "server-only";
 
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+// Re-export universal types + display helpers from spotify-utils so
+// existing call sites (`import { formatDuration } from "@/lib/feeds/spotify"`)
+// keep working. Client components should import from spotify-utils
+// directly to avoid pulling this server-only file into their bundle.
+export {
+  decodeSpotifyDescription,
+  formatDuration,
+  formatTrackDuration,
+  pickImage,
+  sortPlaylistsForDisplay,
+} from "./spotify-utils";
+export type {
+  EnrichedPlaylist,
+  SpotifyAlbumRef,
+  SpotifyArtistRef,
+  SpotifyImage,
+  SpotifyPlaylistEntry,
+  SpotifyPlaylistItemsPage,
+  SpotifyPlaylistSummary,
+  SpotifyTrack,
+} from "./spotify-utils";
+
+import type {
+  EnrichedPlaylist,
+  SpotifyPlaylistSummary,
+  SpotifyPlaylistItemsPage,
+  SpotifyTrack,
+} from "./spotify-utils";
+
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
 const AUTHORIZE_URL = "https://accounts.spotify.com/authorize";
 const API_BASE = "https://api.spotify.com/v1";
@@ -56,93 +88,6 @@ const SCOPES = ["playlist-read-private"];
 // seconds of life left. Avoids races where a request starts with a
 // nearly-expired token and 401s mid-flight.
 const REFRESH_BUFFER_SECONDS = 60;
-
-// ─── Types (matching Spotify's post-Nov-2024 response shapes) ─────
-
-export type SpotifyImage = {
-  url: string;
-  height: number | null;
-  width: number | null;
-};
-
-export type SpotifyArtistRef = {
-  id: string;
-  name: string;
-  external_urls: { spotify: string };
-};
-
-export type SpotifyAlbumRef = {
-  id: string;
-  name: string;
-  images: SpotifyImage[];
-};
-
-/**
- * A track on a playlist. Under Spotify's unified item model, the
- * playable thing on each playlist entry could in theory be a podcast
- * episode — we filter to type === "track" before treating it as one.
- */
-export type SpotifyTrack = {
-  id: string;
-  name: string;
-  type: "track";
-  duration_ms: number;
-  artists: SpotifyArtistRef[];
-  album: SpotifyAlbumRef;
-  external_urls: { spotify: string };
-  preview_url: string | null;
-};
-
-export type SpotifyPlaylistEntry = {
-  added_at: string;
-  /** Renamed from `track` in the post-Nov-2024 reshape. */
-  item: SpotifyTrack | { type: "episode"; [k: string]: unknown } | null;
-};
-
-/**
- * Shape returned by GET /v1/me/playlists items[i]. The "items" field
- * here is a *reference* — { href, total } pointing at the playlist's
- * /items sub-endpoint — not the actual track data.
- */
-export type SpotifyPlaylistSummary = {
-  id: string;
-  name: string;
-  description: string | null;
-  images: SpotifyImage[];
-  external_urls: { spotify: string };
-  public: boolean | null;
-  collaborative: boolean;
-  snapshot_id: string;
-  owner: { id: string; display_name: string | null };
-  /** Reference object, not the tracks themselves. Use total for count. */
-  items: { href: string; total: number };
-};
-
-/**
- * Result of GET /v1/playlists/{id}/items, paginated.
- */
-export type SpotifyPlaylistItemsPage = {
-  href: string;
-  next: string | null;
-  previous: string | null;
-  limit: number;
-  offset: number;
-  total: number;
-  items: SpotifyPlaylistEntry[];
-};
-
-/**
- * What our app actually wants per playlist — a denormalized,
- * playable-only view assembled from the metadata + items endpoints.
- */
-export type EnrichedPlaylist = SpotifyPlaylistSummary & {
-  /** All track entries (episodes filtered out). */
-  tracks: { added_at: string; track: SpotifyTrack }[];
-  /** Sum of every track's duration_ms. */
-  total_duration_ms: number;
-  /** Most-recent added_at across tracks; used as a "last edited" proxy. */
-  last_added_at_ms: number;
-};
 
 type TokenResponse = {
   access_token: string;
@@ -259,6 +204,66 @@ async function getAccessToken(): Promise<string> {
   return data.access_token;
 }
 
+// ─── Offline mode (snapshot-backed) ───────────────────────────────
+//
+// When SPOTIFY_OFFLINE=1 (or "true"), the three exported read entry
+// points (getOwnedPlaylists, getEnrichedPlaylist, getOwnedPlaylistById)
+// short-circuit to read from a pre-captured JSON snapshot instead of
+// hitting Spotify. This protects against re-triggering the rate-limit
+// penalty box during dev iteration and during production builds.
+//
+// The snapshot is captured manually via `npm run spotify:snapshot`,
+// which curls /api/spotify/snapshot and writes the response to
+// lib/feeds/_fixtures/spotify-snapshot.json. The file is committed
+// to git so Vercel builds can read it without hitting Spotify.
+//
+// Refresh cadence is human-driven: when Malcolm adds/edits playlists
+// and wants the change to show up online, he re-runs the snapshot
+// script and commits the updated file.
+
+const SNAPSHOT_PATH = join(
+  process.cwd(),
+  "lib",
+  "feeds",
+  "_fixtures",
+  "spotify-snapshot.json",
+);
+
+type SpotifySnapshot = {
+  capturedAt: string;
+  ownedPlaylists: SpotifyPlaylistSummary[];
+  enrichedById: Record<string, EnrichedPlaylist>;
+};
+
+// Module-scoped cache. Loaded lazily on first offline-mode call;
+// re-used across every subsequent call within the same Node process.
+let cachedSnapshot: SpotifySnapshot | null = null;
+
+function isOfflineMode(): boolean {
+  const v = process.env.SPOTIFY_OFFLINE;
+  return v === "1" || v === "true";
+}
+
+function loadSnapshot(): SpotifySnapshot {
+  if (cachedSnapshot) return cachedSnapshot;
+  let raw: string;
+  try {
+    raw = readFileSync(SNAPSHOT_PATH, "utf-8");
+  } catch {
+    // Fail loud rather than silently falling through to a live API
+    // call. The whole point of offline mode is to never hit Spotify.
+    // Silent fallback would hide misconfigurations and defeat the
+    // protection.
+    throw new Error(
+      `SPOTIFY_OFFLINE is set but no snapshot exists at ${SNAPSHOT_PATH}. ` +
+        `Capture one with \`npm run spotify:snapshot\` (requires the dev ` +
+        `server running and Spotify out of cool-down).`,
+    );
+  }
+  cachedSnapshot = JSON.parse(raw) as SpotifySnapshot;
+  return cachedSnapshot;
+}
+
 // ─── Read API ─────────────────────────────────────────────────────
 
 /**
@@ -300,6 +305,14 @@ export async function getOwnedPlaylists(
   ownerId: string,
   excludeIds: ReadonlySet<string> = new Set(),
 ): Promise<SpotifyPlaylistSummary[]> {
+  // Offline mode: the snapshot was captured by this same function
+  // with the same ownerId/excludeIds, so its contents are already
+  // filtered. Don't re-filter here — if those args change, the right
+  // fix is to refresh the snapshot, not to filter the snapshot at
+  // read-time.
+  if (isOfflineMode()) {
+    return loadSnapshot().ownedPlaylists;
+  }
   const all = await getMyPlaylists();
   return all.filter(
     (p) =>
@@ -361,6 +374,15 @@ export async function getOwnedPlaylistById(
   ownerId: string,
   playlistId: string,
 ): Promise<EnrichedPlaylist | null> {
+  // Offline mode: pull straight from the snapshot keyed by id, then
+  // re-check owner so guessed-URL access (someone visiting a playlist
+  // ID that isn't ours) still 404s identically to live mode.
+  if (isOfflineMode()) {
+    const enriched = loadSnapshot().enrichedById[playlistId];
+    if (!enriched) return null;
+    if (enriched.owner?.id !== ownerId) return null;
+    return enriched;
+  }
   let meta: SpotifyPlaylistSummary;
   try {
     meta = await getPlaylistMetadata(playlistId);
@@ -382,6 +404,21 @@ export async function getOwnedPlaylistById(
 export async function getEnrichedPlaylist(
   summary: SpotifyPlaylistSummary,
 ): Promise<EnrichedPlaylist> {
+  // Offline mode: serve the pre-enriched copy keyed by id. Throw
+  // (rather than fall through) when the playlist is missing from the
+  // snapshot so misconfigurations surface loudly instead of silently
+  // hitting Spotify.
+  if (isOfflineMode()) {
+    const enriched = loadSnapshot().enrichedById[summary.id];
+    if (!enriched) {
+      throw new Error(
+        `SPOTIFY_OFFLINE is set but playlist ${summary.id} ` +
+          `(${summary.name}) is missing from the snapshot. ` +
+          `Refresh with \`npm run spotify:snapshot\`.`,
+      );
+    }
+    return enriched;
+  }
   const tracks = await getPlaylistTracks(summary.id);
   let total = 0;
   let lastAdded = 0;
@@ -412,9 +449,28 @@ const MAX_CONCURRENT_REQUESTS = 3;
 const RATE_LIMIT_MAX_RETRIES = 4;
 
 /**
+ * Threshold (seconds) above which we treat the Retry-After header
+ * as "this is a multi-minute / multi-hour cool-down, give up now".
+ * For short bursts (a few seconds) it's worth sleeping and retrying;
+ * for anything longer the user is better served by an immediate
+ * fallback than a tab that spins for two minutes before failing.
+ */
+const RATE_LIMIT_FAST_FAIL_SECONDS = 60;
+
+/**
  * Fetch wrapper that adds the Authorization header, throttles
  * concurrent requests via a tiny semaphore, and retries on 429
  * honoring Spotify's Retry-After header.
+ *
+ * Two distinct 429 paths:
+ *   1. Short Retry-After (≤ FAST_FAIL_SECONDS): sleep up to 30s and
+ *      retry, up to RATE_LIMIT_MAX_RETRIES times. Right call for a
+ *      brief burst limit.
+ *   2. Long Retry-After (> FAST_FAIL_SECONDS): throw immediately
+ *      without sleeping. Spotify's clock isn't moved by us continuing
+ *      to wait, and a multi-hour cool-down should fall through to
+ *      whatever fallback the call-site has (e.g. SpotifyUnavailable
+ *      on /music) in <1s, not after 4 × 30s = 2 min of dead time.
  */
 async function spotifyFetch(url: string): Promise<Response> {
   return withSemaphore(async () => {
@@ -425,14 +481,29 @@ async function spotifyFetch(url: string): Promise<Response> {
         // Defer caching to Next.js at the call-site.
         cache: "no-store",
       });
-      if (res.status === 429 && attempt < RATE_LIMIT_MAX_RETRIES) {
-        // Spotify returns Retry-After in seconds. Cap the wait so
-        // a multi-minute cool-down doesn't hang the request forever
-        // — we'd rather surface the error and let ISR serve stale.
+      if (res.status === 429) {
         const retryAfter = Number(res.headers.get("retry-after") ?? "1");
-        const waitMs = Math.min(Math.max(retryAfter, 1), 30) * 1000;
-        await new Promise((r) => setTimeout(r, waitMs));
-        continue;
+
+        // Fast-fail on long cool-downs — sleeping doesn't move
+        // Spotify's clock, and the call-site's fallback can render
+        // immediately instead of after minutes of dead retries.
+        if (retryAfter > RATE_LIMIT_FAST_FAIL_SECONDS) {
+          throw new Error(
+            `Spotify API: rate-limited with Retry-After=${retryAfter}s ` +
+              `on ${url} — exceeds fast-fail threshold ` +
+              `(${RATE_LIMIT_FAST_FAIL_SECONDS}s), failing now so ` +
+              `the call-site fallback can render.`,
+          );
+        }
+
+        // Short cool-down — sleep and retry. Cap at 30s per attempt
+        // so even an unexpectedly long short-burst Retry-After
+        // doesn't hang the request.
+        if (attempt < RATE_LIMIT_MAX_RETRIES) {
+          const waitMs = Math.min(Math.max(retryAfter, 1), 30) * 1000;
+          await new Promise((r) => setTimeout(r, waitMs));
+          continue;
+        }
       }
       if (!res.ok) {
         throw new Error(
@@ -464,98 +535,123 @@ async function withSemaphore<T>(fn: () => Promise<T>): Promise<T> {
   }
 }
 
-// ─── Display helpers ──────────────────────────────────────────────
+// ─── Health / penalty-box diagnostic ──────────────────────────────
 
 /**
- * Format a millisecond duration as "1 hr 12 min" or "47 min" — the
- * shape Spotify uses in its own UI for playlist totals.
- */
-export function formatDuration(ms: number): string {
-  const totalMinutes = Math.round(ms / 60000);
-  const hours = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
-  if (hours === 0) return `${minutes} min`;
-  if (minutes === 0) return `${hours} hr`;
-  return `${hours} hr ${minutes} min`;
-}
-
-/**
- * Format a single track's duration as "3:42" — the shape Spotify uses
- * inline next to track names.
- */
-export function formatTrackDuration(ms: number): string {
-  const totalSeconds = Math.round(ms / 1000);
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${minutes}:${String(seconds).padStart(2, "0")}`;
-}
-
-/**
- * Spotify returns descriptions with HTML entities escaped — e.g.
- * "&#x2F;" for "/". Decode the small set we actually see; full
- * entity decoding isn't worth a dependency for our needs.
- */
-export function decodeSpotifyDescription(input: string | null): string {
-  if (!input) return "";
-  return input
-    .replace(/&#x2F;/g, "/")
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
-}
-
-/**
- * Pick the smallest image whose width is at least `minWidth`. Used
- * for choosing playlist covers and album thumbnails — Spotify
- * returns multiple sizes (640 / 300 / 64) and we don't need to
- * download the 640 for a 56px album thumb.
+ * Per-endpoint result for a single probe of the Spotify API.
  *
- * Auto-mosaic playlist covers come back with null dimensions; in
- * that case we always return the (only) image so it can render at
- * an explicitly-sized container.
+ * Spotify rate-limits per endpoint family, not globally — `/v1/me`
+ * can be clear while `/v1/me/playlists` is in cool-down (or vice
+ * versa). So we probe each bucket independently and report each
+ * result; the aggregate `ok` is true only when every probe is clear.
+ *
+ * Discriminated union on `status`:
+ *   - 200 → clear
+ *   - 429 → penalty box; carries authoritative Retry-After + clearAt
+ *   - other → unexpected error; body is included for inspection
  */
-export function pickImage(
-  images: SpotifyImage[] | undefined,
-  minWidth: number,
-): SpotifyImage | null {
-  if (!images || images.length === 0) return null;
-  // If any image has a null width (auto-mosaic), just take the first.
-  if (images.some((i) => i.width == null)) return images[0];
-  const sorted = [...images].sort((a, b) => (a.width ?? 0) - (b.width ?? 0));
-  for (const img of sorted) {
-    if ((img.width ?? 0) >= minWidth) return img;
+export type SpotifyProbeResult =
+  | { endpoint: string; ok: true; status: 200 }
+  | {
+      endpoint: string;
+      ok: false;
+      status: 429;
+      retryAfterSeconds: number;
+      clearAt: string; // ISO 8601, UTC
+    }
+  | { endpoint: string; ok: false; status: number; body: string };
+
+/**
+ * Aggregated health: per-endpoint probes plus a top-level `ok` and
+ * the longest Retry-After across all 429s (so the caller has a
+ * single "wait at least this long" answer when multiple buckets
+ * are limited).
+ */
+export type SpotifyHealth = {
+  ok: boolean;
+  probes: SpotifyProbeResult[];
+  worstRetryAfterSeconds: number;
+};
+
+/**
+ * Probe a single Spotify endpoint with a fresh, uncached request and
+ * surface the raw status + Retry-After. Bypasses our usual
+ * `spotifyFetch` wrapper on purpose — that wrapper retries-and-sleeps
+ * internally and caps the wait at 30s, which would mask the true
+ * Retry-After value we want to read here.
+ */
+async function probeSpotifyEndpoint(
+  pathWithQuery: string,
+): Promise<SpotifyProbeResult> {
+  const token = await getAccessToken();
+  const url = `${API_BASE}${pathWithQuery}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store",
+  });
+
+  if (res.ok) {
+    return { endpoint: pathWithQuery, ok: true, status: 200 };
   }
-  return images[0];
+
+  if (res.status === 429) {
+    // Spotify's Retry-After header is in seconds. Default to 0 if
+    // somehow missing so the JSON is still well-formed.
+    const retryAfterSeconds = Number(res.headers.get("retry-after") ?? "0");
+    const clearAt = new Date(
+      Date.now() + retryAfterSeconds * 1000,
+    ).toISOString();
+    return {
+      endpoint: pathWithQuery,
+      ok: false,
+      status: 429,
+      retryAfterSeconds,
+      clearAt,
+    };
+  }
+
+  // Trim any other error body so JSON responses stay sane.
+  const body = (await res.text()).slice(0, 1000);
+  return { endpoint: pathWithQuery, ok: false, status: res.status, body };
 }
 
 /**
- * Sort an array of enriched playlists by the most-recent added_at
- * timestamp descending — proxy for "last edited" since Spotify
- * doesn't expose a true last-modified field.
+ * Detect whether we're in Spotify's rate-limit penalty box across
+ * the endpoints `/music` actually depends on.
  *
- * Apply MANUAL_ORDER pins on top of this: any playlist ID present
- * in MANUAL_ORDER is pinned to that explicit position at the head
- * of the grid; everything else slots in by the proxy.
+ * Probes (in order):
+ *   - `/me` — the user-profile bucket. Cheap; baseline auth check.
+ *   - `/me/playlists?limit=1` — the bucket `/music` hits hardest;
+ *     the page paginates this to enumerate every owned playlist.
+ *
+ * The token-refresh endpoint (`accounts.spotify.com/api/token`) is
+ * a separate rate-limit bucket from the API endpoints — we can mint
+ * an access token even when the API itself is in cool-down, which
+ * is exactly what makes this diagnostic useful.
+ *
+ * The two probes run sequentially to keep the diagnostic honest:
+ * if we paralleled them and both 429ed, we'd still only see one
+ * worth of usage in the bucket counters. Sequential = realistic.
  */
-export function sortPlaylistsForDisplay(
-  playlists: EnrichedPlaylist[],
-  manualOrder: readonly string[],
-): EnrichedPlaylist[] {
-  const pinIndex = new Map(manualOrder.map((id, i) => [id, i]));
-  const pinned: EnrichedPlaylist[] = [];
-  const rest: EnrichedPlaylist[] = [];
-  for (const p of playlists) {
-    if (pinIndex.has(p.id)) pinned.push(p);
-    else rest.push(p);
-  }
-  pinned.sort(
-    (a, b) =>
-      (pinIndex.get(a.id) as number) - (pinIndex.get(b.id) as number),
-  );
-  rest.sort((a, b) => b.last_added_at_ms - a.last_added_at_ms);
-  return [...pinned, ...rest];
+export async function pingSpotifyHealth(): Promise<SpotifyHealth> {
+  const probes: SpotifyProbeResult[] = [];
+  probes.push(await probeSpotifyEndpoint("/me"));
+  probes.push(await probeSpotifyEndpoint("/me/playlists?limit=1"));
+
+  // Aggregate: the worst-case wait across all 429s. Anything not 429
+  // contributes 0, so a clear bucket doesn't pull the max down.
+  const worstRetryAfterSeconds = probes.reduce((max, p) => {
+    if (!p.ok && p.status === 429 && "retryAfterSeconds" in p) {
+      return Math.max(max, p.retryAfterSeconds);
+    }
+    return max;
+  }, 0);
+
+  return {
+    ok: probes.every((p) => p.ok),
+    probes,
+    worstRetryAfterSeconds,
+  };
 }
 
 // ─── Internal ─────────────────────────────────────────────────────

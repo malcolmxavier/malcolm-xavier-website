@@ -48,7 +48,15 @@
       "Read(//Users/mal/Desktop/**)",
       "Bash(npx eslint *)",
       "Bash(kill bx44v116r *)",
-      "Bash(chmod 644 /Users/mal/Desktop/malcolm-xavier-website/public/headshot.jpg)"
+      "Bash(chmod 644 /Users/mal/Desktop/malcolm-xavier-website/public/headshot.jpg)",
+      "Bash(gh api *)",
+      "Bash(npm ls *)",
+      "Bash(grep *)",
+      "Bash(unzip -l /Users/mal/Desktop/malcolm-xavier-website/public/resume/malcolm-xavier-resume-template.docx)",
+      "Bash(unzip -p /Users/mal/Desktop/malcolm-xavier-website/public/resume/malcolm-xavier-resume-template.docx word/document.xml)",
+      "Bash(unzip -p /Users/mal/Desktop/malcolm-xavier-website/public/resume/malcolm-xavier-resume-template.docx word/header1.xml)",
+      "Bash(lsof -nP -iTCP -sTCP:LISTEN)",
+      "WebFetch(domain:jaskaranbedi.com)"
     ]
   }
 }

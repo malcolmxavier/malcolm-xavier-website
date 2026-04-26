@@ -8,6 +8,7 @@ import {
 import { ThemeProvider } from "next-themes";
 import { Nav } from "@/components/chrome/Nav";
 import { Footer } from "@/components/chrome/Footer";
+import { ChromeGate } from "@/components/chrome/ChromeGate";
 import "./globals.css";
 // Loaded AFTER globals.css so unlayered component overrides beat
 // any Tailwind utility rules in @layer utilities.
@@ -110,7 +111,12 @@ export default function RootLayout({
             Skip to content
           </a>
 
-          <Nav />
+          {/* ChromeGate hides Nav + Footer on chrome-free routes
+              (e.g. /banner/* — the LinkedIn banner export view). All
+              other routes see Nav and Footer as normal. */}
+          <ChromeGate>
+            <Nav />
+          </ChromeGate>
 
           {/* Main landmark — single source of <main> sitewide. Pages
               return their own content (no inner <main>) so the
@@ -121,7 +127,9 @@ export default function RootLayout({
             {children}
           </main>
 
-          <Footer />
+          <ChromeGate>
+            <Footer />
+          </ChromeGate>
         </ThemeProvider>
       </body>
     </html>
