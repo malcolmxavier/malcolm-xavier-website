@@ -43,7 +43,11 @@ export function ScrollProgress() {
   }, []);
 
   return (
-    <div className="sticky top-0 z-40">
+    // Anchored at top-14 (56px) so the bar sits flush against the
+    // bottom edge of the malxavi Nav (which is sticky top-0 with
+    // py-4 padding). z-30 keeps the bar one layer beneath the Nav
+    // so any blurred-Nav overlap stays clean.
+    <div className="sticky top-14 z-30">
       <ProgressBar fraction={fraction} />
     </div>
   );
