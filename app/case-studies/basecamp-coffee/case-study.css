@@ -1,74 +1,74 @@
 /* ──────────────────────────────────────────────────────────
-   Case-study chrome — subtle Liquid Glass reference.
+   Case-study chrome — Liquid Glass reference (visible).
 
-   The original Basecamp Coffee project was anchored visually by
-   "Liquid Glass" cards (translucent + blurred + with a top-edge
-   sheen line). When this case study lived inside that brand
-   world, the glass class was load-bearing. After re-skinning to
-   malxavi's recruiter cluster, glass would normally vanish — but
-   keeping a quiet echo here lets visitors who've seen the original
-   feel the family resemblance.
+   The original Basecamp Coffee project anchored visually on
+   "Liquid Glass" cards: translucent surface + blurred backdrop +
+   a top-edge sheen that catches the eye. After re-skinning to
+   malxavi's recruiter cluster we kept a quiet echo of that detail
+   so visitors who've seen the original feel the family resemblance.
 
-   The treatment is intentionally different in light vs dark mode
-   because real-world glass cards read differently depending on the
-   surface beneath them:
-     - Light mode (white page): the card sits slightly darker than
-       the page, like cool paper on a white desk, with a soft drop
-       shadow underneath.
-     - Dark mode (black page): the card sits slightly lighter than
-       the page, like frosted glass over black, with an inset top-
-       edge highlight + bottom-edge shadow + drop shadow + the
-       Basecamp signature sheen line glinting across the upper edge.
+   Two design realities forced an iteration on how subtle this can
+   be:
+     1. malxavi's page bg (--surface-page) and card bg
+        (--surface-default) resolve to the SAME color in both
+        themes (white in light, black in dark). Cards aren't
+        differentiated from the page unless we deliberately tint
+        them.
+     2. In a flat solid environment with no radial gradients
+        underneath, glass effects below ~10% intensity disappear
+        into the noise floor.
 
-   Both modes keep the same six structural ingredients: top sheen,
-   bottom-edge shadow, surface tint, drop shadow, backdrop-blur,
-   and rounded corners — only the values change per theme.
+   So the values below are tuned to be visible at typical viewing
+   distance — readable as a card, not a flat extension of the page —
+   while still reading as a quiet reference and not a brand takeover.
    ────────────────────────────────────────────────────────── */
 
 .case-glass {
   position: relative;
   overflow: hidden;
-  /* Light-mode default — card sits ~3% darker than the white page
-     so it reads as a piece of cool paper. The drop shadow gives it
-     elevation; the inset white at top is a faint sheen the eye
-     reads as light-from-above. */
-  background: color-mix(in oklab, var(--text-body) 3%, var(--surface-default));
+}
+
+/* Light-mode default — card sits ~7% darker than the white page
+   so it reads as a piece of cool paper. Drop shadow gives elevation,
+   inset white at top is a faint sheen the eye reads as light from
+   above. */
+.case-glass {
+  background: color-mix(in oklab, var(--text-body) 7%, var(--surface-default));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    0 4px 16px -8px rgba(0, 0, 0, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 6px 18px -8px rgba(0, 0, 0, 0.18);
 }
 
 [data-theme="dark"] .case-glass {
-  /* Dark-mode glass — card sits ~5% lighter than the black page so
-     it reads as slightly raised. Inset white at top + dark inset at
-     bottom = embossed glass edge. backdrop-blur softens any motion
-     behind the card. Drop shadow grounds it. */
-  background: color-mix(in oklab, var(--text-body) 5%, var(--surface-default));
+  /* Dark-mode glass — card sits ~14% lighter than the black page so
+     it's clearly raised. Inset white at top + dark inset at bottom
+     create an embossed glass edge. backdrop-blur softens any motion
+     behind the card. Larger drop shadow grounds it. */
+  background: color-mix(in oklab, var(--text-body) 14%, var(--surface-default));
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
-    0 8px 24px -14px rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(8px) saturate(1.1);
-  -webkit-backdrop-filter: blur(8px) saturate(1.1);
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+    0 12px 28px -10px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px) saturate(1.15);
+  -webkit-backdrop-filter: blur(8px) saturate(1.15);
 }
 
-/* Top-edge sheen — a 1px gradient that simulates light catching
+/* Top-edge sheen — a 2px gradient that simulates light catching
    the upper edge of the card. Most distinctive original detail.
-   Subtle dark tint in light mode (so the highlight reads against
-   the slightly-darker card), strong white tint in dark mode (where
-   the gleam is actually doing the work). */
+   Bumped from 1px to 2px and from 18-32% to 35-60% opacity so the
+   gleam actually reads at typical viewing distance. */
 .case-glass::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 18%;
-  right: 18%;
-  height: 1px;
+  left: 14%;
+  right: 14%;
+  height: 2px;
   pointer-events: none;
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(0, 0, 0, 0.18),
+    rgba(0, 0, 0, 0.35),
     transparent
   );
 }
@@ -77,7 +77,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.32),
+    rgba(255, 255, 255, 0.6),
     transparent
   );
 }
