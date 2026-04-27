@@ -43,11 +43,15 @@ export function ScrollProgress() {
   }, []);
 
   return (
-    // Anchored at top-14 (56px) so the bar sits flush against the
-    // bottom edge of the malxavi Nav (which is sticky top-0 with
-    // py-4 padding). z-50 puts it ABOVE the Nav (z-40) so the
-    // frosted Nav doesn't paint over it where their edges overlap.
-    <div className="sticky top-14 z-50">
+    // Position is `fixed`, not `sticky`. With sticky, the bar lives
+    // inside a containing block (main / article) and re-anchors to
+    // that container's bottom edge once the user scrolls past it,
+    // which surfaces as an "extra line" appearing right above the
+    // footer at the end of the page. Fixed positioning keeps the
+    // bar pinned to the viewport at top-14 (56px, just below the
+    // sticky Nav) regardless of scroll position. left-0 right-0
+    // spans the full viewport width; z-50 keeps it above the Nav.
+    <div className="fixed top-14 left-0 right-0 z-50">
       <ProgressBar fraction={fraction} />
     </div>
   );
