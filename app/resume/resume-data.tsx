@@ -282,6 +282,6 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     title: "Basecamp Coffee — Find your ritual",
     description:
       "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
-    href: "https://quiz-project-flax-beta.vercel.app/case-study",
+    href: "https://malxavi.com/case-studies/basecamp-coffee",
   },
 ];

@@ -234,7 +234,7 @@ const CASE_STUDIES = [
   },
   {
     title: "Basecamp Coffee — Find your ritual",
-    url: "https://quiz-project-flax-beta.vercel.app/case-study",
+    url: "https://malxavi.com/case-studies/basecamp-coffee",
     description:
       "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
   },

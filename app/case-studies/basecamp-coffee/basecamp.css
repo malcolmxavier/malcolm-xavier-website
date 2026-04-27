@@ -1,0 +1,149 @@
+/* ──────────────────────────────────────────────────────────
+   Basecamp Coffee case-study brand styles.
+
+   Imported only by the basecamp-coffee route segment layout, so
+   these rules only ship when a visitor is on
+   /case-studies/basecamp-coffee. Even so, every selector is
+   scoped to [data-case-study="basecamp"] to prevent leakage —
+   Next.js scopes CSS imports to a route segment, but global
+   selectors like `:root` or `body` would still bleed.
+
+   Source of truth for these values is the standalone Basecamp
+   Coffee project at github.com/malcolmxavier/quiz-project. The
+   case study deliberately keeps Basecamp's brand voice (warm
+   dark mode, gold + matcha accents, Fraunces/Space Grotesk/
+   JetBrains Mono) because the artifact lives inside that brand
+   world — porting it to malxavi.com's recruiter-cluster styling
+   would mistranslate it.
+   ────────────────────────────────────────────────────────── */
+
+[data-case-study="basecamp"] {
+  /* Base & surfaces */
+  --bg: #120a06;
+  --bg-2: #1f120b;
+  --surface: #261610;
+
+  /* Text */
+  --cream: #f5e6d0;
+  --cream-muted: #c9b399;
+  --cream-dim: #8a7864;
+
+  /* Accents */
+  --gold: #d4a574;
+  --gold-bright: #e8bf88;
+  --matcha: #009966;
+  --matcha-bright: #00b377;
+  --matcha-deep: #00734d;
+
+  /* Rules & dividers */
+  --line: #3a241a;
+  --line-bright: #5a3a28;
+
+  /* Radius */
+  --radius-card: 22px;
+  --radius-pill: 12px;
+
+  /* Shadows (shared glass stack) */
+  --glass-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+    0 8px 24px -14px rgba(0, 0, 0, 0.7);
+
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--cream);
+
+  /* The original site applied this to <body> with
+     background-attachment: fixed so the gradient stayed pinned
+     to the viewport during scroll. Scoping to a wrapper div
+     means we lose `fixed` (background-attachment doesn't apply
+     correctly when the element isn't the viewport-sized root),
+     so the gradient scrolls with the article — acceptable
+     tradeoff since the article is one long page anyway. */
+  background-image:
+    radial-gradient(circle at 8% 88%, rgba(212, 165, 116, 0.1), transparent 40%),
+    radial-gradient(circle at 85% 15%, rgba(0, 153, 102, 0.28), transparent 48%),
+    radial-gradient(circle at 50% 50%, rgba(0, 153, 102, 0.06), transparent 60%);
+
+  min-height: 100vh;
+}
+
+/* ──────────────────────────────────────────────────────────
+   Glass primitive — used by stat / evidence / gate / iteration
+   cards in the case study.
+   ────────────────────────────────────────────────────────── */
+[data-case-study="basecamp"] .glass {
+  border: 1px solid rgba(245, 230, 208, 0.1);
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(22px) saturate(1.35);
+  -webkit-backdrop-filter: blur(22px) saturate(1.35);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--glass-shadow);
+}
+
+/* Top-edge sheen on every glass surface */
+[data-case-study="basecamp"] .glass::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18%;
+  right: 18%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  pointer-events: none;
+}
+
+/* Cards enforce their own boundaries; subcomponents own their margins */
+[data-case-study="basecamp"] .glass > :first-child {
+  margin-top: 0;
+}
+[data-case-study="basecamp"] .glass > :last-child {
+  margin-bottom: 0;
+}
+
+/* ──────────────────────────────────────────────────────────
+   Scroll progress bar — sticks to the top edge of the article.
+   ────────────────────────────────────────────────────────── */
+[data-case-study="basecamp"] .progress-track {
+  height: 3px;
+  background: var(--line);
+  position: relative;
+}
+[data-case-study="basecamp"] .progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--matcha) 100%);
+  box-shadow:
+    0 0 14px rgba(212, 165, 116, 0.35),
+    0 0 18px rgba(0, 153, 102, 0.7);
+  transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Section divider between beats */
+[data-case-study="basecamp"] .section-divider {
+  height: 1px;
+  background: var(--line);
+  border: 0;
+  padding: 0;
+  margin: 0 auto 18px;
+  max-width: 504px;
+  width: calc(100% - 56px);
+}
+
+@media (min-width: 768px) {
+  [data-case-study="basecamp"] .section-divider {
+    max-width: 800px;
+    width: calc(100% - 80px);
+  }
+}
+
+@media (min-width: 1024px) {
+  [data-case-study="basecamp"] .section-divider {
+    max-width: 944px;
+  }
+}

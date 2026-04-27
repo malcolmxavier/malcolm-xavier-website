@@ -1,0 +1,178 @@
+import type { Drink } from '../types';
+
+export const menu: Drink[] = [
+  // ── Espresso-based ──────────────────────────────────────
+  {
+    id: 'espresso',
+    name: 'Espresso',
+    family: 'espresso-based',
+    temperatures: ['hot'],
+    typicalStrength: ['bold', 'extra-bold'],
+    milkMode: 'black',
+    typicalSweetness: ['none', 'touch'],
+    compatibleFlavors: ['chocolate', 'nutty', 'caramel', 'earthy', 'fruity'],
+  },
+  {
+    id: 'macchiato',
+    name: 'Macchiato',
+    family: 'espresso-based',
+    temperatures: ['hot'],
+    typicalStrength: ['bold'],
+    milkMode: 'milk-optional',
+    typicalSweetness: ['none', 'touch'],
+    compatibleFlavors: ['chocolate', 'nutty', 'caramel', 'earthy'],
+  },
+  {
+    id: 'cortado',
+    name: 'Cortado',
+    family: 'espresso-based',
+    temperatures: ['hot'],
+    typicalStrength: ['medium', 'bold'],
+    milkMode: 'dairy-required',
+    typicalSweetness: ['none', 'touch'],
+    compatibleFlavors: ['chocolate', 'nutty', 'caramel'],
+  },
+  {
+    id: 'cappuccino',
+    name: 'Cappuccino',
+    family: 'espresso-based',
+    temperatures: ['hot'],
+    typicalStrength: ['medium', 'bold'],
+    milkMode: 'dairy-required',
+    typicalSweetness: ['none', 'touch'],
+    compatibleFlavors: ['chocolate', 'nutty', 'caramel', 'spicy'],
+  },
+  {
+    id: 'latte',
+    name: 'Latte',
+    family: 'espresso-based',
+    temperatures: ['hot', 'iced'],
+    typicalStrength: ['light', 'medium'],
+    milkMode: 'milk-optional',
+    typicalSweetness: ['touch', 'sweet'],
+    compatibleFlavors: ['chocolate', 'nutty', 'caramel', 'floral', 'spicy'],
+  },
+  {
+    id: 'mocha',
+    name: 'Mocha',
+    family: 'espresso-based',
+    temperatures: ['hot', 'iced'],
+    typicalStrength: ['medium', 'bold'],
+    milkMode: 'dairy-required',
+    typicalSweetness: ['sweet', 'indulgent'],
+    compatibleFlavors: ['chocolate'],
+  },
+  {
+    id: 'americano',
+    name: 'Americano',
+    family: 'espresso-based',
+    temperatures: ['hot', 'iced'],
+    typicalStrength: ['medium', 'bold'],
+    milkMode: 'milk-optional',
+    typicalSweetness: ['none', 'touch'],
+    compatibleFlavors: ['fruity', 'chocolate', 'nutty', 'caramel', 'earthy'],
+  },
+  {
+    // Espresso-based: espresso poured over ice cream. "Specialty" is a menu
+    // marketing label, not a preparation method.
+    id: 'affogato',
+    name: 'Affogato',
+    family: 'espresso-based',
+    temperatures: ['hot'],
+    typicalStrength: ['bold'],
+    milkMode: 'dairy-required',
+    typicalSweetness: ['indulgent'],
+    compatibleFlavors: ['chocolate', 'caramel'],
+  },
+
+  // ── Brewed ──────────────────────────────────────────────
+  {
+    id: 'drip',
+    name: 'Drip Coffee',
+    family: 'brewed',
+    temperatures: ['hot', 'iced'],
+    typicalStrength: ['light', 'medium', 'bold'],
+    milkMode: 'milk-optional',
+    typicalSweetness: ['none', 'touch'],
+    compatibleFlavors: ['chocolate', 'nutty', 'caramel', 'earthy'],
+  },
+  {
+    id: 'pour-over',
+    name: 'Pour-Over',
+    family: 'brewed',
+    temperatures: ['hot'],
+    typicalStrength: ['light', 'medium'],
+    milkMode: 'black',
+    typicalSweetness: ['none'],
+    compatibleFlavors: ['fruity', 'floral', 'chocolate', 'caramel'],
+  },
+  {
+    id: 'red-eye',
+    name: 'Red Eye',
+    family: 'brewed',
+    temperatures: ['hot'],
+    typicalStrength: ['extra-bold'],
+    milkMode: 'milk-optional',
+    typicalSweetness: ['none', 'touch'],
+    compatibleFlavors: ['earthy', 'chocolate'],
+  },
+
+  // ── Cold-brewed ─────────────────────────────────────────
+  {
+    id: 'cold-brew',
+    name: 'Cold Brew',
+    family: 'cold-brewed',
+    temperatures: ['iced'],
+    typicalStrength: ['bold'],
+    milkMode: 'milk-optional',
+    typicalSweetness: ['none', 'touch'],
+    compatibleFlavors: ['chocolate', 'nutty', 'caramel'],
+  },
+  {
+    id: 'nitro-cold-brew',
+    name: 'Nitro Cold Brew',
+    family: 'cold-brewed',
+    temperatures: ['iced'],
+    typicalStrength: ['medium', 'bold'],
+    milkMode: 'milk-optional',
+    typicalSweetness: ['none', 'touch'],
+    compatibleFlavors: ['chocolate', 'nutty', 'caramel'],
+  },
+  {
+    // Cold-brewed: the tonic is an addition, not a preparation. The base is cold brew.
+    id: 'cold-brew-tonic',
+    name: 'Cold Brew Tonic',
+    family: 'cold-brewed',
+    temperatures: ['iced'],
+    typicalStrength: ['light', 'medium'],
+    milkMode: 'black',
+    typicalSweetness: ['touch', 'sweet'],
+    compatibleFlavors: ['fruity', 'floral'],
+  },
+
+  // ── Tea-based ───────────────────────────────────────────
+  {
+    id: 'matcha-latte',
+    name: 'Matcha Latte',
+    family: 'tea-based',
+    temperatures: ['hot', 'iced'],
+    typicalStrength: ['light', 'medium'],
+    milkMode: 'dairy-required',
+    typicalSweetness: ['touch', 'sweet'],
+    compatibleFlavors: ['floral', 'earthy'],
+  },
+  {
+    id: 'chai-latte',
+    name: 'Chai Latte',
+    family: 'tea-based',
+    temperatures: ['hot', 'iced'],
+    typicalStrength: ['medium', 'bold'],
+    milkMode: 'dairy-required',
+    typicalSweetness: ['sweet', 'indulgent'],
+    compatibleFlavors: ['spicy'],
+  },
+];
+
+export function drinkById(id: string): Drink | undefined {
+  return menu.find((d) => d.id === id);
+}

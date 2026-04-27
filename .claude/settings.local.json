@@ -60,7 +60,11 @@
       "Bash(vercel *)",
       "Bash(npm i *)",
       "Read(//private/tmp/**)",
-      "Read(//Users/mal/Library/Caches/com.vercel.cli/**)"
+      "Read(//Users/mal/Library/Caches/com.vercel.cli/**)",
+      "Bash(cp /tmp/quiz-project/lib/__TRACKED_VAR__ /Users/mal/Desktop/malcolm-xavier-website/lib/case-studies/basecamp-coffee/__TRACKED_VAR__)",
+      "Bash(cp /tmp/quiz-project/lib/data/__TRACKED_VAR__ /Users/mal/Desktop/malcolm-xavier-website/lib/case-studies/basecamp-coffee/data/__TRACKED_VAR__)",
+      "Bash(cp /tmp/quiz-project/app/components/ArticleNav.tsx /Users/mal/Desktop/malcolm-xavier-website/app/case-studies/basecamp-coffee/components/ArticleNav.tsx)",
+      "Bash(cp /tmp/quiz-project/app/components/ProgressBar.tsx /Users/mal/Desktop/malcolm-xavier-website/app/case-studies/basecamp-coffee/components/ProgressBar.tsx)"
     ]
   }
 }

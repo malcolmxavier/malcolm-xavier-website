@@ -62,5 +62,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.5,
     },
+    // Case studies — long-form artifacts of past work. Higher
+    // priority than Music since recruiters explicitly hunt for
+    // these, but lower than the core funnel pages.
+    {
+      url: `${SITE_URL}/case-studies/basecamp-coffee`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.7,
+    },
   ];
 }
