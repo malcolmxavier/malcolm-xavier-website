@@ -46,11 +46,15 @@
 }
 
 [data-theme="dark"] {
-  /* Dark-mode track — mix the neon brand green into foundation
-     black (same reason as the light track: --neutral-black is
-     undefined on recruiter pages; --foundation-black is always
-     defined). */
-  --progress-track: color-mix(in oklab, var(--green-300) 22%, var(--foundation-black));
+  /* Dark-mode track — the same grey as the Nav's bottom border
+     (which we hide via the body:has() rule below). Using
+     --border-default keeps the track visually continuous with the
+     Nav: at scroll = 0 the bar reads as the Nav's bottom border,
+     and as the user scrolls the gradient paints over the grey
+     track from left to right — the green progress "fills in" the
+     border. The two colors stay in sync automatically if the design
+     system ever recolors --border-default. */
+  --progress-track: var(--border-default);
 
   --progress-gradient: linear-gradient(
     90deg,
