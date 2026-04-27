@@ -58,8 +58,8 @@ export function ArticleNav({ sections, topOffset = 120 }: ArticleNavProps) {
       className="hidden xl:block fixed top-32 left-4 w-[140px] 2xl:left-8 2xl:w-[200px] z-30"
     >
       <p
-        className="m-0 mb-3 text-[10px] uppercase tracking-[0.22em] text-[var(--cream-dim)]"
-        style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        className="m-0 mb-3 text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
+        style={{ fontFamily: 'var(--font-mono), monospace' }}
       >
         Contents
       </p>
@@ -75,17 +75,17 @@ export function ArticleNav({ sections, topOffset = 120 }: ArticleNavProps) {
                 className={[
                   'group w-full text-left flex items-baseline gap-2.5 py-1.5 pl-2.5 cursor-pointer bg-transparent',
                   'border-l border-transparent transition-colors',
-                  isActive ? 'border-[var(--gold)]' : 'hover:border-[rgba(212,165,116,0.35)]',
+                  isActive ? 'border-[var(--text-heading)]' : 'hover:border-[var(--text-caption)]',
                 ].join(' ')}
               >
                 <span
                   className={[
                     'text-[10px] tracking-[0.12em] transition-colors',
                     isActive
-                      ? 'text-[var(--gold-bright)]'
-                      : 'text-[var(--cream-dim)] group-hover:text-[var(--cream-muted)]',
+                      ? 'text-[var(--text-heading)]'
+                      : 'text-[var(--text-disabled)] group-hover:text-[var(--text-caption)]',
                   ].join(' ')}
-                  style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+                  style={{ fontFamily: 'var(--font-mono), monospace' }}
                 >
                   {number}
                 </span>
@@ -93,8 +93,8 @@ export function ArticleNav({ sections, topOffset = 120 }: ArticleNavProps) {
                   className={[
                     'text-[13px] leading-[1.3] transition-colors',
                     isActive
-                      ? 'text-[var(--cream)] font-medium'
-                      : 'text-[var(--cream-dim)] group-hover:text-[var(--cream-muted)]',
+                      ? 'text-[var(--text-heading)] font-medium'
+                      : 'text-[var(--text-disabled)] group-hover:text-[var(--text-caption)]',
                   ].join(' ')}
                 >
                   {title}

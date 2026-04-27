@@ -360,8 +360,9 @@ function TableOfContents() {
 }
 
 /**
- * Case-study card — currently links externally to the standalone
- * quiz-project deployment. Post-MVP this absorbs into /case-studies/.
+ * Case-study card — links to the curated write-up on malxavi.com,
+ * and (when the underlying project still has a live demo) carries
+ * a secondary link to that live artifact too.
  */
 function CaseStudyCard({ study }: { study: ResumeCaseStudy }) {
   return (
@@ -378,7 +379,15 @@ function CaseStudyCard({ study }: { study: ResumeCaseStudy }) {
           {study.title}
         </Headline>
         <Body size="md">{study.description}</Body>
-        <Link href={study.href}>Read the case study</Link>
+        {/* Primary action — internal link to the curated case study. */}
+        <Link href={study.href}>Read the case study →</Link>
+        {/* Optional secondary action — visit the live artifact, if
+            the project is still serving its original deployment. */}
+        {study.liveHref && (
+          <Link href={study.liveHref} quiet>
+            Visit the live project ↗
+          </Link>
+        )}
       </Stack>
     </Card>
   );

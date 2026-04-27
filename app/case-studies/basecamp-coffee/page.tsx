@@ -61,19 +61,19 @@ export default function BasecampCoffeeCaseStudy() {
       <ArticleNav sections={SECTIONS} />
       <article>
         <Hero />
-        <hr className="section-divider" />
+        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
         <BeatSignal />
-        <hr className="section-divider" />
+        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
         <BeatData />
-        <hr className="section-divider" />
+        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
         <BeatTriangulation />
-        <hr className="section-divider" />
+        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
         <BeatBet />
-        <hr className="section-divider" />
+        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
         <BeatExperiment />
-        <hr className="section-divider" />
+        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
         <BeatArtifact />
-        <hr className="section-divider" />
+        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
         <BeatHowBuilt />
       </article>
     </>
@@ -86,27 +86,27 @@ function Hero() {
     <section id="intro" className="scroll-mt-28 mx-auto max-w-[560px] px-7 pt-9 pb-6 md:max-w-[880px] md:px-10 md:pt-14 md:pb-8 lg:max-w-[1024px]">
       <div className="flex items-baseline justify-between gap-4 mb-3">
         <p
-          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
-          style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+          style={{ fontFamily: 'var(--font-mono), monospace' }}
         >
           Case Study
         </p>
         <p
-          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--cream-dim)]"
-          style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
+          style={{ fontFamily: 'var(--font-mono), monospace' }}
         >
           10 min read · Updated {formatLastUpdated()}
         </p>
       </div>
-      <h1 className="m-0 mb-3 md:mb-4 font-medium text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--cream)]">
+      <h1 className="m-0 mb-3 md:mb-4 font-medium text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--text-heading)]">
         Claude x Growth PM
       </h1>
-      <h2 className="m-0 mb-6 md:mb-8 font-medium text-[24px] md:text-[32px] lg:text-[36px] leading-[1.15] tracking-[-0.015em] text-[var(--cream-muted)]">
+      <h2 className="m-0 mb-6 md:mb-8 font-medium text-[24px] md:text-[32px] lg:text-[36px] leading-[1.15] tracking-[-0.015em] text-[var(--text-caption)]">
         Basecamp Rewards: A Turnaround
       </h2>
       <p
-        className="m-0 text-[19px] md:text-[21px] leading-[1.4] tracking-[-0.005em] text-[var(--cream-muted)]"
-        style={{ fontFamily: 'var(--font-fraunces), serif', fontStyle: 'italic' }}
+        className="m-0 text-[19px] md:text-[21px] leading-[1.4] tracking-[-0.005em] text-[var(--text-caption)]"
+        style={{ fontFamily: 'var(--font-primary), serif', fontStyle: 'italic' }}
       >
         This page is an overview of two things at once. First and foremost, this is documentation of my
         first pass at using Claude Code as a building and thinking partner in developing a site. Second, it&apos;s a
@@ -116,7 +116,7 @@ function Hero() {
           href={QUIZ_HREF}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[var(--gold-bright)] underline decoration-[var(--gold)]/40 underline-offset-[5px] decoration-[1.5px] hover:decoration-[var(--gold)]"
+          className="text-[var(--text-heading)] underline decoration-[var(--border-default)] underline-offset-[5px] decoration-[1.5px] hover:decoration-[var(--text-heading)]"
         >
           The quiz
         </a>{' '}
@@ -165,7 +165,7 @@ function BeatSignal() {
         by month, competitor research—hundreds of pages from the outgoing manager. Claude built
         a mental map of the corpus; I asked it to highlight what was load-bearing. The NPS
         divergence surfaced from <Code>organized/feedback-synthesis.md</Code> almost immediately.
-        <span className="block mt-3 text-[var(--cream)] font-medium">
+        <span className="block mt-3 text-[var(--text-heading)] font-medium">
           Claude didn&apos;t pick the insight; it found the data points that led me to it.
         </span>
       </ClaudeNote>
@@ -217,7 +217,7 @@ function BeatData() {
         number alone? That reframe made the hollow-growth diagnosis unavoidable.
         <span className="block mt-3">
           I should note that this is a problem the data shows, irrespective of the rewards program.{' '}
-          <span className="text-[var(--cream)] font-medium">
+          <span className="text-[var(--text-heading)] font-medium">
             The hypothesis here is just that the rewards program is a lever that can be pulled to start fixing the problem.
           </span>
         </span>
@@ -344,7 +344,7 @@ function BeatExperiment() {
     >
       <Body>
         <p>The pilot:</p>
-        <ul className="m-0 pl-5 text-[17px] md:text-[19px] leading-[1.5] text-[var(--cream-muted)] list-disc marker:text-[var(--gold)]">
+        <ul className="m-0 pl-5 text-[17px] md:text-[19px] leading-[1.5] text-[var(--text-caption)] list-disc marker:text-[var(--text-caption)]">
           <li><Emph>2 stores</Emph>, selected for representative member profiles</li>
           <li><Emph>60 days</Emph> of operation</li>
           <li><Emph>$15K capped spend</Emph>, including tech + comms</li>
@@ -389,7 +389,7 @@ function BeatArtifact() {
             href={QUIZ_HREF}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[var(--gold-bright)] underline decoration-[var(--gold)]/40 underline-offset-[5px] decoration-[1.5px] hover:decoration-[var(--gold)]"
+            className="text-[var(--text-heading)] underline decoration-[var(--border-default)] underline-offset-[5px] decoration-[1.5px] hover:decoration-[var(--text-heading)]"
           >
             Take the quiz.
           </a>{' '}
@@ -408,22 +408,22 @@ function BeatArtifact() {
         <p>
           <Emph>Deliberately not in the MVP:</Emph>
         </p>
-        <ul className="m-0 pl-5 text-[17px] md:text-[19px] leading-[1.5] text-[var(--cream-muted)] list-disc marker:text-[var(--gold)]">
+        <ul className="m-0 pl-5 text-[17px] md:text-[19px] leading-[1.5] text-[var(--text-caption)] list-disc marker:text-[var(--text-caption)]">
           <li>
             Auth/user accounts
-            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--gold)]/60">
+            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--text-disabled)]">
               <li>This would theoretically be integrated into the Basecamp app/site, but it is not MVP scope. The session code is minted once per pageview to prevent gaming within a single visit; cross-session gaming is the gap auth would close.</li>
             </ul>
           </li>
           <li>
             POS/order-flow integration
-            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--gold)]/60">
+            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--text-disabled)]">
               <li>The discount code copy CTA is an MVP shortcut. Ideally, the button would initiate the order flow.</li>
             </ul>
           </li>
           <li>
             Analytics instrumentation
-            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--gold)]/60">
+            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--text-disabled)]">
               <li>Hooks documented, not wired.</li>
             </ul>
           </li>
@@ -562,21 +562,21 @@ function Beat({ id, number, title, headline, claudeTag, claudeTagLiteral, childr
     <section id={id} className="scroll-mt-28 mx-auto max-w-[560px] px-7 pt-6 pb-6 md:max-w-[880px] md:px-10 md:pt-9 md:pb-9 lg:max-w-[1024px]">
       <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 md:gap-6 mb-5 md:mb-6">
         <p
-          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--gold)]"
-          style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+          style={{ fontFamily: 'var(--font-mono), monospace' }}
         >
           {number} · {title}
         </p>
         {claudeTag && (
           <p
-            className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--matcha-bright)]"
-            style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+            className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+            style={{ fontFamily: 'var(--font-mono), monospace' }}
           >
             {claudeTagLiteral ? claudeTag : `claude · ${claudeTag}`}
           </p>
         )}
       </div>
-      <h2 className="m-0 mb-6 md:mb-8 font-medium text-[40px] md:text-[52px] lg:text-[60px] leading-[1.05] tracking-[-0.02em] text-[var(--cream)]">
+      <h2 className="m-0 mb-6 md:mb-8 font-medium text-[40px] md:text-[52px] lg:text-[60px] leading-[1.05] tracking-[-0.02em] text-[var(--text-heading)]">
         {headline}
       </h2>
       {children}
@@ -586,7 +586,7 @@ function Beat({ id, number, title, headline, claudeTag, claudeTagLiteral, childr
 
 function Body({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--cream-muted)] [&>p]:m-0">
+    <div className="flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-caption)] [&>p]:m-0">
       {children}
     </div>
   );
@@ -595,8 +595,8 @@ function Body({ children }: { children: ReactNode }) {
 function Emph({ children }: { children: ReactNode }) {
   return (
     <span
-      className="text-[var(--cream)]"
-      style={{ fontFamily: 'var(--font-fraunces), serif', fontStyle: 'italic' }}
+      className="text-[var(--text-heading)]"
+      style={{ fontFamily: 'var(--font-primary), serif', fontStyle: 'italic' }}
     >
       {children}
     </span>
@@ -606,8 +606,8 @@ function Emph({ children }: { children: ReactNode }) {
 function Code({ children }: { children: ReactNode }) {
   return (
     <code
-      className="text-[14px] md:text-[15px] px-1.5 py-0.5 rounded-[6px] bg-[rgba(245,230,208,0.06)] text-[var(--cream)]"
-      style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+      className="text-[14px] md:text-[15px] px-1.5 py-0.5 rounded-[6px] bg-[var(--neutral-100)] text-[var(--text-heading)]"
+      style={{ fontFamily: 'var(--font-mono), monospace' }}
     >
       {children}
     </code>
@@ -624,47 +624,47 @@ function StatRow({ children }: { children: ReactNode }) {
 
 function Stat({ big, eyebrow, caption }: { big: string; eyebrow: string; caption: string }) {
   return (
-    <div className="glass flex flex-col gap-2">
+    <div className="flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)] bg-[var(--surface-default)]">
       <p
-        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--gold)]"
-        style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+        style={{ fontFamily: 'var(--font-mono), monospace' }}
       >
         {eyebrow}
       </p>
-      <p className="m-0 text-[56px] md:text-[68px] lg:text-[80px] font-medium leading-none tracking-[-0.03em] text-[var(--gold-bright)]">
+      <p className="m-0 text-[56px] md:text-[68px] lg:text-[80px] font-medium leading-none tracking-[-0.03em] text-[var(--text-heading)]">
         {big}
       </p>
-      <p className="m-0 text-[14px] leading-[1.5] text-[var(--cream-muted)]">{caption}</p>
+      <p className="m-0 text-[14px] leading-[1.5] text-[var(--text-caption)]">{caption}</p>
     </div>
   );
 }
 
 function ClaudeNote({ children }: { children: ReactNode }) {
   return (
-    <div className="my-8 md:my-10 pl-4 md:pl-5 border-l-[2px] border-[var(--matcha-deep)]">
+    <div className="my-8 md:my-10 pl-4 md:pl-5 border-l-[2px] border-[var(--border-default)]">
       <p
-        className="m-0 mb-2 text-[10px] uppercase tracking-[0.22em] text-[var(--matcha-bright)]"
-        style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        className="m-0 mb-2 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+        style={{ fontFamily: 'var(--font-mono), monospace' }}
       >
         How I used Claude
       </p>
-      <p className="m-0 text-[15px] md:text-[16px] leading-[1.55] text-[var(--cream-muted)]">{children}</p>
+      <p className="m-0 text-[15px] md:text-[16px] leading-[1.55] text-[var(--text-caption)]">{children}</p>
     </div>
   );
 }
 
 function Pullquote({ children, attribution }: { children: ReactNode; attribution: string }) {
   return (
-    <figure className="my-10 md:my-12 max-w-[720px] pl-5 md:pl-6 border-l-[2px] border-[var(--gold)]/40">
+    <figure className="my-10 md:my-12 max-w-[720px] pl-5 md:pl-6 border-l-[2px] border-[var(--border-default)]">
       <blockquote
-        className="m-0 text-[22px] md:text-[28px] leading-[1.3] tracking-[-0.005em] text-[var(--cream)]"
-        style={{ fontFamily: 'var(--font-fraunces), serif', fontStyle: 'italic' }}
+        className="m-0 text-[22px] md:text-[28px] leading-[1.3] tracking-[-0.005em] text-[var(--text-heading)]"
+        style={{ fontFamily: 'var(--font-primary), serif', fontStyle: 'italic' }}
       >
         &ldquo;{children}&rdquo;
       </blockquote>
       <figcaption
-        className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--cream-dim)]"
-        style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
+        style={{ fontFamily: 'var(--font-mono), monospace' }}
       >
         — {attribution}
       </figcaption>
@@ -680,17 +680,17 @@ function EvidenceGrid({ children }: { children: ReactNode }) {
 
 function EvidenceCard({ eyebrow, title, children }: { eyebrow: string; title: string; children: ReactNode }) {
   return (
-    <div className="glass flex flex-col gap-2">
+    <div className="flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)] bg-[var(--surface-default)]">
       <p
-        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--gold)]"
-        style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+        style={{ fontFamily: 'var(--font-mono), monospace' }}
       >
         {eyebrow}
       </p>
-      <h3 className="m-0 text-[20px] font-semibold leading-[1.1] tracking-[-0.01em] text-[var(--cream)]">
+      <h3 className="m-0 text-[20px] font-semibold leading-[1.1] tracking-[-0.01em] text-[var(--text-heading)]">
         {title}
       </h3>
-      <p className="m-0 text-[15px] leading-[1.5] text-[var(--cream-muted)]">{children}</p>
+      <p className="m-0 text-[15px] leading-[1.5] text-[var(--text-caption)]">{children}</p>
     </div>
   );
 }
@@ -707,15 +707,15 @@ const FACETS: { name: string; values: string[] }[] = [
 
 function FacetMatrix() {
   return (
-    <div className="my-8 md:my-10 rounded-xl border border-[var(--line)] overflow-hidden">
-      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--line)] bg-[rgba(245,230,208,0.02)] flex items-baseline justify-between gap-4">
+    <div className="my-8 md:my-10 rounded-xl border border-[var(--border-default)] overflow-hidden">
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[var(--neutral-100)] flex items-baseline justify-between gap-4">
         <p
-          className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--gold)]"
-          style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+          className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+          style={{ fontFamily: 'var(--font-mono), monospace' }}
         >
           Facet Mapping
         </p>
-        <p className="m-0 text-[11px] md:text-[12px] text-[var(--cream-dim)]">
+        <p className="m-0 text-[11px] md:text-[12px] text-[var(--text-disabled)]">
           7 dimensions · 16 drinks · 16 archetypes
         </p>
       </div>
@@ -723,20 +723,20 @@ function FacetMatrix() {
         {FACETS.map((facet) => (
           <div
             key={facet.name}
-            className="grid grid-cols-[96px_1fr] md:grid-cols-[160px_1fr] gap-3 md:gap-6 px-4 py-3 md:px-6 md:py-3.5 border-b border-[var(--line)] last:border-b-0"
+            className="grid grid-cols-[96px_1fr] md:grid-cols-[160px_1fr] gap-3 md:gap-6 px-4 py-3 md:px-6 md:py-3.5 border-b border-[var(--border-default)] last:border-b-0"
           >
             <dt
-              className="m-0 text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[var(--cream-dim)] pt-[3px]"
-              style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+              className="m-0 text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[var(--text-disabled)] pt-[3px]"
+              style={{ fontFamily: 'var(--font-mono), monospace' }}
             >
               {facet.name}
             </dt>
-            <dd className="m-0 text-[14px] md:text-[15px] leading-[1.5] text-[var(--cream-muted)]">
+            <dd className="m-0 text-[14px] md:text-[15px] leading-[1.5] text-[var(--text-caption)]">
               {facet.values.map((v, i) => (
                 <span key={v}>
-                  <span className="text-[var(--cream)] whitespace-nowrap">{v}</span>
+                  <span className="text-[var(--text-heading)] whitespace-nowrap">{v}</span>
                   {i < facet.values.length - 1 && (
-                    <span className="text-[var(--cream-dim)]">{' · '}</span>
+                    <span className="text-[var(--text-disabled)]">{' · '}</span>
                   )}
                 </span>
               ))}
@@ -744,8 +744,8 @@ function FacetMatrix() {
           </div>
         ))}
       </dl>
-      <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[rgba(245,230,208,0.02)]">
-        <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--cream-dim)]">
+      <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[var(--neutral-100)]">
+        <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--text-disabled)]">
           Size is deliberately excluded—it&apos;s a volume choice, not a taste signal. Six quiz
           questions capture these seven dimensions; the recommender scores every drink in the menu
           against the resulting facet state.
@@ -786,15 +786,15 @@ function DrinkMatrix() {
   }));
 
   return (
-    <div className="my-8 md:my-10 rounded-xl border border-[var(--line)] overflow-hidden">
-      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--line)] bg-[rgba(245,230,208,0.02)] flex items-baseline justify-between gap-4">
+    <div className="my-8 md:my-10 rounded-xl border border-[var(--border-default)] overflow-hidden">
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[var(--neutral-100)] flex items-baseline justify-between gap-4">
         <p
-          className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--gold)]"
-          style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+          className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+          style={{ fontFamily: 'var(--font-mono), monospace' }}
         >
           Drinks, Archetypes &amp; Coverage
         </p>
-        <p className="m-0 text-[11px] md:text-[12px] text-[var(--cream-dim)]">
+        <p className="m-0 text-[11px] md:text-[12px] text-[var(--text-disabled)]">
           {menu.length} drinks · 16 archetypes · {COVERAGE.totalPaths.toLocaleString()} quiz paths
         </p>
       </div>
@@ -802,12 +802,12 @@ function DrinkMatrix() {
       {grouped.map((group, gi) => (
         <div
           key={group.family}
-          className={gi < grouped.length - 1 ? 'border-b border-[var(--line)]' : ''}
+          className={gi < grouped.length - 1 ? 'border-b border-[var(--border-default)]' : ''}
         >
-          <div className="px-4 py-2 md:px-6 md:py-2.5 bg-[rgba(245,230,208,0.015)] border-b border-[var(--line)]">
+          <div className="px-4 py-2 md:px-6 md:py-2.5 bg-[var(--neutral-100)] border-b border-[var(--border-default)]">
             <p
-              className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--cream-dim)]"
-              style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+              className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
+              style={{ fontFamily: 'var(--font-mono), monospace' }}
             >
               {group.label} · {group.drinks.length}
             </p>
@@ -819,18 +819,18 @@ function DrinkMatrix() {
               <div
                 key={drink.id}
                 className={`px-4 py-3 md:px-6 md:py-3.5 ${
-                  di < group.drinks.length - 1 ? 'border-b border-[var(--line)]' : ''
+                  di < group.drinks.length - 1 ? 'border-b border-[var(--border-default)]' : ''
                 }`}
               >
                 <div className="grid grid-cols-[1fr_auto] md:grid-cols-[240px_1fr_auto] gap-x-3 md:gap-x-6 items-baseline">
-                  <p className="m-0 text-[15px] md:text-[16px] text-[var(--cream)]">
+                  <p className="m-0 text-[15px] md:text-[16px] text-[var(--text-heading)]">
                     {drink.name}
                     {archetype && (
                       <>
-                        <span className="mx-[0.45em] text-[var(--cream-dim)]">·</span>
+                        <span className="mx-[0.45em] text-[var(--text-disabled)]">·</span>
                         <span
-                          className="text-[14px] md:text-[15px] text-[var(--cream-muted)]"
-                          style={{ fontFamily: 'var(--font-fraunces), serif', fontStyle: 'italic' }}
+                          className="text-[14px] md:text-[15px] text-[var(--text-caption)]"
+                          style={{ fontFamily: 'var(--font-primary), serif', fontStyle: 'italic' }}
                         >
                           {archetype.name}
                         </span>
@@ -838,20 +838,20 @@ function DrinkMatrix() {
                     )}
                   </p>
                   <p
-                    className="col-start-2 row-start-1 md:col-start-3 md:row-start-1 m-0 text-[11px] md:text-[12px] tracking-[0.04em] tabular-nums whitespace-nowrap text-right text-[var(--gold-bright)]"
-                    style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+                    className="col-start-2 row-start-1 md:col-start-3 md:row-start-1 m-0 text-[11px] md:text-[12px] tracking-[0.04em] tabular-nums whitespace-nowrap text-right text-[var(--text-heading)]"
+                    style={{ fontFamily: 'var(--font-mono), monospace' }}
                     title={`${Math.round(share * COVERAGE.totalPaths).toLocaleString()} of ${COVERAGE.totalPaths.toLocaleString()} quiz paths`}
                   >
                     {(share * 100).toFixed(1)}%
                   </p>
-                  <p className="col-span-2 md:col-span-1 md:col-start-2 md:row-start-1 m-0 text-[13px] md:text-[14px] leading-[1.5] text-[var(--cream-muted)]">
+                  <p className="col-span-2 md:col-span-1 md:col-start-2 md:row-start-1 m-0 text-[13px] md:text-[14px] leading-[1.5] text-[var(--text-caption)]">
                     <FacetChip>{fmtStrength(drink.typicalStrength)}</FacetChip>
                     <Dot />
                     <FacetChip>{fmtMilk(drink.milkMode)}</FacetChip>
                     <Dot />
                     <FacetChip>{fmtTemp(drink.temperatures)}</FacetChip>
                     <Dot />
-                    <span className="text-[var(--cream-dim)]">
+                    <span className="text-[var(--text-disabled)]">
                       {drink.compatibleFlavors.join(', ')}
                     </span>
                   </p>
@@ -862,8 +862,8 @@ function DrinkMatrix() {
         </div>
       ))}
 
-      <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[rgba(245,230,208,0.02)] border-t border-[var(--line)]">
-        <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--cream-dim)]">
+      <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[var(--neutral-100)] border-t border-[var(--border-default)]">
+        <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--text-disabled)]">
           Each drink&apos;s facet profile is the thing the recommender scores against. A user&apos;s
           facet state from the quiz returns the closest match on strength, milk, temperature, and
           flavor—filtered first by style family. Every drink maps 1-to-1 to an archetype (shown in italic
@@ -878,11 +878,11 @@ function DrinkMatrix() {
 }
 
 function FacetChip({ children }: { children: ReactNode }) {
-  return <span className="text-[var(--cream)] whitespace-nowrap">{children}</span>;
+  return <span className="text-[var(--text-heading)] whitespace-nowrap">{children}</span>;
 }
 
 function Dot() {
-  return <span className="text-[var(--cream-dim)]">{' · '}</span>;
+  return <span className="text-[var(--text-disabled)]">{' · '}</span>;
 }
 
 interface MetricRow {
@@ -898,27 +898,27 @@ function MetricsTable({ rows }: { rows: MetricRow[] }) {
     <div className="my-8 md:my-10">
       {/* Tablet + desktop — proper table grid */}
       <div className="hidden md:block">
-        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 pb-3 border-b border-[var(--line)]">
-          <p className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--cream-dim)]" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>Metric</p>
-          <p className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--cream-dim)]" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>6mo ago</p>
-          <p className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--cream-dim)]" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>Now</p>
-          <p className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--cream-dim)]" style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}>Target</p>
+        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 pb-3 border-b border-[var(--border-default)]">
+          <p className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]" style={{ fontFamily: 'var(--font-mono), monospace' }}>Metric</p>
+          <p className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]" style={{ fontFamily: 'var(--font-mono), monospace' }}>6mo ago</p>
+          <p className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]" style={{ fontFamily: 'var(--font-mono), monospace' }}>Now</p>
+          <p className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]" style={{ fontFamily: 'var(--font-mono), monospace' }}>Target</p>
         </div>
         {rows.map((row) => (
           <div
             key={row.metric}
-            className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 py-3 border-b border-[var(--line)] last:border-b-0"
+            className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 py-3 border-b border-[var(--border-default)] last:border-b-0"
           >
-            <p className="m-0 text-[15px] text-[var(--cream)]">{row.metric}</p>
-            <p className="m-0 text-right text-[15px] text-[var(--cream-dim)]">{row.was}</p>
+            <p className="m-0 text-[15px] text-[var(--text-heading)]">{row.metric}</p>
+            <p className="m-0 text-right text-[15px] text-[var(--text-disabled)]">{row.was}</p>
             <p
               className={`m-0 text-right text-[15px] font-medium ${
-                row.nowTone === 'down' ? 'text-[var(--cream)]' : 'text-[var(--cream-muted)]'
+                row.nowTone === 'down' ? 'text-[var(--text-heading)]' : 'text-[var(--text-caption)]'
               }`}
             >
               {row.now}
             </p>
-            <p className="m-0 text-right text-[15px] text-[var(--cream-muted)]">{row.target}</p>
+            <p className="m-0 text-right text-[15px] text-[var(--text-caption)]">{row.target}</p>
           </div>
         ))}
       </div>
@@ -926,20 +926,20 @@ function MetricsTable({ rows }: { rows: MetricRow[] }) {
       {/* Mobile — stacked cards */}
       <div className="md:hidden flex flex-col gap-3">
         {rows.map((row) => (
-          <div key={row.metric} className="px-4 py-3.5 rounded-xl border border-[var(--line)]">
-            <p className="m-0 mb-2 text-[15px] font-medium text-[var(--cream)]">{row.metric}</p>
+          <div key={row.metric} className="px-4 py-3.5 rounded-xl border border-[var(--border-default)]">
+            <p className="m-0 mb-2 text-[15px] font-medium text-[var(--text-heading)]">{row.metric}</p>
             <div className="grid grid-cols-3 gap-3">
               {(['was', 'now', 'target'] as const).map((k, i) => (
                 <div key={k} className="flex flex-col gap-1">
                   <p
-                    className="m-0 text-[9px] uppercase tracking-[0.18em] text-[var(--cream-dim)]"
-                    style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+                    className="m-0 text-[9px] uppercase tracking-[0.18em] text-[var(--text-disabled)]"
+                    style={{ fontFamily: 'var(--font-mono), monospace' }}
                   >
                     {['6mo ago', 'Now', 'Target'][i]}
                   </p>
                   <p
                     className={`m-0 text-[14px] ${
-                      k === 'now' ? 'font-medium text-[var(--cream)]' : 'text-[var(--cream-muted)]'
+                      k === 'now' ? 'font-medium text-[var(--text-heading)]' : 'text-[var(--text-caption)]'
                     }`}
                   >
                     {row[k]}
@@ -960,17 +960,17 @@ function SuccessGate({ children }: { children: ReactNode }) {
 
 function GateCard({ metric, threshold, caption }: { metric: string; threshold: string; caption: string }) {
   return (
-    <div className="glass flex flex-col gap-1.5">
+    <div className="flex flex-col gap-1.5 p-5 rounded-[22px] border border-[var(--border-default)] bg-[var(--surface-default)]">
       <p
-        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--gold)]"
-        style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+        style={{ fontFamily: 'var(--font-mono), monospace' }}
       >
         {metric}
       </p>
-      <p className="m-0 text-[32px] md:text-[36px] font-medium leading-none tracking-[-0.02em] text-[var(--cream)]">
+      <p className="m-0 text-[32px] md:text-[36px] font-medium leading-none tracking-[-0.02em] text-[var(--text-heading)]">
         {threshold}
       </p>
-      <p className="m-0 text-[13px] leading-[1.4] text-[var(--cream-dim)]">{caption}</p>
+      <p className="m-0 text-[13px] leading-[1.4] text-[var(--text-disabled)]">{caption}</p>
     </div>
   );
 }
@@ -989,26 +989,26 @@ function IterationGrid({ children }: { children: ReactNode }) {
 
 function IterationCard({ lens, title, children }: { lens: string; title: string; children: ReactNode }) {
   return (
-    <div className="glass flex flex-col gap-2">
+    <div className="flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)] bg-[var(--surface-default)]">
       <p
-        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--matcha-bright)]"
-        style={{ fontFamily: 'var(--font-jetbrains-mono), monospace' }}
+        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+        style={{ fontFamily: 'var(--font-mono), monospace' }}
       >
         {lens}
       </p>
-      <h3 className="m-0 text-[20px] font-semibold leading-[1.1] tracking-[-0.01em] text-[var(--cream)]">
+      <h3 className="m-0 text-[20px] font-semibold leading-[1.1] tracking-[-0.01em] text-[var(--text-heading)]">
         {title}
       </h3>
-      <p className="m-0 text-[15px] leading-[1.5] text-[var(--cream-muted)]">{children}</p>
+      <p className="m-0 text-[15px] leading-[1.5] text-[var(--text-caption)]">{children}</p>
     </div>
   );
 }
 
 function HarnessFeature({ name, children }: { name: string; children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-2 p-5 rounded-xl border border-[var(--line)] bg-[rgba(255,255,255,0.02)]">
-      <h3 className="m-0 text-[16px] font-semibold leading-[1.2] text-[var(--cream)]">{name}</h3>
-      <p className="m-0 text-[14px] leading-[1.55] text-[var(--cream-muted)]">{children}</p>
+    <div className="flex flex-col gap-2 p-5 rounded-xl border border-[var(--border-default)] bg-[var(--surface-default)]">
+      <h3 className="m-0 text-[16px] font-semibold leading-[1.2] text-[var(--text-heading)]">{name}</h3>
+      <p className="m-0 text-[14px] leading-[1.55] text-[var(--text-caption)]">{children}</p>
     </div>
   );
 }

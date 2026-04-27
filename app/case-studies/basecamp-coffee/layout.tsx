@@ -1,52 +1,22 @@
 // ─────────────────────────────────────────────────────────────────
 // /case-studies/basecamp-coffee — route layout.
 //
-// Two jobs:
+// Almost a no-op — its only job is to declare metadata for the
+// case study route. The page itself uses malxavi.com's recruiter-
+// cluster brand (Instrument Serif + DM Sans + Roboto Mono, semantic
+// text/surface/border tokens), all of which are loaded by the root
+// layout, so no extra fonts or CSS are needed here.
 //
-//   1. Load the Basecamp brand fonts (Fraunces / Space Grotesk /
-//      JetBrains Mono) only when this route is visited. They ship
-//      via next/font as scoped CSS variables, so they don't conflict
-//      with malxavi's recruiter / sub-brand fonts.
-//
-//   2. Wrap children in a `data-case-study="basecamp"` element. All
-//      the Basecamp brand styles (basecamp.css) are scoped to that
-//      attribute, which keeps the dark cream-on-brown palette from
-//      bleeding into the rest of the site.
-//
-// Why we keep Basecamp's brand here instead of restyling in malxavi's
-// recruiter cluster: the case study is a portable artifact about a
-// specific client / project. Stripping its brand to fit malxavi's
-// palette would translate work into a foreign accent. Better to keep
-// the original — and explain that decision in the personal-website
-// case study at /case-studies/building-this-site.
+// Why we re-skinned (originally this case study lived inside its
+// own Basecamp Coffee brand world): the live Basecamp project still
+// runs at quiz-project-flax-beta.vercel.app and serves the original
+// brand. The version on malxavi.com is a re-skin of that work into
+// Malcolm's portfolio brand voice, so the recruiter audience reads
+// the case study without crossing a brand boundary.
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { Fraunces, Space_Grotesk, JetBrains_Mono } from "next/font/google";
-import "./basecamp.css";
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Basecamp Coffee — Case Study",
@@ -68,12 +38,5 @@ export default function BasecampCaseStudyLayout({
 }: {
   children: ReactNode;
 }) {
-  return (
-    <div
-      data-case-study="basecamp"
-      className={`${spaceGrotesk.variable} ${fraunces.variable} ${jetbrainsMono.variable}`}
-    >
-      {children}
-    </div>
-  );
+  return <>{children}</>;
 }

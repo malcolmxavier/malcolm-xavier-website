@@ -64,7 +64,13 @@
       "Bash(cp /tmp/quiz-project/lib/__TRACKED_VAR__ /Users/mal/Desktop/malcolm-xavier-website/lib/case-studies/basecamp-coffee/__TRACKED_VAR__)",
       "Bash(cp /tmp/quiz-project/lib/data/__TRACKED_VAR__ /Users/mal/Desktop/malcolm-xavier-website/lib/case-studies/basecamp-coffee/data/__TRACKED_VAR__)",
       "Bash(cp /tmp/quiz-project/app/components/ArticleNav.tsx /Users/mal/Desktop/malcolm-xavier-website/app/case-studies/basecamp-coffee/components/ArticleNav.tsx)",
-      "Bash(cp /tmp/quiz-project/app/components/ProgressBar.tsx /Users/mal/Desktop/malcolm-xavier-website/app/case-studies/basecamp-coffee/components/ProgressBar.tsx)"
+      "Bash(cp /tmp/quiz-project/app/components/ProgressBar.tsx /Users/mal/Desktop/malcolm-xavier-website/app/case-studies/basecamp-coffee/components/ProgressBar.tsx)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --no-sandbox --hide-scrollbars --window-size=1280,1800 --screenshot=/tmp/case-study-reskinned.png --user-data-dir=/tmp/chrome-screenshot https://guest:SHECOMIN444@malxavi.com/case-studies/basecamp-coffee)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --no-sandbox --hide-scrollbars --window-size=1280,1800 --screenshot=/tmp/case-study-reskinned.png --user-data-dir=/tmp/chrome-screenshot-2 https://guest:SHECOMIN444@malxavi.com/case-studies/basecamp-coffee)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --no-sandbox --hide-scrollbars --window-size=1280,1800 --force-color-profile=srgb --screenshot=/tmp/case-study-light.png --user-data-dir=/tmp/chrome-screenshot-light --enable-features=WebContentsForceDark 'https://guest:SHECOMIN444@malxavi.com/case-studies/basecamp-coffee?theme=light')",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --no-sandbox --hide-scrollbars --window-size=1280,1800 --screenshot=/tmp/case-study-final.png --user-data-dir=/tmp/chrome-final https://guest:SHECOMIN444@malxavi.com/case-studies/basecamp-coffee)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --no-sandbox --hide-scrollbars --window-size=1280,2400 --screenshot=/tmp/resume-card.png --user-data-dir=/tmp/chrome-resume https://guest:SHECOMIN444@malxavi.com/resume)",
+      "Bash('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' --headless --disable-gpu --no-sandbox --hide-scrollbars --window-size=1280,4400 --screenshot=/tmp/resume-bottom.png --user-data-dir=/tmp/chrome-card 'https://guest:SHECOMIN444@malxavi.com/resume#case-studies')"
     ]
   }
 }

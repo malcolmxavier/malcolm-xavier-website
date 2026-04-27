@@ -72,7 +72,15 @@ export type ResumeCaseStudy = {
   title: string;
   /** 1–2 sentences describing the work and impact. */
   description: string;
+  /** Internal URL of the curated case study on malxavi.com. */
   href: string;
+  /**
+   * Optional external URL of the live project / artifact this case
+   * study documents (e.g. the standalone Basecamp Coffee app). When
+   * present, the card renders a secondary "Visit live project ↗" CTA
+   * alongside the primary "Read the case study →" link.
+   */
+  liveHref?: string;
   /** Optional sub-brand accent for the card stripe. */
   accent?:
     | "newsletter"
@@ -282,6 +290,7 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     title: "Basecamp Coffee — Find your ritual",
     description:
       "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
-    href: "https://malxavi.com/case-studies/basecamp-coffee",
+    href: "/case-studies/basecamp-coffee",
+    liveHref: "https://quiz-project-flax-beta.vercel.app/",
   },
 ];
