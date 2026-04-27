@@ -3,18 +3,25 @@ interface ProgressBarProps {
   fraction: number;
 }
 
-// Reading-progress bar for long-form case study pages. Renders
-// only the fill — no track. The Nav's bottom border serves as the
-// visual rail; the fill paints over it as the user scrolls, so the
-// bar reads as the Nav's border progressively coloring in.
+// Reading-progress bar for long-form case study pages.
 //
-// Gradient comes from --progress-gradient, defined in
-// case-study.css with theme-conditional values so the range is
-// always high-contrast against whichever page bg is showing.
+// Two visible elements:
+//   - A track on the wrapper (`var(--progress-track)`) that's
+//     always visible regardless of scroll position. Without it,
+//     the bar is invisible until scroll fraction grows enough to
+//     paint visible fill, which made the bar feel "missing" at
+//     the top of the page.
+//   - A fill div whose width matches the scroll fraction and is
+//     painted with `var(--progress-gradient)`. The gradient is
+//     defined per-theme in case-study.css so both modes have
+//     ends + middle stops that are visible against their page bg.
 export function ProgressBar({ fraction }: ProgressBarProps) {
   const pct = Math.max(0, Math.min(1, fraction)) * 100;
   return (
-    <div className="h-[2px] w-full">
+    <div
+      className="h-[2px] w-full"
+      style={{ background: "var(--progress-track)" }}
+    >
       <div
         className="h-full transition-[width] duration-300 ease-out"
         style={{

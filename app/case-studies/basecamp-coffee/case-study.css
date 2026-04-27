@@ -11,25 +11,30 @@
    stops to stay legible end-to-end.
    ────────────────────────────────────────────────────────── */
 :root {
-  /* Light mode — light mint to a near-white sheen to deep
-     green. Uses --grey-100 (slight off-white #f5f6f5) instead
-     of pure white because pure white blends invisibly into the
-     white page bg, which earlier killed the entire middle of
-     the bar. grey-100 stays just barely distinct from the page
-     so the sheen reads without dissolving. */
+  /* Track — a faint always-visible rail under the fill so the
+     bar reads as a structure even at scroll = 0. Mid-grey at
+     low alpha works in both themes without theme-conditional
+     overrides. */
+  --progress-track: rgba(127, 127, 127, 0.35);
+
+  /* Light mode — wide 2-stop gradient from light mint to deep
+     forest green. No white stop here: pure white and near-white
+     both blend with the white page bg, which is what was making
+     the bar disappear in earlier rounds. The dark green leading
+     edge anchors the gradient with strong contrast against the
+     page. */
   --progress-gradient: linear-gradient(
     90deg,
-    var(--success-300) 0%,
-    var(--grey-100) 60%,
+    var(--success-200) 0%,
     var(--success-700) 100%
   );
 }
 
 [data-theme="dark"] {
-  /* Dark mode — same three-stop shape, but the leading edge
-     is neon green-default (since green-700 dissolves into
-     black) and the sheen can be pure neutral-white because the
-     black page bg makes white pop. */
+  /* Dark mode — three-stop with a neutral-white sheen at 60%.
+     White pops hard against the black page bg, which is the
+     "flavor" Malcolm asked for. Leading edge is neon green-
+     default since green-700 dissolves into black. */
   --progress-gradient: linear-gradient(
     90deg,
     var(--success-200) 0%,
