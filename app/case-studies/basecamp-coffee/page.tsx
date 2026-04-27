@@ -18,6 +18,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { ReactNode } from "react";
+import { Link } from "@/components/primitives/Link";
 import { ScrollProgress } from "./components/ScrollProgress";
 import { ArticleNav, type ArticleSection } from "./components/ArticleNav";
 import { menu } from "@/lib/case-studies/basecamp-coffee/data/menu";
@@ -112,14 +113,7 @@ function Hero() {
         first pass at using Claude Code as a building and thinking partner in developing a site. Second, it&apos;s a
         case study of a loyalty-program turnaround, using the Basecamp Coffee scenario as a practice space
         for demonstrating my Growth PM skills and what I&apos;ve learned about using Claude Code as a partner.{' '}
-        <a
-          href={QUIZ_HREF}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[var(--text-heading)] underline decoration-[var(--border-default)] underline-offset-[5px] decoration-[1.5px] hover:decoration-[var(--text-heading)]"
-        >
-          The quiz
-        </a>{' '}
+        <Link href={QUIZ_HREF}>The quiz ↗</Link>{' '}
         is the prototype that came out of it. What follows is the story of how
         it got there.
       </p>
@@ -385,15 +379,7 @@ function BeatArtifact() {
     >
       <Body>
         <p>
-          <a
-            href={QUIZ_HREF}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--text-heading)] underline decoration-[var(--border-default)] underline-offset-[5px] decoration-[1.5px] hover:decoration-[var(--text-heading)]"
-          >
-            Take the quiz.
-          </a>{' '}
-          Sixty seconds. It maps you to one of 16 archetypes, recommends a drink from the actual
+          <Link href={QUIZ_HREF}>Take the quiz ↗</Link>. Sixty seconds. It maps you to one of 16 archetypes, recommends a drink from the actual
           Basecamp menu, and mints a one-time discount code. The recommender is a pure function—facet
           state in (from the user&apos;s answers), drink and archetype out. No AI call at runtime. The intelligence is in the facet
           system.
@@ -606,7 +592,7 @@ function Emph({ children }: { children: ReactNode }) {
 function Code({ children }: { children: ReactNode }) {
   return (
     <code
-      className="text-[14px] md:text-[15px] px-1.5 py-0.5 rounded-[6px] bg-[var(--neutral-100)] text-[var(--text-heading)]"
+      className="text-[14px] md:text-[15px] px-1.5 py-0.5 rounded-[6px] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] text-[var(--text-heading)]"
       style={{ fontFamily: 'var(--font-mono), monospace' }}
     >
       {children}
@@ -708,7 +694,7 @@ const FACETS: { name: string; values: string[] }[] = [
 function FacetMatrix() {
   return (
     <div className="my-8 md:my-10 rounded-xl border border-[var(--border-default)] overflow-hidden">
-      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[var(--neutral-100)] flex items-baseline justify-between gap-4">
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] flex items-baseline justify-between gap-4">
         <p
           className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
           style={{ fontFamily: 'var(--font-mono), monospace' }}
@@ -744,7 +730,7 @@ function FacetMatrix() {
           </div>
         ))}
       </dl>
-      <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[var(--neutral-100)]">
+      <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)]">
         <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--text-disabled)]">
           Size is deliberately excluded—it&apos;s a volume choice, not a taste signal. Six quiz
           questions capture these seven dimensions; the recommender scores every drink in the menu
@@ -787,7 +773,7 @@ function DrinkMatrix() {
 
   return (
     <div className="my-8 md:my-10 rounded-xl border border-[var(--border-default)] overflow-hidden">
-      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[var(--neutral-100)] flex items-baseline justify-between gap-4">
+      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] flex items-baseline justify-between gap-4">
         <p
           className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
           style={{ fontFamily: 'var(--font-mono), monospace' }}
@@ -804,7 +790,7 @@ function DrinkMatrix() {
           key={group.family}
           className={gi < grouped.length - 1 ? 'border-b border-[var(--border-default)]' : ''}
         >
-          <div className="px-4 py-2 md:px-6 md:py-2.5 bg-[var(--neutral-100)] border-b border-[var(--border-default)]">
+          <div className="px-4 py-2 md:px-6 md:py-2.5 bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] border-b border-[var(--border-default)]">
             <p
               className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
               style={{ fontFamily: 'var(--font-mono), monospace' }}
@@ -862,7 +848,7 @@ function DrinkMatrix() {
         </div>
       ))}
 
-      <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[var(--neutral-100)] border-t border-[var(--border-default)]">
+      <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] border-t border-[var(--border-default)]">
         <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--text-disabled)]">
           Each drink&apos;s facet profile is the thing the recommender scores against. A user&apos;s
           facet state from the quiz returns the closest match on strength, milk, temperature, and
