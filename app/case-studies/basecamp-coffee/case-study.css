@@ -19,12 +19,24 @@
    white page bg.
    ────────────────────────────────────────────────────────── */
 :root {
-  /* Track — visible-but-quiet green-tinted strip painted
-     under the gradient fill. Mixing the deep brand green into
-     the page surface gives a muted color that reads as the
-     bar (not the Nav border) at typical viewing distance and
-     reads cleanly on white. */
-  --progress-track: color-mix(in oklab, var(--green-700) 28%, var(--surface-page));
+  /* Track — visible-but-quiet green-tinted strip painted under
+     the gradient fill. Mixing the deep brand green into the
+     foundation white gives a muted color that reads as the bar
+     (not the Nav border) at typical viewing distance.
+
+     We mix into --foundation-white (not --surface-page or
+     --neutral-white) because those aliases resolve to empty on
+     recruiter-cluster pages: --neutral-white is only defined
+     inside [data-subbrand] blocks in globals.css, so every
+     downstream alias that flows through it (--surface-page,
+     --text-heading in dark mode, etc.) is undefined here. The
+     page still LOOKS right because Chrome's canvas defaults
+     paint the background per `color-scheme`, but color-mix()
+     fails when its second argument is an empty value, leaving
+     --progress-track invalid and the bar invisible. Foundation
+     tokens are defined at :root globally, so they always
+     resolve. */
+  --progress-track: color-mix(in oklab, var(--green-700) 28%, var(--foundation-white));
 
   --progress-gradient: linear-gradient(
     90deg,
@@ -34,15 +46,16 @@
 }
 
 [data-theme="dark"] {
-  /* Dark-mode track — mix the neon brand green into the black
-     page surface for a muted-green strip that's clearly visible
-     on black without competing with the gradient fill. */
-  --progress-track: color-mix(in oklab, var(--green-300) 22%, var(--surface-page));
+  /* Dark-mode track — mix the neon brand green into foundation
+     black (same reason as the light track: --neutral-black is
+     undefined on recruiter pages; --foundation-black is always
+     defined). */
+  --progress-track: color-mix(in oklab, var(--green-300) 22%, var(--foundation-black));
 
   --progress-gradient: linear-gradient(
     90deg,
     var(--success-200) 0%,
-    var(--neutral-white) 60%,
+    var(--foundation-white) 60%,
     var(--success-default) 100%
   );
 }

@@ -108,16 +108,25 @@ export function Footer() {
             </ul>
           </nav>
         </div>
-
-        {/* Bottom row: © + dateline. Stacks on mobile, splits on tablet+ */}
-        <div
-          className="flex flex-col gap-2 border-t py-6 sm:flex-row sm:items-center sm:justify-between"
-          style={{ borderColor: "var(--border-default)" }}
-        >
-          <Dateline>© {COPYRIGHT_YEAR} Malcolm Xavier</Dateline>
-          <Dateline>v0.1 · MVP in flight</Dateline>
-        </div>
       </Container>
+
+      {/* Bottom row: © + dateline. The border-t lives on this OUTER
+          div (outside the Container) so it spans the full viewport
+          width — matches the footer's top border-t and reads as a
+          consistent horizontal rule sitewide. The Container inside
+          re-constrains the dateline content so it stays aligned
+          with the columns above. Stacks on mobile, splits on tablet+. */}
+      <div
+        className="border-t"
+        style={{ borderColor: "var(--border-default)" }}
+      >
+        <Container size="lg">
+          <div className="flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between">
+            <Dateline>© {COPYRIGHT_YEAR} Malcolm Xavier</Dateline>
+            <Dateline>v0.1 · MVP in flight</Dateline>
+          </div>
+        </Container>
+      </div>
     </footer>
   );
 }
