@@ -220,23 +220,30 @@ const EDUCATION = [
 ];
 
 // ─── Case studies ─────────────────────────────────────────────────
-// Each entry: title (linked), body text. No CTA — the title carries
-// the affordance via underline. First entry is the placeholder for
-// this very website (Lorem Ipsum until it's written for real); second
-// entry is the Basecamp Coffee case study, mirroring the website
-// copy in app/resume/resume-data.tsx.
+// Each entry: title (linked), body text. No CTA — the underlined
+// title carries the affordance. Order and copy mirror the website
+// case-study card grid in app/resume/resume-data.tsx so the printed
+// resume reads consistently with the live recruiter view; both
+// titles link to the canonical malxavi.com case-study URLs.
+//
+// Dual-source acknowledgement: the web copy lives in resume-data.tsx
+// (it's .tsx so bullets can embed inline JSX). This script hardcodes
+// its own parallel copy. Bridging them would require a TS compiler
+// step plus a React-element walker for an artifact regenerated maybe
+// once a month — accepted dual source of truth, kept in sync by
+// hand. When updating one, update the other.
 const CASE_STUDIES = [
-  {
-    title: "malxavi.com — A portfolio in public",
-    url: "https://malxavi.com",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, ut enim ad minim veniam. Built end-to-end with Claude Code, Next.js, and Vercel.",
-  },
   {
     title: "Basecamp Coffee — Find your ritual",
     url: "https://malxavi.com/case-studies/basecamp-coffee",
     description:
       "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
+  },
+  {
+    title: "Building this site, one rate-limit at a time",
+    url: "https://malxavi.com/case-studies/building-this-site",
+    description:
+      "A meta case study on shipping this portfolio in seven days with Claude Code as build partner. Architecture bets, two production incidents, and what AI-native PM work looks like when the human stays in the loop.",
   },
 ];
 
