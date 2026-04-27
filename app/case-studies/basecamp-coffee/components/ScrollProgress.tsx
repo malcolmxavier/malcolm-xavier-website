@@ -1,11 +1,14 @@
 // ─────────────────────────────────────────────────────────────────
-// ScrollProgress — sticky scroll progress bar for the case study.
+// ScrollProgress — fixed scroll progress bar pinned to the bottom
+// edge of the malxavi Nav.
 //
-// Reduces the original quiz-project's SiteChrome (which combined a
-// Basecamp wordmark header + ProgressBar) down to just the progress
-// bar. malxavi's site Nav already lives above this on the page, so
-// adding a Basecamp-branded header here would double-up the navigation
-// at the top.
+// Positioning uses runtime measurement of the Nav's actual height
+// (rather than a hardcoded top value) so the bar lands EXACTLY at
+// the Nav's bottom border regardless of font scaling, line-height
+// reflow, or future Nav padding changes. The bar overlaps the Nav's
+// 1px `border-b` by 1px and z-50 paints over it, so the user sees
+// one continuous edge — bar IS the Nav's bottom border, not a
+// second line below it.
 // ─────────────────────────────────────────────────────────────────
 
 "use client";
@@ -15,6 +18,25 @@ import { ProgressBar } from "./ProgressBar";
 
 export function ScrollProgress() {
   const [fraction, setFraction] = useState(0);
+  // Default of 56px matches the Nav's expected height when py-4 +
+  // typical text content + 1px border render at the default font
+  // size. measureNav() overrides this once the Nav is in the DOM.
+  const [navBottom, setNavBottom] = useState(56);
+
+  useEffect(() => {
+    // Re-measure on resize because the Nav may grow taller on
+    // narrow viewports where the wordmark wraps, or when the user
+    // bumps their browser font-size.
+    function measureNav() {
+      const nav = document.querySelector("header");
+      if (nav) {
+        setNavBottom(Math.round(nav.getBoundingClientRect().height));
+      }
+    }
+    measureNav();
+    window.addEventListener("resize", measureNav, { passive: true });
+    return () => window.removeEventListener("resize", measureNav);
+  }, []);
 
   useEffect(() => {
     let rafId: number | null = null;
@@ -43,15 +65,15 @@ export function ScrollProgress() {
   }, []);
 
   return (
-    // Position is `fixed`, not `sticky`. With sticky, the bar lives
-    // inside a containing block (main / article) and re-anchors to
-    // that container's bottom edge once the user scrolls past it,
-    // which surfaces as an "extra line" appearing right above the
-    // footer at the end of the page. Fixed positioning keeps the
-    // bar pinned to the viewport at top-14 (56px, just below the
-    // sticky Nav) regardless of scroll position. left-0 right-0
-    // spans the full viewport width; z-50 keeps it above the Nav.
-    <div className="fixed top-14 left-0 right-0 z-50">
+    // top = navBottom - 1 puts the bar exactly on top of the Nav's
+    // 1px border. z-50 paints the bar above the Nav (z-40), so the
+    // visible result is one edge: the progress bar IS the Nav's
+    // bottom border. fixed (not sticky) so the bar stays put even
+    // when the user reaches the footer at the end of the article.
+    <div
+      className="fixed left-0 right-0 z-50"
+      style={{ top: `${navBottom - 1}px` }}
+    >
       <ProgressBar fraction={fraction} />
     </div>
   );

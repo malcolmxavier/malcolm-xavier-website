@@ -1,4 +1,34 @@
 /* ──────────────────────────────────────────────────────────
+   Reading-progress gradient — theme-aware token consumed by
+   ProgressBar.tsx. Each mode picks a wider color range than a
+   single gradient could safely cover in both, because green-700
+   dissolves into the dark page bg and green-200 disappears into
+   the light page bg. Splitting per theme keeps both ends of the
+   gradient clearly visible regardless of mode.
+   ────────────────────────────────────────────────────────── */
+:root {
+  /* Light mode — light mint into deep green. Both ends pop on
+     a white page; the deep green-700 anchors the leading edge
+     so the gradient reads as direction + progress. */
+  --progress-gradient: linear-gradient(
+    90deg,
+    var(--success-300) 0%,
+    var(--success-700) 100%
+  );
+}
+
+[data-theme="dark"] {
+  /* Dark mode — light mint into neon green. green-700 disappears
+     into black bg, so we sub in green-500 (success-default) at
+     the leading edge to keep the gradient legible end-to-end. */
+  --progress-gradient: linear-gradient(
+    90deg,
+    var(--success-200) 0%,
+    var(--success-default) 100%
+  );
+}
+
+/* ──────────────────────────────────────────────────────────
    Case-study chrome — Liquid Glass reference (visible).
 
    The original Basecamp Coffee project anchored visually on
