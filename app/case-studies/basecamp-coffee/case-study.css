@@ -90,7 +90,10 @@
        unmounts and the Nav border returns.
    ────────────────────────────────────────────────────────── */
 body:has([data-scroll-progress]) header {
-  border-bottom-color: transparent;
+  /* !important overrides the Nav's inline `style={{ borderColor:
+     "var(--border-default)" }}` which sets the color via inline
+     styles and would otherwise win over this CSS rule. */
+  border-bottom-color: transparent !important;
 }
 
 /* ──────────────────────────────────────────────────────────
