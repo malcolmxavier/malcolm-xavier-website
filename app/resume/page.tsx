@@ -43,6 +43,10 @@ import { Button } from "@/components/primitives/Button";
 import { Link } from "@/components/primitives/Link";
 import { Card } from "@/components/primitives/Card";
 import {
+  TableOfContents,
+  type TocItem,
+} from "@/components/chrome/TableOfContents";
+import {
   IconPhone,
   IconEmail,
   IconLinkedIn,
@@ -275,86 +279,32 @@ function EducationBlock({ entry }: { entry: ResumeEducation }) {
 
 /**
  * Sticky table-of-contents that lives in the left gutter on desktop
- * (lg+) and is hidden below that breakpoint where there isn't room.
+ * (lg+) and is hidden below that breakpoint. Renders the shared
+ * TableOfContents component (chrome) inside a sticky-positioned
+ * <aside> so the rail stays visible while readers scroll, and gets
+ * scroll-spy + smooth scroll + recruiter-green active state for free.
  *
  * Each item is a hash anchor pointing to a section id on the page;
  * the matching <Section> sets `scrollMarginTop` so the sticky Nav
  * doesn't clip the section heading after a TOC jump.
- *
- * Active-state / scroll-spy is intentionally deferred — anchor jumps
- * are good enough for tonight; the highlight pass comes when we tune
- * the broader information-hierarchy on this page.
  */
-function TableOfContents() {
-  const items = [
-    // First entry returns the user to the hero. The hero Section
-    // carries id="top" + scrollMarginTop so the jump lands cleanly
-    // below the sticky Nav rather than getting tucked behind it.
-    { href: "#top", label: "↑ Top" },
-    { href: "#work-experience", label: "01 · Work experience" },
-    { href: "#education", label: "02 · Education" },
-    { href: "#case-studies", label: "03 · Case studies" },
-    { href: "#contact", label: "Let's talk" },
-  ];
+const TOC_ITEMS: TocItem[] = [
+  // First entry returns the user to the hero. The hero Section
+  // carries id="top" + scrollMarginTop so the jump lands cleanly
+  // below the sticky Nav rather than getting tucked behind it.
+  { href: "#top", label: "↑ Top" },
+  { href: "#work-experience", prefix: "01", label: "Work experience" },
+  { href: "#education", prefix: "02", label: "Education" },
+  { href: "#case-studies", prefix: "03", label: "Case studies" },
+  { href: "#contact", label: "Let's talk" },
+];
 
-  // Shared link styling — mono, uppercase, tracking-wide, muted body
-  // color with a hover lift and a visible focus ring.
-  const linkClasses = [
-    "block rounded-sm",
-    "transition-colors motion-reduce:transition-none",
-    "hover:[color:var(--text-action-hover)]",
-    "focus-visible:outline-2 focus-visible:outline-offset-2",
-  ].join(" ");
-
-  const linkStyle: React.CSSProperties = {
-    fontFamily: "var(--font-mono)",
-    fontSize: "var(--p-xs-font-size)",
-    lineHeight: "var(--p-xs-line-height)",
-    textTransform: "uppercase",
-    letterSpacing: "0.08em",
-    color: "var(--text-body)",
-    outlineColor: "var(--border-focus)",
-    textDecoration: "none",
-    paddingBlock: "var(--scale-100)",
-  };
-
+function ResumeTableOfContents() {
   return (
     <aside className="hidden lg:block">
-      {/* Sticky offset (top-24 ≈ 6rem) clears the sticky Nav with
-          breathing room — same offset matches scrollMarginTop on
-          each section so jump targets don't get tucked behind the Nav. */}
-      <nav
-        aria-label="On this page"
-        className="sticky top-24"
-      >
-        <p
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontSize: "var(--p-xs-font-size)",
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-            color: "var(--text-caption)",
-            marginBlockEnd: "var(--scale-400)",
-          }}
-        >
-          On this page
-        </p>
-        <ol
-          style={{
-            listStyle: "none",
-            padding: 0,
-            margin: 0,
-          }}
-        >
-          {items.map((item) => (
-            <li key={item.href}>
-              <a href={item.href} className={linkClasses} style={linkStyle}>
-                {item.label}
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
+      <div className="sticky top-24">
+        <TableOfContents items={TOC_ITEMS} />
+      </div>
     </aside>
   );
 }
@@ -410,7 +360,7 @@ export default function ResumePage() {
           right. Below lg, the TOC is hidden and the content reverts to
           a single readable column constrained to ~64rem. */}
       <div className="mx-auto max-w-[64rem] lg:max-w-none lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16">
-        <TableOfContents />
+        <ResumeTableOfContents />
         <div>
       {/* ─── Hero ──────────────────────────────────────────────── */}
       <Section id="top" style={sectionAnchorStyle} padding="md">

@@ -19,8 +19,11 @@
 
 import type { ReactNode } from "react";
 import { Link } from "@/components/primitives/Link";
+import {
+  TableOfContents,
+  type TocItem,
+} from "@/components/chrome/TableOfContents";
 import { ScrollProgress } from "./components/ScrollProgress";
-import { ArticleNav, type ArticleSection } from "./components/ArticleNav";
 import { menu } from "@/lib/case-studies/basecamp-coffee/data/menu";
 import { archetypeById } from "@/lib/case-studies/basecamp-coffee/data/archetypes";
 import { computeCoverage } from "@/lib/case-studies/basecamp-coffee/coverage";
@@ -41,15 +44,18 @@ const QUIZ_HREF = "https://quiz-project-flax-beta.vercel.app/";
 const COVERAGE = computeCoverage();
 const SHARE_BY_DRINK_ID = new Map(COVERAGE.perDrink.map((d) => [d.drinkId, d.share]));
 
-const SECTIONS: ArticleSection[] = [
-  { id: 'intro', number: '00', title: 'Intro' },
-  { id: 'signal', number: '01', title: 'The Signal' },
-  { id: 'data', number: '02', title: 'The Data' },
-  { id: 'triangulation', number: '03', title: 'The Triangulation' },
-  { id: 'bet', number: '04', title: 'The Bet' },
-  { id: 'experiment', number: '05', title: 'The Experiment' },
-  { id: 'artifact', number: '06', title: 'The Artifact' },
-  { id: 'how-built', number: '07', title: 'How This Was Built' },
+// TOC items follow the shared TableOfContents schema. The first
+// entry is a return-to-top action; the rest mirror the article's
+// 7-beat structure.
+const TOC_ITEMS: TocItem[] = [
+  { href: "#intro", label: "↑ Top" },
+  { href: "#signal", prefix: "01", label: "The Signal" },
+  { href: "#data", prefix: "02", label: "The Data" },
+  { href: "#triangulation", prefix: "03", label: "The Triangulation" },
+  { href: "#bet", prefix: "04", label: "The Bet" },
+  { href: "#experiment", prefix: "05", label: "The Experiment" },
+  { href: "#artifact", prefix: "06", label: "The Artifact" },
+  { href: "#how-built", prefix: "07", label: "How This Was Built" },
 ];
 
 // Metadata lives on the route layout (./layout.tsx) — declaring it
@@ -59,7 +65,15 @@ export default function BasecampCoffeeCaseStudy() {
   return (
     <>
       <ScrollProgress />
-      <ArticleNav sections={SECTIONS} />
+      {/* Fixed-position TOC rail in the left margin on xl+. Hidden
+          on smaller viewports where there isn't room beside the
+          centered article column. */}
+      <aside
+        aria-label="Article sections"
+        className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30"
+      >
+        <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
+      </aside>
       <article>
         <Hero />
         <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
@@ -113,7 +127,21 @@ function Hero() {
         first pass at using Claude Code as a building and thinking partner in developing a site. Second, it&apos;s a
         case study of a loyalty-program turnaround, using the Basecamp Coffee scenario as a practice space
         for demonstrating my Growth PM skills and what I&apos;ve learned about using Claude Code as a partner.{' '}
-        <Link href={QUIZ_HREF}>The quiz ↗</Link>{' '}
+        <Link href={QUIZ_HREF}>
+          The quiz{' '}
+          {/* Surrounding lede is Instrument Serif italic, which
+              renders the unicode arrow slanted and light. Force the
+              arrow back to upright sans so it reads as a clean
+              external-link affordance. */}
+          <span
+            style={{
+              fontFamily: "var(--font-secondary), system-ui, sans-serif",
+              fontStyle: "normal",
+            }}
+          >
+            ↗
+          </span>
+        </Link>{' '}
         is the prototype that came out of it. What follows is the story of how
         it got there.
       </p>
@@ -610,7 +638,7 @@ function StatRow({ children }: { children: ReactNode }) {
 
 function Stat({ big, eyebrow, caption }: { big: string; eyebrow: string; caption: string }) {
   return (
-    <div className="flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)] bg-[var(--surface-default)]">
+    <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
       <p
         className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
         style={{ fontFamily: 'var(--font-mono), monospace' }}
@@ -666,7 +694,7 @@ function EvidenceGrid({ children }: { children: ReactNode }) {
 
 function EvidenceCard({ eyebrow, title, children }: { eyebrow: string; title: string; children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)] bg-[var(--surface-default)]">
+    <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
       <p
         className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
         style={{ fontFamily: 'var(--font-mono), monospace' }}
@@ -946,7 +974,7 @@ function SuccessGate({ children }: { children: ReactNode }) {
 
 function GateCard({ metric, threshold, caption }: { metric: string; threshold: string; caption: string }) {
   return (
-    <div className="flex flex-col gap-1.5 p-5 rounded-[22px] border border-[var(--border-default)] bg-[var(--surface-default)]">
+    <div className="case-glass flex flex-col gap-1.5 p-5 rounded-[22px] border border-[var(--border-default)]">
       <p
         className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
         style={{ fontFamily: 'var(--font-mono), monospace' }}
@@ -975,7 +1003,7 @@ function IterationGrid({ children }: { children: ReactNode }) {
 
 function IterationCard({ lens, title, children }: { lens: string; title: string; children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)] bg-[var(--surface-default)]">
+    <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
       <p
         className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
         style={{ fontFamily: 'var(--font-mono), monospace' }}
@@ -992,7 +1020,7 @@ function IterationCard({ lens, title, children }: { lens: string; title: string;
 
 function HarnessFeature({ name, children }: { name: string; children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-2 p-5 rounded-xl border border-[var(--border-default)] bg-[var(--surface-default)]">
+    <div className="case-glass flex flex-col gap-2 p-5 rounded-xl border border-[var(--border-default)]">
       <h3 className="m-0 text-[16px] font-semibold leading-[1.2] text-[var(--text-heading)]">{name}</h3>
       <p className="m-0 text-[14px] leading-[1.55] text-[var(--text-caption)]">{children}</p>
     </div>

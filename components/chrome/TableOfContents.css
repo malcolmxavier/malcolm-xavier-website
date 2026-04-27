@@ -1,0 +1,97 @@
+/* ──────────────────────────────────────────────────────────
+   TableOfContents — sticky in-page navigation styles.
+
+   The component is themable via CSS custom properties (semantic
+   text + border tokens), so it adapts automatically when the
+   visitor toggles light / dark mode. Active-state color is the
+   one place we hand-pick a hue: deep green in light mode, neon
+   green in dark mode — high contrast against either page bg
+   and reads as the recruiter cluster's accent rather than as a
+   sub-brand color.
+   ────────────────────────────────────────────────────────── */
+
+.toc-root {
+  /* No size or position here — the wrapping consumer decides
+     whether the TOC is sticky in a grid column (resume) or
+     fixed in the viewport margin (case study). */
+}
+
+.toc-heading {
+  margin: 0 0 12px 0;
+  font-family: var(--font-mono), monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-disabled);
+}
+
+.toc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  /* Padding leaves room for the left-border indicator without
+     shifting text on hover/active state. */
+  padding: 6px 0 6px 10px;
+  border-left: 1px solid transparent;
+  text-decoration: none;
+  font-size: 13px;
+  line-height: 1.3;
+  color: var(--text-disabled);
+  /* Animated transition so hover and active state feel responsive
+     without jumping. Honors the site-wide reduced-motion preference
+     via the @media block at the bottom of this file. */
+  transition:
+    color 0.2s ease,
+    border-left-color 0.2s ease;
+  cursor: pointer;
+}
+
+.toc-item:hover {
+  color: var(--text-caption);
+  border-left-color: var(--text-caption);
+}
+
+.toc-item:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Active state — recruiter green left-rail + label color. The
+   green token swap keeps both modes legible: deep green on white
+   and neon green on black both clear ~7:1 contrast on body text. */
+.toc-item[data-active="true"] {
+  color: var(--green-700);
+  border-left-color: var(--green-700);
+  font-weight: 500;
+}
+
+[data-theme="dark"] .toc-item[data-active="true"] {
+  color: var(--green-500);
+  border-left-color: var(--green-500);
+}
+
+.toc-prefix {
+  font-family: var(--font-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.toc-label {
+  flex: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toc-item {
+    transition: none;
+  }
+}
