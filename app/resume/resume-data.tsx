@@ -281,8 +281,9 @@ export const EDUCATION: ResumeEducation[] = [
 ];
 
 // ─── Case studies ──────────────────────────────────────────────────
-// MVP ships with one live card. Post-MVP, additional case studies
-// are absorbed into this codebase under /case-studies/[slug].
+// Each case study lives at /case-studies/[slug]. Add new entries
+// here when the article ships; the resume card grid renders them
+// in array order.
 
 export const CASE_STUDIES: ResumeCaseStudy[] = [
   {
@@ -292,5 +293,12 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
       "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
     href: "/case-studies/basecamp-coffee",
     liveHref: "https://quiz-project-flax-beta.vercel.app/",
+  },
+  {
+    slug: "building-this-site",
+    title: "Building this site, one rate-limit at a time",
+    description:
+      "A meta case study on shipping this portfolio in seven days with Claude Code as build partner. Architecture bets, two production incidents, and what AI-native PM work looks like when the human stays in the loop.",
+    href: "/case-studies/building-this-site",
   },
 ];

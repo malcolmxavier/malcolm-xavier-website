@@ -516,13 +516,7 @@ export default function ResumePage() {
         bordered
       >
         <Stack gap="600">
-          <Stack gap="200">
-            <Kicker>03 · Case studies</Kicker>
-            <Body>
-              More to come. The first case study lives in its own
-              standalone deployment; it'll move into this site post-MVP.
-            </Body>
-          </Stack>
+          <Kicker>03 · Case studies</Kicker>
           <Grid cols={CASE_STUDIES.length >= 2 ? 2 : 1} gap="600">
             {CASE_STUDIES.map((study) => (
               <CaseStudyCard key={study.slug} study={study} />
