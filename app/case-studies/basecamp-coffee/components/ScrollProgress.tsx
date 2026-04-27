@@ -1,17 +1,34 @@
 // ─────────────────────────────────────────────────────────────────
-// ScrollProgress — fixed scroll progress bar pinned just below the
+// ScrollProgress — sticky scroll progress bar pinned just below the
 // malxavi Nav's bottom edge.
 //
 // Positioning uses runtime measurement of the Nav's actual height
 // (rather than a hardcoded top value) so the bar lands cleanly
 // adjacent to the Nav's bottom border regardless of font scaling,
-// line-height reflow, or future Nav padding changes. We previously
-// tried overlapping the Nav border (top: navBottom - 1, z-50) so the
-// bar would visually replace it, but the translucent track read as a
-// faint duplicate of the Nav border rather than a distinct progress
-// element. Now the bar sits one pixel below the border (top:
-// navBottom) — Nav border + 3px tinted-green progress bar are two
-// clearly distinct elements.
+// line-height reflow, or future Nav padding changes.
+//
+// Why `position: sticky` (not `fixed`):
+//
+// The Nav is `position: sticky top:0`. During rubber-band overscroll
+// at the top of the page (the user pulls the document downward), a
+// sticky Nav un-sticks and rides DOWN with the document — that's
+// the standard sticky behavior once the natural position re-enters
+// the viewport. A `fixed` progress bar, by contrast, stays anchored
+// to the viewport. The two elements detach during overscroll and a
+// visible gap (filled with the html background / canvas color)
+// opens between them — the "parallel lines at top" issue.
+//
+// Making this bar sticky at top:navBottom gives it identical
+// overscroll physics to the Nav: both un-stick together, both ride
+// down together, and their bottom/top edges stay flush. No gap.
+//
+// Render-order requirement: the bar's natural document position
+// MUST be at navBottom for sticky-at-navBottom to land it there at
+// scroll = 0 (sticky elements sit at their natural position until
+// scroll forces them to stick). The bar is rendered as the first
+// child of the case study page component, which is the first child
+// of <main>, which is the first sibling of the Nav. So its natural
+// y is exactly navBottom in normal flow. ✓
 // ─────────────────────────────────────────────────────────────────
 
 "use client";
@@ -68,14 +85,17 @@ export function ScrollProgress() {
   }, []);
 
   return (
-    // top = navBottom puts the bar's first pixel directly under the
-    // Nav's 1px bottom border, so the two elements are flush but
-    // not overlapping. z-50 keeps the bar above the Nav's backdrop-
-    // blur layer in case anything paints into that overlap zone.
-    // fixed (not sticky) so the bar stays put even when the user
-    // reaches the footer at the end of the article.
+    // sticky at top:navBottom — the bar sits at its natural flow
+    // position (right below Nav at scroll=0) and sticks there as the
+    // user scrolls past it. Crucially, sticky shares the Nav's
+    // overscroll behavior: both un-stick during rubber-band and
+    // ride down together, staying flush. z-50 keeps the bar above
+    // the Nav's backdrop-blur layer at any overlap. The wrapper is
+    // a block element so it spans 100% of <main> width naturally —
+    // no need for left-0 right-0 (those were viewport-anchoring for
+    // the previous fixed-positioned implementation).
     <div
-      className="fixed left-0 right-0 z-50"
+      className="sticky z-50"
       style={{ top: `${navBottom}px` }}
     >
       <ProgressBar fraction={fraction} />
