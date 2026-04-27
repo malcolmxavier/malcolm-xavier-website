@@ -9,39 +9,54 @@
    keeping a quiet echo here lets visitors who've seen the original
    feel the family resemblance.
 
-   So `.case-glass` keeps three of the original ingredients:
-     - top-edge sheen (the most distinctive part)
-     - subtle backdrop-blur (so if any background motion sits
-       behind the card, it softens)
-     - inset highlight + lowlight shadows (faint embossed feel)
+   The treatment is intentionally different in light vs dark mode
+   because real-world glass cards read differently depending on the
+   surface beneath them:
+     - Light mode (white page): the card sits slightly darker than
+       the page, like cool paper on a white desk, with a soft drop
+       shadow underneath.
+     - Dark mode (black page): the card sits slightly lighter than
+       the page, like frosted glass over black, with an inset top-
+       edge highlight + bottom-edge shadow + drop shadow + the
+       Basecamp signature sheen line glinting across the upper edge.
 
-   The Basecamp-specific cream + gold tints don't come along —
-   colors stay theme-aware via malxavi's semantic tokens.
+   Both modes keep the same six structural ingredients: top sheen,
+   bottom-edge shadow, surface tint, drop shadow, backdrop-blur,
+   and rounded corners — only the values change per theme.
    ────────────────────────────────────────────────────────── */
 
 .case-glass {
   position: relative;
   overflow: hidden;
-  /* Slightly translucent surface — sits one notch above the page
-     bg with a hint of depth. Falls back gracefully on browsers
-     that don't support color-mix (the keyword resolves to the
-     declared fallback when unsupported). */
-  background: color-mix(in oklab, var(--surface-default) 92%, transparent);
+  /* Light-mode default — card sits ~3% darker than the white page
+     so it reads as a piece of cool paper. The drop shadow gives it
+     elevation; the inset white at top is a faint sheen the eye
+     reads as light-from-above. */
+  background: color-mix(in oklab, var(--text-body) 3%, var(--surface-default));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 4px 16px -8px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .case-glass {
+  /* Dark-mode glass — card sits ~5% lighter than the black page so
+     it reads as slightly raised. Inset white at top + dark inset at
+     bottom = embossed glass edge. backdrop-blur softens any motion
+     behind the card. Drop shadow grounds it. */
+  background: color-mix(in oklab, var(--text-body) 5%, var(--surface-default));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 8px 24px -14px rgba(0, 0, 0, 0.55);
   backdrop-filter: blur(8px) saturate(1.1);
   -webkit-backdrop-filter: blur(8px) saturate(1.1);
-  /* Inset highlight at top + faint lowlight at bottom, plus a
-     subtle drop shadow. Mirrors --glass-shadow from the original
-     project's design tokens but uses theme-aware values so it
-     reads in both light and dark mode. */
-  box-shadow:
-    inset 0 1px 0 color-mix(in oklab, var(--text-body) 8%, transparent),
-    inset 0 -1px 0 color-mix(in oklab, var(--text-body) 4%, transparent),
-    0 8px 24px -14px color-mix(in oklab, var(--text-body) 30%, transparent);
 }
 
 /* Top-edge sheen — a 1px gradient that simulates light catching
-   the upper edge of the card. Most distinctive original detail;
-   barely-visible on its own but identity-shaping in aggregate. */
+   the upper edge of the card. Most distinctive original detail.
+   Subtle dark tint in light mode (so the highlight reads against
+   the slightly-darker card), strong white tint in dark mode (where
+   the gleam is actually doing the work). */
 .case-glass::before {
   content: "";
   position: absolute;
@@ -49,11 +64,20 @@
   left: 18%;
   right: 18%;
   height: 1px;
+  pointer-events: none;
   background: linear-gradient(
     90deg,
     transparent,
-    color-mix(in oklab, var(--text-body) 22%, transparent),
+    rgba(0, 0, 0, 0.18),
     transparent
   );
-  pointer-events: none;
+}
+
+[data-theme="dark"] .case-glass::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.32),
+    transparent
+  );
 }
