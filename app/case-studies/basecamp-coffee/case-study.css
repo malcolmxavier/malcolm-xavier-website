@@ -1,121 +1,18 @@
 /* ──────────────────────────────────────────────────────────
-   Reading-progress bar — theme-aware tokens consumed by
-   ProgressBar.tsx.
+   Basecamp Coffee — page-specific styles.
 
-   The bar is 3px tall and sits cleanly *below* the Nav's 1px
-   bottom border (no overlap). At scroll = 0 the track paints
-   a soft tinted-green stripe so the bar is visibly its own
-   element, distinct from the Nav border above it. As the user
-   scrolls, the gradient fill paints over the track at full
-   opacity, brightening left-to-right.
+   Scroll-progress bar tokens, Nav-border suppression, and the
+   reusable case-study primitives live in
+   `components/case-study/` now (loaded automatically by
+   ScrollProgress and primitives). This file is the page's own
+   layer — currently just the .case-glass card treatment, which
+   is a Basecamp-specific reference to the original project's
+   Liquid Glass aesthetic.
 
-   Why per-theme gradients: success-700 (deep forest) dissolves
-   on the dark page bg, and success-200 (mint) disappears on
-   the light page bg, so each mode runs a different stop set.
-   Dark mode adds a neutral-white sheen at 60% — the bar pops
-   sharply against pure black, which is the "flavor" Malcolm
-   asked for. Light mode runs a 2-stop mint→forest gradient
-   without any white stop because pure white blends into the
-   white page bg.
+   Other case studies don't load this file by default; if a
+   future case study wants the same glass treatment, copy the
+   .case-glass rules into its own page CSS.
    ────────────────────────────────────────────────────────── */
-:root {
-  /* Track — visible-but-quiet green-tinted strip painted under
-     the gradient fill. Mixing the deep brand green into the
-     foundation white gives a muted color that reads as the bar
-     (not the Nav border) at typical viewing distance.
-
-     We mix into --foundation-white (not --surface-page or
-     --neutral-white) because those aliases resolve to empty on
-     recruiter-cluster pages: --neutral-white is only defined
-     inside [data-subbrand] blocks in globals.css, so every
-     downstream alias that flows through it (--surface-page,
-     --text-heading in dark mode, etc.) is undefined here. The
-     page still LOOKS right because Chrome's canvas defaults
-     paint the background per `color-scheme`, but color-mix()
-     fails when its second argument is an empty value, leaving
-     --progress-track invalid and the bar invisible. Foundation
-     tokens are defined at :root globally, so they always
-     resolve. */
-  --progress-track: color-mix(in oklab, var(--green-700) 28%, var(--foundation-white));
-
-  --progress-gradient: linear-gradient(
-    90deg,
-    var(--success-200) 0%,
-    var(--success-700) 100%
-  );
-}
-
-[data-theme="dark"] {
-  /* Dark-mode track — the same grey as the Nav's bottom border
-     (which we hide via the body:has() rule below). Using
-     --border-default keeps the track visually continuous with the
-     Nav: at scroll = 0 the bar reads as the Nav's bottom border,
-     and as the user scrolls the gradient paints over the grey
-     track from left to right — the green progress "fills in" the
-     border. The two colors stay in sync automatically if the design
-     system ever recolors --border-default. */
-  --progress-track: var(--border-default);
-
-  --progress-gradient: linear-gradient(
-    90deg,
-    var(--success-200) 0%,
-    var(--foundation-white) 60%,
-    var(--success-default) 100%
-  );
-}
-
-/* ──────────────────────────────────────────────────────────
-   Suppress the Nav's bottom border when the scroll progress
-   bar is rendered.
-
-   The Nav has `border-b` driven by --border-default. In light
-   mode that resolves to a near-white grey on a white page —
-   essentially invisible, so the eye reads the bar's track as
-   the sole separator between Nav and content. In dark mode
-   --border-default resolves to mid-grey on black and shows up
-   clearly, so what used to be one visible line in light mode
-   becomes a stacked pair (grey Nav border + dark-green track)
-   in dark mode.
-
-   Hiding the border whenever the bar is on the page restores
-   the light-mode "one separator" reading in dark mode too,
-   without theme-conditional logic. The Nav's backdrop-blur
-   already provides enough visual separation behind the bar;
-   we don't need the border doing the same job.
-
-   Scoped via :has([data-scroll-progress]) so:
-     - The rule is route-agnostic — applies wherever a
-       ScrollProgress is rendered, not hard-coded to /case-
-       studies/basecamp-coffee.
-     - Even if the case-study CSS chunk persists in <head>
-       after SPA-nav to another route, the rule only applies
-       when the bar's wrapper is actually in the DOM. As soon
-       as the user navigates away, [data-scroll-progress]
-       unmounts and the Nav border returns.
-   ────────────────────────────────────────────────────────── */
-body:has([data-scroll-progress]) header {
-  /* Collapse the Nav's bottom border entirely. Two reasons:
-     - color: transparent alone would still leave 1px of empty
-       border-box space, which would push the progress bar 1px
-       below the y-coordinate where the Nav border lives on
-       every other route. A "good eye" would see the chrome's
-       bottom edge shift between pages.
-     - Setting border-bottom-width: 0 collapses that 1px so the
-       bar ends up at exactly the same y as the Nav border was
-       on other pages. The runtime measureNav() picks up the
-       new (shorter) header height automatically because it
-       reads getBoundingClientRect().height.
-
-     !important on both lines because the Nav sets borderColor
-     inline via `style={{ borderColor: "var(--border-default)" }}`,
-     and any equivalent CSS-rule override needs to win over
-     inline. (The width override is defensive — Tailwind's
-     `border-b` utility itself is a regular class so doesn't
-     strictly need !important, but using it consistently keeps
-     both halves of the rule symmetric.) */
-  border-bottom-color: transparent !important;
-  border-bottom-width: 0 !important;
-}
 
 /* ──────────────────────────────────────────────────────────
    Case-study chrome — Liquid Glass reference (visible).

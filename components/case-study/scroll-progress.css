@@ -1,0 +1,77 @@
+/* ──────────────────────────────────────────────────────────
+   Scroll-progress bar — theme-aware tokens consumed by
+   ScrollProgress.tsx + ProgressBar.tsx.
+
+   This file is imported by ScrollProgress.tsx directly, so the
+   tokens and Nav-border-suppression rule load on any route that
+   mounts a <ScrollProgress />. No per-case-study setup required.
+
+   Track color matches the Nav's bottom border (--border-default)
+   so visually the bar reads as a continuation of the chrome —
+   the green gradient then "fills in" that border as the user
+   scrolls. Light-mode track resolves to --foundation-white-tinted
+   green-grey because --border-default is near-white-on-white in
+   light mode and would otherwise be invisible.
+
+   Why per-theme gradients: success-700 (deep forest) dissolves
+   on the dark page bg; success-200 (mint) disappears on white.
+   Each mode runs a stop set tuned for its background.
+   ────────────────────────────────────────────────────────── */
+:root {
+  /* Light track — soft mint-grey on white. We use --foundation-
+     white directly (not --surface-page) because --surface-page
+     flows through --neutral-white which is undefined at :root on
+     recruiter-cluster pages. --foundation-white is defined at
+     :root globally and always resolves. */
+  --progress-track: color-mix(in oklab, var(--green-700) 28%, var(--foundation-white));
+
+  --progress-gradient: linear-gradient(
+    90deg,
+    var(--success-200) 0%,
+    var(--success-700) 100%
+  );
+}
+
+[data-theme="dark"] {
+  /* Dark track — same grey as the Nav's bottom border so the bar
+     visually replaces it. The gradient paints over this grey as
+     scroll fraction grows, so the green progress "fills in" the
+     border from left to right. */
+  --progress-track: var(--border-default);
+
+  --progress-gradient: linear-gradient(
+    90deg,
+    var(--success-200) 0%,
+    var(--foundation-white) 60%,
+    var(--success-default) 100%
+  );
+}
+
+/* ──────────────────────────────────────────────────────────
+   Suppress the Nav's bottom border whenever a ScrollProgress
+   is rendered. The bar takes the border's place at the same
+   y-coordinate and same 1px thickness, so a visitor moving
+   between routes doesn't perceive a thickness shift in the
+   chrome's bottom edge.
+
+   - color: transparent !important — beats the Nav's inline
+     `style={{ borderColor: var(--border-default) }}`.
+   - width: 0 !important — collapses the 1px of empty
+     border-box space so the bar lands at exactly the same y as
+     the Nav border on every other route. The runtime
+     measureNav() in ScrollProgress.tsx picks up the new
+     (shorter) header height automatically via
+     getBoundingClientRect().
+
+   Scoped via :has([data-scroll-progress]) so the rule:
+     - Applies wherever a ScrollProgress is mounted, not
+       hard-coded to a specific route.
+     - Self-cleans on SPA navigation — when the user navigates
+       to a route without a ScrollProgress, the marker leaves
+       the DOM and the Nav border returns immediately, even if
+       this CSS chunk persists in <head>.
+   ────────────────────────────────────────────────────────── */
+body:has([data-scroll-progress]) header {
+  border-bottom-color: transparent !important;
+  border-bottom-width: 0 !important;
+}

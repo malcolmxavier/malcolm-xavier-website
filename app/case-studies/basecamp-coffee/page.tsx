@@ -23,7 +23,29 @@ import {
   TableOfContents,
   type TocItem,
 } from "@/components/chrome/TableOfContents";
-import { ScrollProgress } from "./components/ScrollProgress";
+import { ScrollProgress } from "@/components/case-study/ScrollProgress";
+import { CaseStudyHero } from "@/components/case-study/Hero";
+import {
+  Beat,
+  BeatSeparator,
+  Body,
+  ClaudeNote,
+  Code,
+  Emph,
+  EvidenceCard,
+  EvidenceGrid,
+  GateCard,
+  HarnessFeature,
+  HarnessGrid,
+  IterationCard,
+  IterationGrid,
+  type MetricRow,
+  MetricsTable,
+  Pullquote,
+  Stat,
+  StatRow,
+  SuccessGate,
+} from "@/components/case-study/primitives";
 import { menu } from "@/lib/case-studies/basecamp-coffee/data/menu";
 import { archetypeById } from "@/lib/case-studies/basecamp-coffee/data/archetypes";
 import { computeCoverage } from "@/lib/case-studies/basecamp-coffee/coverage";
@@ -76,19 +98,19 @@ export default function BasecampCoffeeCaseStudy() {
       </aside>
       <article>
         <Hero />
-        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
+        <BeatSeparator />
         <BeatSignal />
-        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
+        <BeatSeparator />
         <BeatData />
-        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
+        <BeatSeparator />
         <BeatTriangulation />
-        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
+        <BeatSeparator />
         <BeatBet />
-        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
+        <BeatSeparator />
         <BeatExperiment />
-        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
+        <BeatSeparator />
         <BeatArtifact />
-        <hr className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]" style={{ background: "var(--border-default)" }} />
+        <BeatSeparator />
         <BeatHowBuilt />
       </article>
     </>
@@ -96,56 +118,41 @@ export default function BasecampCoffeeCaseStudy() {
 }
 
 // ─── Hero ────────────────────────────────────────────────────
+// Page-specific content wrapped around the shared CaseStudyHero
+// primitive. CaseStudyHero owns the layout, typography, and dateline
+// row; this wrapper supplies the case-study-specific copy + intro
+// links (the external "The quiz" arrow needs the inline-style font
+// override to read upright inside the surrounding italic lede).
 function Hero() {
   return (
-    <section id="intro" className="scroll-mt-28 mx-auto max-w-[560px] px-7 pt-9 pb-6 md:max-w-[880px] md:px-10 md:pt-14 md:pb-8 lg:max-w-[1024px]">
-      <div className="flex items-baseline justify-between gap-4 mb-3">
-        <p
-          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-          style={{ fontFamily: 'var(--font-mono), monospace' }}
+    <CaseStudyHero
+      title="Claude x Growth PM"
+      subtitle="Basecamp Rewards: A Turnaround"
+      readMin={10}
+      updatedDate={formatLastUpdated()}
+    >
+      This page is an overview of two things at once. First and foremost, this is documentation of my
+      first pass at using Claude Code as a building and thinking partner in developing a site. Second, it&apos;s a
+      case study of a loyalty-program turnaround, using the Basecamp Coffee scenario as a practice space
+      for demonstrating my Growth PM skills and what I&apos;ve learned about using Claude Code as a partner.{' '}
+      <Link href={QUIZ_HREF}>
+        The quiz{' '}
+        {/* Surrounding lede is Instrument Serif italic, which
+            renders the unicode arrow slanted and light. Force the
+            arrow back to upright sans so it reads as a clean
+            external-link affordance. */}
+        <span
+          style={{
+            fontFamily: "var(--font-secondary), system-ui, sans-serif",
+            fontStyle: "normal",
+          }}
         >
-          Case Study
-        </p>
-        <p
-          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
-          style={{ fontFamily: 'var(--font-mono), monospace' }}
-        >
-          10 min read · Updated {formatLastUpdated()}
-        </p>
-      </div>
-      <h1 className="m-0 mb-3 md:mb-4 font-medium text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--text-heading)]">
-        Claude x Growth PM
-      </h1>
-      <h2 className="m-0 mb-6 md:mb-8 font-medium text-[24px] md:text-[32px] lg:text-[36px] leading-[1.15] tracking-[-0.015em] text-[var(--text-caption)]">
-        Basecamp Rewards: A Turnaround
-      </h2>
-      <p
-        className="m-0 text-[19px] md:text-[21px] leading-[1.4] tracking-[-0.005em] text-[var(--text-caption)]"
-        style={{ fontFamily: 'var(--font-primary), serif', fontStyle: 'italic' }}
-      >
-        This page is an overview of two things at once. First and foremost, this is documentation of my
-        first pass at using Claude Code as a building and thinking partner in developing a site. Second, it&apos;s a
-        case study of a loyalty-program turnaround, using the Basecamp Coffee scenario as a practice space
-        for demonstrating my Growth PM skills and what I&apos;ve learned about using Claude Code as a partner.{' '}
-        <Link href={QUIZ_HREF}>
-          The quiz{' '}
-          {/* Surrounding lede is Instrument Serif italic, which
-              renders the unicode arrow slanted and light. Force the
-              arrow back to upright sans so it reads as a clean
-              external-link affordance. */}
-          <span
-            style={{
-              fontFamily: "var(--font-secondary), system-ui, sans-serif",
-              fontStyle: "normal",
-            }}
-          >
-            ↗
-          </span>
-        </Link>{' '}
-        is the prototype that came out of it. What follows is the story of how
-        it got there.
-      </p>
-    </section>
+          ↗
+        </span>
+      </Link>{' '}
+      is the prototype that came out of it. What follows is the story of how
+      it got there.
+    </CaseStudyHero>
   );
 }
 
@@ -557,157 +564,10 @@ function BeatHowBuilt() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// Composable primitives (in-file; specific to this page)
+// Page-specific data + components below. Reusable primitives
+// (Beat, Body, Emph, Code, Stat, EvidenceCard, MetricsTable, …)
+// are imported from @/components/case-study/primitives.
 // ─────────────────────────────────────────────────────────────
-
-interface BeatProps {
-  id: string;
-  number: string;
-  title: string;
-  headline: string;
-  claudeTag?: string;
-  /** When true, render the claudeTag string literally without the `claude · ` prefix. */
-  claudeTagLiteral?: boolean;
-  children: ReactNode;
-}
-
-function Beat({ id, number, title, headline, claudeTag, claudeTagLiteral, children }: BeatProps) {
-  return (
-    <section id={id} className="scroll-mt-28 mx-auto max-w-[560px] px-7 pt-6 pb-6 md:max-w-[880px] md:px-10 md:pt-9 md:pb-9 lg:max-w-[1024px]">
-      <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 md:gap-6 mb-5 md:mb-6">
-        <p
-          className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-          style={{ fontFamily: 'var(--font-mono), monospace' }}
-        >
-          {number} · {title}
-        </p>
-        {claudeTag && (
-          <p
-            className="m-0 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-            style={{ fontFamily: 'var(--font-mono), monospace' }}
-          >
-            {claudeTagLiteral ? claudeTag : `claude · ${claudeTag}`}
-          </p>
-        )}
-      </div>
-      <h2 className="m-0 mb-6 md:mb-8 font-medium text-[40px] md:text-[52px] lg:text-[60px] leading-[1.05] tracking-[-0.02em] text-[var(--text-heading)]">
-        {headline}
-      </h2>
-      {children}
-    </section>
-  );
-}
-
-function Body({ children }: { children: ReactNode }) {
-  return (
-    <div className="flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-caption)] [&>p]:m-0">
-      {children}
-    </div>
-  );
-}
-
-function Emph({ children }: { children: ReactNode }) {
-  return (
-    <span
-      className="text-[var(--text-heading)]"
-      style={{ fontFamily: 'var(--font-primary), serif', fontStyle: 'italic' }}
-    >
-      {children}
-    </span>
-  );
-}
-
-function Code({ children }: { children: ReactNode }) {
-  return (
-    <code
-      className="text-[14px] md:text-[15px] px-1.5 py-0.5 rounded-[6px] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] text-[var(--text-heading)]"
-      style={{ fontFamily: 'var(--font-mono), monospace' }}
-    >
-      {children}
-    </code>
-  );
-}
-
-function StatRow({ children }: { children: ReactNode }) {
-  return (
-    <div className="my-8 md:my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
-      {children}
-    </div>
-  );
-}
-
-function Stat({ big, eyebrow, caption }: { big: string; eyebrow: string; caption: string }) {
-  return (
-    <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
-      <p
-        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: 'var(--font-mono), monospace' }}
-      >
-        {eyebrow}
-      </p>
-      <p className="m-0 text-[56px] md:text-[68px] lg:text-[80px] font-medium leading-none tracking-[-0.03em] text-[var(--text-heading)]">
-        {big}
-      </p>
-      <p className="m-0 text-[14px] leading-[1.5] text-[var(--text-caption)]">{caption}</p>
-    </div>
-  );
-}
-
-function ClaudeNote({ children }: { children: ReactNode }) {
-  return (
-    <div className="my-8 md:my-10 pl-4 md:pl-5 border-l-[2px] border-[var(--border-default)]">
-      <p
-        className="m-0 mb-2 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: 'var(--font-mono), monospace' }}
-      >
-        How I used Claude
-      </p>
-      <p className="m-0 text-[15px] md:text-[16px] leading-[1.55] text-[var(--text-caption)]">{children}</p>
-    </div>
-  );
-}
-
-function Pullquote({ children, attribution }: { children: ReactNode; attribution: string }) {
-  return (
-    <figure className="my-10 md:my-12 max-w-[720px] pl-5 md:pl-6 border-l-[2px] border-[var(--border-default)]">
-      <blockquote
-        className="m-0 text-[22px] md:text-[28px] leading-[1.3] tracking-[-0.005em] text-[var(--text-heading)]"
-        style={{ fontFamily: 'var(--font-primary), serif', fontStyle: 'italic' }}
-      >
-        &ldquo;{children}&rdquo;
-      </blockquote>
-      <figcaption
-        className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
-        style={{ fontFamily: 'var(--font-mono), monospace' }}
-      >
-        — {attribution}
-      </figcaption>
-    </figure>
-  );
-}
-
-function EvidenceGrid({ children }: { children: ReactNode }) {
-  return (
-    <div className="my-8 md:my-10 grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>
-  );
-}
-
-function EvidenceCard({ eyebrow, title, children }: { eyebrow: string; title: string; children: ReactNode }) {
-  return (
-    <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
-      <p
-        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: 'var(--font-mono), monospace' }}
-      >
-        {eyebrow}
-      </p>
-      <h3 className="m-0 text-[20px] font-semibold leading-[1.1] tracking-[-0.01em] text-[var(--text-heading)]">
-        {title}
-      </h3>
-      <p className="m-0 text-[15px] leading-[1.5] text-[var(--text-caption)]">{children}</p>
-    </div>
-  );
-}
 
 const FACETS: { name: string; values: string[] }[] = [
   { name: 'Style', values: ['espresso-based', 'brewed', 'cold-brewed', 'tea-based'] },
@@ -899,130 +759,3 @@ function Dot() {
   return <span className="text-[var(--text-disabled)]">{' · '}</span>;
 }
 
-interface MetricRow {
-  metric: string;
-  was: string;
-  now: string;
-  target: string;
-  nowTone?: 'down' | 'muted';
-}
-
-function MetricsTable({ rows }: { rows: MetricRow[] }) {
-  return (
-    <div className="my-8 md:my-10">
-      {/* Tablet + desktop — proper table grid */}
-      <div className="hidden md:block">
-        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 pb-3 border-b border-[var(--border-default)]">
-          <p className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]" style={{ fontFamily: 'var(--font-mono), monospace' }}>Metric</p>
-          <p className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]" style={{ fontFamily: 'var(--font-mono), monospace' }}>6mo ago</p>
-          <p className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]" style={{ fontFamily: 'var(--font-mono), monospace' }}>Now</p>
-          <p className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]" style={{ fontFamily: 'var(--font-mono), monospace' }}>Target</p>
-        </div>
-        {rows.map((row) => (
-          <div
-            key={row.metric}
-            className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 py-3 border-b border-[var(--border-default)] last:border-b-0"
-          >
-            <p className="m-0 text-[15px] text-[var(--text-heading)]">{row.metric}</p>
-            <p className="m-0 text-right text-[15px] text-[var(--text-disabled)]">{row.was}</p>
-            <p
-              className={`m-0 text-right text-[15px] font-medium ${
-                row.nowTone === 'down' ? 'text-[var(--text-heading)]' : 'text-[var(--text-caption)]'
-              }`}
-            >
-              {row.now}
-            </p>
-            <p className="m-0 text-right text-[15px] text-[var(--text-caption)]">{row.target}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Mobile — stacked cards */}
-      <div className="md:hidden flex flex-col gap-3">
-        {rows.map((row) => (
-          <div key={row.metric} className="px-4 py-3.5 rounded-xl border border-[var(--border-default)]">
-            <p className="m-0 mb-2 text-[15px] font-medium text-[var(--text-heading)]">{row.metric}</p>
-            <div className="grid grid-cols-3 gap-3">
-              {(['was', 'now', 'target'] as const).map((k, i) => (
-                <div key={k} className="flex flex-col gap-1">
-                  <p
-                    className="m-0 text-[9px] uppercase tracking-[0.18em] text-[var(--text-disabled)]"
-                    style={{ fontFamily: 'var(--font-mono), monospace' }}
-                  >
-                    {['6mo ago', 'Now', 'Target'][i]}
-                  </p>
-                  <p
-                    className={`m-0 text-[14px] ${
-                      k === 'now' ? 'font-medium text-[var(--text-heading)]' : 'text-[var(--text-caption)]'
-                    }`}
-                  >
-                    {row[k]}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SuccessGate({ children }: { children: ReactNode }) {
-  return <div className="my-8 md:my-10 grid grid-cols-1 md:grid-cols-2 gap-4">{children}</div>;
-}
-
-function GateCard({ metric, threshold, caption }: { metric: string; threshold: string; caption: string }) {
-  return (
-    <div className="case-glass flex flex-col gap-1.5 p-5 rounded-[22px] border border-[var(--border-default)]">
-      <p
-        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: 'var(--font-mono), monospace' }}
-      >
-        {metric}
-      </p>
-      <p className="m-0 text-[32px] md:text-[36px] font-medium leading-none tracking-[-0.02em] text-[var(--text-heading)]">
-        {threshold}
-      </p>
-      <p className="m-0 text-[13px] leading-[1.4] text-[var(--text-disabled)]">{caption}</p>
-    </div>
-  );
-}
-
-function HarnessGrid({ children }: { children: ReactNode }) {
-  return (
-    <div className="my-8 md:my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">{children}</div>
-  );
-}
-
-function IterationGrid({ children }: { children: ReactNode }) {
-  return (
-    <div className="my-8 md:my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">{children}</div>
-  );
-}
-
-function IterationCard({ lens, title, children }: { lens: string; title: string; children: ReactNode }) {
-  return (
-    <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
-      <p
-        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: 'var(--font-mono), monospace' }}
-      >
-        {lens}
-      </p>
-      <h3 className="m-0 text-[20px] font-semibold leading-[1.1] tracking-[-0.01em] text-[var(--text-heading)]">
-        {title}
-      </h3>
-      <p className="m-0 text-[15px] leading-[1.5] text-[var(--text-caption)]">{children}</p>
-    </div>
-  );
-}
-
-function HarnessFeature({ name, children }: { name: string; children: ReactNode }) {
-  return (
-    <div className="case-glass flex flex-col gap-2 p-5 rounded-xl border border-[var(--border-default)]">
-      <h3 className="m-0 text-[16px] font-semibold leading-[1.2] text-[var(--text-heading)]">{name}</h3>
-      <p className="m-0 text-[14px] leading-[1.55] text-[var(--text-caption)]">{children}</p>
-    </div>
-  );
-}

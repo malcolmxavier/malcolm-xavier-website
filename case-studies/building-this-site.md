@@ -265,6 +265,120 @@ codebase: theme-aware components use direct color values via theme
 selectors, not variables. Variables are still fine for sub-brand
 flips and one-off tokens, but the buck stops at the visual baseline.
 
+## Sketch notes — the progress-bar saga (integrate tomorrow)
+
+> *Voice flag: ROUGH. Bullets, not prose. Structural decision needs
+> to land before redraft — see "open questions" at the bottom of
+> this section.*
+
+A week or so after the button bug, building out the chrome on
+`/case-studies/basecamp-coffee`: a 1px scroll-progress bar
+anchored to the bottom of the Nav. Conceptually a 50-line CSS
+change. Took **15 commits and an evening of escalating frustration
+with the agent** to land the right state.
+
+**Story beats (in order they actually surfaced):**
+
+1. **Bar refused to be visible.** Several rounds of "I see it in
+   the DOM, why isn't it on screen." The agent kept proposing
+   color and gradient tweaks. None of them worked.
+2. **Same class of bug as the button.** Eventually traced:
+   `--surface-page` resolves to *empty* on recruiter-cluster
+   pages because `--neutral-white` / `--neutral-black` are only
+   defined inside `[data-subbrand]` blocks at `:root` — not at
+   the recruiter-cluster `:root`. Every `color-mix(... var(--surface-page))`
+   was silently invalidating. The page still *looked* right
+   because Chrome's `color-scheme` canvas defaults paint the
+   page bg, so the missing variable went unflagged. Fix: swap
+   to `--foundation-white` / `--foundation-black`, which are
+   defined globally at `:root` and always resolve.
+3. **"Parallel lines" appearing during overscroll-at-top.** Root
+   cause: Nav was `position: sticky`; the bar was `position:
+   fixed`. Different overscroll physics — sticky un-sticks and
+   rides down with the document during rubber-band, fixed stays
+   anchored. Gap opens between them, browser canvas fills it,
+   reads as a second horizontal line. Fix: make the bar sticky
+   too, sharing the Nav's overscroll behavior.
+4. **Dark mode showed two stacked lines (Nav border + bar
+   track) at scroll = 0.** Light mode didn't because the Nav
+   border in light mode is near-white-on-white, effectively
+   invisible. Fix: suppress the Nav's `border-b` whenever the
+   bar is rendered, via `body:has([data-scroll-progress]) header`.
+5. **Pixel parity.** Final pass: bar matches the Nav border's
+   exact thickness (1px) and y-coordinate, so a visitor moving
+   between routes doesn't perceive a thickness shift in the
+   chrome's bottom edge.
+
+**Why this belongs in the case study (the recursion):**
+
+The button bug above was framed as "the agent keeps refining the
+same hypothesis; the PM's job is to break the loop." This time
+the same *class* of bug recurred — silent-`var()`-resolution-failure
+masked by a coincidentally-correct fallback — and the agent had a
+written memory about exactly this pattern from the button incident.
+**The memory existed. It wasn't operationalized. The 15-commit
+saga happened anyway.**
+
+That recursion is the more interesting PM artifact than the
+incident itself: **written documentation of a lesson is not the
+same as operational discipline around it.** Writing the
+postmortem feels like resolution. Carrying it into the next
+session is the resolution. Almost every product org I've worked
+in conflates the two.
+
+**Technical lessons worth landing:**
+
+- Mixing `position: fixed` and `position: sticky` on the same
+  scroll surface creates overscroll-gap artifacts. Pick one
+  positioning model per scroll-anchored element family.
+- When a CSS variable chain depends on tokens defined
+  conditionally (inside `[data-subbrand]`, `[data-theme]`, etc.),
+  confirm those tokens actually resolve at the call site.
+  `getComputedStyle(element).getPropertyValue('--foo')` on the
+  consumer is the 30-second binary test. Same lesson as the
+  button bug, escaped containment.
+- Inline styles beat CSS rules without `!important`. When a CSS
+  override "should apply" but doesn't, check the target's inline
+  styles before adjusting selectors.
+- `:has()` is the right scoping tool when you need a sitewide
+  rule to apply only on routes where a specific element is
+  rendered — no DOM restructuring required, no class to thread
+  through layouts, and the rule self-cleans on SPA navigation.
+
+**Behavioral / process lessons (the part that's recruiter-relevant):**
+
+- Visual fixes need a render-verify gate **before declaring done.**
+  "Shipped, refresh and test" without self-verification is a
+  guess wearing a fix's clothing. The cost of a 30-second
+  computed-style check is dramatically lower than a deploy
+  round-trip + an annoyed-collaborator round-trip, every single
+  time.
+- When the same symptom recurs across two fix attempts, **stop
+  patching.** The diagnosis is wrong, not the patch. The
+  iteration cost of "one more guess" exceeds the cost of a
+  5-minute root-cause sweep, every single time.
+- For high-iteration-cost loops (deploy round-trips, slow
+  builds, stakeholder-review cycles), spend more on diagnosis
+  upfront, not less. The deploy budget is finite per session;
+  blowing it on guesses leaves no room for the actual fix.
+
+**Open questions to resolve when integrating tomorrow:**
+
+- Is this its own vignette, or an addendum to "the button bug"
+  framed as *"the bug came back, and so did the lesson"*? The
+  recursion makes a stronger PM spine than two parallel
+  incidents — leaning toward addendum.
+- Tone calibration: this story is more about agent-vs-human
+  discipline than the button bug was. Comfort level with
+  showing self-correction explicitly in a recruiter artifact?
+  (My instinct: yes. Senior PM craft includes naming the
+  pattern when it costs you, not just when it doesn't.)
+- The `:has()` and sticky-positioning beats are the most
+  distinctive technical material on the build. Worth
+  foregrounding for engineer-readers even if the PM story is
+  the lead.
+- "Memory ≠ discipline" is a great PM line — pull-quote candidate?
+
 ## Two resumes, one source of truth (almost)
 
 The /resume page on this site is built for recruiters: scannable,
@@ -391,6 +505,25 @@ PM judgment is mostly about what *not* to ship. A short list:
   stay fine for sub-brand flips and one-off tokens; the buck just
   stops at the visual baseline of the design system's foundation
   primitives.
+- **Don't mix `position: fixed` and `position: sticky` on the same
+  scroll surface.** They have different overscroll physics —
+  sticky elements un-stick and ride down with the document during
+  rubber-band, fixed elements stay anchored — and mixing them
+  opens visible gaps. Pick one positioning model per
+  scroll-anchored element family.
+- **Validate visual fixes against the deployed render before
+  declaring done.** Computed-style or screenshot, not "the code
+  looks right." A "shipped, refresh and test" without
+  self-verification is a wasted round-trip on a deploy budget
+  that's finite per session.
+- **Treat written postmortems as documentation, not as
+  discipline.** I had a memory note from the button bug that
+  would have collapsed the progress-bar saga to a single commit.
+  I didn't reach for it. The takeaway isn't "write better
+  postmortems"; it's that documentation and operational
+  discipline are different artifacts and product teams need to
+  invest in both. (PM-craft equivalent: a beautifully-written
+  PRD doesn't run the experiment.)
 
 ## What's live
 
