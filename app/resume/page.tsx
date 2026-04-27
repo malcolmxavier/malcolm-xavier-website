@@ -533,10 +533,10 @@ export default function ResumePage() {
         bordered
       >
         <Stack gap="400" align="start">
-          <Headline level={2}>Let's talk.</Headline>
+          <Headline level={2}>Let&apos;s talk.</Headline>
           <Body>
-            If you're hiring for a Senior PM in media, publishing, or
-            streaming — or you'd just like to compare notes — pick a
+            If you&apos;re hiring for a Senior PM in media, publishing, or
+            streaming — or you&apos;d just like to compare notes — pick a
             slot for a{" "}
             <Link href={CONTACT.calendly}>30-minute product chat</Link>,
             send an <Link href={mailHref}>email</Link>, or reach out
