@@ -1,31 +1,55 @@
 /* ──────────────────────────────────────────────────────────
    Reading-progress gradient — theme-aware token consumed by
-   ProgressBar.tsx. Each mode picks a wider color range than a
-   single gradient could safely cover in both, because green-700
-   dissolves into the dark page bg and green-200 disappears into
-   the light page bg. Splitting per theme keeps both ends of the
-   gradient clearly visible regardless of mode.
+   ProgressBar.tsx. Each mode runs a three-stop gradient with a
+   neutral-white "shine" at 60% so the bar carries a brighter
+   highlight halfway through, in addition to the directional
+   color shift end-to-end.
+
+   Splitting per theme keeps both ends visible: green-700
+   dissolves into a dark page bg and green-200 disappears on a
+   light page bg, so the dark/light gradients use different
+   stops to stay legible end-to-end.
    ────────────────────────────────────────────────────────── */
 :root {
-  /* Light mode — light mint into deep green. Both ends pop on
-     a white page; the deep green-700 anchors the leading edge
-     so the gradient reads as direction + progress. */
+  /* Light mode — light mint to neutral-white sheen to deep
+     green. The white in the middle reads as a bright "shine
+     point" against the otherwise-saturated rail, giving the
+     gradient a sparkle without losing the green identity. */
   --progress-gradient: linear-gradient(
     90deg,
     var(--success-300) 0%,
+    var(--neutral-white) 60%,
     var(--success-700) 100%
   );
 }
 
 [data-theme="dark"] {
-  /* Dark mode — light mint into neon green. green-700 disappears
-     into black bg, so we sub in green-500 (success-default) at
-     the leading edge to keep the gradient legible end-to-end. */
+  /* Dark mode — same three-stop shape, but the leading edge
+     is neon green-default (since green-700 dissolves into
+     black). The neutral-white sheen pops harder against the
+     dark bg, which is the whole point. */
   --progress-gradient: linear-gradient(
     90deg,
     var(--success-200) 0%,
+    var(--neutral-white) 60%,
     var(--success-default) 100%
   );
+}
+
+/* ──────────────────────────────────────────────────────────
+   Footer top-border suppression on the case-study route.
+
+   The malxavi Footer carries a `border-t` to separate the
+   article from the page footer. On other pages that line is
+   load-bearing; here it competes with the reading-progress bar
+   visually — when the user overscrolls past the article, the
+   footer's border-t passes upward through the Nav's backdrop-
+   blur and reads as a second line just above the bar. The
+   bar already provides an upper boundary on this route, so
+   the footer's top border is redundant.
+   ────────────────────────────────────────────────────────── */
+footer {
+  border-top: 0 !important;
 }
 
 /* ──────────────────────────────────────────────────────────
