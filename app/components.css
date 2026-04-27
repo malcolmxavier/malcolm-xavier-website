@@ -10,6 +10,19 @@
    we haven't fully diagnosed.
    ───────────────────────────────────────────────────────────── */
 
+/* ─── Overscroll seam fix ──────────────────────────────────────
+   Match the html element's background to the body's so when the
+   user rubber-bands past the top or bottom of the document, the
+   exposed area beneath the body shows the same color rather than
+   the browser's default white. Without this, dark mode shows a
+   white seam beyond the black footer (and a white seam above the
+   Nav) on overscroll. Lives here rather than in globals.css
+   because globals.css is regenerated from _design/tokens/ on every
+   build and would lose the rule. */
+html {
+  background: var(--surface-page);
+}
+
 /* ─── Button variants ──────────────────────────────────────────
    Uses HARDCODED hex colors instead of CSS variables (--text-
    heading, --surface-page) because var() resolution was failing

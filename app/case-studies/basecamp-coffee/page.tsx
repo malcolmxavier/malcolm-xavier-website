@@ -806,7 +806,7 @@ function DrinkMatrix() {
           className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
           style={{ fontFamily: 'var(--font-mono), monospace' }}
         >
-          Drinks, Archetypes &amp; Coverage
+          Drinks, Archetypes, Facets, and Coverage
         </p>
         <p className="m-0 text-[11px] md:text-[12px] text-[var(--text-disabled)]">
           {menu.length} drinks · 16 archetypes · {COVERAGE.totalPaths.toLocaleString()} quiz paths

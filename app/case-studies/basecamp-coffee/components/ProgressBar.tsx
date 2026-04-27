@@ -7,19 +7,24 @@ interface ProgressBarProps {
 //
 // Two visible elements:
 //   - A track on the wrapper (`var(--progress-track)`) that's
-//     always visible regardless of scroll position. Without it,
-//     the bar is invisible until scroll fraction grows enough to
-//     paint visible fill, which made the bar feel "missing" at
-//     the top of the page.
+//     always visible regardless of scroll position. The track is
+//     a tinted green strip (defined per-theme in case-study.css)
+//     so the bar reads as its own element rather than an
+//     accidental duplicate of the Nav's neutral-grey bottom
+//     border one pixel above it.
 //   - A fill div whose width matches the scroll fraction and is
-//     painted with `var(--progress-gradient)`. The gradient is
-//     defined per-theme in case-study.css so both modes have
-//     ends + middle stops that are visible against their page bg.
+//     painted with `var(--progress-gradient)` — a brighter
+//     gradient that paints on top of the track as the user
+//     scrolls down the article.
+//
+// Bar height is 3px (intentionally taller than the Nav's 1px
+// border-b) so the eye registers the bar as a distinct element
+// even at scroll = 0 when the fill is invisible.
 export function ProgressBar({ fraction }: ProgressBarProps) {
   const pct = Math.max(0, Math.min(1, fraction)) * 100;
   return (
     <div
-      className="h-[2px] w-full"
+      className="h-[3px] w-full"
       style={{ background: "var(--progress-track)" }}
     >
       <div

@@ -1,14 +1,17 @@
 // ─────────────────────────────────────────────────────────────────
-// ScrollProgress — fixed scroll progress bar pinned to the bottom
-// edge of the malxavi Nav.
+// ScrollProgress — fixed scroll progress bar pinned just below the
+// malxavi Nav's bottom edge.
 //
 // Positioning uses runtime measurement of the Nav's actual height
-// (rather than a hardcoded top value) so the bar lands EXACTLY at
-// the Nav's bottom border regardless of font scaling, line-height
-// reflow, or future Nav padding changes. The bar overlaps the Nav's
-// 1px `border-b` by 1px and z-50 paints over it, so the user sees
-// one continuous edge — bar IS the Nav's bottom border, not a
-// second line below it.
+// (rather than a hardcoded top value) so the bar lands cleanly
+// adjacent to the Nav's bottom border regardless of font scaling,
+// line-height reflow, or future Nav padding changes. We previously
+// tried overlapping the Nav border (top: navBottom - 1, z-50) so the
+// bar would visually replace it, but the translucent track read as a
+// faint duplicate of the Nav border rather than a distinct progress
+// element. Now the bar sits one pixel below the border (top:
+// navBottom) — Nav border + 3px tinted-green progress bar are two
+// clearly distinct elements.
 // ─────────────────────────────────────────────────────────────────
 
 "use client";
@@ -65,14 +68,15 @@ export function ScrollProgress() {
   }, []);
 
   return (
-    // top = navBottom - 1 puts the bar exactly on top of the Nav's
-    // 1px border. z-50 paints the bar above the Nav (z-40), so the
-    // visible result is one edge: the progress bar IS the Nav's
-    // bottom border. fixed (not sticky) so the bar stays put even
-    // when the user reaches the footer at the end of the article.
+    // top = navBottom puts the bar's first pixel directly under the
+    // Nav's 1px bottom border, so the two elements are flush but
+    // not overlapping. z-50 keeps the bar above the Nav's backdrop-
+    // blur layer in case anything paints into that overlap zone.
+    // fixed (not sticky) so the bar stays put even when the user
+    // reaches the footer at the end of the article.
     <div
       className="fixed left-0 right-0 z-50"
-      style={{ top: `${navBottom - 1}px` }}
+      style={{ top: `${navBottom}px` }}
     >
       <ProgressBar fraction={fraction} />
     </div>

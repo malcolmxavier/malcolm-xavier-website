@@ -1,28 +1,31 @@
 /* ──────────────────────────────────────────────────────────
-   Reading-progress gradient — theme-aware token consumed by
-   ProgressBar.tsx. Each mode runs a three-stop gradient with a
-   neutral-white "shine" at 60% so the bar carries a brighter
-   highlight halfway through, in addition to the directional
-   color shift end-to-end.
+   Reading-progress bar — theme-aware tokens consumed by
+   ProgressBar.tsx.
 
-   Splitting per theme keeps both ends visible: green-700
-   dissolves into a dark page bg and green-200 disappears on a
-   light page bg, so the dark/light gradients use different
-   stops to stay legible end-to-end.
+   The bar is 3px tall and sits cleanly *below* the Nav's 1px
+   bottom border (no overlap). At scroll = 0 the track paints
+   a soft tinted-green stripe so the bar is visibly its own
+   element, distinct from the Nav border above it. As the user
+   scrolls, the gradient fill paints over the track at full
+   opacity, brightening left-to-right.
+
+   Why per-theme gradients: success-700 (deep forest) dissolves
+   on the dark page bg, and success-200 (mint) disappears on
+   the light page bg, so each mode runs a different stop set.
+   Dark mode adds a neutral-white sheen at 60% — the bar pops
+   sharply against pure black, which is the "flavor" Malcolm
+   asked for. Light mode runs a 2-stop mint→forest gradient
+   without any white stop because pure white blends into the
+   white page bg.
    ────────────────────────────────────────────────────────── */
 :root {
-  /* Track — a faint always-visible rail under the fill so the
-     bar reads as a structure even at scroll = 0. Mid-grey at
-     low alpha works in both themes without theme-conditional
-     overrides. */
-  --progress-track: rgba(127, 127, 127, 0.35);
+  /* Track — visible-but-quiet green-tinted strip painted
+     under the gradient fill. Mixing the deep brand green into
+     the page surface gives a muted color that reads as the
+     bar (not the Nav border) at typical viewing distance and
+     reads cleanly on white. */
+  --progress-track: color-mix(in oklab, var(--green-700) 28%, var(--surface-page));
 
-  /* Light mode — wide 2-stop gradient from light mint to deep
-     forest green. No white stop here: pure white and near-white
-     both blend with the white page bg, which is what was making
-     the bar disappear in earlier rounds. The dark green leading
-     edge anchors the gradient with strong contrast against the
-     page. */
   --progress-gradient: linear-gradient(
     90deg,
     var(--success-200) 0%,
@@ -31,32 +34,17 @@
 }
 
 [data-theme="dark"] {
-  /* Dark mode — three-stop with a neutral-white sheen at 60%.
-     White pops hard against the black page bg, which is the
-     "flavor" Malcolm asked for. Leading edge is neon green-
-     default since green-700 dissolves into black. */
+  /* Dark-mode track — mix the neon brand green into the black
+     page surface for a muted-green strip that's clearly visible
+     on black without competing with the gradient fill. */
+  --progress-track: color-mix(in oklab, var(--green-300) 22%, var(--surface-page));
+
   --progress-gradient: linear-gradient(
     90deg,
     var(--success-200) 0%,
     var(--neutral-white) 60%,
     var(--success-default) 100%
   );
-}
-
-/* ──────────────────────────────────────────────────────────
-   Footer top-border suppression on the case-study route.
-
-   The malxavi Footer carries a `border-t` to separate the
-   article from the page footer. On other pages that line is
-   load-bearing; here it competes with the reading-progress bar
-   visually — when the user overscrolls past the article, the
-   footer's border-t passes upward through the Nav's backdrop-
-   blur and reads as a second line just above the bar. The
-   bar already provides an upper boundary on this route, so
-   the footer's top border is redundant.
-   ────────────────────────────────────────────────────────── */
-footer {
-  border-top: 0 !important;
 }
 
 /* ──────────────────────────────────────────────────────────
