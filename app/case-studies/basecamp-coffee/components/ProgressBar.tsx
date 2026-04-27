@@ -17,14 +17,16 @@ interface ProgressBarProps {
 //     gradient that paints on top of the track as the user
 //     scrolls down the article.
 //
-// Bar height is 3px (intentionally taller than the Nav's 1px
-// border-b) so the eye registers the bar as a distinct element
-// even at scroll = 0 when the fill is invisible.
+// Bar height is 1px so the bar matches the Nav's `border-b` (also
+// 1px). At the case-study route we suppress the Nav's bottom
+// border via case-study.css and the bar takes its place at the
+// same y-coordinate, so a visitor moving between routes doesn't
+// register a thickness change in the chrome's bottom edge.
 export function ProgressBar({ fraction }: ProgressBarProps) {
   const pct = Math.max(0, Math.min(1, fraction)) * 100;
   return (
     <div
-      className="h-[3px] w-full"
+      className="h-[1px] w-full"
       style={{ background: "var(--progress-track)" }}
     >
       <div

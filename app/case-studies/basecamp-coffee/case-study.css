@@ -94,10 +94,27 @@
        unmounts and the Nav border returns.
    ────────────────────────────────────────────────────────── */
 body:has([data-scroll-progress]) header {
-  /* !important overrides the Nav's inline `style={{ borderColor:
-     "var(--border-default)" }}` which sets the color via inline
-     styles and would otherwise win over this CSS rule. */
+  /* Collapse the Nav's bottom border entirely. Two reasons:
+     - color: transparent alone would still leave 1px of empty
+       border-box space, which would push the progress bar 1px
+       below the y-coordinate where the Nav border lives on
+       every other route. A "good eye" would see the chrome's
+       bottom edge shift between pages.
+     - Setting border-bottom-width: 0 collapses that 1px so the
+       bar ends up at exactly the same y as the Nav border was
+       on other pages. The runtime measureNav() picks up the
+       new (shorter) header height automatically because it
+       reads getBoundingClientRect().height.
+
+     !important on both lines because the Nav sets borderColor
+     inline via `style={{ borderColor: "var(--border-default)" }}`,
+     and any equivalent CSS-rule override needs to win over
+     inline. (The width override is defensive — Tailwind's
+     `border-b` utility itself is a regular class so doesn't
+     strictly need !important, but using it consistently keeps
+     both halves of the rule symmetric.) */
   border-bottom-color: transparent !important;
+  border-bottom-width: 0 !important;
 }
 
 /* ──────────────────────────────────────────────────────────
