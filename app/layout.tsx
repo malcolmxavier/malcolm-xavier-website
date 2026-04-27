@@ -62,10 +62,51 @@ const robotoMono = Roboto_Mono({
   display: "swap",
 });
 
+// ─────────────────────────────────────────────────────────────────
+// Sitewide metadata defaults.
+//
+// `metadataBase` is the anchor every relative URL in metadata
+// resolves against (canonical, OG, Twitter). With it set here, a
+// per-page `metadata.alternates.canonical: "/resume"` produces
+// `https://malxavi.com/resume` — no per-page repetition needed.
+//
+// The `title` template means a per-page metadata export of
+// `title: "Music"` renders as `<title>Music — Malcolm Xavier</title>`
+// while the root page (which sets only `title.default`) renders the
+// bare `Malcolm Xavier`.
+//
+// `openGraph.images` and `twitter.images` are auto-populated from
+// `app/opengraph-image.tsx` — we don't need to repeat them here.
+// Same for icons (auto-populated from `app/icon.tsx`).
+// ─────────────────────────────────────────────────────────────────
+const SITE_URL = "https://malxavi.com";
+const SITE_NAME = "Malcolm Xavier";
+const SITE_DESCRIPTION =
+  "Senior product manager with an artist's eye. Tech, media, streaming.";
+
 export const metadata: Metadata = {
-  title: "Malcolm Xavier",
-  description:
-    "Senior product manager with an artist's eye. Tech, media, streaming.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_NAME,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 const fontVariables = [

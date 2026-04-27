@@ -26,5 +26,9 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/banner/", "/api/"],
     },
+    // Point crawlers at the sitemap so they don't have to discover
+    // routes by walking links. Next.js generates /sitemap.xml from
+    // app/sitemap.ts.
+    sitemap: "https://malxavi.com/sitemap.xml",
   };
 }

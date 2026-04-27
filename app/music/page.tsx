@@ -21,6 +21,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
@@ -99,7 +100,12 @@ export default async function MusicPage() {
              PlaylistCard the server would have, but slices the data
              per page and switches groupings on toggle. */}
         <Section padding="md" bordered>
-          <MusicShell playlists={playlists} collections={COLLECTIONS} />
+          {/* MusicShell calls useSearchParams() to drive view + page state.
+              Next.js requires that hook to live inside a Suspense boundary
+              so the page can stream rather than bail out of static rendering. */}
+          <Suspense fallback={null}>
+            <MusicShell playlists={playlists} collections={COLLECTIONS} />
+          </Suspense>
         </Section>
       </Container>
     </div>
