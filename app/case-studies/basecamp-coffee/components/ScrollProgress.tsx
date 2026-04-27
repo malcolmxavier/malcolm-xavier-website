@@ -96,6 +96,7 @@ export function ScrollProgress() {
     // the previous fixed-positioned implementation).
     <div
       className="sticky z-50"
+      data-scroll-progress
       style={{ top: `${navBottom}px` }}
     >
       <ProgressBar fraction={fraction} />

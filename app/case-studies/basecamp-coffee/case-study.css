@@ -61,6 +61,39 @@
 }
 
 /* ──────────────────────────────────────────────────────────
+   Suppress the Nav's bottom border when the scroll progress
+   bar is rendered.
+
+   The Nav has `border-b` driven by --border-default. In light
+   mode that resolves to a near-white grey on a white page —
+   essentially invisible, so the eye reads the bar's track as
+   the sole separator between Nav and content. In dark mode
+   --border-default resolves to mid-grey on black and shows up
+   clearly, so what used to be one visible line in light mode
+   becomes a stacked pair (grey Nav border + dark-green track)
+   in dark mode.
+
+   Hiding the border whenever the bar is on the page restores
+   the light-mode "one separator" reading in dark mode too,
+   without theme-conditional logic. The Nav's backdrop-blur
+   already provides enough visual separation behind the bar;
+   we don't need the border doing the same job.
+
+   Scoped via :has([data-scroll-progress]) so:
+     - The rule is route-agnostic — applies wherever a
+       ScrollProgress is rendered, not hard-coded to /case-
+       studies/basecamp-coffee.
+     - Even if the case-study CSS chunk persists in <head>
+       after SPA-nav to another route, the rule only applies
+       when the bar's wrapper is actually in the DOM. As soon
+       as the user navigates away, [data-scroll-progress]
+       unmounts and the Nav border returns.
+   ────────────────────────────────────────────────────────── */
+body:has([data-scroll-progress]) header {
+  border-bottom-color: transparent;
+}
+
+/* ──────────────────────────────────────────────────────────
    Case-study chrome — Liquid Glass reference (visible).
 
    The original Basecamp Coffee project anchored visually on
