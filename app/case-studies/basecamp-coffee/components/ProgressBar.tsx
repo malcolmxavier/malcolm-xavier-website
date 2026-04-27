@@ -14,7 +14,7 @@ interface ProgressBarProps {
 export function ProgressBar({ fraction }: ProgressBarProps) {
   const pct = Math.max(0, Math.min(1, fraction)) * 100;
   return (
-    <div className="h-[1px] w-full">
+    <div className="h-[2px] w-full">
       <div
         className="h-full transition-[width] duration-300 ease-out"
         style={{

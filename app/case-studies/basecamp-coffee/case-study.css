@@ -11,14 +11,16 @@
    stops to stay legible end-to-end.
    ────────────────────────────────────────────────────────── */
 :root {
-  /* Light mode — light mint to neutral-white sheen to deep
-     green. The white in the middle reads as a bright "shine
-     point" against the otherwise-saturated rail, giving the
-     gradient a sparkle without losing the green identity. */
+  /* Light mode — light mint to a near-white sheen to deep
+     green. Uses --grey-100 (slight off-white #f5f6f5) instead
+     of pure white because pure white blends invisibly into the
+     white page bg, which earlier killed the entire middle of
+     the bar. grey-100 stays just barely distinct from the page
+     so the sheen reads without dissolving. */
   --progress-gradient: linear-gradient(
     90deg,
     var(--success-300) 0%,
-    var(--neutral-white) 60%,
+    var(--grey-100) 60%,
     var(--success-700) 100%
   );
 }
@@ -26,8 +28,8 @@
 [data-theme="dark"] {
   /* Dark mode — same three-stop shape, but the leading edge
      is neon green-default (since green-700 dissolves into
-     black). The neutral-white sheen pops harder against the
-     dark bg, which is the whole point. */
+     black) and the sheen can be pure neutral-white because the
+     black page bg makes white pop. */
   --progress-gradient: linear-gradient(
     90deg,
     var(--success-200) 0%,
