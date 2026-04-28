@@ -17,9 +17,9 @@ You're being invoked because Malcolm just released a new playlist (or made an ex
 
 4. **Commit and push.** On confirmation:
    - `git add lib/feeds/_fixtures/spotify-snapshot.json`
-   - `git commit -m "<message>"` (signed-off by Claude as usual)
+   - `git commit -m "<message>"`
    - `git push origin main`
-   Vercel auto-deploys on push, so the site should reflect the change within a minute.
+   Vercel auto-deploys on push, so the site should reflect the change within a minute. Standard commit voice rules apply (the global memory's `Co-Authored-By` line is added automatically).
 
 5. **Confirm done.** Report the new playlist count and the commit hash.
 

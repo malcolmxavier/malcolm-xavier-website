@@ -56,8 +56,14 @@ const SNAPSHOT_PATH = join(
 );
 const PORT = 3001;
 const BASE = `http://127.0.0.1:${PORT}`;
-const STARTUP_TIMEOUT_MS = 30_000;
-const HEALTH_TIMEOUT_MS = 5_000;
+const STARTUP_TIMEOUT_MS = 90_000; // bumped from 30s — first next dev
+                                    // after a node_modules wipe or
+                                    // cold disk routinely needs 45-60s
+                                    // before responding.
+const HEALTH_TIMEOUT_MS = 15_000;  // bumped from 5s — the health
+                                    // probe does two sequential
+                                    // round-trips to Spotify; on a
+                                    // slow link 5s is too tight.
 const SNAPSHOT_TIMEOUT_MS = 60_000; // enough room for ~50 playlists
                                      // worth of paginated track fetches.
 
@@ -86,11 +92,24 @@ function findExistingNextDevPids() {
     // shows up as `node /path/to/project/node_modules/.bin/next dev`
     // — match on the path-to-binary so we don't accidentally kill
     // a `next dev` for a different project.
+    //
+    // Two matchers:
+    //   1. Literal path under ROOT/node_modules/.bin/next — covers
+    //      the npm-flat install case.
+    //   2. /next dev.*-p\s+3001/ as a fallback — catches symlinked
+    //      or yarn-hoisted layouts where the literal path doesn't
+    //      resolve under ROOT but the port flag still identifies
+    //      the live-mode server we'd be replacing.
     const out = execSync("ps -axo pid,command", { encoding: "utf-8" });
     const needle = `${ROOT}/node_modules/.bin/next`;
+    const portFallback = /next dev\b.*?-p\s+3001/;
     return out
       .split("\n")
-      .filter((line) => line.includes(needle) && line.includes("dev"))
+      .filter(
+        (line) =>
+          (line.includes(needle) && line.includes("dev")) ||
+          portFallback.test(line),
+      )
       .map((line) => parseInt(line.trim().split(/\s+/)[0], 10))
       .filter((n) => Number.isFinite(n));
   } catch {
@@ -117,17 +136,30 @@ async function killPids(pids) {
 }
 
 /**
- * Spawn `npm run dev:online` (which runs `next dev -p 3001` without
- * SPOTIFY_OFFLINE), wait for it to start serving, return the child
- * so the caller can kill it later.
+ * Spawn `next dev -p 3001` directly (not through `npm run`), wait
+ * for it to start serving, return the child so the caller can kill
+ * it later.
+ *
+ * Spawning the binary directly — instead of going through the npm
+ * wrapper — means our child IS the dev server (not npm, with `next`
+ * as a grandchild). SIGTERM later will hit the right process; we
+ * don't need to set detached:true and signal a process group. This
+ * fixes the orphaned-next-dev bug from the 2026-04-28 follow-up
+ * (h-refresh-snapshot-orphaned-dev).
+ *
+ * SPOTIFY_OFFLINE is intentionally NOT set in the spawned env, so
+ * /api/spotify/* hits Spotify directly. The script's own env is
+ * inherited; if the caller has SPOTIFY_OFFLINE set in their shell,
+ * they need to unset it before running the script (rare).
  */
 async function startDevOnline() {
   console.log(
-    "→ Starting dev:online on :3001 (live Spotify mode) ...",
+    "→ Starting next dev on :3001 (live Spotify mode) ...",
   );
+  const nextBin = `${ROOT}/node_modules/.bin/next`;
   // Inherit stdio:'pipe' so we can suppress noise but still surface
   // genuine errors. The server prints `Ready in Xms` on startup.
-  const child = spawn("npm", ["run", "dev:online"], {
+  const child = spawn(nextBin, ["dev", "-p", String(PORT)], {
     cwd: ROOT,
     detached: false,
     stdio: ["ignore", "pipe", "pipe"],
@@ -143,11 +175,14 @@ async function startDevOnline() {
   });
 
   // Poll the server until it responds, with a hard timeout so we
-  // don't hang forever if something's wrong.
+  // don't hang forever if something's wrong. First poll waits
+  // 1s — Turbopack often hasn't finished writing its manifest at
+  // 500ms after spawn, which would 404 the probe and add noise.
   const deadline = Date.now() + STARTUP_TIMEOUT_MS;
+  await sleep(1_000);
   while (Date.now() < deadline) {
     if (await isPortLive()) {
-      console.log("✓ dev:online ready");
+      console.log("✓ next dev ready");
       return child;
     }
     await sleep(500);
@@ -156,9 +191,11 @@ async function startDevOnline() {
   // Timed out — kill the child and dump what it printed so the user
   // can see why it didn't come up.
   child.kill("SIGTERM");
-  console.error("✗ dev:online didn't start within 30s. Server output:");
+  console.error(
+    `✗ next dev didn't start within ${STARTUP_TIMEOUT_MS / 1000}s. Server output:`,
+  );
   console.error(logBuf || "(no output)");
-  throw new Error("dev:online startup timeout");
+  throw new Error("next dev startup timeout");
 }
 
 /** Fetch with a hard timeout — fail fast rather than hang. */
@@ -268,7 +305,11 @@ try {
   const playlistsBucket = health.probes?.find((p) =>
     p.endpoint?.includes("/me/playlists"),
   );
-  if (playlistsBucket && !playlistsBucket.ok) {
+  if (playlistsBucket && playlistsBucket.status === 429) {
+    // Rate-limited — retryAfterSeconds and clearAt are both set
+    // by the health route in this branch. Bail with exit code 2
+    // so callers (or wrapping commands like /release-playlist)
+    // can distinguish this from a generic failure.
     const wait = playlistsBucket.retryAfterSeconds;
     const clearAt = playlistsBucket.clearAt;
     const human =
@@ -278,6 +319,18 @@ try {
         `Clears in ${human} (at ${clearAt}). Try again then.`,
     );
     process.exitCode = 2;
+  } else if (playlistsBucket && !playlistsBucket.ok) {
+    // Not rate-limited but still not healthy — surface the actual
+    // status so the user can act on it (token expiry, 5xx, etc).
+    // Earlier the script printed 'Clears in NaN minutes (at
+    // undefined)' here because retryAfterSeconds doesn't exist
+    // outside the 429 branch.
+    console.error(
+      `✗ Spotify /me/playlists probe failed with status ` +
+        `${playlistsBucket.status ?? "unknown"}. Full health: ` +
+        JSON.stringify(health, null, 2),
+    );
+    process.exitCode = 1;
   } else {
     console.log("✓ Spotify clear");
 
