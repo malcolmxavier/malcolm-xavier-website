@@ -7,9 +7,10 @@
 // banner content flush to the top-left of the viewport for clean
 // screenshot capture.
 //
-// Light mode is forced here regardless of system preference because
-// LinkedIn renders banners on a neutral background and the banner is
-// designed for the light palette.
+// The dark palette is forced here regardless of system preference
+// because the banner is calibrated for black — LinkedIn renders the
+// banner on the visitor's profile chrome, so a dark export keeps the
+// design feeling intentional rather than "page in light mode".
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
@@ -27,15 +28,15 @@ export default function BannerLayout({
   children: React.ReactNode;
 }) {
   return (
-    // Re-pin the semantic design tokens to their light-mode values
-    // for this whole subtree. We can't rely on data-theme="light"
+    // Re-pin the semantic design tokens to their dark-palette values
+    // for this whole subtree. We can't rely on data-theme="dark"
     // because next-themes sets data-theme on <html>, and CSS variable
     // inheritance from the html element wins over a child div with
     // a different data-theme attribute (the rules are scoped to
     // [data-theme="dark"] / :root, not to arbitrary descendants).
     //
-    // Forcing the light palette here means a recruiter viewing the
-    // banner page in dark-mode preference still sees the design as
+    // Forcing the dark palette here means a recruiter viewing the
+    // banner page in light-mode preference still sees the design as
     // calibrated, and screenshot exports are deterministic.
     <div
       style={

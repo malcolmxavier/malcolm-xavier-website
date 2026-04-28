@@ -753,6 +753,25 @@
   --border-action-hover: var(--primary-400);
 }
 
+/* ─── AA-safe action chain on the recruiter cluster ───────── */
+:root:not([data-theme="dark"]) {
+  --text-action: var(--grey-800);
+  --text-action-hover: var(--foundation-black);
+  --icon-action: var(--grey-800);
+  --icon-action-hover: var(--foundation-black);
+  --border-action: var(--grey-800);
+  --border-action-hover: var(--foundation-black);
+}
+
+[data-subbrand] {
+  --text-action: var(--primary-default);
+  --text-action-hover: var(--primary-600);
+  --icon-action: var(--primary-default);
+  --icon-action-hover: var(--primary-600);
+  --border-action: var(--primary-default);
+  --border-action-hover: var(--primary-600);
+}
+
 /* ─── Responsive type scale (h1-h6, p-lg/md/sm/xs) ─────────── */
 :root {
   --h1-font-size: 60px;

@@ -29,7 +29,7 @@ export function ProgressBar({ fraction }: ProgressBarProps) {
       style={{ background: "var(--progress-track)" }}
     >
       <div
-        className="h-full transition-[width] duration-300 ease-out"
+        className="h-full transition-[width] duration-300 ease-out motion-reduce:transition-none"
         style={{
           width: `${pct}%`,
           background: "var(--progress-gradient)",

@@ -432,19 +432,19 @@ function BeatArtifact() {
         <ul className="m-0 pl-5 text-[17px] md:text-[19px] leading-[1.5] text-[var(--text-caption)] list-disc marker:text-[var(--text-caption)]">
           <li>
             Auth/user accounts
-            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--text-disabled)]">
+            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--text-caption)]">
               <li>This would theoretically be integrated into the Basecamp app/site, but it is not MVP scope. The session code is minted once per pageview to prevent gaming within a single visit; cross-session gaming is the gap auth would close.</li>
             </ul>
           </li>
           <li>
             POS/order-flow integration
-            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--text-disabled)]">
+            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--text-caption)]">
               <li>The discount code copy CTA is an MVP shortcut. Ideally, the button would initiate the order flow.</li>
             </ul>
           </li>
           <li>
             Analytics instrumentation
-            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--text-disabled)]">
+            <ul className="mt-1.5 mb-2 pl-5 text-[15px] md:text-[16px] leading-[1.5] list-[circle] marker:text-[var(--text-caption)]">
               <li>Hooks documented, not wired.</li>
             </ul>
           </li>

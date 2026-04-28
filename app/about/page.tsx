@@ -35,7 +35,7 @@ import { Link } from "@/components/primitives/Link";
 import { CONTACT } from "../resume/resume-data";
 
 export const metadata: Metadata = {
-  title: "About — Malcolm Xavier",
+  title: "About",
   description:
     "The long version: senior product manager, sometime artist, full-time New Yorker living in Los Angeles.",
 };

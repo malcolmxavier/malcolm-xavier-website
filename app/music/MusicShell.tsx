@@ -237,8 +237,13 @@ function ToggleButton({
           ? "2px solid var(--primary-default)"
           : "2px solid transparent",
         cursor: "pointer",
+        // Match the design-system focus contract — every interactive
+        // element draws its outline ring in --border-focus rather than
+        // the browser default, so keyboard users get a consistent ring
+        // across the site.
+        outlineColor: "var(--border-focus)",
       }}
-      className="transition-colors hover:[color:var(--text-action-hover)] focus-visible:outline-2 focus-visible:outline-offset-4"
+      className="transition-colors motion-reduce:transition-none hover:[color:var(--text-action-hover)] focus-visible:outline-2 focus-visible:outline-offset-4"
     >
       {children}
     </button>
@@ -332,50 +337,65 @@ function Pagination({
       >
         {visible.map((n) => {
           const isCurrent = n === page;
+          // Shared visual styles. Both the active <span> and the
+          // inactive <button> use the same shape/weight so the
+          // pagination row reads as one cohesive group.
+          const sharedStyle: React.CSSProperties = {
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--p-xs-font-size)",
+            lineHeight: "var(--p-xs-line-height)",
+            letterSpacing: "0.08em",
+            // Current page: sub-brand color (purple on /music) +
+            // underline. Inactive pages: muted, clickable.
+            //
+            // Use --primary-default (the per-sub-brand brand swatch)
+            // directly instead of --text-action; Tailwind 4's @theme
+            // inline breaks the alias-chain cascade for the active
+            // sub-brand color.
+            color: isCurrent
+              ? "var(--primary-default)"
+              : "var(--text-caption)",
+            fontWeight: isCurrent ? 600 : 400,
+            padding: "6px 10px",
+            borderBottom: isCurrent
+              ? "2px solid var(--primary-default)"
+              : "2px solid transparent",
+            minWidth: 32,
+            display: "inline-block",
+            textAlign: "center",
+          };
+          // Render the current page as a non-interactive <span> so it
+          // doesn't appear in the keyboard tab order and screen readers
+          // don't announce "Page 3, button" with a click handler that
+          // does nothing. aria-current="page" tells AT this is the
+          // active page; only the OTHER page numbers stay focusable.
+          if (isCurrent) {
+            return (
+              <li key={n}>
+                <span
+                  aria-current="page"
+                  aria-label={`Page ${n + 1}, current`}
+                  style={sharedStyle}
+                >
+                  {n + 1}
+                </span>
+              </li>
+            );
+          }
           return (
             <li key={n}>
               <button
                 type="button"
-                onClick={() => !isCurrent && onChange(n)}
-                aria-current={isCurrent ? "page" : undefined}
+                onClick={() => onChange(n)}
                 aria-label={`Page ${n + 1}`}
-                // Intentionally NOT setting `disabled` on the current-
-                // page button. Chrome's user-agent styles for
-                // button:disabled override inline `color` and
-                // `border-color`, which made the purple underline
-                // render white. aria-current="page" already tells
-                // assistive tech this is the active page; the click
-                // handler no-ops when isCurrent so the click behavior
-                // matches what `disabled` would have given us.
                 style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "var(--p-xs-font-size)",
-                  lineHeight: "var(--p-xs-line-height)",
-                  letterSpacing: "0.08em",
-                  // Current page: sub-brand color (purple on /music) +
-                  // underline. Inactive pages: muted, clickable.
-                  //
-                  // Use --primary-default (the per-sub-brand brand
-                  // swatch) directly instead of --text-action, which
-                  // is the semantic alias `var(--primary-default)`.
-                  // Tailwind 4's @theme inline interaction breaks the
-                  // alias-chain cascade — `var(--text-action)`
-                  // resolves to the :root grey rather than the
-                  // current sub-brand's color. Direct reference works.
-                  color: isCurrent
-                    ? "var(--primary-default)"
-                    : "var(--text-caption)",
-                  fontWeight: isCurrent ? 600 : 400,
+                  ...sharedStyle,
                   background: "none",
                   border: "none",
-                  padding: "6px 10px",
-                  cursor: isCurrent ? "default" : "pointer",
-                  borderBottom: isCurrent
-                    ? "2px solid var(--primary-default)"
-                    : "2px solid transparent",
-                  minWidth: 32,
+                  cursor: "pointer",
+                  outlineColor: "var(--border-focus)",
                 }}
-                className="transition-colors hover:[color:var(--text-action-hover)] focus-visible:outline-2 focus-visible:outline-offset-4"
+                className="transition-colors motion-reduce:transition-none hover:[color:var(--text-action-hover)] focus-visible:outline-2 focus-visible:outline-offset-4"
               >
                 {n + 1}
               </button>

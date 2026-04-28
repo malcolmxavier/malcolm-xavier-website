@@ -70,7 +70,7 @@ import {
 // SEO metadata. Distinct title so resume pastes well in Slack /
 // iMessage previews and search results.
 export const metadata: Metadata = {
-  title: "Resume — Malcolm Xavier",
+  title: "Resume",
   description:
     "Senior Product Manager · Growth and Data · Media, Publishing, and Streaming · AI-Native. Currently interviewing.",
 };

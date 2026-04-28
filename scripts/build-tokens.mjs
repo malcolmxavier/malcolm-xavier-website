@@ -229,6 +229,41 @@ function emitMapped(setName, selector) {
 emitMapped("Mapped/light", ":root");
 emitMapped("Mapped/dark", '[data-theme="dark"]');
 
+// ─── AA-safe override for the recruiter cluster's action chain ─────
+// Recruiter pages have --primary-default = --grey-500 (#cdd1cd). Any
+// text token chained off --primary-default (--text-action, footer
+// links, MusicShell active states) renders at ~1.5:1 on white, far
+// below WCAG 4.5:1. We override the action chain in light mode only —
+// dark recruiter (#cdd1cd on #000 ≈ 11:1) already passes — and let
+// sub-brand pages re-thread through their own --primary-default below
+// so accent colors stay sub-brand-correct.
+//
+// Specificity: `:root:not([data-theme="dark"])` is (0,1,1), which
+// beats the Mapped/light :root rule (0,1,0) emitted above.
+out.push("/* ─── AA-safe action chain on the recruiter cluster ───────── */");
+out.push(":root:not([data-theme=\"dark\"]) {");
+out.push("  --text-action: var(--grey-800);");
+out.push("  --text-action-hover: var(--foundation-black);");
+out.push("  --icon-action: var(--grey-800);");
+out.push("  --icon-action-hover: var(--foundation-black);");
+out.push("  --border-action: var(--grey-800);");
+out.push("  --border-action-hover: var(--foundation-black);");
+out.push("}");
+out.push("");
+// Sub-brand pages re-bind the action chain to their own --primary-default
+// (which the per-sub-brand alias blocks overwrite to a saturated brand
+// color). Without this, the literal grey-800 set above would inherit
+// into sub-brand subtrees and kill accent links.
+out.push("[data-subbrand] {");
+out.push("  --text-action: var(--primary-default);");
+out.push("  --text-action-hover: var(--primary-600);");
+out.push("  --icon-action: var(--primary-default);");
+out.push("  --icon-action-hover: var(--primary-600);");
+out.push("  --border-action: var(--primary-default);");
+out.push("  --border-action-hover: var(--primary-600);");
+out.push("}");
+out.push("");
+
 // ─── Responsive type scale ─────────────────────────────────────────
 out.push("/* ─── Responsive type scale (h1-h6, p-lg/md/sm/xs) ─────────── */");
 // Desktop is the default at :root; tablet & mobile override via @media.

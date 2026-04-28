@@ -39,7 +39,7 @@ import { IconEmail, IconLinkedIn } from "@/components/icons";
 import { CONTACT } from "../resume/resume-data";
 
 export const metadata: Metadata = {
-  title: "Contact — Malcolm Xavier",
+  title: "Contact",
   description:
     "Book a 30-minute product chat, send an email, or find Malcolm elsewhere on the internet.",
 };

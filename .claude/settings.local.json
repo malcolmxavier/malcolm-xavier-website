@@ -138,7 +138,13 @@
       "Read(//Users/mal/.claude/**)",
       "Bash(open /Users/mal/Desktop/malcolm-xavier-website/_design/reviews/full-review-2026-04-27.html)",
       "Bash(PORT=3201 npm run start)",
-      "Bash(kill 84563)"
+      "Bash(kill 84563)",
+      "Bash(pkill -f \"next start\" sleep 1 npx tsc --noEmit)",
+      "Bash(pkill -9 -f \"next-server\")",
+      "Bash(pkill -9 -f \"rm -rf\")",
+      "Bash(pkill -f \"next start\\\\|next dev\\\\|next-server\" sleep 2 ps aux)",
+      "Bash(kill -9 98284 sleep 1 lsof -i :3201)",
+      "Bash(echo \"started bg pid $!\")"
     ]
   }
 }

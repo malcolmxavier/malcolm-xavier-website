@@ -71,5 +71,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.7,
     },
+    {
+      url: `${SITE_URL}/case-studies/building-this-site`,
+      lastModified,
+      // Meta case study about shipping the portfolio with Claude
+      // Code. Updates as the portfolio itself does, so monthly
+      // freshness reads more honestly than "yearly".
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
   ];
 }

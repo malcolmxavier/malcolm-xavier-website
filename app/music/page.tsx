@@ -48,7 +48,7 @@ import { MusicShell } from "./MusicShell";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Music — Malcolm Xavier",
+  title: "Music",
   description:
     "Public playlists Malcolm builds and maintains on Spotify, sorted by last edit.",
 };
