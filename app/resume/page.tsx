@@ -488,7 +488,7 @@ export default function ResumePage() {
         bordered
       >
         <Stack gap="700">
-          <Kicker>01 · Work experience</Kicker>
+          <Kicker as="h2">01 · Work experience</Kicker>
           {ROLES.map((role) => (
             <RoleBlock key={`${role.company}-${role.dates}`} role={role} />
           ))}
@@ -503,7 +503,7 @@ export default function ResumePage() {
         bordered
       >
         <Stack gap="700">
-          <Kicker>02 · Education</Kicker>
+          <Kicker as="h2">02 · Education</Kicker>
           {EDUCATION.map((entry) => (
             <EducationBlock key={entry.institution} entry={entry} />
           ))}
@@ -518,7 +518,7 @@ export default function ResumePage() {
         bordered
       >
         <Stack gap="600">
-          <Kicker>03 · Case studies</Kicker>
+          <Kicker as="h2">03 · Case studies</Kicker>
           <Grid cols={CASE_STUDIES.length >= 2 ? 2 : 1} gap="600">
             {CASE_STUDIES.map((study) => (
               <CaseStudyCard key={study.slug} study={study} />

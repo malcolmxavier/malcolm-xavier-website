@@ -580,19 +580,27 @@ const FACETS: { name: string; values: string[] }[] = [
 ];
 
 function FacetMatrix() {
+  // <figure>/<figcaption> programmatically associates the kicker
+  // ("Facet Mapping") with the <dl> below it, so screen readers
+  // navigating by figure or list announce the title alongside the
+  // data. Previously the kicker was a plain <p>, which AT couldn't
+  // tie to the matrix.
   return (
-    <div className="my-8 md:my-10 rounded-[22px] border border-[var(--border-default)] overflow-hidden">
-      <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] flex items-baseline justify-between gap-4">
-        <p
-          className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+    <figure
+      className="my-8 md:my-10 rounded-[22px] border border-[var(--border-default)] overflow-hidden"
+      style={{ margin: 0, padding: 0 }}
+    >
+      <figcaption className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] flex items-baseline justify-between gap-4">
+        <span
+          className="text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
           style={{ fontFamily: 'var(--font-mono), monospace' }}
         >
           Facet Mapping
-        </p>
-        <p className="m-0 text-[11px] md:text-[12px] text-[var(--text-disabled)]">
+        </span>
+        <span className="text-[11px] md:text-[12px] text-[var(--text-disabled)]">
           7 dimensions · 16 drinks · 16 archetypes
-        </p>
-      </div>
+        </span>
+      </figcaption>
       <dl className="m-0">
         {FACETS.map((facet) => (
           <div
@@ -625,7 +633,7 @@ function FacetMatrix() {
           against the resulting facet state.
         </p>
       </div>
-    </div>
+    </figure>
   );
 }
 

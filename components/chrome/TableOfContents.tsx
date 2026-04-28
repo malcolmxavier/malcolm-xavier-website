@@ -117,7 +117,7 @@ export function TableOfContents({
                 onClick={(e) => handleClick(e, item.href)}
                 className="toc-item"
                 data-active={isActive ? "true" : undefined}
-                aria-current={isActive ? "true" : undefined}
+                aria-current={isActive ? "location" : undefined}
               >
                 {item.prefix ? (
                   <span className="toc-prefix">{item.prefix}</span>

@@ -93,6 +93,14 @@ export function MusicShell({ playlists, collections }: Props) {
   // so they don't have to manually scroll up after clicking "Next".
   const gridAnchorRef = useRef<HTMLDivElement>(null);
 
+  // Polite live-region announcement on page changes. Without this,
+  // screen-reader users click Next/Prev and hear nothing — the grid
+  // re-renders silently and focus stays on the pagination button. We
+  // keep focus where it is (so keyboard power users can keep paging
+  // without getting bounced into the grid) but post a short status
+  // string for AT, satisfying SC 4.1.3.
+  const [pageAnnouncement, setPageAnnouncement] = useState("");
+
   // Listen for breakpoint crossings and update page size on the fly.
   // matchMedia is the right tool here (vs. a resize listener) because
   // we only care about a single threshold, not every pixel of width.
@@ -121,6 +129,13 @@ export function MusicShell({ playlists, collections }: Props) {
 
   const goToPage = (next: number) => {
     setPage(next);
+    // Build the live-region message before the rAF so AT picks it
+    // up as soon as React commits the next render.
+    const firstItem = next * pageSize + 1;
+    const lastItem = Math.min(playlists.length, (next + 1) * pageSize);
+    setPageAnnouncement(
+      `Page ${next + 1} of ${totalPages}, showing playlists ${firstItem} through ${lastItem}.`,
+    );
     // Smooth-scroll the grid anchor into view at the top of the
     // viewport. Use rAF so the scroll happens after the new page
     // has rendered and laid out.
@@ -153,6 +168,20 @@ export function MusicShell({ playlists, collections }: Props) {
       {/* Anchor the page scrolls back to on pagination / view change. */}
       <div ref={gridAnchorRef} aria-hidden style={{ scrollMarginTop: 24 }} />
 
+      {/* Polite status region — announces page changes to screen
+          readers without grabbing focus. aria-atomic forces the
+          full string to be read on every update so successive
+          page changes ("Page 2 of 4 …" → "Page 3 of 4 …") are
+          announced cleanly. */}
+      <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+        className="sr-only"
+      >
+        {pageAnnouncement}
+      </div>
+
       {viewMode === "all" ? (
         <Stack gap="800">
           <PlaylistGrid playlists={visiblePlaylists} />
@@ -183,12 +212,17 @@ function ViewToggle({
   viewMode: ViewMode;
   onChange: (next: ViewMode) => void;
 }) {
+  // <fieldset>/<legend> is the conventional grouping pattern for a
+  // set of related toggle controls — screen readers announce the
+  // legend as the group's name when focus enters any button. We
+  // strip the default <fieldset> chrome (border, padding) so the
+  // visual layout reads as a flat row of buttons.
   return (
-    <div
-      role="group"
-      aria-label="Music view"
+    <fieldset
       className="flex items-center gap-6"
+      style={{ border: 0, padding: 0, margin: 0 }}
     >
+      <legend className="sr-only">Music view</legend>
       <ToggleButton
         active={viewMode === "all"}
         onClick={() => onChange("all")}
@@ -201,7 +235,7 @@ function ViewToggle({
       >
         Collections
       </ToggleButton>
-    </div>
+    </fieldset>
   );
 }
 
