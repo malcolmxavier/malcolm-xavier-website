@@ -50,7 +50,9 @@ const PREVIEW_TRACK_COUNT = 4;
 // the same record back-to-back would render both as separate
 // mosaic tiles. Low probability for a curated collection; if it
 // ever matters, add a secondary dedup on album.name.
-function pickMosaicCovers(playlist: EnrichedPlaylist) {
+//
+// Exported for tests; not used elsewhere in the app.
+export function pickMosaicCovers(playlist: EnrichedPlaylist) {
   const seen = new Set<string>();
   const out: { url: string; albumName: string }[] = [];
   for (const { track } of playlist.tracks) {

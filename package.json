@@ -12,6 +12,8 @@
     "build:online": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "tokens:build": "node scripts/build-tokens.mjs",
     "resume:docx": "node scripts/build-resume-docx.mjs",
     "resume:pdf": "npm run resume:docx && node scripts/build-resume-pdf.mjs",
@@ -41,7 +43,8 @@
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.5"
   },
   "overrides": {
     "postcss": "^8.5.10"

@@ -732,6 +732,22 @@ const RATE_LIMIT_FAST_FAIL_SECONDS = 60;
 const cooldowns = new Map<string, number>();
 
 /**
+ * Test-only handle on the cooldown map. Lets the test suite
+ * inspect, set, and clear cooldown state without going through
+ * the full spotifyFetch path (which would require mocking
+ * global fetch + Authorization headers + the semaphore).
+ *
+ * Not part of the public API — do NOT import from app code.
+ */
+export const __testCooldowns = {
+  get: (family: string) => cooldowns.get(family),
+  set: (family: string, until: number) => cooldowns.set(family, until),
+  delete: (family: string) => cooldowns.delete(family),
+  clear: () => cooldowns.clear(),
+  size: () => cooldowns.size,
+};
+
+/**
  * Derive an endpoint family from a Spotify URL. Conservative
  * grouping: paths with a literal segment as their first path
  * component get folded together (`/me/playlists` regardless of
@@ -740,8 +756,10 @@ const cooldowns = new Map<string, number>();
  * group under `/playlists/:id`). Approximates Spotify's actual
  * bucket boundaries — perfect mapping isn't documented, this is a
  * useful heuristic.
+ *
+ * Exported for tests; not part of the module's public API.
  */
-function endpointFamily(url: string): string {
+export function endpointFamily(url: string): string {
   const path = new URL(url).pathname.replace(/^\/v1/, "");
   const segs = path.split("/").filter(Boolean);
   // Replace any segment that looks like a Spotify ID (22-char
