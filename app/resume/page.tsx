@@ -398,7 +398,10 @@ export default function ResumePage() {
             // "list of 5 items" — the contact strip is, semantically,
             // a list of contact channels. Bumped row leading to 1.5
             // and added vertical padding so each tappable <li> clears
-            // the WCAG 2.2 SC 2.5.8 24×24 minimum target.
+            // the WCAG 2.2 SC 2.5.8 24×24 minimum target. role="list"
+            // because Safari iOS strips the implicit role under
+            // list-style: none.
+            role="list"
             className="flex flex-wrap items-center gap-x-5 gap-y-2"
             style={{
               fontFamily: "var(--font-mono)",

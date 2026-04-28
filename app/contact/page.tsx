@@ -164,6 +164,7 @@ export default function ContactPage() {
                 </Stack>
 
                 <ul
+                  role="list"
                   className="space-y-3"
                   style={{ listStyle: "none", padding: 0, margin: 0 }}
                 >
@@ -202,6 +203,7 @@ export default function ContactPage() {
                   <Headline level={2}>The cultural side.</Headline>
                 </Stack>
                 <ul
+                  role="list"
                   className="flex flex-wrap gap-x-6 gap-y-2"
                   style={{
                     listStyle: "none",

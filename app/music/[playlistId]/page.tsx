@@ -174,6 +174,9 @@ export default async function PlaylistDetailPage(
 
             <ol
               // Numbered list in source order — the playlist's own order.
+              // role="list" because Safari iOS strips the implicit role
+              // when list-style: none is applied.
+              role="list"
               className="space-y-3"
               style={{ listStyle: "none", padding: 0, margin: 0 }}
             >

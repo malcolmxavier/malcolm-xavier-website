@@ -299,6 +299,9 @@ function PlaylistGrid({ playlists }: { playlists: EnrichedPlaylist[] }) {
     <ul
       // Same uniform-card grid used in the original page. auto-rows-fr
       // + uniform card heights = every card identical size per row.
+      // role="list" because Safari iOS strips the implicit role when
+      // list-style: none is applied.
+      role="list"
       className={[
         "grid auto-rows-fr gap-x-8 gap-y-12",
         "grid-cols-1",
@@ -364,6 +367,9 @@ function Pagination({
           page renders as a styled non-interactive <span aria-
           current="page"> so it stays out of the tab order. */}
       <ol
+        // role="list" because Safari iOS strips the implicit role
+        // when list-style: none is applied.
+        role="list"
         className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap"
         style={{ listStyle: "none", padding: 0, margin: 0 }}
       >

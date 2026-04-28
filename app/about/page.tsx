@@ -177,6 +177,7 @@ export default function AboutPage() {
                 <Stack gap="400" as="nav" aria-label="What I'm into">
                   <Kicker>What I&rsquo;m into</Kicker>
                   <ul
+                    role="list"
                     className="space-y-3"
                     style={{ listStyle: "none", padding: 0, margin: 0 }}
                   >

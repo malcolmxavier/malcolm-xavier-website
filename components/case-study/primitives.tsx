@@ -248,7 +248,11 @@ export function Pullquote({
         className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
         style={{ fontFamily: "var(--font-mono)" }}
       >
-        — {attribution}
+        {/* Em-dash is a typographic convention, not meaningful
+            content. aria-hidden so screen readers don't announce
+            "dash, attribution-text" on every pull quote. */}
+        <span aria-hidden="true">— </span>
+        {attribution}
       </figcaption>
     </figure>
   );

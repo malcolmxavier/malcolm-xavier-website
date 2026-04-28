@@ -108,8 +108,27 @@ export default async function MusicPage() {
         <Section padding="md" bordered>
           {/* MusicShell calls useSearchParams() to drive view + page state.
               Next.js requires that hook to live inside a Suspense boundary
-              so the page can stream rather than bail out of static rendering. */}
-          <Suspense fallback={null}>
+              so the page can stream rather than bail out of static rendering.
+              Loading caption gives users with deferred JS something to read
+              instead of an empty section below the hero. */}
+          <Suspense
+            fallback={
+              <p
+                role="status"
+                aria-live="polite"
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "var(--p-xs-font-size)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  color: "var(--text-caption)",
+                  margin: 0,
+                }}
+              >
+                Loading playlists…
+              </p>
+            }
+          >
             <MusicShell playlists={playlists} collections={COLLECTIONS} />
           </Suspense>
         </Section>

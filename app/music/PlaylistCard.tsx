@@ -72,10 +72,16 @@ export function PlaylistCard({ playlist }: { playlist: EnrichedPlaylist }) {
               className="rounded-md object-cover"
             />
           ) : (
+            // No-cover fallback. role="img" + aria-label gives the
+            // tile an explicit AT description; the playlist name in
+            // the <Headline> below carries the identity, so this is
+            // a quiet "missing artwork" cue rather than a duplicate
+            // label.
             <div
+              role="img"
+              aria-label="No cover art available"
               className="rounded-md w-full h-full"
               style={{ background: "var(--surface-muted)" }}
-              aria-hidden
             />
           )}
         </NextLink>
@@ -190,6 +196,9 @@ export function PlaylistCard({ playlist }: { playlist: EnrichedPlaylist }) {
             // mt-auto pins the preview to the bottom edge of the
             // card. With reserved title/description slots above,
             // every row of cards aligns track previews at the same Y.
+            // role="list" because Safari iOS strips the implicit list
+            // role when list-style: none is applied.
+            role="list"
             className="space-y-2 mt-auto"
             style={{ listStyle: "none", padding: 0, margin: 0 }}
           >
