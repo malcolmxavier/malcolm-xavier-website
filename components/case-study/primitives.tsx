@@ -19,6 +19,12 @@
 // or remove the class from a card's wrapper for a flat look. The
 // class is no-op when undefined — the cards still render as
 // rounded bordered surfaces.
+//
+// Radius tier: every case-study card surface uses `rounded-[22px]`
+// (a feature-card radius distinct from the utility 8px on the site
+// Card primitive and the 6px on inline Code chips). One tier per
+// card category — don't introduce a fourth in this file without a
+// matching token.
 // ─────────────────────────────────────────────────────────────────
 
 import type { ReactNode } from "react";
@@ -450,7 +456,7 @@ export function HarnessFeature({
   children: ReactNode;
 }) {
   return (
-    <div className="case-glass flex flex-col gap-2 p-5 rounded-xl border border-[var(--border-default)]">
+    <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
       <h3 className="m-0 text-[16px] font-semibold leading-[1.2] text-[var(--text-heading)]">
         {name}
       </h3>
@@ -561,7 +567,7 @@ export function MetricsTable({ rows }: { rows: MetricRow[] }) {
         {rows.map((row) => (
           <div
             key={row.metric}
-            className="px-4 py-3.5 rounded-xl border border-[var(--border-default)]"
+            className="px-4 py-3.5 rounded-[22px] border border-[var(--border-default)]"
           >
             <p className="m-0 mb-2 text-[15px] font-medium text-[var(--text-heading)]">
               {row.metric}

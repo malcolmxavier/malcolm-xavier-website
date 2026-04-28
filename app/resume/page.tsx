@@ -17,8 +17,8 @@
 //        [Download PDF]  [View LinkedIn]
 //
 //   2. Work experience  Each role as <article>:
-//        Company — Location           (anchor headline)
-//        Role title — Dates           (sub-line, semibold + muted)
+//        Company · Location           (anchor headline)
+//        Role title · Dates           (sub-line, semibold + muted)
 //        Italic context
 //        ● bullets
 //
@@ -118,7 +118,7 @@ function RoleBlock({ role }: { role: ResumeRole }) {
                 fontStyle: "italic",
               }}
             >
-              {" — "}
+              {" · "}
               {role.location}
             </span>
           ) : null}
@@ -142,7 +142,7 @@ function RoleBlock({ role }: { role: ResumeRole }) {
               color: "var(--text-caption)",
             }}
           >
-            {" — "}
+            {" · "}
             {role.dates}
           </span>
         </p>
@@ -213,7 +213,7 @@ function EducationBlock({ entry }: { entry: ResumeEducation }) {
               fontStyle: "italic",
             }}
           >
-            {" — "}
+            {" · "}
             {entry.location}
           </span>
         </Headline>
@@ -230,12 +230,12 @@ function EducationBlock({ entry }: { entry: ResumeEducation }) {
           {entry.credential}
           {entry.honors ? (
             <span style={{ fontWeight: 400, color: "var(--text-caption)" }}>
-              {" — "}
+              {" · "}
               {entry.honors}
             </span>
           ) : null}
           <span style={{ fontWeight: 400, color: "var(--text-caption)" }}>
-            {" — "}
+            {" · "}
             {entry.dates}
           </span>
         </p>
@@ -536,11 +536,11 @@ export default function ResumePage() {
           <Headline level={2}>Let&apos;s talk.</Headline>
           <Body>
             If you&apos;re hiring for a Senior PM in media, publishing, or
-            streaming — or you&apos;d just like to compare notes — pick a
-            slot for a{" "}
+            streaming—or you&apos;d just like to compare notes—pick a slot
+            for a{" "}
             <Link href={CONTACT.calendly}>30-minute product chat</Link>,
-            send an <Link href={mailHref}>email</Link>, or reach out
-            on <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>.
+            send an <Link href={mailHref}>email</Link>, or reach out on{" "}
+            <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>.
           </Body>
         </Stack>
       </Section>

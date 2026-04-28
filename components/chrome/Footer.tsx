@@ -61,6 +61,11 @@ export function Footer() {
               style={{
                 fontFamily: "var(--font-primary)",
                 fontSize: "var(--p-lg-font-size)",
+                // Match the Nav wordmark's tight leading so the same
+                // mark reads with the same vertical weight in both
+                // chrome surfaces.
+                lineHeight: "1",
+                margin: 0,
                 color: "var(--text-heading)",
               }}
             >

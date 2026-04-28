@@ -144,7 +144,13 @@
       "Bash(pkill -9 -f \"rm -rf\")",
       "Bash(pkill -f \"next start\\\\|next dev\\\\|next-server\" sleep 2 ps aux)",
       "Bash(kill -9 98284 sleep 1 lsof -i :3201)",
-      "Bash(echo \"started bg pid $!\")"
+      "Bash(echo \"started bg pid $!\")",
+      "Bash(pkill -f \"next start\\\\|next-server\\\\|next dev\" sleep 2 lsof -i :3000 -i :3201)",
+      "Bash(kill -9 4382 sleep 1 lsof -i :3000 -i :3201)",
+      "Bash(echo \"started pid $!\")",
+      "Bash(pkill -f \"next start\\\\|next-server\")",
+      "Bash(pkill -f \"next start\\\\|next-server\" sleep 2 ls -la /Users/mal/Desktop/malcolm-xavier-website/.next/server/app)",
+      "Bash(kill -9 16117)"
     ]
   }
 }

@@ -137,7 +137,13 @@ export default function RootLayout({
               visible only when focused, anchored to the main landmark. */}
           <a
             href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-3 focus:py-2 focus:rounded-md focus:border focus:outline-2"
+            // No focus border — only the focus outline. The earlier
+            // `focus:border` was painted in --border-default
+            // (--grey-50, near-invisible on white), giving low-vision
+            // users two competing focus cues: a faint inner border and
+            // the proper outline ring. The outline alone, in
+            // --border-focus, is the canonical site-wide signal.
+            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:px-3 focus:py-2 focus:rounded-md focus:outline-2 focus:outline-offset-2"
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: "var(--p-xs-font-size)",
@@ -145,7 +151,6 @@ export default function RootLayout({
               letterSpacing: "0.08em",
               background: "var(--surface-page)",
               color: "var(--text-body)",
-              borderColor: "var(--border-default)",
               outlineColor: "var(--border-focus)",
             }}
           >
