@@ -86,37 +86,52 @@ export default function Home() {
               past it. */}
           <Kicker accent>{STATUS}</Kicker>
 
-          {/* Two-column on lg+ via CSS grid with items-end (bottom
-              alignment). Right column has a fixed width matched
-              roughly to the text content's height — picking 22rem
-              keeps the image top close to the name top while the
-              square's bottom edge sits in line with the button
-              row. Adjust the column width up/down to retune the
-              vertical alignment if text-content height shifts.
+          {/* Two-column on lg+ via CSS grid. Right column is a 22rem
+              square portrait; left column carries Display + Lede +
+              CTAs.
 
-              DOM order is Name → Headshot → Lede + CTAs, which is
-              the order it reads on mobile/tablet (single-column
-              flow). On lg+, explicit grid placement on the
-              headshot (col 2, spans both rows) re-anchors it to
-              the right while Display takes row 1 col 1 and the
-              Lede + CTAs Stack takes row 2 col 1. lg:gap-y-5
-              preserves the visual spacing the previous nested
-              Stack provided between Display and the Lede. */}
-          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-x-12 lg:gap-y-5 lg:items-end">
+              Geometry: top-anchored. Display (row 1 col 1) and the
+              headshot (col 2, rows 1+2 via lg:row-span-2) share a
+              top edge. Lede + CTAs flow in row 2 col 1, naturally
+              extending below the headshot's bottom when the copy
+              is taller than 22rem. Column 2 has whitespace below
+              the portrait — that's intentional editorial breathing
+              space, not a missed alignment.
+
+              An earlier version used lg:items-end to bottom-align
+              the headshot with the CTA row, but the left column is
+              ~28rem (Display + 3 Lede + CTA row + gaps) and the
+              headshot is 22rem, so items-end pushed the headshot's
+              top ~6rem below 'Malcolm Xavier'. The 2026-04-28
+              follow-up audit flagged this; top-anchoring is the
+              honest fix.
+
+              DOM order — Name → Headshot → Lede + CTAs — reads
+              correctly on mobile/tablet (single-column flow) and
+              the lg+ explicit grid placement re-anchors the
+              portrait to col 2. lg:gap-y-5 (20px = --scale-500)
+              keeps the rhythm consistent with other Stacks. */}
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-x-12 lg:gap-y-5 lg:items-start">
             <Display>Malcolm Xavier</Display>
 
             {/* Square headshot. 22rem wide on desktop (matches the
                 grid column), 16rem max on mobile. On mobile/tablet
                 this sits BETWEEN the name and the lede so the
                 portrait reads as a hero element introducing the
-                copy below; on lg+ it pulls back into column 2 and
-                anchors bottom-aligned with the CTA row.
+                copy below.
+
+                my-5 (20px) matches --scale-500, the same rhythm
+                the surrounding Stack uses for vertical gaps; the
+                portrait's vertical margin handles the mobile
+                spacing (no margin-bottom on Display) so the
+                spacing is consistent on both sides without the
+                Display needing its own typography-level rule.
                 aspect-ratio 1/1 + width-driven layout means the
-                height derives cleanly without the
-                position-absolute Image fill collapsing the
-                parent's intrinsic width. */}
+                height derives cleanly without position-absolute
+                Image fill collapsing the parent's intrinsic
+                width. */}
             <div
-              className="relative my-6 mx-auto w-full max-w-[16rem] overflow-hidden rounded-md border lg:my-0 lg:max-w-none lg:row-start-1 lg:row-span-2 lg:col-start-2"
+              className="relative my-5 mx-auto w-full max-w-[16rem] overflow-hidden rounded-md border lg:my-0 lg:max-w-none lg:row-start-1 lg:row-span-2 lg:col-start-2"
               style={{
                 aspectRatio: "1 / 1",
                 borderColor: "var(--border-default)",
