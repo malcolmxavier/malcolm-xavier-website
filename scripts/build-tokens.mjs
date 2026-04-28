@@ -15,6 +15,7 @@
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { z } from "zod";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
@@ -25,8 +26,25 @@ const OUTPUT = join(ROOT, "app", "globals.css");
 // 1. Load all token sets in metadata-declared order
 // ─────────────────────────────────────────────────────────────────────
 
-const metadata = JSON.parse(
-  readFileSync(join(TOKENS_DIR, "$metadata.json"), "utf-8"),
+// Schema for the Tokens Studio multi-file export's metadata file.
+// We only validate the shape we depend on — adding new metadata
+// fields upstream won't fail the build.
+const MetadataSchema = z.object({
+  tokenSetOrder: z.array(z.string()).min(1),
+});
+
+// A single token leaf has $value (primitive or {ref}) and $type. We
+// don't enforce $type per leaf (it varies by token kind), but we do
+// require $value to exist if $value is the discriminator.
+const TokenLeafSchema = z.object({
+  $value: z.union([z.string(), z.number()]),
+  $type: z.string().optional(),
+});
+
+// Validate metadata up-front — fail loud if the export is malformed
+// rather than silently emitting garbage CSS that breaks at runtime.
+const metadata = MetadataSchema.parse(
+  JSON.parse(readFileSync(join(TOKENS_DIR, "$metadata.json"), "utf-8")),
 );
 const setOrder = metadata.tokenSetOrder;
 
@@ -68,6 +86,11 @@ function findInSet(set, refPath) {
   return cur && "$value" in cur ? cur : null;
 }
 
+// Track unresolved references so the script can fail at the end
+// rather than silently emitting broken `var(...)` chains. Same key
+// appearing multiple times only counts once.
+const unresolvedRefs = new Set();
+
 // Resolve a $value across a chain of token sets (most-specific last).
 // Returns the final primitive (string or number).
 function resolveValue(value, scopeChain) {
@@ -77,7 +100,7 @@ function resolveValue(value, scopeChain) {
     const found = findInSet(sets[scopeChain[i]], refPath);
     if (found) return resolveValue(found.$value, scopeChain);
   }
-  console.warn(`  ⚠ unresolved: ${value} in [${scopeChain.join(", ")}]`);
+  unresolvedRefs.add(`${value} in [${scopeChain.join(", ")}]`);
   return value;
 }
 
@@ -337,6 +360,19 @@ out.push("  color: var(--text-body);");
 out.push("  min-height: 100vh;");
 out.push("}");
 out.push("");
+
+// Bail before writing if any token references couldn't be resolved.
+// A broken `{ref}` would emit as a literal "var(--..)" pointing at a
+// non-existent custom property, which renders as `transparent` /
+// `currentColor` and silently degrades the design. Better to fail
+// the build than to ship broken styles.
+if (unresolvedRefs.size > 0) {
+  console.error(
+    `\n✗ build-tokens: ${unresolvedRefs.size} unresolved reference(s):`,
+  );
+  for (const ref of unresolvedRefs) console.error(`  • ${ref}`);
+  process.exit(1);
+}
 
 writeFileSync(OUTPUT, out.join("\n"));
 console.log(`✓ Wrote ${OUTPUT} (${out.length} lines)`);

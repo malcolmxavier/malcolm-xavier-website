@@ -396,35 +396,37 @@ export default function ResumePage() {
           <ul
             // <ul> instead of <div> so screen readers announce
             // "list of 5 items" — the contact strip is, semantically,
-            // a list of contact channels.
+            // a list of contact channels. Bumped row leading to 1.5
+            // and added vertical padding so each tappable <li> clears
+            // the WCAG 2.2 SC 2.5.8 24×24 minimum target.
             className="flex flex-wrap items-center gap-x-5 gap-y-2"
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: "var(--p-xs-font-size)",
-              lineHeight: "var(--p-xs-line-height)",
+              lineHeight: "1.5",
               color: "var(--text-caption)",
               listStyle: "none",
               padding: 0,
               margin: 0,
             }}
           >
-            <li className="inline-flex items-center gap-1.5">
+            <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
               <IconPhone />
               <Link href={telHref}>{CONTACT.phone}</Link>
             </li>
-            <li className="inline-flex items-center gap-1.5">
+            <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
               <IconEmail />
               <Link href={mailHref}>{CONTACT.email}</Link>
             </li>
-            <li className="inline-flex items-center gap-1.5">
+            <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
               <IconLinkedIn />
               <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>
             </li>
-            <li className="inline-flex items-center gap-1.5">
+            <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
               <IconGitHub />
               <Link href={CONTACT.github}>GitHub ↗</Link>
             </li>
-            <li className="inline-flex items-center gap-1.5">
+            <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
               <IconLocation />
               <span>{CONTACT.location}</span>
             </li>

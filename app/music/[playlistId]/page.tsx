@@ -9,6 +9,7 @@
 // someone constructing a URL to embed a third party's playlist.
 // ─────────────────────────────────────────────────────────────────
 
+import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -37,18 +38,30 @@ export const revalidate = 3600;
 
 const SPOTIFY_USER_ID = process.env.SPOTIFY_USER_ID ?? "malcolmxevans";
 
+// React.cache memoizes the call within a single render pass, so
+// generateMetadata + the page component share one Spotify fetch
+// rather than hitting the rate-limited /me/playlists bucket twice
+// per ISR refresh. The cache scope is per request, so unrelated
+// requests still fetch fresh data on each revalidation.
+const getCachedPlaylist = cache(
+  (userId: string, playlistId: string) =>
+    getOwnedPlaylistById(userId, playlistId),
+);
+
 type Params = { playlistId: string };
 
 export async function generateMetadata(
   { params }: { params: Promise<Params> },
 ): Promise<Metadata> {
   const { playlistId } = await params;
-  const playlist = await getOwnedPlaylistById(SPOTIFY_USER_ID, playlistId);
+  const playlist = await getCachedPlaylist(SPOTIFY_USER_ID, playlistId);
+  // The root layout's title.template appends " — Malcolm Xavier"
+  // automatically, so per-page titles omit it to avoid doubling.
   if (!playlist) {
-    return { title: "Playlist not found — Malcolm Xavier" };
+    return { title: "Playlist not found" };
   }
   return {
-    title: `${playlist.name} — Music — Malcolm Xavier`,
+    title: `${playlist.name} — Music`,
     description:
       decodeSpotifyDescription(playlist.description) ||
       `Public Spotify playlist by Malcolm Xavier — ${playlist.tracks.length} tracks.`,
@@ -59,7 +72,7 @@ export default async function PlaylistDetailPage(
   { params }: { params: Promise<Params> },
 ) {
   const { playlistId } = await params;
-  const playlist = await getOwnedPlaylistById(SPOTIFY_USER_ID, playlistId);
+  const playlist = await getCachedPlaylist(SPOTIFY_USER_ID, playlistId);
   if (!playlist) notFound();
 
   const cover = pickImage(playlist.images, 640);
@@ -94,7 +107,7 @@ export default async function PlaylistDetailPage(
               {cover ? (
                 <Image
                   src={cover.url}
-                  alt=""
+                  alt={`Cover art for the playlist ${playlist.name}`}
                   fill
                   sizes="(min-width: 768px) 18rem, 90vw"
                   className="object-cover"

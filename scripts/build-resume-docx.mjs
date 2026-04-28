@@ -45,6 +45,73 @@ import {
 } from "docx";
 import { writeFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
+import { z } from "zod";
+
+// ─── Schemas ──────────────────────────────────────────────────────
+// The .docx is launch-critical — recruiters open it as the
+// downloadable resume. A bullet array with an unexpected segment
+// shape would silently produce a malformed paragraph (or crash docx
+// mid-render). We zod-parse the source data up-front so the script
+// fails loud with a clear message instead of shipping garbage.
+
+const SegmentSchema = z.object({
+  text: z.string(),
+  bold: z.boolean().optional(),
+  url: z.string().url().optional(),
+});
+
+// A bullet is either a plain string OR an array of segments.
+const BulletSchema = z.union([z.string(), z.array(SegmentSchema).min(1)]);
+
+// Context segments — same shape as bullets but used for the italic
+// role-context line that can include inline links.
+const ContextSegmentSchema = z.object({
+  text: z.string(),
+  url: z.string().url().optional(),
+});
+
+const RoleSchema = z.object({
+  company: z.string().min(1),
+  url: z.string().url().optional(),
+  // Some roles (Freelance, Independent Consulting) intentionally
+  // omit location since it doesn't read meaningfully on those.
+  location: z.string().min(1).optional(),
+  title: z.string().min(1),
+  dates: z.string().min(1),
+  context: z.string().optional(),
+  contextSegments: z.array(ContextSegmentSchema).optional(),
+  bullets: z.array(BulletSchema),
+});
+
+const EducationSchema = z.object({
+  institution: z.string().min(1),
+  url: z.string().url().optional(),
+  credential: z.string().min(1),
+  honors: z.string().optional(),
+  location: z.string().min(1),
+  dates: z.string().min(1),
+  context: z.string().optional(),
+});
+
+const CaseStudySchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  url: z.string().url(),
+});
+
+const ContactSchema = z.object({
+  name: z.string().min(1),
+  headline: z.string().min(1),
+  email: z.string().email(),
+  phone: z.string().min(1),
+  location: z.string().min(1),
+  website: z.string().min(1),
+  websiteUrl: z.string().url(),
+  linkedin: z.string().min(1),
+  linkedinUrl: z.string().url(),
+  github: z.string().min(1),
+  githubUrl: z.string().url(),
+});
 
 // ─── Content ──────────────────────────────────────────────────────
 // Hardcoded; mirror app/resume/resume-data.tsx when content changes.
@@ -277,6 +344,16 @@ const CASE_STUDIES = [
       "A meta case study on shipping my personal website with Claude Code as build partner. Architecture bets, production incidents, and what AI-native PM work looks like when the human stays in the loop.",
   },
 ];
+
+// ─── Validate content ─────────────────────────────────────────────
+// Run schemas before any document construction so a malformed entry
+// surfaces with a clear zod error pointing at the bad field, rather
+// than crashing inside docx with a stack trace from deep in the
+// rendering pipeline.
+ContactSchema.parse(CONTACT);
+z.array(RoleSchema).parse(ROLES);
+z.array(EducationSchema).parse(EDUCATION);
+z.array(CaseStudySchema).parse(CASE_STUDIES);
 
 // ─── Style helpers ────────────────────────────────────────────────
 

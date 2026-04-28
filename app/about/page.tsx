@@ -135,8 +135,12 @@ export default function AboutPage() {
               // Visually a sidebar; semantically a complementary
               // landmark. Top margin separates from prose on mobile;
               // resets at lg+ where the grid does the spacing.
+              //
+              // No aria-label here — the inner <nav aria-label="What
+              // I'm into"> carries the label. Doubling them up created
+              // two landmarks discoverable separately with identical
+              // names, which screen readers announce as duplicates.
               className="mt-10 lg:mt-0"
-              aria-label="What I'm into"
             >
               <Stack gap="500">
                 {/* Headshot. next/image handles responsive srcset and

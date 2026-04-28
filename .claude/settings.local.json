@@ -150,7 +150,10 @@
       "Bash(echo \"started pid $!\")",
       "Bash(pkill -f \"next start\\\\|next-server\")",
       "Bash(pkill -f \"next start\\\\|next-server\" sleep 2 ls -la /Users/mal/Desktop/malcolm-xavier-website/.next/server/app)",
-      "Bash(kill -9 16117)"
+      "Bash(kill -9 16117)",
+      "Bash(kill -9 24037 sleep 1 lsof -i :3000)",
+      "Bash(pkill -9 -f \"next-server\\\\|next start\" sleep 2 lsof -i :3000)",
+      "Bash(kill -9 43650)"
     ]
   }
 }

@@ -88,10 +88,14 @@ export default async function OpenGraphImage() {
   const taglineText = "Tech, media, streaming.";
   const urlText = "malxavi.com";
 
-  const [instrumentSerif, dmSans, dmMono] = await Promise.all([
+  const [instrumentSerif, dmSans, robotoMono] = await Promise.all([
     loadGoogleFont("Instrument+Serif", heroText),
     loadGoogleFont("DM+Sans", `${subtitleText}${taglineText}`),
-    loadGoogleFont("DM+Mono", urlText),
+    // Sitewide locked mono is Roboto Mono (see app/layout.tsx + the
+    // type system memory). The OG card mirrors the site, so the URL
+    // chip should also render in Roboto Mono — not DM Mono, which
+    // would create a Slack-unfurl-vs-site drift.
+    loadGoogleFont("Roboto+Mono", urlText),
   ]);
 
   return new ImageResponse(
@@ -201,7 +205,7 @@ export default async function OpenGraphImage() {
             position: "absolute",
             right: 96,
             bottom: 56,
-            fontFamily: "DM Mono",
+            fontFamily: "Roboto Mono",
             fontSize: 22,
             color: "#737373",
             letterSpacing: "0.02em",
@@ -228,8 +232,8 @@ export default async function OpenGraphImage() {
           weight: 400,
         },
         {
-          name: "DM Mono",
-          data: dmMono,
+          name: "Roboto Mono",
+          data: robotoMono,
           style: "normal",
           weight: 400,
         },

@@ -97,19 +97,17 @@ function variantClasses(variant: ButtonVariant): string {
 }
 
 export function Button(props: ButtonProps) {
-  const {
-    variant = "primary",
-    size = "md",
-    as = "button",
-    className = "",
-    style,
-    children,
-    ...rest
-  } = props as CommonProps & {
-    className?: string;
-    style?: React.CSSProperties;
-    children?: React.ReactNode;
-  } & Record<string, unknown>;
+  // Read shared visual props directly from `props` rather than
+  // destructuring with a union-widening cast. The earlier pattern
+  // (`props as CommonProps & Record<string, unknown>`) defeated the
+  // discriminated union — after that cast, `as="a"` no longer required
+  // `href` and `onClick` lost its <button>/<a> typing. Below, props
+  // narrows correctly inside each branch of the `if (props.as === "a")`
+  // check.
+  const variant = props.variant ?? "primary";
+  const size = props.size ?? "md";
+  const className = props.className ?? "";
+  const { style, children } = props;
 
   // Shared visual + a11y classes. Focus ring is keyboard-only thanks
   // to focus-visible. motion-reduce shuts off the hover transition.
@@ -138,24 +136,49 @@ export function Button(props: ButtonProps) {
     ...style,
   };
 
-  if (as === "a") {
+  if (props.as === "a") {
+    // TypeScript narrows props to ButtonAsAnchor here, so the rest
+    // spread carries the proper anchor-event typings to <a>.
+    const {
+      variant: _variant,
+      size: _size,
+      as: _as,
+      className: _className,
+      style: _style,
+      children: _children,
+      ...anchorRest
+    } = props;
+    void _variant; void _size; void _as; void _className; void _style; void _children;
     return (
       <a
         className={sharedClasses}
         style={sharedStyle}
         data-variant={variant}
-        {...rest}
+        {...anchorRest}
       >
         {children}
       </a>
     );
   }
+
+  // <button> branch — props narrows to ButtonAsButton, so the rest
+  // spread keeps the proper button-event typings (onClick, type, etc.).
+  const {
+    variant: _variant,
+    size: _size,
+    as: _as,
+    className: _className,
+    style: _style,
+    children: _children,
+    ...buttonRest
+  } = props;
+  void _variant; void _size; void _as; void _className; void _style; void _children;
   return (
     <button
       className={sharedClasses}
       style={sharedStyle}
       data-variant={variant}
-      {...rest}
+      {...buttonRest}
     >
       {children}
     </button>

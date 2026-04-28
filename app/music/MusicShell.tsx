@@ -55,10 +55,13 @@ export function MusicShell({ playlists, collections }: Props) {
 
   const initialView: ViewMode =
     searchParams?.get("view") === "collections" ? "collections" : "all";
-  const initialPage = Math.max(
-    0,
-    Number.parseInt(searchParams?.get("page") ?? "1", 10) - 1 || 0,
-  );
+  // ?page is 1-indexed in the URL ("page=1" = first page), 0-indexed
+  // internally. Guard against missing / non-numeric values explicitly
+  // rather than relying on the NaN-falsiness chain (NaN - 1 = NaN,
+  // NaN || 0 = 0). Negative inputs are clamped to 0 so a hand-edited
+  // "?page=0" or "?page=-3" doesn't crash downstream slicing.
+  const rawPage = Number.parseInt(searchParams?.get("page") ?? "1", 10);
+  const initialPage = Number.isFinite(rawPage) ? Math.max(0, rawPage - 1) : 0;
 
   const [viewMode, setViewMode] = useState<ViewMode>(initialView);
   const [page, setPage] = useState(initialPage);
@@ -315,26 +318,26 @@ function Pagination({
   const visible = pageNumberWindow(page, totalPages);
 
   return (
-    <nav
-      aria-label="Playlist pages"
-      className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap"
-    >
-      <PaginationButton
-        onClick={() => onChange(page - 1)}
-        disabled={atStart}
-        aria-label="Previous page"
-      >
-        ← Prev
-      </PaginationButton>
-
-      {/* Number buttons. The current page renders as a styled
-          non-interactive marker (aria-current="page") so screen
-          readers announce the active state and clicks on the
-          current page are no-ops by design. */}
+    <nav aria-label="Playlist pages">
+      {/* Prev, page numbers, and Next all sit inside one <ol> so
+          screen readers announce a single list of N items rather
+          than two buttons floating outside the list. The current
+          page renders as a styled non-interactive <span aria-
+          current="page"> so it stays out of the tab order. */}
       <ol
-        className="flex items-center gap-2"
+        className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap"
         style={{ listStyle: "none", padding: 0, margin: 0 }}
       >
+        <li>
+          <PaginationButton
+            onClick={() => onChange(page - 1)}
+            disabled={atStart}
+            aria-label="Previous page"
+          >
+            ← Prev
+          </PaginationButton>
+        </li>
+
         {visible.map((n) => {
           const isCurrent = n === page;
           // Shared visual styles. Both the active <span> and the
@@ -402,15 +405,17 @@ function Pagination({
             </li>
           );
         })}
-      </ol>
 
-      <PaginationButton
-        onClick={() => onChange(page + 1)}
-        disabled={atEnd}
-        aria-label="Next page"
-      >
-        Next →
-      </PaginationButton>
+        <li>
+          <PaginationButton
+            onClick={() => onChange(page + 1)}
+            disabled={atEnd}
+            aria-label="Next page"
+          >
+            Next →
+          </PaginationButton>
+        </li>
+      </ol>
     </nav>
   );
 }

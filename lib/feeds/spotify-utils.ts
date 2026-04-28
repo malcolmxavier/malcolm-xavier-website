@@ -6,7 +6,7 @@
 // server-only auth + fetch + snapshot-loading code (which depends on
 // node:fs and explodes when bundled for the client).
 //
-// Anything in this file must be POURE and have no server-specific
+// Anything in this file must be PURE and have no server-specific
 // imports. Auth flow, network calls, token management, and snapshot
 // loading all stay in spotify.ts.
 // ─────────────────────────────────────────────────────────────────

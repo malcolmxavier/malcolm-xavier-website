@@ -172,13 +172,16 @@ export default function ContactPage() {
                       {/* Single-line row: icon + platform name (or
                           the email address). The icon already
                           telegraphs the platform, so a per-row
-                          kicker would just repeat the label. */}
+                          kicker would just repeat the label.
+                          minHeight 24 keeps each row at the WCAG 2.2
+                          SC 2.5.8 minimum target size on touch. */}
                       <Link
                         href={method.href}
                         className="inline-flex items-center gap-2"
                         style={{
                           fontFamily: "var(--font-secondary)",
                           fontSize: "var(--p-md-font-size)",
+                          minHeight: 24,
                         }}
                       >
                         {method.icon}
