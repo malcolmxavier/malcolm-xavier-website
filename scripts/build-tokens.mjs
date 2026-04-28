@@ -286,6 +286,24 @@ out.push("  --border-action: var(--primary-default);");
 out.push("  --border-action-hover: var(--primary-600);");
 out.push("}");
 out.push("");
+// Dark-mode counterpart for sub-brand pages. --primary-default is
+// the 500 stop, which fails AA on black for several sub-brands —
+// purple-500 on #000 = 2.7:1 (caught by axe on /music's kicker
+// during the 2026-04-28 audit), blue-500 = 2.4:1 — so we rebind to
+// the 300 stop in dark mode, where every sub-brand color clears
+// 4.5:1. Hover bumps to 200 (always >9:1 on black). Specificity
+// (0,2,0) beats the (0,1,0) [data-subbrand] rule above; the
+// [data-theme="dark"] selector also has to come AFTER it in source
+// order to win on equal-specificity ties for non-action tokens.
+out.push("[data-theme=\"dark\"][data-subbrand], [data-theme=\"dark\"] [data-subbrand] {");
+out.push("  --text-action: var(--primary-300);");
+out.push("  --text-action-hover: var(--primary-200);");
+out.push("  --icon-action: var(--primary-300);");
+out.push("  --icon-action-hover: var(--primary-200);");
+out.push("  --border-action: var(--primary-300);");
+out.push("  --border-action-hover: var(--primary-200);");
+out.push("}");
+out.push("");
 
 // ─── Responsive type scale ─────────────────────────────────────────
 out.push("/* ─── Responsive type scale (h1-h6, p-lg/md/sm/xs) ─────────── */");

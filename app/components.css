@@ -217,7 +217,10 @@ a[data-subbrand="music"] {
 }
 [data-theme="dark"] [data-subbrand="music"] a,
 [data-theme="dark"] a[data-subbrand="music"] {
-  color: var(--purple-400) !important;
+  /* purple-300 (#ac6ce3) on black = 6.0:1 → AA. Bumped from
+     purple-400 (#903bd9, 3.81:1) which axe flagged on the
+     Music nav link in dark mode during the 2026-04-28 audit. */
+  color: var(--purple-300) !important;
 }
 
 [data-subbrand="newsletter"] a,
@@ -244,7 +247,10 @@ a[data-subbrand="tv"] {
 }
 [data-theme="dark"] [data-subbrand="tv"] a,
 [data-theme="dark"] a[data-subbrand="tv"] {
-  color: var(--blue-400) !important;
+  /* blue-300 (#6e78e1) on black = 5.4:1 → AA. blue-400
+     (#3e4ad7) was 3.17:1 — would fail the same way the
+     music link did when /tv ships. Pre-empt the violation. */
+  color: var(--blue-300) !important;
 }
 
 [data-subbrand="games"] a,
@@ -258,7 +264,11 @@ a[data-subbrand="games"] {
 
 [data-subbrand="books"] a,
 a[data-subbrand="books"] {
-  color: var(--yellow-700) !important;
+  /* yellow-800 (#646012) on white = 6.5:1 → AA. yellow-700
+     (#96901b) was 3.33:1 — yellow's inherently low-contrast,
+     so the practical AA floor on white is the 800 stop. Same
+     class of pre-emptive fix as the tv link above. */
+  color: var(--yellow-800) !important;
 }
 [data-theme="dark"] [data-subbrand="books"] a,
 [data-theme="dark"] a[data-subbrand="books"] {

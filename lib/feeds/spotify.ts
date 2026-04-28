@@ -559,8 +559,21 @@ export async function getEnrichedPlaylist(
     const t = Date.parse(added_at);
     if (!Number.isNaN(t) && t > lastAdded) lastAdded = t;
   }
+  // Auto-mosaic playlists come back from the listing endpoint with
+  // `images: null` — the schema coerces null to []. Spotify's UI
+  // renders a 4-album mosaic for these, but the listing API doesn't
+  // expose the mosaic URL. As a graceful fallback, surface the first
+  // track's album cover so the card has a meaningful visual cue
+  // related to playlist content rather than the bare placeholder.
+  // Less rich than Spotify's mosaic, but avoids "no cover" entirely
+  // for the common auto-mosaic case.
+  const images =
+    summary.images.length === 0 && tracks.length > 0
+      ? tracks[0].track.album.images
+      : summary.images;
   return {
     ...summary,
+    images,
     tracks,
     total_duration_ms: total,
     last_added_at_ms: lastAdded,
