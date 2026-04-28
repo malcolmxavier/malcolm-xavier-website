@@ -62,12 +62,9 @@ const SUB_BRAND_TILES: SubBrandTile[] = [
     cta: "Explore Playlists",
     blurb: (
       <>
-        I release a new playlist each month.{" "}
-        <em>settle the score</em> was made for this website
-        release.
-        <br />
-        Check that out, then explore previously released
-        playlists.
+        I release a new playlist each month. <em>settle the score</em>{" "}
+        released with this site&mdash;explore that and the rest of the
+        catalog.
       </>
     ),
     accent: "music",
@@ -184,25 +181,14 @@ export default function Home() {
               as an editorial "more below" marker rather than a
               competing CTA. The matrix section keeps its own
               "The cultural corner." headline as the actual section
-              title; this is just the scroll cue. */}
+              title; this is just the scroll cue.
+              <Kicker as="a"> renders the same mono-uppercase shape
+              with hover/focus styling for interactivity. */}
           {SUB_BRAND_TILES.length > 0 ? (
             <div className="flex justify-center pt-6">
-              <a
-                href="#explore"
-                className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 hover:[color:var(--text-action-hover)]"
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "var(--p-xs-font-size)",
-                  lineHeight: "var(--p-xs-line-height)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.08em",
-                  color: "var(--text-caption)",
-                  outlineColor: "var(--border-focus)",
-                  textDecoration: "none",
-                }}
-              >
+              <Kicker as="a" href="#explore">
                 Or, explore the rest &darr;
-              </a>
+              </Kicker>
             </div>
           ) : null}
         </Stack>
