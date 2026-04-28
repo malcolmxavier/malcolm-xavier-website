@@ -112,7 +112,25 @@ export default function Home() {
               portrait to col 2. lg:gap-y-5 (20px = --scale-500)
               keeps the rhythm consistent with other Stacks. */}
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-x-12 lg:gap-y-5 lg:items-start">
-            <Display>Malcolm Xavier</Display>
+            {/* text-box-trim removes the leading above the cap-line
+                so the visible top of "M" aligns with the box-top of
+                the Display element — which equals the headshot's
+                box-top under items-start. Without trim the line-
+                height-driven leading offsets the text downward by
+                a few px, breaking the visual alignment the layout
+                set up. Modern CSS (Chrome 133+, Safari 18.2+);
+                older browsers ignore it and render with the small
+                visual drift the audit flagged. */}
+            <Display
+              style={
+                {
+                  textBoxTrim: "trim-start",
+                  textBoxEdge: "cap",
+                } as React.CSSProperties
+              }
+            >
+              Malcolm Xavier
+            </Display>
 
             {/* Square headshot. 22rem wide on desktop (matches the
                 grid column), 16rem max on mobile. On mobile/tablet
