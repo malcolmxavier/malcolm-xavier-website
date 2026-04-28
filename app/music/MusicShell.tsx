@@ -483,10 +483,14 @@ function PaginationButton({
         lineHeight: "var(--p-xs-line-height)",
         textTransform: "uppercase",
         letterSpacing: "0.08em",
-        // --primary-default workaround: see Pagination button.
+        // Use the action token chain so [data-theme="dark"]
+        // [data-subbrand] override (--text-action: --primary-300)
+        // applies. Bypassing to --primary-default rendered as
+        // primary-500 on black = 2.7:1 in dark+music, failing
+        // SC 1.4.3 (caught by axe in the 2026-04-28 follow-up).
         color: disabled
           ? "var(--text-disabled)"
-          : "var(--primary-default)",
+          : "var(--text-action)",
         background: "none",
         border: "none",
         padding: "8px 12px",

@@ -289,19 +289,39 @@ out.push("");
 // Dark-mode counterpart for sub-brand pages. --primary-default is
 // the 500 stop, which fails AA on black for several sub-brands —
 // purple-500 on #000 = 2.7:1 (caught by axe on /music's kicker
-// during the 2026-04-28 audit), blue-500 = 2.4:1 — so we rebind to
-// the 300 stop in dark mode, where every sub-brand color clears
-// 4.5:1. Hover bumps to 200 (always >9:1 on black). Specificity
-// (0,2,0) beats the (0,1,0) [data-subbrand] rule above; the
-// [data-theme="dark"] selector also has to come AFTER it in source
-// order to win on equal-specificity ties for non-action tokens.
+// during the 2026-04-28 audit), blue-500 = 2.4:1 — so we rebind
+// every action-chain token that binds to --primary-* to the 300
+// stop in dark mode, where every sub-brand color clears 4.5:1.
+// Hover and focus bump to 200 (always >9:1 on black) so the
+// focused state has MORE contrast than the resting state.
+//
+// Fan-out (the 2026-04-28 follow-up audit flagged --border-focus
+// at 1.58:1 in dark+music; the same pattern catches --text-action-
+// focus and --icon-focus, which both bind to --primary-700 in dark
+// and produce identical 1.58:1 fails for SC 1.4.11. All three
+// focus tokens move to --primary-200 here):
+//
+//   action chain — hover/focus state matters for keyboard users
+//     --text-action / --icon-action / --border-action  → primary-300
+//     --text-action-hover / --icon-action-hover /
+//       --border-action-hover                          → primary-200
+//     --text-action-focus / --icon-focus / --border-focus
+//                                                      → primary-200
+//
+// Specificity (0,2,0) beats the (0,1,0) [data-subbrand] rule
+// above. The selector covers both "wrapper carries both attributes"
+// (data-subbrand on <html>, hypothetical) and "data-subbrand inside
+// data-theme" (the live case).
 out.push("[data-theme=\"dark\"][data-subbrand], [data-theme=\"dark\"] [data-subbrand] {");
 out.push("  --text-action: var(--primary-300);");
 out.push("  --text-action-hover: var(--primary-200);");
+out.push("  --text-action-focus: var(--primary-200);");
 out.push("  --icon-action: var(--primary-300);");
 out.push("  --icon-action-hover: var(--primary-200);");
+out.push("  --icon-focus: var(--primary-200);");
 out.push("  --border-action: var(--primary-300);");
 out.push("  --border-action-hover: var(--primary-200);");
+out.push("  --border-focus: var(--primary-300);");
 out.push("}");
 out.push("");
 
