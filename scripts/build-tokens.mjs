@@ -309,10 +309,11 @@ out.push("");
 //                                                      → primary-200
 //
 // Specificity (0,2,0) beats the (0,1,0) [data-subbrand] rule
-// above. The selector covers both "wrapper carries both attributes"
-// (data-subbrand on <html>, hypothetical) and "data-subbrand inside
-// data-theme" (the live case).
-out.push("[data-theme=\"dark\"][data-subbrand], [data-theme=\"dark\"] [data-subbrand] {");
+// above. next-themes writes data-theme only to <html>; data-
+// subbrand only ever appears on subtree wrappers, so the two
+// never co-occur on the same element. Single descendant selector
+// is sufficient.
+out.push("[data-theme=\"dark\"] [data-subbrand] {");
 out.push("  --text-action: var(--primary-300);");
 out.push("  --text-action-hover: var(--primary-200);");
 out.push("  --text-action-focus: var(--primary-200);");

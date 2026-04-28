@@ -189,6 +189,16 @@ export function MusicShell({ playlists, collections }: Props) {
 
       {viewMode === "all" ? (
         <Stack gap="800">
+          {/* Visually-hidden h2 bridges the heading hierarchy
+              between the page Display (h1) and PlaylistCard's
+              Headline level={3} so SR users get the proper
+              h1 → h2 → h3 step. The Collections view ships its
+              own visible h2 per group; the All view didn't
+              before, which the 2026-04-28 follow-up audit
+              flagged as SC 1.3.1 Info and Relationships. */}
+          <Headline level={2} className="sr-only">
+            All playlists
+          </Headline>
           <PlaylistGrid playlists={visiblePlaylists} />
           {totalPages > 1 ? (
             <Pagination
@@ -272,7 +282,10 @@ function ToggleButton({
         color: active ? "var(--text-action)" : "var(--text-caption)",
         background: "none",
         border: "none",
-        padding: "0 0 4px",
+        // 4px top + 4px bottom keeps the button >=24px tall before
+        // the underline border, satisfying WCAG 2.2 SC 2.5.8 Target
+        // Size (Minimum) without depending on the spacing exception.
+        padding: "4px 0",
         // Active state gets a 2px sub-brand underline; inactive gets
         // hover underline so the button still reads as interactive.
         borderBottom: active

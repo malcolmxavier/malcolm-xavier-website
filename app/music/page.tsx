@@ -28,6 +28,7 @@ import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Lede } from "@/components/typography/Lede";
 import { Kicker } from "@/components/typography/Kicker";
+import { Link } from "@/components/primitives/Link";
 import { getMusicData, type MusicDataResult } from "@/lib/feeds/spotify";
 import {
   COLLECTIONS,
@@ -169,19 +170,18 @@ function SpotifyUnavailable() {
               Spotify.
             </Lede>
             <div>
-              <a
+              {/* Use the Link primitive so focus styling matches the
+                  rest of the site (--border-focus outline) and so
+                  the external-link semantics (rel="noopener",
+                  target="_blank") are handled consistently. The
+                  raw <a> here was a pre-existing inconsistency
+                  caught in the 2026-04-28 follow-up audit. */}
+              <Link
                 href="https://open.spotify.com/user/malcolmxevans"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  color: "var(--text-action)",
-                  textDecoration: "underline",
-                  textUnderlineOffset: "0.25em",
-                }}
+                style={{ fontFamily: "var(--font-mono)" }}
               >
                 Open my profile on Spotify &rarr;
-              </a>
+              </Link>
             </div>
           </Stack>
         </Section>

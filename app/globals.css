@@ -772,7 +772,7 @@
   --border-action-hover: var(--primary-600);
 }
 
-[data-theme="dark"][data-subbrand], [data-theme="dark"] [data-subbrand] {
+[data-theme="dark"] [data-subbrand] {
   --text-action: var(--primary-300);
   --text-action-hover: var(--primary-200);
   --text-action-focus: var(--primary-200);

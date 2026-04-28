@@ -50,6 +50,18 @@ export function Card({
       // When accent is set, also flip the card's primary palette
       // via data-subbrand so children that use --primary-* / --accent-*
       // inherit the right color family.
+      //
+      // Side effect (intentional): the [data-subbrand] CSS rule in
+      // app/components.css also flips font-family to the sub-brand
+      // secondary font. Children that don't explicitly set
+      // font-family will inherit Roboto Slab inside an accented
+      // Card, regardless of the surrounding page context. The site's
+      // typography primitives (Body, Headline, Display, Kicker)
+      // override font-family inline so they're unaffected — but
+      // unstyled children (raw <span>, native <button>, list
+      // bullets) will pick up the sub-brand font. If you need a
+      // recruiter-cluster font inside an accented Card, set
+      // font-family explicitly on the child.
       data-subbrand={accent}
       className={[
         "relative overflow-hidden rounded-lg border",

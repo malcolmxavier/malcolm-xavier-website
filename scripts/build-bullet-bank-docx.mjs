@@ -83,7 +83,10 @@ const RoleSchema = z.object({
   dates: z.string().min(1),
   context: z.string().optional(),
   contextSegments: z.array(ContextSegmentSchema).optional(),
-  bullets: z.array(BulletSchema),
+  // .min(1) symmetric with EducationSchema.details below — a role
+  // with zero bullets renders as a title-only entry, which reads
+  // as broken the same way an empty education entry does.
+  bullets: z.array(BulletSchema).min(1),
 });
 
 const EducationSchema = z.object({
@@ -496,7 +499,7 @@ children.push(
     children: [
       linkRun(
         CONTACT.phone,
-        `tel:+1${CONTACT.phone.replace(/[^0-9]/g, "")}`,
+        `tel:${CONTACT.phone.trim().startsWith("+") ? CONTACT.phone.replace(/[^0-9+]/g, "") : "+1" + CONTACT.phone.replace(/[^0-9]/g, "")}`,
         { size: SIZE.contact },
       ),
       sep(),
@@ -769,7 +772,7 @@ const pageHeader = new Header({
       children: [
         headerLink(
           CONTACT.phone,
-          `tel:+1${CONTACT.phone.replace(/[^0-9]/g, "")}`,
+          `tel:${CONTACT.phone.trim().startsWith("+") ? CONTACT.phone.replace(/[^0-9+]/g, "") : "+1" + CONTACT.phone.replace(/[^0-9]/g, "")}`,
         ),
         headerSep(),
         headerLink(CONTACT.email, `mailto:${CONTACT.email}`),

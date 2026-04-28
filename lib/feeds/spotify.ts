@@ -46,17 +46,24 @@ import { z } from "zod";
 // existing call sites (`import { formatDuration } from "@/lib/feeds/spotify"`)
 // keep working. Client components should import from spotify-utils
 // directly to avoid pulling this server-only file into their bundle.
-export {
+//
+// Local-binding import (sortPlaylistsForDisplay) is split into its
+// own statement because getMusicData() below references it within
+// the module body; pure re-exports don't introduce a local binding.
+import {
   decodeSpotifyDescription,
   formatDuration,
   formatTrackDuration,
   pickImage,
   sortPlaylistsForDisplay,
 } from "./spotify-utils";
-// Local-binding import — the re-export above only exposes the symbol
-// to consumers of this module; we also need it accessible within the
-// module body for getMusicData() below.
-import { sortPlaylistsForDisplay } from "./spotify-utils";
+export {
+  decodeSpotifyDescription,
+  formatDuration,
+  formatTrackDuration,
+  pickImage,
+  sortPlaylistsForDisplay,
+};
 export type {
   EnrichedPlaylist,
   SpotifyAlbumRef,
@@ -707,6 +714,20 @@ const RATE_LIMIT_FAST_FAIL_SECONDS = 60;
  * too, so the protection holds within a function instance. Cold
  * starts re-attempt and gracefully degrade via the snapshot fallback
  * if still rate-limited.
+ *
+ * Value type is intentionally `number` (epoch ms cleartime).
+ * Extending to a richer shape (e.g. `{ until, observedAt,
+ * retryCount }`) would require moving the unconditional
+ * delete-on-expiry below behind a transactional check — concurrent
+ * sets and the delete would race in ways the current scalar shape
+ * tolerates safely.
+ *
+ * TOCTOU note: the read→fetch→write window between the pre-flight
+ * check and the post-fetch write lets a burst of N concurrent
+ * first-requests to the same family all hit Spotify before any of
+ * them lands the cooldown. Bounded by MAX_CONCURRENT_REQUESTS (3)
+ * via withSemaphore, so the worst case is 3 wasted round-trips on
+ * the first burst. Acceptable; not worth a per-family mutex.
  */
 const cooldowns = new Map<string, number>();
 

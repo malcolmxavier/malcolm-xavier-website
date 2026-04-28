@@ -131,7 +131,7 @@ export default function Home() {
                 Image fill collapsing the parent's intrinsic
                 width. */}
             <div
-              className="relative my-5 mx-auto w-full max-w-[16rem] overflow-hidden rounded-md border lg:my-0 lg:max-w-none lg:row-start-1 lg:row-span-2 lg:col-start-2"
+              className="relative my-5 mx-auto w-full max-w-[16rem] overflow-hidden rounded-md border md:max-w-[20rem] lg:my-0 lg:max-w-none lg:row-start-1 lg:row-span-2 lg:col-start-2"
               style={{
                 aspectRatio: "1 / 1",
                 borderColor: "var(--border-default)",

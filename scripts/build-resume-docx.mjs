@@ -472,7 +472,7 @@ children.push(
       sep(),
       linkRun(
         CONTACT.phone,
-        `tel:+1${CONTACT.phone.replace(/[^0-9]/g, "")}`,
+        `tel:${CONTACT.phone.trim().startsWith("+") ? CONTACT.phone.replace(/[^0-9+]/g, "") : "+1" + CONTACT.phone.replace(/[^0-9]/g, "")}`,
         { size: SIZE.contact },
       ),
       sep(),
@@ -787,7 +787,7 @@ const pageHeader = new Header({
         headerSep(),
         headerLink(
           CONTACT.phone,
-          `tel:+1${CONTACT.phone.replace(/[^0-9]/g, "")}`,
+          `tel:${CONTACT.phone.trim().startsWith("+") ? CONTACT.phone.replace(/[^0-9+]/g, "") : "+1" + CONTACT.phone.replace(/[^0-9]/g, "")}`,
         ),
         headerSep(),
         headerRun(CONTACT.location),
