@@ -158,7 +158,24 @@
       "Bash(kill -9 61240)",
       "Bash(kill -9 7106)",
       "Bash(kill -9 10255)",
-      "Bash(env)"
+      "Bash(env)",
+      "Bash(awk NR==362{print \"Line 362: \"$0} NR==363{print \"Line 363: \"$0} NR==364{print \"Line 364: \"$0} NR==545{print \"Line 545: \"$0} NR==546{print \"Line 546: \"$0} NR==547{print \"Line 547: \"$0} NR==548{print \"Line 548: \"$0} NR==549{print \"Line 549: \"$0} NR==550{print \"Line 550: \"$0} *)",
+      "Bash(awk NR>=365 && NR<=370 {printf \"%d: [%s]\\\\n\", NR, $0} *)",
+      "Bash(sed -i '' '365,551 s/^/  /' /Users/mal/Desktop/malcolm-xavier-website/app/resume/page.tsx)",
+      "Bash(awk 'NR>=363 && NR<=370 {printf \"%d: [%s]\\\\n\", NR, $0}' /Users/mal/Desktop/malcolm-xavier-website/app/resume/page.tsx)",
+      "Bash(awk NR>=549 && NR<=555 {printf \"%d: [%s]\\\\n\", NR, $0} *)",
+      "Bash(pkill -9 -f \"next-server\\\\|next start\" sleep 2 rm -rf /Users/mal/Desktop/malcolm-xavier-website/.next echo \"running build foreground...\" npm run build)",
+      "Bash(pkill -9 -f \"next-server\\\\|next start\" sleep 3 lsof -i :3000)",
+      "Bash(kill -9 31075)",
+      "Bash(> /tmp/nextstart.log)",
+      "Bash(echo \"started $!\")",
+      "Bash(pkill -9 -f \"next-server\\\\|next start\\\\|next dev\")",
+      "Bash(npx next *)",
+      "Bash(> /tmp/nextdev.log)",
+      "Bash(pkill -9 -f \"next-server\\\\|next start\\\\|next dev\\\\|next build\" sleep 3 rm -rf /Users/mal/Desktop/malcolm-xavier-website/.next SPOTIFY_OFFLINE=1 npx next build --webpack)",
+      "Bash(kill -9 37858)",
+      "Bash(pkill -9 -f \"next\")",
+      "Bash(SPOTIFY_OFFLINE=1 npx next build)"
     ]
   }
 }

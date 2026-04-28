@@ -20,6 +20,7 @@
 
 import NextLink from "next/link";
 import type { AnchorHTMLAttributes, ReactNode } from "react";
+import { classifyHref } from "@/lib/href";
 
 /**
  * Optional color override drawn from the design-system color
@@ -57,12 +58,12 @@ export function Link({
   ...rest
 }: LinkProps) {
   // Decide which link semantics apply based on the href shape.
-  const isInternal = href.startsWith("/") && !href.startsWith("//");
-  const isHashOrProtocol =
-    href.startsWith("#") ||
-    href.startsWith("mailto:") ||
-    href.startsWith("tel:");
-  const isExternal = !isInternal && !isHashOrProtocol;
+  // classifyHref encapsulates the three predicates so Footer, the
+  // BackToPlaylists button, and Link share one source of truth.
+  const kind = classifyHref(href);
+  const isInternal = kind === "internal";
+  const isHashOrProtocol = kind === "hashOrProtocol";
+  const isExternal = kind === "external";
 
   // Underline behavior: quiet → on hover/focus only; loud → always on.
   const underlineClass = quiet

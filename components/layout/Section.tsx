@@ -10,6 +10,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { HTMLAttributes } from "react";
+import type { SubBrand } from "@/lib/sub-brands";
 
 type SectionPadding = "sm" | "md" | "lg";
 
@@ -17,14 +18,7 @@ type SectionProps = HTMLAttributes<HTMLElement> & {
   /** Vertical padding intensity. Defaults to md. */
   padding?: SectionPadding;
   /** Sub-brand slug — flips fonts/accent palette for this region. */
-  subbrand?:
-    | "newsletter"
-    | "film"
-    | "tv"
-    | "music"
-    | "games"
-    | "books"
-    | "podcast";
+  subbrand?: SubBrand;
   /** Render with a top border to separate from preceding content. */
   bordered?: boolean;
 };

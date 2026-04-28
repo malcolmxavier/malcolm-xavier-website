@@ -33,6 +33,7 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Button } from "@/components/primitives/Button";
 import { Link } from "@/components/primitives/Link";
 import { Card } from "@/components/primitives/Card";
+import type { SubBrand } from "@/lib/sub-brands";
 import { CONTACT, STATUS } from "./resume/resume-data";
 
 // Sub-brand tiles for the matrix. As Film / TV / etc ship, add
@@ -52,7 +53,7 @@ type SubBrandTile = {
   label: string;
   blurb: React.ReactNode;
   cta?: string;
-  accent: "music" | "film" | "tv" | "newsletter" | "games" | "books" | "podcast";
+  accent: SubBrand;
 };
 
 const SUB_BRAND_TILES: SubBrandTile[] = [

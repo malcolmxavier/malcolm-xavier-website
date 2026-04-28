@@ -68,9 +68,13 @@ const MAIN_ROUTES: NavRoute[] = [
  * True when the given route href matches the current pathname,
  * either exactly or as a prefix (so /music/[playlistId] keeps
  * the Music nav item active).
+ *
+ * The exact + prefix predicate is enough on its own: for `/`, the
+ * prefix check becomes `pathname.startsWith("//")`, which never
+ * matches a real client-side pathname — so the earlier `routeHref
+ * === "/"` early return was doing the same work as the fall-through.
  */
 function isActiveRoute(routeHref: string, pathname: string): boolean {
-  if (routeHref === "/") return pathname === "/";
   return pathname === routeHref || pathname.startsWith(routeHref + "/");
 }
 

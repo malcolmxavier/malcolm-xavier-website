@@ -17,6 +17,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { Link, type LinkAccent } from "@/components/primitives/Link";
+import type { SubBrand } from "@/lib/sub-brands";
 
 export type ResumeContact = {
   email: string;
@@ -82,14 +83,7 @@ export type ResumeCaseStudy = {
    */
   liveHref?: string;
   /** Optional sub-brand accent for the card stripe. */
-  accent?:
-    | "newsletter"
-    | "film"
-    | "tv"
-    | "music"
-    | "games"
-    | "books"
-    | "podcast";
+  accent?: SubBrand;
 };
 
 // ─── Header / contact ──────────────────────────────────────────────

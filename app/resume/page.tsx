@@ -362,193 +362,193 @@ export default function ResumePage() {
       <div className="mx-auto max-w-[64rem] lg:max-w-none lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16">
         <ResumeTableOfContents />
         <div>
-      {/* ─── Hero ──────────────────────────────────────────────── */}
-      <Section id="top" style={sectionAnchorStyle} padding="md">
-        <Stack gap="500">
-          {/* Status — web-only addition that's not in the PDF.
-              Recruiters see availability before anything else. */}
-          <Kicker accent>{STATUS}</Kicker>
-
-          {/* Stacked hero: Name → Positioning → Contact strip.
-              Each block reads top-to-bottom with no awkward column
-              wrapping. The positioning headline gets the full content
-              width so it never breaks mid-phrase. */}
-          <Stack gap="300">
-            <Display>Malcolm Xavier</Display>
-            <p
+        {/* ─── Hero ──────────────────────────────────────────────── */}
+        <Section id="top" style={sectionAnchorStyle} padding="md">
+          <Stack gap="500">
+            {/* Status — web-only addition that's not in the PDF.
+                Recruiters see availability before anything else. */}
+            <Kicker accent>{STATUS}</Kicker>
+  
+            {/* Stacked hero: Name → Positioning → Contact strip.
+                Each block reads top-to-bottom with no awkward column
+                wrapping. The positioning headline gets the full content
+                width so it never breaks mid-phrase. */}
+            <Stack gap="300">
+              <Display>Malcolm Xavier</Display>
+              <p
+                style={{
+                  fontFamily: "var(--font-primary)",
+                  fontSize: "var(--h5-font-size)",
+                  lineHeight: "var(--h5-line-height)",
+                  color: "var(--text-caption)",
+                  fontStyle: "italic",
+                }}
+              >
+                {HEADLINE}
+              </p>
+            </Stack>
+  
+            {/* Inline contact strip. Each item is a small icon + text
+                pair; the row wraps gracefully on narrower viewports.
+                Icons inherit text color via currentColor and are
+                decorative (aria-hidden) since the adjacent text already
+                identifies the channel. */}
+            <ul
+              // <ul> instead of <div> so screen readers announce
+              // "list of 5 items" — the contact strip is, semantically,
+              // a list of contact channels. Bumped row leading to 1.5
+              // and added vertical padding so each tappable <li> clears
+              // the WCAG 2.2 SC 2.5.8 24×24 minimum target. role="list"
+              // because Safari iOS strips the implicit role under
+              // list-style: none.
+              role="list"
+              className="flex flex-wrap items-center gap-x-5 gap-y-2"
               style={{
-                fontFamily: "var(--font-primary)",
-                fontSize: "var(--h5-font-size)",
-                lineHeight: "var(--h5-line-height)",
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--p-xs-font-size)",
+                lineHeight: "1.5",
                 color: "var(--text-caption)",
-                fontStyle: "italic",
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
               }}
             >
-              {HEADLINE}
-            </p>
+              <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
+                <IconPhone />
+                <Link href={telHref}>{CONTACT.phone}</Link>
+              </li>
+              <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
+                <IconEmail />
+                <Link href={mailHref}>{CONTACT.email}</Link>
+              </li>
+              <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
+                <IconLinkedIn />
+                <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>
+              </li>
+              <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
+                <IconGitHub />
+                <Link href={CONTACT.github}>GitHub ↗</Link>
+              </li>
+              <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
+                <IconLocation />
+                <span>{CONTACT.location}</span>
+              </li>
+            </ul>
+  
+            {/* Visual rule — mimics the horizontal line on the PDF
+                that sits between the header and the summary. Drawn
+                against --text-heading so it carries weight without
+                relying on the near-invisible --border-default. */}
+            <hr
+              style={{
+                border: "none",
+                borderTop: "2px solid var(--text-heading)",
+                opacity: 0.85,
+                margin: 0,
+              }}
+              aria-hidden
+            />
+  
+            {/* Summary — the elevator pitch */}
+            <Lede>{SUMMARY}</Lede>
+  
+            {/* Primary CTAs. Wraps on mobile.
+                The download attribute pins the saved filename to
+                "Malcolm Xavier Resume.pdf"; the PDF's embedded Title
+                metadata also reads "Malcolm Xavier Resume" so browsers
+                that prefer metadata for the tab/Save-As dialog don't
+                leak the original Google Doc name. */}
+            <div className="flex flex-wrap gap-3">
+              <Button
+                as="a"
+                href="/resume/malcolm-xavier-resume.pdf"
+                download="Malcolm Xavier Resume.pdf"
+                variant="primary"
+                size="lg"
+              >
+                <IconDownload />
+                Download PDF
+              </Button>
+              <Button
+                as="a"
+                href={CONTACT.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="secondary"
+                size="lg"
+              >
+                View on LinkedIn ↗
+              </Button>
+            </div>
           </Stack>
-
-          {/* Inline contact strip. Each item is a small icon + text
-              pair; the row wraps gracefully on narrower viewports.
-              Icons inherit text color via currentColor and are
-              decorative (aria-hidden) since the adjacent text already
-              identifies the channel. */}
-          <ul
-            // <ul> instead of <div> so screen readers announce
-            // "list of 5 items" — the contact strip is, semantically,
-            // a list of contact channels. Bumped row leading to 1.5
-            // and added vertical padding so each tappable <li> clears
-            // the WCAG 2.2 SC 2.5.8 24×24 minimum target. role="list"
-            // because Safari iOS strips the implicit role under
-            // list-style: none.
-            role="list"
-            className="flex flex-wrap items-center gap-x-5 gap-y-2"
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "var(--p-xs-font-size)",
-              lineHeight: "1.5",
-              color: "var(--text-caption)",
-              listStyle: "none",
-              padding: 0,
-              margin: 0,
-            }}
-          >
-            <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
-              <IconPhone />
-              <Link href={telHref}>{CONTACT.phone}</Link>
-            </li>
-            <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
-              <IconEmail />
-              <Link href={mailHref}>{CONTACT.email}</Link>
-            </li>
-            <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
-              <IconLinkedIn />
-              <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>
-            </li>
-            <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
-              <IconGitHub />
-              <Link href={CONTACT.github}>GitHub ↗</Link>
-            </li>
-            <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
-              <IconLocation />
-              <span>{CONTACT.location}</span>
-            </li>
-          </ul>
-
-          {/* Visual rule — mimics the horizontal line on the PDF
-              that sits between the header and the summary. Drawn
-              against --text-heading so it carries weight without
-              relying on the near-invisible --border-default. */}
-          <hr
-            style={{
-              border: "none",
-              borderTop: "2px solid var(--text-heading)",
-              opacity: 0.85,
-              margin: 0,
-            }}
-            aria-hidden
-          />
-
-          {/* Summary — the elevator pitch */}
-          <Lede>{SUMMARY}</Lede>
-
-          {/* Primary CTAs. Wraps on mobile.
-              The download attribute pins the saved filename to
-              "Malcolm Xavier Resume.pdf"; the PDF's embedded Title
-              metadata also reads "Malcolm Xavier Resume" so browsers
-              that prefer metadata for the tab/Save-As dialog don't
-              leak the original Google Doc name. */}
-          <div className="flex flex-wrap gap-3">
-            <Button
-              as="a"
-              href="/resume/malcolm-xavier-resume.pdf"
-              download="Malcolm Xavier Resume.pdf"
-              variant="primary"
-              size="lg"
-            >
-              <IconDownload />
-              Download PDF
-            </Button>
-            <Button
-              as="a"
-              href={CONTACT.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="secondary"
-              size="lg"
-            >
-              View on LinkedIn ↗
-            </Button>
-          </div>
-        </Stack>
-      </Section>
-
-      {/* ─── Work Experience ───────────────────────────────────── */}
-      <Section
-        id="work-experience"
-        style={sectionAnchorStyle}
-        padding="md"
-        bordered
-      >
-        <Stack gap="700">
-          <Kicker as="h2">01 · Work experience</Kicker>
-          {ROLES.map((role) => (
-            <RoleBlock key={`${role.company}-${role.dates}`} role={role} />
-          ))}
-        </Stack>
-      </Section>
-
-      {/* ─── Education ─────────────────────────────────────────── */}
-      <Section
-        id="education"
-        style={sectionAnchorStyle}
-        padding="md"
-        bordered
-      >
-        <Stack gap="700">
-          <Kicker as="h2">02 · Education</Kicker>
-          {EDUCATION.map((entry) => (
-            <EducationBlock key={entry.institution} entry={entry} />
-          ))}
-        </Stack>
-      </Section>
-
-      {/* ─── Case studies ──────────────────────────────────────── */}
-      <Section
-        id="case-studies"
-        style={sectionAnchorStyle}
-        padding="md"
-        bordered
-      >
-        <Stack gap="600">
-          <Kicker as="h2">03 · Case studies</Kicker>
-          <Grid cols={CASE_STUDIES.length >= 2 ? 2 : 1} gap="600">
-            {CASE_STUDIES.map((study) => (
-              <CaseStudyCard key={study.slug} study={study} />
+        </Section>
+  
+        {/* ─── Work Experience ───────────────────────────────────── */}
+        <Section
+          id="work-experience"
+          style={sectionAnchorStyle}
+          padding="md"
+          bordered
+        >
+          <Stack gap="700">
+            <Kicker as="h2">01 · Work experience</Kicker>
+            {ROLES.map((role) => (
+              <RoleBlock key={`${role.company}-${role.dates}`} role={role} />
             ))}
-          </Grid>
-        </Stack>
-      </Section>
-
-      {/* ─── Closing CTA ───────────────────────────────────────── */}
-      <Section
-        id="contact"
-        style={sectionAnchorStyle}
-        padding="md"
-        bordered
-      >
-        <Stack gap="400" align="start">
-          <Headline level={2}>Let&apos;s talk.</Headline>
-          <Body>
-            If you&apos;re hiring for a Senior PM in media, publishing, or
-            streaming—or you&apos;d just like to compare notes—pick a slot
-            for a{" "}
-            <Link href={CONTACT.calendly}>30-minute product chat</Link>,
-            send an <Link href={mailHref}>email</Link>, or reach out on{" "}
-            <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>.
-          </Body>
-        </Stack>
-      </Section>
+          </Stack>
+        </Section>
+  
+        {/* ─── Education ─────────────────────────────────────────── */}
+        <Section
+          id="education"
+          style={sectionAnchorStyle}
+          padding="md"
+          bordered
+        >
+          <Stack gap="700">
+            <Kicker as="h2">02 · Education</Kicker>
+            {EDUCATION.map((entry) => (
+              <EducationBlock key={entry.institution} entry={entry} />
+            ))}
+          </Stack>
+        </Section>
+  
+        {/* ─── Case studies ──────────────────────────────────────── */}
+        <Section
+          id="case-studies"
+          style={sectionAnchorStyle}
+          padding="md"
+          bordered
+        >
+          <Stack gap="600">
+            <Kicker as="h2">03 · Case studies</Kicker>
+            <Grid cols={CASE_STUDIES.length >= 2 ? 2 : 1} gap="600">
+              {CASE_STUDIES.map((study) => (
+                <CaseStudyCard key={study.slug} study={study} />
+              ))}
+            </Grid>
+          </Stack>
+        </Section>
+  
+        {/* ─── Closing CTA ───────────────────────────────────────── */}
+        <Section
+          id="contact"
+          style={sectionAnchorStyle}
+          padding="md"
+          bordered
+        >
+          <Stack gap="400" align="start">
+            <Headline level={2}>Let&apos;s talk.</Headline>
+            <Body>
+              If you&apos;re hiring for a Senior PM in media, publishing, or
+              streaming—or you&apos;d just like to compare notes—pick a slot
+              for a{" "}
+              <Link href={CONTACT.calendly}>30-minute product chat</Link>,
+              send an <Link href={mailHref}>email</Link>, or reach out on{" "}
+              <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>.
+            </Body>
+          </Stack>
+        </Section>
         </div>
       </div>
     </Container>

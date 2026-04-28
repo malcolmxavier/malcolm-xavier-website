@@ -17,15 +17,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { HTMLAttributes } from "react";
-
-type SubBrand =
-  | "newsletter"
-  | "film"
-  | "tv"
-  | "music"
-  | "games"
-  | "books"
-  | "podcast";
+import type { SubBrand } from "@/lib/sub-brands";
 
 type CardProps = HTMLAttributes<HTMLDivElement> & {
   accent?: SubBrand;
