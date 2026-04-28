@@ -44,6 +44,12 @@ const PREVIEW_TRACK_COUNT = 4;
 // same first-4-unique-album-cover logic, but doesn't expose the
 // mosaic URL through the listing path). This mirrors Spotify's
 // behavior exactly without an extra API call.
+//
+// Dedup uses album.id, which is region-stable for most albums but
+// not all — a playlist with the US release and the EU release of
+// the same record back-to-back would render both as separate
+// mosaic tiles. Low probability for a curated collection; if it
+// ever matters, add a secondary dedup on album.name.
 function pickMosaicCovers(playlist: EnrichedPlaylist) {
   const seen = new Set<string>();
   const out: { url: string; albumName: string }[] = [];
@@ -101,10 +107,26 @@ export function PlaylistCard({ playlist }: { playlist: EnrichedPlaylist }) {
             // album covers in track order, since the listing API
             // returns null images for these and doesn't expose the
             // mosaic URL.
+            //
+            // Decorative wrapper (no role/aria-label): the parent
+            // NextLink already names the destination via aria-label
+            // ("Open {playlist}") so an inner role="img" with a
+            // four-album-list label would (a) likely be suppressed
+            // by AT under name-from-content priority, (b) bloat
+            // SR announcements with verbose album titles, and (c)
+            // duplicate semantics the playlist heading already
+            // carries below the cover. Keep this as visual chrome.
+            //
+            // gap-px + background color produces a 1px hairline
+            // between cells (the wrapper's bg shows through the
+            // gap). Softens the seams when adjacent covers have
+            // very different brightness — Spotify itself uses no
+            // gutter, but the divider reads cleaner on our smaller
+            // card sizes.
             <div
-              role="img"
-              aria-label={`Auto-generated cover from ${mosaicCovers.map((c) => c.albumName).join(", ")}`}
-              className="rounded-md w-full h-full overflow-hidden grid grid-cols-2 grid-rows-2"
+              aria-hidden
+              className="rounded-md w-full h-full overflow-hidden grid grid-cols-2 grid-rows-2 gap-px"
+              style={{ background: "var(--border-default)" }}
             >
               {mosaicCovers.map((c) => (
                 <div key={c.url} className="relative">

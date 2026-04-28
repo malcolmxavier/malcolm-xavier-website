@@ -112,7 +112,9 @@ export default function ContactPage() {
           <Stack gap="400">
             <Stack gap="200">
               <Kicker>Calendly</Kicker>
-              <Headline level={2}>30 minutes, on the record.</Headline>
+              <Headline level={2} id="calendly-heading">
+                30 minutes, on the record.
+              </Headline>
               <Body>
                 Best for: recruiter intros, product chats, and
                 anyone who&rsquo;d rather not write three emails to
@@ -125,13 +127,15 @@ export default function ContactPage() {
               // visually separate the third-party light-theme embed
               // from the surrounding page (which may be dark).
               //
-              // role="region" + aria-label exposes this as a named
-              // landmark in screen-reader landmark lists. Without it,
-              // the booking widget reads as an unlabeled iframe —
-              // VoiceOver users can't navigate to it via the rotor or
-              // tell what's inside before tabbing in.
+              // role="region" + aria-labelledby exposes this as a
+              // named landmark in screen-reader landmark lists. The
+              // landmark name reuses the editorial heading above
+              // ('30 minutes, on the record.') instead of a generic
+              // 'Book a meeting via Calendly,' so SR users hear the
+              // same voice the sighted UI carries — caught in the
+              // 2026-04-28 follow-up audit.
               role="region"
-              aria-label="Book a meeting via Calendly"
+              aria-labelledby="calendly-heading"
               className="overflow-hidden rounded-lg border"
               style={{
                 borderColor: "var(--border-default)",

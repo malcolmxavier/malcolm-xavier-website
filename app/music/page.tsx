@@ -69,7 +69,18 @@ export default async function MusicPage() {
     console.error("[/music] live AND snapshot failed:", err);
     return <SpotifyUnavailable />;
   }
-  const { playlists } = result;
+  const { playlists, source, capturedAt } = result;
+  // Format the capturedAt timestamp for the staleness caption when
+  // we're serving from snapshot. Editorial-honest about data
+  // freshness rather than silently presenting stale data as live.
+  const capturedAtCaption =
+    source === "snapshot" && capturedAt
+      ? new Date(capturedAt).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })
+      : null;
 
   return (
     // data-subbrand flips --primary-*, --font-primary, and
@@ -87,6 +98,15 @@ export default async function MusicPage() {
               the full track list. And click through to listen on Spotify
               or Apple Music. Check back in each month to see what's new.
             </Lede>
+            {capturedAtCaption ? (
+              // Quiet caption when /music is served from the on-disk
+              // snapshot rather than a fresh Spotify fetch (rate
+              // limit, 5xx, network blip). The editorial voice the
+              // rest of the site carries about data sources extends
+              // here — users see what they're getting instead of
+              // assuming live data.
+              <Kicker>Snapshot · {capturedAtCaption}</Kicker>
+            ) : null}
           </Stack>
         </Section>
 
