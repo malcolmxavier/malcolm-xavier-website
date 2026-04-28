@@ -51,7 +51,11 @@ export function ScrollProgress() {
     // narrow viewports where the wordmark wraps, or when the user
     // bumps their browser font-size.
     function measureNav() {
-      const nav = document.querySelector("header");
+      // Select via the data-site-nav hook (set on Nav.tsx) rather
+      // than the bare "header" tag — any future <header>-using
+      // component (modal headers, banner-route mocks, etc.) would
+      // silently break the bar's offset otherwise.
+      const nav = document.querySelector<HTMLElement>("[data-site-nav]");
       if (nav) {
         setNavBottom(Math.round(nav.getBoundingClientRect().height));
       }

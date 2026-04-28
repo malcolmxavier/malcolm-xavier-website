@@ -134,7 +134,7 @@ function Hero() {
             affordance — same trick the Basecamp Hero uses. */}
         <span
           style={{
-            fontFamily: "var(--font-secondary), system-ui, sans-serif",
+            fontFamily: "var(--font-secondary)",
             fontStyle: "normal",
           }}
         >

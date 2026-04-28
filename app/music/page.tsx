@@ -64,6 +64,12 @@ export default async function MusicPage() {
   let playlists: EnrichedPlaylist[];
   try {
     const summaries = await getOwnedPlaylists(SPOTIFY_USER_ID, EXCLUDE_IDS);
+    // Promise.all over every summary is intentionally unbounded here —
+    // the underlying spotifyFetch in lib/feeds/spotify.ts caps actual
+    // concurrency at MAX_CONCURRENT_REQUESTS via a head-pointer
+    // semaphore (see "Spotify rate-limit incident" in the case study).
+    // Without that guard, ~57 parallel /tracks calls would burn the
+    // /me/playlists bucket and trigger Retry-After.
     const enriched = await Promise.all(summaries.map(getEnrichedPlaylist));
     playlists = sortPlaylistsForDisplay(
       enriched,

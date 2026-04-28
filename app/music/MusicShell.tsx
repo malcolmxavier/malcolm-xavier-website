@@ -20,7 +20,7 @@
 
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
@@ -156,9 +156,14 @@ export function MusicShell({ playlists, collections }: Props) {
     setPage(0);
   };
 
-  // Index playlists by id once for O(1) lookup when assembling
-  // collection groupings.
-  const playlistsById = new Map(playlists.map((p) => [p.id, p]));
+  // Index playlists by id for O(1) lookup when assembling collection
+  // groupings. useMemo so the Map only rebuilds when `playlists`
+  // changes (server prop) — without it, every render rebuilt a
+  // 57-entry Map even when only `page` or `viewMode` changed.
+  const playlistsById = useMemo(
+    () => new Map(playlists.map((p) => [p.id, p])),
+    [playlists],
+  );
 
   return (
     <Stack gap="600">

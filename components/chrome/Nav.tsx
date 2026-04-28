@@ -82,6 +82,13 @@ export function Nav() {
       // Sticky so the wordmark + theme toggle stay reachable as the
       // user scrolls. z-40 keeps it above page content but below
       // anything modal (which would sit at z-50+).
+      //
+      // data-site-nav is the canonical hook for measuring this
+      // header's height (used by case-study ScrollProgress so the
+      // progress bar pins to the nav's bottom edge). Selecting via
+      // this attribute is more durable than `document.querySelector
+      // ("header")`, which would silently match any future <header>.
+      data-site-nav
       className="sticky top-0 z-40 backdrop-blur-md border-b"
       style={{
         // Semi-transparent surface so backdrop-blur has something to

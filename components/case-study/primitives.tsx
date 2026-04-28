@@ -195,7 +195,7 @@ export function Emph({ children }: { children: ReactNode }) {
     <span
       className="text-[var(--text-heading)]"
       style={{
-        fontFamily: "var(--font-primary), serif",
+        fontFamily: "var(--font-primary)",
         fontStyle: "italic",
       }}
     >
@@ -208,7 +208,7 @@ export function Code({ children }: { children: ReactNode }) {
   return (
     <code
       className="text-[14px] md:text-[15px] px-1.5 py-0.5 rounded-[6px] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] text-[var(--text-heading)]"
-      style={{ fontFamily: "var(--font-mono), monospace" }}
+      style={{ fontFamily: "var(--font-mono)" }}
     >
       {children}
     </code>
@@ -238,7 +238,7 @@ export function Pullquote({
       <blockquote
         className="m-0 text-[22px] md:text-[28px] leading-[1.3] tracking-[-0.005em] text-[var(--text-heading)]"
         style={{
-          fontFamily: "var(--font-primary), serif",
+          fontFamily: "var(--font-primary)",
           fontStyle: "italic",
         }}
       >
@@ -246,7 +246,7 @@ export function Pullquote({
       </blockquote>
       <figcaption
         className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
-        style={{ fontFamily: "var(--font-mono), monospace" }}
+        style={{ fontFamily: "var(--font-mono)" }}
       >
         — {attribution}
       </figcaption>
@@ -265,7 +265,7 @@ export function ClaudeNote({
     <div className="my-8 md:my-10 pl-4 md:pl-5 border-l-[2px] border-[var(--border-default)]">
       <p
         className="m-0 mb-2 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: "var(--font-mono), monospace" }}
+        style={{ fontFamily: "var(--font-mono)" }}
       >
         {kicker}
       </p>
@@ -307,7 +307,7 @@ export function Stat({
     <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
       <p
         className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: "var(--font-mono), monospace" }}
+        style={{ fontFamily: "var(--font-mono)" }}
       >
         {eyebrow}
       </p>
@@ -348,7 +348,7 @@ export function EvidenceCard({
     <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
       <p
         className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: "var(--font-mono), monospace" }}
+        style={{ fontFamily: "var(--font-mono)" }}
       >
         {eyebrow}
       </p>
@@ -390,7 +390,7 @@ export function GateCard({
     <div className="case-glass flex flex-col gap-1.5 p-5 rounded-[22px] border border-[var(--border-default)]">
       <p
         className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: "var(--font-mono), monospace" }}
+        style={{ fontFamily: "var(--font-mono)" }}
       >
         {metric}
       </p>
@@ -433,7 +433,7 @@ export function IterationCard({
     <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
       <p
         className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: "var(--font-mono), monospace" }}
+        style={{ fontFamily: "var(--font-mono)" }}
       >
         {lens}
       </p>
@@ -517,7 +517,7 @@ const METRICS_COLUMNS = [
 
 export function MetricsTable({ rows }: { rows: MetricRow[] }) {
   const monoHeader = {
-    fontFamily: "var(--font-mono), monospace",
+    fontFamily: "var(--font-mono)",
   } as const;
   return (
     <div className="my-8 md:my-10">

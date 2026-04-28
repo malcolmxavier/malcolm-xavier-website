@@ -180,21 +180,32 @@ export function sortPlaylistsForDisplay(
 ): EnrichedPlaylist[] {
   const topPin = new Map(manualOrder.map((id, i) => [id, i]));
   const bottomPin = new Map(manualBottom.map((id, i) => [id, i]));
-  const top: EnrichedPlaylist[] = [];
+
+  // Capture each pinned playlist's index at partition time so the
+  // sort comparators don't need to assert non-null on Map.get(). The
+  // earlier `topPin.get(id) as number` would have lied silently if
+  // the partition contract ever drifted.
+  const top: { p: EnrichedPlaylist; idx: number }[] = [];
   const middle: EnrichedPlaylist[] = [];
-  const bottom: EnrichedPlaylist[] = [];
+  const bottom: { p: EnrichedPlaylist; idx: number }[] = [];
+
   for (const p of playlists) {
-    if (topPin.has(p.id)) top.push(p);
-    else if (bottomPin.has(p.id)) bottom.push(p);
-    else middle.push(p);
+    const topIdx = topPin.get(p.id);
+    if (topIdx !== undefined) {
+      top.push({ p, idx: topIdx });
+      continue;
+    }
+    const bottomIdx = bottomPin.get(p.id);
+    if (bottomIdx !== undefined) {
+      bottom.push({ p, idx: bottomIdx });
+      continue;
+    }
+    middle.push(p);
   }
-  top.sort(
-    (a, b) => (topPin.get(a.id) as number) - (topPin.get(b.id) as number),
-  );
-  bottom.sort(
-    (a, b) =>
-      (bottomPin.get(a.id) as number) - (bottomPin.get(b.id) as number),
-  );
+
+  top.sort((a, b) => a.idx - b.idx);
+  bottom.sort((a, b) => a.idx - b.idx);
   middle.sort((a, b) => b.last_added_at_ms - a.last_added_at_ms);
-  return [...top, ...middle, ...bottom];
+
+  return [...top.map((x) => x.p), ...middle, ...bottom.map((x) => x.p)];
 }

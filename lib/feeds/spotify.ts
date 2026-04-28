@@ -40,6 +40,7 @@ import "server-only";
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { z } from "zod";
 
 // Re-export universal types + display helpers from spotify-utils so
 // existing call sites (`import { formatDuration } from "@/lib/feeds/spotify"`)
@@ -69,6 +70,84 @@ import type {
   SpotifyPlaylistItemsPage,
   SpotifyTrack,
 } from "./spotify-utils";
+
+// ─── Response schemas (zod) ─────────────────────────────────────
+// We validate Spotify responses at the network boundary rather than
+// asserting types via `as` casts. Spotify reshaped these fields in
+// Nov 2024 (track → item, items.tracks → items.total) — a schema
+// catches that class of change with a clear error pointing at the
+// renamed field instead of a silent runtime null. Schemas are
+// permissive on extra fields (zod default) so additive changes
+// upstream don't break the build.
+
+const SpotifyImageSchema = z.object({
+  url: z.string(),
+  height: z.number().nullable(),
+  width: z.number().nullable(),
+});
+
+const SpotifyArtistRefSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  external_urls: z.object({ spotify: z.string() }),
+});
+
+const SpotifyAlbumRefSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  images: z.array(SpotifyImageSchema),
+});
+
+const SpotifyTrackSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  type: z.literal("track"),
+  duration_ms: z.number(),
+  artists: z.array(SpotifyArtistRefSchema),
+  album: SpotifyAlbumRefSchema,
+  external_urls: z.object({ spotify: z.string() }),
+  preview_url: z.string().nullable(),
+});
+
+// Each playlist entry's `item` is either a track, an episode (which
+// we filter out), or null (rare, but Spotify returns null for
+// removed tracks the playlist still references).
+const SpotifyPlaylistEntrySchema = z.object({
+  added_at: z.string(),
+  is_local: z.boolean().optional(),
+  item: z.union([
+    SpotifyTrackSchema,
+    z.object({ type: z.literal("episode") }).passthrough(),
+    z.null(),
+  ]),
+});
+
+const SpotifyPlaylistSummarySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  description: z.string().nullable(),
+  images: z.array(SpotifyImageSchema),
+  external_urls: z.object({ spotify: z.string() }),
+  public: z.boolean().nullable(),
+  collaborative: z.boolean(),
+  snapshot_id: z.string(),
+  owner: z.object({
+    id: z.string(),
+    display_name: z.string().nullable(),
+  }),
+  // Reference object — holds the count, not the tracks themselves.
+  items: z.object({ href: z.string(), total: z.number() }),
+});
+
+const SpotifyPlaylistItemsPageSchema = z.object({
+  href: z.string(),
+  next: z.string().nullable(),
+  previous: z.string().nullable(),
+  limit: z.number(),
+  offset: z.number(),
+  total: z.number(),
+  items: z.array(SpotifyPlaylistEntrySchema),
+});
 
 const TOKEN_URL = "https://accounts.spotify.com/api/token";
 const AUTHORIZE_URL = "https://accounts.spotify.com/authorize";
@@ -273,13 +352,18 @@ function loadSnapshot(): SpotifySnapshot {
  */
 async function getMyPlaylists(): Promise<SpotifyPlaylistSummary[]> {
   const all: SpotifyPlaylistSummary[] = [];
+  // Schema for the listing endpoint — separate from the per-
+  // playlist-items page schema. We only validate the fields we
+  // consume; Spotify's full /me/playlists response carries more.
+  const ListingPageSchema = z.object({
+    items: z.array(SpotifyPlaylistSummarySchema),
+    next: z.string().nullable(),
+  });
+
   let url: string | null = `${API_BASE}/me/playlists?limit=50`;
   while (url) {
     const r = await spotifyFetch(url);
-    const page = (await r.json()) as {
-      items: SpotifyPlaylistSummary[];
-      next: string | null;
-    };
+    const page = ListingPageSchema.parse(await r.json());
     all.push(...page.items);
     url = page.next;
   }
@@ -338,12 +422,16 @@ export async function getPlaylistTracks(
     `${API_BASE}/playlists/${playlistId}/items?limit=50`;
   while (url) {
     const r = await spotifyFetch(url);
-    const page = (await r.json()) as SpotifyPlaylistItemsPage;
+    const page = SpotifyPlaylistItemsPageSchema.parse(await r.json());
     for (const entry of page.items) {
-      // is_local is on the entry, not the item. When true, item.id
-      // is null and album metadata is absent — skip entirely.
-      if ((entry as { is_local?: boolean }).is_local) continue;
-      const item = entry.item as SpotifyTrack | null;
+      // is_local is on the entry, not the item. When true, item is
+      // an mp3 the user uploaded — skip entirely (no playable URL
+      // for visitors, missing album metadata).
+      if (entry.is_local) continue;
+      const item = entry.item;
+      // After zod-parse, `item.type === "track"` narrows to the
+      // SpotifyTrack shape — no cast needed. Episodes and null
+      // entries fall through.
       if (!item || item.type !== "track" || !item.id) continue;
       result.push({ added_at: entry.added_at, track: item });
     }
@@ -361,7 +449,7 @@ async function getPlaylistMetadata(
   playlistId: string,
 ): Promise<SpotifyPlaylistSummary> {
   const r = await spotifyFetch(`${API_BASE}/playlists/${playlistId}`);
-  return (await r.json()) as SpotifyPlaylistSummary;
+  return SpotifyPlaylistSummarySchema.parse(await r.json());
 }
 
 /**
@@ -474,13 +562,25 @@ const RATE_LIMIT_FAST_FAIL_SECONDS = 60;
  */
 async function spotifyFetch(url: string): Promise<Response> {
   return withSemaphore(async () => {
+    // Mint the access token once outside the retry loop. The token
+    // refresh is its own failure mode (network glitch, refresh-token
+    // expiry) — keeping it outside means a 429 retry cycle won't mask
+    // the original 429 with a downstream auth error. Only re-mint on
+    // a 401 inside the loop, which is the actual signal that the
+    // cached token expired mid-flight.
+    let token = await getAccessToken();
     for (let attempt = 0; attempt <= RATE_LIMIT_MAX_RETRIES; attempt++) {
-      const token = await getAccessToken();
       const res = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
         // Defer caching to Next.js at the call-site.
         cache: "no-store",
       });
+      // Token expired between mint and request — re-mint and retry
+      // this attempt without consuming a 429 retry slot.
+      if (res.status === 401 && attempt < RATE_LIMIT_MAX_RETRIES) {
+        token = await getAccessToken();
+        continue;
+      }
       if (res.status === 429) {
         const retryAfter = Number(res.headers.get("retry-after") ?? "1");
 

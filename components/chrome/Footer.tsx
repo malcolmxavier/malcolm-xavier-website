@@ -41,8 +41,11 @@ const ELSEWHERE = [
   { label: "Spotify", href: "https://open.spotify.com/user/malcolmxevans" },
 ];
 
-// Year is computed at build time — swap for a runtime computation
-// only if the build cadence ever drops below once a year (it won't).
+// Year is computed once per cold start — Next evaluates module-level
+// code at request time for Server Components, not at build time, so
+// the value refreshes whenever the function instance restarts. Good
+// enough for a copyright string; swap to a per-render computation
+// only if the cold-start cadence ever drops below once a year.
 const COPYRIGHT_YEAR = new Date().getFullYear();
 
 export function Footer() {

@@ -13,10 +13,45 @@
 // param, which keeps build-time downloads tiny (a few KB instead of
 // 50+).
 //
-// If Google ever rotates these CDN paths, this fetch will fail at
-// build and we'll see the failure during `vercel --prod` — at which
-// point the fallback is to download a TTF and read it from disk.
+// Resilience: this fetch runs at build time on Vercel. A brief CDN
+// blip during `vercel --prod` would kill the whole deployment if we
+// don't retry — the OG image is a static asset, not interactive
+// content, so failing the build over a 502 is the wrong tradeoff.
+// We retry each fetch once with backoff. If Google ever rotates the
+// endpoint format outright, both attempts fail and the build halts
+// with a clear error; the recovery is to commit a TTF and read it
+// from disk.
 // ─────────────────────────────────────────────────────────────────
+
+const MAX_FETCH_ATTEMPTS = 2;
+const RETRY_BACKOFF_MS = 500;
+
+/** Fetch with one automatic retry on transient network / 5xx errors. */
+async function fetchWithRetry(
+  url: string,
+  init?: RequestInit,
+): Promise<Response> {
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= MAX_FETCH_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch(url, init);
+      // 5xx is a transient signal worth retrying; 4xx (e.g. 404 for
+      // a misspelled family) is a programming error, not network noise.
+      if (res.ok || res.status < 500) return res;
+      lastError = new Error(
+        `Fetch ${res.status} ${res.statusText} on ${url}`,
+      );
+    } catch (err) {
+      lastError = err;
+    }
+    if (attempt < MAX_FETCH_ATTEMPTS) {
+      await new Promise((r) => setTimeout(r, RETRY_BACKOFF_MS * attempt));
+    }
+  }
+  throw lastError instanceof Error
+    ? lastError
+    : new Error(`Fetch failed for ${url}`);
+}
 
 /**
  * Fetch a Google Font binary subset to just the glyphs we need.
@@ -38,7 +73,7 @@ export async function loadGoogleFont(
   // Google Fonts serves DIFFERENT CSS depending on User-Agent. Modern
   // browsers get woff2 (which Satori can't parse); older agents get
   // TTF, which is what we need. Faking an old User-Agent forces TTF.
-  const cssRes = await fetch(cssUrl, {
+  const cssRes = await fetchWithRetry(cssUrl, {
     headers: {
       "User-Agent":
         "Mozilla/5.0 (compatible; OG-Image-Builder/1.0; +https://malxavi.com)",
@@ -65,7 +100,7 @@ export async function loadGoogleFont(
     );
   }
 
-  const fontRes = await fetch(match[1]);
+  const fontRes = await fetchWithRetry(match[1]);
   if (!fontRes.ok) {
     throw new Error(
       `Google Fonts TTF fetch failed: ${fontRes.status} ${fontRes.statusText}`,

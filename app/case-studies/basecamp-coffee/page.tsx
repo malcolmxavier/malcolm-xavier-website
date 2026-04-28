@@ -143,7 +143,7 @@ function Hero() {
             external-link affordance. */}
         <span
           style={{
-            fontFamily: "var(--font-secondary), system-ui, sans-serif",
+            fontFamily: "var(--font-secondary)",
             fontStyle: "normal",
           }}
         >
@@ -593,7 +593,7 @@ function FacetMatrix() {
       <figcaption className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] flex items-baseline justify-between gap-4">
         <span
           className="text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-          style={{ fontFamily: 'var(--font-mono), monospace' }}
+          style={{ fontFamily: 'var(--font-mono)' }}
         >
           Facet Mapping
         </span>
@@ -609,7 +609,7 @@ function FacetMatrix() {
           >
             <dt
               className="m-0 text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[var(--text-disabled)] pt-[3px]"
-              style={{ fontFamily: 'var(--font-mono), monospace' }}
+              style={{ fontFamily: 'var(--font-mono)' }}
             >
               {facet.name}
             </dt>
@@ -672,7 +672,7 @@ function DrinkMatrix() {
       <div className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] flex items-baseline justify-between gap-4">
         <p
           className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-          style={{ fontFamily: 'var(--font-mono), monospace' }}
+          style={{ fontFamily: 'var(--font-mono)' }}
         >
           Drinks, Archetypes, Facets, and Coverage
         </p>
@@ -689,7 +689,7 @@ function DrinkMatrix() {
           <div className="px-4 py-2 md:px-6 md:py-2.5 bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] border-b border-[var(--border-default)]">
             <p
               className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
-              style={{ fontFamily: 'var(--font-mono), monospace' }}
+              style={{ fontFamily: 'var(--font-mono)' }}
             >
               {group.label} · {group.drinks.length}
             </p>
@@ -712,7 +712,7 @@ function DrinkMatrix() {
                         <span className="mx-[0.45em] text-[var(--text-disabled)]">·</span>
                         <span
                           className="text-[14px] md:text-[15px] text-[var(--text-caption)]"
-                          style={{ fontFamily: 'var(--font-primary), serif', fontStyle: 'italic' }}
+                          style={{ fontFamily: 'var(--font-primary)', fontStyle: 'italic' }}
                         >
                           {archetype.name}
                         </span>
@@ -721,7 +721,7 @@ function DrinkMatrix() {
                   </p>
                   <p
                     className="col-start-2 row-start-1 md:col-start-3 md:row-start-1 m-0 text-[11px] md:text-[12px] tracking-[0.04em] tabular-nums whitespace-nowrap text-right text-[var(--text-heading)]"
-                    style={{ fontFamily: 'var(--font-mono), monospace' }}
+                    style={{ fontFamily: 'var(--font-mono)' }}
                     title={`${Math.round(share * COVERAGE.totalPaths).toLocaleString()} of ${COVERAGE.totalPaths.toLocaleString()} quiz paths`}
                   >
                     {(share * 100).toFixed(1)}%

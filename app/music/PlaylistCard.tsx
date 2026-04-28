@@ -55,7 +55,7 @@ export function PlaylistCard({ playlist }: { playlist: EnrichedPlaylist }) {
             on Spotify's null-dimensioned auto-mosaic images. The
             <Image> with fill picks up the surrounding height. */}
         <NextLink
-          href={`/music/${playlist.id}`}
+          href={`/music/${playlist.id}?from=music`}
           className="block relative w-full focus-visible:outline-2 focus-visible:outline-offset-4 rounded-md"
           style={{
             outlineColor: "var(--border-focus)",
@@ -98,7 +98,7 @@ export function PlaylistCard({ playlist }: { playlist: EnrichedPlaylist }) {
             }}
           >
             <NextLink
-              href={`/music/${playlist.id}`}
+              href={`/music/${playlist.id}?from=music`}
               className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 hover:[color:var(--text-action-hover)]"
               style={{
                 color: "var(--text-heading)",

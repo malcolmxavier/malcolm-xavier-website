@@ -74,7 +74,7 @@ export function CaseStudyHero({
       <p
         className="m-0 text-[19px] md:text-[21px] leading-[1.4] tracking-[-0.005em] text-[var(--text-caption)]"
         style={{
-          fontFamily: "var(--font-primary), serif",
+          fontFamily: "var(--font-primary)",
           fontStyle: "italic",
         }}
       >
