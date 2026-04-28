@@ -36,8 +36,31 @@ import { APPLE_MUSIC_LINKS } from "@/lib/feeds/spotify-config";
 
 const PREVIEW_TRACK_COUNT = 4;
 
+// Pick up to 4 distinct album covers from a playlist's tracks, in
+// playlist order, deduped by album.id. Used to compose our own 2x2
+// auto-mosaic when Spotify's listing endpoint returns null images
+// (which is what happens for any playlist that hasn't had a custom
+// cover uploaded — Spotify renders a mosaic in its own UI from the
+// same first-4-unique-album-cover logic, but doesn't expose the
+// mosaic URL through the listing path). This mirrors Spotify's
+// behavior exactly without an extra API call.
+function pickMosaicCovers(playlist: EnrichedPlaylist) {
+  const seen = new Set<string>();
+  const out: { url: string; albumName: string }[] = [];
+  for (const { track } of playlist.tracks) {
+    if (seen.has(track.album.id)) continue;
+    const img = pickImage(track.album.images, 150);
+    if (!img) continue;
+    seen.add(track.album.id);
+    out.push({ url: img.url, albumName: track.album.name });
+    if (out.length === 4) break;
+  }
+  return out;
+}
+
 export function PlaylistCard({ playlist }: { playlist: EnrichedPlaylist }) {
   const cover = pickImage(playlist.images, 300);
+  const mosaicCovers = cover ? [] : pickMosaicCovers(playlist);
   const previewTracks = playlist.tracks.slice(0, PREVIEW_TRACK_COUNT);
   const description = decodeSpotifyDescription(playlist.description);
   const appleMusicHref = APPLE_MUSIC_LINKS[playlist.id];
@@ -71,12 +94,46 @@ export function PlaylistCard({ playlist }: { playlist: EnrichedPlaylist }) {
               sizes="(min-width: 1280px) 18rem, (min-width: 1024px) 24rem, (min-width: 640px) 40vw, 90vw"
               className="rounded-md object-cover"
             />
+          ) : mosaicCovers.length === 4 ? (
+            // Our own 2x2 mosaic — mirrors what Spotify renders in
+            // its UI for playlists that have no uploaded cover. We
+            // construct it client-side from the first 4 unique
+            // album covers in track order, since the listing API
+            // returns null images for these and doesn't expose the
+            // mosaic URL.
+            <div
+              role="img"
+              aria-label={`Auto-generated cover from ${mosaicCovers.map((c) => c.albumName).join(", ")}`}
+              className="rounded-md w-full h-full overflow-hidden grid grid-cols-2 grid-rows-2"
+            >
+              {mosaicCovers.map((c) => (
+                <div key={c.url} className="relative">
+                  <Image
+                    src={c.url}
+                    alt=""
+                    fill
+                    sizes="(min-width: 1280px) 9rem, (min-width: 1024px) 12rem, (min-width: 640px) 20vw, 45vw"
+                    className="object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          ) : mosaicCovers.length > 0 ? (
+            // Fewer than 4 unique albums — Spotify's mosaic logic
+            // would also fall back; we use the first available cover
+            // so the card isn't empty.
+            <Image
+              src={mosaicCovers[0].url}
+              alt=""
+              fill
+              sizes="(min-width: 1280px) 18rem, (min-width: 1024px) 24rem, (min-width: 640px) 40vw, 90vw"
+              className="rounded-md object-cover"
+            />
           ) : (
-            // No-cover fallback. role="img" + aria-label gives the
-            // tile an explicit AT description; the playlist name in
-            // the <Headline> below carries the identity, so this is
-            // a quiet "missing artwork" cue rather than a duplicate
-            // label.
+            // No-cover fallback (rare: empty playlist + no listing
+            // image). role="img" + aria-label gives the tile an
+            // explicit AT description; the playlist name in the
+            // <Headline> below carries the identity.
             <div
               role="img"
               aria-label="No cover art available"

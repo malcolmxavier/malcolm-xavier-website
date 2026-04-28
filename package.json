@@ -6,8 +6,8 @@
     "node": ">=22 <26"
   },
   "scripts": {
-    "dev": "next dev",
-    "dev:offline": "SPOTIFY_OFFLINE=1 next dev",
+    "dev": "SPOTIFY_OFFLINE=1 next dev",
+    "dev:online": "next dev -p 3001",
     "build": "SPOTIFY_OFFLINE=1 next build",
     "build:online": "next build",
     "start": "next start",

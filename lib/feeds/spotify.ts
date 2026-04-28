@@ -53,6 +53,10 @@ export {
   pickImage,
   sortPlaylistsForDisplay,
 } from "./spotify-utils";
+// Local-binding import — the re-export above only exposes the symbol
+// to consumers of this module; we also need it accessible within the
+// module body for getMusicData() below.
+import { sortPlaylistsForDisplay } from "./spotify-utils";
 export type {
   EnrichedPlaylist,
   SpotifyAlbumRef,
@@ -559,25 +563,111 @@ export async function getEnrichedPlaylist(
     const t = Date.parse(added_at);
     if (!Number.isNaN(t) && t > lastAdded) lastAdded = t;
   }
-  // Auto-mosaic playlists come back from the listing endpoint with
-  // `images: null` — the schema coerces null to []. Spotify's UI
-  // renders a 4-album mosaic for these, but the listing API doesn't
-  // expose the mosaic URL. As a graceful fallback, surface the first
-  // track's album cover so the card has a meaningful visual cue
-  // related to playlist content rather than the bare placeholder.
-  // Less rich than Spotify's mosaic, but avoids "no cover" entirely
-  // for the common auto-mosaic case.
-  const images =
-    summary.images.length === 0 && tracks.length > 0
-      ? tracks[0].track.album.images
-      : summary.images;
+  // Auto-mosaic case: when summary.images is empty (Spotify returned
+  // null for the listing endpoint), PlaylistCard composes its own
+  // 2x2 mosaic from the first 4 unique album covers in tracks —
+  // mirroring Spotify's UI exactly. Keep summary.images as-is here
+  // so the UI layer can detect the absence and trigger that path.
   return {
     ...summary,
-    images,
     tracks,
     total_duration_ms: total,
     last_added_at_ms: lastAdded,
   };
+}
+
+/**
+ * Top-level entry for the /music grid. Wraps the fetch+enrich+sort
+ * pipeline with a snapshot fallback so the page still renders when
+ * Spotify is unreachable (rate-limited, 5xx, network blip, refresh-
+ * token revoked, etc).
+ *
+ * Order of preference:
+ *   1. Offline mode (SPOTIFY_OFFLINE=1) — read snapshot directly,
+ *      no Spotify call attempted.
+ *   2. Live fetch — try the full live pipeline against Spotify.
+ *   3. Snapshot fallback — if live throws for any reason, read
+ *      snapshot and serve that. The result is `source: "snapshot"`
+ *      so call-sites can optionally surface a "data as of X" hint.
+ *   4. Throw — if BOTH live AND snapshot fail (no snapshot file,
+ *      or snapshot read error). The /music page renders
+ *      SpotifyUnavailable in that case.
+ *
+ * Snapshot freshness is a separate concern: whoever owns the
+ * snapshot is responsible for refreshing it on a cadence that
+ * matches the data's volatility. For this project: manually via
+ * `npm run spotify:snapshot` from a healthy dev session, or via
+ * a future Vercel Cron that calls /api/spotify/snapshot.
+ */
+export type MusicDataResult = {
+  playlists: EnrichedPlaylist[];
+  source: "live" | "snapshot";
+  capturedAt?: string;
+};
+
+export async function getMusicData(
+  userId: string,
+  excludeIds: ReadonlySet<string>,
+  manualOrder: ReadonlyArray<string>,
+  manualBottomOrder: ReadonlyArray<string>,
+): Promise<MusicDataResult> {
+  // Offline mode short-circuits to snapshot. This is the right
+  // default for dev (no API calls) and for prod when SPOTIFY_OFFLINE
+  // is set as a runtime env var.
+  if (isOfflineMode()) {
+    return readMusicSnapshot(excludeIds, manualOrder, manualBottomOrder);
+  }
+  try {
+    const summaries = await getOwnedPlaylists(userId, excludeIds);
+    const enriched = await Promise.all(summaries.map(getEnrichedPlaylist));
+    const playlists = sortPlaylistsForDisplay(
+      enriched,
+      manualOrder,
+      manualBottomOrder,
+    );
+    return { playlists, source: "live" };
+  } catch (err) {
+    console.warn(
+      "[getMusicData] live Spotify fetch failed; falling back to snapshot:",
+      err instanceof Error ? err.message : err,
+    );
+    try {
+      return readMusicSnapshot(excludeIds, manualOrder, manualBottomOrder);
+    } catch (snapErr) {
+      // Re-throw the ORIGINAL live-fetch error rather than the
+      // snapshot-read error — the live error is the operationally
+      // useful one (telling us why Spotify was unreachable). The
+      // snapshot error is a chicken-and-egg sign that we lost
+      // protection too.
+      console.error(
+        "[getMusicData] snapshot fallback also failed:",
+        snapErr instanceof Error ? snapErr.message : snapErr,
+      );
+      throw err;
+    }
+  }
+}
+
+/**
+ * Read the snapshot, apply the same sort/filter rules as the live
+ * pipeline so the rendered page is shape-identical regardless of
+ * source.
+ */
+function readMusicSnapshot(
+  excludeIds: ReadonlySet<string>,
+  manualOrder: ReadonlyArray<string>,
+  manualBottomOrder: ReadonlyArray<string>,
+): MusicDataResult {
+  const snap = loadSnapshot();
+  const enriched = Object.values(snap.enrichedById).filter(
+    (p) => !excludeIds.has(p.id),
+  );
+  const playlists = sortPlaylistsForDisplay(
+    enriched,
+    manualOrder,
+    manualBottomOrder,
+  );
+  return { playlists, source: "snapshot", capturedAt: snap.capturedAt };
 }
 
 /**
@@ -603,21 +693,79 @@ const RATE_LIMIT_MAX_RETRIES = 4;
 const RATE_LIMIT_FAST_FAIL_SECONDS = 60;
 
 /**
- * Fetch wrapper that adds the Authorization header, throttles
- * concurrent requests via a tiny semaphore, and retries on 429
- * honoring Spotify's Retry-After header.
+ * Per-endpoint-family cooldown tracking. When Spotify returns a 429
+ * with a long Retry-After, store the cleartime so subsequent calls
+ * to the same family short-circuit (throw immediately) instead of
+ * burning more requests against an already-exhausted bucket. Per
+ * memory: Spotify's rate limits are bucketed per endpoint family —
+ * `/me` clear ≠ `/me/playlists` clear — so we key on the family,
+ * not the full URL.
  *
- * Two distinct 429 paths:
- *   1. Short Retry-After (≤ FAST_FAIL_SECONDS): sleep up to 30s and
- *      retry, up to RATE_LIMIT_MAX_RETRIES times. Right call for a
- *      brief burst limit.
- *   2. Long Retry-After (> FAST_FAIL_SECONDS): throw immediately
- *      without sleeping. Spotify's clock isn't moved by us continuing
- *      to wait, and a multi-hour cool-down should fall through to
- *      whatever fallback the call-site has (e.g. SpotifyUnavailable
- *      on /music) in <1s, not after 4 × 30s = 2 min of dead time.
+ * Module-scoped: persists for the lifetime of the dev server (one
+ * process). Survives across many requests but resets on restart.
+ * In Vercel Fluid Compute the same instance handles many requests
+ * too, so the protection holds within a function instance. Cold
+ * starts re-attempt and gracefully degrade via the snapshot fallback
+ * if still rate-limited.
+ */
+const cooldowns = new Map<string, number>();
+
+/**
+ * Derive an endpoint family from a Spotify URL. Conservative
+ * grouping: paths with a literal segment as their first path
+ * component get folded together (`/me/playlists` regardless of
+ * query params), while paths with an ID interpolated get keyed on
+ * the static prefix (`/playlists/:id` and `/playlists/:id/items`
+ * group under `/playlists/:id`). Approximates Spotify's actual
+ * bucket boundaries — perfect mapping isn't documented, this is a
+ * useful heuristic.
+ */
+function endpointFamily(url: string): string {
+  const path = new URL(url).pathname.replace(/^\/v1/, "");
+  const segs = path.split("/").filter(Boolean);
+  // Replace any segment that looks like a Spotify ID (22-char
+  // base62) with `:id` for grouping.
+  return (
+    "/" +
+    segs.map((s) => (/^[A-Za-z0-9]{22}$/.test(s) ? ":id" : s)).join("/")
+  );
+}
+
+/**
+ * Fetch wrapper that adds the Authorization header, throttles
+ * concurrent requests via a tiny semaphore, retries on short 429s
+ * honoring Spotify's Retry-After header, and short-circuits when
+ * we're already in a tracked cool-down for the endpoint family.
+ *
+ * Three distinct 429 paths:
+ *   0. KNOWN cool-down (cooldown map): throw immediately without
+ *      hitting Spotify. Saves the round-trip and avoids extending
+ *      the penalty box with repeat offenses.
+ *   1. Short Retry-After (≤ FAST_FAIL_SECONDS): sleep up to 30s
+ *      and retry, up to RATE_LIMIT_MAX_RETRIES times. Right call
+ *      for a brief burst limit.
+ *   2. Long Retry-After (> FAST_FAIL_SECONDS): record the cool-
+ *      down and throw immediately without sleeping. Spotify's
+ *      clock isn't moved by us continuing to wait; the call-site's
+ *      fallback (SpotifyUnavailable / snapshot) can render in <1s.
  */
 async function spotifyFetch(url: string): Promise<Response> {
+  // Pre-flight: skip Spotify entirely if we know the family is in
+  // cool-down. The thrown error mirrors the 429 path so call-sites
+  // see the same shape regardless of which surfaced it.
+  const family = endpointFamily(url);
+  const cooldownUntil = cooldowns.get(family);
+  if (cooldownUntil !== undefined) {
+    if (Date.now() < cooldownUntil) {
+      const remaining = Math.ceil((cooldownUntil - Date.now()) / 1000);
+      throw new Error(
+        `Spotify API: ${family} is in cool-down for ${remaining}s more — ` +
+          `skipping the request so the call-site fallback can render.`,
+      );
+    }
+    cooldowns.delete(family);
+  }
+
   return withSemaphore(async () => {
     // Mint the access token once outside the retry loop. The token
     // refresh is its own failure mode (network glitch, refresh-token
@@ -644,7 +792,10 @@ async function spotifyFetch(url: string): Promise<Response> {
         // Fast-fail on long cool-downs — sleeping doesn't move
         // Spotify's clock, and the call-site's fallback can render
         // immediately instead of after minutes of dead retries.
+        // Record the cool-down so subsequent calls to the same
+        // family short-circuit at the pre-flight check above.
         if (retryAfter > RATE_LIMIT_FAST_FAIL_SECONDS) {
+          cooldowns.set(family, Date.now() + retryAfter * 1000);
           throw new Error(
             `Spotify API: rate-limited with Retry-After=${retryAfter}s ` +
               `on ${url} — exceeds fast-fail threshold ` +

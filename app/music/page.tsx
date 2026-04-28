@@ -28,12 +28,7 @@ import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Lede } from "@/components/typography/Lede";
 import { Kicker } from "@/components/typography/Kicker";
-import {
-  getOwnedPlaylists,
-  getEnrichedPlaylist,
-  sortPlaylistsForDisplay,
-  type EnrichedPlaylist,
-} from "@/lib/feeds/spotify";
+import { getMusicData, type MusicDataResult } from "@/lib/feeds/spotify";
 import {
   COLLECTIONS,
   EXCLUDE_IDS,
@@ -56,30 +51,25 @@ export const metadata: Metadata = {
 const SPOTIFY_USER_ID = process.env.SPOTIFY_USER_ID ?? "malcolmxevans";
 
 export default async function MusicPage() {
-  // Pull every owned + public playlist's metadata in one paginated
-  // call, minus anything Malcolm has opted out via EXCLUDE_IDS.
-  // Then enrich each survivor (full track list) in parallel.
-  // If Spotify is rate-limiting or otherwise unavailable, fall back
-  // to a small editorial holding state so the page doesn't 500.
-  let playlists: EnrichedPlaylist[];
+  // getMusicData wraps the live Spotify fetch with a snapshot
+  // fallback: it tries the live pipeline first, and on any failure
+  // (rate-limit, 5xx, network blip) reads from the on-disk snapshot
+  // so the page still renders. Only throws when BOTH live and the
+  // snapshot are unavailable — at which point the holding-state
+  // fallback below is the right thing to show.
+  let result: MusicDataResult;
   try {
-    const summaries = await getOwnedPlaylists(SPOTIFY_USER_ID, EXCLUDE_IDS);
-    // Promise.all over every summary is intentionally unbounded here —
-    // the underlying spotifyFetch in lib/feeds/spotify.ts caps actual
-    // concurrency at MAX_CONCURRENT_REQUESTS via a head-pointer
-    // semaphore (see "Spotify rate-limit incident" in the case study).
-    // Without that guard, ~57 parallel /tracks calls would burn the
-    // /me/playlists bucket and trigger Retry-After.
-    const enriched = await Promise.all(summaries.map(getEnrichedPlaylist));
-    playlists = sortPlaylistsForDisplay(
-      enriched,
+    result = await getMusicData(
+      SPOTIFY_USER_ID,
+      EXCLUDE_IDS,
       MANUAL_ORDER,
       MANUAL_BOTTOM_ORDER,
     );
   } catch (err) {
-    console.error("[/music] Spotify fetch failed:", err);
+    console.error("[/music] live AND snapshot failed:", err);
     return <SpotifyUnavailable />;
   }
+  const { playlists } = result;
 
   return (
     // data-subbrand flips --primary-*, --font-primary, and
