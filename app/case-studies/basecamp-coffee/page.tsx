@@ -151,7 +151,7 @@ function Hero() {
         </span>
       </Link>{' '}
       is the prototype that came out of it. What follows is the story of how
-      it got there.
+      it got there&mdash;and the divergence that started everything.
     </CaseStudyHero>
   );
 }

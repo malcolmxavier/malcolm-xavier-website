@@ -150,6 +150,16 @@ a.link-loud {
   color: var(--green-400) !important;
 }
 
+/* Loud-link hover. Each rest-state above sets color with !important,
+   so the hover override needs !important too. --text-action-hover
+   resolves correctly per cluster — foundation-black on light
+   recruiter, primary-400 on dark recruiter, primary-600 on light
+   sub-brand. Replaces the earlier hover:opacity-70 workaround. */
+a.link-loud:hover,
+[data-theme="dark"] a.link-loud:hover {
+  color: var(--text-action-hover) !important;
+}
+
 /* Sub-brand context wins via specificity (descendant + class) and
    uses the alias-mapped --primary-default, which the design
    system flips per sub-brand. */

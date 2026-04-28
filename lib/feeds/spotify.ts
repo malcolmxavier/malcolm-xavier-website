@@ -98,6 +98,13 @@ const SpotifyAlbumRefSchema = z.object({
   images: z.array(SpotifyImageSchema),
 });
 
+// Track schema used to TYPE the validated value (not as the
+// discriminator's first branch — Spotify returns null `id`s for
+// tracks removed from the catalog post-add, which would fail strict
+// validation here even though the runtime filter below handles them).
+// We validate the shape we actually consume; the entry-level
+// passthrough branch lets unexpected nullability slide through to
+// the runtime filter.
 const SpotifyTrackSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -106,20 +113,29 @@ const SpotifyTrackSchema = z.object({
   artists: z.array(SpotifyArtistRefSchema),
   album: SpotifyAlbumRefSchema,
   external_urls: z.object({ spotify: z.string() }),
-  preview_url: z.string().nullable(),
+  // Spotify deprecated preview_url in late 2024 — most tracks now
+  // omit the field entirely rather than returning null. Accept
+  // string | null | undefined so we don't drop the entire track
+  // when Spotify returns the deprecated shape.
+  preview_url: z.string().nullable().optional(),
 });
 
-// Each playlist entry's `item` is either a track, an episode (which
-// we filter out), or null (rare, but Spotify returns null for
-// removed tracks the playlist still references).
+// Each playlist entry's `item` is either a fully-formed track, a
+// partial track (Spotify returns null id for removed catalog
+// tracks), an episode (which we filter out), or null (rare, but
+// returned for entries where Spotify's record is gone). Use a
+// permissive passthrough at this layer and let the runtime filter
+// in getPlaylistTracks reject anything missing the fields we need.
 const SpotifyPlaylistEntrySchema = z.object({
   added_at: z.string(),
   is_local: z.boolean().optional(),
-  item: z.union([
-    SpotifyTrackSchema,
-    z.object({ type: z.literal("episode") }).passthrough(),
-    z.null(),
-  ]),
+  item: z
+    .object({
+      type: z.string().optional(),
+      id: z.string().nullable().optional(),
+    })
+    .passthrough()
+    .nullable(),
 });
 
 const SpotifyPlaylistSummarySchema = z.object({
@@ -429,11 +445,26 @@ export async function getPlaylistTracks(
       // for visitors, missing album metadata).
       if (entry.is_local) continue;
       const item = entry.item;
-      // After zod-parse, `item.type === "track"` narrows to the
-      // SpotifyTrack shape — no cast needed. Episodes and null
-      // entries fall through.
-      if (!item || item.type !== "track" || !item.id) continue;
-      result.push({ added_at: entry.added_at, track: item });
+      // The page-level schema is permissive (passthrough) so one
+      // bad item doesn't fail the whole page. Per-item, we still
+      // want strict validation: parse against SpotifyTrackSchema
+      // and skip on failure (covers legacy entries with null id,
+      // missing album metadata, episodes, nulls). console.warn the
+      // skip so a sudden surge of failures shows up in logs as a
+      // potential Spotify reshape signal.
+      if (!item || item.type !== "track") continue;
+      const parsed = SpotifyTrackSchema.safeParse(item);
+      if (!parsed.success) {
+        const issue = parsed.error.issues[0];
+        console.warn(
+          `[spotify] dropping track entry on playlist ${playlistId}:`,
+          issue
+            ? `${issue.message} at path: ${issue.path.join(".")}`
+            : "validation failed",
+        );
+        continue;
+      }
+      result.push({ added_at: entry.added_at, track: parsed.data });
     }
     url = page.next;
   }

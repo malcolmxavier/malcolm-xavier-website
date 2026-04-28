@@ -39,7 +39,8 @@ export type SpotifyTrack = {
   artists: SpotifyArtistRef[];
   album: SpotifyAlbumRef;
   external_urls: { spotify: string };
-  preview_url: string | null;
+  /** Spotify deprecated preview_url in late 2024 — most tracks now omit the field. */
+  preview_url?: string | null;
 };
 
 export type SpotifyPlaylistEntry = {

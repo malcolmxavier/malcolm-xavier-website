@@ -90,7 +90,7 @@ export default async function MusicPage() {
         {/* ─── Hero ──────────────────────────────────────────────── */}
         <Section padding="lg">
           <Stack gap="500">
-            <Kicker accent>Music · {playlists.length} playlists</Kicker>
+            <Kicker accent>Music</Kicker>
             <Display>My taste. Your next listen.</Display>
             <Lede>
               I release a new playlist each month. Click any card for

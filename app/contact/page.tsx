@@ -111,7 +111,7 @@ export default function ContactPage() {
               than fighting the page styling. */}
           <Stack gap="400">
             <Stack gap="200">
-              <Kicker>Book a chat</Kicker>
+              <Kicker>Calendly</Kicker>
               <Headline level={2}>30 minutes, on the record.</Headline>
               <Body>
                 Best for: recruiter intros, product chats, and

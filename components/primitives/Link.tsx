@@ -76,21 +76,22 @@ export function Link({
   // chrome / footer / "elsewhere" lists.
   const decorationClass = quiet ? "decoration-1" : "decoration-2";
 
-  // Hover behavior: loud links get a subtle opacity drop (clear
-  // tactile feedback that doesn't depend on a color shift, since
-  // the previous color-shift hover went BLACK → GREY on default
-  // pages, which reads as "becoming disabled" rather than
-  // "interactive"). Quiet links keep the color-shift to action-
-  // hover since they start grey-ish anyway.
-  const hoverClass = quiet
-    ? "hover:[color:var(--text-action-hover)]"
-    : "hover:opacity-70";
+  // Hover behavior: both quiet and loud links shift to
+  // var(--text-action-hover) on hover. Loud's color comes from the
+  // .link-loud / [data-subbrand] a rules in components.css with
+  // !important, so loud's hover override sits there too — see
+  // `a.link-loud:hover` in components.css. The earlier opacity-70
+  // workaround dated from when --text-action-hover resolved to a
+  // lighter grey on recruiter pages and read as "becoming disabled";
+  // post the AA-safe action-chain fix it resolves to a darker stop
+  // (foundation-black on light recruiter, primary-600 on sub-brand),
+  // so the color-shift hover is the right affordance.
+  const hoverClass = quiet ? "hover:[color:var(--text-action-hover)]" : "";
 
   const sharedClasses = [
     underlineClass,
     `underline-offset-4 ${decorationClass}`,
-    quiet ? "transition-colors" : "transition-opacity",
-    "motion-reduce:transition-none",
+    "transition-colors motion-reduce:transition-none",
     "focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm",
     hoverClass,
     // Loud links carry a class used by app/components.css to set

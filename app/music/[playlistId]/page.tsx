@@ -195,8 +195,7 @@ export default async function PlaylistDetailPage(
         <Section padding="md" bordered>
           <Stack gap="300" align="start">
             <Body>
-              Want the rest? Browse{" "}
-              <Link href="/music">all playlists →</Link>
+              <Link href="/music">More from the catalog →</Link>
             </Body>
           </Stack>
         </Section>

@@ -155,7 +155,10 @@
       "Bash(pkill -9 -f \"next-server\\\\|next start\" sleep 2 lsof -i :3000)",
       "Bash(kill -9 43650)",
       "Bash(pkill -9 -f \"next-server\\\\|next start\")",
-      "Bash(kill -9 61240)"
+      "Bash(kill -9 61240)",
+      "Bash(kill -9 7106)",
+      "Bash(kill -9 10255)",
+      "Bash(env)"
     ]
   }
 }

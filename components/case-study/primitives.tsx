@@ -76,6 +76,11 @@ export function CaseStudyKicker({
     <Kicker
       className={`m-0 ${className ?? ""}`}
       style={{
+        // 11px is one step below --p-xs-font-size (12px) — an
+        // intentional editorial-magazine choice for case-study
+        // eyebrows. The wider 0.22em tracking (vs the standard
+        // 0.08em) compensates for the smaller cap height so the
+        // kicker still reads as a label, not body micro-copy.
         fontSize: "11px",
         letterSpacing: "0.22em",
         color: tone === "muted" ? "var(--text-disabled)" : "var(--text-caption)",
@@ -101,9 +106,14 @@ export function CaseStudyKicker({
 // ────────────────────────────────────────────────────────────────
 
 export function BeatSeparator() {
+  // Width is derived: max(Beat width) − 2 × Beat horizontal padding.
+  // Beat uses (560 / px-7=28), (880 / px-10=40), (1024 / px-10=40),
+  // so the separator should be (560-56=504), (880-80=800),
+  // (1024-80=944). Expressed with calc() so the relationship is
+  // visible to a future reader rather than three magic-number pairs.
   return (
     <hr
-      className="mx-auto mb-[18px] h-px border-0 max-w-[504px] md:max-w-[800px] lg:max-w-[944px] w-[calc(100%-56px)] md:w-[calc(100%-80px)]"
+      className="mx-auto mb-[18px] h-px border-0 max-w-[calc(560px-2*28px)] md:max-w-[calc(880px-2*40px)] lg:max-w-[calc(1024px-2*40px)] w-[calc(100%-2*28px)] md:w-[calc(100%-2*40px)]"
       style={{ background: "var(--border-default)" }}
     />
   );
@@ -191,11 +201,18 @@ export function Body({ children }: { children: ReactNode }) {
 }
 
 export function Emph({ children }: { children: ReactNode }) {
+  // Pin to Instrument Serif rather than var(--font-primary) so this
+  // emphasis style stays a serif italic regardless of cluster. On a
+  // sub-brand case study (Music → Roboto Mono primary), italicizing
+  // the cluster's mono font is wonky — italic monospace mixes
+  // poorly with the surrounding Roboto Slab body copy. Pinning to
+  // Instrument Serif keeps the editorial-italic voice intact at
+  // every surface.
   return (
     <span
       className="text-[var(--text-heading)]"
       style={{
-        fontFamily: "var(--font-primary)",
+        fontFamily: "var(--font-instrument-serif)",
         fontStyle: "italic",
       }}
     >
