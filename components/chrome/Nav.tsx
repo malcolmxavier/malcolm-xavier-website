@@ -127,19 +127,18 @@ export function Nav() {
 
             {SUB_BRAND_ROUTES.length > 0 && MAIN_ROUTES.length > 0 ? (
               // Visual divider between sub-brand and main routes.
-              // aria-hidden because it's purely decorative — the
-              // separation reads from spacing + grouping for AT.
+              // 1px CSS rule rather than a Unicode pipe glyph: the
+              // glyph would surface in reader-mode/CSS-disabled
+              // contexts and never matched the weight/leading of
+              // adjacent 12px Roboto Mono labels. aria-hidden because
+              // it's purely decorative — the separation reads from
+              // spacing + grouping for AT.
               <span
                 aria-hidden
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "var(--p-xs-font-size)",
-                  color: "var(--text-caption)",
-                  opacity: 0.5,
-                }}
-              >
-                |
-              </span>
+                role="presentation"
+                className="block h-4 w-px"
+                style={{ background: "var(--border-default)" }}
+              />
             ) : null}
 
             {MAIN_ROUTES.length > 0 ? (

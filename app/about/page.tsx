@@ -219,11 +219,11 @@ export default function AboutPage() {
           <Body>
             Pick a slot for a{" "}
             <Link href={CONTACT.calendly}>30-minute product chat</Link>,
-            send an <Link href={mailHref}>email</Link>, or
-            <br />
+            send an <Link href={mailHref}>email</Link>, or{" "}
             <Link href={CONTACT.linkedin}>
               connect with me on LinkedIn ↗
             </Link>
+            .
           </Body>
         </Stack>
       </Section>

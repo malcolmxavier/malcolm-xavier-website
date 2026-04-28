@@ -173,6 +173,8 @@
   --information-700: var(--blue-700);
   --information-800: var(--blue-800);
   --information-default: var(--blue-500);
+  --neutral-white: var(--foundation-white);
+  --neutral-black: var(--foundation-black);
   --font-primary: var(--font-instrument-serif), Georgia, serif;
   --font-secondary: var(--font-dm-sans), system-ui, sans-serif;
   --font-mono: var(--font-roboto-mono), ui-monospace, monospace;

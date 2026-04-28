@@ -179,6 +179,15 @@ for (const [semantic, brand] of Object.entries(defaultBindings)) {
   }
   out.push(`  --${semantic}-default: var(--${brand}-500);`);
 }
+// --neutral-white / --neutral-black anchor the semantic mappings at
+// :root (--text-body, --text-heading, --surface-page, etc.). Sub-brand
+// alias blocks define them via Alias/<subbrand>.json, but the recruiter
+// cluster has no alias file, so without these two lines the semantic
+// chain invalidates silently on Landing/Resume/About/Contact/CV — pages
+// rendered correctly only by browser canvas defaults. Per-sub-brand
+// values still win via cascade.
+out.push(`  --neutral-white: var(--foundation-white);`);
+out.push(`  --neutral-black: var(--foundation-black);`);
 // Default fonts for the recruiter cluster (Landing/Resume/About/Contact/CV):
 //   - Display (primary): Instrument Serif — editorial, high-contrast, calm
 //   - Body (secondary):  DM Sans — clean, scannable, recruiter-familiar

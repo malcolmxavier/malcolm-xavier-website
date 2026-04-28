@@ -163,7 +163,7 @@ export function Beat({
 
 export function Body({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-caption)] [&>p]:m-0">
+    <div className="flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-body)] [&>p]:m-0">
       {children}
     </div>
   );
@@ -482,65 +482,81 @@ export interface MetricRow {
   nowTone?: "down" | "muted";
 }
 
+// Single source of truth for column metadata — drives both the
+// desktop <table> header and the mobile stacked cards. The `key` is
+// the field on MetricRow; the `label` is the visible column header.
+const METRICS_COLUMNS = [
+  { key: "was", label: "6mo ago" },
+  { key: "now", label: "Now" },
+  { key: "target", label: "Target" },
+] as const satisfies ReadonlyArray<{
+  key: keyof Pick<MetricRow, "was" | "now" | "target">;
+  label: string;
+}>;
+
 export function MetricsTable({ rows }: { rows: MetricRow[] }) {
+  const monoHeader = {
+    fontFamily: "var(--font-mono), monospace",
+  } as const;
   return (
     <div className="my-8 md:my-10">
-      {/* Tablet + desktop — proper table grid */}
-      <div className="hidden md:block">
-        <div className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 pb-3 border-b border-[var(--border-default)]">
-          <p
-            className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
-            style={{ fontFamily: "var(--font-mono), monospace" }}
-          >
-            Metric
-          </p>
-          <p
-            className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
-            style={{ fontFamily: "var(--font-mono), monospace" }}
-          >
-            6mo ago
-          </p>
-          <p
-            className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
-            style={{ fontFamily: "var(--font-mono), monospace" }}
-          >
-            Now
-          </p>
-          <p
-            className="m-0 text-right text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
-            style={{ fontFamily: "var(--font-mono), monospace" }}
-          >
-            Target
-          </p>
-        </div>
-        {rows.map((row) => (
-          <div
-            key={row.metric}
-            className="grid grid-cols-[2fr_1fr_1fr_1fr] gap-4 py-3 border-b border-[var(--border-default)] last:border-b-0"
-          >
-            <p className="m-0 text-[15px] text-[var(--text-heading)]">
-              {row.metric}
-            </p>
-            <p className="m-0 text-right text-[15px] text-[var(--text-disabled)]">
-              {row.was}
-            </p>
-            <p
-              className={`m-0 text-right text-[15px] font-medium ${
-                row.nowTone === "down"
-                  ? "text-[var(--text-heading)]"
-                  : "text-[var(--text-caption)]"
-              }`}
+      {/* Tablet + desktop — proper <table> with thead/th scope so
+          screen readers announce row/column relationships. */}
+      <table className="hidden md:table w-full border-collapse">
+        <thead>
+          <tr className="border-b border-[var(--border-default)]">
+            <th
+              scope="col"
+              className="text-left text-[10px] uppercase tracking-[0.22em] font-normal text-[var(--text-disabled)] pb-3 pr-4 w-[40%]"
+              style={monoHeader}
             >
-              {row.now}
-            </p>
-            <p className="m-0 text-right text-[15px] text-[var(--text-caption)]">
-              {row.target}
-            </p>
-          </div>
-        ))}
-      </div>
+              Metric
+            </th>
+            {METRICS_COLUMNS.map((col) => (
+              <th
+                key={col.key}
+                scope="col"
+                className="text-right text-[10px] uppercase tracking-[0.22em] font-normal text-[var(--text-disabled)] pb-3 pl-4 w-[20%]"
+                style={monoHeader}
+              >
+                {col.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr
+              key={row.metric}
+              className="border-b border-[var(--border-default)] last:border-b-0"
+            >
+              <th
+                scope="row"
+                className="py-3 pr-4 text-left font-normal text-[15px] text-[var(--text-heading)]"
+              >
+                {row.metric}
+              </th>
+              <td className="py-3 pl-4 text-right text-[15px] text-[var(--text-disabled)]">
+                {row.was}
+              </td>
+              <td
+                className={`py-3 pl-4 text-right text-[15px] font-medium ${
+                  row.nowTone === "down"
+                    ? "text-[var(--text-heading)]"
+                    : "text-[var(--text-caption)]"
+                }`}
+              >
+                {row.now}
+              </td>
+              <td className="py-3 pl-4 text-right text-[15px] text-[var(--text-caption)]">
+                {row.target}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-      {/* Mobile — stacked cards */}
+      {/* Mobile — stacked cards driven by the same column config */}
       <div className="md:hidden flex flex-col gap-3">
         {rows.map((row) => (
           <div
@@ -551,22 +567,22 @@ export function MetricsTable({ rows }: { rows: MetricRow[] }) {
               {row.metric}
             </p>
             <div className="grid grid-cols-3 gap-3">
-              {(["was", "now", "target"] as const).map((k, i) => (
-                <div key={k} className="flex flex-col gap-1">
+              {METRICS_COLUMNS.map((col) => (
+                <div key={col.key} className="flex flex-col gap-1">
                   <p
                     className="m-0 text-[9px] uppercase tracking-[0.18em] text-[var(--text-disabled)]"
-                    style={{ fontFamily: "var(--font-mono), monospace" }}
+                    style={monoHeader}
                   >
-                    {["6mo ago", "Now", "Target"][i]}
+                    {col.label}
                   </p>
                   <p
                     className={`m-0 text-[14px] ${
-                      k === "now"
+                      col.key === "now"
                         ? "font-medium text-[var(--text-heading)]"
                         : "text-[var(--text-caption)]"
                     }`}
                   >
-                    {row[k]}
+                    {row[col.key]}
                   </p>
                 </div>
               ))}
