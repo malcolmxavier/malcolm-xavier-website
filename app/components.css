@@ -23,6 +23,31 @@ html {
   background: var(--surface-page);
 }
 
+/* ─── Sub-brand font inheritance ───────────────────────────────
+   The [data-subbrand="X"] wrappers in globals.css redefine the
+   --font-secondary / --font-primary custom properties for their
+   subtree, but they do not redeclare the font-family CSS
+   property itself. The body element sets
+   `font-family: var(--font-secondary), ...`, which the browser
+   RESOLVES at the body — outside any sub-brand wrapper. The
+   resolved value (DM Sans on the recruiter cluster) then
+   inherits down through everything, so elements inside a
+   [data-subbrand] wrapper that don't explicitly reference
+   var(--font-secondary) get the recruiter font instead of the
+   sub-brand font.
+
+   Caught during the 2026-04-28 audit: the track-preview <li>
+   on /music PlaylistCard rendered DM Sans where Roboto Slab
+   was expected, while the inner <p> elements (which DO
+   reference var(--font-secondary) inline) rendered correctly.
+
+   Fix: re-set font-family at the wrapper itself so the variable
+   is resolved IN the sub-brand cascade, then inheritance carries
+   the sub-brand font down to every descendant by default. */
+[data-subbrand] {
+  font-family: var(--font-secondary), system-ui, sans-serif;
+}
+
 /* ─── Button variants ──────────────────────────────────────────
    Uses HARDCODED hex colors instead of CSS variables (--text-
    heading, --surface-page) because var() resolution was failing

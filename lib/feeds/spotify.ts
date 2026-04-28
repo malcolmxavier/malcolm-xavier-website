@@ -95,7 +95,13 @@ const SpotifyArtistRefSchema = z.object({
 const SpotifyAlbumRefSchema = z.object({
   id: z.string(),
   name: z.string(),
-  images: z.array(SpotifyImageSchema),
+  // Spotify returns `null` (not `[]`) when an album has no cover
+  // art available. Coerce null → empty array so downstream
+  // pickImage() / map() consumers see a consistent array type.
+  images: z
+    .array(SpotifyImageSchema)
+    .nullable()
+    .transform((v) => v ?? []),
 });
 
 // Track schema used to TYPE the validated value (not as the
@@ -142,7 +148,14 @@ const SpotifyPlaylistSummarySchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string().nullable(),
-  images: z.array(SpotifyImageSchema),
+  // Spotify returns `null` (not `[]`) for playlists with no cover
+  // art (deleted, never set, or processing). Coerce null → empty
+  // array so downstream pickImage() sees a consistent array type
+  // and the page doesn't fall back over a missing thumbnail.
+  images: z
+    .array(SpotifyImageSchema)
+    .nullable()
+    .transform((v) => v ?? []),
   external_urls: z.object({ spotify: z.string() }),
   public: z.boolean().nullable(),
   collaborative: z.boolean(),

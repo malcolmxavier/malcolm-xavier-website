@@ -92,15 +92,66 @@ export default function Home() {
               keeps the image top close to the name top while the
               square's bottom edge sits in line with the button
               row. Adjust the column width up/down to retune the
-              vertical alignment if text-content height shifts. */}
-          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-12 lg:items-end">
-            <Stack gap="500">
-              <Display>Malcolm Xavier</Display>
+              vertical alignment if text-content height shifts.
 
+              DOM order is Name → Headshot → Lede + CTAs, which is
+              the order it reads on mobile/tablet (single-column
+              flow). On lg+, explicit grid placement on the
+              headshot (col 2, spans both rows) re-anchors it to
+              the right while Display takes row 1 col 1 and the
+              Lede + CTAs Stack takes row 2 col 1. lg:gap-y-5
+              preserves the visual spacing the previous nested
+              Stack provided between Display and the Lede. */}
+          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-x-12 lg:gap-y-5 lg:items-end">
+            <Display>Malcolm Xavier</Display>
+
+            {/* Square headshot. 22rem wide on desktop (matches the
+                grid column), 16rem max on mobile. On mobile/tablet
+                this sits BETWEEN the name and the lede so the
+                portrait reads as a hero element introducing the
+                copy below; on lg+ it pulls back into column 2 and
+                anchors bottom-aligned with the CTA row.
+                aspect-ratio 1/1 + width-driven layout means the
+                height derives cleanly without the
+                position-absolute Image fill collapsing the
+                parent's intrinsic width. */}
+            <div
+              className="relative my-6 mx-auto w-full max-w-[16rem] overflow-hidden rounded-md border lg:my-0 lg:max-w-none lg:row-start-1 lg:row-span-2 lg:col-start-2"
+              style={{
+                aspectRatio: "1 / 1",
+                borderColor: "var(--border-default)",
+              }}
+            >
+              <Image
+                src="/headshot.jpg"
+                alt="Portrait of Malcolm Xavier"
+                fill
+                sizes="(min-width: 1024px) 22rem, 16rem"
+                priority
+                style={{
+                  objectFit: "cover",
+                  // Keep the face in frame after zoom-in. 22% from
+                  // top hits roughly the eye-line on the source
+                  // portrait; tweak if the crop reads too tight or
+                  // too loose.
+                  objectPosition: "center 22%",
+                  // Tighten the face crop without re-exporting the
+                  // image. 1.5× zoom inside the square container.
+                  transform: "scale(1.5)",
+                  transformOrigin: "center 22%",
+                }}
+              />
+            </div>
+
+            {/* Lede + CTAs — auto-placed into row 2 col 1 on lg+
+                (col 2 row 1+2 is taken by the headshot's explicit
+                span). On <lg, this sits below the headshot in
+                the single-column flow. */}
+            <Stack gap="500">
               {/* Three-paragraph lede. Nested Stack with a smaller
                   gap so the paragraphs feel like one block visually
                   while still breathing apart from each other and
-                  from the Display + button rows above and below. */}
+                  from the button row below. */}
               <Stack gap="400">
                 <Lede>
                   I&rsquo;m a senior product manager who specializes
@@ -142,39 +193,6 @@ export default function Home() {
                 </Button>
               </div>
             </Stack>
-
-            {/* Square headshot. 22rem wide on desktop (matches the
-                grid column), 16rem max on mobile. aspect-ratio 1/1
-                + width-driven layout means the height derives
-                cleanly without the position-absolute Image fill
-                collapsing the parent's intrinsic width. */}
-            <div
-              className="relative mt-10 mx-auto w-full max-w-[16rem] overflow-hidden rounded-md border lg:mt-0 lg:max-w-none"
-              style={{
-                aspectRatio: "1 / 1",
-                borderColor: "var(--border-default)",
-              }}
-            >
-              <Image
-                src="/headshot.jpg"
-                alt="Portrait of Malcolm Xavier"
-                fill
-                sizes="(min-width: 1024px) 22rem, 16rem"
-                priority
-                style={{
-                  objectFit: "cover",
-                  // Keep the face in frame after zoom-in. 22% from
-                  // top hits roughly the eye-line on the source
-                  // portrait; tweak if the crop reads too tight or
-                  // too loose.
-                  objectPosition: "center 22%",
-                  // Tighten the face crop without re-exporting the
-                  // image. 1.5× zoom inside the square container.
-                  transform: "scale(1.5)",
-                  transformOrigin: "center 22%",
-                }}
-              />
-            </div>
           </div>
 
           {/* Scroll-down affordance — anchors to #explore (the matrix
