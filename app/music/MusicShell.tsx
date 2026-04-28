@@ -259,19 +259,19 @@ function ToggleButton({
         lineHeight: "var(--p-xs-line-height)",
         textTransform: "uppercase",
         letterSpacing: "0.08em",
-        // Use --primary-default directly — see Pagination button
-        // for the same workaround note. --text-action is the alias
-        // that's broken inside sub-brand contexts.
-        color: active
-          ? "var(--primary-default)"
-          : "var(--text-caption)",
+        // --text-action resolves to the active sub-brand accent
+        // (purple on /music) thanks to the [data-subbrand] re-binding
+        // in build-tokens.mjs. Earlier we used --primary-default
+        // directly because the token chain was broken; that workaround
+        // is no longer needed.
+        color: active ? "var(--text-action)" : "var(--text-caption)",
         background: "none",
         border: "none",
         padding: "0 0 4px",
         // Active state gets a 2px sub-brand underline; inactive gets
         // hover underline so the button still reads as interactive.
         borderBottom: active
-          ? "2px solid var(--primary-default)"
+          ? "2px solid var(--text-action)"
           : "2px solid transparent",
         cursor: "pointer",
         // Match the design-system focus contract — every interactive
@@ -382,20 +382,16 @@ function Pagination({
             fontSize: "var(--p-xs-font-size)",
             lineHeight: "var(--p-xs-line-height)",
             letterSpacing: "0.08em",
-            // Current page: sub-brand color (purple on /music) +
-            // underline. Inactive pages: muted, clickable.
-            //
-            // Use --primary-default (the per-sub-brand brand swatch)
-            // directly instead of --text-action; Tailwind 4's @theme
-            // inline breaks the alias-chain cascade for the active
-            // sub-brand color.
-            color: isCurrent
-              ? "var(--primary-default)"
-              : "var(--text-caption)",
+            // Current page: sub-brand accent color (purple on /music)
+            // + underline. Inactive pages: muted, clickable. Both
+            // now read --text-action — the sub-brand cascade resolves
+            // it to the active accent thanks to the [data-subbrand]
+            // re-binding in build-tokens.mjs.
+            color: isCurrent ? "var(--text-action)" : "var(--text-caption)",
             fontWeight: isCurrent ? 600 : 400,
             padding: "6px 10px",
             borderBottom: isCurrent
-              ? "2px solid var(--primary-default)"
+              ? "2px solid var(--text-action)"
               : "2px solid transparent",
             minWidth: 32,
             display: "inline-block",

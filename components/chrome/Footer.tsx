@@ -73,11 +73,18 @@ export function Footer() {
             </p>
             <p
               style={{
-                fontFamily: "var(--font-secondary)",
-                fontSize: "var(--p-sm-font-size)",
-                lineHeight: "var(--p-sm-line-height)",
+                // Italic primary serif at p-md so this line reads in
+                // Malcolm's editorial voice rather than as system
+                // chrome metadata. The previous DM Sans p-sm at
+                // --text-caption read as a generic "footer caption"
+                // and undercut the sardonic intent of the copy.
+                fontFamily: "var(--font-primary)",
+                fontStyle: "italic",
+                fontSize: "var(--p-md-font-size)",
+                lineHeight: "var(--p-md-line-height)",
                 color: "var(--text-caption)",
                 maxWidth: "30ch",
+                margin: 0,
               }}
             >
               Built in Los Angeles, edited at hours that should

@@ -110,6 +110,21 @@ html {
   color: #fff !important;
 }
 
+/* ─── Mono-context heading tracking reset ──────────────────────
+   Display + Headline apply `letter-spacing: -0.01em` inline so the
+   recruiter-cluster Instrument Serif reads with a touch of editorial
+   tightness. Inside a [data-subbrand] context, `--font-primary`
+   swaps to Roboto Mono — and negative tracking on a monospace
+   crushes characters in adjacent cells (mono fonts give every glyph
+   a fixed advance; subtracting from that breaks the grid).
+   Override to 0 inside the sub-brand subtree so mono headings sit
+   on their own grid. !important to beat the inline style.
+   ───────────────────────────────────────────────────────────── */
+
+[data-subbrand] :is(h1, h2, h3, h4, h5, h6) {
+  letter-spacing: 0 !important;
+}
+
 /* ─── Loud link color ──────────────────────────────────────────
    Loud links (Link primitive without `quiet`) borrow color from
    the newsletter sub-brand palette by default — green has visual

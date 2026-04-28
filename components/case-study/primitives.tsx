@@ -30,6 +30,21 @@
 import type { ReactNode } from "react";
 import { Kicker } from "@/components/typography/Kicker";
 
+// ─── Article width rail ─────────────────────────────────────────
+//
+// Single source of truth for the case-study reading column. Hero
+// + Beat sections all sit on the same horizontal grid (560px → 880
+// → 1024 with matching horizontal padding); previously these magic
+// numbers were duplicated across Hero.tsx and primitives.tsx.
+// Vertical padding stays per-section since Hero / Beat / etc. each
+// want their own rhythm.
+//
+// Usage: `className={`${CASE_STUDY_WIDTH} scroll-mt-28 pt-9 pb-6`}`
+// in any case-study section wrapper.
+// ────────────────────────────────────────────────────────────────
+export const CASE_STUDY_WIDTH =
+  "mx-auto max-w-[560px] px-7 md:max-w-[880px] md:px-10 lg:max-w-[1024px]";
+
 // ─── CaseStudyKicker ────────────────────────────────────────────
 //
 // Editorial variant of the sitewide <Kicker>. Same mono / uppercase
@@ -134,7 +149,7 @@ export function Beat({
   return (
     <section
       id={id}
-      className="scroll-mt-28 mx-auto max-w-[560px] px-7 pt-6 pb-6 md:max-w-[880px] md:px-10 md:pt-9 md:pb-9 lg:max-w-[1024px]"
+      className={`${CASE_STUDY_WIDTH} scroll-mt-28 pt-6 pb-6 md:pt-9 md:pb-9`}
     >
       <div className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 md:gap-6 mb-5 md:mb-6">
         <CaseStudyKicker>

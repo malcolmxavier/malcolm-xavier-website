@@ -28,7 +28,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { ReactNode } from "react";
-import { CaseStudyKicker } from "./primitives";
+import { CASE_STUDY_WIDTH, CaseStudyKicker } from "./primitives";
 
 interface CaseStudyHeroProps {
   title: string;
@@ -57,7 +57,7 @@ export function CaseStudyHero({
   return (
     <section
       id={id}
-      className="scroll-mt-28 mx-auto max-w-[560px] px-7 pt-9 pb-6 md:max-w-[880px] md:px-10 md:pt-14 md:pb-8 lg:max-w-[1024px]"
+      className={`${CASE_STUDY_WIDTH} scroll-mt-28 pt-9 pb-6 md:pt-14 md:pb-8`}
     >
       <div className="flex items-baseline justify-between gap-4 mb-3">
         <CaseStudyKicker>{kicker}</CaseStudyKicker>

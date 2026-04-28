@@ -78,11 +78,14 @@ export default function AboutPage() {
             <Display>A long story short(-ish).</Display>
           </Stack>
 
-          {/* Two-column body. lg:grid-cols-[minmax(0,1fr)_16rem]
-              gives a fluid prose column with a fixed-width sidebar
-              rail. Mobile collapses to one column with headshot
+          {/* Two-column body. lg:grid-cols-[minmax(0,60ch)_16rem]
+              gives a prose column capped at the same 60ch reading
+              measure that <Lede>/<Body> enforce internally — without
+              the cap, the 1fr column was wider than the prose,
+              leaving a visible gutter between text and sidebar at
+              lg+. Mobile collapses to one column with the headshot
               floated above the prose. */}
-          <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_16rem] lg:gap-12">
+          <div className="lg:grid lg:grid-cols-[minmax(0,60ch)_16rem] lg:gap-12">
             {/* ── Prose column ─────────────────────────────────── */}
             <div>
               <Stack gap="500">
