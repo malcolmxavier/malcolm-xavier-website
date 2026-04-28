@@ -2,6 +2,9 @@
   "name": "malcolm-xavier-website",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22 <26"
+  },
   "scripts": {
     "dev": "next dev",
     "dev:offline": "SPOTIFY_OFFLINE=1 next dev",

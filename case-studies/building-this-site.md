@@ -379,6 +379,115 @@ in conflates the two.
   the lead.
 - "Memory ≠ discipline" is a great PM line — pull-quote candidate?
 
+## Sketch notes — the dev server that wouldn't compile (integrate later)
+
+> *Voice flag: ROUGH. Bullets, not prose. Belongs alongside "the
+> button bug" and the "progress-bar saga" as a third recurrence
+> of the same diagnosis-shape lesson.*
+
+Mid-audit, late April: the local dev server stopped compiling pages.
+Boot was instant. Static assets (the resume `.docx`) served fine in
+milliseconds. Every dynamic-route request stalled forever on
+`Compiling /` &mdash; no progress, no error, no exception in the
+log. Production at malxavi.com rendered fine. Local-only.
+
+**Story beats (in order they actually surfaced):**
+
+1. **First-hypothesis class: the bundler.** Maybe Turbopack-specific
+   (Next.js 16 made it the default). Restarted with
+   `next dev --webpack`. Same hang. Confirmed it wasn't
+   Turbopack-specific &mdash; but spent twenty minutes proving that.
+2. **Second-hypothesis class: Node version.** I was on Node 25.9
+   (non-LTS, current release). A `sample` profile showed the Node
+   main thread idle in `kevent`, Tailwind oxide rayon workers
+   parked, zero CPU activity, zero outbound network connections.
+   Read exactly like an ABI signaling deadlock between Node 25's
+   V8 and one of the Rust-backed native modules in the compile
+   pipeline. Plausible. Coherent. Wrong.
+3. **The "fix" that wasn't.** `brew install node@24`, swapped the
+   global default with `brew link --force --overwrite node@24`,
+   ran `npm rebuild` to relink native binaries against Node 24's
+   ABI 137. Restarted dev. Still hung, identically.
+4. **The cheap test that ended it.** Bootstrapped a brand-new
+   minimal Next.js 16 app in `/tmp/next-min-test/` &mdash; bare-metal
+   `next react react-dom`, ten lines of code, ninety seconds to
+   set up. Compiled `/` in 3 seconds on the same Node 24.
+   **Project-specific. Not Node-specific.**
+5. **The actual fix.**
+   `rm -rf node_modules package-lock.json && npm install`. Fresh
+   install against the active Node version. Dev compiled `/` in
+   2.8 seconds.
+
+**Diagnosis (technical):** `node_modules` had been installed under
+Node 25's ABI 141. Switching to Node 24's ABI 137 plus `npm rebuild`
+caught the native binaries but left subtler package-state mismatches
+in linked dependencies that the rebuild step doesn't fully traverse.
+The hang was a silent deadlock somewhere in that mismatch &mdash; no
+error, no progress, no signal beyond "compile starts and never
+finishes." `npm rebuild` is necessary but not sufficient when you
+cross a Node major version.
+
+**What got committed off the back of it:**
+
+- `engines: { node: ">=22 <26" }` in `package.json` &mdash; future
+  Node major bumps trip a clear warning before they corrupt local
+  state.
+- `.nvmrc` pinned to `24` &mdash; anyone with `nvm`/`fnm`
+  auto-switches into a supported version when they `cd` into the
+  project.
+
+**Why this belongs in the case study (the recursion, again):**
+
+This is the third time in the build that a coherent-sounding
+hypothesis from the agent (which I accepted at face value) drove a
+real action that didn't fix the bug. The button bug: four rounds
+of CSS-specificity refinements before the binary
+`background: red;` test ended it. The progress-bar saga: fifteen
+commits of nav and scroll patches before the same
+`var()`-resolution-failure diagnosis as the button bug. Now this:
+a Node version reinstall that addressed a plausible-but-wrong
+hypothesis when a fresh `node_modules` install would have ended it
+in minute four.
+
+The pattern: **the agent constructs internally-consistent
+narratives faster than it falsifies them.** "Node 25's ABI is
+deadlocking with Tailwind oxide" reads like an expert call. It's
+specific, it rhymes with prior knowledge (Node 25 is non-LTS;
+native modules do sometimes have ABI issues), and the symptoms it
+predicts (idle main thread, parked workers, no CPU) match what we
+observed. That story was wrong, but it was wrong in the way a good
+detective novel can be wrong &mdash; the clues fit a perfectly
+coherent narrative that just isn't the actual one.
+
+The human-in-the-loop's job is to gate high-cost actions on
+cheap-binary-test outcomes. "Brew install Node 24 and switch the
+global default" is a high-cost action: it touches the user's
+machine globally, affects every other Node project, and is mildly
+disruptive to roll back. "Bootstrap a minimal repro in `/tmp/`" is
+a ninety-second test that would have falsified the diagnosis
+before the high-cost action.
+
+**Operational rule going forward:** before approving any
+agent-proposed fix that involves *global state* &mdash; installing
+software, changing the default Node, modifying environment
+variables, editing `~/.zshrc` &mdash; the gate is the cheapest test
+that would falsify the diagnosis. For infra-flavored bugs, that's
+almost always "minimal repro of the failing thing." Same gate I'd
+apply to a junior PM proposing a vendor escalation.
+
+**Open questions to resolve when integrating:**
+
+- Own vignette or merged into the button-bug arc as a third
+  recurrence? Leaning own-vignette: the failure mode is genuinely
+  different (executing a real-world action on a wrong hypothesis
+  vs. iterating on syntactic refinements).
+- "Cheap test before high-cost action" is the most generalizable
+  framing on the build &mdash; pull it forward in any merged
+  version.
+- Pull-quote candidate: *"the agent constructs
+  internally-consistent narratives faster than it falsifies
+  them."*
+
 ## Two resumes, one source of truth (almost)
 
 The /resume page on this site is built for recruiters: scannable,
@@ -524,6 +633,24 @@ PM judgment is mostly about what *not* to ship. A short list:
   discipline are different artifacts and product teams need to
   invest in both. (PM-craft equivalent: a beautifully-written
   PRD doesn't run the experiment.)
+- **When changing Node major versions, full reinstall &mdash; not
+  just `npm rebuild`.** `npm rebuild` relinks native modules
+  against the active Node ABI but doesn't fix subtler
+  package-state mismatches in linked dependencies that crossed
+  the version boundary. The right reflex is
+  `rm -rf node_modules package-lock.json && npm install` against
+  the new Node. Pinning the supported range via `engines` in
+  `package.json` plus a `.nvmrc` makes the switch durable across
+  collaborators and CI.
+- **Gate high-cost agent-proposed actions on cheap-binary tests
+  first.** Anything touching global state &mdash; installing
+  software, swapping default Node, editing `~/.zshrc` &mdash; is a
+  high-cost action. The gate is "the cheapest test that would
+  falsify the diagnosis." For infra-flavored bugs, that's almost
+  always "bootstrap a minimal repro and see if it reproduces."
+  AI agents will keep generating internally-consistent
+  hypotheses; the PM job is to demand the binary test before the
+  destructive commit.
 
 ## What's live
 
