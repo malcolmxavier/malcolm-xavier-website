@@ -52,39 +52,18 @@ function fillIconProps(size: number): SVGProps<SVGSVGElement> {
 // ─── Generic icons (Heroicons outline) ─────────────────────────────
 
 export function IconPhone({ size = 16, ...props }: IconProps) {
-  // Retro brick-phone, '90s cordless style:
-  //   stub antenna sprouting from the top-right, chunky rectangular
-  //   body, LCD screen near the top, three horizontal lines standing
-  //   in for keypad rows. Squared stroke caps and miter joins give
-  //   the icon a pixel-art-ish silhouette that lands the retro
-  //   accent the rest of the icons (modern Heroicons stroke) don't.
+  // Heroicons outline handset — single-path closed silhouette of a
+  // curved phone receiver. Matches the line style used by the rest
+  // of the icon set (round caps + joins via strokeIconProps), so
+  // the contact strip reads as one family. Reads cleanly at 16px
+  // (the resume contact-strip size) where the previous retro-brick
+  // version's internal keypad lines and LCD inset collapsed into
+  // sub-pixel noise. Picked from a four-round design comparison
+  // documented in the building-this-site case study (see the
+  // Workflow beat's "blind spot" card).
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.6}
-      // square + miter = no rounded corners anywhere — the silhouette
-      // reads as blocky/pixel rather than smooth/modern.
-      strokeLinecap="square"
-      strokeLinejoin="miter"
-      aria-hidden
-      focusable={false}
-      {...props}
-    >
-      {/* Antenna */}
-      <path d="M16 2 V5" />
-      {/* Body — the phone brick itself */}
-      <rect x="6" y="5" width="12" height="17" />
-      {/* LCD screen */}
-      <rect x="8" y="7" width="8" height="3" />
-      {/* Keypad rows — three lines stand in for the number buttons;
-          reads clearly even at 16px without needing 3×3 dots. */}
-      <line x1="8" y1="13" x2="16" y2="13" />
-      <line x1="8" y1="16" x2="16" y2="16" />
-      <line x1="8" y1="19" x2="16" y2="19" />
+    <svg {...strokeIconProps(size)} {...props}>
+      <path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 0 0-1.091-.852H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
     </svg>
   );
 }

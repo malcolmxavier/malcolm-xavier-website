@@ -129,14 +129,14 @@ export const ROLES: ResumeRole[] = [
     context:
       "America's largest publisher (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
     bullets: [
-      "Grew email revenue 33% YoY with reusable components and lifecycle marketing playbooks",
-      "Partnered with data science to scale a recipe recommendation service and drive 2x traffic",
-      "Introduced a content-specific newsletter program with 3x open rates and 2x user LTV",
-      "Established new $2.2M+ annual revenue channel by supporting launch of user commenting",
+      <><strong>Grew email revenue 33% YoY</strong> with reusable components and lifecycle marketing playbooks</>,
+      <>Partnered with data science to scale a recipe recommendation service and drive <strong>2x traffic</strong></>,
+      <>Introduced a content-specific newsletter program with <strong>3x open rates and 2x user LTV</strong></>,
+      <>Established <strong>new $2.2M+ annual revenue channel</strong> by supporting launch of user commenting</>,
       "Operationalized experiments to enable AI-based personalized acquisition and engagement",
       "Built models in SQL, BigQuery, and Connected Sheets to identify achievable outcomes that informed the AI-based personalization strategy",
-      "Facilitated 80+ member community of practice focused on product discovery skills",
-      "Enabled onsite transactions to increase print subscription revenue 115% YoY",
+      <>Facilitated <strong>80+ member community of practice</strong> focused on product discovery skills</>,
+      <>Enabled onsite transactions to <strong>increase print subscription revenue 115% YoY</strong></>,
       "Concurrently developed LLM prompt engineering and RAG workflow expertise (see freelance Prompt Engineer role, below)",
     ],
   },
@@ -162,10 +162,11 @@ export const ROLES: ResumeRole[] = [
     context:
       "SaaS reporting tool for PR professionals. Scaled the content platform; enabled search and monitoring features.",
     bullets: [
-      "Scaled ingestion 350% YoY, enabling downstream ML classification, search, and reporting",
-      "Improved core AI/ML model accuracy, reducing parsing errors by 45% YoY",
-      "Backfilled content and data to achieve a 500% increase in historical coverage",
+      <><strong>Scaled ingestion 350% YoY</strong>, enabling downstream ML classification, search, and reporting</>,
+      <>Improved core AI/ML model accuracy, <strong>reducing parsing errors by 45% YoY</strong></>,
+      <>Backfilled content and data to achieve a <strong>500% increase in historical coverage</strong></>,
       "Led the initiative to decompose the ingestion monolith, improving ETL cost, scalability, and reliability",
+      "Collaborated with partnerships, legal, and GTM to establish strategy for content and data solutions",
       "Liaised with external content vendors and developers to ensure data-processing compliance",
     ],
   },
@@ -179,7 +180,7 @@ export const ROLES: ResumeRole[] = [
       <>
         Product consulting for{" "}
         <Link href="https://www.artistgrowth.com">Artist Growth</Link>{" "}
-        (SaaS, music industry)
+        (SaaS, music industry), focused on product operations and GDPR/CCPA compliance
       </>,
       <>
         Developed content strategy for the{" "}
@@ -201,10 +202,11 @@ export const ROLES: ResumeRole[] = [
     context:
       "SaaS UXR tool and marketplace for researchers and participants. Led core and platform teams.",
     bullets: [
-      "Improved marketplace management by driving a 135% increase in participant re-recruitment",
-      "Implemented targeting features that improved the core marketplace fulfillment metric by 15%",
+      <>Improved marketplace management by driving a <strong>135% increase in participant re-recruitment</strong></>,
+      <>Implemented targeting features that <strong>improved core marketplace fulfillment metric by 15%</strong></>,
       "Designed, analyzed, and reported on A/B tests for email-notification system model updates",
       "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations",
+      "Led update to product pricing, including onsite creative and purchase flow",
     ],
   },
   {
@@ -217,8 +219,11 @@ export const ROLES: ResumeRole[] = [
     context:
       "Web-development bootcamp (and The Grace Hopper Program). Scaled and optimized the enrollment system to exceed growth targets.",
     bullets: [
-      "Generated $30M+ in annual revenue (170% YoY increase) by scaling enrollment",
+      <>Generated <strong>$30M+ in annual revenue (170% YoY increase)</strong> by scaling enrollment</>,
       "Partnered with engineering to optimize integrations, automations, and system architecture",
+      "Built enrollment dashboards in HubSpot to increase internal business performance transparency",
+      <>Trained and managed <strong>~40 rotating contract technical interviewers</strong> as part of enrollment operations</>,
+      "Performed code review for all applicants in HackerRank",
     ],
   },
   {
@@ -233,6 +238,13 @@ export const ROLES: ResumeRole[] = [
     bullets: [
       "Tracked and reported on user analytics as inputs for roadmap prioritization",
       "Conducted quality-assurance testing of new features and bug fixes",
+      <>
+        Ideated and produced{" "}
+        <Link href="https://podcasts.apple.com/us/podcast/createquity-podcast/id1095803147">
+          podcast with Createquity
+        </Link>{" "}
+        to establish institutional thought leadership
+      </>,
     ],
   },
 ];
@@ -291,7 +303,7 @@ export const EDUCATION: ResumeEducation[] = [
 export const CASE_STUDIES: ResumeCaseStudy[] = [
   {
     slug: "basecamp-coffee",
-    title: "Basecamp Coffee — Find your ritual",
+    title: "Basecamp Coffee—Find your ritual",
     description:
       "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
     href: "/case-studies/basecamp-coffee",
@@ -299,9 +311,9 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
   },
   {
     slug: "building-this-site",
-    title: "Building this site, one rate-limit at a time",
+    title: "Building this site",
     description:
-      "A meta case study on shipping this portfolio in seven days with Claude Code as build partner. Architecture bets, two production incidents, and what AI-native PM work looks like when the human stays in the loop.",
+      "A meta case study on shipping this portfolio with Claude Code as build partner. Architecture bets, production incidents, and what AI-native PM work looks like when the human stays in the loop.",
     href: "/case-studies/building-this-site",
   },
 ];

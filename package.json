@@ -11,6 +11,8 @@
     "lint": "eslint",
     "tokens:build": "node scripts/build-tokens.mjs",
     "resume:docx": "node scripts/build-resume-docx.mjs",
+    "resume:pdf": "npm run resume:docx && node scripts/build-resume-pdf.mjs",
+    "bullet-bank:docx": "node scripts/build-bullet-bank-docx.mjs",
     "spotify:health": "curl -s http://127.0.0.1:3001/api/spotify/health | python3 -m json.tool",
     "spotify:snapshot": "curl --fail -sS http://127.0.0.1:3001/api/spotify/snapshot -o lib/feeds/_fixtures/spotify-snapshot.json && echo 'Snapshot captured to lib/feeds/_fixtures/spotify-snapshot.json'",
     "prebuild": "npm run tokens:build"

@@ -77,6 +77,11 @@ function variantClasses(variant: ButtonVariant): string {
         "border border-solid border-[var(--text-heading)]",
       ].join(" ");
     case "secondary":
+      // Note: the actual rest + hover + focus colors for [data-variant="secondary"]
+      // are hardcoded in app/components.css (with !important) to bypass a
+      // var() resolution issue documented at the top of that file. The
+      // Tailwind classes here keep semantic structure but are visually
+      // overridden by the components.css rules.
       return [
         "bg-transparent",
         "text-[color:var(--text-body)]",

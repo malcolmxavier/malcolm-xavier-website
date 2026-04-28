@@ -69,7 +69,8 @@ const TOC_ITEMS: TocItem[] = [
   { href: "#spotify", prefix: "04", label: "The Spotify Story" },
   { href: "#button", prefix: "05", label: "The Button Bug" },
   { href: "#recursion", prefix: "06", label: "The Recursion" },
-  { href: "#live", prefix: "07", label: "What's Live" },
+  { href: "#review", prefix: "07", label: "The Review" },
+  { href: "#live", prefix: "08", label: "What's Live" },
 ];
 
 export default function BuildingThisSiteCaseStudy() {
@@ -101,6 +102,8 @@ export default function BuildingThisSiteCaseStudy() {
         <BeatButton />
         <BeatSeparator />
         <BeatRecursion />
+        <BeatSeparator />
+        <BeatReview />
         <BeatSeparator />
         <BeatLive />
       </article>
@@ -237,6 +240,16 @@ function BeatWorkflow() {
           token-pipeline build script. Defensive engineering once instructed.
           Inline comments dense enough that a non-technical reader can
           navigate the code.
+        </EvidenceCard>
+        <EvidenceCard eyebrow="The blind spot" title="Where neither of us was great">
+          Visual design judgment. Iconography, layout proportions, the felt
+          rightness of a UI choice — anywhere taste matters more than logic.
+          Four rounds of phone-icon variants, none landing, before the call
+          was to pick a stock Heroicons handset and move on. The agent
+          can&apos;t develop taste; the PM can&apos;t always articulate it.
+          The honest move is to provide a precise reference or step in by
+          hand — specifying visual judgment in the abstract is a category
+          error.
         </EvidenceCard>
       </EvidenceGrid>
 
@@ -617,12 +630,153 @@ function BeatRecursion() {
   );
 }
 
-// ─── Beat 7 — What's Live ─────────────────────────────────────
+// ─── Beat 7 — The Review ──────────────────────────────────────
+function BeatReview() {
+  return (
+    <Beat
+      id="review"
+      number="07"
+      title="The Review"
+      claudeTag="multi-agent orchestration"
+      headline="Three reviewers, one punch list."
+    >
+      <Body>
+        <p>
+          Pre-launch, a single accessibility pass wasn&apos;t going to
+          catch everything that mattered. Accessibility is one lane;
+          design cohesion is another; code maintainability is a third.
+          Each requires a different lens and a different set of
+          conventions to spot. So I built two more sub-agents — <Code>design-reviewer</Code> and{' '}
+          <Code>code-reviewer</Code> — to sit alongside the a11y
+          reviewer already in the agent harness, then wired the three
+          up to run as a single orchestrated command.
+        </p>
+      </Body>
+
+      <IterationGrid>
+        <IterationCard lens="design-reviewer" title="Sensibility + cohesion">
+          Reviews typography rhythm, spacing, color usage, sub-brand
+          cohesion, iconography consistency, hierarchy, motion,
+          responsive treatment, and editorial voice in UI copy.
+          Operates against rendered surfaces when a dev server is
+          available; falls back to code-and-token review when not.
+          Stays out of a11y and code-refactor lanes by design.
+        </IterationCard>
+        <IterationCard lens="code-reviewer" title="Efficiency + structure">
+          Reviews type safety, separation of concerns, naming, dead
+          code and duplication, performance footguns, error handling
+          at boundaries, React and Next.js patterns, async correctness,
+          and bundle hygiene. Reads context around the diff, not just
+          the touched lines. Stays out of a11y and visual-design lanes.
+        </IterationCard>
+        <IterationCard lens="a11y-reviewer" title="WCAG 2.2 AA">
+          Already in the harness. Reviews semantic HTML, keyboard
+          navigability, focus states, contrast in light + dark, alt
+          text, ARIA usage, prefers-reduced-motion, form labeling,
+          and target-size minimums. The veteran of the three.
+        </IterationCard>
+      </IterationGrid>
+
+      <Body>
+        <p>
+          Each agent has a role spec at <Code>~/.claude/agents/{`<name>.md`}</Code>:
+          checklist, output format, severity definitions, and an
+          explicit <Emph>what NOT to do</Emph> section so the agents
+          don&apos;t drift into each other&apos;s lanes. All three were
+          standardized on a shared severity vocabulary — Critical,
+          High, Medium, Low, plus a Couldn&apos;t-verify bucket — so a
+          downstream orchestrator can merge their reports cleanly.
+        </p>
+      </Body>
+
+      <ClaudeNote>
+        The pattern that matters: each agent&apos;s role spec isn&apos;t
+        just <Emph>what to do</Emph> — it&apos;s <Emph>what NOT to do</Emph>.
+        The design reviewer explicitly defers a11y issues with a
+        one-line mention and lets the a11y reviewer handle the detail.
+        The code reviewer explicitly defers visual-design and a11y.
+        That discipline keeps each report focused, and it&apos;s what
+        makes the synthesis step possible — three overlapping reviews
+        would be a mush, not a signal.
+      </ClaudeNote>
+
+      <Body>
+        <p>
+          The <Code>/full-review</Code> command ties them together. It
+          establishes scope (current diff, or whatever the user named
+          in the previous message), spawns all three reviewers in
+          parallel, then synthesizes their reports into a single
+          structured punch list. Two sections come first: <Emph>Conflicts</Emph> (where
+          reviewers disagree on the same element — the user
+          adjudicates), and <Emph>Aligned</Emph> (where two or more
+          reviewers independently flag the same issue — high-confidence
+          calls). After that, the standard severity buckets,
+          exhaustive — no findings cap, since the user explicitly
+          wanted everything reviewable surfaced rather than a curated
+          top-N list.
+        </p>
+        <p>
+          The first run, against the entire site in light + dark, came
+          back with ninety-nine findings. One of them — a token-chain
+          bug that silently invalidates the recruiter cluster&apos;s
+          text colors — was independently flagged by both the design
+          reviewer and the a11y reviewer at Critical severity. That&apos;s
+          the kind of cross-confirmed signal a single reviewer would
+          have either missed entirely or underweighted. Aligned items
+          are the highest-leverage fixes; conflicts are the ones the
+          user actually has to think about.
+        </p>
+      </Body>
+
+      <Pullquote attribution="the orchestration rule">
+        Three overlapping reviews would be mush. Three lanes with
+        explicit handoffs is signal.
+      </Pullquote>
+
+      <Body>
+        <p>
+          Ninety-nine findings is a lot to triage from a markdown
+          report. So the synthesis output also renders as a self-
+          contained interactive HTML dashboard at{' '}
+          <Code>{`_design/reviews/full-review-<date>.html`}</Code>,
+          with each finding as a card carrying severity, reviewer
+          tags, file:line citation, description, and fix
+          recommendation. Status dropdowns (Open / Done / Won&apos;t
+          do) and severity dropdowns are wired to{' '}
+          <Code>localStorage</Code>, so working through the list
+          survives reloads. Filters on Status, Severity, and Reviewer
+          cut the list to whatever slice you want to work in.
+        </p>
+        <p>
+          The point isn&apos;t the dashboard. The point is that the
+          review becomes load-bearing data — something to triage,
+          manage, and check off — instead of a markdown file that
+          gets read once and buried. Per the recursion lesson above,
+          written notes don&apos;t drive behavior. A working surface
+          does.
+        </p>
+      </Body>
+
+      <ClaudeNote>
+        Sub-agents and slash commands are loaded at session start in
+        Claude Code. The first run of <Code>/full-review</Code> in
+        the same session that birthed it had to bootstrap the new
+        reviewers through the generic <Code>general-purpose</Code>{' '}
+        agent reading their role files at runtime — same persona,
+        just not native yet. After a session restart, they load
+        directly. Worth knowing if you&apos;re authoring agents and
+        trying them in the same conversation.
+      </ClaudeNote>
+    </Beat>
+  );
+}
+
+// ─── Beat 8 — What's Live ─────────────────────────────────────
 function BeatLive() {
   return (
     <Beat
       id="live"
-      number="07"
+      number="08"
       title="What's Live"
       headline="What shipped, what got cut, what next."
     >

@@ -68,7 +68,10 @@ const SUMMARY =
   "Senior Product Manager with 7+ years scaling growth and data platforms across consumer and B2B SaaS products. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Operationalized AI-native discovery/delivery loops, including roadmapping, outcome measurement, and documentation.";
 
 // Each role: company, optional company URL, location, title, dates,
-// context (string OR array of {text, link?}), bullets (strings).
+// context (string OR array of {text, url?} segments via contextSegments),
+// bullets (each entry is either a plain string OR an array of
+// {text, bold?, url?} segments — segments allow inline bold/link spans
+// so metric phrases bold inside an otherwise plain bullet sentence).
 const ROLES = [
   {
     company: "People Inc.",
@@ -79,9 +82,18 @@ const ROLES = [
     context:
       "America's largest publisher (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
     bullets: [
-      "Grew email revenue 33% YoY with reusable components and lifecycle marketing playbooks",
-      "Partnered with data science to scale a recipe recommendation service and drive 2x traffic",
-      "Introduced a content-specific newsletter program with 3x open rates and 2x user LTV",
+      [
+        { text: "Grew email revenue 33% YoY", bold: true },
+        { text: " with reusable components and lifecycle marketing playbooks" },
+      ],
+      [
+        { text: "Partnered with data science to scale a recipe recommendation service and drive " },
+        { text: "2x traffic", bold: true },
+      ],
+      [
+        { text: "Introduced a content-specific newsletter program with " },
+        { text: "3x open rates and 2x user LTV", bold: true },
+      ],
       "Operationalized experiments to enable AI-based personalized acquisition and engagement",
       "Built models in SQL, BigQuery, and Connected Sheets to identify achievable outcomes that informed the AI-based personalization strategy",
       "Concurrently developed LLM prompt engineering and RAG workflow expertise (see freelance Prompt Engineer role, below)",
@@ -108,9 +120,18 @@ const ROLES = [
     context:
       "SaaS reporting tool for PR professionals. Scaled the content platform; enabled search and monitoring features.",
     bullets: [
-      "Scaled ingestion 350% YoY, enabling downstream ML classification, search, and reporting",
-      "Improved core AI/ML model accuracy, reducing parsing errors by 45% YoY",
-      "Backfilled content and data to achieve a 500% increase in historical coverage",
+      [
+        { text: "Scaled ingestion 350% YoY", bold: true },
+        { text: ", enabling downstream ML classification, search, and reporting" },
+      ],
+      [
+        { text: "Improved core AI/ML model accuracy, " },
+        { text: "reducing parsing errors by 45% YoY", bold: true },
+      ],
+      [
+        { text: "Backfilled content and data to achieve a " },
+        { text: "500% increase in historical coverage", bold: true },
+      ],
       "Led the initiative to decompose the ingestion monolith, improving ETL cost, scalability, and reliability",
       "Liaised with external content vendors and developers to ensure data-processing compliance",
     ],
@@ -148,8 +169,14 @@ const ROLES = [
     context:
       "SaaS UXR tool and marketplace for researchers and participants. Led core and platform teams.",
     bullets: [
-      "Improved marketplace management by driving a 135% increase in participant re-recruitment",
-      "Implemented targeting features that improved the core marketplace fulfillment metric by 15%",
+      [
+        { text: "Improved marketplace management by driving a " },
+        { text: "135% increase in participant re-recruitment", bold: true },
+      ],
+      [
+        { text: "Implemented targeting features that " },
+        { text: "improved core marketplace fulfillment metric by 15%", bold: true },
+      ],
       "Designed, analyzed, and reported on A/B tests for email-notification system model updates",
       "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations",
     ],
@@ -163,7 +190,11 @@ const ROLES = [
     context:
       "Web-development bootcamp (and The Grace Hopper Program). Scaled and optimized the enrollment system to exceed growth targets.",
     bullets: [
-      "Generated $30M+ in annual revenue (170% YoY increase) by scaling enrollment",
+      [
+        { text: "Generated " },
+        { text: "$30M+ in annual revenue (170% YoY increase)", bold: true },
+        { text: " by scaling enrollment" },
+      ],
       "Partnered with engineering to optimize integrations, automations, and system architecture",
     ],
   },
@@ -234,16 +265,16 @@ const EDUCATION = [
 // hand. When updating one, update the other.
 const CASE_STUDIES = [
   {
-    title: "Basecamp Coffee — Find your ritual",
+    title: "Basecamp Coffee—Find your ritual",
     url: "https://malxavi.com/case-studies/basecamp-coffee",
     description:
       "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
   },
   {
-    title: "Building this site, one rate-limit at a time",
+    title: "Building my personal website, malxavi.com",
     url: "https://malxavi.com/case-studies/building-this-site",
     description:
-      "A meta case study on shipping this portfolio in seven days with Claude Code as build partner. Architecture bets, two production incidents, and what AI-native PM work looks like when the human stays in the loop.",
+      "A meta case study on shipping my personal website with Claude Code as build partner. Architecture bets, production incidents, and what AI-native PM work looks like when the human stays in the loop.",
   },
 ];
 
@@ -303,6 +334,26 @@ function linkRun(text, url, opts = {}) {
 /** A separator " · " in the contact / dates lines. */
 function sep() {
   return run(" · ", { size: SIZE.contact });
+}
+
+/**
+ * Render a bullet's children. Bullets accept two shapes:
+ *   - a plain string (rendered as a single TextRun, the legacy form)
+ *   - an array of {text, bold?, url?} segments, each becoming its own
+ *     TextRun. Segments with `url` render as ExternalHyperlinks; the
+ *     `bold` flag applies to either form. Used to bold metric phrases
+ *     ("33% YoY", "$30M+") inline with otherwise plain bullet copy,
+ *     mirroring the <strong> JSX in app/resume/resume-data.tsx.
+ */
+function bulletChildren(bullet) {
+  if (typeof bullet === "string") {
+    return [run(bullet, { size: SIZE.bullet })];
+  }
+  return bullet.map((seg) =>
+    seg.url
+      ? linkRun(seg.text, seg.url, { size: SIZE.bullet, bold: !!seg.bold })
+      : run(seg.text, { size: SIZE.bullet, bold: !!seg.bold }),
+  );
 }
 
 // ─── Document construction ────────────────────────────────────────
@@ -482,13 +533,15 @@ ROLES.forEach((role, idx) => {
     });
   }
 
-  // Bullets
+  // Bullets — each entry is either a plain string or a segment array
+  // (see bulletChildren()). Segment arrays let metric phrases bold
+  // inline; plain strings are the legacy single-run form.
   role.bullets.forEach((bullet) => {
     entryParas.push({
       spacing: { before: 0, after: 40 },
       bullet: { level: 0 },
       indent: { left: convertInchesToTwip(0.2) },
-      children: [run(bullet, { size: SIZE.bullet })],
+      children: bulletChildren(bullet),
     });
   });
 

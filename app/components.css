@@ -75,6 +75,29 @@ html {
   border-color: #fff !important;
 }
 
+/* Secondary hover + focus — full inversion. The rest-state rules
+   above use !important so the Tailwind utility classes that would
+   normally drive hover (`hover:bg-[var(--text-heading)]`, etc.)
+   lose the cascade fight against them. We mirror that pattern here
+   with !important on the hover/focus selectors so the interactive
+   state actually flips. Keyboard-only `:focus-visible` shares the
+   same look as `:hover` (plus the outline ring rendered by Tailwind's
+   `focus-visible:outline-2`), so mouse and keyboard users see the
+   same strong "this is interactive" signal. */
+[data-variant="secondary"]:hover,
+[data-variant="secondary"]:focus-visible {
+  background-color: #000 !important;
+  color: #fff !important;
+  border-color: #000 !important;
+}
+
+[data-theme="dark"] [data-variant="secondary"]:hover,
+[data-theme="dark"] [data-variant="secondary"]:focus-visible {
+  background-color: #fff !important;
+  color: #000 !important;
+  border-color: #fff !important;
+}
+
 [data-variant="ghost"] {
   background-color: transparent !important;
   color: #000 !important;
