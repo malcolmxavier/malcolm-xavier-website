@@ -117,16 +117,13 @@ export function PlaylistCard({ playlist }: { playlist: EnrichedPlaylist }) {
             // duplicate semantics the playlist heading already
             // carries below the cover. Keep this as visual chrome.
             //
-            // gap-px + background color produces a 1px hairline
-            // between cells (the wrapper's bg shows through the
-            // gap). Softens the seams when adjacent covers have
-            // very different brightness — Spotify itself uses no
-            // gutter, but the divider reads cleaner on our smaller
-            // card sizes.
+            // No gutter between cells — matches Spotify's actual
+            // mosaic rendering. An earlier iteration tried a 1px
+            // hairline divider; user signed off on the gutter-less
+            // version during the 2026-04-28 audit verification.
             <div
               aria-hidden
-              className="rounded-md w-full h-full overflow-hidden grid grid-cols-2 grid-rows-2 gap-px"
-              style={{ background: "var(--border-default)" }}
+              className="rounded-md w-full h-full overflow-hidden grid grid-cols-2 grid-rows-2"
             >
               {mosaicCovers.map((c) => (
                 <div key={c.url} className="relative">
