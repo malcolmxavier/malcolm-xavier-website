@@ -124,6 +124,14 @@ export default function ContactPage() {
               // Container card around the iframe widget — borders
               // visually separate the third-party light-theme embed
               // from the surrounding page (which may be dark).
+              //
+              // role="region" + aria-label exposes this as a named
+              // landmark in screen-reader landmark lists. Without it,
+              // the booking widget reads as an unlabeled iframe —
+              // VoiceOver users can't navigate to it via the rotor or
+              // tell what's inside before tabbing in.
+              role="region"
+              aria-label="Book a meeting via Calendly"
               className="overflow-hidden rounded-lg border"
               style={{
                 borderColor: "var(--border-default)",

@@ -45,6 +45,66 @@ import {
 } from "docx";
 import { writeFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
+import { z } from "zod";
+
+// ─── Schemas ──────────────────────────────────────────────────────
+// Defensive parse before document construction so a malformed entry
+// surfaces with a clear zod error pointing at the bad field, rather
+// than crashing inside docx with a stack trace from deep in the
+// rendering pipeline. Mirrors build-resume-docx.mjs's schemas with
+// two bullet-bank-specific differences:
+//   • RoleSchema includes `titleUrl` (used by the freelance Prompt
+//     Engineer role where the title links to DataAnnotation rather
+//     than a company URL).
+//   • EducationSchema uses `institutionUrl` (not `url`) to match the
+//     bullet bank's verbose key naming, and requires `details` to
+//     have at least one entry (an education entry without details
+//     would render as a bare credential line, which reads broken).
+
+const SegmentSchema = z.object({
+  text: z.string(),
+  bold: z.boolean().optional(),
+  url: z.string().url().optional(),
+});
+
+const BulletSchema = z.union([z.string(), z.array(SegmentSchema).min(1)]);
+
+const ContextSegmentSchema = z.object({
+  text: z.string(),
+  url: z.string().url().optional(),
+});
+
+const RoleSchema = z.object({
+  company: z.string().min(1),
+  url: z.string().url().optional(),
+  titleUrl: z.string().url().optional(),
+  location: z.string().min(1).optional(),
+  title: z.string().min(1),
+  dates: z.string().min(1),
+  context: z.string().optional(),
+  contextSegments: z.array(ContextSegmentSchema).optional(),
+  bullets: z.array(BulletSchema),
+});
+
+const EducationSchema = z.object({
+  institution: z.string().min(1),
+  institutionUrl: z.string().url().optional(),
+  location: z.string().min(1),
+  dates: z.string().min(1),
+  credential: z.string().min(1),
+  honors: z.string().optional(),
+  details: z.array(z.string()).min(1),
+});
+
+const ContactSchema = z.object({
+  name: z.string().min(1),
+  headline: z.string().min(1),
+  email: z.string().email(),
+  phone: z.string().min(1),
+  location: z.string().min(1),
+  linkedin: z.string().min(1),
+  linkedinUrl: z.string().url(),
+});
 
 // ─── Content ──────────────────────────────────────────────────────
 // Hardcoded port of _design/source/malcolm-xavier-bullet-bank.pdf,
@@ -61,7 +121,7 @@ const CONTACT = {
   // here to match the resume's single-line positioning.
   headline:
     "Senior Product Manager · Growth and Data · Media, Publishing, and Streaming · AI-Native",
-  email: "malcolm.x.evans@gmail.com",
+  email: "malcolm@malxavi.com",
   phone: "(774) 262-2606",
   location: "Los Angeles, CA",
   linkedin: "linkedin.com/in/malxavi",
@@ -310,6 +370,15 @@ const EDUCATION = [
   },
 ];
 
+// ─── Validate content ─────────────────────────────────────────────
+// Run schemas before any document construction so a malformed entry
+// surfaces with a clear zod error pointing at the bad field, rather
+// than crashing inside docx with a stack trace from deep in the
+// rendering pipeline.
+ContactSchema.parse(CONTACT);
+z.array(RoleSchema).parse(ROLES);
+z.array(EducationSchema).parse(EDUCATION);
+
 // ─── Style helpers ────────────────────────────────────────────────
 // Copied from build-resume-docx.mjs so the bullet bank reads like a
 // sibling artifact. If the resume's helpers ever drift, copy the new
@@ -427,7 +496,7 @@ children.push(
     children: [
       linkRun(
         CONTACT.phone,
-        `tel:${CONTACT.phone.replace(/[^0-9+]/g, "")}`,
+        `tel:+1${CONTACT.phone.replace(/[^0-9]/g, "")}`,
         { size: SIZE.contact },
       ),
       sep(),
@@ -700,7 +769,7 @@ const pageHeader = new Header({
       children: [
         headerLink(
           CONTACT.phone,
-          `tel:${CONTACT.phone.replace(/[^0-9+]/g, "")}`,
+          `tel:+1${CONTACT.phone.replace(/[^0-9]/g, "")}`,
         ),
         headerSep(),
         headerLink(CONTACT.email, `mailto:${CONTACT.email}`),
