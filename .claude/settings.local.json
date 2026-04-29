@@ -200,7 +200,14 @@
       "Bash(xargs ls *)",
       "Bash(xargs cat *)",
       "Bash(echo \"exit code: $?\")",
-      "Bash(npm test *)"
+      "Bash(npm test *)",
+      "Bash(awk '{print $5, $6, $7, $8, $9, $10}')",
+      "Bash(awk '{print $5, $6, $7, $8, $9}')",
+      "Bash(awk '{n=index\\($0,\"—\"\\); printf \"len-to-em: %d | %s\\\\n\", n-1, $0}')",
+      "Bash(npm uninstall *)",
+      "Bash(awk 'NR>=545 && NR<=778' /Users/mal/Desktop/malcolm-xavier-website/app/case-studies/building-this-site/page.tsx)",
+      "Bash(awk 'NR>=545 && NR<=770' /Users/mal/Desktop/malcolm-xavier-website/app/case-studies/building-this-site/page.tsx)",
+      "Bash(awk '/^## Button mashing/{flag=1} flag' /Users/mal/Desktop/malcolm-xavier-website/case-studies/building-this-site.md)"
     ]
   }
 }
