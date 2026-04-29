@@ -389,3 +389,61 @@ code.code-chip {
 [data-theme="dark"] code.code-chip {
   background: color-mix(in oklab, var(--text-body) 26%, transparent);
 }
+
+/* ─── Italic kerning baseline ──────────────────────────────────
+   Italic serif glyphs (Instrument Serif italic) read with tight
+   built-in rhythm; the browser's default `text-rendering: auto`
+   can drop kerning on short runs and mid-display runs entirely,
+   producing a perceptible kerning bug — words feel crowded
+   against punctuation, neighboring spaces, and following words.
+
+   `italic-kern` is the baseline: explicit `kern` and `liga`
+   features and `text-rendering: optimizeLegibility`. Apply to
+   any whole-block italic surface (Pullquote, Hero lede, Footer
+   caption, resume context lines, manifesto banner, etc.) where
+   the italic isn't sitting next to roman content but still wants
+   the better kerning quality.
+
+   `italic-inline` extends `italic-kern` with a hair of trailing
+   inline padding (0.04em). Use it for inline italic spans that
+   sit beside roman body prose — the Emph primitive, the resume
+   headline location/year suffixes, the Basecamp drink-archetype
+   span. Without the trailing padding, the italic glyph's right-
+   lean crowds the next roman word; with it, the visual gap reads
+   as a normal word-space.
+   ───────────────────────────────────────────────────────────── */
+
+.italic-kern {
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+.italic-inline {
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1;
+  padding-inline-end: 0.04em;
+}
+
+/* ─── Math operator in body / display prose ────────────────────
+   Math operators (≠, ≈, ≤, ≥, ±, ×, ÷, etc.) frequently lack
+   italic glyphs in serif fonts (Instrument Serif italic
+   specifically). When the browser falls back to a different
+   font for the symbol, the fallback's sidebearing metrics often
+   collapse the visual gap to adjacent characters — the literal
+   space character is in the HTML, but the rendered glyph reads
+   as butt-jointed against the next word.
+
+   Caught in the Pullquote on /case-studies/building-this-site
+   ("Memory ≠ discipline.") where the `≠` rendered with no
+   visible space before "discipline" despite proper spaces in
+   the markup. Fix: wrap the operator in a `<span class="math-op">`
+   so explicit horizontal margin overrides the fallback metric.
+
+   0.12em on each side gives a normal word-space worth of breathing
+   room across font sizes — small enough to not over-space at body,
+   big enough to read clearly at display.
+   ───────────────────────────────────────────────────────────── */
+
+.math-op {
+  margin-inline: 0.12em;
+}

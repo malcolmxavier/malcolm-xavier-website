@@ -208,9 +208,16 @@ export function Emph({ children }: { children: ReactNode }) {
   // poorly with the surrounding Roboto Slab body copy. Pinning to
   // Instrument Serif keeps the editorial-italic voice intact at
   // every surface.
+  //
+  // `italic-inline` (defined in app/components.css) compensates
+  // for italic serif's right-lean crowding the following roman
+  // word, and turns kerning + ligature features on explicitly.
+  // The class is shared with the resume headline italic suffixes
+  // and the Basecamp drink-archetype span — every site where
+  // serif italic runs inline beside roman body.
   return (
     <span
-      className="text-[var(--text-heading)]"
+      className="italic-inline text-[var(--text-heading)]"
       style={{
         fontFamily: "var(--font-instrument-serif)",
         fontStyle: "italic",
@@ -260,7 +267,14 @@ export function Pullquote({
   return (
     <figure className="my-10 md:my-12 max-w-[720px] pl-5 md:pl-6 border-l-[2px] border-[var(--border-default)]">
       <blockquote
-        className="m-0 text-[22px] md:text-[28px] leading-[1.3] tracking-[-0.005em] text-[var(--text-heading)]"
+        // `italic-kern` (defined in app/components.css) forces
+        // explicit kern + liga features and optimizeLegibility so
+        // italic Instrument Serif at display size doesn't read as
+        // crowded against punctuation and word boundaries. Removed
+        // the previous `tracking-[-0.005em]` because the negative
+        // tracking amplified the same crowding it was trying to
+        // mask.
+        className="italic-kern m-0 text-[22px] md:text-[28px] leading-[1.3] text-[var(--text-heading)]"
         style={{
           fontFamily: "var(--font-primary)",
           fontStyle: "italic",

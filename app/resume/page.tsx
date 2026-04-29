@@ -112,6 +112,7 @@ function RoleBlock({ role }: { role: ResumeRole }) {
           )}
           {role.location ? (
             <span
+              className="italic-inline"
               style={{
                 color: "var(--text-caption)",
                 fontWeight: 400,
@@ -150,6 +151,7 @@ function RoleBlock({ role }: { role: ResumeRole }) {
         {/* Italic single-line context, like the resume PDF */}
         <Body
           size="md"
+          className="italic-kern"
           style={{
             maxWidth: "70ch",
             color: "var(--text-caption)",
@@ -207,6 +209,7 @@ function EducationBlock({ entry }: { entry: ResumeEducation }) {
         >
           {entry.institution}
           <span
+            className="italic-inline"
             style={{
               color: "var(--text-caption)",
               fontWeight: 400,
@@ -243,6 +246,7 @@ function EducationBlock({ entry }: { entry: ResumeEducation }) {
         {entry.context ? (
           <Body
             size="md"
+            className="italic-kern"
             style={{
               maxWidth: "70ch",
               color: "var(--text-caption)",
@@ -376,6 +380,7 @@ export default function ResumePage() {
             <Stack gap="300">
               <Display>Malcolm Xavier</Display>
               <p
+                className="italic-kern"
                 style={{
                   fontFamily: "var(--font-primary)",
                   fontSize: "var(--h5-font-size)",

@@ -582,8 +582,12 @@ function BeatButton() {
         <span className="block mt-3">
           Binary outcome, 30-second test. The agent eventually arrived at
           this diagnostic on its own, but four rounds late. Catching the
-          agent in that loop is the work I&apos;d be paying a PM to do
-          anyway.
+          agent in that loop is a critical PM skill that I would argue
+          requires some level of{" "}
+          <Link href="https://www.linkedin.com/pulse/technically-speaking-malcolm-xavier-nsf3c">
+            technical expertise ↗
+          </Link>
+          .
         </span>
       </ClaudeNote>
     </Beat>
@@ -602,11 +606,15 @@ function BeatRecursion() {
     >
       <Body>
         <p>
-          A week later, building the chrome on{" "}
-          <Code>/case-studies/basecamp-coffee</Code>: a 1px scroll-progress
-          bar anchored to the bottom of the Nav. Conceptually a 50-line
-          CSS change. Took <Emph>15 commits and an evening</Emph> of
-          escalating frustration with the agent to land the right state.
+          A week later, re-building the{" "}
+          <Link href="/case-studies/basecamp-coffee">
+            Basecamp Coffee case study
+          </Link>{" "}
+          chrome on <Code>/case-studies/basecamp-coffee</Code>: a 1px
+          scroll-progress bar anchored to the bottom of the Nav.
+          Conceptually a 50-line CSS change. Took{" "}
+          <Emph>15 commits and an evening</Emph> of escalating frustration
+          with the agent to land the right state.
         </p>
         <p>
           Eventually traced: <Code>--surface-page</Code> resolves to{" "}
@@ -615,15 +623,15 @@ function BeatRecursion() {
           only defined inside <Code>{`[data-subbrand]`}</Code> blocks at{" "}
           <Code>:root</Code>—not at the recruiter cluster&apos;s root.
           Every <Code>color-mix(... var(--surface-page))</Code> was
-          silently invalidating. The page still <Emph>looked</Emph> right
-          because Chrome&apos;s canvas defaults paint the page bg. Same
+          silently invalidating. The page still <Emph>looked</Emph>{" "}
+          right because Chrome&apos;s canvas defaults paint the page bg. Same
           class of bug as the button. Same silent fallback masking the
           diagnosis.
         </p>
       </Body>
 
       <Pullquote attribution="the more interesting PM artifact">
-        Memory ≠ discipline.
+        Memory <span className="math-op">≠</span> discipline.
       </Pullquote>
 
       <Body>
@@ -634,8 +642,9 @@ function BeatRecursion() {
           The 15-commit saga happened anyway. Written documentation of a
           lesson is not the same as operational discipline around it.
           Writing the postmortem feels like resolution. Carrying it into
-          the next session <Emph>is</Emph> the resolution. Almost every
-          product org I&apos;ve worked in conflates the two.
+          the next session <Emph>is</Emph>{" "}the resolution. Almost every
+          product org I&apos;ve worked in conflates the two. That's a human
+          behavior that an AI-native system will pick up if you're not careful.
         </p>
       </Body>
 
@@ -986,7 +995,7 @@ function BeatReview() {
         <p>
           Each agent has a role spec at <Code>~/.claude/agents/{`<name>.md`}</Code>:
           checklist, output format, severity definitions, and an
-          explicit <Emph>what NOT to do</Emph> section so the agents
+          explicit <Emph>what NOT to do</Emph>{" "}section so the agents
           don&apos;t drift into each other&apos;s lanes. All three were
           standardized on a shared severity vocabulary—Critical,
           High, Medium, Low, plus a Couldn&apos;t-verify bucket—so a
@@ -1240,12 +1249,12 @@ function BeatLive() {
           </li>
           <li>
             <Emph>For critical UI primitives, hardcode the visual
-            baseline.</Emph> Theme-aware components shouldn&apos;t depend
+            baseline.</Emph>{" "}Theme-aware components shouldn&apos;t depend
             on <Code>var()</Code> references that can fail silently.
           </li>
           <li>
             <Emph>Validate visual fixes against the deployed render
-            before declaring done.</Emph> Computed-style or screenshot,
+            before declaring done.</Emph>{" "}Computed-style or screenshot,
             not &ldquo;the code looks right.&rdquo;
           </li>
           <li>
@@ -1257,7 +1266,7 @@ function BeatLive() {
           </li>
           <li>
             <Emph>Gate high-cost agent-proposed actions on
-            cheap-binary tests first.</Emph> Anything touching global
+            cheap-binary tests first.</Emph>{" "}Anything touching global
             state needs a 90-second falsification before the
             destructive commit. Same gate I&apos;d apply to a junior
             PM proposing a vendor escalation.

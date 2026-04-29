@@ -72,7 +72,7 @@ export function CaseStudyHero({
         {subtitle}
       </h2>
       <p
-        className="m-0 text-[19px] md:text-[21px] leading-[1.4] tracking-[-0.005em] text-[var(--text-caption)]"
+        className="italic-kern m-0 text-[19px] md:text-[21px] leading-[1.4] text-[var(--text-caption)]"
         style={{
           fontFamily: "var(--font-primary)",
           fontStyle: "italic",

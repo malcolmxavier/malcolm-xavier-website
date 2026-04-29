@@ -711,7 +711,7 @@ function DrinkMatrix() {
                       <>
                         <span className="mx-[0.45em] text-[var(--text-disabled)]">·</span>
                         <span
-                          className="text-[14px] md:text-[15px] text-[var(--text-caption)]"
+                          className="italic-inline text-[14px] md:text-[15px] text-[var(--text-caption)]"
                           style={{ fontFamily: 'var(--font-primary)', fontStyle: 'italic' }}
                         >
                           {archetype.name}

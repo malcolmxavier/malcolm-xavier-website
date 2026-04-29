@@ -79,7 +79,7 @@ function Banner() {
         }}
       >
         <span style={{ display: "block" }}>Senior product manager,</span>
-        <span style={{ display: "block", fontStyle: "italic" }}>
+        <span className="italic-kern" style={{ display: "block", fontStyle: "italic" }}>
           with an artist&rsquo;s eye.
         </span>
       </div>

@@ -75,6 +75,7 @@ export function Footer() {
               Malcolm Xavier
             </p>
             <p
+              className="italic-kern"
               style={{
                 // Italic primary serif at p-md so this line reads in
                 // Malcolm's editorial voice rather than as system
