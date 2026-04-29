@@ -17,14 +17,14 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Building this site — Case Study",
+  title: "Building this site—Case Study",
   description:
     "A meta case study on shipping this portfolio in seven days with Claude Code as build partner. Architecture bets, two production incidents, and what AI-native PM work looks like when the human stays in the loop.",
   alternates: {
     canonical: "/case-studies/building-this-site",
   },
   openGraph: {
-    title: "Building this site — Case Study",
+    title: "Building this site—Case Study",
     description:
       "A meta case study on shipping this portfolio in seven days with Claude Code as build partner. Architecture bets, two production incidents, and what AI-native PM work looks like when the human stays in the loop.",
     type: "article",

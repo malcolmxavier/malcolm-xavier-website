@@ -36,7 +36,7 @@ import {
 } from "../dots";
 
 export const metadata: Metadata = {
-  title: "LinkedIn Banner — Manifesto · Malcolm Xavier",
+  title: "LinkedIn Banner—Manifesto · Malcolm Xavier",
   robots: { index: false, follow: false },
 };
 

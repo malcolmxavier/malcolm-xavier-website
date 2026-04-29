@@ -355,3 +355,37 @@ a.link-accent-pink,
 [data-theme="dark"] [data-subbrand] a.link-accent-pink {
   color: var(--pink-400) !important;
 }
+
+/* ─── Inline code chip ─────────────────────────────────────────
+   The case-study Code primitive renders inline `<code>` text as
+   a subtle chip. The original 6% color-mix on transparent (set in
+   components/case-study/primitives.tsx) was too soft to read as
+   a chip — especially in dark mode, where ~6% white-on-transparent
+   over a black page produced near-zero lift, and the chip text
+   (--text-heading, white) sat on a chip background only marginally
+   distinguishable from the page itself.
+
+   Sitewide theme-aware percentages, tuned to the case-glass
+   precedent in case-study.css (cards: 7% light / 14% dark; chips
+   need a bit more punch since they're smaller and have less area
+   to register the elevation):
+     • Light mode: 14% mix → reads as a clearly tinted chip on
+       white without darkening enough to fight the page's editorial
+       calm.
+     • Dark mode: 26% mix → strong enough to overcome the dark-mode
+       noise floor (per the case-glass tuning notes) while still
+       reading as a quiet chip rather than a brand surface.
+
+   The class lives here (not in globals.css, which is regenerated
+   from _design/tokens/) so it's not blown away by `npm run
+   tokens:build`. Every <Code> in the case-study cluster picks it
+   up because the Code primitive applies the class directly; future
+   surfaces (MDX blog, etc.) can use the same class. */
+
+code.code-chip {
+  background: color-mix(in oklab, var(--text-body) 14%, transparent);
+}
+
+[data-theme="dark"] code.code-chip {
+  background: color-mix(in oklab, var(--text-body) 26%, transparent);
+}

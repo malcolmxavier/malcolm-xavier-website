@@ -20,14 +20,14 @@ import type { ReactNode } from "react";
 import "./case-study.css";
 
 export const metadata: Metadata = {
-  title: "Basecamp Coffee — Case Study",
+  title: "Basecamp Coffee—Case Study",
   description:
     "How I used Claude Code to diagnose a collapsing loyalty program and ship a working prototype. A Growth PM portfolio artifact.",
   alternates: {
     canonical: "/case-studies/basecamp-coffee",
   },
   openGraph: {
-    title: "Basecamp Coffee — Case Study",
+    title: "Basecamp Coffee—Case Study",
     description:
       "How I used Claude Code to diagnose a collapsing loyalty program and ship a working prototype. A Growth PM portfolio artifact.",
     type: "article",

@@ -25,7 +25,7 @@ import { ImageResponse } from "next/og";
 import { loadGoogleFont } from "@/lib/og/load-google-font";
 
 export const alt =
-  "Malcolm Xavier — Senior product manager. Tech, media, streaming.";
+  "Malcolm Xavier—Senior product manager. Tech, media, streaming.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

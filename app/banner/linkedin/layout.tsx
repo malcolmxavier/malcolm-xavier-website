@@ -16,7 +16,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "LinkedIn Banner — Malcolm Xavier",
+  title: "LinkedIn Banner—Malcolm Xavier",
   // Banners are export artifacts, not navigational destinations.
   // Keep them out of search indexes and link previews.
   robots: { index: false, follow: false },

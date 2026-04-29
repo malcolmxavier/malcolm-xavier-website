@@ -222,9 +222,16 @@ export function Emph({ children }: { children: ReactNode }) {
 }
 
 export function Code({ children }: { children: ReactNode }) {
+  // Background lives in app/components.css (`.code-chip`) as a
+  // theme-aware rule rather than a Tailwind arbitrary class. The
+  // earlier inline `bg-[color-mix(...,_6%,_transparent)]` was too
+  // soft to read in dark mode — white-text-on-faint-white-tint
+  // sat at near-zero contrast against the chip surface. The class
+  // bumps to 14% light / 26% dark and lives sitewide so a future
+  // MDX or blog surface inherits the same treatment.
   return (
     <code
-      className="text-[14px] md:text-[15px] px-1.5 py-0.5 rounded-[6px] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] text-[var(--text-heading)]"
+      className="code-chip text-[14px] md:text-[15px] px-1.5 py-0.5 rounded-[6px] text-[var(--text-heading)]"
       style={{ fontFamily: "var(--font-mono)" }}
     >
       {children}
@@ -282,6 +289,12 @@ export function ClaudeNote({
   children: ReactNode;
   kicker?: string;
 }) {
+  // Body wrapper is a <div>, not a <p>, so callers can pass block
+  // content (lists, multiple paragraphs) without producing invalid
+  // <ul>-inside-<p> markup. Tailwind classes on the wrapper still
+  // drive the typography and color, and existing inline-span
+  // patterns (e.g. <span className="block mt-3">) keep working
+  // because spans nest fine inside a div.
   return (
     <div className="my-8 md:my-10 pl-4 md:pl-5 border-l-[2px] border-[var(--border-default)]">
       <p
@@ -290,9 +303,9 @@ export function ClaudeNote({
       >
         {kicker}
       </p>
-      <p className="m-0 text-[15px] md:text-[16px] leading-[1.55] text-[var(--text-caption)]">
+      <div className="m-0 text-[15px] md:text-[16px] leading-[1.55] text-[var(--text-caption)]">
         {children}
-      </p>
+      </div>
     </div>
   );
 }

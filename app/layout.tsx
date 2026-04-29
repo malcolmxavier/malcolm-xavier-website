@@ -71,7 +71,7 @@ const robotoMono = Roboto_Mono({
 // `https://malxavi.com/resume` — no per-page repetition needed.
 //
 // The `title` template means a per-page metadata export of
-// `title: "Music"` renders as `<title>Music — Malcolm Xavier</title>`
+// `title: "Music"` renders as `<title>Music—Malcolm Xavier</title>`
 // while the root page (which sets only `title.default`) renders the
 // bare `Malcolm Xavier`.
 //
@@ -88,7 +88,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_NAME,
-    template: `%s — ${SITE_NAME}`,
+    template: `%s—${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
   alternates: {

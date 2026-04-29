@@ -55,16 +55,16 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { playlistId } = await params;
   const playlist = await getCachedPlaylist(SPOTIFY_USER_ID, playlistId);
-  // The root layout's title.template appends " — Malcolm Xavier"
+  // The root layout's title.template appends "—Malcolm Xavier"
   // automatically, so per-page titles omit it to avoid doubling.
   if (!playlist) {
     return { title: "Playlist not found" };
   }
   return {
-    title: `${playlist.name} — Music`,
+    title: `${playlist.name}—Music`,
     description:
       decodeSpotifyDescription(playlist.description) ||
-      `Public Spotify playlist by Malcolm Xavier — ${playlist.tracks.length} tracks.`,
+      `Public Spotify playlist by Malcolm Xavier—${playlist.tracks.length} tracks.`,
   };
 }
 

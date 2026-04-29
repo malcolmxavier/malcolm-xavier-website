@@ -175,7 +175,32 @@
       "Bash(pkill -9 -f \"next-server\\\\|next start\\\\|next dev\\\\|next build\" sleep 3 rm -rf /Users/mal/Desktop/malcolm-xavier-website/.next SPOTIFY_OFFLINE=1 npx next build --webpack)",
       "Bash(kill -9 37858)",
       "Bash(pkill -9 -f \"next\")",
-      "Bash(SPOTIFY_OFFLINE=1 npx next build)"
+      "Bash(SPOTIFY_OFFLINE=1 npx next build)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(lsof -ti:3000)",
+      "Bash(xargs kill *)",
+      "Bash(command -v nvm fnm volta n)",
+      "Read(//opt/homebrew/Cellar/**)",
+      "Bash(echo \"\\(exit: $?\\)\")",
+      "Bash(awk '/^Call graph:/{flag=1} flag{print}')",
+      "Bash(brew info *)",
+      "Bash(brew install *)",
+      "Bash(brew unlink *)",
+      "Bash(brew link *)",
+      "Bash(npm rebuild *)",
+      "Bash(npx --yes browser-driver-manager install chrome@147)",
+      "Bash(npx --yes @axe-core/cli@latest http://localhost:3000/ --rules color-contrast --chromedriver-path /Users/mal/.browser-driver-manager/chromedriver/mac_arm-147.0.7727.117/chromedriver-mac-arm64/chromedriver --save /tmp/axe-detail/root-detail.json)",
+      "Bash(sed 's/\\\\x1b\\\\[[0-9;]*m//g' /tmp/axe-detail/log.txt)",
+      "Bash(npx --yes @axe-core/cli@latest http://localhost:3000/music --rules color-contrast --chromedriver-path /Users/mal/.browser-driver-manager/chromedriver/mac_arm-147.0.7727.117/chromedriver-mac-arm64/chromedriver --save axe-detail/music.json)",
+      "Bash(lsof -ti:3000 :3001)",
+      "Read(//Users/mal/.browser-driver-manager/chromedriver/**)",
+      "Read(//Users/mal/.browser-driver-manager/chrome/**)",
+      "Bash(npx browser-driver-manager *)",
+      "Bash(npx *)",
+      "Bash(xargs ls *)",
+      "Bash(xargs cat *)",
+      "Bash(echo \"exit code: $?\")",
+      "Bash(npm test *)"
     ]
   }
 }
