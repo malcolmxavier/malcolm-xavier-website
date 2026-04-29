@@ -1,0 +1,28 @@
+# Malcolm Xavier — malxavi.com
+
+Senior product manager working on growth and data platforms in media, publishing, and streaming. AI-native builder. Based in Los Angeles, originally from New York.
+
+## Key pages
+
+- Resume: https://malxavi.com/resume — work history, skills, education, downloadable PDF
+- About: https://malxavi.com/about — longer-form bio, interests, "what I'm into"
+- Contact: https://malxavi.com/contact — Calendly, email, LinkedIn, GitHub
+- Case studies:
+  - https://malxavi.com/case-studies/basecamp-coffee — Growth PM artifact: diagnosing a collapsing loyalty program with Claude Code, shipping a working prototype
+  - https://malxavi.com/case-studies/building-this-site — meta case study on shipping this portfolio in seven days with Claude Code as a build partner
+- Music: https://malxavi.com/music — monthly Spotify playlists, curated by mood and moment
+
+## Contact
+
+Email: malcolm@malxavi.com
+LinkedIn: https://www.linkedin.com/in/malxavi/
+GitHub: https://github.com/malcolmxavier
+Calendly (30-min chat): https://calendly.com/malcolmxavier/product-chat-30
+
+## Content notes
+
+Malcolm is a Senior PM with technical depth (React, Node, TypeScript, SQL, BigQuery, Python, ETL) plus an MS in Law from Northwestern (data privacy and IP) and a BA in Theatre and Dance. Most recent role: People Inc. (Dotdash Meredith), building MarTech infrastructure for 22M+ users across 40 brands. Earlier work at Muck Rack, User Interviews, and Fullstack Academy.
+
+Case studies are long-form articles covering Growth PM methodology, AI-native product development, and Claude Code workflows. The site is a portfolio supporting a Senior PM job search in tech, media, and streaming.
+
+Currently interviewing. Open to senior PM roles in media and streaming.

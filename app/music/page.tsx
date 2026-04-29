@@ -47,6 +47,13 @@ export const metadata: Metadata = {
   title: "Music",
   description:
     "Public playlists Malcolm builds and maintains on Spotify, sorted by last edit.",
+  // Explicit canonical override — without it, /music inherits the
+  // root layout's canonical-of-"/" and Googlebot treats it as a
+  // duplicate of the landing page (2026-04-29 /full-review,
+  // c-canonicals-all-root).
+  alternates: {
+    canonical: "/music",
+  },
 };
 
 const SPOTIFY_USER_ID = process.env.SPOTIFY_USER_ID ?? "malcolmxevans";

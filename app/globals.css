@@ -691,6 +691,7 @@
   --icon-disabled: var(--neutral-default);
   --surface-page: var(--neutral-white);
   --surface-default: var(--neutral-white);
+  --surface-muted: var(--neutral-100);
   --surface-action: var(--primary-default);
   --surface-action-hover: var(--primary-600);
   --surface-error: var(--error-50);
@@ -735,6 +736,7 @@
   --icon-disabled: var(--neutral-black);
   --surface-page: var(--neutral-black);
   --surface-default: var(--neutral-black);
+  --surface-muted: var(--neutral-800);
   --surface-action: var(--primary-400);
   --surface-action-hover: var(--primary-400);
   --surface-error: var(--error-800);

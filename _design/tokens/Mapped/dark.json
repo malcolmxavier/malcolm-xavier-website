@@ -254,6 +254,16 @@
       "$type": "color",
       "$value": "{neutral.black}"
     },
+    "muted": {
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.hiddenFromPublishing": false
+      },
+      "$type": "color",
+      "$value": "{neutral.800}"
+    },
     "action": {
       "$extensions": {
         "com.figma.scopes": [

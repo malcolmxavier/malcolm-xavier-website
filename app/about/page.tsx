@@ -38,6 +38,13 @@ export const metadata: Metadata = {
   title: "About",
   description:
     "The long version: senior product manager, sometime artist, full-time New Yorker living in Los Angeles.",
+  // Explicit canonical override — without it, /about inherits the
+  // root layout's canonical-of-"/" and Googlebot treats it as a
+  // duplicate of the landing page (2026-04-29 /full-review,
+  // c-canonicals-all-root).
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 // "What I'm into" sidebar items. Each entry is a {kicker, label, href}

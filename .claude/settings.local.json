@@ -207,7 +207,11 @@
       "Bash(npm uninstall *)",
       "Bash(awk 'NR>=545 && NR<=778' /Users/mal/Desktop/malcolm-xavier-website/app/case-studies/building-this-site/page.tsx)",
       "Bash(awk 'NR>=545 && NR<=770' /Users/mal/Desktop/malcolm-xavier-website/app/case-studies/building-this-site/page.tsx)",
-      "Bash(awk '/^## Button mashing/{flag=1} flag' /Users/mal/Desktop/malcolm-xavier-website/case-studies/building-this-site.md)"
+      "Bash(awk '/^## Button mashing/{flag=1} flag' /Users/mal/Desktop/malcolm-xavier-website/case-studies/building-this-site.md)",
+      "WebFetch(domain:localhost)",
+      "Bash(chromedriver --version)",
+      "Bash(xattr -d com.apple.quarantine /opt/homebrew/bin/chromedriver)",
+      "Bash(/opt/homebrew/bin/chromedriver --version)"
     ]
   }
 }

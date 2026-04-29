@@ -91,10 +91,14 @@ html {
    Specificity is higher than the base rule, so dark mode wins
    in dark mode without needing a media query.
 
-   Sub-brand pages (Music, Film, etc.) DON'T affect button
+   Sub-brand pages (Music, Film, etc.) DON'T affect <button>
    primary/secondary variants — those tokens use --text-heading
    and --surface-page, which are theme-flipped only, not sub-
-   brand-flipped. So we don't need sub-brand-scoped overrides. */
+   brand-flipped. But Button rendered AS <a> (Open on Spotify
+   etc.) IS affected, because the sub-brand anchor color rules
+   below have specificity (0,2,0) and override the variant rule
+   (0,1,0) — see the data-subbrand a[data-variant="primary"]
+   override further down. */
 
 [data-variant="primary"] {
   background-color: #000 !important;
@@ -108,6 +112,33 @@ html {
   background-color: #fff !important;
   color: #000 !important;
   border-color: #fff !important;
+}
+
+/* Class-of-bug fix from the 2026-04-29 /full-review
+   (c-primary-button-subbrand-contrast). Inside any [data-subbrand]
+   wrapper, the sub-brand anchor color rule
+   (e.g. `[data-subbrand="music"] a { color: var(--purple-700)
+   !important }` further below) has specificity (0,2,0) and wins
+   against `[data-variant="primary"]` (0,1,0). A Button rendered as
+   <a> with variant="primary" inside a sub-brand wrapper renders its
+   text in the sub-brand color on the black/white button surface —
+   purple-700 on black = 1.58:1 (light), purple-300 on white = 3.50:1
+   (dark). Both fail SC 1.4.3.
+
+   Specificity (0,2,1) — same as the sub-brand anchor rules but with
+   one element selector — plus `!important` and source order after
+   them gives this override the win in any sub-brand context, on
+   every state (rest / hover / focus). Class-wide so future sub-brand
+   pages (Film, TV, Newsletter, etc.) inherit the fix automatically. */
+[data-subbrand] a[data-variant="primary"],
+[data-subbrand] a[data-variant="primary"]:hover,
+[data-subbrand] a[data-variant="primary"]:focus-visible {
+  color: #fff !important;
+}
+[data-theme="dark"] [data-subbrand] a[data-variant="primary"],
+[data-theme="dark"] [data-subbrand] a[data-variant="primary"]:hover,
+[data-theme="dark"] [data-subbrand] a[data-variant="primary"]:focus-visible {
+  color: #000 !important;
 }
 
 /* Primary hover + focus — clearly perceivable bg shift. The default

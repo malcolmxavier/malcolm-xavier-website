@@ -9,7 +9,7 @@
 // someone constructing a URL to embed a third party's playlist.
 // ─────────────────────────────────────────────────────────────────
 
-import { cache } from "react";
+import { Suspense, cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -56,15 +56,22 @@ export async function generateMetadata(
   const { playlistId } = await params;
   const playlist = await getCachedPlaylist(SPOTIFY_USER_ID, playlistId);
   // The root layout's title.template appends "—Malcolm Xavier"
-  // automatically, so per-page titles omit it to avoid doubling.
+  // automatically. The path /music/[id] already encodes the section,
+  // so we don't append "—Music" here — that produced a triple-segment
+  // title (`{name}—Music—Malcolm Xavier`) flagged in the 2026-04-29
+  // /full-review (a-music-id-title-triple).
   if (!playlist) {
-    return { title: "Playlist not found" };
+    return {
+      title: "Playlist not found",
+      alternates: { canonical: `/music/${playlistId}` },
+    };
   }
   return {
-    title: `${playlist.name}—Music`,
+    title: playlist.name,
     description:
       decodeSpotifyDescription(playlist.description) ||
       `Public Spotify playlist by Malcolm Xavier—${playlist.tracks.length} tracks.`,
+    alternates: { canonical: `/music/${playlistId}` },
   };
 }
 
@@ -85,9 +92,17 @@ export default async function PlaylistDetailPage(
         {/* ─── Back nav ──────────────────────────────────────────────
              Small "← All playlists" chip at the top so the user can
              return to the grid. Goes via router.back() when there's
-             history, falling back to /music for direct entries. */}
+             history, falling back to /music for direct entries.
+
+             BackToPlaylists calls useSearchParams(), which forces the
+             route to opt out of static rendering unless wrapped in a
+             Suspense boundary. Without it, the page can bail to client-
+             only rendering in production (caught in the 2026-04-29
+             /full-review, c-suspense-search-params). */}
         <Section padding="md">
-          <BackToPlaylists />
+          <Suspense fallback={null}>
+            <BackToPlaylists />
+          </Suspense>
         </Section>
 
         {/* ─── Hero ──────────────────────────────────────────────── */}

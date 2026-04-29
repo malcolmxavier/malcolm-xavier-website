@@ -157,7 +157,6 @@ export function Footer() {
         <Container size="lg">
           <div className="flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between">
             <Dateline>© {COPYRIGHT_YEAR} Malcolm Xavier</Dateline>
-            <Dateline>v0.1 · MVP in flight</Dateline>
           </div>
         </Container>
       </div>

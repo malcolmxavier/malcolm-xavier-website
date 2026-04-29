@@ -68,11 +68,17 @@ import {
 } from "./resume-data";
 
 // SEO metadata. Distinct title so resume pastes well in Slack /
-// iMessage previews and search results.
+// iMessage previews and search results. The explicit `canonical`
+// override keeps Googlebot from treating /resume as a duplicate of
+// the root layout's canonical-of-"/" (caught in the 2026-04-29
+// /full-review, c-canonicals-all-root).
 export const metadata: Metadata = {
   title: "Resume",
   description:
     "Senior Product Manager · Growth and Data · Media, Publishing, and Streaming · AI-Native. Currently interviewing.",
+  alternates: {
+    canonical: "/resume",
+  },
 };
 
 // ─── Helper sub-components ─────────────────────────────────────────

@@ -117,6 +117,77 @@ const fontVariables = [
   robotoMono.variable,
 ].join(" ");
 
+// ─────────────────────────────────────────────────────────────────
+// Sitewide JSON-LD structured data.
+//
+// Two entities, joined via @graph:
+//   1. WebSite — the malxavi.com property, with a publisher pointer
+//      to the Person.
+//   2. Person — Malcolm, with sameAs pointers to the canonical
+//      external profiles (LinkedIn, GitHub, Letterboxd, Serializd,
+//      Spotify). Drives Google's "people also search for" knowledge
+//      panels and gives AI-search retrievers (Perplexity, ChatGPT
+//      search, Gemini) a structured entity to extract from when
+//      someone asks "who is Malcolm Xavier" or "senior PM media
+//      streaming." Per the 2026-04-29 /full-review (a-no-jsonld) —
+//      single biggest discoverability lever before launch.
+//
+// `sameAs` URLs mirror the live `CONTACT` and `ELSEWHERE` constants
+// in `app/resume/resume-data.tsx` and `components/chrome/Footer.tsx`.
+// If those move, update here too.
+// ─────────────────────────────────────────────────────────────────
+const STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      description: SITE_DESCRIPTION,
+      publisher: { "@id": `${SITE_URL}/#person` },
+      inLanguage: "en-US",
+    },
+    {
+      "@type": "Person",
+      "@id": `${SITE_URL}/#person`,
+      name: SITE_NAME,
+      jobTitle: "Senior Product Manager",
+      url: SITE_URL,
+      description:
+        "Senior product manager specializing in growth and data platforms in media, publishing, and streaming. AI-native builder with an MS in Law and a BA in theater.",
+      sameAs: [
+        "https://www.linkedin.com/in/malxavi/",
+        "https://github.com/malcolmxavier",
+        "https://letterboxd.com/malxavi/",
+        "https://www.serializd.com/user/malxavi/profile",
+        "https://open.spotify.com/user/malcolmxevans",
+      ],
+      knowsAbout: [
+        "Product Management",
+        "Growth",
+        "Data Platforms",
+        "Media",
+        "Streaming",
+        "AI",
+        "MarTech",
+        "Lifecycle Marketing",
+        "Experimentation",
+      ],
+      alumniOf: [
+        {
+          "@type": "EducationalOrganization",
+          name: "Northwestern University Pritzker School of Law",
+        },
+        {
+          "@type": "EducationalOrganization",
+          name: "Trinity College",
+        },
+      ],
+    },
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -126,6 +197,15 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${fontVariables} antialiased`}
     >
+      <head>
+        {/* Sitewide JSON-LD: WebSite + Person. See STRUCTURED_DATA
+            comment above. Placed in <head> so crawlers and AI-search
+            retrievers find the schema before the body parses. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">
         <ThemeProvider
           attribute="data-theme"

@@ -59,6 +59,7 @@ export function BackToPlaylists() {
         textTransform: "uppercase",
         color: "var(--primary-default)",
         textDecoration: "none",
+        outlineColor: "var(--border-focus)",
       }}
       className="hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm"
     >

@@ -42,6 +42,13 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Book a 30-minute product chat, send an email, or find Malcolm elsewhere on the internet.",
+  // Explicit canonical override — without it, /contact inherits the
+  // root layout's canonical-of-"/" and Googlebot treats it as a
+  // duplicate of the landing page (2026-04-29 /full-review,
+  // c-canonicals-all-root).
+  alternates: {
+    canonical: "/contact",
+  },
 };
 
 // "Direct" methods — the right column on desktop. Each row is an

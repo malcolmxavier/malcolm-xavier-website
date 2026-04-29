@@ -509,6 +509,7 @@ function PaginationButton({
         padding: "8px 12px",
         cursor: disabled ? "not-allowed" : "pointer",
         opacity: disabled ? 0.5 : 1,
+        outlineColor: "var(--border-focus)",
       }}
       className="music-action transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4"
       {...rest}
