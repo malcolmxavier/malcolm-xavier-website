@@ -104,8 +104,17 @@ export const STATUS = "Currently interviewing · Open to senior PM roles in medi
 
 // ─── Positioning ───────────────────────────────────────────────────
 
+// Non-breaking hyphen (U+2011) inside "AI‑Native" so the term wraps
+// as a single word on narrow viewports — without it, the line breaks
+// at the regular hyphen and "Native" orphans on its own line at
+// iPhone-class widths. Sitewide convention: hyphenated proper terms
+// get U+2011 so the orphan-prevention rule we apply to arrows extends
+// to whole hyphenated phrases. The DOCX export at scripts/build-
+// resume-docx.mjs intentionally retains the regular hyphen — Word
+// hyphenation rules are different from CSS line-breaking, and the
+// resume-data file ships site-only per the project rule.
 export const HEADLINE =
-  "Senior Product Manager · Growth and Data · Media, Publishing, and Streaming · AI-Native";
+  "Senior Product Manager · Growth and Data · Media, Publishing, and Streaming · AI‑Native";
 
 export const SUMMARY =
   "Senior Product Manager with 7+ years scaling growth and data platforms across consumer and B2B SaaS products. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Operationalized AI-native discovery/delivery loops, including roadmapping, outcome measurement, and documentation.";

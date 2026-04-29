@@ -2,18 +2,23 @@
 // Card — the bordered surface block. Used for case-study tiles on
 // Resume and (eventually) sub-brand matrix tiles on Landing.
 //
-// Three composition props:
+// Two composition props:
 //   accent        Optional sub-brand slug — adds a colored top stripe
 //                 (8px) and pairs the card with the sub-brand's
 //                 --primary-* palette, even if the surrounding page
 //                 isn't sub-branded itself. Used by the matrix on
 //                 landing where each tile flashes its destination.
-//   interactive   When true, the entire card is hoverable and the
-//                 contained <Link> gets a stretched click target.
-//                 Pair with a single <Link> child whose anchor text
-//                 doubles as the card heading.
 //   padded        Defaults to true. Set false when the consumer wants
 //                 to draw its own padding (e.g. media-edge cards).
+//
+// Cards are passive surfaces — they don't carry a card-wide hover or
+// focus-within affordance. Several consumers have multiple links
+// inside a single Card (e.g. case-study tiles on Resume, where the
+// "Read the case study" link is paired with a "Visit the live
+// project" link), which rules out the stretched-link pattern. The
+// inner <Link> primitives carry their own hover and focus-visible
+// styling, so click targets remain discoverable without the card
+// pretending to be clickable as a whole.
 // ─────────────────────────────────────────────────────────────────
 
 import type { HTMLAttributes } from "react";
@@ -21,7 +26,6 @@ import type { SubBrand } from "@/lib/sub-brands";
 
 type CardProps = HTMLAttributes<HTMLDivElement> & {
   accent?: SubBrand;
-  interactive?: boolean;
   padded?: boolean;
 };
 
@@ -38,7 +42,6 @@ const ACCENT_VAR: Record<SubBrand, string> = {
 
 export function Card({
   accent,
-  interactive = false,
   padded = true,
   className = "",
   style,
@@ -65,11 +68,6 @@ export function Card({
       data-subbrand={accent}
       className={[
         "relative overflow-hidden rounded-lg border",
-        // Hover lift only when interactive — and skipped under
-        // prefers-reduced-motion to respect user comfort.
-        interactive
-          ? "transition-shadow motion-reduce:transition-none hover:shadow-lg focus-within:shadow-lg"
-          : "",
         className,
       ]
         .filter(Boolean)

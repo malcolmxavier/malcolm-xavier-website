@@ -320,7 +320,7 @@ function ResumeTableOfContents() {
  */
 function CaseStudyCard({ study }: { study: ResumeCaseStudy }) {
   return (
-    <Card accent={study.accent} interactive>
+    <Card accent={study.accent}>
       <Stack gap="300">
         <Kicker>Case study</Kicker>
         <Headline

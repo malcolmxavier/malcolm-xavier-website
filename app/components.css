@@ -10,6 +10,29 @@
    we haven't fully diagnosed.
    ───────────────────────────────────────────────────────────── */
 
+/* ─── Light-mode --border-default visibility bump ──────────────
+   The token-emitted value (--neutral-50 = #fafafa) is so close
+   to the recruiter cluster's white --surface-page that bordered
+   surfaces — Cards, Beat separators, Section dividers — read as
+   borderless on light mode. Caught during the 2026-04-29 manual
+   review: the Music card on landing showed its purple top stripe
+   and inner text but the bottom edge was effectively invisible
+   against the page.
+
+   Bumping to --neutral-300 (#e1e4e1) raises bg/border contrast
+   from ~1.04:1 to ~1.30:1 — enough for the border to register
+   as an edge without fighting the editorial calm. Dark mode's
+   --neutral-800 is already well-calibrated against black, so
+   scoped to non-dark themes.
+
+   Lives here (not in globals.css) because globals.css is
+   regenerated from _design/tokens/ on every build and would
+   lose the override. */
+
+:root:not([data-theme="dark"]) {
+  --border-default: var(--neutral-300);
+}
+
 /* ─── Overscroll seam fix ──────────────────────────────────────
    Match the html element's background to the body's so when the
    user rubber-bands past the top or bottom of the document, the
@@ -87,6 +110,46 @@ html {
   border-color: #fff !important;
 }
 
+/* Primary hover + focus — clearly perceivable bg shift. The default
+   `hover:opacity-90` from the Button shared utility classes was too
+   subtle on a pure-black or pure-white surface; users couldn't tell
+   the button was interactive on either theme. A ~20%-shifted grey
+   (#333 in light, #ccc in dark) gives a visible state change while
+   preserving the high-contrast inversion look. Contrast still passes
+   AAA on both: white-on-#333 = 12.6:1, black-on-#ccc = 14.6:1.
+   Keyboard focus shares the same shift, so :focus-visible users get
+   the same fill cue plus the existing focus-ring outline (set via
+   the Button's `focus-visible:outline-2` Tailwind utility + inline
+   `outlineColor: var(--border-focus)`). Mirrors the !important
+   pattern used for the rest-state rules above so it beats the
+   Button's Tailwind hover utilities in the cascade. */
+[data-variant="primary"]:hover,
+[data-variant="primary"]:focus-visible {
+  background-color: #333 !important;
+  border-color: #333 !important;
+  /* Subtle outer ring on hover/focus. The #000 → #333 fill shift is
+     achromatic and ~20% luminance — clear on a white recruiter page,
+     but reads as inert on a saturated sub-brand surface (purple on
+     /music, etc.) where the surrounding chromatic energy washes out
+     small grey shifts. The 4px translucent ring adds a spatial cue
+     that doesn't depend on luminance perception, so the button
+     registers as interactive on any surface. Translucent black so
+     it darkens whatever sits behind it without introducing a new
+     hue. motion-reduce users still get this end state — it's not
+     animated; the only animation is the existing color transition
+     on the Button. */
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="dark"] [data-variant="primary"]:hover,
+[data-theme="dark"] [data-variant="primary"]:focus-visible {
+  background-color: #ccc !important;
+  border-color: #ccc !important;
+  /* Dark-mode counterpart: translucent white ring against dark
+     surfaces. Same spatial cue, inverted tone. */
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.16) !important;
+}
+
 [data-variant="secondary"] {
   background-color: transparent !important;
   color: #000 !important;
@@ -133,6 +196,49 @@ html {
 
 [data-theme="dark"] [data-variant="ghost"] {
   color: #fff !important;
+}
+
+/* ─── /music interactive elements (toggle + pagination + cards) ─
+   Several interactive elements on /music apply their rest color
+   via inline `style={{ color: ... }}` so the active/inactive (or
+   rest/visited) branch can read at the call site:
+
+     • All / Collections toggle buttons         (MusicShell.tsx)
+     • Numbered page buttons + Prev / Next      (MusicShell.tsx)
+     • Each PlaylistCard's title link           (PlaylistCard.tsx)
+
+   Inline styles outrank any Tailwind utility class — including
+   the `hover:[color:var(--text-action-hover)]` these elements
+   used to carry — so hover never fired and the elements read as
+   inert in both light and dark modes. The fix is to set the
+   hover/focus color in a stylesheet rule with !important so it
+   beats the inline rest color. Same cascade pattern we use for
+   [data-variant="primary"] hover above.
+
+   `:not(:disabled)` keeps the disabled Prev/Next state (which
+   intentionally renders at --text-disabled, opacity 0.5) from
+   lighting up on hover — we don't want disabled buttons to
+   suggest they're actionable. */
+.music-action:hover:not(:disabled),
+.music-action:focus-visible:not(:disabled) {
+  color: var(--text-action-hover) !important;
+}
+
+/* Link-shaped .music-action elements (PlaylistCard title) get an
+   added underline on hover/focus. The card title's rest color
+   resolves to --primary-700 via the [data-subbrand="music"] a
+   !important rule, and our hover destination is also --primary-700
+   after the action-chain bump — so a color-only shift would be a
+   no-op for this specific element. The underline is also the right
+   body-link convention here: title links read as headings at rest,
+   reveal "I'm a link" only when the user shows interest. Buttons
+   either already carry an underline-equivalent affordance (active
+   toggle's borderBottom) or don't need one (Prev/Next get the
+   color shift now that the token gap widened). */
+a.music-action:hover:not(:disabled),
+a.music-action:focus-visible:not(:disabled) {
+  text-decoration: underline !important;
+  text-underline-offset: 2px;
 }
 
 /* ─── Mono-context heading tracking reset ──────────────────────
@@ -210,6 +316,39 @@ a.link-loud:hover,
    • Anchors that carry data-subbrand="X" themselves (e.g. the
      Music nav link, which always renders purple regardless of the
      surrounding page context). */
+
+/* ─── Sub-brand link hover — specificity fix ──────────────────
+   The rest-color rules declared below set sub-brand link colors
+   with !important. Their specificity (0,2,1 for [data-subbrand]
+   a.link-loud, 0,1,1 for [data-subbrand="X"] a) ties or beats
+   the generic a.link-loud:hover rule above (0,2,1) — and
+   because the rest rules are declared later in source order, the
+   tied rules let rest-color win on hover too, so no visible
+   hover state lands.
+
+   Caught during the 2026-04-29 manual review: hovering the Music
+   card link in light mode looked identical to rest. By cascade
+   analysis the same was true in dark mode but masked by a
+   brighter rest color (purple-300) where the shift to the
+   --text-action-hover stop was incidentally more visible.
+
+   This rule pairs hover and focus-visible. The descendant
+   pattern [data-subbrand] a:hover lifts specificity to (0,2,2)
+   — beats every rest rule for this surface. Stops chosen for
+   theme-appropriate visible shift: light mode primary-800 reads
+   as a clear darken from the primary-700 rest; dark mode
+   primary-100 reads as a clear lighten from the primary-300
+   rest. */
+
+[data-subbrand] a:hover,
+[data-subbrand] a:focus-visible {
+  color: var(--primary-800) !important;
+}
+
+[data-theme="dark"] [data-subbrand] a:hover,
+[data-theme="dark"] [data-subbrand] a:focus-visible {
+  color: var(--primary-100) !important;
+}
 
 [data-subbrand="music"] a,
 a[data-subbrand="music"] {

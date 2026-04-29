@@ -61,8 +61,19 @@ export function CaseStudyHero({
     >
       <div className="flex items-baseline justify-between gap-4 mb-3">
         <CaseStudyKicker>{kicker}</CaseStudyKicker>
-        <CaseStudyKicker tone="muted">
-          {readMin} min read · Updated {updatedDate}
+        <CaseStudyKicker>
+          {readMin} min read ·{" "}
+          {/* white-space: nowrap covers the whole "Updated [date]"
+              phrase so it wraps as a single unit — no orphaned year
+              after the comma, and no orphaned date alone with
+              "Updated" stranded on the previous line. The natural
+              break point becomes the "·" boundary between read time
+              and the update phrase, which reads as one editorial
+              chunk anyway. Same orphan-prevention principle we apply
+              to hyphenated terms (U+2011) and trailing arrows (NBSP). */}
+          <span style={{ whiteSpace: "nowrap" }}>
+            Updated{" "}{updatedDate}
+          </span>
         </CaseStudyKicker>
       </div>
       <h1 className="m-0 mb-3 md:mb-4 font-medium text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--text-heading)]">

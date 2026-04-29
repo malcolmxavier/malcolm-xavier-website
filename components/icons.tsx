@@ -105,6 +105,31 @@ export function IconGitHub({ size = 16, ...props }: IconProps) {
   );
 }
 
+// ─── Mobile menu glyphs ────────────────────────────────────────────
+// Hamburger + close (X) used by the Nav's mobile disclosure trigger.
+// Both are decorative (aria-hidden) — the parent <button> carries
+// the accessible label via aria-label, since the meaning of the
+// glyph depends on the open/closed state and is announced dynamically.
+
+export function IconMenu({ size = 16, ...props }: IconProps) {
+  return (
+    <svg {...strokeIconProps(size)} {...props}>
+      <line x1="4" y1="7" x2="20" y2="7" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="17" x2="20" y2="17" />
+    </svg>
+  );
+}
+
+export function IconClose({ size = 16, ...props }: IconProps) {
+  return (
+    <svg {...strokeIconProps(size)} {...props}>
+      <line x1="6" y1="6" x2="18" y2="18" />
+      <line x1="6" y1="18" x2="18" y2="6" />
+    </svg>
+  );
+}
+
 // ─── Bonus: download arrow used by the resume CTA ──────────────────
 export function IconDownload({ size = 16, ...props }: IconProps) {
   return (

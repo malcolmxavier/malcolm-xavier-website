@@ -69,12 +69,21 @@ function variantClasses(variant: ButtonVariant): string {
   switch (variant) {
     case "primary":
       // High-contrast inversion of the page surface — black-on-light,
-      // white-on-dark. Dominant CTA. The text-heading / surface-page
-      // pair flips automatically per theme via the mapped tokens.
+      // white-on-dark. Dominant CTA. The visible rest + hover + focus
+      // colors are pinned by literal #000/#fff !important rules in
+      // app/components.css (see [data-variant="primary"] there). The
+      // Tailwind classes below previously resolved through
+      // var(--text-heading)/var(--surface-page) and emitted competing
+      // values that axe-core read alongside the !important overrides
+      // — flagging a phantom contrast violation on sub-brand surfaces
+      // even though the rendered fill was correct. Collapsing to
+      // literal color utilities removes the ambiguity and keeps
+      // automated audits clean. components.css remains the source of
+      // truth for the primary variant's actual paint.
       return [
-        "bg-[var(--text-heading)]",
-        "text-[color:var(--surface-page)]",
-        "border border-solid border-[var(--text-heading)]",
+        "bg-black",
+        "text-white",
+        "border border-solid border-black",
       ].join(" ");
     case "secondary":
       // Note: the actual rest + hover + focus colors for [data-variant="secondary"]
@@ -128,7 +137,17 @@ export function Button(props: ButtonProps) {
     .join(" ");
 
   const sharedStyle: React.CSSProperties = {
-    fontFamily: "var(--font-secondary)",
+    // DM Sans is hardcoded rather than reading var(--font-secondary)
+    // because sub-brand surfaces (e.g. data-subbrand="music") re-bind
+    // --font-secondary to their own typeface (Roboto Slab on music,
+    // Roboto Slab on newsletter). Reading the token meant a primary
+    // CTA inside a sub-brand wrapper rendered in serif slab — visibly
+    // off-voice for "Open on Spotify ↗" and similar buttons. The
+    // Button is intended as a sitewide-neutral chrome element (see
+    // app/components.css commentary at [data-variant="primary"]), so
+    // its label needs to read in DM Sans regardless of context. The
+    // fallback chain matches the :root --font-secondary definition.
+    fontFamily: "var(--font-dm-sans), system-ui, sans-serif",
     outlineColor: "var(--border-focus)",
     // Defense in depth — kill underline at the inline-style level too,
     // in case a higher-specificity stylesheet rule sneaks one in.

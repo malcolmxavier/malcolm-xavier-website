@@ -58,8 +58,11 @@ export function Footer() {
     >
       <Container size="lg">
         <div className="grid grid-cols-1 gap-10 py-12 sm:grid-cols-3 sm:py-16">
-          {/* col 1: wordmark + sardonic line */}
-          <div className="space-y-4">
+          {/* col 1: wordmark + sardonic line. Gap is set via inline
+              marginTop on the italic <p> (24px), not on this
+              wrapper, because both children carry inline margin: 0
+              that would override any wrapper space-y rule. */}
+          <div>
             <p
               style={{
                 fontFamily: "var(--font-primary)",
@@ -88,7 +91,16 @@ export function Footer() {
                 lineHeight: "var(--p-md-line-height)",
                 color: "var(--text-caption)",
                 maxWidth: "30ch",
+                // marginTop sets the gap to the wordmark above; the
+                // other three margin sides stay 0 to keep the column
+                // bottom-aligned with the rest of the footer rhythm.
+                // We can't lean on the wrapper's space-y because every
+                // first-child header in the footer (wordmark + both
+                // Kickers) has inline `margin: 0`, which beats
+                // Tailwind v4's :where()-wrapped space-y rule on
+                // specificity grounds. So the gap lives here.
                 margin: 0,
+                marginTop: "24px",
               }}
             >
               Built in Los Angeles, edited at hours that should
@@ -96,10 +108,15 @@ export function Footer() {
             </p>
           </div>
 
-          {/* col 2: stay in touch */}
-          <nav aria-label="Stay in touch" className="space-y-3">
+          {/* col 2: stay in touch. The kicker → list gap is set via
+              inline marginTop on the <ul> (24px), not via wrapper
+              space-y, because the Kicker's inline `margin: 0` would
+              beat the :where()-scoped space-y selector on
+              specificity. The inner ul still uses space-y-2 for
+              list-item rhythm. */}
+          <nav aria-label="Stay in touch">
             <Kicker>Stay in touch</Kicker>
-            <ul className="space-y-2">
+            <ul className="space-y-2" style={{ marginTop: "24px" }}>
               {STAY_IN_TOUCH.map((item) => (
                 <li key={item.label}>
                   <Link href={item.href} quiet>
@@ -110,10 +127,11 @@ export function Footer() {
             </ul>
           </nav>
 
-          {/* col 3: elsewhere */}
-          <nav aria-label="Elsewhere on the internet" className="space-y-3">
+          {/* col 3: elsewhere. Same kicker → list gap pattern as col 2
+              (inline marginTop on the ul, not wrapper space-y). */}
+          <nav aria-label="Elsewhere on the internet">
             <Kicker>Elsewhere</Kicker>
-            <ul className="space-y-2">
+            <ul className="space-y-2" style={{ marginTop: "24px" }}>
               {ELSEWHERE.map((item) => (
                 <li key={item.label}>
                   <Link href={item.href} quiet>

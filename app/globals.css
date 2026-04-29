@@ -765,11 +765,11 @@
 
 [data-subbrand] {
   --text-action: var(--primary-default);
-  --text-action-hover: var(--primary-600);
+  --text-action-hover: var(--primary-700);
   --icon-action: var(--primary-default);
-  --icon-action-hover: var(--primary-600);
+  --icon-action-hover: var(--primary-700);
   --border-action: var(--primary-default);
-  --border-action-hover: var(--primary-600);
+  --border-action-hover: var(--primary-700);
 }
 
 [data-theme="dark"] [data-subbrand] {

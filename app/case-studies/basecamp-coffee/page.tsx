@@ -87,15 +87,43 @@ export default function BasecampCoffeeCaseStudy() {
   return (
     <>
       <ScrollProgress />
-      {/* Fixed-position TOC rail in the left margin on xl+. Hidden
-          on smaller viewports where there isn't room beside the
-          centered article column. */}
+
+      {/* xl+ fixed-position TOC rail — original behavior preserved.
+          The article keeps its full lg:max-w-[1024px] at xl+ because
+          the wrapper below switches to display:block at xl, so this
+          rail floats in the article's left margin without affecting
+          article width or internal vertical rhythm. */}
       <aside
         aria-label="Article sections"
         className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30"
       >
         <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
       </aside>
+
+      {/* Two-column grid ONLY at lg-but-not-xl (≈ iPad Pro portrait,
+          narrow desktop windows). At xl+ the `xl:block` cancels the
+          grid and the wrapper reverts to a transparent block container
+          — the article inside flows full-viewport-width, exactly as
+          it did before the tablet-TOC change, and internal primitives
+          (FacetMapper, EvidenceGrid, MetricsTable) keep their original
+          column proportions. At <lg the wrapper is also a plain block
+          container with both asides hidden. Only the narrow lg window
+          sees the article shrink (~656px content) to make room for
+          the rail column. */}
+      <div className="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
+        <aside
+          aria-label="Article sections"
+          className="hidden lg:block xl:hidden"
+        >
+          {/* Sticky inside the column. pl-4 pushes the rail's text
+              16px in from the viewport-left edge, matching the xl
+              rail's left-4 offset so the rail's resting position is
+              identical across breakpoints. top-24 (96px) matches the
+              resume's TOC offset for visual consistency. */}
+          <div className="sticky top-24 pl-4">
+            <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
+          </div>
+        </aside>
       <article>
         <Hero />
         <BeatSeparator />
@@ -113,6 +141,7 @@ export default function BasecampCoffeeCaseStudy() {
         <BeatSeparator />
         <BeatHowBuilt />
       </article>
+      </div>
     </>
   );
 }
@@ -482,7 +511,7 @@ function BeatArtifact() {
         <IterationCard lens="Architecture · UX" title="Committed vs. draft state">
           First cut updated the drink card live as the editor mutated. This was too flickery—every toggle
           felt like the rug moving. Split state: <Code>committedState</Code> drives the displayed
-          recommendation, <Code>draftState</Code> is what the editor mutates. The card re-computes
+          recommendation, <Code>draftState</Code>{" "}is what the editor mutates. The card re-computes
           only when the user hits &ldquo;Find my new ritual.&rdquo; Iteration, not chaos.
         </IterationCard>
         <IterationCard lens="Data · Growth" title="Session code as measurement">
@@ -587,8 +616,16 @@ function FacetMatrix() {
   // tie to the matrix.
   return (
     <figure
+      // No inline `style={{ margin: 0 }}` here — Tailwind v4 preflight
+      // already resets the <figure> UA default margin (1em 40px) via
+      // a :where()-wrapped rule, so the only thing the inline reset
+      // was doing was defeating our own `my-8 md:my-10` margin
+      // utilities (inline style outranks classes), which left the
+      // table flush against the preceding paragraph on every
+      // breakpoint. Letting the className supply the margin restores
+      // the intended ~32–40px vertical breathing room above and
+      // below the figure.
       className="my-8 md:my-10 rounded-[22px] border border-[var(--border-default)] overflow-hidden"
-      style={{ margin: 0, padding: 0 }}
     >
       <figcaption className="px-4 py-3 md:px-6 md:py-4 border-b border-[var(--border-default)] bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] flex items-baseline justify-between gap-4">
         <span
@@ -597,7 +634,7 @@ function FacetMatrix() {
         >
           Facet Mapping
         </span>
-        <span className="text-[11px] md:text-[12px] text-[var(--text-disabled)]">
+        <span className="text-[11px] md:text-[12px] text-[var(--text-caption)]">
           7 dimensions · 16 drinks · 16 archetypes
         </span>
       </figcaption>
@@ -608,7 +645,7 @@ function FacetMatrix() {
             className="grid grid-cols-[96px_1fr] md:grid-cols-[160px_1fr] gap-3 md:gap-6 px-4 py-3 md:px-6 md:py-3.5 border-b border-[var(--border-default)] last:border-b-0"
           >
             <dt
-              className="m-0 text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[var(--text-disabled)] pt-[3px]"
+              className="m-0 text-[10px] md:text-[11px] uppercase tracking-[0.18em] text-[var(--text-caption)] pt-[3px]"
               style={{ fontFamily: 'var(--font-mono)' }}
             >
               {facet.name}
@@ -618,7 +655,7 @@ function FacetMatrix() {
                 <span key={v}>
                   <span className="text-[var(--text-heading)] whitespace-nowrap">{v}</span>
                   {i < facet.values.length - 1 && (
-                    <span className="text-[var(--text-disabled)]">{' · '}</span>
+                    <span className="text-[var(--text-caption)]">{' · '}</span>
                   )}
                 </span>
               ))}
@@ -627,7 +664,7 @@ function FacetMatrix() {
         ))}
       </dl>
       <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)]">
-        <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--text-disabled)]">
+        <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--text-caption)]">
           Size is deliberately excluded—it&apos;s a volume choice, not a taste signal. Six quiz
           questions capture these seven dimensions; the recommender scores every drink in the menu
           against the resulting facet state.
@@ -676,7 +713,7 @@ function DrinkMatrix() {
         >
           Drinks, Archetypes, Facets, and Coverage
         </p>
-        <p className="m-0 text-[11px] md:text-[12px] text-[var(--text-disabled)]">
+        <p className="m-0 text-[11px] md:text-[12px] text-[var(--text-caption)]">
           {menu.length} drinks · 16 archetypes · {COVERAGE.totalPaths.toLocaleString()} quiz paths
         </p>
       </div>
@@ -688,7 +725,7 @@ function DrinkMatrix() {
         >
           <div className="px-4 py-2 md:px-6 md:py-2.5 bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] border-b border-[var(--border-default)]">
             <p
-              className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
+              className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
               style={{ fontFamily: 'var(--font-mono)' }}
             >
               {group.label} · {group.drinks.length}
@@ -709,7 +746,7 @@ function DrinkMatrix() {
                     {drink.name}
                     {archetype && (
                       <>
-                        <span className="mx-[0.45em] text-[var(--text-disabled)]">·</span>
+                        <span className="mx-[0.45em] text-[var(--text-caption)]">·</span>
                         <span
                           className="italic-inline text-[14px] md:text-[15px] text-[var(--text-caption)]"
                           style={{ fontFamily: 'var(--font-primary)', fontStyle: 'italic' }}
@@ -733,7 +770,7 @@ function DrinkMatrix() {
                     <Dot />
                     <FacetChip>{fmtTemp(drink.temperatures)}</FacetChip>
                     <Dot />
-                    <span className="text-[var(--text-disabled)]">
+                    <span className="text-[var(--text-caption)]">
                       {drink.compatibleFlavors.join(', ')}
                     </span>
                   </p>
@@ -745,7 +782,7 @@ function DrinkMatrix() {
       ))}
 
       <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] border-t border-[var(--border-default)]">
-        <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--text-disabled)]">
+        <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--text-caption)]">
           Each drink&apos;s facet profile is the thing the recommender scores against. A user&apos;s
           facet state from the quiz returns the closest match on strength, milk, temperature, and
           flavor—filtered first by style family. Every drink maps 1-to-1 to an archetype (shown in italic
@@ -764,6 +801,6 @@ function FacetChip({ children }: { children: ReactNode }) {
 }
 
 function Dot() {
-  return <span className="text-[var(--text-disabled)]">{' · '}</span>;
+  return <span className="text-[var(--text-caption)]">{' · '}</span>;
 }
 

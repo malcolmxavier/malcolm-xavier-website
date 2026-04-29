@@ -273,7 +273,7 @@ export default function Home() {
               gap="600"
             >
               {SUB_BRAND_TILES.map((tile) => (
-                <Card key={tile.href} accent={tile.accent} interactive>
+                <Card key={tile.href} accent={tile.accent}>
                   <Stack gap="300">
                     <Kicker>{tile.label}</Kicker>
                     <Headline

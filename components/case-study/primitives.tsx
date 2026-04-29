@@ -58,18 +58,23 @@ export const CASE_STUDY_WIDTH =
 // kicker — Hero metadata row, Beat numbers + claude tags, eyebrow
 // rows on EvidenceCard / GateCard / IterationCard / etc.
 //
-// `tone="muted"` switches to --text-disabled for the right-side
-// metadata position (e.g. "10 min read · Updated …" reads quieter
-// than the left-side "Case Study" label).
+// Color is fixed at --text-caption sitewide. We previously had a
+// `tone="muted"` variant that resolved to --text-disabled for
+// metadata kickers (e.g. "10 min read · Updated …"), but
+// --text-disabled (#cdd1cd light, ~1.54:1 against white) is meant
+// for inactive form controls and fails WCAG 1.4.3 (AA, 4.5:1) when
+// used for readable text. The visual differentiation lived in color
+// alone, so collapsing both branches to --text-caption costs nothing
+// and clears the contrast failure. If we want metadata kickers to
+// read quieter again later, lean on a non-color treatment (alignment,
+// scale, italics) that can pass AA on its own.
 // ────────────────────────────────────────────────────────────────
 
 export function CaseStudyKicker({
   children,
-  tone = "default",
   className,
 }: {
   children: ReactNode;
-  tone?: "default" | "muted";
   className?: string;
 }) {
   return (
@@ -83,7 +88,7 @@ export function CaseStudyKicker({
         // kicker still reads as a label, not body micro-copy.
         fontSize: "11px",
         letterSpacing: "0.22em",
-        color: tone === "muted" ? "var(--text-disabled)" : "var(--text-caption)",
+        color: "var(--text-caption)",
       }}
     >
       {children}
@@ -283,7 +288,7 @@ export function Pullquote({
         &ldquo;{children}&rdquo;
       </blockquote>
       <figcaption
-        className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-disabled)]"
+        className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
         style={{ fontFamily: "var(--font-mono)" }}
       >
         {/* Em-dash is a typographic convention, not meaningful
@@ -445,7 +450,7 @@ export function GateCard({
       <p className="m-0 text-[32px] md:text-[36px] font-medium leading-none tracking-[-0.02em] text-[var(--text-heading)]">
         {threshold}
       </p>
-      <p className="m-0 text-[13px] leading-[1.4] text-[var(--text-disabled)]">
+      <p className="m-0 text-[13px] leading-[1.4] text-[var(--text-caption)]">
         {caption}
       </p>
     </div>
@@ -576,7 +581,7 @@ export function MetricsTable({ rows }: { rows: MetricRow[] }) {
           <tr className="border-b border-[var(--border-default)]">
             <th
               scope="col"
-              className="text-left text-[10px] uppercase tracking-[0.22em] font-normal text-[var(--text-disabled)] pb-3 pr-4 w-[40%]"
+              className="text-left text-[10px] uppercase tracking-[0.22em] font-normal text-[var(--text-caption)] pb-3 pr-4 w-[40%]"
               style={monoHeader}
             >
               Metric
@@ -585,7 +590,7 @@ export function MetricsTable({ rows }: { rows: MetricRow[] }) {
               <th
                 key={col.key}
                 scope="col"
-                className="text-right text-[10px] uppercase tracking-[0.22em] font-normal text-[var(--text-disabled)] pb-3 pl-4 w-[20%]"
+                className="text-right text-[10px] uppercase tracking-[0.22em] font-normal text-[var(--text-caption)] pb-3 pl-4 w-[20%]"
                 style={monoHeader}
               >
                 {col.label}
@@ -605,7 +610,7 @@ export function MetricsTable({ rows }: { rows: MetricRow[] }) {
               >
                 {row.metric}
               </th>
-              <td className="py-3 pl-4 text-right text-[15px] text-[var(--text-disabled)]">
+              <td className="py-3 pl-4 text-right text-[15px] text-[var(--text-caption)]">
                 {row.was}
               </td>
               <td
@@ -639,7 +644,7 @@ export function MetricsTable({ rows }: { rows: MetricRow[] }) {
               {METRICS_COLUMNS.map((col) => (
                 <div key={col.key} className="flex flex-col gap-1">
                   <p
-                    className="m-0 text-[9px] uppercase tracking-[0.18em] text-[var(--text-disabled)]"
+                    className="m-0 text-[10px] uppercase tracking-[0.18em] text-[var(--text-caption)]"
                     style={monoHeader}
                   >
                     {col.label}

@@ -183,7 +183,7 @@ export function PlaylistCard({ playlist }: { playlist: EnrichedPlaylist }) {
           >
             <NextLink
               href={`/music/${playlist.id}?from=music`}
-              className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 hover:[color:var(--text-action-hover)]"
+              className="music-action rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2"
               style={{
                 color: "var(--text-heading)",
                 textDecoration: "none",

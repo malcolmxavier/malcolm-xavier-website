@@ -277,13 +277,24 @@ out.push("");
 // (which the per-sub-brand alias blocks overwrite to a saturated brand
 // color). Without this, the literal grey-800 set above would inherit
 // into sub-brand subtrees and kill accent links.
+//
+// Hover destination is --primary-700, not --primary-600. The 500 → 600
+// step is too small a luminance delta in light mode — both stops are
+// dark saturated values with comparable lightness, so the hover state
+// reads as inert against the rest state. (Caught by a parallel a11y +
+// design review on /music in 2026-04-29: rest-to-hover ratio came in
+// at 1.32:1 against an informal 3:1 perceivability target. WCAG
+// passing on absolute contrast, but the state-change signal was lost
+// to the eye.) Two stops down — 500 → 700 — covers enough luminance
+// range that the shift registers, while still sitting inside the
+// brand-saturated band so the hover stays on-voice.
 out.push("[data-subbrand] {");
 out.push("  --text-action: var(--primary-default);");
-out.push("  --text-action-hover: var(--primary-600);");
+out.push("  --text-action-hover: var(--primary-700);");
 out.push("  --icon-action: var(--primary-default);");
-out.push("  --icon-action-hover: var(--primary-600);");
+out.push("  --icon-action-hover: var(--primary-700);");
 out.push("  --border-action: var(--primary-default);");
-out.push("  --border-action-hover: var(--primary-600);");
+out.push("  --border-action-hover: var(--primary-700);");
 out.push("}");
 out.push("");
 // Dark-mode counterpart for sub-brand pages. --primary-default is

@@ -298,7 +298,7 @@ function ToggleButton({
         // across the site.
         outlineColor: "var(--border-focus)",
       }}
-      className="transition-colors motion-reduce:transition-none hover:[color:var(--text-action-hover)] focus-visible:outline-2 focus-visible:outline-offset-4"
+      className="music-action transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4"
     >
       {children}
     </button>
@@ -452,7 +452,7 @@ function Pagination({
                   cursor: "pointer",
                   outlineColor: "var(--border-focus)",
                 }}
-                className="transition-colors motion-reduce:transition-none hover:[color:var(--text-action-hover)] focus-visible:outline-2 focus-visible:outline-offset-4"
+                className="music-action transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4"
               >
                 {n + 1}
               </button>
@@ -510,7 +510,7 @@ function PaginationButton({
         cursor: disabled ? "not-allowed" : "pointer",
         opacity: disabled ? 0.5 : 1,
       }}
-      className="transition-opacity hover:[color:var(--text-action-hover)] focus-visible:outline-2 focus-visible:outline-offset-4"
+      className="music-action transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4"
       {...rest}
     >
       {children}

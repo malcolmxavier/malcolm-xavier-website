@@ -100,6 +100,37 @@ export default function AboutPage() {
                   make it better for the people around me and after me.
                 </Lede>
 
+                {/* Mobile-only headshot. On lg+ the photo lives in
+                    the right rail; below lg it slides into the prose
+                    flow right after the lede so the visual hook lands
+                    early instead of getting pushed to the bottom of a
+                    long single-column scroll. Capped at 16rem wide
+                    (matches the desktop sidebar size) so it reads as
+                    an inline editorial portrait, not a full-bleed
+                    slab. priority lives here rather than on the
+                    desktop copy because mobile first-paint is the
+                    more common cold-load case. */}
+                <div className="lg:hidden">
+                  <div
+                    className="overflow-hidden rounded-md border max-w-[16rem] mx-auto"
+                    style={{ borderColor: "var(--border-default)" }}
+                  >
+                    <Image
+                      src="/headshot.jpg"
+                      alt="Portrait of Malcolm Xavier"
+                      width={3280}
+                      height={4928}
+                      sizes="16rem"
+                      priority
+                      style={{
+                        width: "100%",
+                        height: "auto",
+                        display: "block",
+                      }}
+                    />
+                  </div>
+                </div>
+
                 <Body>
                   I grew up in Massachusetts, and spent most of my
                   adult life in New York. I recently moved to Los Angeles 
@@ -146,12 +177,16 @@ export default function AboutPage() {
               className="mt-10 lg:mt-0"
             >
               <Stack gap="500">
-                {/* Headshot. next/image handles responsive srcset and
-                    lazy/eager loading. priority=true since it's the
-                    visual hook on /about. Source is 266×400; rendered
-                    at 256px wide on desktop with sidebar bounds. */}
+                {/* Desktop-only headshot. The mobile copy of this
+                    photo lives inside the prose column above (right
+                    after the lede), so this sidebar instance is gated
+                    `hidden lg:block` to avoid rendering twice. No
+                    `priority` here — that hint stays on the mobile
+                    copy where the image is more likely to be in the
+                    cold-load LCP. Browsers fetch hidden images at
+                    lower priority anyway. */}
                 <div
-                  className="overflow-hidden rounded-md border"
+                  className="hidden lg:block overflow-hidden rounded-md border"
                   style={{ borderColor: "var(--border-default)" }}
                 >
                   <Image
@@ -159,9 +194,7 @@ export default function AboutPage() {
                     alt="Portrait of Malcolm Xavier"
                     width={3280}
                     height={4928}
-                    sizes="(min-width: 1024px) 16rem, 100vw"
-                    // Hero-ish photo on the page; load eagerly.
-                    priority
+                    sizes="16rem"
                     style={{
                       width: "100%",
                       height: "auto",
@@ -229,7 +262,12 @@ export default function AboutPage() {
             <Link href={CONTACT.calendly}>30-minute product chat</Link>,
             send an <Link href={mailHref}>email</Link>, or{" "}
             <Link href={CONTACT.linkedin}>
-              connect with me on LinkedIn ↗
+              {/* Non-breaking space between "LinkedIn" and the
+                  external-arrow glyph keeps the arrow from being
+                  orphaned on its own line when the link wraps.
+                  Screen readers announce U+00A0 identically to a
+                  normal space, so this is a11y-neutral. */}
+              connect with me on LinkedIn{" "}↗
             </Link>
             .
           </Body>
