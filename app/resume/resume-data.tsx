@@ -89,7 +89,7 @@ export type ResumeCaseStudy = {
 // ─── Header / contact ──────────────────────────────────────────────
 
 export const CONTACT: ResumeContact = {
-  email: "malcolm.x.evans@gmail.com",
+  email: "malcolm@malxavi.com",
   phone: "(774) 262-2606",
   location: "Los Angeles, CA",
   linkedin: "https://www.linkedin.com/in/malxavi/",

@@ -28,7 +28,7 @@ import { Dateline } from "@/components/typography/Dateline";
 // will be added when Malcolm provides URLs.
 const STAY_IN_TOUCH = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/malxavi/" },
-  { label: "Email", href: "mailto:malcolm.x.evans@gmail.com" },
+  { label: "Email", href: "mailto:malcolm@malxavi.com" },
   { label: "GitHub", href: "https://github.com/malcolmxavier" },
 ];
 
