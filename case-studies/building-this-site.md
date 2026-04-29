@@ -205,288 +205,146 @@ into the buffer, not push out the cutline. The "Day 4 = MVP done"
 hard line held; Music slid one day and the rest of the week
 absorbed it. Buffer days exist for exactly this.
 
-## The button bug (or, what AI pair-programming actually looks like)
+## Button mashing
 
-The other instructive incident on this build was small but more
-revealing about the human-in-the-loop dynamic than anything else
-in the project.
+Pair-programming with an agent looks deceptively like pair-programming
+with a person — until the agent has been wrong twice. A human
+collaborator who's been wrong twice will usually abandon the
+hypothesis class and try something fundamentally different. The
+agent generates refined variations of the same hypothesis as long
+as you let it. This build earned three of those loops, each with
+a bigger blast radius than the last.
 
-The hero CTA on the landing page was supposed to be a filled black
-pill in light mode and a filled white pill in dark mode — the
-recruiter's eye anchor. It rendered as an outlined transparent pill
-in both modes. The text labels were correct, the click targets
-worked, the layout was fine. Just no fill.
+### Movement 1 — the button bug
 
-What followed was a four-round debugging session. The agent kept
-generating plausible-sounding hypotheses about CSS specificity,
-layer ordering, and shorthand-vs-longhand parsing quirks. Each round
-produced a different syntactic fix for what was effectively the same
-code path — switching from inline styles to Tailwind utility classes
-to unlayered CSS with `!important` and the elaborate
-`[data-variant="primary"]` selector. None of it worked.
+The first one was small. The hero CTA on landing was supposed to
+be a filled black pill in light mode and a filled white pill in
+dark mode. It rendered as an outlined transparent pill in both.
+Click targets correct, layout fine, just no fill. Four rounds of
+debugging followed. The agent generated plausible hypotheses
+about CSS specificity, layer ordering, and shorthand-vs-longhand
+parsing — each round produced a different syntactic fix for what
+was effectively the same code path. None of it worked.
 
-The actual bug was that the CSS variable `var(--text-heading)` was
-silently resolving to nothing at the button element specifically,
-despite cascading correctly to body, paragraphs, and other elements
-on the same page. When `var()` fails to resolve, the browser doesn't
-error — the property silently falls back to its initial value
-(`transparent` for `background-color`). The dev tools Styles panel
-showed the rule as applied with no override; the Computed tab would
-have shown `background-color: rgba(0, 0, 0, 0)`. Same variable
-resolved fine for `border-color`, but `border-color`'s fallback
-(`currentColor`) coincidentally produced the same visual result as
-the variable would have, so the breakage was invisible there. One
-property failed loudly, one failed quietly, and the difference
-masked the diagnosis for three rounds.
+The actual bug: `var(--text-heading)` was silently resolving to
+nothing at the button element, despite cascading correctly to
+body, paragraphs, and other elements on the same page. When
+`var()` fails to resolve, the browser doesn't error — the property
+silently falls back to its initial value (`transparent` for
+`background-color`). The Styles panel showed the rule applied
+with no override; the Computed tab would have shown
+`background-color: rgba(0, 0, 0, 0)`. One property failed loudly,
+one failed quietly, and the difference masked the diagnosis for
+three rounds.
 
-The fix that worked: replace `var(--text-heading)` with hardcoded
-hex (`#000` / `#fff`) and use `[data-theme="dark"]` descendant
-selectors for theme awareness. Bypass the variable cascade entirely.
+> *Stop changing the syntax. Replace the value with red. Tell me
+> if the button is red.*
+>
+> — the diagnostic that ended it
 
-The PM lesson buried in this story is the more useful artifact than
-the technical one. Pair-debugging with an AI agent looks deceptively
-like pair-debugging with a person, but the failure mode is different.
-A human collaborator who's been wrong twice will usually abandon
-their hypothesis class and try something fundamentally different.
-The agent will keep generating refined variations of the same
-hypothesis as long as you let it. The PM job — and specifically the
-PM skill — is to recognize when an iterative loop is producing
-diminishing returns and force a fundamentally different test. In
-this case the right move was: "stop changing the syntax, replace
-the value with `red`, tell me if the button is red." Binary outcome,
-30-second test. The agent eventually arrived at this diagnostic on
-its own, but four rounds late. Catching the agent in that loop is
-the work I'd be paying a PM to do anyway.
+Binary outcome, 30-second test. The fix that worked: replace
+`var(--text-heading)` with hardcoded hex (`#000` / `#fff`) and use
+`[data-theme="dark"]` descendant selectors for theme awareness.
+Bypass the variable cascade entirely.
 
-There's a quieter lesson too about brittle defaults: critical UI
-primitives shouldn't depend on indirection that can fail silently.
-A button is too important to break invisibly. The new rule on this
-codebase: theme-aware components use direct color values via theme
-selectors, not variables. Variables are still fine for sub-brand
-flips and one-off tokens, but the buck stops at the visual baseline.
+### Movement 2 — the progress-bar saga (the recursion)
 
-## Sketch notes — the progress-bar saga (integrate tomorrow)
+A week later, building chrome on `/case-studies/basecamp-coffee` —
+a 1px scroll-progress bar anchored to the bottom of the Nav.
+Conceptually a 50-line CSS change. Took **15 commits and an
+evening**. Eventually traced: `--surface-page` resolves to *empty*
+on recruiter-cluster pages because `--neutral-white` and
+`--neutral-black` are only defined inside `[data-subbrand]` blocks,
+not at the recruiter cluster's root. Every
+`color-mix(... var(--surface-page))` was silently invalidating.
+The page still *looked* right because Chrome's canvas defaults
+paint the page bg. Same class of bug as the button. Same silent
+fallback masking the diagnosis.
 
-> *Voice flag: ROUGH. Bullets, not prose. Structural decision needs
-> to land before redraft — see "open questions" at the bottom of
-> this section.*
+Here's the part worth sitting with: I had a written memory note
+from the button bug describing exactly this pattern. **The memory
+existed. It wasn't operationalized.** The 15-commit saga happened
+anyway. Written documentation of a lesson is not the same as
+operational discipline around it. Writing the postmortem feels
+like resolution. Carrying it into the next session *is* the
+resolution. Almost every product org I've worked in conflates
+the two — and an AI-native system will pick up the same
+conflation if you're not careful.
 
-A week or so after the button bug, building out the chrome on
-`/case-studies/basecamp-coffee`: a 1px scroll-progress bar
-anchored to the bottom of the Nav. Conceptually a 50-line CSS
-change. Took **15 commits and an evening of escalating frustration
-with the agent** to land the right state.
+> *Memory ≠ discipline.*
+>
+> — the more interesting PM artifact
 
-**Story beats (in order they actually surfaced):**
+### Movement 3 — doubling down
 
-1. **Bar refused to be visible.** Several rounds of "I see it in
-   the DOM, why isn't it on screen." The agent kept proposing
-   color and gradient tweaks. None of them worked.
-2. **Same class of bug as the button.** Eventually traced:
-   `--surface-page` resolves to *empty* on recruiter-cluster
-   pages because `--neutral-white` / `--neutral-black` are only
-   defined inside `[data-subbrand]` blocks at `:root` — not at
-   the recruiter-cluster `:root`. Every `color-mix(... var(--surface-page))`
-   was silently invalidating. The page still *looked* right
-   because Chrome's `color-scheme` canvas defaults paint the
-   page bg, so the missing variable went unflagged. Fix: swap
-   to `--foundation-white` / `--foundation-black`, which are
-   defined globally at `:root` and always resolve.
-3. **"Parallel lines" appearing during overscroll-at-top.** Root
-   cause: Nav was `position: sticky`; the bar was `position:
-   fixed`. Different overscroll physics — sticky un-sticks and
-   rides down with the document during rubber-band, fixed stays
-   anchored. Gap opens between them, browser canvas fills it,
-   reads as a second horizontal line. Fix: make the bar sticky
-   too, sharing the Nav's overscroll behavior.
-4. **Dark mode showed two stacked lines (Nav border + bar
-   track) at scroll = 0.** Light mode didn't because the Nav
-   border in light mode is near-white-on-white, effectively
-   invisible. Fix: suppress the Nav's `border-b` whenever the
-   bar is rendered, via `body:has([data-scroll-progress]) header`.
-5. **Pixel parity.** Final pass: bar matches the Nav border's
-   exact thickness (1px) and y-coordinate, so a visitor moving
-   between routes doesn't perceive a thickness shift in the
-   chrome's bottom edge.
+The third loop earned a different magnification. Mid-audit, the
+local dev server stopped compiling pages. Boot was instant.
+Static assets served fine. Every dynamic-route request stalled
+forever on `Compiling /` — no progress, no error, no exception in
+the log. Production rendered cleanly. Local-only. A `sample`
+profile showed the Node main thread parked in `kevent`, Tailwind
+oxide rayon workers idle, zero CPU, zero outbound network. Read
+like an ABI deadlock between Node 25 (non-LTS) and a Rust-backed
+native module in the compile pipeline. Specific. Coherent. Rhymed
+with prior knowledge. Wrong.
 
-**Why this belongs in the case study (the recursion):**
+On the strength of that diagnosis: brew-install Node 24 LTS,
+`brew link --force --overwrite` the global default, `npm rebuild`
+to relink native binaries against ABI 137. A real change to global
+state on the user's machine. Restarted dev. Still hung, identically.
+Bootstrapped a bare-metal Next.js 16 app in `/tmp/next-min-test/` —
+ten lines of code, ninety seconds to set up. Compiled `/` in three
+seconds on the same Node 24. **Project-specific, not Node-specific.**
+The actual fix:
+`rm -rf node_modules package-lock.json && npm install`. Two minutes.
 
-The button bug above was framed as "the agent keeps refining the
-same hypothesis; the PM's job is to break the loop." This time
-the same *class* of bug recurred — silent-`var()`-resolution-failure
-masked by a coincidentally-correct fallback — and the agent had a
-written memory about exactly this pattern from the button incident.
-**The memory existed. It wasn't operationalized. The 15-commit
-saga happened anyway.**
+The button bug was four rounds of syntactic refinement. The
+progress-bar saga was fifteen commits of selector tweaks. Both
+were the same failure mode at different magnification — iterating
+in code. This was a different magnification entirely: **executing
+a real-world action against a wrong hypothesis.** Installing
+software, swapping the default Node, modifying global state on
+the user's machine. Mildly disruptive to roll back. Easy to skip
+the falsification step because the narrative was so coherent —
+the clues fit a perfectly ordered detective novel that just
+wasn't the actual one. The agent constructs internally-consistent
+narratives faster than it falsifies them.
 
-That recursion is the more interesting PM artifact than the
-incident itself: **written documentation of a lesson is not the
-same as operational discipline around it.** Writing the
-postmortem feels like resolution. Carrying it into the next
-session is the resolution. Almost every product org I've worked
-in conflates the two.
+### Three rules
 
-**Technical lessons worth landing:**
+Three loops, three rules. They now load on every Claude session
+because they live in `~/.claude/` memory — not because I've
+reread the postmortem. The difference, again, is the difference
+between memory and discipline.
 
-- Mixing `position: fixed` and `position: sticky` on the same
-  scroll surface creates overscroll-gap artifacts. Pick one
-  positioning model per scroll-anchored element family.
-- When a CSS variable chain depends on tokens defined
-  conditionally (inside `[data-subbrand]`, `[data-theme]`, etc.),
-  confirm those tokens actually resolve at the call site.
-  `getComputedStyle(element).getPropertyValue('--foo')` on the
-  consumer is the 30-second binary test. Same lesson as the
-  button bug, escaped containment.
-- Inline styles beat CSS rules without `!important`. When a CSS
-  override "should apply" but doesn't, check the target's inline
-  styles before adjusting selectors.
-- `:has()` is the right scoping tool when you need a sitewide
-  rule to apply only on routes where a specific element is
-  rendered — no DOM restructuring required, no class to thread
-  through layouts, and the rule self-cleans on SPA navigation.
+- **Force the binary test.** When the agent's been wrong twice
+  on the same code path, stop refining its syntax and force a
+  fundamentally different test. Replace the value with red.
+  Toggle the rule off. The 30-second binary outcome ends loops
+  that another round of refinement won't.
+- **Write the rule, not the note.** Postmortems documented in
+  markdown rot the moment the next session starts. Project-level
+  rules in `AGENTS.md` and operator-level rules in `~/.claude/`
+  load on every turn — that's the surface that drives behavior.
+  Two failed fixes means the diagnosis is wrong; root-cause it
+  before iterating again.
+- **Cheap test before destructive commit.** Any agent-proposed
+  fix that touches global state — installing software, swapping
+  the default runtime, editing dotfiles — gets gated on the
+  cheapest test that would falsify the diagnosis. For
+  infra-flavored bugs, that's almost always "bootstrap a minimal
+  repro and see if it reproduces."
 
-**Behavioral / process lessons (the part that's recruiter-relevant):**
+Senior PM craft includes naming the pattern when it costs you,
+not just when it doesn't. The recursion is the more honest case
+study than any single incident — and it's the part that travels.
 
-- Visual fixes need a render-verify gate **before declaring done.**
-  "Shipped, refresh and test" without self-verification is a
-  guess wearing a fix's clothing. The cost of a 30-second
-  computed-style check is dramatically lower than a deploy
-  round-trip + an annoyed-collaborator round-trip, every single
-  time.
-- When the same symptom recurs across two fix attempts, **stop
-  patching.** The diagnosis is wrong, not the patch. The
-  iteration cost of "one more guess" exceeds the cost of a
-  5-minute root-cause sweep, every single time.
-- For high-iteration-cost loops (deploy round-trips, slow
-  builds, stakeholder-review cycles), spend more on diagnosis
-  upfront, not less. The deploy budget is finite per session;
-  blowing it on guesses leaves no room for the actual fix.
-
-**Open questions to resolve when integrating tomorrow:**
-
-- Is this its own vignette, or an addendum to "the button bug"
-  framed as *"the bug came back, and so did the lesson"*? The
-  recursion makes a stronger PM spine than two parallel
-  incidents — leaning toward addendum.
-- Tone calibration: this story is more about agent-vs-human
-  discipline than the button bug was. Comfort level with
-  showing self-correction explicitly in a recruiter artifact?
-  (My instinct: yes. Senior PM craft includes naming the
-  pattern when it costs you, not just when it doesn't.)
-- The `:has()` and sticky-positioning beats are the most
-  distinctive technical material on the build. Worth
-  foregrounding for engineer-readers even if the PM story is
-  the lead.
-- "Memory ≠ discipline" is a great PM line — pull-quote candidate?
-
-## Sketch notes — the dev server that wouldn't compile (integrate later)
-
-> *Voice flag: ROUGH. Bullets, not prose. Belongs alongside "the
-> button bug" and the "progress-bar saga" as a third recurrence
-> of the same diagnosis-shape lesson.*
-
-Mid-audit, late April: the local dev server stopped compiling pages.
-Boot was instant. Static assets (the resume `.docx`) served fine in
-milliseconds. Every dynamic-route request stalled forever on
-`Compiling /` &mdash; no progress, no error, no exception in the
-log. Production at malxavi.com rendered fine. Local-only.
-
-**Story beats (in order they actually surfaced):**
-
-1. **First-hypothesis class: the bundler.** Maybe Turbopack-specific
-   (Next.js 16 made it the default). Restarted with
-   `next dev --webpack`. Same hang. Confirmed it wasn't
-   Turbopack-specific &mdash; but spent twenty minutes proving that.
-2. **Second-hypothesis class: Node version.** I was on Node 25.9
-   (non-LTS, current release). A `sample` profile showed the Node
-   main thread idle in `kevent`, Tailwind oxide rayon workers
-   parked, zero CPU activity, zero outbound network connections.
-   Read exactly like an ABI signaling deadlock between Node 25's
-   V8 and one of the Rust-backed native modules in the compile
-   pipeline. Plausible. Coherent. Wrong.
-3. **The "fix" that wasn't.** `brew install node@24`, swapped the
-   global default with `brew link --force --overwrite node@24`,
-   ran `npm rebuild` to relink native binaries against Node 24's
-   ABI 137. Restarted dev. Still hung, identically.
-4. **The cheap test that ended it.** Bootstrapped a brand-new
-   minimal Next.js 16 app in `/tmp/next-min-test/` &mdash; bare-metal
-   `next react react-dom`, ten lines of code, ninety seconds to
-   set up. Compiled `/` in 3 seconds on the same Node 24.
-   **Project-specific. Not Node-specific.**
-5. **The actual fix.**
-   `rm -rf node_modules package-lock.json && npm install`. Fresh
-   install against the active Node version. Dev compiled `/` in
-   2.8 seconds.
-
-**Diagnosis (technical):** `node_modules` had been installed under
-Node 25's ABI 141. Switching to Node 24's ABI 137 plus `npm rebuild`
-caught the native binaries but left subtler package-state mismatches
-in linked dependencies that the rebuild step doesn't fully traverse.
-The hang was a silent deadlock somewhere in that mismatch &mdash; no
-error, no progress, no signal beyond "compile starts and never
-finishes." `npm rebuild` is necessary but not sufficient when you
-cross a Node major version.
-
-**What got committed off the back of it:**
-
-- `engines: { node: ">=22 <26" }` in `package.json` &mdash; future
-  Node major bumps trip a clear warning before they corrupt local
-  state.
-- `.nvmrc` pinned to `24` &mdash; anyone with `nvm`/`fnm`
-  auto-switches into a supported version when they `cd` into the
-  project.
-
-**Why this belongs in the case study (the recursion, again):**
-
-This is the third time in the build that a coherent-sounding
-hypothesis from the agent (which I accepted at face value) drove a
-real action that didn't fix the bug. The button bug: four rounds
-of CSS-specificity refinements before the binary
-`background: red;` test ended it. The progress-bar saga: fifteen
-commits of nav and scroll patches before the same
-`var()`-resolution-failure diagnosis as the button bug. Now this:
-a Node version reinstall that addressed a plausible-but-wrong
-hypothesis when a fresh `node_modules` install would have ended it
-in minute four.
-
-The pattern: **the agent constructs internally-consistent
-narratives faster than it falsifies them.** "Node 25's ABI is
-deadlocking with Tailwind oxide" reads like an expert call. It's
-specific, it rhymes with prior knowledge (Node 25 is non-LTS;
-native modules do sometimes have ABI issues), and the symptoms it
-predicts (idle main thread, parked workers, no CPU) match what we
-observed. That story was wrong, but it was wrong in the way a good
-detective novel can be wrong &mdash; the clues fit a perfectly
-coherent narrative that just isn't the actual one.
-
-The human-in-the-loop's job is to gate high-cost actions on
-cheap-binary-test outcomes. "Brew install Node 24 and switch the
-global default" is a high-cost action: it touches the user's
-machine globally, affects every other Node project, and is mildly
-disruptive to roll back. "Bootstrap a minimal repro in `/tmp/`" is
-a ninety-second test that would have falsified the diagnosis
-before the high-cost action.
-
-**Operational rule going forward:** before approving any
-agent-proposed fix that involves *global state* &mdash; installing
-software, changing the default Node, modifying environment
-variables, editing `~/.zshrc` &mdash; the gate is the cheapest test
-that would falsify the diagnosis. For infra-flavored bugs, that's
-almost always "minimal repro of the failing thing." Same gate I'd
-apply to a junior PM proposing a vendor escalation.
-
-**Open questions to resolve when integrating:**
-
-- Own vignette or merged into the button-bug arc as a third
-  recurrence? Leaning own-vignette: the failure mode is genuinely
-  different (executing a real-world action on a wrong hypothesis
-  vs. iterating on syntactic refinements).
-- "Cheap test before high-cost action" is the most generalizable
-  framing on the build &mdash; pull it forward in any merged
-  version.
-- Pull-quote candidate: *"the agent constructs
-  internally-consistent narratives faster than it falsifies
-  them."*
+What got committed off the back of all three: `engines.node`
+pinned to `">=22 <26"` in `package.json` so a future Node major
+bump trips a clear warning before it corrupts local state, plus
+a `.nvmrc` pinned to `24` so anyone with `nvm` or `fnm`
+auto-switches into a supported version on `cd`. Two lines of
+guardrail. Retroactive but durable.
 
 ## Two resumes, one source of truth (almost)
 

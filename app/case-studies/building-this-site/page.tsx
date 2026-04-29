@@ -9,17 +9,25 @@
 // IterationGrid, HarnessGrid, StatRow), so visual language and
 // scroll-anchor behavior match the rest of the case-study cluster.
 //
-// Story arc (10 beats, mirroring the Basecamp shape):
-//   01 · The Brief        — three jobs, seven-day timebox
-//   02 · The Workflow     — where I drove, where Claude drove
-//   03 · The Architecture — the design-system + IA decisions
-//   04 · The Spotify Story — incident #1: rate-limit and reshape
-//   05 · The Button Bug    — incident #2: silent var() resolution
-//   06 · The Recursion     — same bug class, week later, no excuse
-//   07 · The Reinstall     — third recursion, different failure mode
-//   08 · Three Resumes     — triple-output craft, web + ATS + PDF
-//   09 · QA                — three reviewers, one punch list, 49% reveal
-//   10 · What's Live       — current state, cuts, and what next
+// Story arc (8 beats, mirroring the Basecamp shape):
+//   01 · The Brief         — three jobs, seven-day timebox
+//   02 · The Workflow      — where I drove, where Claude drove
+//   03 · The Architecture  — the design-system + IA decisions
+//   04 · The Spotify Story — vendor incident: rate-limit and reshape
+//   05 · Button Mashing    — three recursion loops, escalating blast
+//                            radius (button → progress-bar → reinstall)
+//   06 · Three Resumes     — triple-output craft, web + ATS + PDF
+//   07 · QA                — three reviewers, one punch list, 49% reveal
+//   08 · What's Live       — current state, cuts, and what next
+//
+// Beats 5/6/7 of the original 10-beat arc were consolidated into the
+// single "Button Mashing" beat on 2026-04-29. The reader had absorbed
+// the loop pattern by the second beat and the third was paying
+// compounding density cost; the blast-radius escalation makes for a
+// tighter single arc than three rhyming incidents. Title preserved as
+// "Button Mashing" (rather than "The Recursion") to gesture at future
+// Games sub-brand work — fighting-game button-mashing as the visual
+// metaphor for refined-variations-of-the-same-input.
 //
 // Voice and copy track the markdown source. When that file is
 // revised, this page follows.
@@ -71,11 +79,9 @@ const TOC_ITEMS: TocItem[] = [
   { href: "#architecture", prefix: "03", label: "The Architecture" },
   { href: "#spotify", prefix: "04", label: "Integrating Spotify" },
   { href: "#button", prefix: "05", label: "Button Mashing" },
-  { href: "#recursion", prefix: "06", label: "Bug Smashing" },
-  { href: "#reinstall", prefix: "07", label: "Doubling Down" },
-  { href: "#resumes", prefix: "08", label: "Three Resumes" },
-  { href: "#review", prefix: "09", label: "QA" },
-  { href: "#live", prefix: "10", label: "What's Live" },
+  { href: "#resumes", prefix: "06", label: "Three Resumes" },
+  { href: "#review", prefix: "07", label: "QA" },
+  { href: "#live", prefix: "08", label: "What's Live" },
 ];
 
 export default function BuildingThisSiteCaseStudy() {
@@ -117,10 +123,6 @@ export default function BuildingThisSiteCaseStudy() {
         <BeatSpotify />
         <BeatSeparator />
         <BeatButton />
-        <BeatSeparator />
-        <BeatRecursion />
-        <BeatSeparator />
-        <BeatReinstall />
         <BeatSeparator />
         <BeatResumes />
         <BeatSeparator />
@@ -527,42 +529,63 @@ function BeatSpotify() {
 }
 
 // ─── Beat 5 — Button Mashing ──────────────────────────────────
+// Three movements, one beat:
+//   movement 1 — button bug (CSS specificity → silent var() failure)
+//   movement 2 — progress-bar saga (selector iteration → memory ≠
+//                discipline, the "recursion" punchline)
+//   movement 3 — dev-server reinstall (high-cost global-state action
+//                on a wrong narrative)
+//
+// Originally three discrete beats (05/06/07 in the earlier 10-beat
+// arc). Consolidated 2026-04-29 because the reader had absorbed the
+// loop pattern by the second beat and the third was paying compounding
+// density cost. The blast-radius escalation (in-code → in-code →
+// global-state) makes for a tighter single arc than three rhyming
+// incidents would.
 function BeatButton() {
   return (
     <Beat
       id="button"
       number="05"
       title="Button Mashing"
-      claudeTag="debug partner"
+      claudeTag="the recursion"
       headline="If all you have is a hammer..."
     >
       <Body>
         <p>
-          The hero CTA on landing was supposed to be a filled black pill in
-          light mode and a filled white pill in dark mode—the
-          recruiter&apos;s eye anchor. It rendered as an outlined
-          transparent pill in both modes. Text labels correct. Click
-          targets correct. Layout fine. Just no fill.
+          Pair-programming with an agent looks deceptively like
+          pair-programming with a person—until the agent has been wrong
+          twice. A human collaborator who&apos;s been wrong twice will
+          usually abandon the hypothesis class and try something
+          fundamentally different. The agent generates refined variations
+          of the same hypothesis as long as you let it. This build earned
+          three of those loops, each with a bigger blast radius than the
+          last.
+        </p>
+      </Body>
+
+      {/* ── Movement 1 — the button bug ──────────────────────── */}
+
+      <Body>
+        <p>
+          The first one was small. The hero CTA on landing was supposed to
+          be a filled black pill in light mode and a filled white pill in
+          dark mode. It rendered as an outlined transparent pill in both.
+          Click targets correct, layout fine, just no fill. Four rounds of
+          debugging followed. The agent generated plausible hypotheses
+          about CSS specificity, layer ordering, and shorthand-vs-longhand
+          parsing—each round produced a different syntactic fix for what
+          was effectively the same code path. None of it worked.
         </p>
         <p>
-          What followed was a four-round debugging session. The agent
-          generated plausible hypotheses about CSS specificity, layer
-          ordering, and shorthand-vs-longhand parsing quirks. Each round
-          produced a different syntactic fix for what was effectively the
-          same code path—inline styles, then Tailwind utilities, then
-          unlayered CSS with <Code>!important</Code> and elaborate{" "}
-          <Code>{`[data-variant="primary"]`}</Code> selectors. None of it
-          worked.
-        </p>
-        <p>
-          The actual bug was that <Code>var(--text-heading)</Code> was
-          silently resolving to nothing at the button element specifically,
-          despite cascading correctly to body, paragraphs, and other
-          elements on the same page. When <Code>var()</Code>{" "}fails to
-          resolve, the browser doesn&apos;t error—the property silently
-          falls back to its initial value (<Code>transparent</Code> for{" "}
+          The actual bug: <Code>var(--text-heading)</Code> was silently
+          resolving to nothing at the button element, despite cascading
+          correctly to body, paragraphs, and other elements on the same
+          page. When <Code>var()</Code> fails to resolve, the browser
+          doesn&apos;t error—the property silently falls back to its
+          initial value (<Code>transparent</Code> for{" "}
           <Code>background-color</Code>). The Styles panel showed the rule
-          as applied with no override. The Computed tab would have shown{" "}
+          applied with no override; the Computed tab would have shown{" "}
           <Code>background-color: rgba(0, 0, 0, 0)</Code>. One property
           failed loudly, one failed quietly, and the difference masked the
           diagnosis for three rounds.
@@ -576,80 +599,42 @@ function BeatButton() {
 
       <Body>
         <p>
-          The fix that worked: replace <Code>var(--text-heading)</Code>{" "}
-          with hardcoded hex (<Code>#000</Code> / <Code>#fff</Code>) and
-          use <Code>{`[data-theme="dark"]`}</Code> descendant selectors for
-          theme awareness. Bypass the variable cascade entirely.
-        </p>
-      </Body>
-
-      <ClaudeNote>
-        Pair-debugging with an AI agent looks deceptively like
-        pair-debugging with a person. The failure mode is different. A
-        human collaborator who&apos;s been wrong twice will usually
-        abandon their hypothesis class and try something fundamentally
-        different. The agent will keep generating refined variations of
-        the same hypothesis as long as you let it.
-        <span className="block mt-3 text-[var(--text-heading)] font-medium">
-          The PM skill is to recognize when an iterative loop is producing
-          diminishing returns and force a fundamentally different test.
-        </span>
-        <span className="block mt-3">
           Binary outcome, 30-second test. The agent eventually arrived at
-          this diagnostic on its own, but four rounds late. Catching the
-          agent in that loop is a critical PM skill that I would argue
-          requires some level of{" "}
+          this diagnostic on its own, but four rounds late. The fix that
+          worked: replace <Code>var(--text-heading)</Code> with hardcoded
+          hex (<Code>#000</Code> / <Code>#fff</Code>) and use{" "}
+          <Code>{`[data-theme="dark"]`}</Code> descendant selectors for
+          theme awareness. Bypass the variable cascade entirely. Catching
+          the agent in that loop is a critical PM skill that I would
+          argue requires some level of{" "}
           <Link href="https://www.linkedin.com/pulse/technically-speaking-malcolm-xavier-nsf3c">
             technical expertise ↗
           </Link>
           .
-        </span>
-      </ClaudeNote>
-    </Beat>
-  );
-}
-
-// ─── Beat 6 — Bug Smashing ───────────────────────────────────
-function BeatRecursion() {
-  return (
-    <Beat
-      id="recursion"
-      number="06"
-      title="Bug Smashing"
-      claudeTag="memory operationalized"
-      headline="The bug came back. So did the lesson."
-    >
-      <Body>
-        <p>
-          A week later, re-building the{" "}
-          <Link href="/case-studies/basecamp-coffee">
-            Basecamp Coffee case study
-          </Link>{" "}
-          chrome on <Code>/case-studies/basecamp-coffee</Code>: a 1px
-          scroll-progress bar anchored to the bottom of the Nav.
-          Conceptually a 50-line CSS change. Took{" "}
-          <Emph>15 commits and an evening</Emph> of escalating frustration
-          with the agent to land the right state.
-        </p>
-        <p>
-          Eventually traced: <Code>--surface-page</Code> resolves to{" "}
-          <Emph>empty</Emph> on recruiter-cluster pages because{" "}
-          <Code>--neutral-white</Code> and <Code>--neutral-black</Code> are
-          only defined inside <Code>{`[data-subbrand]`}</Code> blocks at{" "}
-          <Code>:root</Code>—not at the recruiter cluster&apos;s root.
-          Every <Code>color-mix(... var(--surface-page))</Code> was
-          silently invalidating. The page still <Emph>looked</Emph>{" "}
-          right because Chrome&apos;s canvas defaults paint the page bg. Same
-          class of bug as the button. Same silent fallback masking the
-          diagnosis.
         </p>
       </Body>
 
-      <Pullquote attribution="the more interesting PM artifact">
-        Memory <span className="math-op">≠</span> discipline.
-      </Pullquote>
+      {/* ── Movement 2 — the progress-bar saga ──────────────── */}
 
       <Body>
+        <p>
+          A week later, building chrome on{" "}
+          <Link href="/case-studies/basecamp-coffee">
+            the Basecamp Coffee case study
+          </Link>
+          —a 1px scroll-progress bar anchored to the bottom of the Nav.
+          Conceptually a 50-line CSS change. Took{" "}
+          <Emph>15 commits and an evening</Emph>. Eventually traced:{" "}
+          <Code>--surface-page</Code> resolves to <Emph>empty</Emph> on
+          recruiter-cluster pages because <Code>--neutral-white</Code>{" "}
+          and <Code>--neutral-black</Code> are only defined inside{" "}
+          <Code>{`[data-subbrand]`}</Code> blocks, not at the recruiter
+          cluster&apos;s root. Every{" "}
+          <Code>color-mix(... var(--surface-page))</Code> was silently
+          invalidating. The page still <Emph>looked</Emph> right because
+          Chrome&apos;s canvas defaults paint the page bg. Same class of
+          bug as the button. Same silent fallback masking the diagnosis.
+        </p>
         <p>
           Here&apos;s the part worth sitting with: I had a written memory
           note from the button bug describing exactly this pattern.{" "}
@@ -657,169 +642,137 @@ function BeatRecursion() {
           The 15-commit saga happened anyway. Written documentation of a
           lesson is not the same as operational discipline around it.
           Writing the postmortem feels like resolution. Carrying it into
-          the next session <Emph>is</Emph>{" "}the resolution. Almost every
-          product org I&apos;ve worked in conflates the two. That's a human
-          behavior that an AI-native system will pick up if you're not careful.
+          the next session <Emph>is</Emph> the resolution. Almost every
+          product org I&apos;ve worked in conflates the two—and an
+          AI-native system will pick up the same conflation if you&apos;re
+          not careful.
         </p>
       </Body>
 
-      <EvidenceGrid>
-        <EvidenceCard
-          eyebrow="Process takeaway"
-          title="Two failed fixes means the diagnosis is wrong"
-        >
-          Same symptom returning across patches means the diagnosis is
-          wrong, not the patch. The iteration cost of &ldquo;one more
-          guess&rdquo; exceeds the cost of a 5-minute root-cause sweep,
-          every single time. Memory rule now lives in{" "}
-          <Code>~/.claude/</Code>: after two failed attempts, root-cause
-          before iterating again.
-        </EvidenceCard>
-        <EvidenceCard
-          eyebrow="Technical takeaway"
-          title="Verify variable resolution at the call site"
-        >
-          When a CSS variable chain depends on tokens defined conditionally
-          (inside <Code>{`[data-subbrand]`}</Code>,{" "}
-          <Code>{`[data-theme]`}</Code>, etc.), confirm those tokens
-          actually resolve where they&apos;re consumed.{" "}
-          <Code>getComputedStyle(el).getPropertyValue(&apos;--foo&apos;)</Code>{" "}
-          is the 30-second binary test. Same lesson as the button bug,
-          escaped containment.
-        </EvidenceCard>
-      </EvidenceGrid>
+      <Pullquote attribution="the more interesting PM artifact">
+        Memory <span className="math-op">≠</span> discipline.
+      </Pullquote>
 
-      <ClaudeNote>
-        Senior PM craft includes naming the pattern when it costs you, not
-        just when it doesn&apos;t. The recursion is the more honest case
-        study than the original incident.
-      </ClaudeNote>
-    </Beat>
-  );
-}
+      {/* ── Movement 3 — doubling down ──────────────────────── */}
 
-// ─── Beat 7 — Doubling Down ───────────────────────────────────
-// Third instance of the recursion class — but a different failure
-// mode than 05/06. Button bug + progress bar were both "agent
-// iterates on syntactic refinements"; this one is "agent's
-// internally-consistent narrative drives a real-world action that
-// touches global state." Earned its own beat for that reason.
-//
-// Source: commit 05137a6 ("Pin Node 24, document the dev-server-
-// hang diagnosis recursion") + sketch notes in case-studies/
-// building-this-site.md ("the dev server that wouldn't compile").
-function BeatReinstall() {
-  return (
-    <Beat
-      id="reinstall"
-      number="07"
-      title="Doubling Down"
-      claudeTag="diagnosis hygiene"
-      headline="The agent will believe its own lies."
-    >
       <Body>
         <p>
-          MVP built, mid-audit, the local dev server
-          stopped compiling pages. Boot was instant. Static assets
-          served fine in milliseconds. Every dynamic-route request
-          stalled forever on <Code>Compiling /</Code>—no progress, no
-          error, no exception in the log. Production
-          rendered cleanly. Local-only.
-        </p>
-      </Body>
-
-      <EvidenceGrid>
-        <EvidenceCard
-          eyebrow="The wrong diagnosis"
-          title="A perfectly coherent novel"
-        >
-          A <Code>sample</Code> profile showed the Node main thread
-          parked in <Code>kevent</Code>, Tailwind oxide rayon workers
-          idle, zero CPU, zero outbound network. Read like an ABI
+          The third loop earned a different magnification. Mid-audit, the
+          local dev server stopped compiling pages. Boot was instant.
+          Static assets served fine in milliseconds. Every dynamic-route
+          request stalled forever on <Code>Compiling /</Code>—no progress,
+          no error, no exception in the log. Production rendered cleanly.
+          Local-only. A <Code>sample</Code> profile showed the Node main
+          thread parked in <Code>kevent</Code>, Tailwind oxide rayon
+          workers idle, zero CPU, zero outbound network. Read like an ABI
           deadlock between Node 25 (non-LTS) and a Rust-backed native
-          module in the compile pipeline. Specific. Coherent. Rhymed
-          with prior knowledge. Wrong.
-        </EvidenceCard>
-        <EvidenceCard
-          eyebrow="The high-cost action"
-          title="Brew, link, rebuild—still hung"
-        >
+          module in the compile pipeline. Specific. Coherent. Rhymed with
+          prior knowledge. Wrong.
+        </p>
+        <p>
           On the strength of that diagnosis: brew-install Node 24 LTS,{" "}
           <Code>brew link --force --overwrite</Code> the global default,{" "}
-          <Code>npm rebuild</Code>{" "}to relink native binaries against
-          ABI 137. A real change to global state on the user&apos;s
-          machine. Restarted dev. Still hung, identically.
-        </EvidenceCard>
-        <EvidenceCard
-          eyebrow="The cheap test"
-          title="A 90-second falsification"
-        >
-          Bootstrapped a bare-metal Next.js 16 app in{" "}
-          <Code>/tmp/next-min-test/</Code>: ten lines of code, ninety
-          seconds to set up. Compiled <Code>/</Code> in three seconds
-          on the same Node 24.{" "}
+          <Code>npm rebuild</Code> to relink native binaries against ABI
+          137. A real change to global state on the user&apos;s machine.
+          Restarted dev. Still hung, identically. Bootstrapped a
+          bare-metal Next.js 16 app in <Code>/tmp/next-min-test/</Code>—
+          ten lines of code, ninety seconds to set up. Compiled{" "}
+          <Code>/</Code> in three seconds on the same Node 24.{" "}
           <Emph>Project-specific, not Node-specific.</Emph> The actual
           fix:{" "}
           <Code>{`rm -rf node_modules package-lock.json && npm install`}</Code>.
           Two minutes.
-        </EvidenceCard>
-      </EvidenceGrid>
-
-      <Pullquote attribution="the failure mode that travels">
-        The agent constructs internally-consistent narratives faster
-        than it falsifies them.
-      </Pullquote>
-
-      <Body>
+        </p>
         <p>
           The button bug was four rounds of syntactic refinement. The
-          progress-bar saga was fifteen commits of selector tweaks.
-          Both were the same failure mode at different magnification.
-          This was a different failure mode entirely:{" "}
+          progress-bar saga was fifteen commits of selector tweaks. Both
+          were the same failure mode at different magnification—iterating
+          in code. This was a different magnification entirely:{" "}
           <Emph>
             executing a real-world action against a wrong hypothesis.
           </Emph>{" "}
           Installing software, swapping the default Node, modifying
-          global state on the user&apos;s machine. Mildly disruptive
-          to roll back. Easy to skip the falsification step because
-          the narrative was so coherent—the clues fit a perfectly
-          ordered detective novel that just wasn&apos;t the actual
-          one.
+          global state on the user&apos;s machine. Mildly disruptive to
+          roll back. Easy to skip the falsification step because the
+          narrative was so coherent—the clues fit a perfectly ordered
+          detective novel that just wasn&apos;t the actual one. The agent
+          constructs internally-consistent narratives faster than it
+          falsifies them.
         </p>
       </Body>
 
-      <ClaudeNote>
-        The operational rule that came out of it now sits in{" "}
-        <Code>~/.claude/</Code>: before approving any agent-proposed
-        fix that touches global state—installing software, swapping
-        the default runtime, editing <Code>~/.zshrc</Code>—the gate
-        is the cheapest test that would falsify the diagnosis. For
-        infra-flavored bugs, that&apos;s almost always &ldquo;bootstrap a
-        minimal repro and see if it reproduces.&rdquo; Same gate I&apos;d
-        apply to a junior PM proposing a vendor escalation. AI agents
-        will keep generating internally-consistent hypotheses; the PM
-        job is to demand the binary test before the destructive
-        commit.
-      </ClaudeNote>
+      {/* ── Three rules, one closing grid ──────────────────── */}
 
       <Body>
         <p>
-          What got committed off the back of it:{" "}
-          <Code>engines.node</Code> pinned to{" "}
-          <Code>{`">=22 <26"`}</Code> in <Code>package.json</Code> so
-          a future Node major bump trips a clear warning before it
-          corrupts local state, and a <Code>.nvmrc</Code> pinned to{" "}
-          <Code>24</Code> so anyone with <Code>nvm</Code> or{" "}
-          <Code>fnm</Code> auto-switches into a supported version when
-          they <Code>cd</Code> into the project. Two lines of
-          guardrail. Retroactive but durable.
+          Three loops, three rules. They now load on every Claude session
+          because they live in <Code>~/.claude/</Code> memory—not because
+          I&apos;ve reread the postmortem. The difference, again, is the
+          difference between memory and discipline.
         </p>
       </Body>
+
+      <EvidenceGrid>
+        <EvidenceCard
+          eyebrow="Movement 01"
+          title="Force the binary test"
+        >
+          When the agent&apos;s been wrong twice on the same code path,
+          stop refining its syntax and force a fundamentally different
+          test. Replace the value with red. Toggle the rule off. The
+          30-second binary outcome ends loops that another round of
+          refinement won&apos;t.
+        </EvidenceCard>
+        <EvidenceCard
+          eyebrow="Movement 02"
+          title="Write the rule, not the note"
+        >
+          Postmortems documented in markdown rot the moment the next
+          session starts. Project-level rules in <Code>AGENTS.md</Code>{" "}
+          and operator-level rules in <Code>~/.claude/</Code> load on
+          every turn—that&apos;s the surface that drives behavior. Two
+          failed fixes means the diagnosis is wrong; root-cause it before
+          iterating again.
+        </EvidenceCard>
+        <EvidenceCard
+          eyebrow="Movement 03"
+          title="Cheap test before destructive commit"
+        >
+          Any agent-proposed fix that touches global state—installing
+          software, swapping the default runtime, editing dotfiles—gets
+          gated on the cheapest test that would falsify the diagnosis.
+          For infra-flavored bugs, that&apos;s almost always &ldquo;bootstrap
+          a minimal repro and see if it reproduces.&rdquo;
+        </EvidenceCard>
+      </EvidenceGrid>
+
+      <ClaudeNote>
+        <p className="m-0">
+          Senior PM craft includes naming the pattern when it costs you,
+          not just when it doesn&apos;t. The recursion is the more honest
+          case study than any single incident—and it&apos;s the part that
+          travels. Every team pair-programming with an agent will earn
+          its own version of these three loops; what matters is whether
+          the rules end up in operating memory before the next loop
+          costs more than this one did.
+        </p>
+        <p className="m-0 mt-3">
+          What got committed off the back of all three:{" "}
+          <Code>engines.node</Code> pinned to{" "}
+          <Code>{`">=22 <26"`}</Code> in <Code>package.json</Code> so a
+          future Node major bump trips a clear warning before it corrupts
+          local state, plus a <Code>.nvmrc</Code> pinned to{" "}
+          <Code>24</Code> so anyone with <Code>nvm</Code> or{" "}
+          <Code>fnm</Code> auto-switches into a supported version on{" "}
+          <Code>cd</Code>. Two lines of guardrail. Retroactive but
+          durable.
+        </p>
+      </ClaudeNote>
     </Beat>
   );
 }
 
-// ─── Beat 8 — Three Resumes ─────────────────────────────────────
+// ─── Beat 6 — Three Resumes ─────────────────────────────────────
 // PM-craft showcase that counterweights the incident-cluster.
 // Sourced from the "Three resumes, browser, tailor, grab."
 // section of case-studies/building-this-site.md, which had been
@@ -828,7 +781,7 @@ function BeatResumes() {
   return (
     <Beat
       id="resumes"
-      number="08"
+      number="06"
       title="Three Resumes"
       claudeTag="triple-output craft"
       headline="Browse, tailor, grab."
@@ -984,12 +937,12 @@ function BeatResumes() {
   );
 }
 
-// ─── Beat 9 — QA ──────────────────────────────────────
+// ─── Beat 7 — QA ──────────────────────────────────────
 function BeatReview() {
   return (
     <Beat
       id="review"
-      number="09"
+      number="07"
       title="QA"
       claudeTag="multi-agent orchestration"
       headline="Three reviewers, one punch list, one humbling number."
@@ -1163,8 +1116,8 @@ function BeatReview() {
           grep for shared logic), and{" "}
           <Emph>when fixing a class of bug, audit the whole class</Emph>{" "}
           (name the abstraction, grep every consumer, verify each
-          under the same conditions). Per the recursion lesson three
-          sections up: written documentation isn&apos;t operational
+          under the same conditions). Per the recursion lesson in
+          Button Mashing above: written documentation isn&apos;t operational
           discipline. The repo-level rule is the discipline; the
           markdown is the documentation. Both, not one.
         </p>
@@ -1191,12 +1144,12 @@ function BeatReview() {
   );
 }
 
-// ─── Beat 10 — What's Live ────────────────────────────────────
+// ─── Beat 8 — What's Live ─────────────────────────────────────
 function BeatLive() {
   return (
     <Beat
       id="live"
-      number="10"
+      number="08"
       title="What's Live"
       headline="What shipped, what got cut, what's next."
     >
