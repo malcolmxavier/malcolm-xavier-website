@@ -6,6 +6,7 @@ import {
   Roboto_Mono,
 } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { Analytics } from "@vercel/analytics/next";
 import { Nav } from "@/components/chrome/Nav";
 import { Footer } from "@/components/chrome/Footer";
 import { ChromeGate } from "@/components/chrome/ChromeGate";
@@ -177,6 +178,13 @@ export default function RootLayout({
             <Footer />
           </ChromeGate>
         </ThemeProvider>
+
+        {/* Vercel Web Analytics — page-view counts sent to the
+            Vercel dashboard. Beacons no-op in dev; fire only on
+            Preview/Prod. Placed outside ThemeProvider since it
+            doesn't read theme context. Speed Insights intentionally
+            skipped — paid add-on on Pro, not worth it for MVP. */}
+        <Analytics />
       </body>
     </html>
   );

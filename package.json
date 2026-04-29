@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@next/mdx": "^16.2.4",
+    "@vercel/analytics": "^2.0.1",
     "fast-xml-parser": "^5.7.2",
     "gray-matter": "^4.0.3",
     "motion": "^12.38.0",
