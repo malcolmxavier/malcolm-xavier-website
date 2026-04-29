@@ -529,19 +529,21 @@ function BeatSpotify() {
 }
 
 // ─── Beat 5 — Button Mashing ──────────────────────────────────
-// Three movements, one beat:
-//   movement 1 — button bug (CSS specificity → silent var() failure)
-//   movement 2 — progress-bar saga (selector iteration → memory ≠
-//                discipline, the "recursion" punchline)
-//   movement 3 — dev-server reinstall (high-cost global-state action
-//                on a wrong narrative)
+// Beat structure:
+//   - opener: framing for three loops with escalating blast radius
+//   - first two bugs (button + progress-bar saga): two compressed
+//     paragraphs sharing the in-code-iteration shape, ending on the
+//     "memory ≠ discipline" pullquote that carries both
+//   - Movement 3 ("Doubling Down"): dev-server reinstall, full
+//     treatment because it's a different magnification — destructive
+//     real-world action against a wrong narrative
+//   - close: three rules in an EvidenceGrid, one ClaudeNote
 //
 // Originally three discrete beats (05/06/07 in the earlier 10-beat
-// arc). Consolidated 2026-04-29 because the reader had absorbed the
-// loop pattern by the second beat and the third was paying compounding
-// density cost. The blast-radius escalation (in-code → in-code →
-// global-state) makes for a tighter single arc than three rhyming
-// incidents would.
+// arc); consolidated 2026-04-29. The first-two-bugs paragraphs were
+// further compressed 2026-04-29 (later same day) — the reader had
+// the loop pattern by the second paragraph; padding it across three
+// Body blocks plus two pullquotes was paying compounding density.
 function BeatButton() {
   return (
     <Beat
@@ -551,6 +553,11 @@ function BeatButton() {
       claudeTag="the recursion"
       headline="If all you have is a hammer..."
     >
+      {/* Opener and the first-two-bugs paragraphs share one Body
+          so the three paragraphs use Body's gap-4 rhythm. Splitting
+          them across separate Bodies left adjacent paragraphs flush,
+          since Body has no outer margin of its own — same pattern
+          applied to the Movement-3 + synthesis Body below. */}
       <Body>
         <p>
           Pair-programming with an agent looks deceptively like
@@ -562,90 +569,50 @@ function BeatButton() {
           three of those loops, each with a bigger blast radius than the
           last.
         </p>
-      </Body>
-
-      {/* ── Movement 1 — the button bug ──────────────────────── */}
-
-      <Body>
         <p>
-          The first one was small. The hero CTA on landing was supposed to
-          be a filled black pill in light mode and a filled white pill in
-          dark mode. It rendered as an outlined transparent pill in both.
-          Click targets correct, layout fine, just no fill. Four rounds of
-          debugging followed. The agent generated plausible hypotheses
-          about CSS specificity, layer ordering, and shorthand-vs-longhand
-          parsing—each round produced a different syntactic fix for what
-          was effectively the same code path. None of it worked.
-        </p>
-        <p>
-          The actual bug: <Code>var(--text-heading)</Code> was silently
-          resolving to nothing at the button element, despite cascading
-          correctly to body, paragraphs, and other elements on the same
-          page. When <Code>var()</Code> fails to resolve, the browser
-          doesn&apos;t error—the property silently falls back to its
-          initial value (<Code>transparent</Code> for{" "}
-          <Code>background-color</Code>). The Styles panel showed the rule
-          applied with no override; the Computed tab would have shown{" "}
-          <Code>background-color: rgba(0, 0, 0, 0)</Code>. One property
-          failed loudly, one failed quietly, and the difference masked the
-          diagnosis for three rounds.
-        </p>
-      </Body>
-
-      <Pullquote attribution="the diagnostic that ended it">
-        Stop changing the syntax. Replace the value with red. Tell me if
-        the button is red.
-      </Pullquote>
-
-      <Body>
-        <p>
-          Binary outcome, 30-second test. The agent eventually arrived at
-          this diagnostic on its own, but four rounds late. The fix that
-          worked: replace <Code>var(--text-heading)</Code> with hardcoded
-          hex (<Code>#000</Code> / <Code>#fff</Code>) and use{" "}
-          <Code>{`[data-theme="dark"]`}</Code> descendant selectors for
-          theme awareness. Bypass the variable cascade entirely. Catching
-          the agent in that loop is a critical PM skill that I would
-          argue requires some level of{" "}
+          The first two were small. The landing-page CTA was supposed
+          to be a solid black or white pill; it kept rendering as
+          outlined transparent. Four rounds of debugging followed—the
+          agent generating plausible hypotheses about CSS rules, each
+          round a different surface-level fix that didn&apos;t change
+          the outcome. The actual bug: a color value silently failed
+          to resolve at the button. The browser didn&apos;t throw an
+          error—it fell back to a default that happened to be
+          transparent. The diagnostic that ended it:{" "}
+          <Emph>
+            stop changing the syntax, replace the value with red, tell
+            me if the button is red.
+          </Emph>{" "}
+          Binary outcome, 30-second test. Catching the agent in that
+          loop is a critical PM skill that I would argue requires some
+          level of{" "}
           <Link href="https://www.linkedin.com/pulse/technically-speaking-malcolm-xavier-nsf3c">
             technical expertise ↗
           </Link>
           .
         </p>
-      </Body>
-
-      {/* ── Movement 2 — the progress-bar saga ──────────────── */}
-
-      <Body>
         <p>
-          A week later, building chrome on{" "}
+          As I duplicated{" "}
           <Link href="/case-studies/basecamp-coffee">
             the Basecamp Coffee case study
-          </Link>
-          —a 1px scroll-progress bar anchored to the bottom of the Nav.
-          Conceptually a 50-line CSS change. Took{" "}
-          <Emph>15 commits and an evening</Emph>. Eventually traced:{" "}
-          <Code>--surface-page</Code> resolves to <Emph>empty</Emph> on
-          recruiter-cluster pages because <Code>--neutral-white</Code>{" "}
-          and <Code>--neutral-black</Code> are only defined inside{" "}
-          <Code>{`[data-subbrand]`}</Code> blocks, not at the recruiter
-          cluster&apos;s root. Every{" "}
-          <Code>color-mix(... var(--surface-page))</Code> was silently
-          invalidating. The page still <Emph>looked</Emph> right because
-          Chrome&apos;s canvas defaults paint the page bg. Same class of
-          bug as the button. Same silent fallback masking the diagnosis.
-        </p>
-        <p>
-          Here&apos;s the part worth sitting with: I had a written memory
-          note from the button bug describing exactly this pattern.{" "}
-          <Emph>The memory existed. It wasn&apos;t operationalized.</Emph>{" "}
-          The 15-commit saga happened anyway. Written documentation of a
-          lesson is not the same as operational discipline around it.
-          Writing the postmortem feels like resolution. Carrying it into
-          the next session <Emph>is</Emph> the resolution. Almost every
-          product org I&apos;ve worked in conflates the two—and an
-          AI-native system will pick up the same conflation if you&apos;re
-          not careful.
+          </Link>{" "}
+          onto this site, the same class of bug returned. A
+          scroll-progress
+          bar—conceptually a 50-line change—took{" "}
+          <Emph>15 commits and an evening</Emph>. Same shape: a value
+          failing silently, the browser falling back without complaint.
+          The part worth sitting with: I had a written memory note
+          from the button bug describing exactly this pattern.{" "}
+          <Emph>
+            The memory existed. It wasn&apos;t operationalized.
+          </Emph>{" "}
+          The 15-commit saga happened anyway. Documentation of a
+          lesson isn&apos;t the same as discipline around
+          it—writing the postmortem feels like resolution; carrying
+          it into the next session <Emph>is</Emph> the resolution.
+          Almost every product org I&apos;ve worked in conflates the
+          two, and an AI-native system will pick up the same
+          conflation if you&apos;re not careful.
         </p>
       </Body>
 
@@ -653,62 +620,35 @@ function BeatButton() {
         Memory <span className="math-op">≠</span> discipline.
       </Pullquote>
 
-      {/* ── Movement 3 — doubling down ──────────────────────── */}
-
+      {/* Movement 3 + synthesis paragraph share one Body for the
+          same reason as the opener Body above — adjacent Bodies have
+          no inter-element spacing, so prose that should flow
+          continuously needs to live in a single Body block. */}
       <Body>
         <p>
-          The third loop earned a different magnification. Mid-audit, the
-          local dev server stopped compiling pages. Boot was instant.
-          Static assets served fine in milliseconds. Every dynamic-route
-          request stalled forever on <Code>Compiling /</Code>—no progress,
-          no error, no exception in the log. Production rendered cleanly.
-          Local-only. A <Code>sample</Code> profile showed the Node main
-          thread parked in <Code>kevent</Code>, Tailwind oxide rayon
-          workers idle, zero CPU, zero outbound network. Read like an ABI
-          deadlock between Node 25 (non-LTS) and a Rust-backed native
-          module in the compile pipeline. Specific. Coherent. Rhymed with
-          prior knowledge. Wrong.
+          The third loop earned a different magnification. Mid-audit,
+          the local dev server stopped compiling—no error, no
+          progress, just silence. The agent diagnosed it confidently
+          as a Node version mismatch: specific, coherent, rhymed
+          with prior knowledge. On the strength of that diagnosis it
+          walked me through swapping the global default Node version
+          on my machine. Still hung. A 90-second sanity check—does
+          the bug reproduce in a fresh project of the same
+          framework?—would have falsified the diagnosis before any
+          of those changes. Same recursion shape as the first two
+          bugs, but with a bigger blast radius: instead of iterating
+          in code, this loop drove{" "}
+          <Emph>a real-world action against a wrong narrative</Emph>.
+          The agent constructs internally-consistent narratives
+          faster than it falsifies them.
         </p>
-        <p>
-          On the strength of that diagnosis: brew-install Node 24 LTS,{" "}
-          <Code>brew link --force --overwrite</Code> the global default,{" "}
-          <Code>npm rebuild</Code> to relink native binaries against ABI
-          137. A real change to global state on the user&apos;s machine.
-          Restarted dev. Still hung, identically. Bootstrapped a
-          bare-metal Next.js 16 app in <Code>/tmp/next-min-test/</Code>—
-          ten lines of code, ninety seconds to set up. Compiled{" "}
-          <Code>/</Code> in three seconds on the same Node 24.{" "}
-          <Emph>Project-specific, not Node-specific.</Emph> The actual
-          fix:{" "}
-          <Code>{`rm -rf node_modules package-lock.json && npm install`}</Code>.
-          Two minutes.
-        </p>
-        <p>
-          The button bug was four rounds of syntactic refinement. The
-          progress-bar saga was fifteen commits of selector tweaks. Both
-          were the same failure mode at different magnification—iterating
-          in code. This was a different magnification entirely:{" "}
-          <Emph>
-            executing a real-world action against a wrong hypothesis.
-          </Emph>{" "}
-          Installing software, swapping the default Node, modifying
-          global state on the user&apos;s machine. Mildly disruptive to
-          roll back. Easy to skip the falsification step because the
-          narrative was so coherent—the clues fit a perfectly ordered
-          detective novel that just wasn&apos;t the actual one. The agent
-          constructs internally-consistent narratives faster than it
-          falsifies them.
-        </p>
-      </Body>
-
-      {/* ── Three rules, one closing grid ──────────────────── */}
-
-      <Body>
         <p>
           Three loops, three rules. They now load on every Claude session
           because they live in <Code>~/.claude/</Code> memory—not because
           I&apos;ve reread the postmortem. The difference, again, is the
-          difference between memory and discipline.
+          difference between memory and discipline. The class hasn&apos;t
+          stopped showing up; the rules make each recurrence cheaper than
+          the last.
         </p>
       </Body>
 

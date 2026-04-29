@@ -215,107 +215,62 @@ agent generates refined variations of the same hypothesis as long
 as you let it. This build earned three of those loops, each with
 a bigger blast radius than the last.
 
-### Movement 1 — the button bug
+### The first two—in-code recursions
 
-The first one was small. The hero CTA on landing was supposed to
-be a filled black pill in light mode and a filled white pill in
-dark mode. It rendered as an outlined transparent pill in both.
-Click targets correct, layout fine, just no fill. Four rounds of
-debugging followed. The agent generated plausible hypotheses
-about CSS specificity, layer ordering, and shorthand-vs-longhand
-parsing — each round produced a different syntactic fix for what
-was effectively the same code path. None of it worked.
+The first two were small. The landing-page CTA was supposed to
+be a solid black or white pill; it kept rendering as outlined
+transparent. Four rounds of debugging followed—the agent
+generating plausible hypotheses about CSS rules, each round a
+different surface-level fix that didn't change the outcome. The
+actual bug: a color value silently failed to resolve at the
+button. The browser didn't throw an error—it fell back to a
+default that happened to be transparent. The diagnostic that
+ended it: *stop changing the syntax, replace the value with red,
+tell me if the button is red.* Binary outcome, 30-second test.
+Catching the agent in that loop is a critical PM skill that I
+would argue requires some level of technical expertise.
 
-The actual bug: `var(--text-heading)` was silently resolving to
-nothing at the button element, despite cascading correctly to
-body, paragraphs, and other elements on the same page. When
-`var()` fails to resolve, the browser doesn't error — the property
-silently falls back to its initial value (`transparent` for
-`background-color`). The Styles panel showed the rule applied
-with no override; the Computed tab would have shown
-`background-color: rgba(0, 0, 0, 0)`. One property failed loudly,
-one failed quietly, and the difference masked the diagnosis for
-three rounds.
-
-> *Stop changing the syntax. Replace the value with red. Tell me
-> if the button is red.*
->
-> — the diagnostic that ended it
-
-Binary outcome, 30-second test. The fix that worked: replace
-`var(--text-heading)` with hardcoded hex (`#000` / `#fff`) and use
-`[data-theme="dark"]` descendant selectors for theme awareness.
-Bypass the variable cascade entirely.
-
-### Movement 2 — the progress-bar saga (the recursion)
-
-A week later, building chrome on `/case-studies/basecamp-coffee` —
-a 1px scroll-progress bar anchored to the bottom of the Nav.
-Conceptually a 50-line CSS change. Took **15 commits and an
-evening**. Eventually traced: `--surface-page` resolves to *empty*
-on recruiter-cluster pages because `--neutral-white` and
-`--neutral-black` are only defined inside `[data-subbrand]` blocks,
-not at the recruiter cluster's root. Every
-`color-mix(... var(--surface-page))` was silently invalidating.
-The page still *looked* right because Chrome's canvas defaults
-paint the page bg. Same class of bug as the button. Same silent
-fallback masking the diagnosis.
-
-Here's the part worth sitting with: I had a written memory note
-from the button bug describing exactly this pattern. **The memory
-existed. It wasn't operationalized.** The 15-commit saga happened
-anyway. Written documentation of a lesson is not the same as
-operational discipline around it. Writing the postmortem feels
-like resolution. Carrying it into the next session *is* the
+A week later, building chrome on `/case-studies/basecamp-coffee`,
+the same class of bug returned. A scroll-progress bar—conceptually
+a 50-line change—took **15 commits and an evening**. Same shape:
+a value failing silently, the browser falling back without
+complaint. The part worth sitting with: I had a written memory
+note from the button bug describing exactly this pattern. **The
+memory existed. It wasn't operationalized.** The 15-commit saga
+happened anyway. Documentation of a lesson isn't the same as
+discipline around it—writing the postmortem feels like
+resolution; carrying it into the next session *is* the
 resolution. Almost every product org I've worked in conflates
-the two — and an AI-native system will pick up the same
+the two, and an AI-native system will pick up the same
 conflation if you're not careful.
 
 > *Memory ≠ discipline.*
 >
 > — the more interesting PM artifact
 
-### Movement 3 — doubling down
+### Movement 3—doubling down
 
 The third loop earned a different magnification. Mid-audit, the
-local dev server stopped compiling pages. Boot was instant.
-Static assets served fine. Every dynamic-route request stalled
-forever on `Compiling /` — no progress, no error, no exception in
-the log. Production rendered cleanly. Local-only. A `sample`
-profile showed the Node main thread parked in `kevent`, Tailwind
-oxide rayon workers idle, zero CPU, zero outbound network. Read
-like an ABI deadlock between Node 25 (non-LTS) and a Rust-backed
-native module in the compile pipeline. Specific. Coherent. Rhymed
-with prior knowledge. Wrong.
-
-On the strength of that diagnosis: brew-install Node 24 LTS,
-`brew link --force --overwrite` the global default, `npm rebuild`
-to relink native binaries against ABI 137. A real change to global
-state on the user's machine. Restarted dev. Still hung, identically.
-Bootstrapped a bare-metal Next.js 16 app in `/tmp/next-min-test/` —
-ten lines of code, ninety seconds to set up. Compiled `/` in three
-seconds on the same Node 24. **Project-specific, not Node-specific.**
-The actual fix:
-`rm -rf node_modules package-lock.json && npm install`. Two minutes.
-
-The button bug was four rounds of syntactic refinement. The
-progress-bar saga was fifteen commits of selector tweaks. Both
-were the same failure mode at different magnification — iterating
-in code. This was a different magnification entirely: **executing
-a real-world action against a wrong hypothesis.** Installing
-software, swapping the default Node, modifying global state on
-the user's machine. Mildly disruptive to roll back. Easy to skip
-the falsification step because the narrative was so coherent —
-the clues fit a perfectly ordered detective novel that just
-wasn't the actual one. The agent constructs internally-consistent
-narratives faster than it falsifies them.
+local dev server stopped compiling—no error, no progress, just
+silence. The agent diagnosed it confidently as a Node version
+mismatch: specific, coherent, rhymed with prior knowledge. On
+the strength of that diagnosis it walked me through swapping
+the global default Node version on my machine. Still hung. A
+90-second sanity check—does the bug reproduce in a fresh
+project of the same framework?—would have falsified the
+diagnosis before any of those changes. Same recursion shape as
+the first two bugs, but with a bigger blast radius: instead of
+iterating in code, this loop drove **a real-world action
+against a wrong narrative**. The agent constructs
+internally-consistent narratives faster than it falsifies them.
 
 ### Three rules
 
 Three loops, three rules. They now load on every Claude session
-because they live in `~/.claude/` memory — not because I've
+because they live in `~/.claude/` memory—not because I've
 reread the postmortem. The difference, again, is the difference
-between memory and discipline.
+between memory and discipline. The class hasn't stopped showing
+up; the rules make each recurrence cheaper than the last.
 
 - **Force the binary test.** When the agent's been wrong twice
   on the same code path, stop refining its syntax and force a
