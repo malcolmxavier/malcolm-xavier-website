@@ -315,8 +315,13 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
   {
     slug: "building-this-site",
     title: "Building this site",
+    // Description carries an inline note instead of a separate
+    // `liveHref` link — the live artifact is the site you're on,
+    // so a "Visit the live project ↗" button would point at the
+    // page that already hosts the card. Closes
+    // l-resume-meta-no-livehref from the 2026-04-29 /full-review.
     description:
-      "A meta case study on shipping this portfolio with Claude Code as build partner. Architecture bets, production incidents, and what AI-native PM work looks like when the human stays in the loop.",
+      "A meta case study on shipping this portfolio with Claude Code as build partner. Architecture bets, production incidents, and what AI-native PM work looks like when the human stays in the loop. The live artifact is this site.",
     href: "/case-studies/building-this-site",
   },
 ];

@@ -39,9 +39,12 @@ import { Headline } from "@/components/typography/Headline";
 import { Lede } from "@/components/typography/Lede";
 import { Body } from "@/components/typography/Body";
 import { Kicker } from "@/components/typography/Kicker";
+import { Dateline } from "@/components/typography/Dateline";
 import { Button } from "@/components/primitives/Button";
 import { Link } from "@/components/primitives/Link";
 import { Card } from "@/components/primitives/Card";
+import { SITE_URL } from "@/lib/site-config";
+import { formatLastUpdated } from "@/lib/case-studies/basecamp-coffee/last-updated";
 import {
   TableOfContents,
   type TocItem,
@@ -416,7 +419,15 @@ export default function ResumePage() {
           <Stack gap="500">
             {/* Status — web-only addition that's not in the PDF.
                 Recruiters see availability before anything else. */}
-            <Kicker accent>{STATUS}</Kicker>
+            <Stack gap="100">
+              <Kicker accent>{STATUS}</Kicker>
+              {/* "Last updated" dateline — answers the implicit
+                  recruiter question "is this current?" The case
+                  studies use the same formatter for parity. Closes
+                  m-resume-no-last-updated from the 2026-04-29
+                  /full-review. */}
+              <Dateline>Last updated {formatLastUpdated()}</Dateline>
+            </Stack>
   
             {/* Stacked hero: Name → Positioning → Contact strip.
                 Each block reads top-to-bottom with no awkward column
@@ -520,6 +531,26 @@ export default function ResumePage() {
               >
                 <IconDownload />
                 Download PDF
+              </Button>
+              {/* "Send this to a hiring manager" mailto button —
+                  compresses the friction when a recruiter wants to
+                  upstream the resume to a hiring manager. The
+                  ?ref=share query tag attributes shared traffic for
+                  later analytics. Subject + body URI-encoded so
+                  Outlook / Apple Mail / Gmail render correctly.
+                  Closes h-resume-no-forward (Option B) from the
+                  2026-04-29 /full-review. */}
+              <Button
+                as="a"
+                href={`mailto:?subject=${encodeURIComponent(
+                  "Malcolm Xavier — Senior PM",
+                )}&body=${encodeURIComponent(
+                  `Worth a look: ${SITE_URL}/resume?ref=share`,
+                )}`}
+                variant="secondary"
+                size="lg"
+              >
+                Send this to a hiring manager
               </Button>
               <Button
                 as="a"

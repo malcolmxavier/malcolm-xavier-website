@@ -22,6 +22,7 @@ import { Container } from "@/components/layout/Container";
 import { Link } from "@/components/primitives/Link";
 import { Kicker } from "@/components/typography/Kicker";
 import { Dateline } from "@/components/typography/Dateline";
+import { ShareButton } from "./ShareButton";
 import { ELSEWHERE } from "@/lib/elsewhere";
 
 // External destinations. Email + GitHub + Letterboxd + Serializd +
@@ -29,9 +30,12 @@ import { ELSEWHERE } from "@/lib/elsewhere";
 // will be added when Malcolm provides URLs. ELSEWHERE (Letterboxd,
 // Serializd, Spotify) lives in @/lib/elsewhere so the contact page
 // and this footer stay in sync.
+// Order: Email → LinkedIn → GitHub (canonical reach-out leads).
+// Closes l-footer-stay-in-touch-order from the 2026-04-29
+// /full-review.
 const STAY_IN_TOUCH = [
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/malxavi/" },
   { label: "Email", href: "mailto:malcolm@malxavi.com" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/malxavi/" },
   { label: "GitHub", href: "https://github.com/malcolmxavier" },
 ];
 
@@ -100,6 +104,14 @@ export function Footer() {
               Built in Los Angeles, edited at hours that should
               embarrass me.
             </p>
+            {/* Share affordance — sits below the sardonic line so
+                col 1 reads as wordmark → voice → quiet utility.
+                Native share sheet on mobile, clipboard fallback on
+                desktop. Closes m-no-share-affordance from the
+                2026-04-29 /full-review. */}
+            <div style={{ marginTop: "20px" }}>
+              <ShareButton />
+            </div>
           </div>
 
           {/* col 2: stay in touch. The kicker → list gap is set via
@@ -112,7 +124,11 @@ export function Footer() {
             <Kicker>Stay in touch</Kicker>
             <ul className="space-y-2" style={{ marginTop: "24px" }}>
               {STAY_IN_TOUCH.map((item) => (
-                <li key={item.label}>
+                // py-1 lifts the tap target to ~27px tall, clearing
+                // the WCAG 2.2 SC 2.5.8 24×24 minimum. Closes
+                // m-footer-target-size from the 2026-04-29
+                // /full-review.
+                <li key={item.label} className="py-1">
                   <Link href={item.href} quiet>
                     {item.label}
                   </Link>
@@ -127,7 +143,7 @@ export function Footer() {
             <Kicker>Elsewhere</Kicker>
             <ul className="space-y-2" style={{ marginTop: "24px" }}>
               {ELSEWHERE.map((item) => (
-                <li key={item.label}>
+                <li key={item.label} className="py-1">
                   <Link href={item.href} quiet>
                     {item.label}
                   </Link>

@@ -15,10 +15,11 @@
 // pass; copy is intentionally inline (not MDX) so editorial passes
 // don't need a separate file open.
 //
-// Per the "no public placeholders" rule, the talent-scout / Creative
-// CV inline link is OMITTED until /creative-cv ships. When it does,
-// drop a quiet inline <Link> in the second-to-last paragraph of the
-// "Other half of my life" block.
+// TODO(creative-cv): Per the "no public placeholders" rule, the
+// talent-scout / Creative CV inline link is OMITTED until
+// /creative-cv ships. When it does, drop a quiet inline <Link> in
+// the second-to-last paragraph of the "Other half of my life"
+// block. Tracked via l-creative-cv-todo (2026-04-29 /full-review).
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
@@ -146,9 +147,17 @@ export default function AboutPage() {
                     long single-column scroll. Capped at 16rem wide
                     (matches the desktop sidebar size) so it reads as
                     an inline editorial portrait, not a full-bleed
-                    slab. priority lives here rather than on the
-                    desktop copy because mobile first-paint is the
-                    more common cold-load case. */}
+                    slab.
+
+                    `loading="eager"` (not `priority`) — both copies
+                    reference the same /headshot.jpg, but only one is
+                    visible at a time. The mobile copy was being
+                    high-priority-fetched on desktop cold loads where
+                    it's `lg:hidden`. eager keeps the mobile-first
+                    intent without fanning out a high-priority hint
+                    on viewports that don't render this copy. Closes
+                    m-about-headshot-priority-dup from the 2026-04-29
+                    /full-review. */}
                 <div className="lg:hidden">
                   <div
                     className="overflow-hidden rounded-md border max-w-[16rem] mx-auto"
@@ -160,7 +169,7 @@ export default function AboutPage() {
                       width={3280}
                       height={4928}
                       sizes="16rem"
-                      priority
+                      loading="eager"
                       style={{
                         width: "100%",
                         height: "auto",
@@ -209,10 +218,15 @@ export default function AboutPage() {
               // landmark. Top margin separates from prose on mobile;
               // resets at lg+ where the grid does the spacing.
               //
-              // No aria-label here — the inner <nav aria-label="What
-              // I'm into"> carries the label. Doubling them up created
-              // two landmarks discoverable separately with identical
-              // names, which screen readers announce as duplicates.
+              // aria-label moved here from the inner <nav> per
+              // m-aside-nested-no-label from the 2026-04-29
+              // /full-review (axe rule:
+              // landmark-complementary-is-top-level). The aside is
+              // nested inside <main>, so it needs its own name to
+              // distinguish it during landmark navigation. The inner
+              // nav drops its label in turn so the two landmarks
+              // don't double up with the same name.
+              aria-label="What I'm into"
               className="mt-10 lg:mt-0"
             >
               <Stack gap="500">
@@ -246,7 +260,11 @@ export default function AboutPage() {
                     platforms where Malcolm publishes culturally.
                     Reads as an editorial sidebar, not a duplicate
                     of the footer. Categorical kicker + link. */}
-                <Stack gap="400" as="nav" aria-label="What I'm into">
+                {/* The aria-label lives on the parent <aside> (see
+                    above) — putting it here too created two
+                    landmarks with identical names that SR users
+                    heard as duplicates. */}
+                <Stack gap="400" as="nav">
                   <Kicker>What I&rsquo;m into</Kicker>
                   <ul
                     role="list"

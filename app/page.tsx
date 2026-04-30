@@ -9,8 +9,10 @@
 //                    Tiles get added to the array as Film / TV / etc
 //                    ship; no placeholders.
 //   3. About teaser  3-sentence bio. "Read more →" goes to /about.
-//                    The quiet inline Creative-CV link is deferred
-//                    until /creative-cv exists.
+//                    TODO(creative-cv): the quiet inline Creative-CV
+//                    link is deferred until /creative-cv exists.
+//                    Tracked via l-creative-cv-todo (2026-04-29
+//                    /full-review).
 //   4. Contact       Action-oriented CTAs (Calendly, email) +
 //                    quieter "elsewhere" line.
 //
@@ -325,8 +327,9 @@ export default function Home() {
             trying to find a concert.
           </Body>
           {/* "Read more →" goes to /about (the long version).
-              Quiet inline link to /creative-cv lands here when that
-              page ships, per the talent-scout audience rule. */}
+              TODO(creative-cv): drop a quiet inline link to
+              /creative-cv here when that page ships, per the
+              talent-scout audience rule. */}
           <Link href="/about">Get to know me &rarr;</Link>
         </Stack>
       </Section>
