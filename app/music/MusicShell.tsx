@@ -150,10 +150,16 @@ export function MusicShell({ playlists, collections }: Props) {
     );
     // Smooth-scroll the grid anchor into view at the top of the
     // viewport. Use rAF so the scroll happens after the new page
-    // has rendered and laid out.
+    // has rendered and laid out. Honor prefers-reduced-motion —
+    // the CSS reduced-motion media query doesn't apply to the JS
+    // scrollIntoView API, so we check explicitly. Closes
+    // m-scroll-into-view-prm from the 2026-04-29 /full-review.
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     requestAnimationFrame(() => {
       gridAnchorRef.current?.scrollIntoView({
-        behavior: "smooth",
+        behavior: reduceMotion ? "instant" : "smooth",
         block: "start",
       });
     });
@@ -322,13 +328,18 @@ function ToggleButton({
 function PlaylistGrid({ playlists }: { playlists: EnrichedPlaylist[] }) {
   return (
     <ul
-      // Same uniform-card grid used in the original page. auto-rows-fr
-      // + uniform card heights = every card identical size per row.
-      // role="list" because Safari iOS strips the implicit role when
-      // list-style: none is applied.
+      // Uniform-card grid. Equal gap on both axes (gap-8 = 32px).
+      // The earlier gap-x-8 gap-y-12 was 50% asymmetric without a
+      // design reason — closes m-music-grid-asymmetry from the
+      // 2026-04-29 /full-review. auto-rows-fr was also dropped (it
+      // forced every card to the tallest sibling's height; the
+      // existing minHeight: 2lh on titles already handles intra-row
+      // alignment). Closes m-auto-rows-fr from the same review.
+      // role="list" because Safari iOS strips the implicit role
+      // when list-style: none is applied.
       role="list"
       className={[
-        "grid auto-rows-fr gap-x-8 gap-y-12",
+        "grid gap-8",
         "grid-cols-1",
         "sm:grid-cols-2",
         "lg:grid-cols-3",

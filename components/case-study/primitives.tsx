@@ -176,7 +176,7 @@ export function Beat({
           </CaseStudyKicker>
         )}
       </div>
-      <h2 className="m-0 mb-6 md:mb-8 font-medium text-[40px] md:text-[52px] lg:text-[60px] leading-[1.05] tracking-[-0.02em] text-[var(--text-heading)]">
+      <h2 className="m-0 mb-6 md:mb-8 text-[40px] md:text-[52px] lg:text-[60px] leading-[1.05] tracking-[-0.02em] text-[var(--text-heading)]">
         {headline}
       </h2>
       {children}
@@ -364,7 +364,7 @@ export function Stat({
       >
         {eyebrow}
       </p>
-      <p className="m-0 text-[56px] md:text-[68px] lg:text-[80px] font-medium leading-none tracking-[-0.03em] text-[var(--text-heading)]">
+      <p className="m-0 text-[56px] md:text-[68px] lg:text-[80px] leading-none tracking-[-0.03em] text-[var(--text-heading)]">
         {big}
       </p>
       <p className="m-0 text-[14px] leading-[1.5] text-[var(--text-caption)]">
@@ -447,7 +447,7 @@ export function GateCard({
       >
         {metric}
       </p>
-      <p className="m-0 text-[32px] md:text-[36px] font-medium leading-none tracking-[-0.02em] text-[var(--text-heading)]">
+      <p className="m-0 text-[32px] md:text-[36px] leading-none tracking-[-0.02em] text-[var(--text-heading)]">
         {threshold}
       </p>
       <p className="m-0 text-[13px] leading-[1.4] text-[var(--text-caption)]">

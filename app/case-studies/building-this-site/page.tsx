@@ -224,7 +224,7 @@ function BeatBrief() {
       <ClaudeNote>
         Plan mode at session start, every session. The deadline held even
         when Music slid a day on the Spotify incident—buffer days exist
-        for exactly that, and a clear deadline forced scope decisionining rather than a crisis.
+        for exactly that, and a clear deadline forced scope decisioning rather than a crisis.
       </ClaudeNote>
     </Beat>
   );
@@ -963,7 +963,7 @@ function BeatReview() {
           reviewers independently flag the same issue—high-confidence
           calls). After that, the standard severity buckets,
           exhaustive—no findings cap, to explicitly
-          suraface everything reviewable rather than a curated
+          surface everything reviewable rather than a curated
           top-N list.
         </p>
         <p>

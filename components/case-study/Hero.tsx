@@ -76,10 +76,14 @@ export function CaseStudyHero({
           </span>
         </CaseStudyKicker>
       </div>
-      <h1 className="m-0 mb-3 md:mb-4 font-medium text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--text-heading)]">
+      {/* font-medium dropped — Instrument Serif loads weight 400
+          only; the browser-synthesized 500 rendered inconsistently
+          across engines at display sizes. Closes
+          m-instrument-serif-medium from the 2026-04-29 /full-review. */}
+      <h1 className="m-0 mb-3 md:mb-4 text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--text-heading)]">
         {title}
       </h1>
-      <h2 className="m-0 mb-6 md:mb-8 font-medium text-[24px] md:text-[32px] lg:text-[36px] leading-[1.15] tracking-[-0.015em] text-[var(--text-caption)]">
+      <h2 className="m-0 mb-6 md:mb-8 text-[24px] md:text-[32px] lg:text-[36px] leading-[1.15] tracking-[-0.015em] text-[var(--text-caption)]">
         {subtitle}
       </h2>
       <p

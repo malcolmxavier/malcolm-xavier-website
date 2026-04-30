@@ -346,6 +346,16 @@
       "$type": "color",
       "$value": "{neutral.800}"
     },
+    "interactive": {
+      "$extensions": {
+        "com.figma.scopes": [
+          "ALL_SCOPES"
+        ],
+        "com.figma.hiddenFromPublishing": false
+      },
+      "$type": "color",
+      "$value": "{grey.600}"
+    },
     "error": {
       "$extensions": {
         "com.figma.scopes": [

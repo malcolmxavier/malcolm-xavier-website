@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-04-30T02:21:35.126Z
+   Built:        2026-04-30T03:09:09.345Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -716,6 +716,7 @@
   --surface-information: var(--information-50);
   --surface-disabled: var(--neutral-default);
   --border-default: var(--neutral-50);
+  --border-interactive: var(--grey-700);
   --border-error: var(--error-200);
   --border-success: var(--success-200);
   --border-warning: var(--warning-200);
@@ -761,6 +762,7 @@
   --surface-information: var(--information-800);
   --surface-disabled: var(--neutral-default);
   --border-default: var(--neutral-800);
+  --border-interactive: var(--grey-600);
   --border-error: var(--error-600);
   --border-success: var(--success-600);
   --border-warning: var(--warning-600);
@@ -823,16 +825,16 @@
   --h6-line-height: 24px;
   --h6-paragraph-spacing: 20px;
   --p-xs-font-size: 12px;
-  --p-xs-line-height: 16px;
+  --p-xs-line-height: 18px;
   --p-xs-paragraph-spacing: 20px;
   --p-sm-font-size: 14px;
-  --p-sm-line-height: 16px;
+  --p-sm-line-height: 21px;
   --p-sm-paragraph-spacing: 20px;
   --p-md-font-size: 16px;
-  --p-md-line-height: 20px;
+  --p-md-line-height: 24px;
   --p-md-paragraph-spacing: 20px;
   --p-lg-font-size: 20px;
-  --p-lg-line-height: 24px;
+  --p-lg-line-height: 30px;
   --p-lg-paragraph-spacing: 20px;
 }
 
@@ -858,16 +860,16 @@
   --h6-line-height: 24px;
   --h6-paragraph-spacing: 20px;
   --p-xs-font-size: 12px;
-  --p-xs-line-height: 16px;
+  --p-xs-line-height: 18px;
   --p-xs-paragraph-spacing: 20px;
   --p-sm-font-size: 14px;
-  --p-sm-line-height: 16px;
+  --p-sm-line-height: 21px;
   --p-sm-paragraph-spacing: 20px;
   --p-md-font-size: 16px;
-  --p-md-line-height: 20px;
+  --p-md-line-height: 24px;
   --p-md-paragraph-spacing: 20px;
   --p-lg-font-size: 20px;
-  --p-lg-line-height: 24px;
+  --p-lg-line-height: 30px;
   --p-lg-paragraph-spacing: 20px;
 }
 
@@ -895,16 +897,16 @@
   --h6-line-height: 24px;
   --h6-paragraph-spacing: 20px;
   --p-xs-font-size: 12px;
-  --p-xs-line-height: 16px;
+  --p-xs-line-height: 18px;
   --p-xs-paragraph-spacing: 20px;
   --p-sm-font-size: 14px;
-  --p-sm-line-height: 16px;
+  --p-sm-line-height: 21px;
   --p-sm-paragraph-spacing: 20px;
   --p-md-font-size: 16px;
-  --p-md-line-height: 20px;
+  --p-md-line-height: 24px;
   --p-md-paragraph-spacing: 20px;
   --p-lg-font-size: 20px;
-  --p-lg-line-height: 24px;
+  --p-lg-line-height: 30px;
   --p-lg-paragraph-spacing: 20px;
 }
 

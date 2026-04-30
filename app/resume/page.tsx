@@ -488,12 +488,14 @@ export default function ResumePage() {
             {/* Visual rule — mimics the horizontal line on the PDF
                 that sits between the header and the summary. Drawn
                 against --text-heading so it carries weight without
-                relying on the near-invisible --border-default. */}
+                relying on the near-invisible --border-default. The
+                prior `opacity: 0.85` magic number was dropped per
+                l-resume-hr-magic-opacity from the 2026-04-29
+                /full-review — let the token carry the weight. */}
             <hr
               style={{
                 border: "none",
                 borderTop: "2px solid var(--text-heading)",
-                opacity: 0.85,
                 margin: 0,
               }}
               aria-hidden

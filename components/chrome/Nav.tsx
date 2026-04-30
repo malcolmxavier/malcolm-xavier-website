@@ -258,7 +258,11 @@ export function Nav() {
               "focus-visible:outline-2 focus-visible:outline-offset-2",
             ].join(" ")}
             style={{
-              borderColor: "var(--border-default)",
+              // --border-interactive instead of --border-default —
+              // 3:1+ in both themes; --border-default failed SC 1.4.11
+              // on UI components. Closes h-border-default-1411-fail
+              // from the 2026-04-29 /full-review.
+              borderColor: "var(--border-interactive)",
               color: "var(--text-body)",
               background: "var(--surface-page)",
               outlineColor: "var(--border-focus)",

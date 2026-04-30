@@ -160,7 +160,17 @@ export function TableOfContents({
     const el = document.getElementById(id);
     if (!el) return;
     e.preventDefault();
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Honor prefers-reduced-motion. The CSS reduced-motion media
+    // query doesn't apply to scrollIntoView (it's a JS API), so we
+    // check matchMedia explicitly. Closes m-scroll-into-view-prm
+    // from the 2026-04-29 /full-review.
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    el.scrollIntoView({
+      behavior: reduceMotion ? "instant" : "smooth",
+      block: "start",
+    });
     // Keep the URL in sync without triggering another browser-managed
     // jump (which would override our smooth scroll above).
     if (typeof window !== "undefined" && window.history?.replaceState) {

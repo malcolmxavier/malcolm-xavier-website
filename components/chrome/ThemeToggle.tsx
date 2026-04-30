@@ -18,6 +18,8 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import type { ReactNode } from "react";
+import { IconMonitor, IconMoon, IconSun } from "@/components/icons";
 
 // Cycle order. Starting from "system" gives the user a visible
 // path back to OS-default after they've manually overridden.
@@ -30,10 +32,14 @@ const CYCLE: Record<ThemeChoice, ThemeChoice> = {
 
 // Glyph + text per state — the glyph reads as a quick affordance,
 // the text confirms the choice for screen readers and clarity.
-const LABEL: Record<ThemeChoice, { glyph: string; word: string }> = {
-  system: { glyph: "◐", word: "auto" },
-  light: { glyph: "☀", word: "light" },
-  dark: { glyph: "☾", word: "dark" },
+// Inline SVG icons (instead of Unicode glyphs ◐ ☀ ☾, which came
+// from three different Unicode blocks with mismatched stroke
+// weights) — closes l-theme-toggle-glyphs from the 2026-04-29
+// /full-review.
+const LABEL: Record<ThemeChoice, { glyph: ReactNode; word: string }> = {
+  system: { glyph: <IconMonitor size={14} />, word: "auto" },
+  light: { glyph: <IconSun size={14} />, word: "light" },
+  dark: { glyph: <IconMoon size={14} />, word: "dark" },
 };
 
 export function ThemeToggle() {
@@ -90,7 +96,11 @@ export function ThemeToggle() {
         fontSize: "var(--p-xs-font-size)",
         textTransform: "uppercase",
         letterSpacing: "0.08em",
-        borderColor: "var(--border-default)",
+        // --border-interactive (3:1+ contrast in both themes) instead
+        // of --border-default which fails SC 1.4.11 on UI components
+        // (1.28:1 light, 2.75:1 dark). Closes h-border-default-1411-fail
+        // from the 2026-04-29 /full-review.
+        borderColor: "var(--border-interactive)",
         color: "var(--text-body)",
         background: "var(--surface-page)",
         outlineColor: "var(--border-focus)",

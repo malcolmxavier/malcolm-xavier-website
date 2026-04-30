@@ -28,6 +28,13 @@ export function Headline({
   // Pull the matching size step from the responsive scale.
   const sizeKey = `h${level}` as const;
 
+  // Negative tracking is correct for Instrument Serif at display
+  // sizes (h2-h4) but reads borderline at h5 (24px) and h6 (20px),
+  // where the optical compression doesn't carry. Skip it for the
+  // smaller heading levels per l-headline-tracking-h5h6 from the
+  // 2026-04-29 /full-review.
+  const letterSpacing = level >= 5 ? "0" : "-0.01em";
+
   return (
     <Tag
       className={`text-balance ${className}`}
@@ -35,7 +42,7 @@ export function Headline({
         fontFamily: "var(--font-primary)",
         fontSize: `var(--${sizeKey}-font-size)`,
         lineHeight: `var(--${sizeKey}-line-height)`,
-        letterSpacing: "-0.01em",
+        letterSpacing,
         color: "var(--text-heading)",
         ...style,
       }}

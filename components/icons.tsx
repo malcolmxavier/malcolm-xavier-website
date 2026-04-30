@@ -138,3 +138,46 @@ export function IconDownload({ size = 16, ...props }: IconProps) {
     </svg>
   );
 }
+
+// ─── Theme-toggle glyphs ───────────────────────────────────────────
+// Replace the prior Unicode trio (◐ ☀ ☾) which came from three
+// different blocks and rendered with mismatched stroke weights at
+// 12px, especially on Windows. Inline SVGs render identically across
+// platforms and inherit the surrounding color via currentColor.
+// Closes l-theme-toggle-glyphs from the 2026-04-29 /full-review.
+
+export function IconSun({ size = 16, ...props }: IconProps) {
+  return (
+    <svg {...strokeIconProps(size)} {...props}>
+      <circle cx="12" cy="12" r="4" />
+      <line x1="12" y1="2" x2="12" y2="4" />
+      <line x1="12" y1="20" x2="12" y2="22" />
+      <line x1="4.93" y1="4.93" x2="6.34" y2="6.34" />
+      <line x1="17.66" y1="17.66" x2="19.07" y2="19.07" />
+      <line x1="2" y1="12" x2="4" y2="12" />
+      <line x1="20" y1="12" x2="22" y2="12" />
+      <line x1="4.93" y1="19.07" x2="6.34" y2="17.66" />
+      <line x1="17.66" y1="6.34" x2="19.07" y2="4.93" />
+    </svg>
+  );
+}
+
+export function IconMoon({ size = 16, ...props }: IconProps) {
+  return (
+    <svg {...strokeIconProps(size)} {...props}>
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z" />
+    </svg>
+  );
+}
+
+export function IconMonitor({ size = 16, ...props }: IconProps) {
+  // System / auto — half-filled circle hints at "follows whatever
+  // the OS prefers" without invoking a screen icon (which would
+  // collide with display-related glyphs in the rest of the system).
+  return (
+    <svg {...strokeIconProps(size)} {...props}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 3 A9 9 0 0 1 12 21 Z" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
