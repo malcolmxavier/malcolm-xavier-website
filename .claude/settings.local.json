@@ -230,7 +230,8 @@
       "Bash(/usr/bin/curl -s http://localhost:3000/banner/linkedin)",
       "Bash(pdftotext /Users/mal/Desktop/malcolm-xavier-website/public/resume/malcolm-xavier-resume.pdf -)",
       "Bash(/usr/bin/curl -s http://localhost:3000/contact)",
-      "Bash(/usr/bin/curl -s http://localhost:3000/resume -o /tmp/r.html)"
+      "Bash(/usr/bin/curl -s http://localhost:3000/resume -o /tmp/r.html)",
+      "Bash(awk 'NR>=180 && NR<=210' /Users/mal/Desktop/malcolm-xavier-website/app/globals.css)"
     ]
   }
 }
