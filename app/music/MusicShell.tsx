@@ -9,8 +9,13 @@
 //
 //   2. Pagination (only meaningful in "all" mode). Page size is
 //      responsive: 12 per page at sm+ breakpoints, 6 per page below
-//      sm (single-column mobile). Users can browse all 37 playlists
-//      across roughly 3-7 pages depending on viewport.
+//      sm (single-column mobile), 3 per page when the visitor's
+//      browser is sending the `Save-Data` request header (Data
+//      Saver / Low Data Mode). Users can browse all 37 playlists
+//      across roughly 3-13 pages depending on the path. The
+//      Save-Data signal is read server-side (see app/music/page.tsx)
+//      so the initial paint matches the user's preference — no
+//      post-hydration re-render or wasted image fetches.
 //
 // Why client component: matchMedia / page state / scroll-into-view
 // all need a client runtime. PlaylistCard itself stays "shared" (no
@@ -32,6 +37,12 @@ import { PlaylistCard } from "./PlaylistCard";
 type Props = {
   playlists: EnrichedPlaylist[];
   collections: ReadonlyArray<Collection>;
+  // Server-resolved Save-Data signal. When true, the visitor's
+  // browser is in Data Saver / Low Data Mode and we render fewer
+  // cards per page so each pagination step ships a smaller image
+  // payload. Defaulted to false so the prop stays optional and
+  // server-default at the type level.
+  saveData?: boolean;
 };
 
 // Page sizes per viewport. Spec'd by Malcolm:
@@ -39,13 +50,17 @@ type Props = {
 //     4 rows × 3-up at lg, 6 rows × 2-up at sm-md)
 //   - Mobile (< sm): 6 per page (1-column, half the page size so
 //     the vertical scroll stays manageable)
+//   - Save-Data: 3 per page regardless of viewport. Half of mobile,
+//     so Data Saver visitors load ~75% fewer image requests per
+//     page than the desktop default.
 const PAGE_SIZE_DESKTOP = 12;
 const PAGE_SIZE_MOBILE = 6;
+const PAGE_SIZE_SAVE_DATA = 3;
 const MOBILE_BREAKPOINT_PX = 640; // matches Tailwind's `sm` breakpoint
 
 type ViewMode = "all" | "collections";
 
-export function MusicShell({ playlists, collections }: Props) {
+export function MusicShell({ playlists, collections, saveData = false }: Props) {
   // Initial state honors URL params so the view + page are
   // deep-linkable, shareable, and (most importantly) survive
   // browser-back from a playlist detail page. Defaults: view="all",
@@ -65,7 +80,14 @@ export function MusicShell({ playlists, collections }: Props) {
 
   const [viewMode, setViewMode] = useState<ViewMode>(initialView);
   const [page, setPage] = useState(initialPage);
-  const [pageSize, setPageSize] = useState(PAGE_SIZE_DESKTOP);
+  // Initial page size honors the server-resolved Save-Data signal
+  // so the first render matches the user's preference. The
+  // matchMedia useEffect below refines for mobile vs. desktop on
+  // hydration when Save-Data is OFF; when Save-Data is on, the
+  // size stays pinned to PAGE_SIZE_SAVE_DATA regardless of viewport.
+  const [pageSize, setPageSize] = useState(
+    saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DESKTOP,
+  );
 
   // Sync state → URL via replaceState so each pagination click doesn't
   // pollute the browser history stack — but the LATEST URL still
@@ -109,7 +131,17 @@ export function MusicShell({ playlists, collections }: Props) {
   // Listen for breakpoint crossings and update page size on the fly.
   // matchMedia is the right tool here (vs. a resize listener) because
   // we only care about a single threshold, not every pixel of width.
+  //
+  // Save-Data short-circuits the breakpoint logic — once the server
+  // has decided this visitor is on Data Saver, we keep the smaller
+  // page size regardless of viewport. The early return here also
+  // avoids a misleading desktop->mobile flip in the announcement
+  // for Save-Data users on a wide screen.
   useEffect(() => {
+    if (saveData) {
+      setPageSize(PAGE_SIZE_SAVE_DATA);
+      return;
+    }
     const mq = window.matchMedia(
       `(max-width: ${MOBILE_BREAKPOINT_PX - 1}px)`,
     );
@@ -118,7 +150,7 @@ export function MusicShell({ playlists, collections }: Props) {
     update();
     mq.addEventListener("change", update);
     return () => mq.removeEventListener("change", update);
-  }, []);
+  }, [saveData]);
 
   // If the user is on page 4 with 12-per-page (rows 37-48 → only
   // 1 card visible) and resizes to mobile (6-per-page → that page

@@ -12,9 +12,11 @@
 // Manual pins via lib/feeds/spotify-config.ts MANUAL_ORDER override
 // the proxy for specific playlists.
 //
-// Caching: ISR via Next.js Route Segment Config. The data's slow-
-// moving; revalidate hourly. A daily cron can be wired later for
-// tighter freshness.
+// Caching: dynamic — `/music` reads the `Save-Data` request header
+// (see MusicPage below) so the page can't be statically pre-rendered.
+// Per-request cost is low: snapshot read + HTML, no Spotify call at
+// request time post-cron-snapshot architecture. Future optimization
+// path is `Vary: Save-Data` cached at the edge.
 //
 // Each grid card links to /music/[playlistId] (full track list).
 // External "Open on Spotify" link sits on the detail page, not here.
@@ -22,6 +24,7 @@
 
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { headers } from "next/headers";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
@@ -38,11 +41,6 @@ import {
   SPOTIFY_USER_ID,
 } from "@/lib/feeds/spotify-config";
 import { MusicShell } from "./MusicShell";
-
-// Revalidate hourly. Spotify data's slow-moving; an hour of
-// staleness is fine for a portfolio. On-demand revalidation via
-// cron can be layered post-MVP.
-export const revalidate = 3600;
 
 // Per-page openGraph + twitter blocks because Next.js App Router
 // REPLACES (does not merge) parent-layout OG blocks when a page
@@ -88,6 +86,16 @@ export const metadata: Metadata = {
 };
 
 export default async function MusicPage() {
+  // Save-Data is an opt-in request header (IETF draft) sent by
+  // browsers when the user has Data Saver / Low Data Mode enabled.
+  // Reading it on the server lets us send the right initial paint
+  // (3 cards instead of 12) without the post-hydration re-render
+  // that a client-only `navigator.connection.saveData` check would
+  // require. Closes part of l-music-no-prefers-reduced-data from
+  // the 2026-04-29 /full-review.
+  const headersList = await headers();
+  const saveData = headersList.get("save-data") === "on";
+
   // getMusicData wraps the live Spotify fetch with a snapshot
   // fallback: it tries the live pipeline first, and on any failure
   // (rate-limit, 5xx, network blip) reads from the on-disk snapshot
@@ -176,7 +184,11 @@ export default async function MusicPage() {
               </p>
             }
           >
-            <MusicShell playlists={playlists} collections={COLLECTIONS} />
+            <MusicShell
+              playlists={playlists}
+              collections={COLLECTIONS}
+              saveData={saveData}
+            />
           </Suspense>
         </Section>
       </Container>
