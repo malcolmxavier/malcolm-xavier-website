@@ -37,6 +37,7 @@ import { Link } from "@/components/primitives/Link";
 import { CalendlyWidget } from "@/components/primitives/CalendlyWidget";
 import { IconEmail, IconLinkedIn } from "@/components/icons";
 import { CONTACT } from "../resume/resume-data";
+import { ELSEWHERE } from "@/lib/elsewhere";
 
 // Per-page openGraph + twitter blocks because Next.js App Router
 // REPLACES (does not merge) parent-layout OG blocks when a page
@@ -98,16 +99,9 @@ type DirectMethod = {
   href: string;
 };
 
-// "Elsewhere" — the same set as the footer; restated here because
-// /contact is the canonical "how do I reach this person" surface.
-const ELSEWHERE: { label: string; href: string }[] = [
-  { label: "Letterboxd", href: "https://letterboxd.com/malxavi/" },
-  {
-    label: "Serializd",
-    href: "https://www.serializd.com/user/malxavi/profile",
-  },
-  { label: "Spotify", href: "https://open.spotify.com/user/malcolmxevans" },
-];
+// ELSEWHERE imported from @/lib/elsewhere — same set the footer
+// surfaces. /contact is the canonical "how do I reach this person"
+// surface, so it shows the rail too.
 
 export default function ContactPage() {
   const mailHref = `mailto:${CONTACT.email}`;

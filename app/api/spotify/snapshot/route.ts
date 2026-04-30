@@ -31,15 +31,11 @@ import {
   pingSpotifyHealth,
   type EnrichedPlaylist,
 } from "@/lib/feeds/spotify";
-import { EXCLUDE_IDS } from "@/lib/feeds/spotify-config";
+import { EXCLUDE_IDS, SPOTIFY_USER_ID } from "@/lib/feeds/spotify-config";
 
 // Always run at request time. Caching this would be nonsense — we
 // always want a fresh capture.
 export const dynamic = "force-dynamic";
-
-// Same default as the music pages so the snapshot is captured under
-// the same identity that /music renders for.
-const SPOTIFY_USER_ID = process.env.SPOTIFY_USER_ID ?? "malcolmxevans";
 
 export async function GET() {
   // Dev/build-time tool only; not a runtime endpoint.

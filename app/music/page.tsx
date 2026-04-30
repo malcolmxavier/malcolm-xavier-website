@@ -35,6 +35,7 @@ import {
   EXCLUDE_IDS,
   MANUAL_BOTTOM_ORDER,
   MANUAL_ORDER,
+  SPOTIFY_USER_ID,
 } from "@/lib/feeds/spotify-config";
 import { MusicShell } from "./MusicShell";
 
@@ -85,8 +86,6 @@ export const metadata: Metadata = {
     images: ["/opengraph-image"],
   },
 };
-
-const SPOTIFY_USER_ID = process.env.SPOTIFY_USER_ID ?? "malcolmxevans";
 
 export default async function MusicPage() {
   // getMusicData wraps the live Spotify fetch with a snapshot

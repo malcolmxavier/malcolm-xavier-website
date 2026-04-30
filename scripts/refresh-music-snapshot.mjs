@@ -198,7 +198,16 @@ async function startDevOnline() {
   throw new Error("next dev startup timeout");
 }
 
-/** Fetch with a hard timeout — fail fast rather than hang. */
+/**
+ * Fetch with a hard timeout — fail fast rather than hang.
+ *
+ * @param {string} url        Absolute URL to fetch.
+ * @param {number} timeoutMs  Hard cap on total request time (ms).
+ *                            On timeout the AbortSignal aborts the
+ *                            underlying fetch and this rejects.
+ * @returns {Promise<unknown>} Parsed JSON body on 2xx; throws on
+ *                            non-2xx, network error, or timeout.
+ */
 async function fetchJson(url, timeoutMs) {
   const res = await fetch(url, {
     signal: AbortSignal.timeout(timeoutMs),

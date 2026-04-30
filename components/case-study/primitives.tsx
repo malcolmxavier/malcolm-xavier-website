@@ -13,12 +13,12 @@
 //     } from "@/components/case-study/primitives";
 //
 // Cards reference a `.case-glass` class for a subtle elevated
-// "Liquid Glass"-style treatment. The class is defined in the
-// Basecamp Coffee case study's case-study.css; future case studies
-// can either copy that definition into their own CSS, override it,
-// or remove the class from a card's wrapper for a flat look. The
-// class is no-op when undefined — the cards still render as
-// rounded bordered surfaces.
+// "Liquid Glass"-style treatment. The rules live in
+// components/case-study/case-glass.css. Case studies opt in by
+// importing that file from their layout (see basecamp-coffee for
+// the canonical example). Studies that want flat cards simply omit
+// the import — the className is a harmless no-op when the rules
+// aren't loaded, and the cards render as rounded bordered surfaces.
 //
 // Radius tier: every case-study card surface uses `rounded-[22px]`
 // (a feature-card radius distinct from the utility 8px on the site

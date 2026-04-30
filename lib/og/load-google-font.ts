@@ -75,6 +75,11 @@ export async function loadGoogleFont(
   // TTF, which is what we need. Faking an old User-Agent forces TTF.
   const cssRes = await fetchWithRetry(cssUrl, {
     headers: {
+      // The +https:// suffix is a courtesy referrer per
+      // https://developers.google.com/search/docs/crawling-indexing/overview-google-crawlers#user-agent-suffix.
+      // Hardcodes malxavi.com — update on rebrand (no centralized
+      // SITE_URL import here because this file runs in build/edge
+      // contexts where bundling shared Next paths is awkward).
       "User-Agent":
         "Mozilla/5.0 (compatible; OG-Image-Builder/1.0; +https://malxavi.com)",
     },

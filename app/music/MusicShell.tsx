@@ -54,7 +54,7 @@ export function MusicShell({ playlists, collections }: Props) {
   const router = useRouter();
 
   const initialView: ViewMode =
-    searchParams?.get("view") === "collections" ? "collections" : "all";
+    searchParams.get("view") === "collections" ? "collections" : "all";
   // ?page is 1-indexed in the URL ("page=1" = first page), 0-indexed
   // internally. Guard against missing / non-numeric values explicitly
   // rather than relying on the NaN-falsiness chain (NaN - 1 = NaN,
@@ -74,7 +74,11 @@ export function MusicShell({ playlists, collections }: Props) {
   //
   // Run on every state change after mount; skip the initial render
   // (we just READ from URL above; writing now would be a no-op or
-  // worse, drop a stale param).
+  // worse, drop a stale param). `router` is intentionally omitted
+  // from the deps — useRouter() returns a stable reference in the
+  // App Router and listing it implied this effect re-runs when the
+  // router changes (it doesn't). Closes m-router-dep-misleading
+  // from the 2026-04-29 /full-review.
   const didMountRef = useRef(false);
   useEffect(() => {
     if (!didMountRef.current) {
@@ -87,7 +91,8 @@ export function MusicShell({ playlists, collections }: Props) {
     const query = params.toString();
     const next = query ? `/music?${query}` : "/music";
     router.replace(next, { scroll: false });
-  }, [viewMode, page, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- router is stable; see above.
+  }, [viewMode, page]);
 
   // Anchor we scroll back to when user paginates or switches views,
   // so they don't have to manually scroll up after clicking "Next".

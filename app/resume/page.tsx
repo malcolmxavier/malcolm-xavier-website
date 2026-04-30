@@ -209,7 +209,13 @@ function RoleBlock({ role }: { role: ResumeRole }) {
           >
             {role.bullets.map((bullet, idx) => (
               <li
-                key={idx}
+                // Composite key — role-anchor + index + text prefix.
+                // Bullets are typed React.ReactNode (occasionally JSX),
+                // so String() coerces safely; for plain-string bullets
+                // (the common case) this gives a text-stable key that
+                // tolerates reordering. Closes m-resume-bullet-keys
+                // from the 2026-04-29 /full-review.
+                key={`${role.company}-${role.dates}-${idx}-${String(bullet).slice(0, 24)}`}
                 style={{
                   fontFamily: "var(--font-secondary)",
                   fontSize: "var(--p-md-font-size)",
@@ -298,7 +304,9 @@ function EducationBlock({ entry }: { entry: ResumeEducation }) {
           <ul className="list-disc" style={{ paddingInlineStart: "1.25rem" }}>
             {entry.details.map((d, i) => (
               <li
-                key={i}
+                // Stable composite key (institution-anchor + text prefix
+                // + index). Same reasoning as the role-bullet keys above.
+                key={`${entry.institution}-${i}-${d.slice(0, 24)}`}
                 style={{
                   fontFamily: "var(--font-secondary)",
                   fontSize: "var(--p-sm-font-size)",

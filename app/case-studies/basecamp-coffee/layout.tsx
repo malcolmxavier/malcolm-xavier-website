@@ -17,7 +17,12 @@
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import "./case-study.css";
+// Glass-card chrome lives in a shared location now (see
+// components/case-study/case-glass.css). The previous local
+// case-study.css had been deleted; this layout opts into the glass
+// treatment by importing the shared file. Future case studies that
+// want flat cards simply omit this import.
+import "@/components/case-study/case-glass.css";
 
 const ARTICLE_URL = "https://malxavi.com/case-studies/basecamp-coffee";
 const ARTICLE_HEADLINE = "Basecamp Coffee — Case Study";

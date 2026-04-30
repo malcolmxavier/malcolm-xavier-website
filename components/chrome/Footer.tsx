@@ -22,23 +22,17 @@ import { Container } from "@/components/layout/Container";
 import { Link } from "@/components/primitives/Link";
 import { Kicker } from "@/components/typography/Kicker";
 import { Dateline } from "@/components/typography/Dateline";
+import { ELSEWHERE } from "@/lib/elsewhere";
 
 // External destinations. Email + GitHub + Letterboxd + Serializd +
 // Spotify confirmed via brain-dump; LinkedIn + Substack pending and
-// will be added when Malcolm provides URLs.
+// will be added when Malcolm provides URLs. ELSEWHERE (Letterboxd,
+// Serializd, Spotify) lives in @/lib/elsewhere so the contact page
+// and this footer stay in sync.
 const STAY_IN_TOUCH = [
   { label: "LinkedIn", href: "https://www.linkedin.com/in/malxavi/" },
   { label: "Email", href: "mailto:malcolm@malxavi.com" },
   { label: "GitHub", href: "https://github.com/malcolmxavier" },
-];
-
-const ELSEWHERE = [
-  { label: "Letterboxd", href: "https://letterboxd.com/malxavi/" },
-  {
-    label: "Serializd",
-    href: "https://www.serializd.com/user/malxavi/profile",
-  },
-  { label: "Spotify", href: "https://open.spotify.com/user/malcolmxevans" },
 ];
 
 // Year is computed once per cold start — Next evaluates module-level

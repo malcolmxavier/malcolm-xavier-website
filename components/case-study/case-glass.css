@@ -1,21 +1,20 @@
 /* ──────────────────────────────────────────────────────────
-   Basecamp Coffee — page-specific styles.
+   Case-study card chrome — Liquid Glass reference (visible).
 
-   Scroll-progress bar tokens, Nav-border suppression, and the
-   reusable case-study primitives live in
-   `components/case-study/` now (loaded automatically by
-   ScrollProgress and primitives). This file is the page's own
-   layer — currently just the .case-glass card treatment, which
-   is a Basecamp-specific reference to the original project's
-   Liquid Glass aesthetic.
+   Defines the .case-glass class used by EvidenceCard, IterationCard,
+   GateCard, HarnessFeature, and Stat in components/case-study/
+   primitives.tsx. Originally lived inside the Basecamp Coffee study's
+   case-study.css; consolidated here so future case studies that want
+   the glass treatment import this one shared file (rather than
+   copying the rules into a per-study CSS). Closes l-case-glass-
+   coupling from the 2026-04-29 /full-review.
 
-   Other case studies don't load this file by default; if a
-   future case study wants the same glass treatment, copy the
-   .case-glass rules into its own page CSS.
-   ────────────────────────────────────────────────────────── */
-
-/* ──────────────────────────────────────────────────────────
-   Case-study chrome — Liquid Glass reference (visible).
+   Opt-in by import: case studies that want glass cards `import
+   "@/components/case-study/case-glass.css"` from their layout. The
+   meta study (Building this site) deliberately doesn't import this —
+   its cards render flat, matching the editorial-restraint posture of
+   the meta narrative. The .case-glass className on the primitives is
+   a no-op without the rules below.
 
    The original Basecamp Coffee project anchored visually on
    "Liquid Glass" cards: translucent surface + blurred backdrop +

@@ -23,8 +23,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { MetadataRoute } from "next";
-
-const SITE_URL = "https://malxavi.com";
+import { SITE_URL } from "@/lib/site-config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

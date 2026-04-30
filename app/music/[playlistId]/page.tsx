@@ -31,12 +31,13 @@ import {
   pickImage,
   type EnrichedPlaylist,
 } from "@/lib/feeds/spotify";
-import { APPLE_MUSIC_LINKS } from "@/lib/feeds/spotify-config";
+import {
+  APPLE_MUSIC_LINKS,
+  SPOTIFY_USER_ID,
+} from "@/lib/feeds/spotify-config";
 import { BackToPlaylists } from "./BackToPlaylists";
 
 export const revalidate = 3600;
-
-const SPOTIFY_USER_ID = process.env.SPOTIFY_USER_ID ?? "malcolmxevans";
 
 // React.cache memoizes the call within a single render pass, so
 // generateMetadata + the page component share one Spotify fetch

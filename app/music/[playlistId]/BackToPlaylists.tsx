@@ -24,7 +24,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 export function BackToPlaylists() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const fromMusic = searchParams?.get("from") === "music";
+  const fromMusic = searchParams.get("from") === "music";
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     // Let modifier-clicks (cmd-click, ctrl-click, middle-click) pass

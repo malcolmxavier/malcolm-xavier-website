@@ -80,8 +80,8 @@ const robotoMono = Roboto_Mono({
 // `app/opengraph-image.tsx` — we don't need to repeat them here.
 // Same for icons (auto-populated from `app/icon.tsx`).
 // ─────────────────────────────────────────────────────────────────
-const SITE_URL = "https://malxavi.com";
-const SITE_NAME = "Malcolm Xavier";
+import { SITE_URL, SITE_NAME } from "@/lib/site-config";
+
 const SITE_DESCRIPTION =
   "Senior product manager with an artist's eye. Growth and data in tech, media, and streaming. AI-native, MS in Law, plus a theater background that shows.";
 

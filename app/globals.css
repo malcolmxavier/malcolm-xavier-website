@@ -1,7 +1,23 @@
 /* ──────────────────────────────────────────────────────────
    Generated from _design/tokens/ — do NOT edit by hand.
    Source: Tokens Studio multi-file export.
-   Regenerate:  npm run tokens:build
+   Sources (in metadata-declared order):
+     - global.json
+     - Brand/Mode 1.json
+     - Alias/newsletter.json
+     - Alias/film.json
+     - Alias/tv.json
+     - Alias/music.json
+     - Alias/podcast.json
+     - Alias/games.json
+     - Alias/books.json
+     - Mapped/light.json
+     - Mapped/dark.json
+     - Responsive/desktop.json
+     - Responsive/mobile.json
+     - Responsive/tablet.json
+   Built:        2026-04-30T02:21:35.126Z
+   Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
 @import "tailwindcss";

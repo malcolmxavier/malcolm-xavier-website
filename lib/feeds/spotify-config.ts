@@ -1,6 +1,11 @@
 // ─────────────────────────────────────────────────────────────────
 // Spotify display configuration — editable curation layer.
 //
+// SPOTIFY_USER_ID below is the central source of truth for the
+// Spotify account whose public playlists drive /music. Previously
+// duplicated across three files; consolidated here per
+// m-spotify-user-id-tripled from the 2026-04-29 /full-review.
+//
 // Spotify doesn't expose a true "last modified" timestamp, so the
 // /music grid sorts by the most-recent track added_at (proxy for
 // last-edited). When that proxy is wrong for a specific playlist —
@@ -23,6 +28,11 @@
 //   • APPLE_MUSIC_LINKS: per-playlist Apple Music outlinks; surface
 //     "Also on Apple Music →" on the detail page when present.
 // ─────────────────────────────────────────────────────────────────
+
+/** The Spotify user whose public playlists drive /music. Override
+ *  via SPOTIFY_USER_ID env var if needed (e.g. preview deploys
+ *  pointing at a test account). */
+export const SPOTIFY_USER_ID = process.env.SPOTIFY_USER_ID ?? "malcolmxevans";
 
 export const MANUAL_ORDER: readonly string[] = [
   // Example — uncomment + replace with real IDs to pin:

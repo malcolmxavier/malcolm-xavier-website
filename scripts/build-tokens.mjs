@@ -162,10 +162,21 @@ function emitAliasValue(token, scopeChain) {
 
 const out = [];
 
+// Build a stable, informative header. Lists every source token set in
+// metadata-declared order so a casual reader of globals.css knows
+// where to make changes. The timestamp lives below the source list
+// so source-list changes (e.g., a new sub-brand) are diff-visible
+// even when the timestamp moves. Closes l-globals-css-no-build-stamp
+// from the 2026-04-29 /full-review.
 out.push("/* ──────────────────────────────────────────────────────────");
 out.push("   Generated from _design/tokens/ — do NOT edit by hand.");
 out.push("   Source: Tokens Studio multi-file export.");
-out.push("   Regenerate:  npm run tokens:build");
+out.push("   Sources (in metadata-declared order):");
+for (const name of setOrder) {
+  out.push(`     - ${name}.json`);
+}
+out.push(`   Built:        ${new Date().toISOString()}`);
+out.push("   Regenerate:   npm run tokens:build");
 out.push("   ────────────────────────────────────────────────────────── */");
 out.push("");
 out.push('@import "tailwindcss";');
@@ -424,5 +435,25 @@ if (unresolvedRefs.size > 0) {
   process.exit(1);
 }
 
-writeFileSync(OUTPUT, out.join("\n"));
-console.log(`✓ Wrote ${OUTPUT} (${out.length} lines)`);
+// Skip-on-no-change: regenerating globals.css on every npm run build
+// (the prebuild hook) would dirty the working tree with a fresh
+// timestamp even when tokens are unchanged. Compare new vs existing
+// content with the timestamp masked out — only write if something
+// real actually changed.
+const newContent = out.join("\n");
+const stripTimestamp = (s) => s.replace(/^   Built:.*$/m, "   Built:        <stripped>");
+let existingContent = "";
+try {
+  existingContent = readFileSync(OUTPUT, "utf-8");
+} catch {
+  // First run — file doesn't exist yet; write through.
+}
+if (
+  existingContent &&
+  stripTimestamp(existingContent) === stripTimestamp(newContent)
+) {
+  console.log(`✓ Tokens unchanged; ${OUTPUT} kept as-is.`);
+} else {
+  writeFileSync(OUTPUT, newContent);
+  console.log(`✓ Wrote ${OUTPUT} (${out.length} lines)`);
+}

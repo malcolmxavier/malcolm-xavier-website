@@ -157,7 +157,9 @@ export function Button(props: ButtonProps) {
 
   if (props.as === "a") {
     // TypeScript narrows props to ButtonAsAnchor here, so the rest
-    // spread carries the proper anchor-event typings to <a>.
+    // spread carries the proper anchor-event typings to <a>. The
+    // discarded keys are underscore-prefixed; the eslint config
+    // ignores `^_` for unused-vars so they don't trip the linter.
     const {
       variant: _variant,
       size: _size,
@@ -167,7 +169,6 @@ export function Button(props: ButtonProps) {
       children: _children,
       ...anchorRest
     } = props;
-    void _variant; void _size; void _as; void _className; void _style; void _children;
     return (
       <a
         className={sharedClasses}
@@ -191,7 +192,6 @@ export function Button(props: ButtonProps) {
     children: _children,
     ...buttonRest
   } = props;
-  void _variant; void _size; void _as; void _className; void _style; void _children;
   return (
     <button
       className={sharedClasses}
