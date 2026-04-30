@@ -573,19 +573,47 @@ export async function getOwnedPlaylistById(
   // re-check owner so guessed-URL access (someone visiting a playlist
   // ID that isn't ours) still 404s identically to live mode.
   if (isOfflineMode()) {
-    const enriched = loadSnapshot().enrichedById[playlistId];
-    if (!enriched) return null;
-    if (enriched.owner?.id !== ownerId) return null;
-    return enriched;
+    return readSnapshotPlaylistById(ownerId, playlistId);
   }
-  let meta: SpotifyPlaylistSummary;
+  // Live → snapshot fallback, mirroring the getMusicData pattern so
+  // the detail pages degrade the same way the /music index does
+  // when Spotify is rate-limited / unreachable. Without this, a hot
+  // /me/playlists bucket renders /music from snapshot but 404s every
+  // /music/[id] route — surfaced 2026-04-30 when Googlebot's first-
+  // pass crawl plus two back-to-back prod deploys spiked the bucket.
   try {
-    meta = await getPlaylistMetadata(playlistId);
-  } catch {
-    return null;
+    const meta = await getPlaylistMetadata(playlistId);
+    if (meta.owner?.id !== ownerId) return null;
+    return await getEnrichedPlaylist(meta);
+  } catch (err) {
+    console.warn(
+      `[getOwnedPlaylistById] live Spotify fetch failed for ${playlistId}; falling back to snapshot:`,
+      err instanceof Error ? err.message : err,
+    );
+    try {
+      return readSnapshotPlaylistById(ownerId, playlistId);
+    } catch (snapErr) {
+      console.error(
+        `[getOwnedPlaylistById] snapshot fallback also failed for ${playlistId}:`,
+        snapErr instanceof Error ? snapErr.message : snapErr,
+      );
+      return null;
+    }
   }
-  if (meta.owner?.id !== ownerId) return null;
-  return getEnrichedPlaylist(meta);
+}
+
+// Single-playlist snapshot lookup with the same owner re-check as the
+// live path. Shared by the offline-mode branch and the live-fetch
+// failure fallback so both routes 404 identically on missing or
+// non-owned playlists.
+function readSnapshotPlaylistById(
+  ownerId: string,
+  playlistId: string,
+): EnrichedPlaylist | null {
+  const enriched = loadSnapshot().enrichedById[playlistId];
+  if (!enriched) return null;
+  if (enriched.owner?.id !== ownerId) return null;
+  return enriched;
 }
 
 /**
