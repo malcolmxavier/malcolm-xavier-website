@@ -390,7 +390,7 @@ export default function StylesPreview() {
         }}
       >
         End of reference · everything above is locked in
-        _design/tokens/ and app/layout.tsx
+        tokens/ and app/layout.tsx
       </p>
     </div>
   );

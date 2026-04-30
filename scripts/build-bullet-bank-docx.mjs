@@ -14,7 +14,7 @@
 //   2. Upload to Google Drive, Open with → Google Docs
 //   3. For each application: copy → trim → tailor → export
 //
-// Source of truth: _design/source/malcolm-xavier-bullet-bank.pdf
+// Source of truth: _private/_source/malcolm-xavier-bullet-bank.pdf
 // (the original Google Docs export). This script ports that content
 // into the same visual language as the resume .docx so both feel like
 // they came out of the same system.
@@ -110,7 +110,7 @@ const ContactSchema = z.object({
 });
 
 // ─── Content ──────────────────────────────────────────────────────
-// Hardcoded port of _design/source/malcolm-xavier-bullet-bank.pdf,
+// Hardcoded port of _private/_source/malcolm-xavier-bullet-bank.pdf,
 // cleaned up for typography (PDF text-extraction left "ﬁ" ligatures,
 // odd line-break splits, and one minor spelling artifact). Voice
 // rules applied throughout: "and" not "&", Oxford comma always,

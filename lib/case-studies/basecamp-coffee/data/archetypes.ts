@@ -1,6 +1,5 @@
 import type { Archetype } from '../types';
 
-// Locked in /_design/REQUIREMENTS.md (lesson 2.2)
 export const archetypes: Archetype[] = [
   {
     id: 'espresso',

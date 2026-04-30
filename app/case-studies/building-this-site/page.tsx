@@ -394,7 +394,7 @@ function BeatArchitecture() {
           title="Tokens-as-source-of-truth, in code"
         >
           Started in Figma with Tokens Studio. Three days in, I deprecated
-          the Figma file and made the JSON in <Code>/_design/tokens/</Code>{" "}
+          the Figma file and made the JSON in <Code>tokens/</Code>{" "}
           canonical. A small parser (<Code>scripts/build-tokens.mjs</Code>)
           walks the multi-tier files (Brand → Alias → Mapped → Responsive)
           and emits CSS custom properties grouped by tier into{" "}
@@ -991,7 +991,7 @@ function BeatReview() {
           Ninety-nine findings is a lot to triage from a markdown
           report. So the synthesis output also renders as a self-
           contained interactive HTML dashboard at{' '}
-          <Code>{`_design/reviews/full-review-<date>.html`}</Code>,
+          <Code>{`_private/_reviews/full-review-<date>.html`}</Code>,
           with each finding as a card carrying severity, reviewer
           tags, file:line citation, description, and fix
           recommendation. Status dropdowns (Open / Done / Won&apos;t
@@ -1148,7 +1148,7 @@ function BeatLive() {
         <HarnessFeature name="Review tooling">
           The three-reviewer harness above, wired up as a single{" "}
           <Code>/full-review</Code> command, generating an interactive
-          dashboard at <Code>{`_design/reviews/`}</Code> that triages,
+          dashboard at <Code>{`_private/_reviews/`}</Code> that triages,
           filters, and tracks each finding to closure.
         </HarnessFeature>
       </HarnessGrid>

@@ -4,8 +4,6 @@ import type { FlavorNote, Roast } from '../types';
  * Flavor note → (bean family, default roast, tasting-notes copy).
  * The roast here is the *default* when the user hasn't explicitly
  * overridden roast in the post-quiz editor.
- *
- * Locked in /_design/REQUIREMENTS.md (lesson 2.2).
  */
 interface FlavorProfile {
   bean: string;

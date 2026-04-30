@@ -90,7 +90,7 @@ practice.
   (more on this below), the agent built the safety net cleanly.
 - **Documentation.** Inline comments dense enough that a
   non-technical reader could navigate the code. Spec docs in
-  `/_design/`. This case study, in its first draft.
+  `_private/`. This case study, in its first draft.
 
 **The pattern that worked:** plan in conversation, build in code.
 Most sessions started with me writing or referencing the plan
@@ -122,7 +122,7 @@ colors while staying in the recruiter cluster's typography.
 **Tokens-as-source-of-truth, in code.** The design system started as
 a Figma file with Tokens Studio. Three days in, I deprecated the
 Figma file and made the JSON token files in
-`/_design/tokens/` the canonical source. A small parser
+`tokens/` the canonical source. A small parser
 (`scripts/build-tokens.mjs`) walks the multi-tier files (Brand →
 Alias → Mapped → Responsive), resolves cross-file references, and
 emits CSS custom properties grouped by tier into `globals.css`. Edits

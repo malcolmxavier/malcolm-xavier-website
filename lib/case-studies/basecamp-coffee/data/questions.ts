@@ -1,6 +1,5 @@
 import type { Question } from '../types';
 
-// Locked in /_design/REQUIREMENTS.md (lesson 2.2 + 2.3 updates)
 export const questions: Question[] = [
   {
     id: 'q1',
