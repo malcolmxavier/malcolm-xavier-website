@@ -38,16 +38,52 @@ import { CalendlyWidget } from "@/components/primitives/CalendlyWidget";
 import { IconEmail, IconLinkedIn } from "@/components/icons";
 import { CONTACT } from "../resume/resume-data";
 
+// Per-page openGraph + twitter blocks because Next.js App Router
+// REPLACES (does not merge) parent-layout OG blocks when a page
+// declares its own. Without these explicit blocks, /contact shared
+// on LinkedIn unfurled with the sitewide stub. (2026-04-29
+// /full-review, a-per-page-og-twitter.)
+//
+// Description copy is intentionally generic about session length
+// (no "30-minute" specificity) because the inline Calendly widget
+// loads the profile root, which lets the visitor pick from all
+// available event types — a 30-min, 15-min screen, or a longer
+// portfolio walk if added later. (2026-04-29 /full-review,
+// a-calendly-widget-url-and-tracking — copy half of the fix.)
+const CONTACT_DESCRIPTION =
+  "Book a chat with Malcolm Xavier, send an email, or find him elsewhere on the internet. Currently interviewing in media + streaming.";
+
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Book a 30-minute product chat, send an email, or find Malcolm elsewhere on the internet.",
+  description: CONTACT_DESCRIPTION,
   // Explicit canonical override — without it, /contact inherits the
   // root layout's canonical-of-"/" and Googlebot treats it as a
   // duplicate of the landing page (2026-04-29 /full-review,
   // c-canonicals-all-root).
   alternates: {
     canonical: "/contact",
+  },
+  openGraph: {
+    title: "Contact Malcolm Xavier",
+    description: CONTACT_DESCRIPTION,
+    type: "website",
+    url: "/contact",
+    siteName: "Malcolm Xavier",
+    locale: "en_US",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Malcolm Xavier",
+    description: CONTACT_DESCRIPTION,
+    images: ["/opengraph-image"],
   },
 };
 
@@ -118,9 +154,16 @@ export default function ContactPage() {
               than fighting the page styling. */}
           <Stack gap="400">
             <Stack gap="200">
-              <Kicker>Calendly</Kicker>
+              {/* Kicker swapped from the vendor name "Calendly" to
+                  the editorial label "Schedule" per the 2026-04-29
+                  /full-review (m-calendly-kicker — vendor names as
+                  section labels read like ad insertions). The
+                  headline below also shed its "30 minutes"
+                  specificity since the widget loads the profile
+                  root, which lets the visitor pick any event type. */}
+              <Kicker>Schedule</Kicker>
               <Headline level={2} id="calendly-heading">
-                30 minutes, on the record.
+                Book time, on the record.
               </Headline>
               <Body>
                 Best for: recruiter intros, product chats, and
@@ -134,10 +177,17 @@ export default function ContactPage() {
               // visually separate the third-party light-theme embed
               // from the surrounding page (which may be dark).
               //
+              // Border color hardcoded to a theme-neutral light hex
+              // so the white-pinned card has a visible edge in dark
+              // mode — without it, --border-default resolved to a
+              // light token and the border vanished against the
+              // white wrapper inside the dark page surface
+              // (2026-04-29 /full-review, a-calendly-card-dark).
+              //
               // role="region" + aria-labelledby exposes this as a
               // named landmark in screen-reader landmark lists. The
               // landmark name reuses the editorial heading above
-              // ('30 minutes, on the record.') instead of a generic
+              // ('Book time, on the record.') instead of a generic
               // 'Book a meeting via Calendly,' so SR users hear the
               // same voice the sighted UI carries — caught in the
               // 2026-04-28 follow-up audit.
@@ -145,7 +195,7 @@ export default function ContactPage() {
               aria-labelledby="calendly-heading"
               className="overflow-hidden rounded-lg border"
               style={{
-                borderColor: "var(--border-default)",
+                borderColor: "#e0e0e0",
                 background: "#fff",
               }}
             >

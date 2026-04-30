@@ -33,8 +33,19 @@
 "use client";
 
 import { useEffect } from "react";
+import { CONTACT } from "@/app/resume/resume-data";
 
-const CALENDLY_URL = "https://calendly.com/malcolmxavier";
+// Pull from the central CONTACT constant so the widget URL stays in
+// lockstep with the rest of the codebase (2026-04-29 /full-review,
+// a-calendly-widget-url-and-tracking — URL half of the fix).
+//
+// CONTACT.calendlyRoot is the profile root, which renders the event-
+// type picker — visitors can pick a 30-min product chat, a shorter
+// screen, or any longer slot Malcolm adds later. The deep-linked
+// CONTACT.calendly (specific 30-min event) is reserved for outbound
+// CTAs on the homepage and resume; the inline widget host page is
+// kept flexible.
+const CALENDLY_URL = CONTACT.calendlyRoot;
 const SCRIPT_SRC = "https://assets.calendly.com/assets/external/widget.js";
 
 export function CalendlyWidget() {

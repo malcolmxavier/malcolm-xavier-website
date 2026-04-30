@@ -72,12 +72,43 @@ import {
 // override keeps Googlebot from treating /resume as a duplicate of
 // the root layout's canonical-of-"/" (caught in the 2026-04-29
 // /full-review, c-canonicals-all-root).
+//
+// Per-page openGraph + twitter blocks because Next.js App Router
+// REPLACES (does not merge) parent-layout OG blocks when a page
+// declares its own. Without these explicit blocks, /resume shared
+// on LinkedIn unfurled with the sitewide stub title and no per-page
+// description. (2026-04-29 /full-review, a-per-page-og-twitter.)
+const RESUME_DESCRIPTION =
+  "Malcolm Xavier's web resume. Senior PM with growth, data, and AI work across media and streaming. Currently interviewing. Download PDF or book a call.";
+const RESUME_OG_TITLE = "Malcolm Xavier · Senior PM Resume";
+
 export const metadata: Metadata = {
   title: "Resume",
-  description:
-    "Senior Product Manager · Growth and Data · Media, Publishing, and Streaming · AI-Native. Currently interviewing.",
+  description: RESUME_DESCRIPTION,
   alternates: {
     canonical: "/resume",
+  },
+  openGraph: {
+    title: RESUME_OG_TITLE,
+    description: RESUME_DESCRIPTION,
+    type: "profile",
+    url: "/resume",
+    siteName: "Malcolm Xavier",
+    locale: "en_US",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: RESUME_OG_TITLE,
+    description: RESUME_DESCRIPTION,
+    images: ["/opengraph-image"],
   },
 };
 

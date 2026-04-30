@@ -189,9 +189,8 @@ export default function Home() {
                 <Lede>
                   I&rsquo;m a senior product manager who specializes
                   in building growth and data platforms. I&rsquo;m
-                  AI-native&mdash;building and enabling AI-powered
-                  tools and workflows is part of my typical scope of
-                  work.
+                  AI-native by practice: I built this site with
+                  Claude Code as my build partner.
                 </Lede>
 
                 <Lede>

@@ -34,16 +34,48 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Link } from "@/components/primitives/Link";
 import { CONTACT } from "../resume/resume-data";
 
+// Per-page openGraph + twitter blocks because Next.js App Router
+// REPLACES (does not merge) parent-layout OG blocks when a page
+// declares its own. Without these explicit blocks, /about shared
+// on LinkedIn unfurled with the sitewide stub title rather than
+// the page's own positioning. (2026-04-29 /full-review,
+// a-per-page-og-twitter.)
+const ABOUT_DESCRIPTION =
+  "The long version: senior product manager, sometime artist, full-time New Yorker living in Los Angeles.";
+const ABOUT_OG_TITLE =
+  "About Malcolm Xavier · Senior PM, Media and Streaming";
+
 export const metadata: Metadata = {
   title: "About",
-  description:
-    "The long version: senior product manager, sometime artist, full-time New Yorker living in Los Angeles.",
+  description: ABOUT_DESCRIPTION,
   // Explicit canonical override — without it, /about inherits the
   // root layout's canonical-of-"/" and Googlebot treats it as a
   // duplicate of the landing page (2026-04-29 /full-review,
   // c-canonicals-all-root).
   alternates: {
     canonical: "/about",
+  },
+  openGraph: {
+    title: ABOUT_OG_TITLE,
+    description: ABOUT_DESCRIPTION,
+    type: "profile",
+    url: "/about",
+    siteName: "Malcolm Xavier",
+    locale: "en_US",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: ABOUT_OG_TITLE,
+    description: ABOUT_DESCRIPTION,
+    images: ["/opengraph-image"],
   },
 };
 

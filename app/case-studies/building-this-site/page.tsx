@@ -34,6 +34,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { Link } from "@/components/primitives/Link";
+import { CONTACT } from "@/app/resume/resume-data";
 import {
   TableOfContents,
   type TocItem,
@@ -1239,14 +1240,31 @@ function BeatLive() {
         made, that&apos;s the address.
       </ClaudeNote>
 
+      {/* Case-study close — exit ramp for the highest-intent reader.
+          Cross-link points at the Basecamp Coffee study (Malcolm's
+          first time using Claude to build a site); CTA row hands
+          off to the recruiter funnel. Closes the meta-study half of
+          a-case-study-no-next-step from the 2026-04-29 /full-review.
+          The earlier Resume-only inline link was replaced with the
+          structured close so both case studies share the same exit
+          shape. */}
       <Body>
         <p>
-          And if you&apos;re hiring for a senior PM in media, publishing,
-          or streaming, the resume is one click away—top-right of any
-          page, or back to{" "}
-          <Link href="/resume">Resume →</Link>. The case study is, as
-          promised, the recursive artifact: documentation of the build,
-          hosted on the build it documents.
+          This case study is a deep dive into how this site was
+          built. My first time using Claude to build a site is
+          documented in another case study:{" "}
+          <Link href="/case-studies/basecamp-coffee">
+            Basecamp Coffee &rarr;
+          </Link>
+          .
+        </p>
+        <p>
+          If this resonated, two next steps:{" "}
+          <Link href="/resume">Review my resume &rarr;</Link>{" "}or{" "}
+          <Link href={CONTACT.calendly}>
+            Book a 30-min product chat &#8599;
+          </Link>
+          .
         </p>
       </Body>
     </Beat>

@@ -66,6 +66,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // priority than Music since recruiters explicitly hunt for
     // these, but lower than the core funnel pages.
     {
+      // Index page listing all case studies. Same priority as the
+      // individual studies so crawlers treat it as part of the
+      // long-form cluster, not a higher-tier funnel page.
+      url: `${SITE_URL}/case-studies`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${SITE_URL}/case-studies/basecamp-coffee`,
       lastModified,
       changeFrequency: "yearly",

@@ -43,16 +43,46 @@ import { MusicShell } from "./MusicShell";
 // cron can be layered post-MVP.
 export const revalidate = 3600;
 
+// Per-page openGraph + twitter blocks because Next.js App Router
+// REPLACES (does not merge) parent-layout OG blocks when a page
+// declares its own. Without these, /music shared anywhere unfurled
+// with the sitewide Malcolm card and no per-page positioning.
+// (2026-04-29 /full-review, a-per-page-og-twitter.)
+const MUSIC_DESCRIPTION =
+  "What I'm playing right now and what I've played for years. Monthly Spotify drops from Malcolm Xavier.";
+const MUSIC_OG_TITLE = "Malcolm Xavier's Playlists · New every month";
+
 export const metadata: Metadata = {
   title: "Music",
-  description:
-    "Public playlists Malcolm builds and maintains on Spotify, sorted by last edit.",
+  description: MUSIC_DESCRIPTION,
   // Explicit canonical override — without it, /music inherits the
   // root layout's canonical-of-"/" and Googlebot treats it as a
   // duplicate of the landing page (2026-04-29 /full-review,
   // c-canonicals-all-root).
   alternates: {
     canonical: "/music",
+  },
+  openGraph: {
+    title: MUSIC_OG_TITLE,
+    description: MUSIC_DESCRIPTION,
+    type: "website",
+    url: "/music",
+    siteName: "Malcolm Xavier",
+    locale: "en_US",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: MUSIC_OG_TITLE,
+    description: MUSIC_DESCRIPTION,
+    images: ["/opengraph-image"],
   },
 };
 

@@ -18,8 +18,11 @@ import type { ReactNode } from "react";
 
 const ARTICLE_URL = "https://malxavi.com/case-studies/building-this-site";
 const ARTICLE_HEADLINE = "Building this site — Case Study";
+// Description trimmed from 210 chars (Google would truncate above
+// ~160) to ~155, matching the workshopped copy from the 2026-04-29
+// /full-review (a-meta-descriptions-thin).
 const ARTICLE_DESCRIPTION =
-  "A meta case study on shipping this portfolio in seven days with Claude Code as build partner. Architecture bets, two production incidents, and what AI-native PM work looks like when the human stays in the loop.";
+  "How I shipped this portfolio in seven days with Claude Code as build partner. Architecture bets, production incidents, and AI-native PM work in practice.";
 
 export const metadata: Metadata = {
   title: "Building this site—Case Study",
@@ -27,10 +30,37 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/case-studies/building-this-site",
   },
+  // Full openGraph block — the prior partial declared only title /
+  // description / type, which under Next.js App Router REPLACES
+  // (does not merge with) the root layout's OG block, dropping
+  // og:image, og:url, og:site_name, og:locale and the matching
+  // twitter:image. Result: case study URLs unfurled as blank cards
+  // on LinkedIn / Slack. (2026-04-29 /full-review,
+  // a-per-page-og-twitter.)
   openGraph: {
     title: "Building this site—Case Study",
     description: ARTICLE_DESCRIPTION,
     type: "article",
+    url: "/case-studies/building-this-site",
+    siteName: "Malcolm Xavier",
+    locale: "en_US",
+    publishedTime: "2026-04-29",
+    modifiedTime: "2026-04-29",
+    authors: ["Malcolm Xavier"],
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Building this site—Case Study",
+    description: ARTICLE_DESCRIPTION,
+    images: ["/opengraph-image"],
   },
 };
 

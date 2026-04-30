@@ -30,10 +30,37 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/case-studies/basecamp-coffee",
   },
+  // Full openGraph block — the prior partial declared only title /
+  // description / type, which under Next.js App Router REPLACES
+  // (does not merge with) the root layout's OG block, dropping
+  // og:image, og:url, og:site_name, og:locale and the matching
+  // twitter:image. Result: case study URLs unfurled as blank cards
+  // on LinkedIn / Slack. (2026-04-29 /full-review,
+  // a-per-page-og-twitter.)
   openGraph: {
     title: "Basecamp Coffee—Case Study",
     description: ARTICLE_DESCRIPTION,
     type: "article",
+    url: "/case-studies/basecamp-coffee",
+    siteName: "Malcolm Xavier",
+    locale: "en_US",
+    publishedTime: "2026-04-26",
+    modifiedTime: "2026-04-29",
+    authors: ["Malcolm Xavier"],
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Basecamp Coffee—Case Study",
+    description: ARTICLE_DESCRIPTION,
+    images: ["/opengraph-image"],
   },
 };
 

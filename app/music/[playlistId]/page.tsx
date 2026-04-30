@@ -66,12 +66,51 @@ export async function generateMetadata(
       alternates: { canonical: `/music/${playlistId}` },
     };
   }
+
+  const description =
+    decodeSpotifyDescription(playlist.description) ||
+    `Public Spotify playlist by Malcolm Xavier—${playlist.tracks.length} tracks.`;
+  // Per-playlist OG card uses the Spotify cover art. Without it,
+  // every shared playlist URL unfurled as the sitewide Malcolm card
+  // (2026-04-29 /full-review, a-per-page-og-twitter). Spotify covers
+  // are typically square (640×640) — LinkedIn / Slack / iMessage
+  // accept square images and crop sensibly. siteName separates "the
+  // playlist name" headline from the "Malcolm Xavier" attribution
+  // line in unfurls.
+  const cover = pickImage(playlist.images, 640);
+  const coverImage = cover
+    ? [
+        {
+          url: cover.url,
+          width: cover.width ?? 640,
+          height: cover.height ?? 640,
+          alt: `Cover art for the playlist ${playlist.name}`,
+        },
+      ]
+    : undefined;
+
   return {
     title: playlist.name,
-    description:
-      decodeSpotifyDescription(playlist.description) ||
-      `Public Spotify playlist by Malcolm Xavier—${playlist.tracks.length} tracks.`,
+    description,
     alternates: { canonical: `/music/${playlistId}` },
+    openGraph: {
+      title: playlist.name,
+      description,
+      // schema.org maps Spotify playlists to MusicPlaylist; OG's
+      // "music.playlist" subtype is the closest equivalent and is
+      // what Spotify itself uses for its own public playlist cards.
+      type: "music.playlist",
+      url: `/music/${playlistId}`,
+      siteName: "Malcolm Xavier",
+      locale: "en_US",
+      images: coverImage,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: playlist.name,
+      description,
+      images: cover ? [cover.url] : undefined,
+    },
   };
 }
 

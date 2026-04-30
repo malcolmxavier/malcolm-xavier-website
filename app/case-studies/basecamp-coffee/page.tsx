@@ -19,6 +19,7 @@
 
 import type { ReactNode } from "react";
 import { Link } from "@/components/primitives/Link";
+import { CONTACT } from "@/app/resume/resume-data";
 import {
   TableOfContents,
   type TocItem,
@@ -586,6 +587,28 @@ function BeatHowBuilt() {
           missed the meta-frame entirely, written in ~500 lines of TSX with Claude doing the heavy
           typing, and shipped via a push to <Code>main</Code>. A full business day of work to build
           a functioning prototype and detailed case study.
+        </p>
+        {/* Case-study close — exit ramp for the highest-intent reader.
+            Cross-link points at the meta study (how this case study
+            ended up on this site); CTA row hands off to the recruiter
+            funnel. Closes c-basecamp-no-closing-cta and the Basecamp
+            half of a-case-study-no-next-step from the 2026-04-29
+            /full-review. */}
+        <p>
+          For a deeper dive into how this case study ended up on this
+          site, check out{" "}
+          <Link href="/case-studies/building-this-site">
+            Building this site &rarr;
+          </Link>
+          .
+        </p>
+        <p>
+          If this resonated, two next steps:{" "}
+          <Link href="/resume">Review my resume &rarr;</Link>{" "}or{" "}
+          <Link href={CONTACT.calendly}>
+            Book a 30-min product chat &#8599;
+          </Link>
+          .
         </p>
       </Body>
     </Beat>
