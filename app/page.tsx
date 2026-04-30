@@ -35,6 +35,9 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Button } from "@/components/primitives/Button";
 import { Link } from "@/components/primitives/Link";
 import { Card } from "@/components/primitives/Card";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { HeroCtaInView } from "@/components/analytics/HeroCtaInView";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import type { SubBrand } from "@/lib/sub-brands";
 import { CONTACT, STATUS } from "./resume/resume-data";
 
@@ -219,9 +222,14 @@ export default function Home() {
                   link back would crowd the hero without earning
                   its keep. */}
               <div className="flex flex-wrap gap-3 pt-2">
-                <Button as="a" href="/resume" variant="primary" size="lg">
-                  View my resume →
-                </Button>
+                {/* Hero resume CTA — wrapped in HeroCtaInView so the
+                    dashboard can separate "didn't see it" from "saw
+                    it, didn't bite" via the IntersectionObserver. */}
+                <HeroCtaInView event={ANALYTICS_EVENTS.HERO_CTA_INVIEW}>
+                  <Button as="a" href="/resume" variant="primary" size="lg">
+                    View my resume →
+                  </Button>
+                </HeroCtaInView>
                 <Button as="a" href="/contact" variant="secondary" size="lg">
                   Get in touch &rarr;
                 </Button>
@@ -288,10 +296,19 @@ export default function Home() {
                           ahead of hover and the CTA pre-announces
                           itself as a link. Color comes from the
                           [data-subbrand="music"] rule on the Card
-                          wrapper — purple in this context. */}
-                      <Link href={tile.href}>
-                        {tile.cta ?? `Visit ${tile.label}`} &rarr;
-                      </Link>
+                          wrapper — purple in this context.
+
+                          Wrapped in TrackOnClick so the dashboard
+                          reports per-tile engagement (tile slug as
+                          metadata). */}
+                      <TrackOnClick
+                        event={ANALYTICS_EVENTS.SUBBRAND_TILE_CLICK}
+                        eventData={{ tile: tile.accent }}
+                      >
+                        <Link href={tile.href}>
+                          {tile.cta ?? `Visit ${tile.label}`} &rarr;
+                        </Link>
+                      </TrackOnClick>
                     </Headline>
                     {/* Override Body's default 60ch max-width so the
                         blurb spans the full card width, then clamp
@@ -346,19 +363,29 @@ export default function Home() {
           </Body>
 
           <div className="flex flex-wrap gap-3 pt-2">
-            <Button
-              as="a"
-              href={CONTACT.calendly}
-              variant="primary"
-              size="lg"
-              target="_blank"
-              rel="noopener noreferrer"
+            <TrackOnClick
+              event={ANALYTICS_EVENTS.CALENDLY_CLICK}
+              eventData={{ kind: "outbound", surface: "homepage-contact" }}
             >
-              Book a 30-min chat
-            </Button>
-            <Button as="a" href={mailHref} variant="secondary" size="lg">
-              Email
-            </Button>
+              <Button
+                as="a"
+                href={CONTACT.calendly}
+                variant="primary"
+                size="lg"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Book a 30-min chat
+              </Button>
+            </TrackOnClick>
+            <TrackOnClick
+              event={ANALYTICS_EVENTS.EMAIL_CLICK}
+              eventData={{ kind: "direct", surface: "homepage-contact" }}
+            >
+              <Button as="a" href={mailHref} variant="secondary" size="lg">
+                Email
+              </Button>
+            </TrackOnClick>
           </div>
 
           {/* Quieter "elsewhere" line — secondary professional

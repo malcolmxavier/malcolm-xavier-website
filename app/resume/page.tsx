@@ -43,6 +43,8 @@ import { Dateline } from "@/components/typography/Dateline";
 import { Button } from "@/components/primitives/Button";
 import { Link } from "@/components/primitives/Link";
 import { Card } from "@/components/primitives/Card";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { formatLastUpdated } from "@/lib/case-studies/basecamp-coffee/last-updated";
 import {
@@ -484,7 +486,12 @@ export default function ResumePage() {
               </li>
               <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
                 <IconEmail />
-                <Link href={mailHref}>{CONTACT.email}</Link>
+                <TrackOnClick
+                  event={ANALYTICS_EVENTS.EMAIL_CLICK}
+                  eventData={{ kind: "direct", surface: "resume-contact-strip" }}
+                >
+                  <Link href={mailHref}>{CONTACT.email}</Link>
+                </TrackOnClick>
               </li>
               <li className="inline-flex items-center gap-1.5 py-1 min-h-6">
                 <IconLinkedIn />
@@ -526,16 +533,18 @@ export default function ResumePage() {
                 that prefer metadata for the tab/Save-As dialog don't
                 leak the original Google Doc name. */}
             <div className="flex flex-wrap gap-3">
-              <Button
-                as="a"
-                href="/resume/malcolm-xavier-resume.pdf"
-                download="Malcolm Xavier Resume.pdf"
-                variant="primary"
-                size="lg"
-              >
-                <IconDownload />
-                Download PDF
-              </Button>
+              <TrackOnClick event={ANALYTICS_EVENTS.RESUME_PDF_DOWNLOAD}>
+                <Button
+                  as="a"
+                  href="/resume/malcolm-xavier-resume.pdf"
+                  download="Malcolm Xavier Resume.pdf"
+                  variant="primary"
+                  size="lg"
+                >
+                  <IconDownload />
+                  Download PDF
+                </Button>
+              </TrackOnClick>
               {/* "Send this to a hiring manager" mailto button —
                   compresses the friction when a recruiter wants to
                   upstream the resume to a hiring manager. The
@@ -543,19 +552,28 @@ export default function ResumePage() {
                   later analytics. Subject + body URI-encoded so
                   Outlook / Apple Mail / Gmail render correctly.
                   Closes h-resume-no-forward (Option B) from the
-                  2026-04-29 /full-review. */}
-              <Button
-                as="a"
-                href={`mailto:?subject=${encodeURIComponent(
-                  "Malcolm Xavier — Senior PM",
-                )}&body=${encodeURIComponent(
-                  `Worth a look: ${SITE_URL}/resume?ref=share`,
-                )}`}
-                variant="secondary"
-                size="lg"
+                  2026-04-29 /full-review.
+
+                  EMAIL_CLICK with kind=forward distinguishes this
+                  upstream-share action from kind=direct mailto
+                  events. */}
+              <TrackOnClick
+                event={ANALYTICS_EVENTS.EMAIL_CLICK}
+                eventData={{ kind: "forward", surface: "resume-hero" }}
               >
-                Send this to a hiring manager
-              </Button>
+                <Button
+                  as="a"
+                  href={`mailto:?subject=${encodeURIComponent(
+                    "Malcolm Xavier — Senior PM",
+                  )}&body=${encodeURIComponent(
+                    `Worth a look: ${SITE_URL}/resume?ref=share`,
+                  )}`}
+                  variant="secondary"
+                  size="lg"
+                >
+                  Send this to a hiring manager
+                </Button>
+              </TrackOnClick>
               <Button
                 as="a"
                 href={CONTACT.linkedin}
@@ -637,8 +655,20 @@ export default function ResumePage() {
               If you&apos;re hiring for a Senior PM in media, publishing, or
               streaming—or you&apos;d just like to compare notes—LinkedIn
               is fastest. Or send an{" "}
-              <Link href={mailHref}>email</Link> or pick a slot for a{" "}
-              <Link href={CONTACT.calendly}>30-minute product chat</Link>.
+              <TrackOnClick
+                event={ANALYTICS_EVENTS.EMAIL_CLICK}
+                eventData={{ kind: "direct", surface: "resume-closing" }}
+              >
+                <Link href={mailHref}>email</Link>
+              </TrackOnClick>
+              {" "}or pick a slot for a{" "}
+              <TrackOnClick
+                event={ANALYTICS_EVENTS.CALENDLY_CLICK}
+                eventData={{ kind: "outbound", surface: "resume-closing" }}
+              >
+                <Link href={CONTACT.calendly}>30-minute product chat</Link>
+              </TrackOnClick>
+              .
             </Body>
             <Button
               as="a"

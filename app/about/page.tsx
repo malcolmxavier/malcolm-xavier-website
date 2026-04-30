@@ -33,6 +33,8 @@ import { Lede } from "@/components/typography/Lede";
 import { Body } from "@/components/typography/Body";
 import { Kicker } from "@/components/typography/Kicker";
 import { Link } from "@/components/primitives/Link";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { CONTACT } from "../resume/resume-data";
 
 // Per-page openGraph + twitter blocks because Next.js App Router
@@ -321,8 +323,20 @@ export default function AboutPage() {
           <Headline level={2}>Want to compare notes?</Headline>
           <Body>
             Pick a slot for a{" "}
-            <Link href={CONTACT.calendly}>30-minute product chat</Link>,
-            send an <Link href={mailHref}>email</Link>, or{" "}
+            <TrackOnClick
+              event={ANALYTICS_EVENTS.CALENDLY_CLICK}
+              eventData={{ kind: "outbound", surface: "about-closing" }}
+            >
+              <Link href={CONTACT.calendly}>30-minute product chat</Link>
+            </TrackOnClick>
+            , send an{" "}
+            <TrackOnClick
+              event={ANALYTICS_EVENTS.EMAIL_CLICK}
+              eventData={{ kind: "direct", surface: "about-closing" }}
+            >
+              <Link href={mailHref}>email</Link>
+            </TrackOnClick>
+            , or{" "}
             <Link href={CONTACT.linkedin}>
               {/* Non-breaking space between "LinkedIn" and the
                   external-arrow glyph keeps the arrow from being

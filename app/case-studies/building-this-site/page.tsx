@@ -34,6 +34,8 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { Link } from "@/components/primitives/Link";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { CONTACT } from "@/app/resume/resume-data";
 import {
   TableOfContents,
@@ -1261,9 +1263,14 @@ function BeatLive() {
         <p>
           If this resonated, two next steps:{" "}
           <Link href="/resume">Review my resume &rarr;</Link>{" "}or{" "}
-          <Link href={CONTACT.calendly}>
-            Book a 30-min product chat &#8599;
-          </Link>
+          <TrackOnClick
+            event={ANALYTICS_EVENTS.CALENDLY_CLICK}
+            eventData={{ kind: "outbound", surface: "case-study-meta-close" }}
+          >
+            <Link href={CONTACT.calendly}>
+              Book a 30-min product chat &#8599;
+            </Link>
+          </TrackOnClick>
           .
         </p>
       </Body>

@@ -228,7 +228,9 @@
       "Bash(/usr/bin/curl -s http://localhost:3000/about)",
       "Bash(/usr/bin/curl -s -o /tmp/nf.html -w \"%{http_code}\\\\n\" http://localhost:3000/this-route-does-not-exist)",
       "Bash(/usr/bin/curl -s http://localhost:3000/banner/linkedin)",
-      "Bash(pdftotext /Users/mal/Desktop/malcolm-xavier-website/public/resume/malcolm-xavier-resume.pdf -)"
+      "Bash(pdftotext /Users/mal/Desktop/malcolm-xavier-website/public/resume/malcolm-xavier-resume.pdf -)",
+      "Bash(/usr/bin/curl -s http://localhost:3000/contact)",
+      "Bash(/usr/bin/curl -s http://localhost:3000/resume -o /tmp/r.html)"
     ]
   }
 }

@@ -23,6 +23,8 @@ import { Link } from "@/components/primitives/Link";
 import { Kicker } from "@/components/typography/Kicker";
 import { Dateline } from "@/components/typography/Dateline";
 import { ShareButton } from "./ShareButton";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 
 // External destinations. Email + GitHub + Letterboxd + Serializd +
@@ -123,17 +125,32 @@ export function Footer() {
           <nav aria-label="Stay in touch">
             <Kicker>Stay in touch</Kicker>
             <ul className="space-y-2" style={{ marginTop: "24px" }}>
-              {STAY_IN_TOUCH.map((item) => (
-                // py-1 lifts the tap target to ~27px tall, clearing
-                // the WCAG 2.2 SC 2.5.8 24×24 minimum. Closes
-                // m-footer-target-size from the 2026-04-29
-                // /full-review.
-                <li key={item.label} className="py-1">
+              {STAY_IN_TOUCH.map((item) => {
+                const linkEl = (
                   <Link href={item.href} quiet>
                     {item.label}
                   </Link>
-                </li>
-              ))}
+                );
+                // py-1 lifts the tap target to ~27px tall, clearing
+                // the WCAG 2.2 SC 2.5.8 24×24 minimum. The email
+                // entry is wrapped with TrackOnClick (EMAIL_CLICK,
+                // kind=direct, surface=footer); LinkedIn / GitHub
+                // aren't tracked (not in the funnel-event spec).
+                return (
+                  <li key={item.label} className="py-1">
+                    {item.href.startsWith("mailto:") ? (
+                      <TrackOnClick
+                        event={ANALYTICS_EVENTS.EMAIL_CLICK}
+                        eventData={{ kind: "direct", surface: "footer" }}
+                      >
+                        {linkEl}
+                      </TrackOnClick>
+                    ) : (
+                      linkEl
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </nav>
 

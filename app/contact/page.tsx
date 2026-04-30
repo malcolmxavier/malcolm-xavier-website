@@ -38,6 +38,8 @@ import { CalendlyWidget } from "@/components/primitives/CalendlyWidget";
 import { IconEmail, IconLinkedIn } from "@/components/icons";
 import { CONTACT } from "../resume/resume-data";
 import { ELSEWHERE } from "@/lib/elsewhere";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
 // Per-page openGraph + twitter blocks because Next.js App Router
 // REPLACES (does not merge) parent-layout OG blocks when a page
@@ -206,7 +208,12 @@ export default function ContactPage() {
               style={{ color: "var(--text-caption)", maxWidth: "60ch" }}
             >
               Widget not loading? Book directly on{" "}
-              <Link href={CONTACT.calendlyRoot}>Calendly ↗</Link>
+              <TrackOnClick
+                event={ANALYTICS_EVENTS.CALENDLY_CLICK}
+                eventData={{ kind: "fallback", surface: "contact-widget-fallback" }}
+              >
+                <Link href={CONTACT.calendlyRoot}>Calendly ↗</Link>
+              </TrackOnClick>
             </Body>
           </Stack>
 
@@ -231,14 +238,8 @@ export default function ContactPage() {
                   className="space-y-3"
                   style={{ listStyle: "none", padding: 0, margin: 0 }}
                 >
-                  {directMethods.map((method) => (
-                    <li key={method.href}>
-                      {/* Single-line row: icon + platform name (or
-                          the email address). The icon already
-                          telegraphs the platform, so a per-row
-                          kicker would just repeat the label.
-                          minHeight 24 keeps each row at the WCAG 2.2
-                          SC 2.5.8 minimum target size on touch. */}
+                  {directMethods.map((method) => {
+                    const linkEl = (
                       <Link
                         href={method.href}
                         className="inline-flex items-center gap-2"
@@ -251,8 +252,31 @@ export default function ContactPage() {
                         {method.icon}
                         <span>{method.value}</span>
                       </Link>
-                    </li>
-                  ))}
+                    );
+                    // Single-line row: icon + platform name (or
+                    // the email address). minHeight 24 clears the
+                    // WCAG 2.2 SC 2.5.8 minimum target size on
+                    // touch. Wrap the email entry with TrackOnClick;
+                    // LinkedIn isn't tracked (not in the funnel-
+                    // event spec).
+                    return (
+                      <li key={method.href}>
+                        {method.href.startsWith("mailto:") ? (
+                          <TrackOnClick
+                            event={ANALYTICS_EVENTS.EMAIL_CLICK}
+                            eventData={{
+                              kind: "direct",
+                              surface: "contact-direct",
+                            }}
+                          >
+                            {linkEl}
+                          </TrackOnClick>
+                        ) : (
+                          linkEl
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </Stack>
 
