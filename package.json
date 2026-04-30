@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "SPOTIFY_OFFLINE=1 next dev",
     "dev:online": "next dev -p 3001",
-    "build": "SPOTIFY_OFFLINE=1 next build",
-    "build:online": "next build",
+    "build": "next build",
+    "build:offline": "SPOTIFY_OFFLINE=1 next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",

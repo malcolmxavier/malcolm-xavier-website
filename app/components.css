@@ -508,9 +508,17 @@ a.link-accent-orange,
   color: var(--orange-400) !important;
 }
 
+/* Purple accent uses purple-500 (#740bd0) in light mode to match
+   the music sub-brand's --primary-default (also purple-500), so the
+   "Malcolm purple" reads as the same shade across the recruiter
+   cluster (resume) and the music sub-brand. Other accents stay at
+   their -700 shades because their -500 variants don't all pass AA
+   contrast on white. purple-500 on white ≈ 7:1 (passes AAA for
+   normal text). Dark mode already aligns at purple-400 — no change.
+   Closes the resume-music purple-mismatch flagged 2026-04-29. */
 a.link-accent-purple,
 [data-subbrand] a.link-accent-purple {
-  color: var(--purple-700) !important;
+  color: var(--purple-500) !important;
 }
 [data-theme="dark"] a.link-accent-purple,
 [data-theme="dark"] [data-subbrand] a.link-accent-purple {
