@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# internal-only docs and review trackers — kept locally, never tracked
+/_private/
