@@ -34,11 +34,22 @@ import "./components.css";
 // which the parser-emitted alias blocks override per sub-brand.
 // ─────────────────────────────────────────────────────────────────
 
+// preload: false on the three cluster-scoped families — recruiter
+// pages don't render Roboto Slab; sub-brand pages don't render
+// Instrument Serif or DM Sans. Default preload: true injected a
+// <link rel="preload"> for every family on every route, which
+// browsers warned about as "preloaded but unused within ~3s of the
+// load event." display: swap means we never block on fonts anyway,
+// so dropping the preload hint costs ~50ms of initial discovery in
+// exchange for a clean console. Roboto Mono stays preloaded — it's
+// used sitewide via Kicker + Dateline.
+
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   display: "swap",
+  preload: false,
 });
 
 const instrumentSerif = Instrument_Serif({
@@ -47,6 +58,7 @@ const instrumentSerif = Instrument_Serif({
   weight: ["400"],
   style: ["normal", "italic"],
   display: "swap",
+  preload: false,
 });
 
 const robotoSlab = Roboto_Slab({
@@ -54,6 +66,7 @@ const robotoSlab = Roboto_Slab({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
   display: "swap",
+  preload: false,
 });
 
 const robotoMono = Roboto_Mono({
