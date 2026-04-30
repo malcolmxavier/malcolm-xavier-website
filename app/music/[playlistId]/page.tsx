@@ -91,10 +91,23 @@ export async function generateMetadata(
     : undefined;
 
   return {
-    title: playlist.name,
+    // Use title.absolute to bypass the root layout's
+    // `%s—Malcolm Xavier` template and emit the always-on
+    // "<name>, a playlist by Malcolm Xavier" format. Even
+    // descriptive Spotify names ("settle the score", "summer vibes")
+    // tell Google nothing on their own — the suffix gives every
+    // playlist a consistent, parseable SERP title shape regardless
+    // of whether the name is editorial, emoji-only, or symbolic.
+    // Closes l-playlist-emoji-titles from the 2026-04-29
+    // /full-review (broader fix than the synthesis's "sanitize
+    // emoji-only names" recommendation per user direction).
+    title: { absolute: `${playlist.name}, a playlist by Malcolm Xavier` },
     description,
     alternates: { canonical: `/music/${playlistId}` },
     openGraph: {
+      // og:title stays bare (the playlist name only) — siteName
+      // separately provides the "Malcolm Xavier" attribution in
+      // unfurl cards, so the suffix would just duplicate.
       title: playlist.name,
       description,
       // schema.org maps Spotify playlists to MusicPlaylist; OG's

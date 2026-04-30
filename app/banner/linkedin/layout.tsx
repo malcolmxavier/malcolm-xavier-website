@@ -20,6 +20,13 @@ export const metadata: Metadata = {
   // Banners are export artifacts, not navigational destinations.
   // Keep them out of search indexes and link previews.
   robots: { index: false, follow: false },
+  // Explicit canonical so the inherited "/" canonical doesn't ride
+  // along with the noindex (contradictory signal even if harmless
+  // under noindex). Closes m-banner-canonical-noindex from the
+  // 2026-04-29 /full-review.
+  alternates: {
+    canonical: "/banner/linkedin",
+  },
 };
 
 export default function BannerLayout({

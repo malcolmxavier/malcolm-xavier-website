@@ -86,7 +86,11 @@ const RESUME_DESCRIPTION =
 const RESUME_OG_TITLE = "Malcolm Xavier · Senior PM Resume";
 
 export const metadata: Metadata = {
-  title: "Resume",
+  // Title surfaces "Senior PM" — the keyword recruiters actually
+  // Google. The root layout's `%s—Malcolm Xavier` template appends
+  // the brand name once; not duplicating it here. Closes
+  // h-titles-underdeveloped from the 2026-04-29 /full-review.
+  title: "Resume · Senior PM",
   description: RESUME_DESCRIPTION,
   alternates: {
     canonical: "/resume",

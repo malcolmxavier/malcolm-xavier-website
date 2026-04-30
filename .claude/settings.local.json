@@ -225,7 +225,9 @@
       "Bash(/usr/bin/curl -s http://localhost:3000/case-studies/building-this-site)",
       "Bash(/usr/bin/curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/music)",
       "Bash(/usr/bin/curl -s http://localhost:3000/resume)",
-      "Bash(/usr/bin/curl -s http://localhost:3000/about)"
+      "Bash(/usr/bin/curl -s http://localhost:3000/about)",
+      "Bash(/usr/bin/curl -s -o /tmp/nf.html -w \"%{http_code}\\\\n\" http://localhost:3000/this-route-does-not-exist)",
+      "Bash(/usr/bin/curl -s http://localhost:3000/banner/linkedin)"
     ]
   }
 }

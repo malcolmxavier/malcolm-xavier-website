@@ -47,7 +47,12 @@ const ABOUT_OG_TITLE =
   "About Malcolm Xavier · Senior PM, Media and Streaming";
 
 export const metadata: Metadata = {
-  title: "About",
+  // Title surfaces the role + domain keywords recruiters Google
+  // ("Senior PM in Media and Streaming"). The root layout's
+  // `%s—Malcolm Xavier` template appends the brand name once; not
+  // duplicating it here. Closes h-titles-underdeveloped from the
+  // 2026-04-29 /full-review.
+  title: "About · Senior PM in Media and Streaming",
   description: ABOUT_DESCRIPTION,
   // Explicit canonical override — without it, /about inherits the
   // root layout's canonical-of-"/" and Googlebot treats it as a
