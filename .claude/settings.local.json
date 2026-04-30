@@ -6,8 +6,8 @@
       "Bash(npm run *)",
       "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} \\(%{time_total}s\\) — %{size_download} bytes\\\\n\" http://localhost:3001/)",
       "Bash(curl -s -o /dev/null -w \"HTTP %{http_code} \\(%{time_total}s\\) — %{size_download} bytes\\\\n\" http://localhost:3001/styles)",
-      "Bash(jq '.purple.\"600\".\"$value\" = \"#5d08a6\" | .purple.\"700\".\"$value\" = \"#46067d\"' '_design/tokens/Brand/Mode 1.json')",
-      "Bash(mv /tmp/brand-fix.json \"_design/tokens/Brand/Mode 1.json\")",
+      "Bash(jq '.purple.\"600\".\"$value\" = \"#5d08a6\" | .purple.\"700\".\"$value\" = \"#46067d\"' 'tokens/Brand/Mode 1.json')",
+      "Bash(mv /tmp/brand-fix.json \"tokens/Brand/Mode 1.json\")",
       "Bash(node *)",
       "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:3001/styles)",
       "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:3001/)",
@@ -21,12 +21,12 @@
       "Bash(curl -s -o /tmp/styles2.html -w \"STATUS=%{http_code} SIZE=%{size_download}\\\\n\" http://localhost:3001/styles)",
       "Read(//tmp/**)",
       "Bash(python3 -c \"import pypdf; print\\(pypdf.__version__\\)\")",
-      "Bash(mdimport -t -d2 _design/source/malcolm-xavier-resume.pdf)",
-      "Bash(mdls -name kMDItemTextContent _design/source/malcolm-xavier-resume.pdf)",
+      "Bash(mdimport -t -d2 _private/_source/malcolm-xavier-resume.pdf)",
+      "Bash(mdls -name kMDItemTextContent _private/_source/malcolm-xavier-resume.pdf)",
       "Bash(pip3 install *)",
       "Bash(python3 -)",
       "WebFetch(domain:docs.google.com)",
-      "Bash(cp \"/Users/mal/Downloads/Malcolm Xavier Main Product Manager Resume.pdf\" /Users/mal/Desktop/malcolm-xavier-website/_design/source/malcolm-xavier-resume.pdf)",
+      "Bash(cp \"/Users/mal/Downloads/Malcolm Xavier Main Product Manager Resume.pdf\" /Users/mal/Desktop/malcolm-xavier-website/_private/_source/malcolm-xavier-resume.pdf)",
       "Bash(cp \"/Users/mal/Downloads/Malcolm Xavier Main Product Manager Resume.pdf\" /Users/mal/Desktop/malcolm-xavier-website/public/resume/malcolm-xavier-resume.pdf)",
       "Bash(python3 -c ' *)",
       "Bash(curl -s -o /tmp/resume.html -w \"STATUS=%{http_code} SIZE=%{size_download}\\\\n\" http://localhost:3001/resume)",
@@ -136,7 +136,7 @@
       "Bash(awk '/\\\\{/{depth++; in_block_start=NR; cur=$0} /\\\\}/{depth--} /--neutral-black:/{print NR\": \"cur\" → \"$0}' app/globals.css)",
       "Read(//Users/mal/.claude/agents/**)",
       "Read(//Users/mal/.claude/**)",
-      "Bash(open /Users/mal/Desktop/malcolm-xavier-website/_design/reviews/full-review-2026-04-27.html)",
+      "Bash(open /Users/mal/Desktop/malcolm-xavier-website/_private/_reviews/full-review-2026-04-27.html)",
       "Bash(PORT=3201 npm run start)",
       "Bash(kill 84563)",
       "Bash(pkill -f \"next start\" sleep 1 npx tsc --noEmit)",
@@ -231,7 +231,11 @@
       "Bash(pdftotext /Users/mal/Desktop/malcolm-xavier-website/public/resume/malcolm-xavier-resume.pdf -)",
       "Bash(/usr/bin/curl -s http://localhost:3000/contact)",
       "Bash(/usr/bin/curl -s http://localhost:3000/resume -o /tmp/r.html)",
-      "Bash(awk 'NR>=180 && NR<=210' /Users/mal/Desktop/malcolm-xavier-website/app/globals.css)"
+      "Bash(awk 'NR>=180 && NR<=210' /Users/mal/Desktop/malcolm-xavier-website/app/globals.css)",
+      "Bash(jq)",
+      "Skill(schedule)",
+      "Bash(uuidgen)",
+      "Bash(awk -F/ '{print $2}')"
     ]
   }
 }

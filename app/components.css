@@ -26,7 +26,7 @@
    scoped to non-dark themes.
 
    Lives here (not in globals.css) because globals.css is
-   regenerated from _design/tokens/ on every build and would
+   regenerated from tokens/ on every build and would
    lose the override. */
 
 :root:not([data-theme="dark"]) {
@@ -40,7 +40,7 @@
    the browser's default white. Without this, dark mode shows a
    white seam beyond the black footer (and a white seam above the
    Nav) on overscroll. Lives here rather than in globals.css
-   because globals.css is regenerated from _design/tokens/ on every
+   because globals.css is regenerated from tokens/ on every
    build and would lose the rule. */
 html {
   background: var(--surface-page);
@@ -555,7 +555,7 @@ a.link-accent-pink,
        reading as a quiet chip rather than a brand surface.
 
    The class lives here (not in globals.css, which is regenerated
-   from _design/tokens/) so it's not blown away by `npm run
+   from tokens/) so it's not blown away by `npm run
    tokens:build`. Every <Code> in the case-study cluster picks it
    up because the Code primitive applies the class directly; future
    surfaces (MDX blog, etc.) can use the same class. */

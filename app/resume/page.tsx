@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────
 // /resume — recruiter-first web resume.
 //
-// Hierarchy mirrors the PDF source (see _design/source/):
+// Hierarchy mirrors the PDF source (see _private/_source/):
 //
 //   1. Hero
 //        ┌────────────────────┬──────────────────┐

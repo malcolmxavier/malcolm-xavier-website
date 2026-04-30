@@ -11,7 +11,7 @@ Five MVP pages (Landing, Resume, About, Contact, Music), two case studies, one e
 - **Fonts:** Instrument Serif + DM Sans (recruiter cluster), Roboto Slab + Roboto Mono (sub-brand)
 - **Theming:** `next-themes` for light / dark, `[data-subbrand]` for cluster identity
 - **Data:** Spotify Web API for `/music`, snapshot-backed for resilience
-- **Tokens:** generated from JSON in `_design/tokens/` via `scripts/build-tokens.mjs`
+- **Tokens:** generated from JSON in `tokens/` via `scripts/build-tokens.mjs`
 
 ## How it was built
 
@@ -19,7 +19,7 @@ Mostly with [Claude Code](https://claude.com/claude-code) in a directed workflow
 
 A few mechanics worth a poke if you're curious:
 
-- **Token system**—hue families in `_design/tokens/Brand/`, sub-brand aliases in `_design/tokens/Alias/`, mode resolutions in `_design/tokens/Mapped/`. Generated CSS is a build artifact; never hand-edit `app/globals.css`.
+- **Token system**—hue families in `tokens/Brand/`, sub-brand aliases in `tokens/Alias/`, mode resolutions in `tokens/Mapped/`. Generated CSS is a build artifact; never hand-edit `app/globals.css`.
 - **Spotify pipeline**—live fetch with a graceful snapshot fallback in `lib/feeds/spotify.ts`. Rate-limit-aware via per-endpoint buckets, plus a `/api/spotify/health` diagnostic and `npm run music:refresh` to capture a fresh fixture.
 - **Case-study primitives**—extracted to `components/case-study/` so the second one shipped as a content-only file.
 

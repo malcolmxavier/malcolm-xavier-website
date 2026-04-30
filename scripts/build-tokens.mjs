@@ -1,6 +1,6 @@
 // scripts/build-tokens.mjs
 //
-// Reads the Tokens Studio multi-file export at _design/tokens/ and emits
+// Reads the Tokens Studio multi-file export at tokens/ and emits
 // app/globals.css. The generated CSS is grouped by tier:
 //
 //   1. Tailwind import + @theme block (wires our tokens into Tailwind 4 utilities)
@@ -19,7 +19,7 @@ import { z } from "zod";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, "..");
-const TOKENS_DIR = join(ROOT, "_design", "tokens");
+const TOKENS_DIR = join(ROOT, "tokens");
 const OUTPUT = join(ROOT, "app", "globals.css");
 
 // ─────────────────────────────────────────────────────────────────────
@@ -169,7 +169,7 @@ const out = [];
 // even when the timestamp moves. Closes l-globals-css-no-build-stamp
 // from the 2026-04-29 /full-review.
 out.push("/* ──────────────────────────────────────────────────────────");
-out.push("   Generated from _design/tokens/ — do NOT edit by hand.");
+out.push("   Generated from tokens/ — do NOT edit by hand.");
 out.push("   Source: Tokens Studio multi-file export.");
 out.push("   Sources (in metadata-declared order):");
 for (const name of setOrder) {

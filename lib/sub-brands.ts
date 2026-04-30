@@ -7,7 +7,7 @@
 //
 // Add a new value here AND
 //   • add the matching `[data-subbrand="X"]` alias block in
-//     `_design/tokens/Alias/<X>.json` (run `npm run tokens:build`)
+//     `tokens/Alias/<X>.json` (run `npm run tokens:build`)
 //   • add the per-sub-brand link-color rules in `app/components.css`
 //   • add a new tile to SUB_BRAND_TILES on the landing page when
 //     the cluster is ready to surface in nav

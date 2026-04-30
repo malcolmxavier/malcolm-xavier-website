@@ -13,9 +13,9 @@ import { flavorProfiles, leafForTea } from './data/mappings';
  * Pure function. Given a full FacetState, returns the recommended
  * drink, its archetype, and enriched display metadata.
  *
- * Architectural promise from /_design/REQUIREMENTS.md:
- *   "Single source of truth = the facet state object. Quiz answers
- *    mutate it. User edits mutate it. Both routes → same recommender."
+ * Architectural promise: single source of truth = the facet state
+ * object. Quiz answers mutate it. User edits mutate it. Both routes
+ * → same recommender.
  *
  * Pure: no React, no DOM, no network. Fully testable.
  */
