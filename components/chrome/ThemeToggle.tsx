@@ -56,8 +56,19 @@ export function ThemeToggle() {
     );
   }
 
-  // next-themes returns "system" / "light" / "dark" in `theme`.
-  const current: ThemeChoice = (theme as ThemeChoice) ?? "system";
+  // next-themes returns "system" / "light" / "dark" in `theme`, but
+  // the value is loosely typed as `string | undefined` and a stale
+  // localStorage entry (or a browser extension) can write something
+  // outside the union (e.g. "auto", "sepia"). The earlier
+  // `(theme as ThemeChoice) ?? "system"` cast would let those slip
+  // through, then `CYCLE[<unknown>]` returned undefined and
+  // setTheme(undefined) ran on click. Discriminate explicitly and
+  // fall back to "system" for anything unrecognized — closes
+  // h-theme-toggle-cast from the 2026-04-29 /full-review.
+  const current: ThemeChoice =
+    theme === "light" || theme === "dark" || theme === "system"
+      ? theme
+      : "system";
   const next = CYCLE[current];
   const { glyph, word } = LABEL[current];
 

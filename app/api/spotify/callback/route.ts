@@ -56,7 +56,7 @@ export async function GET(req: NextRequest) {
        (or directly into <code>.env.local</code> as
        <code>SPOTIFY_REFRESH_TOKEN</code>):</p>
     <pre>${escapeHtml(tokens.refresh_token ?? "(none returned)")}</pre>
-    <p>Scopes granted: <code>${escapeHtml(tokens.scope)}</code></p>
+    <p>Scopes granted: <code>${escapeHtml(tokens.scope ?? "(none returned)")}</code></p>
     <p>This page is dev-only and will not exist in production. You
        can close this tab once you've copied the token.</p>
   `);

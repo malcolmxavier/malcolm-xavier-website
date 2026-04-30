@@ -123,10 +123,17 @@ export function MusicShell({ playlists, collections }: Props) {
   // If the user is on page 4 with 12-per-page (rows 37-48 → only
   // 1 card visible) and resizes to mobile (6-per-page → that page
   // doesn't exist), drop them onto the last valid page.
+  //
+  // `page` is intentionally omitted from the deps — this effect
+  // updates `page`, and re-running it because of that update would
+  // be redundant. Including it created a window where a simultaneous
+  // resize + view change could let the URL-sync effect briefly
+  // reflect a pre-clamp page. Closes h-clamp-effect-deps from the
+  // 2026-04-29 /full-review.
   useEffect(() => {
     const totalPages = Math.max(1, Math.ceil(playlists.length / pageSize));
-    if (page >= totalPages) setPage(totalPages - 1);
-  }, [pageSize, playlists.length, page]);
+    setPage((current) => (current >= totalPages ? totalPages - 1 : current));
+  }, [pageSize, playlists.length]);
 
   const totalPages = Math.max(1, Math.ceil(playlists.length / pageSize));
   const start = page * pageSize;

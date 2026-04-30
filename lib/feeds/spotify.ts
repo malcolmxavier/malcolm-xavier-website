@@ -208,15 +208,23 @@ const SCOPES = ["playlist-read-private"];
 // nearly-expired token and 401s mid-flight.
 const REFRESH_BUFFER_SECONDS = 60;
 
-type TokenResponse = {
-  access_token: string;
-  token_type: "Bearer";
-  expires_in: number;
-  scope: string;
+// Validate the token-refresh response before trusting any of it.
+// Spotify can return non-token JSON on misconfigured / revoked
+// refresh tokens (e.g. `{ error: "invalid_grant", error_description:
+// "..." }`), which would have been silently cast to a TokenResponse
+// and cached as `{ token: undefined, expiresAt: now }` — every
+// subsequent call would then 401 with no clear cause. Closes
+// h-spotify-token-cast from the 2026-04-29 /full-review.
+const TokenResponseSchema = z.object({
+  access_token: z.string().min(1),
+  token_type: z.literal("Bearer"),
+  expires_in: z.number().int().positive(),
+  scope: z.string().optional(),
   // refresh_token is only returned on the initial code-exchange;
   // subsequent refreshes may or may not return a new one.
-  refresh_token?: string;
-};
+  refresh_token: z.string().optional(),
+});
+type TokenResponse = z.infer<typeof TokenResponseSchema>;
 
 // ─── Authorization-flow helpers (one-time, dev-only) ──────────────
 
@@ -315,7 +323,16 @@ async function getAccessToken(): Promise<string> {
       `Spotify token refresh failed: ${res.status} ${await res.text()}`,
     );
   }
-  const data = (await res.json()) as TokenResponse;
+  // Validate the response shape before caching. A 200 with an error
+  // body (rare but observed when the refresh token is in a partial
+  // state) would otherwise cache `undefined` as the access token.
+  const parsed = TokenResponseSchema.safeParse(await res.json());
+  if (!parsed.success) {
+    throw new Error(
+      `Spotify token refresh returned an unexpected shape: ${parsed.error.message}`,
+    );
+  }
+  const data = parsed.data;
   cachedAccessToken = {
     token: data.access_token,
     expiresAt: now + data.expires_in,
@@ -354,6 +371,25 @@ type SpotifySnapshot = {
   enrichedById: Record<string, EnrichedPlaylist>;
 };
 
+// Minimal runtime guard for the snapshot file. The full payload is
+// hundreds of nested fields; validating every leaf would balloon
+// startup time and re-derive what the live Spotify schemas already
+// cover. We only check the top-level keys consumers immediately
+// access — that's enough to turn a corrupted / truncated snapshot
+// from a cryptic "cannot read property of undefined" deep in the
+// render into a clear "snapshot is malformed" error at load time.
+// Closes h-spotify-snapshot-cast from the 2026-04-29 /full-review.
+function isSnapshotShape(value: unknown): value is SpotifySnapshot {
+  if (typeof value !== "object" || value === null) return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.capturedAt === "string" &&
+    Array.isArray(v.ownedPlaylists) &&
+    typeof v.enrichedById === "object" &&
+    v.enrichedById !== null
+  );
+}
+
 // Module-scoped cache. Loaded lazily on first offline-mode call;
 // re-used across every subsequent call within the same Node process.
 let cachedSnapshot: SpotifySnapshot | null = null;
@@ -379,7 +415,23 @@ function loadSnapshot(): SpotifySnapshot {
         `server running and Spotify out of cool-down).`,
     );
   }
-  cachedSnapshot = JSON.parse(raw) as SpotifySnapshot;
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (err) {
+    throw new Error(
+      `Spotify snapshot at ${SNAPSHOT_PATH} is not valid JSON: ` +
+        (err instanceof Error ? err.message : String(err)),
+    );
+  }
+  if (!isSnapshotShape(parsed)) {
+    throw new Error(
+      `Spotify snapshot at ${SNAPSHOT_PATH} is malformed (missing ` +
+        `capturedAt / ownedPlaylists / enrichedById). Recapture with ` +
+        `\`npm run music:refresh\`.`,
+    );
+  }
+  cachedSnapshot = parsed;
   return cachedSnapshot;
 }
 
@@ -626,7 +678,20 @@ export async function getMusicData(
   }
   try {
     const summaries = await getOwnedPlaylists(userId, excludeIds);
-    const enriched = await Promise.all(summaries.map(getEnrichedPlaylist));
+    // Enrich in explicit batches matching MAX_CONCURRENT_REQUESTS
+    // rather than firing all ~37 calls at once via Promise.all. The
+    // semaphore caps in-flight at 3 either way, but Promise.all
+    // queues every other waiter (~34 of them) in memory and leaves
+    // them stranded if the render is aborted mid-flight (ISR
+    // revalidation cancellation). Chunked sequential batching only
+    // ever has 3 lambdas alive, so abort cleanup is implicit. Closes
+    // h-music-promise-all-pile from the 2026-04-29 /full-review.
+    const enriched: EnrichedPlaylist[] = [];
+    for (let i = 0; i < summaries.length; i += MAX_CONCURRENT_REQUESTS) {
+      const batch = summaries.slice(i, i + MAX_CONCURRENT_REQUESTS);
+      const batchResults = await Promise.all(batch.map(getEnrichedPlaylist));
+      enriched.push(...batchResults);
+    }
     const playlists = sortPlaylistsForDisplay(
       enriched,
       manualOrder,
@@ -813,15 +878,36 @@ async function spotifyFetch(url: string): Promise<Response> {
     // a 401 inside the loop, which is the actual signal that the
     // cached token expired mid-flight.
     let token = await getAccessToken();
+    // 401 retries (token mid-flight expiry) and 429 retries (rate-
+    // limit cool-downs) are tracked separately so the final error
+    // message reflects the actual failure mode. Previously both fell
+    // through to "429 retries exhausted" even when the real loop was
+    // a 401 storm (revoked refresh token), sending the next debugger
+    // down the wrong path. Closes l-401-429-conflated from the
+    // 2026-04-29 /full-review.
+    let lastStatus: number | null = null;
+    let token401Retries = 0;
+    const MAX_TOKEN_401_RETRIES = 2;
     for (let attempt = 0; attempt <= RATE_LIMIT_MAX_RETRIES; attempt++) {
       const res = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
         // Defer caching to Next.js at the call-site.
         cache: "no-store",
       });
+      lastStatus = res.status;
       // Token expired between mint and request — re-mint and retry
-      // this attempt without consuming a 429 retry slot.
-      if (res.status === 401 && attempt < RATE_LIMIT_MAX_RETRIES) {
+      // this attempt without consuming a 429 retry slot. Capped by
+      // MAX_TOKEN_401_RETRIES so a revoked refresh token can't loop
+      // forever (or eat the 429 budget masquerading as a 429 fail).
+      if (res.status === 401) {
+        if (token401Retries >= MAX_TOKEN_401_RETRIES) {
+          throw new Error(
+            `Spotify API: 401 unauthorized on ${url} after ` +
+              `${MAX_TOKEN_401_RETRIES} token re-mint attempts. ` +
+              `Refresh token may be revoked — re-run the auth flow.`,
+          );
+        }
+        token401Retries++;
         token = await getAccessToken();
         continue;
       }
@@ -859,7 +945,9 @@ async function spotifyFetch(url: string): Promise<Response> {
       }
       return res;
     }
-    throw new Error(`Spotify API: 429 retries exhausted on ${url}`);
+    throw new Error(
+      `Spotify API: retries exhausted on ${url} (last status: ${lastStatus ?? "unknown"})`,
+    );
   });
 }
 
