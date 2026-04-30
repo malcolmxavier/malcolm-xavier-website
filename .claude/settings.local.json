@@ -235,7 +235,10 @@
       "Bash(jq)",
       "Skill(schedule)",
       "Bash(uuidgen)",
-      "Bash(awk -F/ '{print $2}')"
+      "Bash(awk -F/ '{print $2}')",
+      "Bash(SPOTIFY_OFFLINE=1 npm run dev)",
+      "Bash(tee /tmp/dev-spotify-fix.log)",
+      "Bash(kill b8ppfzd4a *)"
     ]
   }
 }
