@@ -624,16 +624,32 @@ export default function ResumePage() {
           padding="md"
           bordered
         >
+          {/* Three peer-equal inline links diluted the primary action.
+              Bottom-of-resume readers are highest-intent — the
+              hierarchy now leads with a primary LinkedIn button
+              (the canonical recruiter inbound channel) and demotes
+              email + Calendly to inline secondary links. Closes
+              m-resume-closing-cta-flat from the 2026-04-29
+              /full-review. */}
           <Stack gap="400" align="start">
             <Headline level={2}>Let&apos;s talk.</Headline>
             <Body>
               If you&apos;re hiring for a Senior PM in media, publishing, or
-              streaming—or you&apos;d just like to compare notes—pick a slot
-              for a{" "}
-              <Link href={CONTACT.calendly}>30-minute product chat</Link>,
-              send an <Link href={mailHref}>email</Link>, or reach out on{" "}
-              <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>.
+              streaming—or you&apos;d just like to compare notes—LinkedIn
+              is fastest. Or send an{" "}
+              <Link href={mailHref}>email</Link> or pick a slot for a{" "}
+              <Link href={CONTACT.calendly}>30-minute product chat</Link>.
             </Body>
+            <Button
+              as="a"
+              href={CONTACT.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              variant="primary"
+              size="lg"
+            >
+              Connect on LinkedIn ↗
+            </Button>
           </Stack>
         </Section>
         </div>
