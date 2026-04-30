@@ -33,7 +33,9 @@
 "use client";
 
 import { useEffect } from "react";
+import { track } from "@vercel/analytics";
 import { CONTACT } from "@/app/resume/resume-data";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
 // Pull from the central CONTACT constant so the widget URL stays in
 // lockstep with the rest of the codebase (2026-04-29 /full-review,
@@ -47,6 +49,10 @@ import { CONTACT } from "@/app/resume/resume-data";
 // kept flexible.
 const CALENDLY_URL = CONTACT.calendlyRoot;
 const SCRIPT_SRC = "https://assets.calendly.com/assets/external/widget.js";
+// Calendly broadcasts widget lifecycle events as window
+// `message` events. Origin to match against — Calendly's iframe
+// posts from this exact host.
+const CALENDLY_ORIGIN = "https://calendly.com";
 
 export function CalendlyWidget() {
   useEffect(() => {
@@ -59,6 +65,34 @@ export function CalendlyWidget() {
     script.src = SCRIPT_SRC;
     script.async = true;
     document.body.appendChild(script);
+  }, []);
+
+  // postMessage listener — fires CALENDLY_BOOKED when the iframe
+  // emits `calendly.event_scheduled` (the booking-completed signal).
+  // This is the conversion end of the recruiter funnel; without it
+  // we'd see clicks-to-Calendly but never know how many actually
+  // booked. Closes the tracking half of
+  // a-calendly-widget-url-and-tracking from the 2026-04-29
+  // /full-review (URL half shipped in Batch 2).
+  //
+  // Origin check is mandatory — without it any page-frame on the
+  // open web could spoof the event. We also defensively gate on
+  // the data shape since postMessage payloads are unconstrained.
+  useEffect(() => {
+    function handleMessage(event: MessageEvent) {
+      if (event.origin !== CALENDLY_ORIGIN) return;
+      const data = event.data as unknown;
+      if (
+        typeof data === "object" &&
+        data !== null &&
+        "event" in data &&
+        (data as { event: unknown }).event === "calendly.event_scheduled"
+      ) {
+        track(ANALYTICS_EVENTS.CALENDLY_BOOKED);
+      }
+    }
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   return (
