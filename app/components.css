@@ -272,6 +272,17 @@ a.music-action:focus-visible:not(:disabled) {
   text-underline-offset: 2px;
 }
 
+/* Pagination primitive (components/primitives/Pagination.tsx). Same
+   cascade pattern as .music-action: inline styles outrank Tailwind,
+   so we set hover/focus color in a stylesheet rule with !important.
+   Sub-brand-agnostic — --text-action-hover resolves per-cluster via
+   the [data-subbrand] cascade, so this single rule works across
+   /music, /films, and any future paginated surface. */
+.pagination-action:hover:not(:disabled),
+.pagination-action:focus-visible:not(:disabled) {
+  color: var(--text-action-hover) !important;
+}
+
 /* ─── Mono-context heading tracking reset ──────────────────────
    Display + Headline apply `letter-spacing: -0.01em` inline so the
    recruiter-cluster Instrument Serif reads with a touch of editorial

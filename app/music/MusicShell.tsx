@@ -30,6 +30,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { Stack } from "@/components/layout/Stack";
+import { Pagination } from "@/components/primitives/Pagination";
 import type { EnrichedPlaylist } from "@/lib/feeds/spotify-utils";
 import type { Collection } from "@/lib/feeds/spotify-config";
 import { PlaylistCard } from "./PlaylistCard";
@@ -250,13 +251,18 @@ export function MusicShell({ playlists, collections, saveData = false }: Props) 
             All playlists
           </Headline>
           <PlaylistGrid playlists={visiblePlaylists} />
-          {totalPages > 1 ? (
-            <Pagination
-              page={page}
-              totalPages={totalPages}
-              onChange={goToPage}
-            />
-          ) : null}
+          {/* The shared <Pagination> primitive is 1-indexed in its
+              public API (page 1 is the first page). MusicShell stores
+              0-indexed `page` internally because URL serialization +
+              array slicing both want 0-based here, so we adapt at
+              the boundary. The primitive returns null when
+              totalPages <= 1, making an outer guard redundant. */}
+          <Pagination
+            currentPage={page + 1}
+            totalPages={totalPages}
+            onPageChange={(p) => goToPage(p - 1)}
+            ariaLabel="Playlist pages"
+          />
         </Stack>
       ) : (
         <CollectionsView
@@ -385,192 +391,6 @@ function PlaylistGrid({ playlists }: { playlists: EnrichedPlaylist[] }) {
         </li>
       ))}
     </ul>
-  );
-}
-
-// ─── Pagination controls ──────────────────────────────────────────
-
-/**
- * Build the visible page-number window: 2 pages out in either
- * direction from the current page, clamped to [0, totalPages-1].
- *
- * Examples (totalPages = 7):
- *   page 0 → [0, 1, 2]
- *   page 3 → [1, 2, 3, 4, 5]
- *   page 6 → [4, 5, 6]
- *
- * Users can click any visible number directly. To reach pages
- * outside the window, click any visible number to widen the window
- * (or use Prev/Next).
- */
-function pageNumberWindow(current: number, totalPages: number): number[] {
-  const candidates = [
-    current - 2,
-    current - 1,
-    current,
-    current + 1,
-    current + 2,
-  ];
-  return candidates.filter((n) => n >= 0 && n < totalPages);
-}
-
-function Pagination({
-  page,
-  totalPages,
-  onChange,
-}: {
-  page: number;
-  totalPages: number;
-  onChange: (next: number) => void;
-}) {
-  const atStart = page === 0;
-  const atEnd = page === totalPages - 1;
-  const visible = pageNumberWindow(page, totalPages);
-
-  return (
-    <nav aria-label="Playlist pages">
-      {/* Prev, page numbers, and Next all sit inside one <ol> so
-          screen readers announce a single list of N items rather
-          than two buttons floating outside the list. The current
-          page renders as a styled non-interactive <span aria-
-          current="page"> so it stays out of the tab order. */}
-      <ol
-        // role="list" because Safari iOS strips the implicit role
-        // when list-style: none is applied.
-        role="list"
-        className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap"
-        style={{ listStyle: "none", padding: 0, margin: 0 }}
-      >
-        <li>
-          <PaginationButton
-            onClick={() => onChange(page - 1)}
-            disabled={atStart}
-            aria-label="Previous page"
-          >
-            ← Prev
-          </PaginationButton>
-        </li>
-
-        {visible.map((n) => {
-          const isCurrent = n === page;
-          // Shared visual styles. Both the active <span> and the
-          // inactive <button> use the same shape/weight so the
-          // pagination row reads as one cohesive group.
-          const sharedStyle: React.CSSProperties = {
-            fontFamily: "var(--font-mono)",
-            fontSize: "var(--p-xs-font-size)",
-            lineHeight: "var(--p-xs-line-height)",
-            letterSpacing: "0.08em",
-            // Current page: sub-brand accent color (purple on /music)
-            // + underline. Inactive pages: muted, clickable. Both
-            // now read --text-action — the sub-brand cascade resolves
-            // it to the active accent thanks to the [data-subbrand]
-            // re-binding in build-tokens.mjs.
-            color: isCurrent ? "var(--text-action)" : "var(--text-caption)",
-            fontWeight: isCurrent ? 600 : 400,
-            padding: "6px 10px",
-            borderBottom: isCurrent
-              ? "2px solid var(--text-action)"
-              : "2px solid transparent",
-            minWidth: 32,
-            display: "inline-block",
-            textAlign: "center",
-          };
-          // Render the current page as a non-interactive <span> so it
-          // doesn't appear in the keyboard tab order and screen readers
-          // don't announce "Page 3, button" with a click handler that
-          // does nothing. aria-current="page" tells AT this is the
-          // active page; only the OTHER page numbers stay focusable.
-          if (isCurrent) {
-            return (
-              <li key={n}>
-                <span
-                  aria-current="page"
-                  aria-label={`Page ${n + 1}, current`}
-                  style={sharedStyle}
-                >
-                  {n + 1}
-                </span>
-              </li>
-            );
-          }
-          return (
-            <li key={n}>
-              <button
-                type="button"
-                onClick={() => onChange(n)}
-                aria-label={`Page ${n + 1}`}
-                style={{
-                  ...sharedStyle,
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  outlineColor: "var(--border-focus)",
-                }}
-                className="music-action transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-4"
-              >
-                {n + 1}
-              </button>
-            </li>
-          );
-        })}
-
-        <li>
-          <PaginationButton
-            onClick={() => onChange(page + 1)}
-            disabled={atEnd}
-            aria-label="Next page"
-          >
-            Next →
-          </PaginationButton>
-        </li>
-      </ol>
-    </nav>
-  );
-}
-
-function PaginationButton({
-  onClick,
-  disabled,
-  children,
-  ...rest
-}: {
-  onClick: () => void;
-  disabled: boolean;
-  children: React.ReactNode;
-  "aria-label": string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      disabled={disabled}
-      style={{
-        fontFamily: "var(--font-mono)",
-        fontSize: "var(--p-xs-font-size)",
-        lineHeight: "var(--p-xs-line-height)",
-        textTransform: "uppercase",
-        letterSpacing: "0.08em",
-        // Use the action token chain so [data-theme="dark"]
-        // [data-subbrand] override (--text-action: --primary-300)
-        // applies. Bypassing to --primary-default rendered as
-        // primary-500 on black = 2.7:1 in dark+music, failing
-        // SC 1.4.3 (caught by axe in the 2026-04-28 follow-up).
-        color: disabled
-          ? "var(--text-disabled)"
-          : "var(--text-action)",
-        background: "none",
-        border: "none",
-        padding: "8px 12px",
-        cursor: disabled ? "not-allowed" : "pointer",
-        opacity: disabled ? 0.5 : 1,
-        outlineColor: "var(--border-focus)",
-      }}
-      className="music-action transition-opacity focus-visible:outline-2 focus-visible:outline-offset-4"
-      {...rest}
-    >
-      {children}
-    </button>
   );
 }
 
