@@ -25,30 +25,52 @@
 // the penalty box?" without redeploying is exactly the point.
 // ─────────────────────────────────────────────────────────────────
 
-import { pingSpotifyHealth } from "@/lib/feeds/spotify";
+import { getSnapshotMeta, pingSpotifyHealth } from "@/lib/feeds/spotify";
 
 // Always run at request time. Caching this would defeat the entire
 // purpose — we want a fresh probe every call.
 export const dynamic = "force-dynamic";
 
+// Snapshot diagnostic shape. Returned alongside live probes so the
+// response covers both axes: "is Spotify reachable?" (live probes)
+// AND "how stale is what prod is currently serving from snapshot?"
+// (snapshot block). In prod, the latter is the answer that matters
+// for users; in dev, both are useful.
+type SnapshotBlock =
+  | { ok: true; capturedAt: string; ageDays: number; playlistCount: number }
+  | { ok: false; error: string };
+
+function readSnapshotBlock(): SnapshotBlock {
+  try {
+    return { ok: true, ...getSnapshotMeta() };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : String(e) };
+  }
+}
+
 export async function GET() {
+  // Snapshot read is independent of the live probe — capture it
+  // first so even an auth failure on the live path still returns the
+  // snapshot freshness signal.
+  const snapshot = readSnapshotBlock();
+
   let health;
   try {
     health = await pingSpotifyHealth();
   } catch (e) {
     // Token mint failed (missing env, refresh token revoked, etc.)
     // Surface as a 500 so callers can distinguish "diagnostic broke"
-    // from "Spotify said no".
+    // from "Spotify said no". Snapshot block still attached.
     const message = e instanceof Error ? e.message : String(e);
     return Response.json(
-      { ok: false, stage: "auth", error: message },
+      { ok: false, stage: "auth", error: message, snapshot },
       { status: 500 },
     );
   }
 
-  // Clear path — hand back the probes as-is.
+  // Clear path — hand back the probes plus snapshot as-is.
   if (health.ok) {
-    return Response.json(health);
+    return Response.json({ ...health, snapshot });
   }
 
   // At least one probe is non-OK. If any 429s landed, dress up the
@@ -63,12 +85,13 @@ export async function GET() {
       worstRetryAfterHuman: formatSeconds(health.worstRetryAfterSeconds),
       worstClearAt: worstClearAtIso,
       worstClearAtLocal: formatLocal(worstClearAtIso),
+      snapshot,
     });
   }
 
   // Non-429 failure on at least one probe — pass through unchanged
   // so the body / status fields are visible to the caller.
-  return Response.json(health);
+  return Response.json({ ...health, snapshot });
 }
 
 // ─── Formatting helpers ───────────────────────────────────────────
