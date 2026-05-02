@@ -435,6 +435,30 @@ function loadSnapshot(): SpotifySnapshot {
   return cachedSnapshot;
 }
 
+/**
+ * Lightweight snapshot diagnostic — reads the snapshot file, returns
+ * just the freshness signals (capturedAt, ageDays, playlistCount).
+ * Used by /api/spotify/health so the diagnostic surfaces both "is
+ * Spotify reachable?" and "how stale is what prod is currently
+ * serving from snapshot?" Throws the same error as loadSnapshot when
+ * the file is missing or malformed — caller should catch and report
+ * "snapshot unavailable" separately from "Spotify rate-limited".
+ */
+export function getSnapshotMeta(): {
+  capturedAt: string;
+  ageDays: number;
+  playlistCount: number;
+} {
+  const snap = loadSnapshot();
+  const ageMs = Date.now() - new Date(snap.capturedAt).getTime();
+  const ageDays = Math.floor(ageMs / (1000 * 60 * 60 * 24));
+  return {
+    capturedAt: snap.capturedAt,
+    ageDays,
+    playlistCount: snap.ownedPlaylists.length,
+  };
+}
+
 // ─── Read API ─────────────────────────────────────────────────────
 
 /**
