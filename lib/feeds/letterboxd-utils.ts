@@ -17,7 +17,15 @@ export type Review = {
   watchedDate: string;
   /** ISO date — when the review was published on Letterboxd. */
   reviewDate: string;
-  /** 0.5 to 5.0 in 0.5 increments, or null if unrated. */
+  /**
+   * 0.5 to 5.0 in 0.5 increments, or null if unrated.
+   *
+   * **Convention: unrated MUST be `null`, never `0`.** Letterboxd's
+   * rating range starts at 0.5; a value of `0` is not meaningful and
+   * would be rendered by `<StarRating>` as five outlined empty stars
+   * with the misleading SR announcement "Rated 0 out of 5 stars."
+   * The parser normalizes any rating-absent diary entry to `null`.
+   */
   rating: number | null;
   rewatch: boolean;
   containsSpoilers: boolean;
@@ -55,7 +63,11 @@ export type Film = {
   firstReviewDate: string;
   /** ISO date — most recent review publication date. */
   latestReviewDate: string;
-  /** Most recent review's rating. Surfaced on the card when no per-review filter is active. */
+  /**
+   * Most recent review's rating. Surfaced on the card when no
+   * per-review filter is active. Inherits the same null-not-zero
+   * convention as `Review.rating` — unrated is `null`, never `0`.
+   */
   primaryRating: number | null;
   /** Most recent review's liked flag. */
   liked: boolean;
@@ -88,6 +100,18 @@ export type FilmsSummary = {
 
 // ─── Filter + sort spec ──────────────────────────────────────────
 
+/**
+ * Review-date filter. `reviewYear` (exact) and `reviewWindow`
+ * (rolling) are mutually exclusive — discriminated union enforces
+ * this at the type level so callers can't accidentally set both
+ * and watch the impl pick one arbitrarily. The empty branch makes
+ * the whole sub-filter optional.
+ */
+type ReviewDateFilter =
+  | { reviewYear: number; reviewWindow?: never }
+  | { reviewWindow: "12mo"; reviewYear?: never }
+  | { reviewYear?: undefined; reviewWindow?: undefined };
+
 export type FilmFilters = {
   /** Empty/undefined = no filter. Otherwise: keep film if any review's rating ∈ this set. */
   ratings?: number[];
@@ -95,11 +119,7 @@ export type FilmFilters = {
   releaseYearMax?: number;
   /** Empty/undefined = no filter. Otherwise: keep film if film's genres intersect this set. */
   genres?: string[];
-  /** Exact year match against any review's reviewDate. */
-  reviewYear?: number;
-  /** Rolling-window key: e.g. "12mo" = past 12 months. Mutually exclusive with reviewYear. */
-  reviewWindow?: "12mo";
-};
+} & ReviewDateFilter;
 
 export type FilmSort =
   | "first-review-desc"
@@ -121,7 +141,14 @@ export type FilmSort =
  */
 export type AppliedFilm = {
   film: Film;
-  qualifyingReview: Review;
+  /**
+   * The qualifying review under active per-review filters, or null
+   * when the film has no reviews. Typing as nullable forces every
+   * consumer to null-check before accessing review fields — keeps
+   * the snapshot-with-empty-reviews edge case from crashing the
+   * grid render.
+   */
+  qualifyingReview: Review | null;
   cardRating: number | null;
   positionDate: string;
 };
@@ -144,7 +171,11 @@ export function applyFilters(
 ): AppliedFilm[] {
   return films.map((film) => ({
     film,
-    qualifyingReview: film.reviews[0],
+    // `?? null` guard handles the edge case where a Film makes it
+    // into the snapshot with an empty reviews[] (parser bug, mid-
+    // refresh inconsistency, hand-edited fixture). Forces consumers
+    // to null-check rather than letting `undefined` propagate.
+    qualifyingReview: film.reviews[0] ?? null,
     cardRating: film.primaryRating,
     positionDate: film.firstReviewDate,
   }));
@@ -181,9 +212,14 @@ export function paginate<T>(
 
 // ─── Display formatters ──────────────────────────────────────────
 
-/** "★★★½" for 3.5; "★★★★★" for 5; "" for null. Half-star uses ½ glyph. */
-export function formatRating(rating: number | null): string {
-  if (rating === null) return "";
+/**
+ * "★★★½" for 3.5; "★★★★★" for 5; `null` for unrated. Half-star
+ * uses ½ glyph. Returns `null` (not `""`) for the unrated case so
+ * the convention matches `<StarRating>` — both render nothing in
+ * the DOM rather than producing an empty text node.
+ */
+export function formatRating(rating: number | null): string | null {
+  if (rating === null) return null;
   const full = Math.floor(rating);
   const half = rating - full >= 0.5;
   return "★".repeat(full) + (half ? "½" : "");
@@ -198,12 +234,23 @@ export function formatRuntime(minutes: number | null): string {
   return m ? `${h}h ${m}m` : `${h}h`;
 }
 
-/** "Apr 30, 2026" for an ISO date. */
+/**
+ * "Apr 30, 2026" for an ISO date.
+ *
+ * Forces `timeZone: "UTC"` so a date-only ISO string ("2026-04-30")
+ * renders the same calendar date regardless of server timezone.
+ * Without this, a UTC-or-behind server (anywhere west of GMT)
+ * would format "2026-04-30" as "Apr 29, 2026" because JS parses
+ * date-only strings as UTC midnight and then `toLocaleDateString`
+ * converts to local. Stays consistent with `yearFromIso` below
+ * which also uses UTC.
+ */
 export function formatWatchedDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
+    timeZone: "UTC",
   });
 }
 

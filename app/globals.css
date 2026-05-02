@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-04-30T17:41:48.733Z
+   Built:        2026-05-02T05:00:17.408Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -789,6 +789,15 @@
   --icon-action: var(--primary-default);
   --icon-action-hover: var(--primary-700);
   --border-action: var(--primary-default);
+  --border-action-hover: var(--primary-700);
+}
+
+[data-subbrand="film"] {
+  --text-action: var(--primary-600);
+  --text-action-hover: var(--primary-700);
+  --icon-action: var(--primary-600);
+  --icon-action-hover: var(--primary-700);
+  --border-action: var(--primary-600);
   --border-action-hover: var(--primary-700);
 }
 

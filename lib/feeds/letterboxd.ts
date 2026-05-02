@@ -17,12 +17,7 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
-import type {
-  Film,
-  FilmsSummary,
-  Review,
-  TmdbMeta,
-} from "./letterboxd-utils";
+import type { Film, FilmsSummary } from "./letterboxd-utils";
 
 // Re-export the public types so consumers can import everything from
 // either module — same convention as spotify.ts re-exports from
