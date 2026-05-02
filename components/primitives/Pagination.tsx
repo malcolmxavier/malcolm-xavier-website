@@ -28,22 +28,52 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 
-// Discriminated union: exactly one of onPageChange / hrefForPage
-// must be provided. TypeScript enforces this at call sites.
+// Discriminated union: exactly one of onPageChange / hrefForPage /
+// basePath must be provided. TypeScript enforces this at call sites.
+//
+// • CallbackMode (client only): onPageChange handler. Use when the
+//   parent owns side effects beyond navigation (state updates,
+//   scroll, aria-live announcements).
+// • HrefFnMode (client only): hrefForPage function. Use when
+//   pagination is just URL state and the parent is already a
+//   client component that can pass the closure.
+// • BasePathMode (server-safe): basePath + pageParam strings.
+//   Use from server components where Next.js forbids passing
+//   functions across the boundary. Internally builds hrefs as
+//   `${basePath}?${pageParam}=${page}` plus any preserveParams.
 type CallbackMode = {
   onPageChange: (page: number) => void;
   hrefForPage?: never;
+  basePath?: never;
   scroll?: never;
   replace?: never;
 };
 
-type HrefMode = {
+type HrefFnMode = {
   hrefForPage: (page: number) => string;
   /** Forwarded to <Link>. Default: false (page changes shouldn't jump scroll). */
   scroll?: boolean;
   /** Forwarded to <Link>. Default: false (use push by default). */
   replace?: boolean;
   onPageChange?: never;
+  basePath?: never;
+};
+
+type BasePathMode = {
+  /** URL prefix for the hrefs, e.g. "/films". */
+  basePath: string;
+  /** Query param name for the page number. Default: "page". Page 1
+   *  is rendered as the basePath alone (no param) to keep URLs clean. */
+  pageParam?: string;
+  /** Extra query params to preserve on every href. Useful when the
+   *  parent has filter state that should survive page changes. */
+  preserveParams?: Record<string, string | undefined>;
+  /** Forwarded to <Link>. Default: false. */
+  scroll?: boolean;
+  /** Forwarded to <Link>. Default: false. */
+  replace?: boolean;
+  onPageChange?: never;
+  hrefForPage?: never;
 };
 
 export type PaginationProps = {
@@ -56,7 +86,7 @@ export type PaginationProps = {
   ariaLabel?: string;
   /** Outer <nav> className. */
   className?: string;
-} & (CallbackMode | HrefMode);
+} & (CallbackMode | HrefFnMode | BasePathMode);
 
 /** windowSize pages on either side of current, clamped to [1, totalPages]. */
 function pageWindow(
@@ -85,7 +115,7 @@ export function Pagination({
   const visible = pageWindow(currentPage, totalPages, windowSize);
   const atStart = currentPage <= 1;
   const atEnd = currentPage >= totalPages;
-  const modeProps = mode as CallbackMode | HrefMode;
+  const modeProps = mode as ModeProps;
 
   return (
     <nav aria-label={ariaLabel} className={className}>
@@ -128,10 +158,38 @@ export function Pagination({
 
 // ─── Internals ────────────────────────────────────────────────────
 
-type ModeProps = CallbackMode | HrefMode;
+type ModeProps = CallbackMode | HrefFnMode | BasePathMode;
 
 const isCallback = (m: ModeProps): m is CallbackMode =>
   typeof (m as CallbackMode).onPageChange === "function";
+
+const isBasePath = (m: ModeProps): m is BasePathMode =>
+  typeof (m as BasePathMode).basePath === "string";
+
+/**
+ * Build an href for a target page. Resolves whichever mode is in
+ * use:
+ *   • HrefFnMode: defer to the consumer's closure.
+ *   • BasePathMode: assemble basePath?pageParam=N&...preserveParams.
+ *     Page 1 omits the param so the canonical URL stays clean.
+ *   • CallbackMode: not applicable (caller renders a <button>).
+ */
+function resolveHref(target: number, mode: ModeProps): string {
+  if (isBasePath(mode)) {
+    const paramName = mode.pageParam ?? "page";
+    const params = new URLSearchParams();
+    if (mode.preserveParams) {
+      for (const [k, v] of Object.entries(mode.preserveParams)) {
+        if (v !== undefined && v !== "") params.set(k, v);
+      }
+    }
+    if (target > 1) params.set(paramName, String(target));
+    const qs = params.toString();
+    return qs ? `${mode.basePath}?${qs}` : mode.basePath;
+  }
+  // HrefFnMode (callback mode never reaches here).
+  return (mode as HrefFnMode).hrefForPage(target);
+}
 
 /** Prev/Next button. Always renders as <button> (links can't be disabled). */
 function NavButton({
@@ -187,14 +245,18 @@ function NavButton({
       </button>
     );
   }
+  // Non-callback mode: render as <Link>. Resolve href from either
+  // function-mode or basePath-mode internally so server-component
+  // callers can pass serializable inputs.
+  const hrefMode = mode as HrefFnMode | BasePathMode;
   return (
     <Link
-      href={mode.hrefForPage(target)}
+      href={resolveHref(target, hrefMode)}
       aria-label={ariaLabel}
       style={style}
       className={className}
-      scroll={mode.scroll ?? false}
-      replace={mode.replace ?? false}
+      scroll={hrefMode.scroll ?? false}
+      replace={hrefMode.replace ?? false}
     >
       {label}
     </Link>
@@ -267,14 +329,15 @@ function PageItem({
       </button>
     );
   }
+  const hrefMode = mode as HrefFnMode | BasePathMode;
   return (
     <Link
-      href={mode.hrefForPage(page)}
+      href={resolveHref(page, hrefMode)}
       aria-label={`Page ${page}`}
       style={interactiveStyle}
       className={className}
-      scroll={mode.scroll ?? false}
-      replace={mode.replace ?? false}
+      scroll={hrefMode.scroll ?? false}
+      replace={hrefMode.replace ?? false}
     >
       {page}
     </Link>
