@@ -96,12 +96,11 @@ export default async function MusicPage() {
   const headersList = await headers();
   const saveData = headersList.get("save-data") === "on";
 
-  // getMusicData wraps the live Spotify fetch with a snapshot
-  // fallback: it tries the live pipeline first, and on any failure
-  // (rate-limit, 5xx, network blip) reads from the on-disk snapshot
-  // so the page still renders. Only throws when BOTH live and the
-  // snapshot are unavailable — at which point the holding-state
-  // fallback below is the right thing to show.
+  // getMusicData reads the on-disk snapshot in all Vercel environments
+  // (SPOTIFY_OFFLINE=1). The live Spotify path inside the function
+  // remains for `dev:online` workflows that power the refresh script;
+  // user-facing renders never touch it. Throws only when the snapshot
+  // itself is unreadable — SpotifyUnavailable is the holding state.
   let result: MusicDataResult;
   try {
     result = await getMusicData(
@@ -114,18 +113,7 @@ export default async function MusicPage() {
     console.error("[/music] live AND snapshot failed:", err);
     return <SpotifyUnavailable />;
   }
-  const { playlists, source, capturedAt } = result;
-  // Format the capturedAt timestamp for the staleness caption when
-  // we're serving from snapshot. Editorial-honest about data
-  // freshness rather than silently presenting stale data as live.
-  const capturedAtCaption =
-    source === "snapshot" && capturedAt
-      ? new Date(capturedAt).toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        })
-      : null;
+  const { playlists } = result;
 
   return (
     // data-subbrand flips --primary-*, --font-primary, and
@@ -143,15 +131,6 @@ export default async function MusicPage() {
               the full track list. And click through to listen on Spotify
               or Apple Music. Check back in each month to see what's new.
             </Lede>
-            {capturedAtCaption ? (
-              // Quiet caption when /music is served from the on-disk
-              // snapshot rather than a fresh Spotify fetch (rate
-              // limit, 5xx, network blip). The editorial voice the
-              // rest of the site carries about data sources extends
-              // here — users see what they're getting instead of
-              // assuming live data.
-              <Kicker>Snapshot · {capturedAtCaption}</Kicker>
-            ) : null}
           </Stack>
         </Section>
 
