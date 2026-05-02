@@ -636,3 +636,25 @@ code.code-chip {
 .math-op {
   margin-inline: 0.12em;
 }
+
+/* ─── Star rating fill — sitewide green ────────────────────────
+   Stars stay green across the site regardless of which sub-brand
+   cluster the consumer sits inside (films = orange, music =
+   purple, etc.). The green pair below mirrors the newsletter
+   sub-brand link colors — Malcolm's canonical "green we use
+   across the site." green-800 (#056510) hits ~7.0:1 on white
+   (passes SC 1.4.11 non-text + AA body text); green-400
+   (#3dfd53) hits ~9.5:1 on black.
+
+   Why a dedicated class instead of a token: --text-action
+   re-binds inside [data-subbrand], so any token-based path
+   would inherit the cluster's accent. The class explicitly
+   overrides via specificity so green wins inside any cluster.
+   ───────────────────────────────────────────────────────────── */
+
+.star-rating-fill {
+  color: var(--green-800);
+}
+[data-theme="dark"] .star-rating-fill {
+  color: var(--green-400);
+}

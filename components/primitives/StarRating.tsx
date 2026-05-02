@@ -19,12 +19,12 @@
 //     accent — left-half-filled, right-half-outlined.
 //   • Empty slot: outlined star in --text-caption (muted).
 //
-// Why --text-action and not --primary-default for fills:
-// the [data-theme="dark"][data-subbrand] cascade re-binds
-// --text-action so dark-mode contrast stays AA per the 2026-04-28
-// audit. Bypassing to --primary-default rendered as primary-500 on
-// black at 2.7:1 contrast (failed SC 1.4.3). Same lesson as the
-// pagination primitive — preserve the action chain.
+// Star fill is sitewide green via the .star-rating-fill class
+// (defined in components.css). This is a deliberate departure
+// from --text-action — stars stay green regardless of which
+// sub-brand cluster (film orange, music purple, …) the consumer
+// renders inside. Empty stars stay --text-caption (muted) so the
+// "ghost" slots read as backdrop, not as another semantic color.
 //
 // Compact vs full display:
 //   • Default (compact): trailing empty slots are hidden, so 4★
@@ -93,12 +93,11 @@ export function StarRating({
     <span
       role="img"
       aria-label={label}
-      className={className}
+      className={["star-rating-fill", className].filter(Boolean).join(" ")}
       style={{
         display: "inline-flex",
         gap: 2,
         verticalAlign: "middle",
-        color: "var(--text-action)",
         ...style,
       }}
     >

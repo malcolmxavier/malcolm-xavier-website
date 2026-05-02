@@ -11,12 +11,23 @@
 //     pagination is just URL state and you want next/link's
 //     prefetching. /films will use this once it lands.
 //
+// Layout: First / windowed / Last with inert ellipses for elided
+// gaps. At currentPage 13 of 25 with windowSize=2 the row reads
+// `← Prev | 1 … 11 12 [13] 14 15 … 25 | Next →`. Anchors only
+// appear when the window doesn't already touch them; ellipses
+// only appear when there's a real gap (≥1 elided page). For small
+// totals (≤ ~5) the row collapses to plain `← Prev | 1 2 3 4 5 |
+// Next →` automatically.
+//
+// Ellipses are decorative <span aria-hidden> inside aria-hidden
+// list items — not in the tab order, not announced by screen
+// readers. Industry default for pagination chrome: ambiguous
+// click targets ("which elided page do I jump to?") trade clarity
+// for nothing. Users navigate via Prev/Next, the windowed numbers,
+// or the First/Last anchors.
+//
 // The active page renders as a non-interactive <span aria-current=
-// "page"> so it stays out of the tab order. Visible window is
-// `currentPage ± windowSize`, clamped to [1, totalPages]. No
-// ellipsis / first-last anchors yet — fine for /music (3-13 pages)
-// and acceptable for /films at MVP. If pagination depth becomes
-// painful later, add ellipsis here rather than per-consumer.
+// "page"> so it stays out of the tab order.
 //
 // Pages are 1-indexed throughout the public API. Consumers that
 // store 0-indexed state internally (e.g. MusicShell) adapt at the
@@ -88,17 +99,52 @@ export type PaginationProps = {
   className?: string;
 } & (CallbackMode | HrefFnMode | BasePathMode);
 
-/** windowSize pages on either side of current, clamped to [1, totalPages]. */
-function pageWindow(
+/**
+ * Build the ordered list of items in the pagination row: First
+ * anchor (if elided), optional left ellipsis, the windowed page
+ * numbers, optional right ellipsis, Last anchor (if elided).
+ *
+ * Ellipses only appear when there's a real gap (≥ 2 elided pages)
+ * — otherwise the row reads cleaner with the would-be-elided page
+ * inline (e.g. `1 2 3 4 5` not `1 … 3 4 5`).
+ */
+type PaginationEntry =
+  | { kind: "page"; page: number }
+  | { kind: "ellipsis"; id: "left" | "right" };
+
+function buildPaginationEntries(
   current: number,
   totalPages: number,
   windowSize: number,
-): number[] {
-  const out: number[] = [];
-  for (let i = current - windowSize; i <= current + windowSize; i++) {
-    if (i >= 1 && i <= totalPages) out.push(i);
+): PaginationEntry[] {
+  if (totalPages <= 1) return [];
+
+  const windowStart = Math.max(1, current - windowSize);
+  const windowEnd = Math.min(totalPages, current + windowSize);
+  const entries: PaginationEntry[] = [];
+
+  // Leading anchor + left ellipsis (only if there's a gap).
+  if (windowStart > 1) {
+    entries.push({ kind: "page", page: 1 });
+    if (windowStart > 2) {
+      entries.push({ kind: "ellipsis", id: "left" });
+    }
+    // windowStart === 2 → no ellipsis; row reads "1, 2, 3, …"
   }
-  return out;
+
+  for (let p = windowStart; p <= windowEnd; p++) {
+    entries.push({ kind: "page", page: p });
+  }
+
+  // Trailing right ellipsis + last anchor (only if there's a gap).
+  if (windowEnd < totalPages) {
+    if (windowEnd < totalPages - 1) {
+      entries.push({ kind: "ellipsis", id: "right" });
+    }
+    entries.push({ kind: "page", page: totalPages });
+  }
+
+  return entries;
 }
 
 export function Pagination({
@@ -112,7 +158,7 @@ export function Pagination({
   // Single-page (or empty) sets don't need pagination chrome.
   if (totalPages <= 1) return null;
 
-  const visible = pageWindow(currentPage, totalPages, windowSize);
+  const entries = buildPaginationEntries(currentPage, totalPages, windowSize);
   const atStart = currentPage <= 1;
   const atEnd = currentPage >= totalPages;
   const modeProps = mode as ModeProps;
@@ -136,11 +182,24 @@ export function Pagination({
           />
         </li>
 
-        {visible.map((n) => (
-          <li key={n}>
-            <PageItem page={n} isCurrent={n === currentPage} mode={modeProps} />
-          </li>
-        ))}
+        {entries.map((entry) =>
+          entry.kind === "page" ? (
+            <li key={`page-${entry.page}`}>
+              <PageItem
+                page={entry.page}
+                isCurrent={entry.page === currentPage}
+                mode={modeProps}
+              />
+            </li>
+          ) : (
+            // aria-hidden on the <li> so the ellipsis is invisible
+            // to screen readers AND falls out of the list count.
+            // SR users hear only the navigable items announced.
+            <li key={`ellipsis-${entry.id}`} aria-hidden="true">
+              <Ellipsis />
+            </li>
+          ),
+        )}
 
         <li>
           <NavButton
@@ -153,6 +212,31 @@ export function Pagination({
         </li>
       </ol>
     </nav>
+  );
+}
+
+/** Inert decorative ellipsis cell. Matches the typography of the
+ *  surrounding page numbers so the row reads as a single visual
+ *  group; --text-caption signals "not interactive" without color
+ *  contrast tricks. */
+function Ellipsis() {
+  return (
+    <span
+      style={{
+        fontFamily: "var(--font-mono)",
+        fontSize: "var(--p-xs-font-size)",
+        lineHeight: "var(--p-xs-line-height)",
+        letterSpacing: "0.08em",
+        color: "var(--text-caption)",
+        padding: "6px 4px",
+        minWidth: 24,
+        display: "inline-block",
+        textAlign: "center",
+        userSelect: "none",
+      }}
+    >
+      …
+    </span>
   );
 }
 
