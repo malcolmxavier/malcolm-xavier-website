@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-05-02T05:53:04.579Z",
+  "capturedAt": "2026-05-02T06:02:04.243Z",
   "summary": {
     "totalFilms": 741,
     "totalReviews": 741,
@@ -17,16 +17,16 @@
       "0.5": 9
     },
     "genreDistribution": {
-      "Comedy": 211,
-      "Drama": 350,
-      "Action": 107,
+      "Comedy": 212,
+      "Drama": 351,
+      "Action": 108,
       "Thriller": 210,
-      "Crime": 96,
+      "Crime": 97,
       "Science Fiction": 109,
       "Adventure": 81,
       "Documentary": 57,
       "Horror": 124,
-      "Romance": 85,
+      "Romance": 86,
       "Music": 45,
       "Fantasy": 56,
       "Mystery": 76,
@@ -6533,7 +6533,7 @@
       ]
     },
     {
-      "id": "kill-bill-the-whole-bloody-affair-2004",
+      "id": "tmdb-414419",
       "letterboxdSlug": "kill-bill-the-whole-bloody-affair",
       "letterboxdUrl": "https://boxd.it/bZCo6F",
       "title": "Kill Bill: The Whole Bloody Affair",
@@ -6554,9 +6554,19 @@
       "firstReviewDate": "2025-12-10",
       "latestReviewDate": "2025-12-10",
       "primaryRating": 4.5,
-      "tmdb": null,
-      "posterUrl": null,
-      "posterFallbackUrl": null,
+      "tmdb": {
+        "id": 414419,
+        "posterPath": "/nSOJfWJCdVFZQwXQA7RXn7FIIiY.jpg",
+        "backdropPath": "/qe4Tp0hURXqiih5AV1kHimXIt3u.jpg",
+        "genres": [
+          "Action",
+          "Crime"
+        ],
+        "runtime": 253,
+        "director": "Quentin Tarantino"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/nSOJfWJCdVFZQwXQA7RXn7FIIiY.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/nSOJfWJCdVFZQwXQA7RXn7FIIiY.jpg",
       "ratingSet": [
         4.5
       ],
@@ -24554,7 +24564,7 @@
       ]
     },
     {
-      "id": "am-i-ok-2022",
+      "id": "tmdb-641934",
       "letterboxdSlug": "am-i-ok",
       "letterboxdUrl": "https://boxd.it/6O463B",
       "title": "Am I OK?",
@@ -24575,9 +24585,20 @@
       "firstReviewDate": "2024-07-05",
       "latestReviewDate": "2024-07-05",
       "primaryRating": 2.5,
-      "tmdb": null,
-      "posterUrl": null,
-      "posterFallbackUrl": null,
+      "tmdb": {
+        "id": 641934,
+        "posterPath": "/qKkaG7HVFVe7C1JuxTGwNz0eSyL.jpg",
+        "backdropPath": "/fKxGUfI09ubxe594Nl8Om2cMuxH.jpg",
+        "genres": [
+          "Comedy",
+          "Romance",
+          "Drama"
+        ],
+        "runtime": 86,
+        "director": "Tig Notaro"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/qKkaG7HVFVe7C1JuxTGwNz0eSyL.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/qKkaG7HVFVe7C1JuxTGwNz0eSyL.jpg",
       "ratingSet": [
         2.5
       ],
@@ -37889,8 +37910,8 @@
         2025
       ]
     },
-    "kill-bill-the-whole-bloody-affair-2004": {
-      "id": "kill-bill-the-whole-bloody-affair-2004",
+    "tmdb-414419": {
+      "id": "tmdb-414419",
       "letterboxdSlug": "kill-bill-the-whole-bloody-affair",
       "letterboxdUrl": "https://boxd.it/bZCo6F",
       "title": "Kill Bill: The Whole Bloody Affair",
@@ -37911,9 +37932,19 @@
       "firstReviewDate": "2025-12-10",
       "latestReviewDate": "2025-12-10",
       "primaryRating": 4.5,
-      "tmdb": null,
-      "posterUrl": null,
-      "posterFallbackUrl": null,
+      "tmdb": {
+        "id": 414419,
+        "posterPath": "/nSOJfWJCdVFZQwXQA7RXn7FIIiY.jpg",
+        "backdropPath": "/qe4Tp0hURXqiih5AV1kHimXIt3u.jpg",
+        "genres": [
+          "Action",
+          "Crime"
+        ],
+        "runtime": 253,
+        "director": "Quentin Tarantino"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/nSOJfWJCdVFZQwXQA7RXn7FIIiY.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/nSOJfWJCdVFZQwXQA7RXn7FIIiY.jpg",
       "ratingSet": [
         4.5
       ],
@@ -55825,8 +55856,8 @@
         2024
       ]
     },
-    "am-i-ok-2022": {
-      "id": "am-i-ok-2022",
+    "tmdb-641934": {
+      "id": "tmdb-641934",
       "letterboxdSlug": "am-i-ok",
       "letterboxdUrl": "https://boxd.it/6O463B",
       "title": "Am I OK?",
@@ -55847,9 +55878,20 @@
       "firstReviewDate": "2024-07-05",
       "latestReviewDate": "2024-07-05",
       "primaryRating": 2.5,
-      "tmdb": null,
-      "posterUrl": null,
-      "posterFallbackUrl": null,
+      "tmdb": {
+        "id": 641934,
+        "posterPath": "/qKkaG7HVFVe7C1JuxTGwNz0eSyL.jpg",
+        "backdropPath": "/fKxGUfI09ubxe594Nl8Om2cMuxH.jpg",
+        "genres": [
+          "Comedy",
+          "Romance",
+          "Drama"
+        ],
+        "runtime": 86,
+        "director": "Tig Notaro"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/qKkaG7HVFVe7C1JuxTGwNz0eSyL.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/qKkaG7HVFVe7C1JuxTGwNz0eSyL.jpg",
       "ratingSet": [
         2.5
       ],
