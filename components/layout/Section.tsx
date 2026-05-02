@@ -23,16 +23,34 @@ type SectionProps = HTMLAttributes<HTMLElement> & {
   bordered?: boolean;
 };
 
-// Tightened from the original (sm: 12/16, md: 16/24, lg: 24/32) on
-// 2026-04-25 — the previous values inflated scroll length without
-// earning their keep, especially on landing where multiple stacked
-// sections compounded the negative space. New values keep editorial
-// breathing room without burning visual real estate.
-const PADDING_CLASSES: Record<SectionPadding, string> = {
-  sm: "py-8 sm:py-10",
-  md: "py-10 sm:py-14",
-  lg: "py-14 sm:py-20",
+// Padding is split into top and bottom so adjacent sections
+// produce uniform spacing around any divider:
+//
+//   • pt varies by size — sections OPEN with size-determined
+//     breathing room (lg = generous, sm = tight). Useful for
+//     hero/intro sections that want visual presence above their
+//     content.
+//   • pb is fixed at the "divider rhythm" value across all sizes.
+//     Every section CLOSES with the same amount of space, so the
+//     gap above any divider is constant.
+//   • When bordered=true, pt is also overridden to the divider
+//     rhythm value — so the space BELOW the divider matches the
+//     space ABOVE it that the previous section just provided.
+//
+// Net result: divider rhythm is symmetric sitewide regardless of
+// what padding sizes the adjacent sections chose. Tightened from
+// the original (sm: 12/16, md: 16/24, lg: 24/32) on 2026-04-25.
+const PADDING_TOP_BY_SIZE: Record<SectionPadding, string> = {
+  sm: "pt-8 sm:pt-10",
+  md: "pt-10 sm:pt-14",
+  lg: "pt-14 sm:pt-20",
 };
+// Single "divider rhythm" value used for every section's pb and
+// for any bordered section's pt. Matches md's standard padding so
+// the rhythm reads as a deliberate page break — tighter than lg
+// at the bottom but still generous enough to breathe.
+const PADDING_DIVIDER_RHYTHM_TOP = "pt-10 sm:pt-14";
+const PADDING_DIVIDER_RHYTHM_BOTTOM = "pb-10 sm:pb-14";
 
 export function Section({
   padding = "md",
@@ -43,13 +61,20 @@ export function Section({
   children,
   ...rest
 }: SectionProps) {
+  // When bordered, pt collapses to the divider rhythm so the gap
+  // below the divider matches the gap above it (which any previous
+  // section already provides via its uniform pb).
+  const topClass = bordered
+    ? PADDING_DIVIDER_RHYTHM_TOP
+    : PADDING_TOP_BY_SIZE[padding];
+
   return (
     <section
       // data-subbrand is the lever that swaps --font-primary,
       // --font-secondary, and --primary-* color stops via the
       // alias blocks generated into globals.css.
       data-subbrand={subbrand}
-      className={`${PADDING_CLASSES[padding]} ${
+      className={`${topClass} ${PADDING_DIVIDER_RHYTHM_BOTTOM} ${
         bordered ? "border-t" : ""
       } ${className}`}
       style={{

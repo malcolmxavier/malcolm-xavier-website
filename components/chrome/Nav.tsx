@@ -69,6 +69,7 @@ type NavRoute = {
 // Games / Books / Podcast ship. The `subbrand` slug per entry must
 // match a `[data-subbrand="X"]` rule in components.css.
 const SUB_BRAND_ROUTES: NavRoute[] = [
+  { label: "Films", href: "/films", subbrand: "film" },
   { label: "Music", href: "/music", subbrand: "music" },
 ];
 

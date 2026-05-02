@@ -23,6 +23,7 @@ import { Link } from "@/components/primitives/Link";
 import { Kicker } from "@/components/typography/Kicker";
 import { Dateline } from "@/components/typography/Dateline";
 import { ShareButton } from "./ShareButton";
+import { TmdbAttribution } from "./TmdbAttribution";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
@@ -184,6 +185,11 @@ export function Footer() {
         <Container size="lg">
           <div className="flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between">
             <Dateline>© {COPYRIGHT_YEAR} Malcolm Xavier</Dateline>
+            {/* Route-conditional credits — TmdbAttribution renders
+                only on /films routes, otherwise null. Sits opposite
+                the © so per-surface attribution feels like footer
+                metadata, not page chrome. */}
+            <TmdbAttribution />
           </div>
         </Container>
       </div>
