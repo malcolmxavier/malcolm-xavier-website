@@ -22,6 +22,7 @@ import { Container } from "@/components/layout/Container";
 import { Link } from "@/components/primitives/Link";
 import { Kicker } from "@/components/typography/Kicker";
 import { Dateline } from "@/components/typography/Dateline";
+import { CriticDisclaimer } from "./CriticDisclaimer";
 import { ShareButton } from "./ShareButton";
 import { TmdbAttribution } from "./TmdbAttribution";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
@@ -183,13 +184,17 @@ export function Footer() {
         style={{ borderColor: "var(--border-default)" }}
       >
         <Container size="lg">
-          <div className="flex flex-col gap-2 py-6 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-3 py-6 sm:flex-row sm:items-start sm:justify-between">
             <Dateline>© {COPYRIGHT_YEAR} Malcolm Xavier</Dateline>
-            {/* Route-conditional credits — TmdbAttribution renders
-                only on /films routes, otherwise null. Sits opposite
-                the © so per-surface attribution feels like footer
-                metadata, not page chrome. */}
-            <TmdbAttribution />
+            {/* Route-conditional notes — both render only on
+                CRITIC_ROUTE_PREFIXES (films today, tv next),
+                otherwise null. Stacked vertically on the right so
+                the editorial disclaimer reads as voice first and
+                the TMDB credit as utility chrome below. */}
+            <div className="flex flex-col gap-2 sm:items-end sm:text-right">
+              <CriticDisclaimer />
+              <TmdbAttribution />
+            </div>
           </div>
         </Container>
       </div>

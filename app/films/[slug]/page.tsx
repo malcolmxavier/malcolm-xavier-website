@@ -250,8 +250,6 @@ export default async function FilmDetailPage({
               <ReviewBlock
                 key={`${review.reviewDate}-${i}`}
                 review={review}
-                isFirst={i === 0}
-                isLast={i === film.reviews.length - 1}
               />
             ))}
           </Stack>
@@ -263,23 +261,14 @@ export default async function FilmDetailPage({
 
 // ─── Sub-components ──────────────────────────────────────────────
 
-function ReviewBlock({
-  review,
-  isFirst,
-  isLast,
-}: {
-  review: Review;
-  isFirst: boolean;
-  isLast: boolean;
-}) {
+function ReviewBlock({ review }: { review: Review }) {
   const paragraphs = review.reviewText.split(/\n\s*\n/).filter(Boolean);
-  const sameDay = review.watchedDate === review.reviewDate;
   return (
     <article>
       <Stack gap="400">
-        {/* Dateline — watched / reviewed. Collapses to a single
-            "Watched & reviewed" line when both dates match (which
-            is the common case in Malcolm's diary). */}
+        {/* Dateline — watched-date only. Review-date is omitted by
+            design (the publish date is internal-only metadata; the
+            user-facing event is when the film was watched). */}
         <div
           style={{
             display: "flex",
@@ -289,9 +278,7 @@ function ReviewBlock({
           }}
         >
           <p style={{ ...metadataLineStyle, margin: 0 }}>
-            {sameDay
-              ? `Watched & reviewed ${formatWatchedDate(review.watchedDate)}`
-              : `Watched ${formatWatchedDate(review.watchedDate)} · Reviewed ${formatWatchedDate(review.reviewDate)}`}
+            Watched {formatWatchedDate(review.watchedDate)}
           </p>
           {review.rating !== null ? (
             <StarRating rating={review.rating} size={16} />
@@ -300,7 +287,6 @@ function ReviewBlock({
           {review.containsSpoilers ? (
             <Pill tone="warning">Contains spoilers</Pill>
           ) : null}
-          {!isFirst && !isLast ? null : null}
         </div>
         {/* Prose — paragraphs are split on blank lines. Render
             each as a <p> so screen readers + reading-mode tools

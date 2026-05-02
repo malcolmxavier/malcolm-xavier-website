@@ -124,10 +124,10 @@ export default async function FilmsPage({
               <Kicker accent>Films</Kicker>
               <Display>Every film, every rating, every reaction.</Display>
               <Lede>
-                I review most of what I watch on Letterboxd. This is the
-                full backlog — sortable, filterable, every star rating
-                and prose review preserved. Click any card for the full
-                review.
+                I watch 300+ films a year and log my reviews on Letterboxd. This is the
+                full backlog. Click any card for the full
+                review. And if you're looking for a recommendation, filter to find what
+                you're looking for.
               </Lede>
               {/* Follow CTA — sits inside the Stack so it picks up the
                   Lede's gap rhythm. ↗ marks it external per the
