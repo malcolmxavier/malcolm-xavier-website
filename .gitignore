@@ -46,3 +46,9 @@ next-env.d.ts
 
 # Claude Code per-machine permission cache — accumulates per-session approvals
 .claude/settings.local.json
+
+# Letterboxd export drop zone — personal viewing data, never committed.
+# README.md is exempted so the directory itself stays tracked with
+# instructions for whoever clones the repo.
+/data/letterboxd-export/*
+!/data/letterboxd-export/README.md
