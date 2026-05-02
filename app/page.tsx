@@ -63,9 +63,21 @@ type SubBrandTile = {
 
 const SUB_BRAND_TILES: SubBrandTile[] = [
   {
+    href: "/films",
+    label: "Films",
+    cta: "Find Your Next Watch",
+    blurb: (
+      <>
+        I watch 300+ films a year and log my reviews on Letterboxd.
+        Click through for the full backlog.
+      </>
+    ),
+    accent: "film",
+  },
+  {
     href: "/music",
     label: "Music",
-    cta: "Explore Playlists",
+    cta: "Find Your Next Listen",
     blurb: (
       <>
         I release a new playlist each month. <em>settle the score</em>{" "}
