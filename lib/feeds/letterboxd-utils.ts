@@ -59,7 +59,11 @@ export type Film = {
   releaseYear: number;
   /** ISO date — earliest watched date across all reviews. */
   firstWatchedDate: string;
-  /** ISO date — earliest review publication date. Default sort key. */
+  /** ISO date — most recent watched date across all reviews. Primary
+   *  grid sort key (newest watch at top); for non-rewatched films
+   *  this equals firstWatchedDate. */
+  latestWatchedDate: string;
+  /** ISO date — earliest review publication date. */
   firstReviewDate: string;
   /** ISO date — most recent review publication date. */
   latestReviewDate: string;
@@ -88,7 +92,8 @@ export type Film = {
 export type FilmsSummary = {
   totalFilms: number;
   totalReviews: number;
-  /** Films first-reviewed in the current calendar year. */
+  /** Films with at least one watch in the current calendar year
+   *  (computed from latestWatchedDate at snapshot-write time). */
   thisYearCount: number;
   /** Per-review rating buckets keyed as "0.5", "1", ..., "5". */
   ratingDistribution: Record<string, number>;
@@ -122,6 +127,11 @@ export type FilmFilters = {
 } & ReviewDateFilter;
 
 export type FilmSort =
+  /** Most recent watch first — default. Mirrors the snapshot's
+   *  pre-sorted order (latestWatchedDate desc + within-day csvRowIdx
+   *  tiebreaker). */
+  | "latest-watched-desc"
+  | "latest-watched-asc"
   | "first-review-desc"
   | "first-review-asc"
   | "latest-review-desc"
@@ -129,6 +139,10 @@ export type FilmSort =
   | "release-year-asc"
   | "rating-desc"
   | "rating-asc";
+
+/** The default sort when none is specified — preserves the
+ *  watch-chronological order baked into the snapshot. */
+export const DEFAULT_FILM_SORT: FilmSort = "latest-watched-desc";
 
 /**
  * Output of applyFilters: the surviving film + the qualifying review
@@ -153,32 +167,307 @@ export type AppliedFilm = {
   positionDate: string;
 };
 
-// ─── Filtering + sorting (stub — real impl arrives with parsers) ─
+// ─── Filtering + sorting ──────────────────────────────────────────
 
 /**
- * Stub. Returns films un-filtered, un-sorted, mapped into AppliedFilm
- * shape using each film's most recent review. The real implementation
- * (per-review filter math, sort dimension switching, position-by-
- * qualifying-review-date) lands when the snapshot has real data and
- * we can validate edge cases (rewatches with disagreeing ratings).
+ * Apply per-film and per-review filters, then sort the result.
+ *
+ * Per-film filters (releaseYear, genres) drop a film entirely when
+ * the film itself doesn't match. Per-review filters (ratings,
+ * reviewYear, reviewWindow) drop a film when none of its reviews
+ * match — and when ANY of these filters is active, the surviving
+ * film's "qualifying review" is the most recent review that passes
+ * all per-review predicates, and the grid position uses that
+ * review's reviewDate (so the card and the grid agree on which
+ * review is being represented).
+ *
+ * When no per-review filter is active, the film's most-recent
+ * review is the qualifyingReview (informational; the card uses
+ * primaryRating directly), and grid position is determined by the
+ * active sort dimension.
+ *
+ * Films are pre-sorted in the snapshot by latestWatchedDate desc
+ * + within-day csvRowIdx desc, so when the sort is the default
+ * (latest-watched-desc) the filter pass preserves snapshot order
+ * via JS's stable sort — the within-day tiebreaker survives.
  */
 export function applyFilters(
   films: Film[],
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- public API stable; impl arrives later
   filters: FilmFilters,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- public API stable; impl arrives later
-  sort: FilmSort = "first-review-desc",
+  sort: FilmSort = DEFAULT_FILM_SORT,
 ): AppliedFilm[] {
-  return films.map((film) => ({
-    film,
-    // `?? null` guard handles the edge case where a Film makes it
-    // into the snapshot with an empty reviews[] (parser bug, mid-
-    // refresh inconsistency, hand-edited fixture). Forces consumers
-    // to null-check rather than letting `undefined` propagate.
-    qualifyingReview: film.reviews[0] ?? null,
-    cardRating: film.primaryRating,
-    positionDate: film.firstReviewDate,
-  }));
+  const hasPerReviewFilter =
+    (filters.ratings && filters.ratings.length > 0) ||
+    filters.reviewYear !== undefined ||
+    filters.reviewWindow !== undefined;
+
+  // Pre-compute the "12mo" cutoff once outside the loop. Using
+  // Date.now() at filter time means the rolling window is always
+  // anchored to the current request — no caching of "rolling 12mo"
+  // values that go stale across requests.
+  const twelveMoCutoffMs =
+    filters.reviewWindow === "12mo"
+      ? Date.now() - 365 * 24 * 60 * 60 * 1000
+      : null;
+
+  const result: AppliedFilm[] = [];
+
+  for (const film of films) {
+    // ── Per-film filters ────────────────────────────────────
+    if (
+      filters.releaseYearMin !== undefined &&
+      film.releaseYear < filters.releaseYearMin
+    ) {
+      continue;
+    }
+    if (
+      filters.releaseYearMax !== undefined &&
+      film.releaseYear > filters.releaseYearMax
+    ) {
+      continue;
+    }
+    if (filters.genres && filters.genres.length > 0) {
+      if (!film.tmdb?.genres) continue;
+      const intersects = filters.genres.some((g) =>
+        film.tmdb!.genres.includes(g),
+      );
+      if (!intersects) continue;
+    }
+
+    // ── Per-review filters ──────────────────────────────────
+    if (hasPerReviewFilter) {
+      const qualifying = findQualifyingReview(
+        film,
+        filters,
+        twelveMoCutoffMs,
+      );
+      if (!qualifying) continue;
+      result.push({
+        film,
+        qualifyingReview: qualifying,
+        cardRating: qualifying.rating,
+        // When a per-review filter is active, the card AND the grid
+        // position both reflect the qualifying review — so a 4★
+        // rewatch from 2024 lands where a 2024-reviewed film should
+        // land, not where the original watch (different year) would.
+        positionDate: qualifying.reviewDate,
+      });
+    } else {
+      result.push({
+        film,
+        qualifyingReview: film.reviews[0] ?? null,
+        cardRating: film.primaryRating,
+        positionDate: positionDateForSort(film, sort),
+      });
+    }
+  }
+
+  return sortApplied(result, sort);
+}
+
+/**
+ * Walk a film's reviews newest-first and return the most recent
+ * review that satisfies every active per-review filter. Returns
+ * null if no review matches — caller drops the film from the result.
+ *
+ * Reviews are pre-sorted reviewDate desc by the snapshot writer
+ * (`film.reviews[0]` is newest), so the first match is the most
+ * recent qualifying review by definition.
+ */
+function findQualifyingReview(
+  film: Film,
+  filters: FilmFilters,
+  twelveMoCutoffMs: number | null,
+): Review | null {
+  for (const review of film.reviews) {
+    // Rating filter: review's rating must be in the selected set.
+    // Unrated reviews (rating === null) are filtered out when the
+    // ratings filter is active — they have no rating to match.
+    if (filters.ratings && filters.ratings.length > 0) {
+      if (review.rating === null || !filters.ratings.includes(review.rating)) {
+        continue;
+      }
+    }
+    // ReviewYear filter: the review's reviewDate year must match.
+    if (filters.reviewYear !== undefined) {
+      const year = Number.parseInt(review.reviewDate.slice(0, 4), 10);
+      if (year !== filters.reviewYear) continue;
+    }
+    // ReviewWindow filter (rolling 12 months from now).
+    if (twelveMoCutoffMs !== null) {
+      const reviewMs = new Date(review.reviewDate).getTime();
+      if (!Number.isFinite(reviewMs) || reviewMs < twelveMoCutoffMs) continue;
+    }
+    return review;
+  }
+  return null;
+}
+
+/**
+ * Default positionDate when no per-review filter is active. Used
+ * for the AppliedFilm.positionDate field — informational, since
+ * the actual sort happens via sortApplied. Returns the date the
+ * sort key references so external consumers (e.g. card datelines
+ * tied to the active sort) can read it without re-deriving.
+ */
+function positionDateForSort(film: Film, sort: FilmSort): string {
+  switch (sort) {
+    case "latest-watched-desc":
+    case "latest-watched-asc":
+      return film.latestWatchedDate;
+    case "first-review-desc":
+    case "first-review-asc":
+      return film.firstReviewDate;
+    case "latest-review-desc":
+      return film.latestReviewDate;
+    case "release-year-desc":
+    case "release-year-asc":
+      // Synthesize a YYYY-01-01 so all positionDate values are
+      // ISO-comparable strings — release-year sort is integer-based
+      // anyway, this just keeps the field well-typed.
+      return `${film.releaseYear}-01-01`;
+    case "rating-desc":
+    case "rating-asc":
+      return film.firstReviewDate;
+  }
+}
+
+/**
+ * Sort AppliedFilm[] by the chosen dimension. Stable — JS's
+ * Array.sort preserves order for equal keys, which means
+ * latest-watched-desc inherits the snapshot's within-day
+ * csvRowIdx tiebreaker even though the index isn't on the
+ * public Film type.
+ */
+function sortApplied(
+  arr: AppliedFilm[],
+  sort: FilmSort,
+): AppliedFilm[] {
+  // Spread so the input array stays untouched (the snapshot's
+  // films array shouldn't be mutated by a filter pass).
+  return [...arr].sort((a, b) => {
+    switch (sort) {
+      case "latest-watched-desc":
+        return b.film.latestWatchedDate.localeCompare(a.film.latestWatchedDate);
+      case "latest-watched-asc":
+        return a.film.latestWatchedDate.localeCompare(b.film.latestWatchedDate);
+      case "first-review-desc":
+        return b.film.firstReviewDate.localeCompare(a.film.firstReviewDate);
+      case "first-review-asc":
+        return a.film.firstReviewDate.localeCompare(b.film.firstReviewDate);
+      case "latest-review-desc":
+        return b.film.latestReviewDate.localeCompare(a.film.latestReviewDate);
+      case "release-year-desc":
+        return b.film.releaseYear - a.film.releaseYear;
+      case "release-year-asc":
+        return a.film.releaseYear - b.film.releaseYear;
+      case "rating-desc":
+        // Unrated films sort to the bottom in desc order so the
+        // top of the list is always rated content.
+        return (b.cardRating ?? -Infinity) - (a.cardRating ?? -Infinity);
+      case "rating-asc":
+        // Unrated films sort to the bottom in asc order too — they
+        // shouldn't pollute the "lowest rated" view as faux-zeros.
+        return (a.cardRating ?? Infinity) - (b.cardRating ?? Infinity);
+    }
+  });
+}
+
+// ─── URL param parsing ────────────────────────────────────────────
+
+const VALID_SORTS: FilmSort[] = [
+  "latest-watched-desc",
+  "latest-watched-asc",
+  "first-review-desc",
+  "first-review-asc",
+  "latest-review-desc",
+  "release-year-desc",
+  "release-year-asc",
+  "rating-desc",
+  "rating-asc",
+];
+
+const VALID_RATINGS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+
+/**
+ * Parse a Next.js searchParams record into FilmFilters. Tolerates
+ * malformed input — a bad ?rating=foo just becomes "no rating
+ * filter active" rather than throwing. Anything we don't recognize
+ * is silently dropped so URL tampering can't crash the page.
+ */
+export function parseFilmFilters(
+  params: Record<string, string | string[] | undefined>,
+): FilmFilters {
+  const ratings = parseCsvNumbers(asString(params.rating)).filter((r) =>
+    VALID_RATINGS.includes(r),
+  );
+  const genres = parseCsvStrings(asString(params.genre));
+  const releaseYearMin = parsePositiveInt(asString(params.releaseYearMin));
+  const releaseYearMax = parsePositiveInt(asString(params.releaseYearMax));
+
+  // ReviewYear and reviewWindow are mutually exclusive per the
+  // discriminated-union spec — if both are present, reviewYear
+  // wins (more specific signal).
+  const reviewYearRaw = parsePositiveInt(asString(params.reviewYear));
+  const reviewWindowRaw = asString(params.reviewWindow);
+
+  const base: Pick<
+    FilmFilters,
+    "ratings" | "genres" | "releaseYearMin" | "releaseYearMax"
+  > = {};
+  if (ratings.length > 0) base.ratings = ratings;
+  if (genres.length > 0) base.genres = genres;
+  if (releaseYearMin !== undefined) base.releaseYearMin = releaseYearMin;
+  if (releaseYearMax !== undefined) base.releaseYearMax = releaseYearMax;
+
+  if (reviewYearRaw !== undefined) {
+    return { ...base, reviewYear: reviewYearRaw };
+  }
+  if (reviewWindowRaw === "12mo") {
+    return { ...base, reviewWindow: "12mo" };
+  }
+  return base;
+}
+
+/** Parse the sort URL param into a FilmSort, defaulting to the
+ *  watch-chronological default when missing or invalid. */
+export function parseFilmSort(
+  params: Record<string, string | string[] | undefined>,
+): FilmSort {
+  const raw = asString(params.sort);
+  if (raw && (VALID_SORTS as string[]).includes(raw)) {
+    return raw as FilmSort;
+  }
+  return DEFAULT_FILM_SORT;
+}
+
+// ─── Internal parse helpers ───────────────────────────────────────
+
+function asString(v: string | string[] | undefined): string | undefined {
+  if (Array.isArray(v)) return v[0];
+  return v;
+}
+
+function parseCsvNumbers(raw: string | undefined): number[] {
+  if (!raw) return [];
+  return raw
+    .split(",")
+    .map((s) => Number.parseFloat(s.trim()))
+    .filter((n) => Number.isFinite(n));
+}
+
+function parseCsvStrings(raw: string | undefined): string[] {
+  if (!raw) return [];
+  return raw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function parsePositiveInt(raw: string | undefined): number | undefined {
+  if (!raw) return undefined;
+  const n = Number.parseInt(raw, 10);
+  return Number.isFinite(n) && n > 0 ? n : undefined;
 }
 
 // ─── Pagination ──────────────────────────────────────────────────

@@ -53,9 +53,17 @@ function aggregateSummary(films) {
   for (const film of films) {
     totalReviews += film.reviews.length;
 
-    // First-reviewed-this-year? (uses calendar year of firstReviewDate)
-    const firstYear = Number.parseInt(film.firstReviewDate.slice(0, 4), 10);
-    if (firstYear === currentYear) thisYearCount++;
+    // Watched-this-year? Uses the calendar year of latestWatchedDate
+    // — i.e. did Malcolm watch this film at any point this year? Aligns
+    // with the grid's primary sort dimension and matches the user-
+    // facing label ("Watched this year"). For non-rewatched films this
+    // equals firstWatchedDate; for rewatches it counts a recent watch
+    // even if the original viewing was years ago.
+    const watchedYear = Number.parseInt(
+      film.latestWatchedDate.slice(0, 4),
+      10,
+    );
+    if (watchedYear === currentYear) thisYearCount++;
 
     // Rating distribution is per-REVIEW (not per-film) so a film
     // with 3 reviews counts 3 times. Matches Letterboxd's profile-
@@ -162,6 +170,37 @@ async function main() {
   const films = parseLetterboxdExport();
   console.log(`      Parsed ${films.length} films.`);
 
+  // Sticky-TMDB carryover. Match fresh-parsed films (keyed by
+  // seedId = letterboxdSlug-releaseYear) to enriched films from
+  // the previous snapshot and reuse their TMDB metadata + the
+  // promoted canonical id. The enrichment loop in enrich-tmdb.mjs
+  // skips any film with `tmdb` already populated, so this turns a
+  // 2-3 minute refresh into a near-instant sort/aggregate-only
+  // pass once the catalog is stable.
+  const prev = readPreviousSnapshot();
+  let carriedOver = 0;
+  if (prev?.films) {
+    const prevByIdentity = new Map();
+    for (const f of prev.films) {
+      prevByIdentity.set(`${f.letterboxdSlug}-${f.releaseYear}`, f);
+    }
+    for (const film of films) {
+      const prevFilm = prevByIdentity.get(
+        `${film.letterboxdSlug}-${film.releaseYear}`,
+      );
+      if (prevFilm?.tmdb) {
+        film.tmdb = prevFilm.tmdb;
+        film.posterUrl = prevFilm.posterUrl;
+        film.posterFallbackUrl = prevFilm.posterFallbackUrl;
+        film.id = prevFilm.id; // promote seedId → canonical tmdb-X
+        carriedOver++;
+      }
+    }
+    console.log(
+      `      Carried over ${carriedOver} TMDB enrichments from previous snapshot.`,
+    );
+  }
+
   console.log("\n[2/3] Enriching with TMDB metadata…");
   const stats = await enrichFilms(films, {
     onProgress: (done, total) => {
@@ -185,7 +224,6 @@ async function main() {
   }
 
   console.log("\n[3/3] Building snapshot…");
-  const prev = readPreviousSnapshot();
   const snapshot = buildSnapshot(films);
   printDiff(prev, snapshot);
 

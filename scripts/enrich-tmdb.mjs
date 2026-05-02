@@ -222,6 +222,15 @@ async function enrichFilm(film, overrides) {
   return { film, status: "ok" };
 }
 
+/** Refresh resolved poster URLs for an already-enriched film without
+ *  hitting TMDB. Used by the carryover path so override edits still
+ *  re-resolve poster URLs even when the film's TMDB metadata is
+ *  reused from the previous snapshot. */
+function refreshResolvedUrls(film, overrides) {
+  film.posterUrl = resolvePosterUrl(film.letterboxdSlug, film.tmdb, overrides);
+  film.posterFallbackUrl = resolveFallbackUrl(film.tmdb);
+}
+
 /**
  * Enrich a Film[] in place with rate limiting. Returns a summary
  * object with counts + lists of unmatched/failed entries so the
@@ -240,6 +249,16 @@ export async function enrichFilms(films, options = {}) {
 
   for (let i = 0; i < films.length; i++) {
     const film = films[i];
+    // Sticky-TMDB carryover: if a previous snapshot already enriched
+    // this film, refresh the poster URLs (in case overrides changed)
+    // and skip the TMDB roundtrip + the rate-limit sleep. Saves the
+    // ~74s of API throttle per refresh once the catalog is stable.
+    if (film.tmdb) {
+      refreshResolvedUrls(film, overrides);
+      stats.enriched++;
+      onProgress(i + 1, films.length);
+      continue;
+    }
     const result = await enrichFilm(film, overrides);
     if (result.status === "ok") {
       stats.enriched++;

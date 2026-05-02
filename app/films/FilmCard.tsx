@@ -13,16 +13,43 @@ import { Stack } from "@/components/layout/Stack";
 import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { StarRating } from "@/components/primitives/StarRating";
-import { formatWatchedDate, type Film } from "@/lib/feeds/letterboxd-utils";
+import {
+  formatWatchedDate,
+  type AppliedFilm,
+} from "@/lib/feeds/letterboxd-utils";
 
-export function FilmCard({ film }: { film: Film }) {
+export function FilmCard({ applied }: { applied: AppliedFilm }) {
+  const film = applied.film;
   const reviewCount = film.reviews.length;
-  const slug = film.id; // Will be the canonical id (tmdb-<id> or seed slug-year)
+  // URL slug is `<letterboxdSlug>-<releaseYear>` — human-readable
+  // and SEO-friendly. Distinct from film.id (canonical TMDB id
+  // post-enrichment); the data layer maps both forms to the same
+  // film via getFilmBySlug, so old tmdb-<id> URLs still resolve.
+  const slug = `${film.letterboxdSlug}-${film.releaseYear}`;
+
+  // Dateline rule: surface "Rewatched" only when every review on the
+  // card is a rewatch — i.e. the single logged review is a rewatch,
+  // or (under filters) every qualifying review is a rewatch. The
+  // default is always "First watched" — Malcolm rarely rewatches, so
+  // mixed-review films should read as first-watch context. The same
+  // predicate generalizes to the filtered case: when FilmCard later
+  // receives a `qualifyingReviews` subset, swap `film.reviews` for
+  // that prop and the rule still holds.
+  const allRewatches =
+    film.reviews.length > 0 && film.reviews.every((r) => r.rewatch);
+  const datelineDate = allRewatches
+    ? film.reviews[0].watchedDate
+    : film.firstWatchedDate;
+  const datelineLabel = allRewatches ? "Rewatched" : "First watched";
 
   return (
     <article className="h-full">
       <NextLink
-        href={`/films/${slug}`}
+        // ?from=films marks this as in-app navigation so the detail
+        // page's BackToFilms link can router.back() into the exact
+        // grid state instead of pushing /films and losing scroll
+        // position + future filter URL params.
+        href={`/films/${slug}?from=films`}
         className="film-card-link block h-full focus-visible:outline-2 focus-visible:outline-offset-4"
         style={{ outlineColor: "var(--border-focus)" }}
       >
@@ -31,12 +58,11 @@ export function FilmCard({ film }: { film: Film }) {
               CSS aspect-ratio so the card height is deterministic
               before the image loads. */}
           <div
-            className="relative w-full overflow-hidden"
+            className="relative w-full overflow-hidden rounded-md"
             style={{
               aspectRatio: "2 / 3",
               background: "var(--surface-default)",
               border: "1px solid var(--border-default)",
-              borderRadius: "var(--border-radius-sm)",
             }}
           >
             {film.posterUrl ? (
@@ -124,8 +150,13 @@ export function FilmCard({ film }: { film: Film }) {
 
           {/* Rating + dateline */}
           <Stack gap="100">
-            {film.primaryRating !== null ? (
-              <StarRating rating={film.primaryRating} size={14} />
+            {/* cardRating comes from AppliedFilm — when a per-review
+                filter is active it's the qualifying review's rating,
+                otherwise it's film.primaryRating (most recent). The
+                card and the grid position always agree on which
+                review they're representing. */}
+            {applied.cardRating !== null ? (
+              <StarRating rating={applied.cardRating} size={14} />
             ) : null}
             <span
               style={{
@@ -135,7 +166,7 @@ export function FilmCard({ film }: { film: Film }) {
                 letterSpacing: "0.04em",
               }}
             >
-              First watched {formatWatchedDate(film.firstWatchedDate)}
+              {datelineLabel} {formatWatchedDate(datelineDate)}
             </span>
           </Stack>
         </Stack>
