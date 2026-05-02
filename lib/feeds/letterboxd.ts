@@ -142,6 +142,30 @@ export function getFilmById(id: string): Film | null {
   return snap.filmById[id] ?? null;
 }
 
+// Module-scoped slug map. Built lazily on first lookup; reused
+// across requests within the same Node process — same lifetime as
+// cachedSnapshot. Built from snap.films because the human-readable
+// slug (`<letterboxdSlug>-<releaseYear>`) isn't a key in filmById
+// (which uses canonical TMDB ids post-enrichment).
+let cachedSlugMap: Map<string, Film> | null = null;
+
+/**
+ * O(1) lookup by human-readable URL slug — `<letterboxdSlug>-
+ * <releaseYear>`. This is the canonical /films/[slug] URL form and
+ * is more SEO-friendly than the TMDB id form. Falls back to id
+ * lookup so old `/films/tmdb-X` links still resolve.
+ */
+export function getFilmBySlug(slug: string): Film | null {
+  if (!cachedSlugMap) {
+    const snap = loadSnapshot();
+    cachedSlugMap = new Map();
+    for (const film of snap.films) {
+      cachedSlugMap.set(`${film.letterboxdSlug}-${film.releaseYear}`, film);
+    }
+  }
+  return cachedSlugMap.get(slug) ?? getFilmById(slug);
+}
+
 // ─── Diagnostic ──────────────────────────────────────────────────
 
 /**

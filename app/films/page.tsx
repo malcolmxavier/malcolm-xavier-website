@@ -1,14 +1,13 @@
 // ─────────────────────────────────────────────────────────────────
 // /films — server component.
 //
-// V1: renders the full backlog as a paginated grid. No filters yet
-// (FilmsShell + filter UI lands in the next commit). Page-size
-// detection mirrors /music — 30 desktop+tablet, 12 mobile, 6 Save-
-// Data — but the breakpoint shifts to 768px (Tailwind `md`) so
-// tablets share desktop layout per PLAN.md.
-//
-// All hero copy is placeholder. Voice tuning happens in a polish
-// pass once the page renders end-to-end.
+// Reads URL params, runs applyFilters + paginate, and hands the
+// result to FilmsShell (client) for filter UI + grid + pagination
+// rendering. All filtering is server-side — each control change in
+// FilmsShell calls router.replace, which re-runs this page with new
+// params. Page-size detection mirrors /music: 30 desktop+tablet, 6
+// Save-Data; the visual mobile-density split is handled by the
+// responsive grid at ~160px min column width.
 //
 // Snapshot-only at request time: getFilms() reads
 // lib/feeds/_fixtures/letterboxd-snapshot.json directly. No live
@@ -17,17 +16,32 @@
 
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import NextLink from "next/link";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
-import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
-import { Pagination } from "@/components/primitives/Pagination";
+import { Link } from "@/components/primitives/Link";
+import { ELSEWHERE } from "@/lib/elsewhere";
 import { getFilms } from "@/lib/feeds/letterboxd";
-import { FilmCard } from "./FilmCard";
+import {
+  applyFilters,
+  paginate,
+  parseFilmFilters,
+  parseFilmSort,
+} from "@/lib/feeds/letterboxd-utils";
+import { FilmsShell } from "./FilmsShell";
+import { SummaryPanel } from "./SummaryPanel";
+
+// Pulled from the central registry so a URL change in Footer or
+// Contact (the other two surfaces that link out to Letterboxd) is
+// a single edit. Falls back to the canonical profile URL if the
+// entry is somehow missing — keeps the page from rendering a
+// broken CTA in that edge case.
+const LETTERBOXD_PROFILE_URL =
+  ELSEWHERE.find((e) => e.label === "Letterboxd")?.href ??
+  "https://letterboxd.com/malxavi/";
 
 export const metadata: Metadata = {
   title: "Film reviews",
@@ -35,17 +49,19 @@ export const metadata: Metadata = {
     "Reviews and ratings of films I've watched, pulled from my Letterboxd journal.",
 };
 
-const PAGE_SIZE_DESKTOP = 30;
-const PAGE_SIZE_MOBILE = 12;
-const PAGE_SIZE_SAVE_DATA = 6;
-// 768px = Tailwind `md` — the breakpoint at which tablets join the
-// desktop layout per PLAN.md. Below this we render the mobile
-// page size; at or above we render the desktop one.
-// Page size is decided server-side based on the `Save-Data` header
-// (and a heuristic since we can't measure viewport server-side —
-// see comment below).
+// 24 is the unified page size across mobile, tablet, and desktop.
+// It divides cleanly into 1/2/3/4/6 columns — every column count
+// the responsive grid produces inside the films container — so no
+// row ever ends incomplete. /music's mobile-vs-desktop split isn't
+// needed here: film cards are lighter (poster-only, no track meta)
+// so the same density reads comfortably across viewports.
+const PAGE_SIZE_DEFAULT = 24;
+// Save-Data is an opt-in user signal — when present, we serve half
+// the cards so the bandwidth-conscious user gets a smaller page.
+// 12 keeps row math clean (1/2/3/4/6 cols all divide evenly).
+const PAGE_SIZE_SAVE_DATA = 12;
 
-type SearchParams = Promise<{ page?: string }>;
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 export default async function FilmsPage({
   searchParams,
@@ -55,106 +71,98 @@ export default async function FilmsPage({
   const headersList = await headers();
   const saveData = headersList.get("save-data") === "on";
   const params = await searchParams;
-  const rawPage = Number.parseInt(params.page ?? "1", 10);
-  const requestedPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
 
-  // Server-side page size — picks Save-Data first, then defaults
-  // to desktop. The mobile-vs-desktop split happens client-side
-  // (FilmsShell will pick this up); for the no-shell v1 we use
-  // desktop page size and let CSS responsive grid handle the
-  // visual collapse on small screens.
-  const pageSize = saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DESKTOP;
+  // Filter + sort + page state all live in the URL — single source
+  // of truth across server renders and client navigations.
+  const filters = parseFilmFilters(params);
+  const sort = parseFilmSort(params);
+  const rawPage = Number.parseInt(asString(params.page) ?? "1", 10);
+  const requestedPage =
+    Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
+
+  // Save-Data shrinks the page size; the responsive grid handles
+  // the visual mobile-vs-desktop split via auto-fill, so we don't
+  // need separate viewport-based variants.
+  const pageSize = saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DEFAULT;
 
   const { films, summary, capturedAt } = getFilms();
-  // films are already sorted firstReviewDate-desc by the snapshot
-  // writer; we just slice for the requested page.
-  const totalPages = Math.max(1, Math.ceil(films.length / pageSize));
-  const page = Math.min(requestedPage, totalPages);
-  const start = (page - 1) * pageSize;
-  const visibleFilms = films.slice(start, start + pageSize);
-
-  // Suppress unused-var warning until SummaryPanel lands.
-  void summary;
   void capturedAt;
+
+  // Genres available in the dataset, sorted by usage descending so
+  // the chip rail leads with the most-common ones. Pulled from the
+  // pre-aggregated summary so this is O(genres) not O(films).
+  const availableGenres = Object.entries(summary.genreDistribution)
+    .sort((a, b) => b[1] - a[1])
+    .map(([g]) => g);
+
+  const applied = applyFilters(films, filters, sort);
+  const {
+    current: pageFilms,
+    totalPages,
+    totalResults,
+    page,
+  } = paginate(applied, requestedPage, pageSize);
 
   return (
     <div data-subbrand="film">
       <Container size="lg">
-        {/* ─── Hero (PLACEHOLDER COPY) ─────────────────────────── */}
+        {/* ─── Hero + Summary (side-by-side on lg+, stacked below) ─
+            On lg+ the hero and panel share one row; on smaller
+            viewports the panel drops below the hero copy in natural
+            reading order. The 3:2 column ratio gives the editorial
+            voice (Display + Lede) more horizontal room than the
+            stats sidebar — the chart still reads cleanly at the
+            narrower 2-fr column width. */}
         <Section padding="lg">
-          <Stack gap="500">
-            <Kicker accent>Film</Kicker>
-            <Display>Every film, every rating, every reaction.</Display>
-            <Lede>
-              I review most of what I watch on Letterboxd. This is the
-              full backlog — sortable, filterable, every star rating
-              and prose review preserved. Click any card for the full
-              review.
-            </Lede>
-          </Stack>
+          {/* No items-start: with default grid stretch alignment,
+              both columns share the row's height (= the taller
+              column's intrinsic height). The panel uses lg:h-full
+              to fill that height; its chart flex-grows to claim
+              whatever vertical space the hero column dictates. */}
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
+            <Stack gap="500">
+              <Kicker accent>Films</Kicker>
+              <Display>Every film, every rating, every reaction.</Display>
+              <Lede>
+                I review most of what I watch on Letterboxd. This is the
+                full backlog — sortable, filterable, every star rating
+                and prose review preserved. Click any card for the full
+                review.
+              </Lede>
+              {/* Follow CTA — sits inside the Stack so it picks up the
+                  Lede's gap rhythm. ↗ marks it external per the
+                  CTA-arrow convention. URL pulled from the ELSEWHERE
+                  registry so it stays in sync with Footer + Contact. */}
+              <p style={{ margin: 0 }}>
+                <Link href={LETTERBOXD_PROFILE_URL}>
+                  Follow along on Letterboxd ↗
+                </Link>
+              </p>
+            </Stack>
+            <SummaryPanel summary={summary} />
+          </div>
         </Section>
 
-        {/* ─── Grid ────────────────────────────────────────────── */}
+        {/* ─── Filter rail + Grid + Pagination (client) ─────── */}
         <Section padding="md" bordered>
-          <Stack gap="800">
-            <Headline level={2} className="sr-only">
-              Film reviews
-            </Headline>
-
-            <ul
-              role="list"
-              className="grid gap-4 sm:gap-6"
-              style={{
-                gridTemplateColumns:
-                  "repeat(auto-fill, minmax(160px, 1fr))",
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-              }}
-            >
-              {visibleFilms.map((film) => (
-                <li key={film.id}>
-                  <FilmCard film={film} />
-                </li>
-              ))}
-            </ul>
-
-            <Pagination
-              currentPage={page}
-              totalPages={totalPages}
-              basePath="/films"
-              pageParam="page"
-              ariaLabel="Film review pages"
-            />
-          </Stack>
-        </Section>
-
-        {/* ─── TMDB attribution (required by ToS) ──────────────── */}
-        <Section padding="sm">
-          <p
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: 11,
-              color: "var(--text-caption)",
-              letterSpacing: "0.04em",
-            }}
-          >
-            Film metadata (posters, genres, runtime, director){" "}
-            <NextLink
-              href="https://www.themoviedb.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "var(--text-action)",
-                textDecoration: "underline",
-              }}
-            >
-              powered by TMDB ↗
-            </NextLink>
-            . This site is not endorsed or certified by TMDB.
-          </p>
+          <FilmsShell
+            films={pageFilms}
+            totalPages={totalPages}
+            currentPage={page}
+            totalResults={totalResults}
+            filters={filters}
+            sort={sort}
+            availableGenres={availableGenres}
+          />
         </Section>
       </Container>
     </div>
   );
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────
+
+function asString(v: string | string[] | undefined): string | undefined {
+  if (Array.isArray(v)) return v[0];
+  return v;
 }

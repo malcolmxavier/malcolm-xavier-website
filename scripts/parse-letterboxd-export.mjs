@@ -155,9 +155,19 @@ export function parseLetterboxdExport(exportDir) {
   // Walk diary entries; only keep ones with a paired prose review.
   // Multiple diary entries for the same film (rewatches) accumulate
   // under one Film keyed by `${slug}-${releaseYear}`.
+  //
+  // We track each diary row's CSV index so that films watched on the
+  // same day can break ties by chronological-within-day order. The
+  // Letterboxd export orders rows oldest-first within each day; in
+  // newest-first display order we want the inverse, so we sort by
+  // row index DESC alongside watchedDate DESC. Without this, two
+  // films watched the same day would render in oldest-first order
+  // (e.g. the John Wick marathon would surface JW2 before JW3 even
+  // though JW3 was watched second). The row index is internal —
+  // stripped before the snapshot is written.
   const filmsBySeedId = new Map();
 
-  for (const d of diaryRows) {
+  for (const [csvRowIdx, d] of diaryRows.entries()) {
     const reviewKey = `${d.Date}|${d["Letterboxd URI"]}`;
     const review = reviewsByKey.get(reviewKey);
     if (!review) continue;
@@ -183,6 +193,10 @@ export function parseLetterboxdExport(exportDir) {
       containsSpoilers: false,
       reviewText,
       tags: parseTags(d.Tags),
+      // Internal — stripped before the snapshot is written. Carries
+      // the diary CSV row index so within-day ties resolve by
+      // chronological order rather than insertion order.
+      _csvRowIdx: csvRowIdx,
     };
 
     if (filmsBySeedId.has(seedId)) {
@@ -202,6 +216,7 @@ export function parseLetterboxdExport(exportDir) {
         reviews: [reviewObj],
         // Computed below after all reviews are accumulated:
         firstWatchedDate: "",
+        latestWatchedDate: "",
         firstReviewDate: "",
         latestReviewDate: "",
         primaryRating: null,
@@ -218,6 +233,10 @@ export function parseLetterboxdExport(exportDir) {
 
   // Compute per-film aggregates.
   const films = [];
+  // Carries each film's "where it sits in the grid" tiebreaker —
+  // the CSV row index of the latest-watched review. Internal sort
+  // metadata, never serialized.
+  const sortRowIdxByFilm = new Map();
   for (const film of filmsBySeedId.values()) {
     // Newest-first review order — primary rating + latest activity
     // come from index 0; first review is index length-1.
@@ -227,9 +246,21 @@ export function parseLetterboxdExport(exportDir) {
 
     // firstWatchedDate is the earliest watch event across reviews
     // (could differ from firstReviewDate if a watch was logged
-    // before the review was published).
+    // before the review was published). latestWatchedDate is the
+    // most recent watch — primary grid sort key. For ties on
+    // latestWatchedDate, the CSV row index of that latest review
+    // determines which film ranks first in the newest-first grid.
+    let latestReview = film.reviews[0];
+    for (const r of film.reviews) {
+      const cmp = r.watchedDate.localeCompare(latestReview.watchedDate);
+      if (cmp > 0 || (cmp === 0 && r._csvRowIdx > latestReview._csvRowIdx)) {
+        latestReview = r;
+      }
+    }
     const watchedDates = film.reviews.map((r) => r.watchedDate).sort();
     film.firstWatchedDate = watchedDates[0] ?? "";
+    film.latestWatchedDate = latestReview.watchedDate;
+    sortRowIdxByFilm.set(film.id, latestReview._csvRowIdx);
 
     film.firstReviewDate = oldest.reviewDate;
     film.latestReviewDate = newest.reviewDate;
@@ -250,10 +281,24 @@ export function parseLetterboxdExport(exportDir) {
     films.push(film);
   }
 
-  // Sort by firstReviewDate descending — newest-discovered films
-  // first. Matches Film[] canonical order documented in
-  // lib/feeds/letterboxd-utils.ts.
-  films.sort((a, b) => b.firstReviewDate.localeCompare(a.firstReviewDate));
+  // Primary sort: latestWatchedDate desc — newest-watched films
+  // first. Tiebreaker: CSV row index desc — Letterboxd's diary
+  // export is oldest-first within each day, so reversing it puts
+  // the most recent watch within a same-day group at the top
+  // (e.g. JW3 ranks above JW2 when both were watched the same day,
+  // because JW3 was logged after JW2). Matches Malcolm's framing:
+  // "from bottom to top, oldest to most recent watch."
+  films.sort((a, b) => {
+    const dateCmp = b.latestWatchedDate.localeCompare(a.latestWatchedDate);
+    if (dateCmp !== 0) return dateCmp;
+    return sortRowIdxByFilm.get(b.id) - sortRowIdxByFilm.get(a.id);
+  });
+
+  // Strip internal sort metadata from reviews so it doesn't end up
+  // in the serialized snapshot.
+  for (const film of films) {
+    for (const r of film.reviews) delete r._csvRowIdx;
+  }
 
   return films;
 }
@@ -272,7 +317,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   console.log(`  ${likedCount} films with liked: true`);
   console.log(`  ${multiReviewFilms} films with multiple reviews (rewatches)`);
   console.log("");
-  console.log(`First (newest by firstReviewDate):`);
+  console.log(`First (newest by latestWatchedDate):`);
   const f = films[0];
   if (f) {
     console.log(`  ${f.title} (${f.releaseYear})`);
