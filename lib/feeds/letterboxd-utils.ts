@@ -106,16 +106,27 @@ export type FilmsSummary = {
 // ─── Filter + sort spec ──────────────────────────────────────────
 
 /**
- * Review-date filter. `reviewYear` (exact) and `reviewWindow`
- * (rolling) are mutually exclusive — discriminated union enforces
- * this at the type level so callers can't accidentally set both
- * and watch the impl pick one arbitrarily. The empty branch makes
- * the whole sub-filter optional.
+ * Watched-date filter. `watchedYears` (multi-select set of exact
+ * years) and `watchedWindow` (rolling) are mutually exclusive —
+ * discriminated union enforces this at the type level so callers
+ * can't accidentally set both and watch the impl pick one
+ * arbitrarily. The empty branch makes the whole sub-filter
+ * optional.
+ *
+ * Filters by `review.watchedDate`, not `review.reviewDate` — the
+ * user-facing event is when Malcolm watched the film, not when he
+ * later typed up the review. The two are usually within a day of
+ * each other, but festival watches and review-after-the-fact
+ * entries can diverge by weeks.
+ *
+ * `watchedYears` is an array (not a single number) so the chip
+ * rail can multi-select like `ratings` and `genres` — clicking
+ * 2026 alongside 2024 keeps both active.
  */
-type ReviewDateFilter =
-  | { reviewYear: number; reviewWindow?: never }
-  | { reviewWindow: "12mo"; reviewYear?: never }
-  | { reviewYear?: undefined; reviewWindow?: undefined };
+type WatchedDateFilter =
+  | { watchedYears: number[]; watchedWindow?: never }
+  | { watchedWindow: "12mo"; watchedYears?: never }
+  | { watchedYears?: undefined; watchedWindow?: undefined };
 
 export type FilmFilters = {
   /** Empty/undefined = no filter. Otherwise: keep film if any review's rating ∈ this set. */
@@ -124,7 +135,7 @@ export type FilmFilters = {
   releaseYearMax?: number;
   /** Empty/undefined = no filter. Otherwise: keep film if film's genres intersect this set. */
   genres?: string[];
-} & ReviewDateFilter;
+} & WatchedDateFilter;
 
 export type FilmSort =
   /** Most recent watch first — default. Mirrors the snapshot's
@@ -147,11 +158,12 @@ export const DEFAULT_FILM_SORT: FilmSort = "latest-watched-desc";
 /**
  * Output of applyFilters: the surviving film + the qualifying review
  * to surface on the card and use for grid positioning. When a
- * per-review filter (ratings or reviewYear/reviewWindow) is active,
- * `qualifyingReview` is the **most recent** review that qualifies and
- * `positionDate` is that review's `reviewDate`. When no per-review
- * filter is active, `qualifyingReview` is the most recent review
- * overall and `positionDate` is the active sort dimension's date.
+ * per-review filter (ratings or watchedYears/watchedWindow) is
+ * active, `qualifyingReview` is the **most recent** review that
+ * qualifies and `positionDate` is that review's `reviewDate`. When
+ * no per-review filter is active, `qualifyingReview` is the most
+ * recent review overall and `positionDate` is the active sort
+ * dimension's date.
  */
 export type AppliedFilm = {
   film: Film;
@@ -174,7 +186,7 @@ export type AppliedFilm = {
  *
  * Per-film filters (releaseYear, genres) drop a film entirely when
  * the film itself doesn't match. Per-review filters (ratings,
- * reviewYear, reviewWindow) drop a film when none of its reviews
+ * watchedYears, watchedWindow) drop a film when none of its reviews
  * match — and when ANY of these filters is active, the surviving
  * film's "qualifying review" is the most recent review that passes
  * all per-review predicates, and the grid position uses that
@@ -198,15 +210,15 @@ export function applyFilters(
 ): AppliedFilm[] {
   const hasPerReviewFilter =
     (filters.ratings && filters.ratings.length > 0) ||
-    filters.reviewYear !== undefined ||
-    filters.reviewWindow !== undefined;
+    (filters.watchedYears && filters.watchedYears.length > 0) ||
+    filters.watchedWindow !== undefined;
 
   // Pre-compute the "12mo" cutoff once outside the loop. Using
   // Date.now() at filter time means the rolling window is always
   // anchored to the current request — no caching of "rolling 12mo"
   // values that go stale across requests.
   const twelveMoCutoffMs =
-    filters.reviewWindow === "12mo"
+    filters.watchedWindow === "12mo"
       ? Date.now() - 365 * 24 * 60 * 60 * 1000
       : null;
 
@@ -288,15 +300,19 @@ function findQualifyingReview(
         continue;
       }
     }
-    // ReviewYear filter: the review's reviewDate year must match.
-    if (filters.reviewYear !== undefined) {
-      const year = Number.parseInt(review.reviewDate.slice(0, 4), 10);
-      if (year !== filters.reviewYear) continue;
+    // WatchedYears filter: the review's watchedDate year must be
+    // in the selected set. Multi-select — any year in the chip
+    // rail counts as a match.
+    if (filters.watchedYears && filters.watchedYears.length > 0) {
+      const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
+      if (!filters.watchedYears.includes(year)) continue;
     }
-    // ReviewWindow filter (rolling 12 months from now).
+    // WatchedWindow filter (rolling 12 months from now, anchored to
+    // watch date — when Malcolm actually saw the film, not when he
+    // typed up the review).
     if (twelveMoCutoffMs !== null) {
-      const reviewMs = new Date(review.reviewDate).getTime();
-      if (!Number.isFinite(reviewMs) || reviewMs < twelveMoCutoffMs) continue;
+      const watchedMs = new Date(review.watchedDate).getTime();
+      if (!Number.isFinite(watchedMs) || watchedMs < twelveMoCutoffMs) continue;
     }
     return review;
   }
@@ -405,11 +421,14 @@ export function parseFilmFilters(
   const releaseYearMin = parsePositiveInt(asString(params.releaseYearMin));
   const releaseYearMax = parsePositiveInt(asString(params.releaseYearMax));
 
-  // ReviewYear and reviewWindow are mutually exclusive per the
-  // discriminated-union spec — if both are present, reviewYear
-  // wins (more specific signal).
-  const reviewYearRaw = parsePositiveInt(asString(params.reviewYear));
-  const reviewWindowRaw = asString(params.reviewWindow);
+  // WatchedYears and watchedWindow are mutually exclusive per the
+  // discriminated-union spec — if both are present, watchedYears
+  // wins (more specific signal). watchedYear URL param is CSV like
+  // `rating` and `genre` (`?watchedYear=2026,2024`); name stays
+  // singular for symmetry with those param names.
+  const watchedYearsRaw = parseCsvNumbers(asString(params.watchedYear))
+    .filter((y) => Number.isInteger(y) && y > 0);
+  const watchedWindowRaw = asString(params.watchedWindow);
 
   const base: Pick<
     FilmFilters,
@@ -420,11 +439,11 @@ export function parseFilmFilters(
   if (releaseYearMin !== undefined) base.releaseYearMin = releaseYearMin;
   if (releaseYearMax !== undefined) base.releaseYearMax = releaseYearMax;
 
-  if (reviewYearRaw !== undefined) {
-    return { ...base, reviewYear: reviewYearRaw };
+  if (watchedYearsRaw.length > 0) {
+    return { ...base, watchedYears: watchedYearsRaw };
   }
-  if (reviewWindowRaw === "12mo") {
-    return { ...base, reviewWindow: "12mo" };
+  if (watchedWindowRaw === "12mo") {
+    return { ...base, watchedWindow: "12mo" };
   }
   return base;
 }

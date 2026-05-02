@@ -20,9 +20,9 @@
 // URL params owned here:
 //   ?rating=4,4.5,5     — per-review rating multiselect
 //   ?genre=Horror,Drama — per-film genre multiselect
-//   ?reviewYear=2025    — per-review review-year filter (single year)
-//   ?reviewWindow=12mo  — per-review rolling 12-month window
-//                         (mutually exclusive with reviewYear)
+//   ?watchedYear=2025   — per-review watched-year filter (single year)
+//   ?watchedWindow=12mo — per-review rolling 12-month window
+//                         (mutually exclusive with watchedYear)
 //   ?sort=...           — sort dimension (omitted = default)
 //   ?page=N             — current page (reset to 1 on any filter change)
 //   ?from=films         — preserved when present so card→detail→back
@@ -66,19 +66,10 @@ const SORT_OPTIONS: { value: FilmSort; label: string }[] = [
   { value: "latest-review-desc", label: "Newest review" },
 ];
 
-const REVIEW_DATE_OPTIONS: {
-  key: string;
-  label: string;
-  reviewYear?: number;
-  reviewWindow?: "12mo";
-}[] = [
-  { key: "all", label: "All time" },
-  { key: "12mo", label: "Past 12 months", reviewWindow: "12mo" },
-  { key: "2026", label: "2026", reviewYear: 2026 },
-  { key: "2025", label: "2025", reviewYear: 2025 },
-  { key: "2024", label: "2024", reviewYear: 2024 },
-  { key: "2023", label: "2023", reviewYear: 2023 },
-];
+// Year options for the Watched filter. Multi-select (clicking
+// 2026 alongside 2024 keeps both active). Listed newest-first so
+// the most-recent year sits at the start of the chip rail.
+const WATCHED_YEAR_OPTIONS = [2026, 2025, 2024, 2023] as const;
 
 const DRAWER_ID = "films-filter-drawer";
 
@@ -200,10 +191,41 @@ export function FilmsShell({
     });
   }
 
-  function setReviewDate(option: (typeof REVIEW_DATE_OPTIONS)[number]) {
+  // Watched-date handlers. Year multi-select + two singletons
+  // ("All time" clears, "Past 12 months" sets the rolling window).
+  // The singleton chips are mutually exclusive with the year set
+  // — clicking either clears the other dimension.
+  function toggleWatchedYear(year: number) {
+    // If currently in window mode, switch to year mode (clear
+    // window, seed the year array with this one). Otherwise
+    // toggle the year in/out of the array.
+    if (filters.watchedWindow !== undefined) {
+      navigate({
+        watchedYear: String(year),
+        watchedWindow: undefined,
+      });
+      return;
+    }
+    const current = filters.watchedYears ?? [];
+    const next = current.includes(year)
+      ? current.filter((y) => y !== year)
+      : [...current, year].sort((a, b) => b - a);
     navigate({
-      reviewYear: option.reviewYear ? String(option.reviewYear) : undefined,
-      reviewWindow: option.reviewWindow,
+      watchedYear: next.length > 0 ? next.join(",") : undefined,
+    });
+  }
+
+  function setWatched12Mo() {
+    navigate({
+      watchedYear: undefined,
+      watchedWindow: "12mo",
+    });
+  }
+
+  function clearWatchedDate() {
+    navigate({
+      watchedYear: undefined,
+      watchedWindow: undefined,
     });
   }
 
@@ -220,7 +242,6 @@ export function FilmsShell({
   }
 
   const activeFilterCount = countActiveFilters(filters);
-  const activeReviewKey = currentReviewDateKey(filters);
   const sortIsDefault = sort === "latest-watched-desc";
   const anyControlChangedFromDefault =
     activeFilterCount > 0 || !sortIsDefault;
@@ -232,12 +253,13 @@ export function FilmsShell({
       filters={filters}
       sort={sort}
       availableGenres={availableGenres}
-      activeReviewKey={activeReviewKey}
       anyControlChangedFromDefault={anyControlChangedFromDefault}
       totalResults={totalResults}
       onToggleRating={toggleRating}
       onToggleGenre={toggleGenre}
-      onSetReviewDate={setReviewDate}
+      onToggleWatchedYear={toggleWatchedYear}
+      onSetWatched12Mo={setWatched12Mo}
+      onClearWatchedDate={clearWatchedDate}
       onSortChange={handleSortChange}
       onClearAll={clearAll}
     />
@@ -392,27 +414,36 @@ function FilterContent({
   filters,
   sort,
   availableGenres,
-  activeReviewKey,
   anyControlChangedFromDefault,
   totalResults,
   onToggleRating,
   onToggleGenre,
-  onSetReviewDate,
+  onToggleWatchedYear,
+  onSetWatched12Mo,
+  onClearWatchedDate,
   onSortChange,
   onClearAll,
 }: {
   filters: FilmFilters;
   sort: FilmSort;
   availableGenres: string[];
-  activeReviewKey: string;
   anyControlChangedFromDefault: boolean;
   totalResults: number;
   onToggleRating: (r: number) => void;
   onToggleGenre: (g: string) => void;
-  onSetReviewDate: (o: (typeof REVIEW_DATE_OPTIONS)[number]) => void;
+  onToggleWatchedYear: (y: number) => void;
+  onSetWatched12Mo: () => void;
+  onClearWatchedDate: () => void;
   onSortChange: (v: FilmSort) => void;
   onClearAll: () => void;
 }) {
+  // Singletons (All time, Past 12 months) and multi-select years
+  // share the Watched chip rail. Active states derived inline so
+  // there's one source of truth per chip.
+  const watchedYears = filters.watchedYears ?? [];
+  const allTimeActive =
+    watchedYears.length === 0 && filters.watchedWindow === undefined;
+  const past12moActive = filters.watchedWindow === "12mo";
   return (
     <Stack gap="500">
       {/* Sort + clear-all live at the top of the rail so the most
@@ -451,15 +482,35 @@ function FilterContent({
         ))}
       </FilterRow>
 
-      <FilterRow label="Reviewed">
-        {REVIEW_DATE_OPTIONS.map((opt) => (
+      <FilterRow label="Watched">
+        {/* Singletons first — All time clears the dimension; Past
+            12 months sets the rolling window. Either click clears
+            the year multi-select. */}
+        <Chip
+          isActive={allTimeActive}
+          onClick={onClearWatchedDate}
+          ariaLabel="Clear watched-date filter (all time)"
+        >
+          All time
+        </Chip>
+        <Chip
+          isActive={past12moActive}
+          onClick={onSetWatched12Mo}
+          ariaLabel="Filter watched-date to past 12 months"
+        >
+          Past 12 months
+        </Chip>
+        {/* Year chips — multi-select. Clicking switches out of
+            window mode if active; otherwise toggles the year in or
+            out of the array. */}
+        {WATCHED_YEAR_OPTIONS.map((y) => (
           <Chip
-            key={opt.key}
-            isActive={opt.key === activeReviewKey}
-            onClick={() => onSetReviewDate(opt)}
-            ariaLabel={`Filter reviewed-date to ${opt.label}`}
+            key={y}
+            isActive={watchedYears.includes(y)}
+            onClick={() => onToggleWatchedYear(y)}
+            ariaLabel={`Filter watched-date to ${y}`}
           >
-            {opt.label}
+            {y}
           </Chip>
         ))}
       </FilterRow>
@@ -614,15 +665,16 @@ function countActiveFilters(filters: FilmFilters): number {
   if (filters.genres && filters.genres.length > 0) n++;
   if (filters.releaseYearMin !== undefined) n++;
   if (filters.releaseYearMax !== undefined) n++;
-  if (filters.reviewYear !== undefined) n++;
-  if (filters.reviewWindow !== undefined) n++;
+  // Watched date is one filter slot — years and window are
+  // mutually exclusive per the discriminated union, so they share
+  // a slot in the active-count badge.
+  if (
+    (filters.watchedYears && filters.watchedYears.length > 0) ||
+    filters.watchedWindow !== undefined
+  ) {
+    n++;
+  }
   return n;
-}
-
-function currentReviewDateKey(filters: FilmFilters): string {
-  if (filters.reviewYear !== undefined) return String(filters.reviewYear);
-  if (filters.reviewWindow === "12mo") return "12mo";
-  return "all";
 }
 
 // ─── Inline styles ────────────────────────────────────────────────
