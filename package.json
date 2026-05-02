@@ -21,6 +21,9 @@
     "music:refresh": "node scripts/refresh-music-snapshot.mjs",
     "spotify:health": "curl -s http://127.0.0.1:3001/api/spotify/health | python3 -m json.tool",
     "spotify:snapshot": "curl --fail -sS http://127.0.0.1:3001/api/spotify/snapshot -o lib/feeds/_fixtures/spotify-snapshot.json && echo 'Snapshot captured to lib/feeds/_fixtures/spotify-snapshot.json'",
+    "films:refresh": "node scripts/refresh-films-snapshot.mjs",
+    "films:health": "curl -s http://127.0.0.1:3001/api/letterboxd/health | python3 -m json.tool",
+    "films:snapshot": "curl --fail -sS http://127.0.0.1:3001/api/letterboxd/snapshot -o lib/feeds/_fixtures/letterboxd-snapshot.json && echo 'Snapshot captured to lib/feeds/_fixtures/letterboxd-snapshot.json'",
     "prebuild": "npm run tokens:build"
   },
   "dependencies": {

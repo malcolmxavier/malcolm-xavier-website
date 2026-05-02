@@ -1,0 +1,9 @@
+{
+  "_comment": "Manual overrides for TMDB resolution. Edit when an automated title+year search picks the wrong film, or when Malcolm has selected a non-default poster on Letterboxd that TMDB's default doesn't match. The refresh script consults this file before falling back to TMDB's default search result.",
+  "_schema": {
+    "tmdbId": "Maps letterboxdSlug -> TMDB movie id (number). Use when title+year search picks the wrong film (e.g. two films share a name in the same year).",
+    "posterPath": "Maps letterboxdSlug -> TMDB poster path string (e.g. '/abc123.jpg'). Use when Malcolm's selected poster on Letterboxd differs from TMDB's default and we want to honor his choice."
+  },
+  "tmdbId": {},
+  "posterPath": {}
+}
