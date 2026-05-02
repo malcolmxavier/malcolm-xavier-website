@@ -42,3 +42,4 @@ next-env.d.ts
 
 # internal-only docs and review trackers — kept locally, never tracked
 /_private/
+/PLAN.md
