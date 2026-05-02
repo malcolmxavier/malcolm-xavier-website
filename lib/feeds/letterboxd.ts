@@ -169,9 +169,9 @@ export function getFilmBySlug(slug: string): Film | null {
 // ─── Diagnostic ──────────────────────────────────────────────────
 
 /**
- * Lightweight snapshot freshness signal — used by the (forthcoming)
- * /api/letterboxd/health endpoint and any future "data as of" caption
- * on /films. Mirrors getSnapshotMeta() from spotify.ts.
+ * Lightweight snapshot freshness signal — used by /api/letterboxd/
+ * health and any future "data as of" caption on /films. Mirrors
+ * getSnapshotMeta() from spotify.ts.
  *
  * Throws the same error as loadSnapshot when the file is missing or
  * malformed — caller should catch and report "snapshot unavailable"
@@ -192,4 +192,124 @@ export function getLetterboxdSnapshotMeta(): {
     filmCount: snap.summary.totalFilms,
     reviewCount: snap.summary.totalReviews,
   };
+}
+
+// ─── Live probes ──────────────────────────────────────────────────
+//
+// /api/letterboxd/health surfaces these so a developer can answer
+// "would refresh-films-snapshot.mjs work right now?" without firing
+// it. Both probes return per-call result objects; the aggregate
+// `ok` is the AND of every probe.
+//
+// Independent of the snapshot read path — these always hit the live
+// upstreams regardless of NODE_ENV or any "offline" flag. Mirrors
+// Spotify's pingSpotifyHealth pattern.
+
+export type LetterboxdHealthProbe = {
+  name: "rss" | "tmdb";
+  ok: boolean;
+  status?: number;
+  latencyMs: number;
+  error?: string;
+};
+
+/** Letterboxd handle in URL form. Sourced from lib/elsewhere.ts via
+ *  hardcode here to avoid pulling client-side data into server-only
+ *  module. The handle is also used by parse-letterboxd-export.mjs's
+ *  RSS layer (incremental refresh path). */
+const LETTERBOXD_RSS_URL = "https://letterboxd.com/malxavi/rss/";
+
+const PROBE_TIMEOUT_MS = 10_000;
+
+/**
+ * Probe RSS + TMDB reachability. Returns per-probe results plus an
+ * aggregate `ok` so the diagnostic can report partial outages
+ * (e.g. RSS up, TMDB down — refresh would fail at enrichment but
+ * the snapshot is still readable).
+ *
+ * Both probes run in parallel. Total wall time is capped by the
+ * slower of the two (10s timeout each).
+ */
+export async function pingLetterboxdHealth(): Promise<{
+  ok: boolean;
+  probes: LetterboxdHealthProbe[];
+}> {
+  const probes = await Promise.all([probeRss(), probeTmdb()]);
+  return { ok: probes.every((p) => p.ok), probes };
+}
+
+async function probeRss(): Promise<LetterboxdHealthProbe> {
+  const start = Date.now();
+  try {
+    const res = await fetch(LETTERBOXD_RSS_URL, {
+      method: "GET",
+      headers: { Accept: "application/rss+xml" },
+      signal: AbortSignal.timeout(PROBE_TIMEOUT_MS),
+      // Don't read the body — we only need reachability + status.
+      // Letterboxd serves ~50KB of RSS XML which is wasted bytes
+      // for a health probe. Discarding the body via cancel() lets
+      // the connection close early.
+    });
+    // Body cancel is best-effort — some runtimes honor it, some
+    // ignore it. Either way the status code is what we care about.
+    res.body?.cancel().catch(() => {});
+    return {
+      name: "rss",
+      ok: res.ok,
+      status: res.status,
+      latencyMs: Date.now() - start,
+    };
+  } catch (e) {
+    return {
+      name: "rss",
+      ok: false,
+      latencyMs: Date.now() - start,
+      error: e instanceof Error ? e.message : String(e),
+    };
+  }
+}
+
+async function probeTmdb(): Promise<LetterboxdHealthProbe> {
+  const start = Date.now();
+  // Lazy-import TMDB client so this server-only module doesn't pull
+  // it in unnecessarily for plain page renders. Also lets us return
+  // a clean "not configured" probe result without throwing when the
+  // env var is missing on a fresh setup.
+  const { getTmdbApiKey, isTmdbConfigured } = await import("./tmdb");
+  if (!isTmdbConfigured()) {
+    return {
+      name: "tmdb",
+      ok: false,
+      latencyMs: 0,
+      error:
+        "TMDB_API_KEY not set — refresh enrichment would fail. " +
+        "Add to .env.local before running films:refresh.",
+    };
+  }
+  try {
+    // /configuration is the canonical "is TMDB up + key valid"
+    // probe. Cheap, doesn't count against most rate limits, and
+    // returns 401 on a bad key (different from a 5xx outage), so
+    // the status code distinguishes config from upstream issues.
+    const res = await fetch(
+      `https://api.themoviedb.org/3/configuration?api_key=${getTmdbApiKey()}`,
+      {
+        signal: AbortSignal.timeout(PROBE_TIMEOUT_MS),
+      },
+    );
+    res.body?.cancel().catch(() => {});
+    return {
+      name: "tmdb",
+      ok: res.ok,
+      status: res.status,
+      latencyMs: Date.now() - start,
+    };
+  } catch (e) {
+    return {
+      name: "tmdb",
+      ok: false,
+      latencyMs: Date.now() - start,
+      error: e instanceof Error ? e.message : String(e),
+    };
+  }
 }
