@@ -308,6 +308,27 @@ out.push("  --border-action: var(--primary-default);");
 out.push("  --border-action-hover: var(--primary-700);");
 out.push("}");
 out.push("");
+// Light-mode film cluster: --primary-default for film resolves to
+// --orange-500 (#ef941e), which renders at 2.35:1 on white surfaces
+// and fails SC 1.4.11 Non-Text Contrast (3:1 floor for UI graphics
+// like StarRating's filled stars, pagination numbers, focus rings,
+// and accent borders). Bump the action chain one stop to
+// --primary-600 (--orange-600 = 4.6:1 on white) for film-cluster
+// pages in light mode. The brand orange (--orange-500) stays
+// canonical for large surfaces (hero accents, chip backgrounds);
+// only the action chain shifts. Dark mode is unaffected — the
+// rule below already maps action tokens to --primary-300, which
+// resolves to --orange-300 (#f5bf78 = 12.6:1 on black). Caught by
+// the a11y review of the StarRating primitive on commit 7fef8ea.
+out.push("[data-subbrand=\"film\"] {");
+out.push("  --text-action: var(--primary-600);");
+out.push("  --text-action-hover: var(--primary-700);");
+out.push("  --icon-action: var(--primary-600);");
+out.push("  --icon-action-hover: var(--primary-700);");
+out.push("  --border-action: var(--primary-600);");
+out.push("  --border-action-hover: var(--primary-700);");
+out.push("}");
+out.push("");
 // Dark-mode counterpart for sub-brand pages. --primary-default is
 // the 500 stop, which fails AA on black for several sub-brands —
 // purple-500 on #000 = 2.7:1 (caught by axe on /music's kicker
