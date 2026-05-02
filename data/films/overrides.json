@@ -4,6 +4,9 @@
     "tmdbId": "Maps letterboxdSlug -> TMDB movie id (number). Use when title+year search picks the wrong film (e.g. two films share a name in the same year).",
     "posterPath": "Maps letterboxdSlug -> TMDB poster path string (e.g. '/abc123.jpg'). Use when Malcolm's selected poster on Letterboxd differs from TMDB's default and we want to honor his choice."
   },
-  "tmdbId": {},
+  "tmdbId": {
+    "am-i-ok": 641934,
+    "kill-bill-the-whole-bloody-affair": 414419
+  },
   "posterPath": {}
 }
