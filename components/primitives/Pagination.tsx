@@ -161,6 +161,12 @@ export function Pagination({
   const entries = buildPaginationEntries(currentPage, totalPages, windowSize);
   const atStart = currentPage <= 1;
   const atEnd = currentPage >= totalPages;
+  // The discriminated union (CallbackMode | HrefFnMode | BasePathMode)
+  // is enforced at the component prop boundary but TypeScript widens
+  // `mode` after the rest-spread, so we re-narrow with a single cast
+  // here. The actual safety still lives at runtime in the isCallback /
+  // isBasePath / isHrefFn guards below — this cast is a structural
+  // pass-through, not a permissive widening.
   const modeProps = mode as ModeProps;
 
   return (

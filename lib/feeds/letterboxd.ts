@@ -74,14 +74,20 @@ const SNAPSHOT_PATH = path.resolve(
 // invalidation would require a fresh deploy (which is the current
 // refresh ritual anyway).
 //
-// Both the parsed snapshot AND the derived slug map share a single
+// Both the parsed snapshot AND every derived index share a single
 // cache object so they can never drift apart. If the snapshot is
 // ever invalidated (HMR, test isolation, future cache-clear hook),
-// the slug map is dropped in the same beat — replacing one without
-// the other would otherwise leave stale Film references behind.
+// every index is dropped in the same beat — replacing one without
+// the others would otherwise leave stale Film references behind.
+//
+// `positionByFilmId` is the chronological index of each film in
+// `snapshot.films`, used by /films/[slug] for prev/next neighbor
+// nav. Built once at cache-load time so the detail page doesn't
+// re-derive it via Array.findIndex on every request.
 type SnapshotCache = {
   snapshot: LetterboxdSnapshot;
   slugMap: Map<string, Film>;
+  positionByFilmId: Map<string, number>;
 };
 
 let cachedState: SnapshotCache | null = null;
@@ -92,6 +98,14 @@ function buildSlugMap(films: Film[]): Map<string, Film> {
     slugMap.set(`${film.letterboxdSlug}-${film.releaseYear}`, film);
   }
   return slugMap;
+}
+
+function buildPositionMap(films: Film[]): Map<string, number> {
+  const positionByFilmId = new Map<string, number>();
+  for (let i = 0; i < films.length; i++) {
+    positionByFilmId.set(films[i].id, i);
+  }
+  return positionByFilmId;
 }
 
 function loadCache(): SnapshotCache {
@@ -130,6 +144,7 @@ function loadCache(): SnapshotCache {
   cachedState = {
     snapshot: parsed,
     slugMap: buildSlugMap(parsed.films),
+    positionByFilmId: buildPositionMap(parsed.films),
   };
   return cachedState;
 }
@@ -167,6 +182,27 @@ export function getFilms(): {
 export function getFilmById(id: string): Film | null {
   const snap = loadSnapshot();
   return snap.filmById[id] ?? null;
+}
+
+/**
+ * O(1) lookup of a film's chronological neighbors in the snapshot's
+ * sorted films array — used by /films/[slug] for the prev/next
+ * adjacent-review nav. The position map is built once at cache-load
+ * time so this avoids the per-render findIndex pass over all films.
+ * Returns null on either side at the array boundary.
+ */
+export function getFilmNeighbors(filmId: string): {
+  newer: Film | null;
+  older: Film | null;
+} {
+  const cache = loadCache();
+  const idx = cache.positionByFilmId.get(filmId);
+  if (idx === undefined) return { newer: null, older: null };
+  const films = cache.snapshot.films;
+  return {
+    newer: idx > 0 ? films[idx - 1] : null,
+    older: idx + 1 < films.length ? films[idx + 1] : null,
+  };
 }
 
 /**

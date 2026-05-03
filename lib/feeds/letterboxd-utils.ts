@@ -555,9 +555,19 @@ export function parseFilmSort(
   return DEFAULT_FILM_SORT;
 }
 
-// ─── Internal parse helpers ───────────────────────────────────────
+// ─── Parse helpers ────────────────────────────────────────────────
 
-function asString(v: string | string[] | undefined): string | undefined {
+/**
+ * Coerce a Next.js searchParams value (string | string[] | undefined)
+ * to a single string. Multi-value params return their first entry —
+ * matches the convention the route handlers use for ?key=a&key=b
+ * URLs (we treat the first value as authoritative).
+ *
+ * Exported so /films/page.tsx, /films/genre/[slug]/page.tsx, and
+ * any future film-cluster route can share one definition rather
+ * than each maintaining its own.
+ */
+export function asString(v: string | string[] | undefined): string | undefined {
   if (Array.isArray(v)) return v[0];
   return v;
 }
@@ -597,6 +607,10 @@ function parsePositiveInt(raw: string | undefined): number | undefined {
  * valid future years — a process started in December 2026 would
  * otherwise still treat 2032 as out-of-range when it runs in 2027.
  */
+// Catalog floor — TMDB has entries earlier than 1900 (silent-era
+// films from the 1880s/1890s) but Malcolm's Letterboxd diary doesn't
+// reach back that far, so 1900 is a comfortable lower bound for
+// URL-tampering rejection without trimming any real watch history.
 const RELEASE_YEAR_MIN_BOUND = 1900;
 
 function parseReleaseYear(raw: string | undefined): number | undefined {

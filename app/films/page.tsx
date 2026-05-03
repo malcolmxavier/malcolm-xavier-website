@@ -30,6 +30,7 @@ import { SITE_URL } from "@/lib/site-config";
 import { getFilms } from "@/lib/feeds/letterboxd";
 import {
   applyFilters,
+  asString,
   paginate,
   parseFilmFilters,
   parseFilmSort,
@@ -354,11 +355,6 @@ export default async function FilmsPage({
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────
-
-function asString(v: string | string[] | undefined): string | undefined {
-  if (Array.isArray(v)) return v[0];
-  return v;
-}
 
 /**
  * Build a relative href for /films at a specific page, preserving

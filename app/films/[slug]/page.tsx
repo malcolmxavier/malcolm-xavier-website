@@ -57,7 +57,10 @@ import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Link } from "@/components/primitives/Link";
 import { StarRating } from "@/components/primitives/StarRating";
-import { getFilmBySlug, getFilms } from "@/lib/feeds/letterboxd";
+import {
+  getFilmBySlug,
+  getFilmNeighbors,
+} from "@/lib/feeds/letterboxd";
 import {
   formatRuntime,
   formatWatchedDate,
@@ -182,15 +185,13 @@ export default async function FilmDetailPage({
   // Adjacent-review neighbors for the bottom nav — closes the
   // dead-end finding (films-related-films-internal-links). The
   // snapshot's films array is pre-sorted by latestWatchedDate desc
-  // (matches the listing default sort), so we can walk neighbors
-  // by index without re-sorting. idx-1 is the next-newer review,
-  // idx+1 is the next-older. Each neighbor is null at the array
-  // boundary so the nav gracefully omits the missing direction.
-  const { films: allFilms } = getFilms();
-  const idx = allFilms.findIndex((f) => f.id === film.id);
-  const newerFilm = idx > 0 ? allFilms[idx - 1] : null;
-  const olderFilm =
-    idx >= 0 && idx + 1 < allFilms.length ? allFilms[idx + 1] : null;
+  // (matches the listing default sort), so neighbors are
+  // index ± 1. getFilmNeighbors uses a position map built once at
+  // cache-load time so this is O(1) per render — was findIndex over
+  // the full films array per render before. Each neighbor is null
+  // at the array boundary so the nav gracefully omits the missing
+  // direction.
+  const { newer: newerFilm, older: olderFilm } = getFilmNeighbors(film.id);
 
   // Hero dateline rule mirrors FilmCard.tsx: when every review on
   // this film is a rewatch, surface "Rewatched" against the earliest
@@ -848,9 +849,16 @@ function NeighborLink({
         textAlign: align,
       }}
     >
-      <p style={{ ...metadataLineStyle, marginBottom: "var(--scale-200)" }}>
-        {kicker}
-      </p>
+      {/* Kicker primitive carries the kicker visual register
+          (mono / uppercase / 0.08em letter-spacing / caption color).
+          Was a hand-rolled <p> before; Kicker keeps the cluster
+          internally consistent and inherits future style changes
+          automatically. The directional arrow lives inline with the
+          kicker text so left/right alignment carries the affordance
+          without adding a separate icon node. */}
+      <div style={{ marginBottom: "var(--scale-200)" }}>
+        <Kicker>{kicker}</Kicker>
+      </div>
       <p
         style={{
           // p-lg (20px) reads as a neighbor-card title without

@@ -462,7 +462,7 @@ a[data-subbrand="film"] {
   border-color: var(--orange-700);
 }
 [data-theme="dark"] [data-subbrand="film"] a.film-detail-genre-chip:hover,
-[data-theme="dark"] a.film-detail-genre-chip:focus-visible {
+[data-theme="dark"] [data-subbrand="film"] a.film-detail-genre-chip:focus-visible {
   color: var(--orange-400) !important;
   border-color: var(--orange-400);
 }
