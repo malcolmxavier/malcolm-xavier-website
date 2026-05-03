@@ -184,17 +184,30 @@ export function Footer() {
         style={{ borderColor: "var(--border-default)" }}
       >
         <Container size="lg">
-          <div className="flex flex-col gap-3 py-6 sm:flex-row sm:items-start sm:justify-between">
-            <Dateline>© {COPYRIGHT_YEAR} Malcolm Xavier</Dateline>
-            {/* Route-conditional notes — both render only on
-                CRITIC_ROUTE_PREFIXES (films today, tv next),
-                otherwise null. Stacked vertically on the right so
-                the editorial disclaimer reads as voice first and
-                the TMDB credit as utility chrome below. */}
-            <div className="flex flex-col gap-2 sm:items-end sm:text-right">
-              <CriticDisclaimer />
-              <TmdbAttribution />
+          {/* Outer py-6 holds the symmetric top + bottom padding for
+              the whole bottom region. The inner row renders the ©
+              dateline + (critic-route) editorial disclaimer; the
+              TmdbAttribution row, when present, brings its own
+              small top spacer (pt-3) and rides on the outer pb-6.
+              On non-critic routes TmdbAttribution returns null, so
+              the outer padding stays symmetric. */}
+          <div className="py-6">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <Dateline>© {COPYRIGHT_YEAR} Malcolm Xavier</Dateline>
+              {/* Route-conditional editorial note — renders only on
+                  CRITIC_ROUTE_PREFIXES (films today, tv next),
+                  otherwise null. Right-aligned on tablet+ so the
+                  voice line plays against the © dateline. */}
+              <div className="flex flex-col gap-2 sm:items-end sm:text-right">
+                <CriticDisclaimer />
+              </div>
             </div>
+            {/* TMDB attribution — its own full-container row so the
+                ToS-mandated single-line disclosure can stretch across
+                the available width on desktop without squeezing the
+                © dateline above it. Returns null off critic routes,
+                so non-critic footers see no extra row. */}
+            <TmdbAttribution />
           </div>
         </Container>
       </div>

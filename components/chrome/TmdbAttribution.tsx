@@ -40,54 +40,65 @@ export function TmdbAttribution() {
   // from saying "Film metadata" on a TV page and vice versa.
   const label = labelFor(pathname);
 
-  // Single-paragraph layout: route-aware label, logo+arrow link,
-  // mid-dot separator, then the verbatim ToS disclaimer. Renders
-  // as one continuous caption that wraps naturally inside its
-  // column (right-aligned on tablet+, left-aligned on mobile).
-  // text-wrap: balance keeps the wrap visually even when the
-  // disclaimer breaks across two lines on narrower viewports.
+  // Single-line on desktop: route-aware label, logo+arrow link,
+  // mid-dot separator, then the verbatim ToS disclaimer all on one
+  // physical line. The full-container row in Footer gives this
+  // caption the width it needs (~960px at fontSize 11) so the
+  // disclosure can render unwrapped on tablet+ without squeezing
+  // the © dateline above it. Mobile (<sm) wraps naturally — single
+  // line is impossible at narrow viewports, and text wrap there is
+  // expected reading-rhythm rather than a layout failure.
+  //
+  // The wrapping <div> brings a small top spacer (pt-3) so this
+  // row sits as utility chrome below the editorial © + disclaimer
+  // row above. The Footer's outer py-6 carries the bottom padding
+  // for the whole bottom region. When TmdbAttribution returns null
+  // off critic routes, the wrapper goes with it — no extra space
+  // leaks onto non-critic footers.
   return (
-    <p style={{ ...captionStyle, textWrap: "balance" }}>
-      {label} via{" "}
-      <NextLink
-        href="https://www.themoviedb.org"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="The Movie Database (opens in a new tab)"
-        style={{
-          color: "inherit",
-          textDecoration: "none",
-          // Align the logo image with the text baseline so the
-          // mark sits inline like a wordmark instead of floating
-          // above or below the surrounding caption.
-          verticalAlign: "middle",
-        }}
-      >
-        <Image
-          src="/images/tmdb-logo.svg"
-          alt="The Movie Database"
-          width={108}
-          height={14}
+    <div className="pt-3">
+      <p style={captionStyle}>
+        {label} via{" "}
+        <NextLink
+          href="https://www.themoviedb.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="The Movie Database (opens in a new tab)"
           style={{
-            display: "inline-block",
+            color: "inherit",
+            textDecoration: "none",
+            // Align the logo image with the text baseline so the
+            // mark sits inline like a wordmark instead of floating
+            // above or below the surrounding caption.
             verticalAlign: "middle",
-            // Slight margin so the logo doesn't kiss the
-            // surrounding text on either side.
-            marginInline: 4,
           }}
-          // SVG asset — Next.js shouldn't try to optimize it
-          // (the optimizer treats SVGs as opaque and can break
-          // gradients/embedded styles).
-          unoptimized
-        />
-        <span style={{ verticalAlign: "middle" }}>↗</span>
-      </NextLink>
-      {" · "}
-      {/* The disclaimer wording below is mandated verbatim by
-          TMDB's API ToS — do not paraphrase or trim. */}
-      This website uses TMDB and the TMDB APIs but is not
-      endorsed, certified, or otherwise approved by TMDB.
-    </p>
+        >
+          <Image
+            src="/images/tmdb-logo.svg"
+            alt="The Movie Database"
+            width={108}
+            height={14}
+            style={{
+              display: "inline-block",
+              verticalAlign: "middle",
+              // Slight margin so the logo doesn't kiss the
+              // surrounding text on either side.
+              marginInline: 4,
+            }}
+            // SVG asset — Next.js shouldn't try to optimize it
+            // (the optimizer treats SVGs as opaque and can break
+            // gradients/embedded styles).
+            unoptimized
+          />
+          <span style={{ verticalAlign: "middle" }}>↗</span>
+        </NextLink>
+        {" · "}
+        {/* The disclaimer wording below is mandated verbatim by
+            TMDB's API ToS — do not paraphrase or trim. */}
+        This website uses TMDB and the TMDB APIs but is not
+        endorsed, certified, or otherwise approved by TMDB.
+      </p>
+    </div>
   );
 }
 
