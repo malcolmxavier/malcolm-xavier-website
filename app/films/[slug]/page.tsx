@@ -769,6 +769,7 @@ function ReviewToc({ reviews }: { reviews: Review[] }) {
                 here, but a direct <a> keeps the markup minimal. */}
             <a
               href={`#review-${i}`}
+              className="focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm"
               style={{
                 fontFamily: "var(--font-mono)",
                 fontSize: "var(--p-sm-font-size)",
@@ -776,6 +777,12 @@ function ReviewToc({ reviews }: { reviews: Review[] }) {
                 textDecoration: "underline",
                 textUnderlineOffset: 4,
                 textDecorationThickness: 1,
+                // --border-focus matches every other interactive
+                // element in the films cluster (BackToFilms,
+                // NeighborLink, FilmCard link, filter chips,
+                // pagination). Without this, the TOC was the only
+                // surface using the browser-default focus ring.
+                outlineColor: "var(--border-focus)",
               }}
             >
               Watched {formatWatchedDate(review.watchedDate)}
@@ -888,7 +895,12 @@ const genreChipStyle = {
   letterSpacing: "0.08em",
   padding: "4px 10px",
   borderRadius: "999px",
-  border: "1px solid var(--border-default)",
+  // --border-interactive (grey-700 on white = 4.55:1, grey-600 on
+  // black in dark mode) clears SC 1.4.11 for the chip's resting
+  // shape boundary. The earlier --border-default = grey-50 on white
+  // = 1.04:1 left the chip effectively borderless at rest. Matches
+  // the filter chip rail's resting border for visual cohesion.
+  border: "1px solid var(--border-interactive)",
   color: "var(--text-caption)",
   background: "transparent",
   whiteSpace: "nowrap" as const,

@@ -187,7 +187,7 @@ export function SummaryPanel({ summary, currentYearCount }: Props) {
             list at micro-caption size. */}
         {topGenres.length > 0 ? (
           <p style={tailStatsStyle}>
-            Top genres: {topGenres.join(", ")}
+            Top genres: {formatList(topGenres)}
           </p>
         ) : null}
         {topDecade ? (
@@ -282,6 +282,20 @@ function topN(dist: Record<string, number>, n: number): string[] {
     .sort((a, b) => b[1] - a[1])
     .slice(0, n)
     .map(([k]) => k);
+}
+
+/**
+ * Format a list of items into a natural-language string with the
+ * Oxford comma. "A" / "A and B" / "A, B, and C". Used for the tail
+ * stats line so "Drama, Horror, Thriller" reads as "Drama, Horror,
+ * and Thriller" — the project's voice rule requires the serial
+ * comma.
+ */
+function formatList(items: string[]): string {
+  if (items.length === 0) return "";
+  if (items.length === 1) return items[0];
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
 }
 
 // ─── Inline styles ────────────────────────────────────────────────

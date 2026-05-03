@@ -93,20 +93,23 @@ export function StarRating({
     // role="meter" with aria-valuemin/max/now communicates the
     // bounded 0–5 range directly to screen readers — NVDA and
     // VoiceOver announce it natively as "3.5 of 5" without the
-    // component having to spell it out. aria-valuetext keeps the
-    // legible "Rated 3.5 out of 5 stars" phrasing as the fallback
-    // for AT that don't surface the numeric meter values.
+    // component having to spell it out.
     //
     // aria-label is REQUIRED on role="meter" — meters are gauges
     // and gauges are nameless without it (axe-core surfaces this
-    // as aria-meter-name). aria-valuetext alone doesn't satisfy
-    // the accessible-name requirement; the two attributes serve
-    // different purposes (name vs. current-value text). We use the
-    // same string for both so VO/NVDA hear "Rating gauge: Rated 3.5
-    // out of 5 stars" — name + value text in one announcement.
+    // as aria-meter-name). aria-valuetext carries the legible
+    // current-value phrase. The two serve different purposes:
+    // aria-label is the NAME of the widget; aria-valuetext is the
+    // VALUE TEXT. Earlier we set both to the same string, which
+    // caused NVDA to read "Rated 3.5 out of 5 stars rating bar
+    // Rated 3.5 out of 5 stars" — name + role + value text, all
+    // saying the same thing. Splitting the two keeps the
+    // announcement to "Rating rating bar Rated 3.5 out of 5 stars."
+    // Callers passing `ariaLabel` still override the name; the
+    // value text always carries the legible phrase.
     <span
       role="meter"
-      aria-label={label}
+      aria-label={ariaLabel ?? "Rating"}
       aria-valuemin={0}
       aria-valuemax={5}
       aria-valuenow={clamped}

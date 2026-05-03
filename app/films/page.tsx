@@ -47,8 +47,16 @@ const LETTERBOXD_PROFILE_URL =
   ELSEWHERE.find((e) => e.label === "Letterboxd")?.href ??
   "https://letterboxd.com/malxavi/";
 
-const LISTING_DESCRIPTION =
-  "741 films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.";
+/**
+ * Build the listing meta description from the live snapshot total
+ * so the count never goes stale across snapshot refreshes. The
+ * function is called from both `generateMetadata` and the
+ * CollectionPage JSON-LD so they stay in lockstep — refresh the
+ * snapshot, both update; no hardcoded literal to forget.
+ */
+function buildListingDescription(totalFilms: number): string {
+  return `${totalFilms.toLocaleString()} films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.`;
+}
 
 /**
  * Per-request metadata. Three crawl directives compose here:
@@ -103,21 +111,27 @@ export async function generateMetadata({
     ? `/films/genre/${slugifyGenre(filters.genres![0])}`
     : "/films";
 
+  // Read the snapshot total here (cheap — module-cached after the
+  // first request) so the description's count tracks the live
+  // snapshot rather than a baked-in literal that goes stale every
+  // refresh.
+  const description = buildListingDescription(getFilms().summary.totalFilms);
+
   return {
     title: "Film Reviews",
-    description: LISTING_DESCRIPTION,
+    description,
     alternates: { canonical },
     robots: noindex ? { index: false, follow: true } : undefined,
     openGraph: {
       title: "Film Reviews—Malcolm Xavier",
-      description: LISTING_DESCRIPTION,
+      description,
       url: "/films",
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
       title: "Film Reviews—Malcolm Xavier",
-      description: LISTING_DESCRIPTION,
+      description,
     },
   };
 }
@@ -220,8 +234,7 @@ export default async function FilmsPage({
       {
         "@type": "CollectionPage",
         name: "Film Reviews",
-        description:
-          "Every film Malcolm Xavier has logged, rated, and reviewed on Letterboxd—741 entries spanning horror, arthouse, and blockbusters.",
+        description: `Every film Malcolm Xavier has logged, rated, and reviewed on Letterboxd—${summary.totalFilms.toLocaleString()} entries spanning horror, arthouse, and blockbusters.`,
         url: listingUrl,
         inLanguage: "en-US",
         about: { "@type": "Movie" },

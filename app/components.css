@@ -437,6 +437,20 @@ a[data-subbrand="film"] {
    The chip aesthetic (rounded pill, mono uppercase) lives on the
    element via inline style — only color + decoration is overridden
    here so the cascade can't fight us back. */
+/* Filter-rail + dismiss-chip transition lives in the cascade so
+   prefers-reduced-motion can actually disable it. The earlier
+   inline `transition` on chipBaseStyle outranked the Tailwind
+   motion-reduce:transition-none class (inline-style 1000 vs
+   @media-wrapped class ~10), silently defeating the guard. */
+.film-filter-chip {
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .film-filter-chip {
+    transition: none;
+  }
+}
+
 [data-subbrand="film"] a.film-detail-genre-chip {
   color: var(--text-caption) !important;
   text-decoration: none;
