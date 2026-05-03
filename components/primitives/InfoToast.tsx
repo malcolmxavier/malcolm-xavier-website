@@ -88,15 +88,16 @@ export function InfoToast({
           (typically below the active-filter chips above the grid).
           hidden md:inline-flex = display:none by default,
           display:inline-flex on md+ (so AT only sees this variant
-          on tablet/desktop). marginTop: 8 gives the toast breathing
-          room when it sits below a sibling block (e.g. the chip
-          rail's nav) — when it's alone in its parent the small
-          extra top space is harmless. */}
+          on tablet/desktop). marginTop: 16 mirrors the chip-rail
+          wrapper's marginBottom: 16 so the toast sits with equal
+          breathing room above (between chips and toast) and below
+          (between toast and the film grid). Even distribution
+          regardless of chip count or mode-switch direction. */}
       <div
         role="status"
         aria-live="polite"
         className="hidden md:inline-flex"
-        style={{ ...visualStyle, marginTop: 8 }}
+        style={{ ...visualStyle, marginTop: 16 }}
       >
         <InfoGlyph />
         <span>{message}</span>
