@@ -329,19 +329,6 @@ export function FilmsShell({
 
   return (
     <>
-      {/* ─── Mode-switch toast (fixed, transient) ────────────
-          InfoToast handles the styling (Option A: tinted blue
-          surface with left-bar accent) and accessibility wiring
-          (role=status + aria-live polite). The component is
-          stateless — we own the message state and the 4s dismiss
-          timer above. bottomOffset lifts the toast above the
-          mobile drawer's sticky "Show N films" CTA when the drawer
-          is open; collapses to the default 24px otherwise. */}
-      <InfoToast
-        message={toastMessage}
-        bottomOffset={drawerOpen ? 96 : 24}
-      />
-
       {/* ─── Mobile trigger row (md:hidden) ─────────────────── */}
       <div
         className="flex items-center justify-between gap-4 md:hidden"
@@ -458,12 +445,19 @@ export function FilmsShell({
           <Headline level={2} className="sr-only">
             Film reviews
           </Headline>
-          {/* Active-filter chip rail — sits directly above the grid
-              so the user always sees what's currently filtered, on
-              both desktop (where the sidebar holds the controls)
-              and mobile (where the controls are hidden behind the
-              drawer). Each chip carries an × that removes just
-              that one filter. Closes:
+          {/* Active-filter chip rail + inline info toast — both share
+              one flex-wrap row above the grid so the user always
+              sees what's currently filtered AND any transient
+              status cue inline with the chips. ActiveFilterChips's
+              nav uses display: contents so its <button> children
+              flatten into this parent flex; <InfoToast>'s desktop
+              variant lands inline alongside them on md+. The mobile
+              variant of <InfoToast> is fixed-positioned and ignores
+              this DOM placement — it pins to the viewport bottom
+              with width matched to the drawer's sticky CTA so the
+              two read as a paired unit.
+
+              Closes:
                 • films-no-active-filter-summary (legibility)
                 • films-empty-state-no-recovery (per-filter
                   dismissers reachable even when result is empty)
@@ -472,16 +466,32 @@ export function FilmsShell({
               The labelling half of films-stats-orphaned-by-filters
               lands on the SummaryPanel "Lifetime · all N films"
               kicker, which makes the chart's scope explicit. */}
-          <ActiveFilterChips
-            filters={filters}
-            sort={sort}
-            onRemoveRating={toggleRating}
-            onRemoveGenre={toggleGenre}
-            onRemoveWatchedYear={toggleWatchedYear}
-            onClearWatchedWindow={clearWatchedDate}
-            onResetSort={resetSort}
-            onClearAll={clearAll}
-          />
+          {(anyControlChangedFromDefault || toastMessage) ? (
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 16,
+              }}
+            >
+              <ActiveFilterChips
+                filters={filters}
+                sort={sort}
+                onRemoveRating={toggleRating}
+                onRemoveGenre={toggleGenre}
+                onRemoveWatchedYear={toggleWatchedYear}
+                onClearWatchedWindow={clearWatchedDate}
+                onResetSort={resetSort}
+                onClearAll={clearAll}
+              />
+              <InfoToast
+                message={toastMessage}
+                mobileBottomOffset={drawerOpen ? 96 : 24}
+              />
+            </div>
+          ) : null}
           {films.length > 0 ? (
             <ul
               role="list"
@@ -793,14 +803,17 @@ function ActiveFilterChips({
   if (dismissableCount === 0) return null;
 
   return (
+    // display: contents flattens this <nav> so its <button> children
+    // participate directly in the parent's flex layout (FilmsShell
+    // wraps chips + InfoToast in one flex container so both share
+    // the same row). The nav landmark and aria-label are preserved
+    // in the accessibility tree even though the element is invisible
+    // for layout — modern browsers handle display:contents correctly
+    // on native landmark elements.
     <nav
       aria-label="Active filters"
       style={{
-        display: "flex",
-        flexWrap: "wrap",
-        alignItems: "center",
-        gap: 8,
-        marginBottom: 16,
+        display: "contents",
       }}
     >
       {ratings.map((r) => (
