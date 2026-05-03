@@ -25,26 +25,38 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-config";
 import { getFilms } from "@/lib/feeds/letterboxd";
+import { slugifyGenre } from "@/lib/feeds/letterboxd-utils";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  // /films listing + every detail page. Long-tail SEO depends on
-  // Googlebot finding all 741 review URLs; the listing is now an
-  // internal-link target from the / matrix tile, so crawl-discovery
-  // would eventually find them, but explicit sitemap entries
-  // materially speed it up. Each detail entry uses its own
-  // latestReviewDate as lastModified so freshness signals reflect
-  // actual review activity. Closes films-listing-not-in-sitemap.
+  // /films listing + every detail page + a static genre route per
+  // active TMDB genre in the snapshot. Long-tail SEO depends on
+  // Googlebot finding all 741 review URLs and each genre cluster;
+  // explicit sitemap entries materially speed up discovery. Each
+  // detail entry uses its own latestReviewDate as lastModified so
+  // freshness signals reflect actual review activity.
   const filmEntries: MetadataRoute.Sitemap = [];
   try {
-    const { films } = getFilms();
+    const { films, summary } = getFilms();
     filmEntries.push({
       url: `${SITE_URL}/films`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.6,
     });
+    // Genre routes — one per active genre. Priority sits between
+    // the listing and the individual detail pages: these are the
+    // long-tail entry surfaces for "malcolm xavier {genre} reviews"
+    // queries, so they earn higher signal than a single review.
+    for (const genre of Object.keys(summary.genreDistribution)) {
+      filmEntries.push({
+        url: `${SITE_URL}/films/genre/${slugifyGenre(genre)}`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.55,
+      });
+    }
     for (const film of films) {
       filmEntries.push({
         url: `${SITE_URL}/films/${film.letterboxdSlug}-${film.releaseYear}`,

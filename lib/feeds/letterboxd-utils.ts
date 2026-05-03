@@ -103,6 +103,47 @@ export type FilmsSummary = {
   decadeDistribution: Record<string, number>;
 };
 
+// ─── Genre slug helpers ──────────────────────────────────────────
+
+/**
+ * Convert a TMDB genre name to a URL-safe slug. Lowercase, spaces
+ * to hyphens, strip anything that isn't alphanumeric-or-hyphen.
+ *
+ * Examples:
+ *   "Horror"          → "horror"
+ *   "Science Fiction" → "science-fiction"
+ *   "TV Movie"        → "tv-movie"
+ *
+ * Used for the dedicated /films/genre/[slug] long-tail SEO routes.
+ * The reverse lookup (slug → genre name) is done by walking the
+ * snapshot's genreDistribution at request time and matching slugs
+ * — see findGenreBySlug below. Avoids hardcoding a genre↔slug map
+ * so a new TMDB genre lights up the route automatically once it
+ * appears in any film's tmdb.genres.
+ */
+export function slugifyGenre(genre: string): string {
+  return genre
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9-]/g, "");
+}
+
+/**
+ * Reverse-lookup a TMDB genre name from a URL slug. Walks the
+ * snapshot's genreDistribution keys (typically <20 genres) so this
+ * is O(genres) — trivial. Returns null when the slug doesn't match
+ * any active genre — caller should `notFound()`.
+ */
+export function findGenreBySlug(
+  genreDistribution: Record<string, number>,
+  slug: string,
+): string | null {
+  for (const genre of Object.keys(genreDistribution)) {
+    if (slugifyGenre(genre) === slug) return genre;
+  }
+  return null;
+}
+
 // ─── Filter + sort spec ──────────────────────────────────────────
 
 /**

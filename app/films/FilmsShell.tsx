@@ -97,6 +97,15 @@ type Props = {
    *  reviewYearSet so the chip rail expands automatically as
    *  Malcolm's review history grows into new years. */
   availableReviewYears: number[];
+  /** When the shell is mounted from a /films/genre/<slug> route,
+   *  this is the genre name pinned by that route. The shell uses
+   *  it to seed query-string params on every nav so the genre
+   *  persists as the user composes additional filters, AND to
+   *  flip the target path to /films (the dedicated genre route
+   *  is single-genre-only; multi-filter combos live in
+   *  query-string mode at /films?...). Undefined when the shell
+   *  is mounted from /films directly. */
+  routeGenre?: string;
 };
 
 export function FilmsShell({
@@ -108,6 +117,7 @@ export function FilmsShell({
   sort,
   availableGenres,
   availableReviewYears,
+  routeGenre,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -185,8 +195,19 @@ export function FilmsShell({
   // Update URL params and navigate. Resets `page` to 1 on any
   // filter/sort change so users don't land on an out-of-range page
   // after narrowing the result set.
+  //
+  // routeGenre handling: when the shell is mounted from a genre
+  // route (/films/genre/<slug>), the genre filter lives in the
+  // route param rather than the query string. We seed it into
+  // params here so any filter change carries the genre forward
+  // (or removes it cleanly if the user toggles the genre off);
+  // and we always retarget to /films since the genre route is
+  // single-genre-only — multi-filter combos live at /films?...
   function navigate(updates: Record<string, string | undefined>) {
     const params = new URLSearchParams(searchParams.toString());
+    if (routeGenre && !params.has("genre")) {
+      params.set("genre", routeGenre);
+    }
     for (const [k, v] of Object.entries(updates)) {
       if (v === undefined || v === "") {
         params.delete(k);
@@ -211,8 +232,13 @@ export function FilmsShell({
         track(ANALYTICS_EVENTS.FILM_FILTER_APPLIED, { dimension });
       }
     }
+    // On a genre route, always target /films so any composed filter
+    // set lands at the canonical query-string surface. On the main
+    // listing, stay at the current pathname (preserves e.g. /films
+    // → /films behavior).
+    const targetBase = routeGenre ? "/films" : pathname;
     const qs = params.toString();
-    router.replace(qs ? `${pathname}?${qs}` : pathname, {
+    router.replace(qs ? `${targetBase}?${qs}` : targetBase, {
       scroll: false,
     });
   }
