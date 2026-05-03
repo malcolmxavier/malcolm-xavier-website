@@ -37,8 +37,9 @@
 //                        (mutually exclusive with watchedYear)
 //   ?sort=...           — sort dimension (omitted = default)
 //   ?page=N             — current page (reset to 1 on any filter change)
-//   ?from=films         — preserved when present so card→detail→back
-//                         navigation lands back here
+//   (?ref=internal — meta-state added by FilmCard for back-nav,
+//    stripped by BackToFilms on detail-page mount; never reaches the
+//    listing surface in steady state)
 //
 // Pagination uses the primitive's BasePathMode with preserveParams
 // so each page link carries the active filter state forward.
@@ -71,6 +72,11 @@ const RATING_VALUES = [
   0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5,
 ] as const;
 
+// Order: most-recent-watch (default) first, then watched/release/
+// review dimensions in newest-first/oldest-first pairs, then rating
+// pair, then review-publication pair last. The first-review pair was
+// previously omitted from the <select> even though it's a valid
+// FilmSort URL value — closing films-sort-options-missing-first-review.
 const SORT_OPTIONS: { value: FilmSort; label: string }[] = [
   { value: "latest-watched-desc", label: "Newest watch" },
   { value: "latest-watched-asc", label: "Oldest watch" },
@@ -79,6 +85,8 @@ const SORT_OPTIONS: { value: FilmSort; label: string }[] = [
   { value: "release-year-desc", label: "Newest release" },
   { value: "release-year-asc", label: "Oldest release" },
   { value: "latest-review-desc", label: "Newest review" },
+  { value: "first-review-desc", label: "Latest first review" },
+  { value: "first-review-asc", label: "Earliest first review" },
 ];
 
 const DRAWER_ID = "films-filter-drawer";
@@ -92,11 +100,13 @@ type Props = {
   sort: FilmSort;
   /** Genres present in the snapshot, sorted by usage descending. */
   availableGenres: string[];
-  /** Review-publication years present in the snapshot, sorted desc.
-   *  Derived at request time from each film's pre-computed
-   *  reviewYearSet so the chip rail expands automatically as
-   *  Malcolm's review history grows into new years. */
-  availableReviewYears: number[];
+  /** Watched years present in the snapshot, sorted desc. Derived at
+   *  request time from each film's pre-computed watchedYearSet
+   *  (sourced from review.watchedDate) so the chip rail expands
+   *  automatically as Malcolm's watch history grows into new years
+   *  and the displayed year always matches what the watchedYear
+   *  filter actually compares against. */
+  availableWatchedYears: number[];
   /** When the shell is mounted from a /films/genre/<slug> route,
    *  this is the genre name pinned by that route. The shell uses
    *  it to seed query-string params on every nav so the genre
@@ -116,7 +126,7 @@ export function FilmsShell({
   filters,
   sort,
   availableGenres,
-  availableReviewYears,
+  availableWatchedYears,
   routeGenre,
 }: Props) {
   const router = useRouter();
@@ -145,10 +155,21 @@ export function FilmsShell({
     return () => clearTimeout(t);
   }, [toastMessage]);
 
-  // Esc closes the drawer and restores focus to the trigger so the
-  // keyboard user lands somewhere sensible (mirrors Nav's pattern).
+  // All drawer-open side effects live in one place so the open/close
+  // contract is readable as a single block:
+  //   • move focus to the close button (predictable target),
+  //   • lock body scroll so the page underneath doesn't pan,
+  //   • Esc dismisses and restores focus to the trigger.
+  // Three useEffects on the same dep was tidy by separation-of-
+  // concerns but harder to reason about as a unit — when the
+  // drawer's behavior is wrong it's almost always one of these
+  // three not playing nicely with the others. Cleanup runs in
+  // reverse order so scroll restores before focus moves.
   useEffect(() => {
     if (!drawerOpen) return;
+    closeButtonRef.current?.focus();
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setDrawerOpen(false);
@@ -156,41 +177,34 @@ export function FilmsShell({
       }
     }
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [drawerOpen]);
-
-  // Body scroll lock while the drawer is open. Without this, the
-  // page underneath scrolls when the user pans inside the drawer
-  // on mobile — disorienting. We restore the original overflow
-  // value on cleanup so other code paths that toggle overflow
-  // (modals, transitions) aren't broken.
-  useEffect(() => {
-    if (!drawerOpen) return;
-    const original = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = original;
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = originalOverflow;
     };
   }, [drawerOpen]);
 
-  // Move focus into the drawer when it opens (close button is the
-  // safest target — predictable, always visible, and a tap there
-  // dismisses the panel cleanly).
-  useEffect(() => {
-    if (drawerOpen) {
-      closeButtonRef.current?.focus();
-    }
-  }, [drawerOpen]);
-
   // Memoize so Pagination doesn't see a new identity every render.
-  // Strips `page` because Pagination sets its own page param.
+  // Strips `page` (Pagination sets its own page param) and the
+  // back-nav meta-state markers `ref` / `from` so pagination links
+  // don't carry "you arrived from a card click" forward into every
+  // page-2/3/4 click.
+  //
+  // Dep is the serialized URL form (`searchParams.toString()`), not
+  // the searchParams object itself: `useSearchParams()` can return a
+  // fresh ReadonlyURLSearchParams reference on every render even
+  // when the underlying URL hasn't changed, which would defeat the
+  // memo. Comparing the string form makes the memo actually hold
+  // until the URL changes.
+  const searchParamsString = searchParams.toString();
   const preserveParams = useMemo(() => {
     const out: Record<string, string> = {};
     for (const [k, v] of searchParams.entries()) {
-      if (k !== "page") out[k] = v;
+      if (k === "page" || k === "ref" || k === "from") continue;
+      out[k] = v;
     }
     return out;
-  }, [searchParams]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- searchParams is iterated above; identity stability comes from the string form, not the object reference
+  }, [searchParamsString]);
 
   // Update URL params and navigate. Resets `page` to 1 on any
   // filter/sort change so users don't land on an out-of-range page
@@ -325,9 +339,11 @@ export function FilmsShell({
   }
 
   function clearAll() {
-    const from = searchParams.get("from");
-    const next = from ? `${pathname}?from=${from}` : pathname;
-    router.replace(next, { scroll: false });
+    // The shell only ever sees the listing pathname (/films or
+    // /films/genre/<slug>) — no `ref`/`from` markers reach this
+    // surface (those live on detail-page entry URLs only). A clean
+    // pathname is the right "cleared" state.
+    router.replace(pathname, { scroll: false });
   }
 
   const activeFilterCount = countActiveFilters(filters);
@@ -346,7 +362,7 @@ export function FilmsShell({
       filters={filters}
       sort={sort}
       availableGenres={availableGenres}
-      availableReviewYears={availableReviewYears}
+      availableWatchedYears={availableWatchedYears}
       anyControlChangedFromDefault={anyControlChangedFromDefault}
       totalResults={totalResults}
       onToggleRating={toggleRating}
@@ -364,7 +380,7 @@ export function FilmsShell({
       filters={filters}
       sort={sort}
       availableGenres={availableGenres}
-      availableReviewYears={availableReviewYears}
+      availableWatchedYears={availableWatchedYears}
       anyControlChangedFromDefault={anyControlChangedFromDefault}
       totalResults={totalResults}
       onToggleRating={toggleRating}
@@ -589,7 +605,7 @@ function FilterContent({
   filters,
   sort,
   availableGenres,
-  availableReviewYears,
+  availableWatchedYears,
   anyControlChangedFromDefault,
   totalResults,
   onToggleRating,
@@ -604,7 +620,7 @@ function FilterContent({
   filters: FilmFilters;
   sort: FilmSort;
   availableGenres: string[];
-  availableReviewYears: number[];
+  availableWatchedYears: number[];
   anyControlChangedFromDefault: boolean;
   totalResults: number;
   onToggleRating: (r: number) => void;
@@ -702,7 +718,7 @@ function FilterContent({
             snapshot so the rail expands as Malcolm's review history
             grows; clicking switches out of window mode if active;
             otherwise toggles the year in or out of the array. */}
-        {availableReviewYears.map((y) => (
+        {availableWatchedYears.map((y) => (
           <Chip
             key={y}
             isActive={watchedYears.includes(y)}

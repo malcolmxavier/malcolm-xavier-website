@@ -113,7 +113,11 @@ export function StarRating({
       }}
     >
       {visible.map((state, i) => (
-        <StarShape key={i} state={state} size={size} />
+        // Slot number (1-5) is the stable per-position identity here.
+        // Array index would also work since the slots render in fixed
+        // positional order, but `slot-N` reads as the actual semantic
+        // identity of each star and is the right shape for the linter.
+        <StarShape key={`slot-${i + 1}`} state={state} size={size} />
       ))}
     </span>
   );

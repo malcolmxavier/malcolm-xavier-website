@@ -182,11 +182,11 @@ export default async function FilmGenrePage({
   const availableGenres = Object.entries(summary.genreDistribution)
     .sort((a, b) => b[1] - a[1])
     .map(([g]) => g);
-  const reviewYearSetGlobal = new Set<number>();
+  const watchedYearSetGlobal = new Set<number>();
   for (const film of films) {
-    for (const y of film.reviewYearSet) reviewYearSetGlobal.add(y);
+    for (const y of film.watchedYearSet) watchedYearSetGlobal.add(y);
   }
-  const availableReviewYears = Array.from(reviewYearSetGlobal).sort(
+  const availableWatchedYears = Array.from(watchedYearSetGlobal).sort(
     (a, b) => b - a,
   );
 
@@ -318,7 +318,7 @@ export default async function FilmGenrePage({
             filters={filters}
             sort={sort}
             availableGenres={availableGenres}
-            availableReviewYears={availableReviewYears}
+            availableWatchedYears={availableWatchedYears}
             routeGenre={genre}
           />
         </Section>

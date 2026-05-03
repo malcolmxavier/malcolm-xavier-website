@@ -158,8 +158,12 @@ export default async function FilmsPage({
   // need separate viewport-based variants.
   const pageSize = saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DEFAULT;
 
-  const { films, summary, capturedAt } = getFilms();
-  void capturedAt;
+  // capturedAt is intentionally not surfaced here — the snapshot's
+  // freshness signal lives on /api/letterboxd/health, not on the
+  // listing page itself. Destructured-and-ignored is cleaner than
+  // omitting it from the destructure (which would still pull the
+  // string into memory but lose the named reference for diffing).
+  const { films, summary } = getFilms();
 
   // Genres available in the dataset, sorted by usage descending so
   // the chip rail leads with the most-common ones. Pulled from the
@@ -168,18 +172,18 @@ export default async function FilmsPage({
     .sort((a, b) => b[1] - a[1])
     .map(([g]) => g);
 
-  // Review-publication years available in the dataset. Derived from
-  // each film's pre-computed reviewYearSet (built at snapshot-write
-  // time) so this is O(films) but iterates a tiny set per film.
-  // Sorted desc so the chip rail leads with the newest year. Going
-  // dynamic here closes films-review-date-options-hardcoded-years —
-  // when 2027 ships, the chip rail won't silently drop 2027 reviews
-  // from filterability.
-  const reviewYearSetGlobal = new Set<number>();
+  // Watched years available in the dataset. Derived from each film's
+  // pre-computed watchedYearSet (built at snapshot-write time from
+  // each review's watchedDate) so this is O(films) but iterates a
+  // tiny set per film. Sorted desc so the chip rail leads with the
+  // newest year. Going dynamic here closes
+  // films-review-date-options-hardcoded-years — when 2027 ships,
+  // the chip rail won't silently drop 2027 watches from filterability.
+  const watchedYearSetGlobal = new Set<number>();
   for (const film of films) {
-    for (const y of film.reviewYearSet) reviewYearSetGlobal.add(y);
+    for (const y of film.watchedYearSet) watchedYearSetGlobal.add(y);
   }
-  const availableReviewYears = Array.from(reviewYearSetGlobal).sort(
+  const availableWatchedYears = Array.from(watchedYearSetGlobal).sort(
     (a, b) => b - a,
   );
 
@@ -311,7 +315,7 @@ export default async function FilmsPage({
             filters={filters}
             sort={sort}
             availableGenres={availableGenres}
-            availableReviewYears={availableReviewYears}
+            availableWatchedYears={availableWatchedYears}
           />
         </Section>
 

@@ -70,11 +70,15 @@ export function FilmCard({ applied }: { applied: AppliedFilm }) {
         eventData={{ slug, releaseYear: film.releaseYear }}
       >
       <NextLink
-        // ?from=films marks this as in-app navigation so the detail
+        // ?ref=internal marks this as in-app navigation so the detail
         // page's BackToFilms link can router.back() into the exact
         // grid state instead of pushing /films and losing scroll
-        // position + future filter URL params.
-        href={`/films/${slug}?from=films`}
+        // position + future filter URL params. Cluster-agnostic key
+        // so /music can share the same convention without naming the
+        // cluster in every outbound href; the per-cluster legacy
+        // `?from=films` form is still honored by BackToFilms for any
+        // pre-rename shared links.
+        href={`/films/${slug}?ref=internal`}
         className="film-card-link block h-full focus-visible:outline-2 focus-visible:outline-offset-4"
         style={{ outlineColor: "var(--border-focus)" }}
       >
