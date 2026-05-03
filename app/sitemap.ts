@@ -24,9 +24,42 @@
 
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-config";
+import { getFilms } from "@/lib/feeds/letterboxd";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
+
+  // /films listing + every detail page. Long-tail SEO depends on
+  // Googlebot finding all 741 review URLs; the listing is now an
+  // internal-link target from the / matrix tile, so crawl-discovery
+  // would eventually find them, but explicit sitemap entries
+  // materially speed it up. Each detail entry uses its own
+  // latestReviewDate as lastModified so freshness signals reflect
+  // actual review activity. Closes films-listing-not-in-sitemap.
+  const filmEntries: MetadataRoute.Sitemap = [];
+  try {
+    const { films } = getFilms();
+    filmEntries.push({
+      url: `${SITE_URL}/films`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    for (const film of films) {
+      filmEntries.push({
+        url: `${SITE_URL}/films/${film.letterboxdSlug}-${film.releaseYear}`,
+        lastModified: film.latestReviewDate
+          ? new Date(film.latestReviewDate)
+          : lastModified,
+        changeFrequency: "yearly",
+        priority: 0.5,
+      });
+    }
+  } catch {
+    // Snapshot read failure (missing fixture, malformed JSON).
+    // Skip film entries rather than crash the whole sitemap; the
+    // static pages below still serve. Next refresh rebuilds clean.
+  }
 
   return [
     {
@@ -88,5 +121,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    ...filmEntries,
   ];
 }

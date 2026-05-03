@@ -23,6 +23,8 @@ import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 import { getFilms } from "@/lib/feeds/letterboxd";
 import {
@@ -47,6 +49,27 @@ export const metadata: Metadata = {
   title: "Film reviews",
   description:
     "Reviews and ratings of films I've watched, pulled from my Letterboxd journal.",
+  // Without this, /films inherits the root layout's canonical=\"/\"
+  // and Google reads the entire films cluster as a duplicate of
+  // the homepage. Closes films-listing-canonical-wrong.
+  alternates: { canonical: "/films" },
+  // Per-page OG so shares of /films don't unfurl as the homepage
+  // bio card (which is what happens when a Next page omits its
+  // own openGraph block — root layout's OG bleeds through).
+  // Closes films-listing-og-missing.
+  openGraph: {
+    title: "Film reviews — Malcolm Xavier",
+    description:
+      "Reviews and ratings of films I've watched, pulled from my Letterboxd journal.",
+    url: "/films",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Film reviews — Malcolm Xavier",
+    description:
+      "Reviews and ratings of films I've watched, pulled from my Letterboxd journal.",
+  },
 };
 
 // 24 is the unified page size across mobile, tablet, and desktop.
@@ -134,9 +157,14 @@ export default async function FilmsPage({
                   CTA-arrow convention. URL pulled from the ELSEWHERE
                   registry so it stays in sync with Footer + Contact. */}
               <p style={{ margin: 0 }}>
-                <Link href={LETTERBOXD_PROFILE_URL}>
-                  Follow along on Letterboxd ↗
-                </Link>
+                <TrackOnClick
+                  event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
+                  eventData={{ kind: "profile-follow", surface: "films-hero" }}
+                >
+                  <Link href={LETTERBOXD_PROFILE_URL}>
+                    Follow along on Letterboxd ↗
+                  </Link>
+                </TrackOnClick>
               </p>
             </Stack>
             <SummaryPanel summary={summary} />
