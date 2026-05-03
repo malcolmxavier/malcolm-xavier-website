@@ -118,6 +118,21 @@ export default async function FilmsPage({
     .sort((a, b) => b[1] - a[1])
     .map(([g]) => g);
 
+  // Review-publication years available in the dataset. Derived from
+  // each film's pre-computed reviewYearSet (built at snapshot-write
+  // time) so this is O(films) but iterates a tiny set per film.
+  // Sorted desc so the chip rail leads with the newest year. Going
+  // dynamic here closes films-review-date-options-hardcoded-years —
+  // when 2027 ships, the chip rail won't silently drop 2027 reviews
+  // from filterability.
+  const reviewYearSetGlobal = new Set<number>();
+  for (const film of films) {
+    for (const y of film.reviewYearSet) reviewYearSetGlobal.add(y);
+  }
+  const availableReviewYears = Array.from(reviewYearSetGlobal).sort(
+    (a, b) => b - a,
+  );
+
   const applied = applyFilters(films, filters, sort);
   const {
     current: pageFilms,
@@ -181,6 +196,7 @@ export default async function FilmsPage({
             filters={filters}
             sort={sort}
             availableGenres={availableGenres}
+            availableReviewYears={availableReviewYears}
           />
         </Section>
       </Container>
