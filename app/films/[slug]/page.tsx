@@ -525,7 +525,23 @@ function buildPageJsonLd(film: Film) {
     itemReviewed: {
       "@type": "Movie",
       name: film.title,
-      datePublished: String(film.releaseYear),
+      // ISO-8601 (YYYY-01-01) — Google's Movie schema rejects bare
+      // year strings as malformed dateCreated/datePublished. We
+      // don't have month/day for most TMDB entries, so January 1
+      // of the release year is the conventional placeholder.
+      dateCreated: `${film.releaseYear}-01-01`,
+      // image is REQUIRED for Movie rich-result eligibility. Use
+      // the highest-res TMDB poster we have (w780 here vs. the
+      // w342 we use for cards) so SERP previews can downscale to
+      // their target size without grain.
+      ...(film.tmdb?.posterPath
+        ? {
+            image: `https://image.tmdb.org/t/p/w780${film.tmdb.posterPath}`,
+          }
+        : {}),
+      // url ties the Movie entity back to its detail page on
+      // malxavi — strengthens the entity-link graph for AI search.
+      url: `${SITE_URL}/films/${film.letterboxdSlug}-${film.releaseYear}`,
       ...(film.tmdb?.director
         ? { director: { "@type": "Person", name: film.tmdb.director } }
         : {}),
