@@ -22,6 +22,7 @@
     "spotify:health": "curl -s http://127.0.0.1:3001/api/spotify/health | python3 -m json.tool",
     "spotify:snapshot": "curl --fail -sS http://127.0.0.1:3001/api/spotify/snapshot -o lib/feeds/_fixtures/spotify-snapshot.json && echo 'Snapshot captured to lib/feeds/_fixtures/spotify-snapshot.json'",
     "films:refresh": "node --env-file=.env.local scripts/refresh-films-snapshot.mjs",
+    "films:rss-refresh": "node --env-file=.env.local scripts/incremental-rss-refresh.mjs",
     "films:health": "curl -s http://127.0.0.1:3001/api/letterboxd/health | python3 -m json.tool",
     "films:snapshot": "curl --fail -sS http://127.0.0.1:3001/api/letterboxd/snapshot -o lib/feeds/_fixtures/letterboxd-snapshot.json && echo 'Snapshot captured to lib/feeds/_fixtures/letterboxd-snapshot.json'",
     "prebuild": "npm run tokens:build"
@@ -43,6 +44,7 @@
     "docx": "^9.6.1",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "fast-xml-parser": "^5.7.2",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.5"

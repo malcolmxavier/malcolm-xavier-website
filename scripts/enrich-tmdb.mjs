@@ -54,7 +54,7 @@ function getApiKey() {
   return key;
 }
 
-function loadOverrides() {
+export function loadOverrides() {
   if (!existsSync(OVERRIDES_PATH)) return { tmdbId: {}, posterPath: {} };
   try {
     const raw = JSON.parse(readFileSync(OVERRIDES_PATH, "utf-8"));
@@ -144,9 +144,12 @@ async function searchMovie(title, year) {
 /**
  * Fetch full movie details + credits in one round-trip via
  * append_to_response. Returns the raw TMDB shape; caller is
- * responsible for normalizing into our TmdbMeta type.
+ * responsible for normalizing into our TmdbMeta type. Exported
+ * so the RSS incremental-refresh path can hit TMDB directly with
+ * a known id (RSS embeds <tmdb:movieId>) instead of going through
+ * the title+year search.
  */
-async function fetchMovieDetails(tmdbId) {
+export async function fetchMovieDetails(tmdbId) {
   return tmdbFetch(`/movie/${tmdbId}`, { append_to_response: "credits" });
 }
 
@@ -157,7 +160,7 @@ async function fetchMovieDetails(tmdbId) {
  * match the Film type — full credits surface on the detail page
  * via the Letterboxd link if needed).
  */
-function normalizeDetails(details) {
+export function normalizeDetails(details) {
   const director =
     details.credits?.crew?.find((c) => c.job === "Director")?.name ?? null;
   return {
@@ -173,7 +176,7 @@ function normalizeDetails(details) {
 /** Resolve the poster URL applied to the Film card. Override wins
  *  when provided; otherwise TMDB's default poster_path with w342
  *  size (matches the planned card width). */
-function resolvePosterUrl(letterboxdSlug, tmdbMeta, overrides) {
+export function resolvePosterUrl(letterboxdSlug, tmdbMeta, overrides) {
   const override = overrides.posterPath[letterboxdSlug];
   const path = override ?? tmdbMeta?.posterPath ?? null;
   return path ? `${TMDB_IMG_BASE}/w342${path}` : null;
@@ -182,7 +185,7 @@ function resolvePosterUrl(letterboxdSlug, tmdbMeta, overrides) {
 /** Fallback URL used by the card's onError swap. Always points at
  *  TMDB's default poster (skips the override) so the fallback is
  *  semantically distinct from the rest URL. */
-function resolveFallbackUrl(tmdbMeta) {
+export function resolveFallbackUrl(tmdbMeta) {
   const path = tmdbMeta?.posterPath ?? null;
   return path ? `${TMDB_IMG_BASE}/w342${path}` : null;
 }
