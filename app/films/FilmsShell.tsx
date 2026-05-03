@@ -77,14 +77,19 @@ const RATING_VALUES = [
 // pair, then review-publication pair last. The first-review pair was
 // previously omitted from the <select> even though it's a valid
 // FilmSort URL value — closing films-sort-options-missing-first-review.
+// Labels parallel the watched/rating/release/review chip-rail
+// vocabulary: "watched" matches the watched-year filter,
+// "released" matches the release-year range, "review" matches
+// review publication. Past tense throughout so the sort and
+// filter terminology read as one system, not two.
 const SORT_OPTIONS: { value: FilmSort; label: string }[] = [
-  { value: "latest-watched-desc", label: "Newest watch" },
-  { value: "latest-watched-asc", label: "Oldest watch" },
+  { value: "latest-watched-desc", label: "Most recently watched" },
+  { value: "latest-watched-asc", label: "Earliest watched" },
   { value: "rating-desc", label: "Highest rated" },
   { value: "rating-asc", label: "Lowest rated" },
-  { value: "release-year-desc", label: "Newest release" },
-  { value: "release-year-asc", label: "Oldest release" },
-  { value: "latest-review-desc", label: "Newest review" },
+  { value: "release-year-desc", label: "Newest released" },
+  { value: "release-year-asc", label: "Oldest released" },
+  { value: "latest-review-desc", label: "Most recently reviewed" },
   { value: "first-review-desc", label: "Latest first review" },
   { value: "first-review-asc", label: "Earliest first review" },
 ];
@@ -993,9 +998,15 @@ function DismissableChip({
       aria-label={ariaLabel}
       style={{
         ...chipBaseStyle,
-        background: "var(--text-action)",
+        // --primary-default is the foundational sub-brand color for
+        // a fill; --text-action is its alias for FOREGROUND uses
+        // (link/button text on a neutral surface). Using --text-action
+        // as a background is a semantic-token mismatch — both resolve
+        // to the same orange today, but the role-name should match
+        // the role. Same swap below on the drawer's "Show N" button.
+        background: "var(--primary-default)",
         color: "var(--surface-page)",
-        borderColor: "var(--text-action)",
+        borderColor: "var(--primary-default)",
         display: "inline-flex",
         alignItems: "center",
         gap: 6,
@@ -1236,8 +1247,8 @@ const drawerShowResultsButtonStyle: CSSProperties = {
   textTransform: "uppercase",
   padding: "12px 16px",
   borderRadius: "var(--border-radius-sm)",
-  border: "1px solid var(--text-action)",
-  background: "var(--text-action)",
+  border: "1px solid var(--primary-default)",
+  background: "var(--primary-default)",
   color: "var(--surface-page)",
   cursor: "pointer",
   outlineColor: "var(--border-focus)",

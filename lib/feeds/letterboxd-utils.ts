@@ -218,10 +218,22 @@ export const DEFAULT_FILM_SORT: FilmSort = "latest-watched-desc";
  * to surface on the card and use for grid positioning. When a
  * per-review filter (ratings or watchedYears/watchedWindow) is
  * active, `qualifyingReview` is the **most recent** review that
- * qualifies and `positionDate` is that review's `reviewDate`. When
- * no per-review filter is active, `qualifyingReview` is the most
- * recent review overall and `positionDate` is the active sort
- * dimension's date.
+ * qualifies and `positionDate` is that review's `reviewDate`.
+ *
+ * Note: per-review filters predicate on `review.watchedDate` (the
+ * user-facing event), but `positionDate` uses the qualifying
+ * review's `reviewDate` because the grid's chronological axis is
+ * publication order — the snapshot is sorted reviewDate desc
+ * within each film, and the listing page orders the result by
+ * the active sort dimension. The two dates usually agree within
+ * a day; when they diverge (festival watches, diary lag), the
+ * card's dateline still surfaces the watchedDate via
+ * `qualifyingReview.watchedDate`, so the user sees the watch
+ * date even though the position uses the review date.
+ *
+ * When no per-review filter is active, `qualifyingReview` is the
+ * most recent review overall and `positionDate` is the active
+ * sort dimension's date.
  */
 export type AppliedFilm = {
   film: Film;

@@ -190,6 +190,14 @@ export default async function FilmGenrePage({
     (a, b) => b - a,
   );
 
+  // currentYearCount is derived at request time, not from the
+  // snapshot's frozen summary.thisYearCount — see SummaryPanel's
+  // currentYearCount prop comment for why.
+  const currentYear = new Date().getUTCFullYear();
+  const currentYearCount = films.filter((f) =>
+    f.watchedYearSet.includes(currentYear),
+  ).length;
+
   const applied = applyFilters(films, filters, sort);
   const {
     current: pageFilms,
@@ -304,7 +312,7 @@ export default async function FilmGenrePage({
                 /films listing. See the listing's panel comment for
                 the duplication-vs-a11y rationale. */}
             <div className="hidden lg:block">
-              <SummaryPanel summary={summary} />
+              <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
             </div>
           </div>
         </Section>
@@ -326,7 +334,7 @@ export default async function FilmGenrePage({
         {/* Mobile/tablet panel — same lifetime stats, relocated
             below the grid at narrow widths. */}
         <Section padding="md" bordered className="lg:hidden">
-          <SummaryPanel summary={summary} />
+          <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
         </Section>
       </Container>
     </div>

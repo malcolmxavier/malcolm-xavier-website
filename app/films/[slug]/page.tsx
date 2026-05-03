@@ -72,6 +72,15 @@ import { BackToFilms } from "./BackToFilms";
 
 type Params = { slug: string };
 
+// ISR cache horizon for detail pages. The snapshot only changes on
+// human-driven `npm run films:refresh`, so a 1-hour revalidation
+// window is conservative — reviews don't drift mid-day. Sets
+// `Cache-Control: s-maxage=3600, stale-while-revalidate` at the
+// edge instead of the previous default `Cache-Control: no-cache`.
+// Listing page intentionally stays uncached because filter+page
+// state varies per URL.
+export const revalidate = 3600;
+
 // ─── SEO metadata ────────────────────────────────────────────────
 
 export async function generateMetadata({

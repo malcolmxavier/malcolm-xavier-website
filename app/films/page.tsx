@@ -187,6 +187,17 @@ export default async function FilmsPage({
     (a, b) => b - a,
   );
 
+  // Re-derive "watched this year" at request time so the count
+  // matches the displayed year label (which is itself derived from
+  // `new Date()`). The snapshot's pre-aggregated `summary.thisYearCount`
+  // is frozen at refresh time and goes stale across the year
+  // boundary — Jan 1 would otherwise display "{lastYear's count} in
+  // {newYear}" until the next snapshot refresh.
+  const currentYear = new Date().getUTCFullYear();
+  const currentYearCount = films.filter((f) =>
+    f.watchedYearSet.includes(currentYear),
+  ).length;
+
   const applied = applyFilters(films, filters, sort);
   const {
     current: pageFilms,
@@ -300,7 +311,7 @@ export default async function FilmsPage({
                 the underlying <aside> landmark from the AT tree
                 so SR users only ever encounter one. */}
             <div className="hidden lg:block">
-              <SummaryPanel summary={summary} />
+              <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
             </div>
           </div>
         </Section>
@@ -323,7 +334,7 @@ export default async function FilmsPage({
             below the grid. lg:hidden hides it on desktop (where
             the hero-aligned instance above takes over). */}
         <Section padding="md" bordered className="lg:hidden">
-          <SummaryPanel summary={summary} />
+          <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
         </Section>
       </Container>
     </div>
