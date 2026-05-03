@@ -29,20 +29,36 @@ export function FilmCard({ applied }: { applied: AppliedFilm }) {
   // film via getFilmBySlug, so old tmdb-<id> URLs still resolve.
   const slug = `${film.letterboxdSlug}-${film.releaseYear}`;
 
-  // Dateline rule: surface "Rewatched" only when every review on the
-  // card is a rewatch — i.e. the single logged review is a rewatch,
-  // or (under filters) every qualifying review is a rewatch. The
-  // default is always "First watched" — Malcolm rarely rewatches, so
-  // mixed-review films should read as first-watch context. The same
-  // predicate generalizes to the filtered case: when FilmCard later
-  // receives a `qualifyingReviews` subset, swap `film.reviews` for
-  // that prop and the rule still holds.
+  // Dateline rule. Three branches in priority order:
+  //   1. Per-review filter active → "Watched <qualifying-watch>".
+  //      The qualifying review represents the specific watch the
+  //      filter matched, so the dateline names that watch event
+  //      directly. Without this branch a 2024 rewatch of a 2017
+  //      film matched into the 2024 result set would still display
+  //      "First watched 2017" — leaving the user no signal for why
+  //      the card landed in the 2024 results.
+  //   2. No filter, every review is a rewatch → "Rewatched <date>".
+  //      Malcolm rarely rewatches, so an all-rewatch film usually
+  //      means he didn't log the original watch on Letterboxd and
+  //      the earliest watchedDate is itself a rewatch — labeling
+  //      "First watched" against that date would be a quiet lie.
+  //   3. Default → "First watched <firstWatchedDate>".
+  //      Mixed-review or single-review films read with their oldest
+  //      logged watch as the entry-point context.
   const allRewatches =
     film.reviews.length > 0 && film.reviews.every((r) => r.rewatch);
-  const datelineDate = allRewatches
-    ? film.reviews[0].watchedDate
-    : film.firstWatchedDate;
-  const datelineLabel = allRewatches ? "Rewatched" : "First watched";
+  let datelineLabel: string;
+  let datelineDate: string;
+  if (applied.perReviewFilterActive && applied.qualifyingReview) {
+    datelineLabel = "Watched";
+    datelineDate = applied.qualifyingReview.watchedDate;
+  } else if (allRewatches) {
+    datelineLabel = "Rewatched";
+    datelineDate = film.reviews[0].watchedDate;
+  } else {
+    datelineLabel = "First watched";
+    datelineDate = film.firstWatchedDate;
+  }
 
   return (
     <article className="h-full">

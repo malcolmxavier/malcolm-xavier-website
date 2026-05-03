@@ -7,9 +7,20 @@
 //     scrolls), film grid + pagination on the right.
 //   • <md: a "Filters · N" trigger sits above the grid; tapping it
 //     opens a full-screen fly-in drawer that contains the same
-//     filter content as the desktop sidebar. Esc closes; body
-//     scroll is locked while open; focus moves to the close button
-//     on open and back to the trigger on close.
+//     filter content as the desktop sidebar. The drawer has a
+//     sticky "Show N films" CTA at the bottom that closes the
+//     drawer so the user can see the updated grid without hunting
+//     for the close button. Esc closes; body scroll is locked
+//     while open; focus moves to the close button on open and back
+//     to the trigger on close.
+//   • Above the grid (both viewports): an active-filter chip rail
+//     with per-filter × dismissers. Renders only when 1+ filter
+//     is active or the sort is non-default. Doubles as recovery
+//     affordance in the empty state.
+//   • Mode-switch toast (transient, fixed-position): when the user
+//     toggles between rolling-window and discrete-year filters
+//     (mutually exclusive), a 4-second cue announces the
+//     destructive transition so state doesn't disappear silently.
 //
 // Filtering is server-side: each control change calls router.replace
 // with new URL params, which re-runs page.tsx, which runs
@@ -69,11 +80,6 @@ const SORT_OPTIONS: { value: FilmSort; label: string }[] = [
   { value: "latest-review-desc", label: "Newest review" },
 ];
 
-// Year options for the Watched filter. Multi-select (clicking
-// 2026 alongside 2024 keeps both active). Listed newest-first so
-// the most-recent year sits at the start of the chip rail.
-const WATCHED_YEAR_OPTIONS = [2026, 2025, 2024, 2023] as const;
-
 const DRAWER_ID = "films-filter-drawer";
 
 type Props = {
@@ -85,6 +91,11 @@ type Props = {
   sort: FilmSort;
   /** Genres present in the snapshot, sorted by usage descending. */
   availableGenres: string[];
+  /** Review-publication years present in the snapshot, sorted desc.
+   *  Derived at request time from each film's pre-computed
+   *  reviewYearSet so the chip rail expands automatically as
+   *  Malcolm's review history grows into new years. */
+  availableReviewYears: number[];
 };
 
 export function FilmsShell({
@@ -95,6 +106,7 @@ export function FilmsShell({
   filters,
   sort,
   availableGenres,
+  availableReviewYears,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -104,6 +116,23 @@ export function FilmsShell({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Transient mode-switch toast. The watched-date controls are
+  // mutually exclusive (rolling window xor specific years), so a
+  // chip click can silently destroy the other dimension's state.
+  // We set this on the destructive transition and let the timer
+  // clear it; aria-live lets SR users hear the cue too. Closes
+  // films-watched-mode-switch-silent-destruction (option B —
+  // chosen over composing the two dimensions, per the editorial
+  // call: composability adds combinatorial complexity to the chip
+  // rail's mental model and the rolling-window + discrete-year
+  // compose case is rare in real cultural-curious browsing).
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  useEffect(() => {
+    if (!toastMessage) return;
+    const t = setTimeout(() => setToastMessage(null), 4000);
+    return () => clearTimeout(t);
+  }, [toastMessage]);
 
   // Esc closes the drawer and restores focus to the trigger so the
   // keyboard user lands somewhere sensible (mirrors Nav's pattern).
@@ -213,9 +242,12 @@ export function FilmsShell({
   // — clicking either clears the other dimension.
   function toggleWatchedYear(year: number) {
     // If currently in window mode, switch to year mode (clear
-    // window, seed the year array with this one). Otherwise
-    // toggle the year in/out of the array.
+    // window, seed the year array with this one). Surface the
+    // mode change as a toast so the rolling-window state doesn't
+    // disappear silently. Otherwise toggle the year in/out of the
+    // array (no destructive transition, no toast).
     if (filters.watchedWindow !== undefined) {
+      setToastMessage(`Switched to ${year} — past 12 months cleared`);
       navigate({
         watchedYear: String(year),
         watchedWindow: undefined,
@@ -232,6 +264,14 @@ export function FilmsShell({
   }
 
   function setWatched12Mo() {
+    // Tapping past-12-months while specific years are selected
+    // destroys the year set. Surface the mode change so the user
+    // knows what just happened.
+    if (filters.watchedYears && filters.watchedYears.length > 0) {
+      setToastMessage(
+        "Switched to past 12 months — specific years cleared",
+      );
+    }
     navigate({
       watchedYear: undefined,
       watchedWindow: "12mo",
@@ -249,6 +289,10 @@ export function FilmsShell({
     navigate({
       sort: value === "latest-watched-desc" ? undefined : value,
     });
+  }
+
+  function resetSort() {
+    handleSortChange("latest-watched-desc");
   }
 
   function clearAll() {
@@ -269,6 +313,7 @@ export function FilmsShell({
       filters={filters}
       sort={sort}
       availableGenres={availableGenres}
+      availableReviewYears={availableReviewYears}
       anyControlChangedFromDefault={anyControlChangedFromDefault}
       totalResults={totalResults}
       onToggleRating={toggleRating}
@@ -283,6 +328,18 @@ export function FilmsShell({
 
   return (
     <>
+      {/* ─── Mode-switch toast (fixed, transient) ────────────
+          Only renders while toastMessage is non-null; the timer
+          set above clears it after 4s. role="status" + aria-live
+          polite means SR users hear the cue without it stealing
+          focus. Reduced-motion users see the same content with
+          no transition — the toast is informational, not animated. */}
+      {toastMessage ? (
+        <div role="status" aria-live="polite" style={toastStyle}>
+          {toastMessage}
+        </div>
+      ) : null}
+
       {/* ─── Mobile trigger row (md:hidden) ─────────────────── */}
       <div
         className="flex items-center justify-between gap-4 md:hidden"
@@ -312,12 +369,18 @@ export function FilmsShell({
           id={DRAWER_ID}
           role="dialog"
           aria-modal="true"
-          aria-label="Filter and sort"
+          // aria-labelledby points at the inner h2 so AT users hear
+          // "Filters" once instead of "Filter and sort" + "Filters"
+          // (the previous aria-label conflicted with the heading).
+          // Closes films-drawer-h2-redundant-aria-label.
+          aria-labelledby="films-filter-drawer-title"
           className="md:hidden"
           style={drawerOverlayStyle}
         >
           <header style={drawerHeaderStyle}>
-            <h2 style={drawerTitleStyle}>Filters</h2>
+            <h2 id="films-filter-drawer-title" style={drawerTitleStyle}>
+              Filters
+            </h2>
             <button
               ref={closeButtonRef}
               type="button"
@@ -333,6 +396,26 @@ export function FilmsShell({
             </button>
           </header>
           <div style={drawerBodyStyle}>{filterContent}</div>
+          {/* Sticky footer — single "Show N films" CTA that closes
+              the drawer so the user can see the updated grid without
+              hunting for the close button. Per-chip taps don't
+              auto-close (chosen Booking.com-style behavior so users
+              can stack multiple filters before dismissing). Closes
+              films-drawer-no-autoclose-mobile (option B). */}
+          <div style={drawerFooterStyle}>
+            <button
+              type="button"
+              onClick={() => {
+                setDrawerOpen(false);
+                triggerRef.current?.focus();
+              }}
+              style={drawerShowResultsButtonStyle}
+              className="hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              Show {totalResults.toLocaleString()}{" "}
+              {totalResults === 1 ? "film" : "films"}
+            </button>
+          </div>
         </div>
       ) : null}
 
@@ -373,6 +456,30 @@ export function FilmsShell({
           <Headline level={2} className="sr-only">
             Film reviews
           </Headline>
+          {/* Active-filter chip rail — sits directly above the grid
+              so the user always sees what's currently filtered, on
+              both desktop (where the sidebar holds the controls)
+              and mobile (where the controls are hidden behind the
+              drawer). Each chip carries an × that removes just
+              that one filter. Closes:
+                • films-no-active-filter-summary (legibility)
+                • films-empty-state-no-recovery (per-filter
+                  dismissers reachable even when result is empty)
+                • films-no-active-filter-summary-mobile-multiselect
+                  (mobile parity with the desktop sidebar)
+              The labelling half of films-stats-orphaned-by-filters
+              lands on the SummaryPanel "Lifetime · all N films"
+              kicker, which makes the chart's scope explicit. */}
+          <ActiveFilterChips
+            filters={filters}
+            sort={sort}
+            onRemoveRating={toggleRating}
+            onRemoveGenre={toggleGenre}
+            onRemoveWatchedYear={toggleWatchedYear}
+            onClearWatchedWindow={clearWatchedDate}
+            onResetSort={resetSort}
+            onClearAll={clearAll}
+          />
           {films.length > 0 ? (
             <ul
               role="list"
@@ -416,6 +523,7 @@ function FilterContent({
   filters,
   sort,
   availableGenres,
+  availableReviewYears,
   anyControlChangedFromDefault,
   totalResults,
   onToggleRating,
@@ -429,6 +537,7 @@ function FilterContent({
   filters: FilmFilters;
   sort: FilmSort;
   availableGenres: string[];
+  availableReviewYears: number[];
   anyControlChangedFromDefault: boolean;
   totalResults: number;
   onToggleRating: (r: number) => void;
@@ -507,10 +616,11 @@ function FilterContent({
         >
           Past 12 months
         </Chip>
-        {/* Year chips — multi-select. Clicking switches out of
-            window mode if active; otherwise toggles the year in or
-            out of the array. */}
-        {WATCHED_YEAR_OPTIONS.map((y) => (
+        {/* Year chips — multi-select. Sourced dynamically from the
+            snapshot so the rail expands as Malcolm's review history
+            grows; clicking switches out of window mode if active;
+            otherwise toggles the year in or out of the array. */}
+        {availableReviewYears.map((y) => (
           <Chip
             key={y}
             isActive={watchedYears.includes(y)}
@@ -628,6 +738,166 @@ function Chip({
       {children}
     </button>
   );
+}
+
+/**
+ * Active-filter chip rail. Renders above the grid (above EmptyState
+ * too) when at least one filter is active or the sort is non-default.
+ * Each chip is a single-action dismisser that removes just one
+ * dimension; "Clear all" appears when 2+ items are active so a user
+ * with several filters has a one-tap escape. Returns null when
+ * nothing is active so the row collapses cleanly.
+ *
+ * The chips intentionally mirror the underlying URL-param granularity
+ * (one chip per rating value, one chip per genre, one chip per
+ * year) so a user's single × matches the underlying URL toggle one-
+ * to-one — no surprise dependent state changes.
+ */
+function ActiveFilterChips({
+  filters,
+  sort,
+  onRemoveRating,
+  onRemoveGenre,
+  onRemoveWatchedYear,
+  onClearWatchedWindow,
+  onResetSort,
+  onClearAll,
+}: {
+  filters: FilmFilters;
+  sort: FilmSort;
+  onRemoveRating: (r: number) => void;
+  onRemoveGenre: (g: string) => void;
+  onRemoveWatchedYear: (y: number) => void;
+  onClearWatchedWindow: () => void;
+  onResetSort: () => void;
+  onClearAll: () => void;
+}) {
+  const ratings = filters.ratings ?? [];
+  const genres = filters.genres ?? [];
+  const watchedYears = filters.watchedYears ?? [];
+  const sortIsDefault = sort === "latest-watched-desc";
+
+  // Total count of dismissable items — used to decide whether a
+  // "Clear all" affordance is worth surfacing here. With one item
+  // active the user can dismiss it directly; with two or more the
+  // bulk-clear is a meaningful shortcut.
+  const dismissableCount =
+    ratings.length +
+    genres.length +
+    watchedYears.length +
+    (filters.watchedWindow !== undefined ? 1 : 0) +
+    (sortIsDefault ? 0 : 1);
+
+  if (dismissableCount === 0) return null;
+
+  return (
+    <nav
+      aria-label="Active filters"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        gap: 8,
+        marginBottom: 16,
+      }}
+    >
+      {ratings.map((r) => (
+        <DismissableChip
+          key={`rating-${r}`}
+          label={`${r}★`}
+          ariaLabel={`Remove ${r}-star filter`}
+          onDismiss={() => onRemoveRating(r)}
+        />
+      ))}
+      {genres.map((g) => (
+        <DismissableChip
+          key={`genre-${g}`}
+          label={g}
+          ariaLabel={`Remove ${g} filter`}
+          onDismiss={() => onRemoveGenre(g)}
+        />
+      ))}
+      {watchedYears.map((y) => (
+        <DismissableChip
+          key={`year-${y}`}
+          label={String(y)}
+          ariaLabel={`Remove ${y} watched-year filter`}
+          onDismiss={() => onRemoveWatchedYear(y)}
+        />
+      ))}
+      {filters.watchedWindow === "12mo" ? (
+        <DismissableChip
+          label="Past 12 months"
+          ariaLabel="Remove past-12-months filter"
+          onDismiss={onClearWatchedWindow}
+        />
+      ) : null}
+      {!sortIsDefault ? (
+        <DismissableChip
+          label={`Sort: ${labelForSort(sort)}`}
+          ariaLabel="Reset sort to newest watch"
+          onDismiss={onResetSort}
+        />
+      ) : null}
+      {dismissableCount >= 2 ? (
+        <button
+          type="button"
+          onClick={onClearAll}
+          style={clearAllButtonStyle}
+          aria-label="Clear all filters and reset sort"
+          className="focus-visible:outline-2 focus-visible:outline-offset-2"
+        >
+          Clear all
+        </button>
+      ) : null}
+    </nav>
+  );
+}
+
+/** Pill-shaped chip with a label and a trailing × dismisser.
+ *  Single-button affordance — tapping anywhere on the chip removes
+ *  it. Visual treatment matches the active state of FilterContent's
+ *  Chip (filled background + page-color text) so the user reads
+ *  these as "currently applied" without ambiguity. */
+function DismissableChip({
+  label,
+  ariaLabel,
+  onDismiss,
+}: {
+  label: string;
+  ariaLabel: string;
+  onDismiss: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onDismiss}
+      aria-label={ariaLabel}
+      style={{
+        ...chipBaseStyle,
+        background: "var(--text-action)",
+        color: "var(--surface-page)",
+        borderColor: "var(--text-action)",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+      }}
+      className="hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none"
+    >
+      <span>{label}</span>
+      <span aria-hidden="true" style={{ fontSize: 14, lineHeight: 1 }}>
+        ✕
+      </span>
+    </button>
+  );
+}
+
+/** Look up the user-facing label for a sort value. Mirrors
+ *  SORT_OPTIONS but as a plain Map-like read so the chip rail can
+ *  use it without iterating the option list. */
+function labelForSort(sort: FilmSort): string {
+  const opt = SORT_OPTIONS.find((o) => o.value === sort);
+  return opt?.label ?? sort;
 }
 
 function EmptyState({ onClearAll }: { onClearAll: () => void }) {
@@ -811,4 +1081,53 @@ const drawerBodyStyle: CSSProperties = {
   flex: 1,
   overflowY: "auto",
   padding: "20px",
+};
+
+// Sticky drawer footer that holds the "Show N films" CTA on mobile.
+// flexShrink: 0 keeps it pinned at the bottom when the body
+// scrolls, and the top border separates it from the filter content
+// above.
+const drawerFooterStyle: CSSProperties = {
+  flexShrink: 0,
+  padding: "16px 20px",
+  borderTop: "1px solid var(--border-default)",
+  background: "var(--surface-page)",
+};
+
+const drawerShowResultsButtonStyle: CSSProperties = {
+  width: "100%",
+  fontFamily: "var(--font-mono)",
+  fontSize: 13,
+  letterSpacing: "0.06em",
+  textTransform: "uppercase",
+  padding: "12px 16px",
+  borderRadius: "var(--border-radius-sm)",
+  border: "1px solid var(--text-action)",
+  background: "var(--text-action)",
+  color: "var(--surface-page)",
+  cursor: "pointer",
+  outlineColor: "var(--border-focus)",
+};
+
+// Bottom-center fixed toast for transient mode-switch cues. Mono
+// caption on a high-contrast surface so it reads as system chrome
+// rather than editorial voice. Pointer-events:none so the toast
+// can't accidentally intercept a tap aimed at the grid below it
+// — the toast is informational, not interactive.
+const toastStyle: CSSProperties = {
+  position: "fixed",
+  bottom: 24,
+  left: "50%",
+  transform: "translateX(-50%)",
+  zIndex: 60,
+  maxWidth: "calc(100% - 32px)",
+  padding: "10px 16px",
+  borderRadius: "var(--border-radius-sm)",
+  background: "var(--text-body)",
+  color: "var(--surface-page)",
+  fontFamily: "var(--font-mono)",
+  fontSize: 12,
+  letterSpacing: "0.04em",
+  boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
+  pointerEvents: "none",
 };

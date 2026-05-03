@@ -67,6 +67,18 @@ export function SummaryPanel({ summary }: Props) {
           flex-column children can resolve flex-1 against a real
           height. */}
       <Stack gap="400" className="lg:h-full">
+        {/* Scope kicker — names what the chart below counts. The
+            panel intentionally does NOT reflect the grid's active
+            filter (the chart is a stable identity for the page),
+            so labelling its scope here keeps the user from reading
+            the bars as the filtered subset and getting confused
+            when filtering to Horror leaves 5★ Animation buckets in
+            view. Closes the labelling half of
+            films-stats-orphaned-by-filters; the chip rail above
+            the grid handles the recovery half. */}
+        <Kicker>
+          Lifetime · all {summary.totalFilms.toLocaleString()} films
+        </Kicker>
         {/* ─── Lead stats line ──────────────────────────────────── */}
         <p style={leadStatsStyle}>
           <strong style={emphasizedNumberStyle}>

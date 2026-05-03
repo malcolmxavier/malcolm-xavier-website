@@ -177,6 +177,17 @@ export type AppliedFilm = {
   qualifyingReview: Review | null;
   cardRating: number | null;
   positionDate: string;
+  /**
+   * True when ratings / watchedYears / watchedWindow narrowed the
+   * result set — i.e. the qualifying review represents a specific
+   * watch event the filter matched. FilmCard reads this to swap
+   * its dateline from "First watched [first-watch date]" to
+   * "Watched [qualifying-review's watch date]" so the card and
+   * the grid position agree on which watch is being represented.
+   * False when the result set is shaped only by per-film filters
+   * (releaseYear / genre) or by sort alone.
+   */
+  perReviewFilterActive: boolean;
 };
 
 // ─── Filtering + sorting ──────────────────────────────────────────
@@ -263,6 +274,7 @@ export function applyFilters(
         // rewatch from 2024 lands where a 2024-reviewed film should
         // land, not where the original watch (different year) would.
         positionDate: qualifying.reviewDate,
+        perReviewFilterActive: true,
       });
     } else {
       result.push({
@@ -270,6 +282,7 @@ export function applyFilters(
         qualifyingReview: film.reviews[0] ?? null,
         cardRating: film.primaryRating,
         positionDate: positionDateForSort(film, sort),
+        perReviewFilterActive: false,
       });
     }
   }
