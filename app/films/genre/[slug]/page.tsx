@@ -117,27 +117,34 @@ export async function generateMetadata({
 
   const noindex = additionalFiltersActive || isPagedBeyondFirst;
   const count = summary.genreDistribution[genre] ?? 0;
-  const description = `${count} ${genre} films logged, rated, and reviewed by Malcolm Xavier — pulled from his Letterboxd journal with TMDB metadata.`;
+  // Voice-matched to the /films listing description (no
+  // third-person Malcolm reference; ownership implicit). "TV Movie"
+  // is special-cased to "TV movies" so we don't emit the awkward
+  // double-noun "tv movie films."
+  const genreNoun =
+    genre === "TV Movie" ? "TV movies" : `${genre.toLowerCase()} films`;
+  const description = `${count} ${genreNoun} and counting, logged, rated, and reviewed. Every Letterboxd entry preserved with TMDB metadata.`;
   const canonical = `/films/genre/${slug}`;
+  // Title relies on the root layout's "%s—Malcolm Xavier" template
+  // so the byline format matches /films listing's title exactly.
+  // OG/Twitter titles spell out the byline since social card titles
+  // bypass the template.
+  const titleBase = `${genre} Reviews`;
+  const socialTitle = `${titleBase}—Malcolm Xavier`;
   return {
-    title: {
-      // .absolute bypasses the root layout's "%s—Malcolm Xavier"
-      // template; the long-tail anchor lives in the title itself
-      // ("{Genre} reviews by Malcolm Xavier").
-      absolute: `${genre} Reviews by Malcolm Xavier`,
-    },
+    title: titleBase,
     description,
     alternates: { canonical },
     robots: noindex ? { index: false, follow: true } : undefined,
     openGraph: {
-      title: `${genre} Reviews by Malcolm Xavier`,
+      title: socialTitle,
       description,
       url: canonical,
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: `${genre} Reviews by Malcolm Xavier`,
+      title: socialTitle,
       description,
     },
   };
@@ -254,13 +261,30 @@ export default async function FilmGenrePage({
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
             <Stack gap="500">
               <Kicker accent>Films · {genre}</Kicker>
+              {/* Same TV-Movie special-case as the Lede below —
+                  "every tv movie film" is a double-noun trip.
+                  Renders "Every TV movie, every rating, every
+                  reaction." for that one genre, normal "every X
+                  film" for the other 18. */}
               <Display>
-                Every {genre.toLowerCase()} film, every rating, every reaction.
+                {genre === "TV Movie"
+                  ? "Every TV movie, every rating, every reaction."
+                  : `Every ${genre.toLowerCase()} film, every rating, every reaction.`}
               </Display>
+              {/* First-person voice matches /films listing's Lede.
+                  The genre name lowercases inside the sentence
+                  (sentence-case) like the Display headline above;
+                  "TV Movie" is special-cased to "TV movies" so we
+                  don't render the awkward double-noun "tv movie
+                  films." Count is lifetime via genreDistribution
+                  (mirrors the SummaryPanel's "Lifetime" frame
+                  rather than the filtered totalResults). */}
               <Lede>
-                {summary.genreDistribution[genre] ?? 0} {genre} films logged
-                from {totalResults === 1 ? "one review" : "Malcolm's Letterboxd journal"}.
-                Open any card for the full review.
+                I&rsquo;ve logged {summary.genreDistribution[genre] ?? 0}{" "}
+                {genre === "TV Movie"
+                  ? "TV movies"
+                  : `${genre.toLowerCase()} films`}{" "}
+                on Letterboxd. Open any card for the full review.
               </Lede>
               <p style={{ margin: 0 }}>
                 <TrackOnClick
