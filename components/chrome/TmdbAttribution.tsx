@@ -56,7 +56,13 @@ export function TmdbAttribution() {
   // off critic routes, the wrapper goes with it — no extra space
   // leaks onto non-critic footers.
   return (
-    <div className="pt-3">
+    // sm:text-right pushes the disclosure to the right edge of the
+    // footer container on tablet+ so it visually anchors with the
+    // editorial CriticDisclaimer above it (same right-flush axis
+    // the © dateline sits opposite to). Mobile keeps the default
+    // left-alignment — at narrow widths the disclosure wraps and
+    // right-aligned wrap looks more frantic than left-aligned.
+    <div className="pt-3 sm:text-right">
       <p style={captionStyle}>
         {label} via{" "}
         <NextLink
