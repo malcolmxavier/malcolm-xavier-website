@@ -85,15 +85,18 @@ export function InfoToast({
       </div>
       {/* md+: inline-flex, flows in the parent's natural layout.
           The caller places <InfoToast> wherever it should appear
-          (typically alongside the active-filter chips above the
-          grid). hidden md:inline-flex = display:none by default,
+          (typically below the active-filter chips above the grid).
+          hidden md:inline-flex = display:none by default,
           display:inline-flex on md+ (so AT only sees this variant
-          on tablet/desktop). */}
+          on tablet/desktop). marginTop: 8 gives the toast breathing
+          room when it sits below a sibling block (e.g. the chip
+          rail's nav) — when it's alone in its parent the small
+          extra top space is harmless. */}
       <div
         role="status"
         aria-live="polite"
         className="hidden md:inline-flex"
-        style={visualStyle}
+        style={{ ...visualStyle, marginTop: 8 }}
       >
         <InfoGlyph />
         <span>{message}</span>
