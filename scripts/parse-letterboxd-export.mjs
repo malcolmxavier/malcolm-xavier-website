@@ -88,7 +88,7 @@ function findLatestExportDir() {
  * and any second non-Latin title from the same year would crash the
  * filmsBySeedId map by overwriting the first.
  */
-function slugify(title) {
+export function slugify(title) {
   const slug = title
     .normalize("NFKD")
     .replace(/[̀-ͯ]/g, "") // strip combining diacritics
