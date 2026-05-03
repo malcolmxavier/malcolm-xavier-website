@@ -422,6 +422,39 @@ a[data-subbrand="film"] {
   color: var(--orange-400) !important;
 }
 
+/* Film detail page — genre chips render as small mono pills that
+   double as filtered-listing links (?genre=Horror). The default
+   [data-subbrand="film"] a rule above applies loud orange to every
+   link; we override here so the chip's resting state stays in the
+   quieter caption color and shifts to orange only on hover/focus.
+   The chip aesthetic (rounded pill, mono uppercase) lives on the
+   element via inline style — only color + decoration is overridden
+   here so the cascade can't fight us back. */
+[data-subbrand="film"] a.film-detail-genre-chip {
+  color: var(--text-caption) !important;
+  text-decoration: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+[data-subbrand="film"] a.film-detail-genre-chip:hover,
+[data-subbrand="film"] a.film-detail-genre-chip:focus-visible {
+  color: var(--orange-700) !important;
+  border-color: var(--orange-700);
+}
+[data-theme="dark"] [data-subbrand="film"] a.film-detail-genre-chip:hover,
+[data-theme="dark"] a.film-detail-genre-chip:focus-visible {
+  color: var(--orange-400) !important;
+  border-color: var(--orange-400);
+}
+[data-subbrand="film"] a.film-detail-genre-chip:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-subbrand="film"] a.film-detail-genre-chip {
+    transition: none;
+  }
+}
+
 [data-subbrand="tv"] a,
 a[data-subbrand="tv"] {
   color: var(--blue-700) !important;

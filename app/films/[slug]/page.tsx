@@ -1,14 +1,34 @@
 // ─────────────────────────────────────────────────────────────────
 // /films/[slug] — single-film detail page.
 //
-// Structure (compact, designed to live primarily above the fold):
+// Structure:
 //   1. Back link — "← All films" mono caption.
 //   2. Hero block — poster (left) + title block (right) with kicker,
-//      title, metadata line, rating/liked/dateline row, genre chips,
-//      and "View on Letterboxd ↗" link inside the same block.
-//   3. Review stack — every prose review newest-first, with a
-//      watched/reviewed dateline, stars, rewatch + spoilers pills,
-//      and the prose split on \n\n into <p> blocks.
+//      title, metadata line, rating/liked/dateline row, genre chips
+//      (links to /films?genre=…), and "View on Letterboxd ↗".
+//   3. Review stack — sits in a column that mirrors the hero's right
+//      column on md+ (poster-width spacer on the left, prose column
+//      on the right) so the prose lines up under the title block and
+//      the page reads as a single right-pinned content axis. Prose
+//      clamps to maxWidth: 65ch for reading comfort. Multi-review
+//      films get a TOC at the top (anchors to each <article
+//      id="review-N">). Each review's dateline renders as an <h2>
+//      for a coherent document outline (h1=film title).
+//   4. Adjacent reviews — chronological prev/next neighbors at the
+//      bottom, walking the snapshot's films array (sorted by
+//      latestWatchedDate desc to match the listing default). Spans
+//      the full hero footprint (NOT right-pinned with the prose) so
+//      the bottom of the page reads as page-level navigation. Newer
+//      is on the LEFT, older on the RIGHT — inverts the universal
+//      timeline convention to match the /films listing's "further
+//      right = older" reading order, since the listing is the
+//      primary entry path on-site.
+//
+// Review markup: prose is rendered through renderReviewMarkup which
+// turns Letterboxd's `<i>…</i>` tags (the only inline markup the
+// snapshot currently carries) into proper <em> nodes. Other HTML
+// tags fall through as literal text — extend the parser if the
+// allowlist needs to grow.
 //
 // No TMDB backdrop band — clean page background instead so the
 // hero is tight and the review prose surfaces quickly. Backdrop
@@ -21,10 +41,14 @@
 // Slug format: `<letterboxdSlug>-<releaseYear>` — human-readable
 // and SEO-friendly. The data layer also resolves old `tmdb-<id>`
 // URLs so existing links don't break.
+//
+// JSON-LD: Review + BreadcrumbList emitted in a single @graph block
+// at the top of the body. See buildPageJsonLd for the shape.
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
 import Image from "next/image";
+import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
@@ -33,7 +57,7 @@ import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Link } from "@/components/primitives/Link";
 import { StarRating } from "@/components/primitives/StarRating";
-import { getFilmBySlug } from "@/lib/feeds/letterboxd";
+import { getFilmBySlug, getFilms } from "@/lib/feeds/letterboxd";
 import {
   formatRuntime,
   formatWatchedDate,
@@ -42,6 +66,7 @@ import {
 } from "@/lib/feeds/letterboxd-utils";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { SITE_URL } from "@/lib/site-config";
 import { BackToFilms } from "./BackToFilms";
 
 type Params = { slug: string };
@@ -144,11 +169,40 @@ export default async function FilmDetailPage({
   const film = getFilmBySlug(slug);
   if (!film) notFound();
 
-  // JSON-LD Review schema per detail page. Eligible for SERP star
-  // ratings (rich result), structured consumption by Perplexity /
-  // ChatGPT search, and entity-association with the Movie via
-  // sameAs to TMDB. Closes films-detail-no-jsonld.
-  const jsonLd = buildReviewJsonLd(film);
+  // Adjacent-review neighbors for the bottom nav — closes the
+  // dead-end finding (films-related-films-internal-links). The
+  // snapshot's films array is pre-sorted by latestWatchedDate desc
+  // (matches the listing default sort), so we can walk neighbors
+  // by index without re-sorting. idx-1 is the next-newer review,
+  // idx+1 is the next-older. Each neighbor is null at the array
+  // boundary so the nav gracefully omits the missing direction.
+  const { films: allFilms } = getFilms();
+  const idx = allFilms.findIndex((f) => f.id === film.id);
+  const newerFilm = idx > 0 ? allFilms[idx - 1] : null;
+  const olderFilm =
+    idx >= 0 && idx + 1 < allFilms.length ? allFilms[idx + 1] : null;
+
+  // Hero dateline rule mirrors FilmCard.tsx: when every review on
+  // this film is a rewatch, surface "Rewatched" against the earliest
+  // rewatch date so the hero doesn't lie about a "First watched"
+  // event that never happened (Malcolm logged the film for the first
+  // time only after the first watch). When at least one review is a
+  // first-watch, the default "First watched" + firstWatchedDate is
+  // accurate. Closes films-detail-no-rewatch-check.
+  const allRewatches =
+    film.reviews.length > 0 && film.reviews.every((r) => r.rewatch);
+  const heroDatelineLabel = allRewatches ? "Rewatched" : "First watched";
+  const heroDatelineDate = allRewatches
+    ? // Fall back to firstWatchedDate if reviews[] is somehow empty
+      // — defensive only; the predicate above guarantees length > 0.
+      film.reviews[film.reviews.length - 1]?.watchedDate ?? film.firstWatchedDate
+    : film.firstWatchedDate;
+
+  // Combined JSON-LD payload — Review (per existing structure) plus
+  // a 2-level BreadcrumbList (Films → {Title}). Emitted as a single
+  // @graph array so crawlers parse one block. Closes
+  // films-detail-no-breadcrumb-jsonld.
+  const jsonLd = buildPageJsonLd(film);
 
   return (
     <div data-subbrand="film">
@@ -253,10 +307,21 @@ export default async function FilmDetailPage({
                   </span>
                 ) : null}
                 <span style={metadataLineStyle}>
-                  First watched {formatWatchedDate(film.firstWatchedDate)}
+                  {heroDatelineLabel}{" "}
+                  {formatWatchedDate(heroDatelineDate)}
                 </span>
               </div>
-              {/* Genre chips */}
+              {/* Genre chips — rendered as links to the listing page
+                  pre-filtered by that genre. Closes the crawl-graph
+                  half of films-related-films-internal-links: gives
+                  Googlebot sideways paths between detail pages and
+                  gives readers a "more like this" affordance without
+                  committing to a curated rail (the editorial half of
+                  that finding stays parked on films-detail-dead-end
+                  for post-launch). The .film-detail-genre-chip class
+                  keeps the chip's resting color quiet and shifts to
+                  orange on hover/focus — see app/components.css for
+                  the override against the cluster's loud-link rule. */}
               {film.tmdb?.genres && film.tmdb.genres.length > 0 ? (
                 <ul
                   role="list"
@@ -271,7 +336,13 @@ export default async function FilmDetailPage({
                 >
                   {film.tmdb.genres.map((g) => (
                     <li key={g}>
-                      <span style={genreChipStyle}>{g}</span>
+                      <NextLink
+                        href={`/films?genre=${encodeURIComponent(g)}`}
+                        className="film-detail-genre-chip"
+                        style={genreChipStyle}
+                      >
+                        {g}
+                      </NextLink>
                     </li>
                   ))}
                 </ul>
@@ -295,16 +366,93 @@ export default async function FilmDetailPage({
         </Section>
 
         {/* ─── Review stack ───────────────────────────────────── */}
+        {/* The outer grid mirrors the hero's poster + title-block
+            layout so the prose column lines up under the title
+            block, leaving the poster column visually balanced by
+            negative space below. maxWidth: 65ch clamps the inner
+            column to a comfortable reading measure (≈60-75ch is
+            the typographic sweet spot; full container width was
+            running ~110ch on desktop and making longer reviews
+            uncomfortable to read). On mobile (<md) the grid
+            collapses to a single column and the spacer drops out,
+            so the prose flows full-width with the same 65ch cap.
+            Closes films-detail-prose-too-wide. */}
         <Section padding="md" bordered>
-          <Stack gap="800">
-            {film.reviews.map((review, i) => (
-              <ReviewBlock
-                key={`${review.reviewDate}-${i}`}
-                review={review}
-              />
-            ))}
-          </Stack>
+          <div className="md:grid md:grid-cols-[200px_1fr] md:gap-8 lg:grid-cols-[240px_1fr] lg:gap-10">
+            {/* Spacer mirrors the poster column on md+; on mobile
+                this div renders but takes no space (no margin/
+                padding, no children) so the prose stays flush-left.
+                aria-hidden so SR users don't get an extra empty
+                landmark. */}
+            <div aria-hidden="true" />
+            <div style={{ maxWidth: "65ch" }}>
+              <Stack gap="800">
+                {/* Multi-review TOC — anchors to each review
+                    article by index. Activates as soon as a film
+                    has two or more prose reviews (rewatches with
+                    prose). Closes films-detail-no-toc. */}
+                {film.reviews.length >= 2 ? (
+                  <ReviewToc reviews={film.reviews} />
+                ) : null}
+                {film.reviews.map((review, i) => (
+                  <ReviewBlock
+                    key={`${review.reviewDate}-${i}`}
+                    review={review}
+                    reviewIndex={i}
+                  />
+                ))}
+              </Stack>
+            </div>
+          </div>
         </Section>
+
+        {/* ─── Adjacent reviews (chronological prev/next) ──────
+            Sibling-to-sibling links between detail pages. Cheaper
+            close on films-related-films-internal-links than the
+            curated rail in films-detail-dead-end (the rail is
+            parking-lotted post-launch — needs more editorial
+            consideration).
+
+            Span: full container width — matches the hero's footprint
+            so the nav reads as page-level navigation rather than a
+            continuation of the right-pinned prose column above. The
+            two cards anchor flush to the left and right edges of the
+            section, giving the bottom of the page a clean two-anchor
+            symmetry that the prose column intentionally doesn't carry.
+
+            Direction layout: newer LEFT, older RIGHT. The /films
+            listing sorts latestWatchedDate desc — top-left is
+            newest, bottom-right is oldest — so a reader arriving
+            from the listing carries "further right = older" as
+            their mental model. Matching that here keeps the
+            chronological direction consistent with the listing
+            traversal even though it inverts the universal
+            "newer = right" timeline convention. The explicit
+            "Older review" / "Newer review" labels disambiguate
+            for cold visitors who didn't come from /films.
+
+            Source order is newer-first so mobile (single-column
+            stack) puts newer on top, older on bottom — same
+            top-down chronology as the listing. */}
+        {(newerFilm || olderFilm) ? (
+          <Section padding="md" bordered>
+            <nav
+              aria-label="Adjacent reviews"
+              className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8"
+            >
+              {newerFilm ? (
+                <NeighborLink film={newerFilm} direction="newer" />
+              ) : (
+                <span aria-hidden="true" />
+              )}
+              {olderFilm ? (
+                <NeighborLink film={olderFilm} direction="older" />
+              ) : (
+                <span aria-hidden="true" />
+              )}
+            </nav>
+          </Section>
+        ) : null}
       </Container>
     </div>
   );
@@ -313,24 +461,53 @@ export default async function FilmDetailPage({
 // ─── JSON-LD ─────────────────────────────────────────────────────
 
 /**
- * Build a Review schema document for the detail page. Single-review
- * films emit a single Review object; multi-review films would emit
- * an array under the same schema (with an aggregateRating on the
- * Movie itemReviewed). Currently the snapshot has no multi-review
- * films so we always emit the single-review shape — easy to fan
- * out later when rewatches start landing.
+ * Build the page-level JSON-LD payload — Review schema (per existing
+ * structure) plus a 2-level BreadcrumbList (Films → {Title}). Both
+ * land in a single @graph array so crawlers parse one block; Google
+ * also accepts separate <script> blocks but @graph keeps the source
+ * tighter and matches the layout-level entity graph in app/layout.tsx.
  *
- * Eligible for Google's review-rich-result, Perplexity's structured
- * consumption, and entity association with the Movie via sameAs to
- * TMDB. Author Person is given an @id to facilitate cross-page
- * entity consolidation if Malcolm ships a /author/* page later.
+ * Closes both films-detail-no-jsonld (Review) and
+ * films-detail-no-breadcrumb-jsonld (BreadcrumbList).
+ *
+ * The Review block is eligible for Google's review-rich-result,
+ * Perplexity's structured consumption, and entity association with
+ * the Movie via sameAs to TMDB. The Author is given a stable @id so
+ * cross-page entity consolidation works if /author/* ever ships.
+ *
+ * The BreadcrumbList helps SERP rich results render a clean URL
+ * trail ("malxavi.com › Films › The Substance") and gives AI
+ * crawlers the cluster hierarchy without parsing the URL path.
  */
-function buildReviewJsonLd(film: Film) {
+function buildPageJsonLd(film: Film) {
   const review = film.reviews[0];
-  if (!review) return null;
+  const detailUrl = `${SITE_URL}/films/${film.letterboxdSlug}-${film.releaseYear}`;
+  const breadcrumb = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Films",
+        item: `${SITE_URL}/films`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: `${film.title} (${film.releaseYear})`,
+        item: detailUrl,
+      },
+    ],
+  };
+  // No prose review on the film: still emit the breadcrumb so the
+  // SERP gets the URL trail, but skip the Review block entirely.
+  // The current snapshot's predicate (reviewText !== "") guarantees
+  // every detail page has at least one review, so this is defensive.
+  if (!review) {
+    return { "@context": "https://schema.org", "@graph": [breadcrumb] };
+  }
   const ratingValue = review.rating;
-  return {
-    "@context": "https://schema.org",
+  const reviewBlock = {
     "@type": "Review",
     itemReviewed: {
       "@type": "Movie",
@@ -359,23 +536,89 @@ function buildReviewJsonLd(film: Film) {
     author: {
       "@type": "Person",
       name: "Malcolm Xavier",
-      "@id": "https://malxavi.com/#person",
+      "@id": `${SITE_URL}/#person`,
     },
     datePublished: review.reviewDate,
     reviewBody: review.reviewText,
   };
+  return {
+    "@context": "https://schema.org",
+    "@graph": [reviewBlock, breadcrumb],
+  };
+}
+
+// ─── Markup helpers ──────────────────────────────────────────────
+
+/**
+ * Render a Letterboxd review paragraph with inline markup as React
+ * nodes. Letterboxd preserves a small set of HTML tags in the CSV
+ * export — surveying the current snapshot turned up only `<i>…</i>`
+ * (130 occurrences across 741 films) — so this parser handles that
+ * single case and falls through to plain text everywhere else.
+ *
+ * Why this and not dangerouslySetInnerHTML: even though the input
+ * is trusted (Malcolm's own reviews from his own CSV export), an
+ * allowlist parser keeps the rendering surface explicitly bounded.
+ * If a future review introduces `<a>` or `<b>` we extend the parser
+ * rather than widen an HTML-injection point. Returns a flat array
+ * of strings + <em> elements suitable for direct rendering inside
+ * a <p>.
+ *
+ * If a `<i>` tag has nested or unclosed markup the regex won't
+ * match and the literal text falls through unchanged — the same
+ * "broken markup shows as written" failure mode dangerouslySetInner-
+ * HTML would also exhibit.
+ */
+function renderReviewMarkup(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  // Non-greedy match of <i>...</i> with no nested tags. The [^<]
+  // class prevents the regex from spanning a sibling tag — a defensive
+  // measure if Letterboxd ever introduces multi-tag markup.
+  const re = /<i>([^<]*)<\/i>/gi;
+  let lastIdx = 0;
+  let key = 0;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > lastIdx) parts.push(text.slice(lastIdx, m.index));
+    parts.push(<em key={`em-${key++}`}>{m[1]}</em>);
+    lastIdx = re.lastIndex;
+  }
+  if (lastIdx < text.length) parts.push(text.slice(lastIdx));
+  // Pure-text paragraphs return a single-element array of the
+  // original string. Single-element arrays render identically to
+  // plain text in React, so no change in DOM shape.
+  return parts.length > 0 ? parts : [text];
 }
 
 // ─── Sub-components ──────────────────────────────────────────────
 
-function ReviewBlock({ review }: { review: Review }) {
+function ReviewBlock({
+  review,
+  reviewIndex,
+}: {
+  review: Review;
+  reviewIndex: number;
+}) {
   const paragraphs = review.reviewText.split(/\n\s*\n/).filter(Boolean);
+  // Stable anchor id so the multi-review TOC and any external deep
+  // link (#review-0, #review-1, …) land on the matching article.
+  // Index over watchedDate keeps the id bulletproof against the rare
+  // case of two reviews sharing a watch date within one film.
+  const anchorId = `review-${reviewIndex}`;
   return (
-    <article>
+    <article id={anchorId}>
       <Stack gap="400">
-        {/* Dateline — watched-date only. Review-date is omitted by
-            design (the publish date is internal-only metadata; the
-            user-facing event is when the film was watched). */}
+        {/* Dateline as an h2 so the page outline reads h1=film,
+            h2=watch-event for each review article. Closes
+            films-detail-article-no-headings — VoiceOver / TalkBack
+            users navigating by article landmark or H shortcut now
+            land on a heading that names which review they're in.
+            Visual treatment matches the prior <p> exactly: same
+            mono caption style, no margins, sits on the same flex
+            row as stars + pills. Review-date is intentionally
+            omitted from this dateline — the publish date is
+            internal-only metadata; the user-facing event is when
+            the film was watched. */}
         <div
           style={{
             display: "flex",
@@ -384,9 +627,19 @@ function ReviewBlock({ review }: { review: Review }) {
             gap: 12,
           }}
         >
-          <p style={{ ...metadataLineStyle, margin: 0 }}>
+          <h2
+            style={{
+              ...metadataLineStyle,
+              margin: 0,
+              // The metadataLineStyle's font-size is p-sm; we keep
+              // that here intentionally so the visual rhythm doesn't
+              // shift. The h2 is for SR / outline parsing, not a
+              // visual hierarchy bump.
+              fontWeight: "inherit",
+            }}
+          >
             Watched {formatWatchedDate(review.watchedDate)}
-          </p>
+          </h2>
           {review.rating !== null ? (
             <StarRating rating={review.rating} size={16} />
           ) : null}
@@ -397,7 +650,12 @@ function ReviewBlock({ review }: { review: Review }) {
         </div>
         {/* Prose — paragraphs are split on blank lines. Render
             each as a <p> so screen readers + reading-mode tools
-            see the structure clearly. */}
+            see the structure clearly. renderReviewMarkup turns
+            the raw Letterboxd HTML (currently just <i>…</i> for
+            italics; see parseReviewMarkup notes) into proper
+            React <em> nodes so titles like "<i>Splitsville</i>"
+            render as italics instead of literal angle-bracket
+            text. */}
         <div>
           {paragraphs.map((para, i) => (
             <p
@@ -411,7 +669,7 @@ function ReviewBlock({ review }: { review: Review }) {
                 marginBottom: i < paragraphs.length - 1 ? "1em" : 0,
               }}
             >
-              {para}
+              {renderReviewMarkup(para)}
             </p>
           ))}
         </div>
@@ -447,6 +705,156 @@ function Pill({
     >
       {children}
     </span>
+  );
+}
+
+/**
+ * In-page TOC for multi-review detail pages. Activates when a film
+ * has 2+ prose reviews (rewatches with a written take); single-
+ * review films skip rendering at the call site. Each link anchors
+ * to the matching <article id="review-N"> via index — same indexing
+ * the ReviewBlock applies to its anchorId.
+ *
+ * The TOC is wrapped in <nav aria-label="Reviews on this page"> so
+ * SR users get a navigation landmark distinct from the page chrome.
+ * Closes films-detail-no-toc.
+ */
+function ReviewToc({ reviews }: { reviews: Review[] }) {
+  return (
+    <nav
+      aria-label="Reviews on this page"
+      style={{
+        padding: "var(--scale-300) var(--scale-400)",
+        borderRadius: "var(--border-radius-sm)",
+        border: "1px solid var(--border-default)",
+        background: "var(--surface-elevated)",
+      }}
+    >
+      <p
+        style={{
+          ...metadataLineStyle,
+          marginBottom: "var(--scale-200)",
+          textTransform: "uppercase",
+        }}
+      >
+        Reviews on this page · {reviews.length}
+      </p>
+      <ul
+        role="list"
+        style={{
+          listStyle: "none",
+          padding: 0,
+          margin: 0,
+          display: "flex",
+          flexDirection: "column",
+          gap: "var(--scale-200)",
+        }}
+      >
+        {reviews.map((review, i) => (
+          <li key={`${review.reviewDate}-${i}`}>
+            {/* Plain anchor — same-page hash. The Link primitive's
+                hash branch routes through <a> which is what we want
+                here, but a direct <a> keeps the markup minimal. */}
+            <a
+              href={`#review-${i}`}
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--p-sm-font-size)",
+                color: "var(--text-action)",
+                textDecoration: "underline",
+                textUnderlineOffset: 4,
+                textDecorationThickness: 1,
+              }}
+            >
+              Watched {formatWatchedDate(review.watchedDate)}
+              {review.rating !== null ? ` · ${review.rating}★` : ""}
+              {review.rewatch ? " · Rewatch" : ""}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
+
+/**
+ * Adjacent-review link used at the bottom of every detail page.
+ * Renders a kicker, the film title, and the watched date so the
+ * reader can preview where the link goes before clicking.
+ *
+ * Direction controls arrow placement and text alignment to match
+ * the parent grid's positional layout:
+ *   - direction="newer" sits on the LEFT, flush-left, "← Newer
+ *     review" kicker (left arrow points to where the card itself
+ *     sits inside the parent layout).
+ *   - direction="older" sits on the RIGHT, flush-right, "Older
+ *     review →" kicker (right arrow points to where the card
+ *     itself sits).
+ *
+ * The newer/older positional choice lives at the call site (see
+ * the Adjacent-reviews comment in FilmDetailPage) and is driven by
+ * mental-model continuity with the /films listing's left-to-right,
+ * newer-to-older grid sort.
+ *
+ * Closes the crawl-graph half of films-related-films-internal-links.
+ */
+function NeighborLink({
+  film,
+  direction,
+}: {
+  film: Film;
+  direction: "older" | "newer";
+}) {
+  const slug = `${film.letterboxdSlug}-${film.releaseYear}`;
+  const isNewer = direction === "newer";
+  const kicker = isNewer ? "← Newer review" : "Older review →";
+  const align: "left" | "right" = isNewer ? "left" : "right";
+  // Use the latestWatchedDate to match the listing's sort key, so
+  // the date the user sees here is the same date that determines
+  // the neighbor's position in the listing order.
+  const datelineDate = film.latestWatchedDate;
+  return (
+    <NextLink
+      href={`/films/${slug}`}
+      // The neighbor link is a card-shaped affordance — wrapping
+      // it in a single anchor keeps the entire title + dateline
+      // tappable. focus-visible outline matches the FilmCard
+      // pattern so keyboard users see a consistent focus ring
+      // across grid + detail surfaces.
+      className="block focus-visible:outline-2 focus-visible:outline-offset-4 rounded-sm"
+      style={{
+        outlineColor: "var(--border-focus)",
+        textDecoration: "none",
+        color: "inherit",
+        textAlign: align,
+      }}
+    >
+      <p style={{ ...metadataLineStyle, marginBottom: "var(--scale-200)" }}>
+        {kicker}
+      </p>
+      <p
+        style={{
+          // p-lg (20px) reads as a neighbor-card title without
+          // competing with the page's h1 (Display) above. No h-md
+          // token exists in the type scale; sticking to the p-* row
+          // keeps the rhythm aligned with the rest of the surface.
+          fontFamily: "var(--font-primary)",
+          fontSize: "var(--p-lg-font-size)",
+          lineHeight: "var(--p-lg-line-height)",
+          color: "var(--text-body)",
+          margin: 0,
+          marginBottom: "var(--scale-100)",
+        }}
+      >
+        {film.title}{" "}
+        <span style={{ color: "var(--text-caption)", fontWeight: 400 }}>
+          ({film.releaseYear})
+        </span>
+      </p>
+      <p style={{ ...metadataLineStyle, margin: 0 }}>
+        Watched {formatWatchedDate(datelineDate)}
+      </p>
+    </NextLink>
   );
 }
 
