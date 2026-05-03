@@ -142,11 +142,18 @@ export async function generateMetadata({
       description,
       url: canonical,
       type: "website",
+      // Inherit the sitewide programmatic OG card. Without this,
+      // Next.js 16's metadata.openGraph replaces (rather than
+      // merges with) the parent's, leaving the genre-route
+      // unfurl as title + URL with no image. See /films's
+      // mirror of this comment for the full rationale.
+      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
       title: socialTitle,
       description,
+      images: ["/opengraph-image"],
     },
   };
 }
@@ -214,9 +221,14 @@ export default async function FilmGenrePage({
 
   // CollectionPage + BreadcrumbList JSON-LD. CollectionPage tells AI
   // retrievers this URL is a curated review corpus scoped to one
-  // genre; about: { @type: Movie, genre: [genre] } anchors the
-  // entity to TMDB's genre vocabulary. BreadcrumbList helps SERP
-  // rich results render Films › {Genre} as a URL trail.
+  // genre. BreadcrumbList helps SERP rich results render
+  // Films › {Genre} as a URL trail.
+  //
+  // The previous `about: { "@type": "Movie", genre: [genre] }` was
+  // removed because Google's Rich Results validator parses bare
+  // Movie entities as standalone rich-result items and flags them
+  // invalid (no required Movie fields). The CollectionPage's name
+  // + description already convey the genre scope.
   const detailUrl = `${SITE_URL}/films/genre/${slug}`;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -227,10 +239,6 @@ export default async function FilmGenrePage({
         description: `${summary.genreDistribution[genre] ?? 0} ${genre} films logged, rated, and reviewed by Malcolm Xavier.`,
         url: detailUrl,
         inLanguage: "en-US",
-        about: {
-          "@type": "Movie",
-          genre: [genre],
-        },
         author: {
           "@type": "Person",
           name: "Malcolm Xavier",

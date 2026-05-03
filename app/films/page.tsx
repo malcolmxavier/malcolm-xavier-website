@@ -128,11 +128,20 @@ export async function generateMetadata({
       description,
       url: "/films",
       type: "website",
+      // Next.js metadata `openGraph` replaces (not merges) the
+      // parent's, so without explicit images here /films would
+      // inherit nothing — the LinkedIn / iMessage / Slack unfurl
+      // would show title + URL only, no card art. Point at the
+      // sitewide programmatic OG card (Satori-rendered at
+      // /opengraph-image) so the cluster reads as part of the
+      // brand identity rather than a bare URL.
+      images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
       title: "Film Reviews—Malcolm Xavier",
       description,
+      images: ["/opengraph-image"],
     },
   };
 }
@@ -223,11 +232,17 @@ export default async function FilmsPage({
 
   // CollectionPage + BreadcrumbList JSON-LD. CollectionPage names
   // the listing as a curated review corpus so AI-search retrievers
-  // (Perplexity, ChatGPT search) understand /films's role; the
-  // about: { @type: Movie } tag anchors the entity to the broad
-  // Movie vocabulary. BreadcrumbList is a single-level trail
-  // ("Films") since the listing is the cluster root. Closes
+  // (Perplexity, ChatGPT search) understand /films's role.
+  // BreadcrumbList is a single-level trail ("Films") since the
+  // listing is the cluster root. Closes
   // films-listing-no-collectionpage-jsonld.
+  //
+  // The previous `about: { "@type": "Movie" }` field was removed
+  // because Google's Rich Results validator parses bare Movie
+  // entities as standalone rich-result items and flags them
+  // invalid (they lack required Movie fields like image, dateCreated).
+  // CollectionPage already conveys the listing's subject through
+  // its name + description; the bare `about` was redundant.
   const listingUrl = `${SITE_URL}/films`;
   const listingJsonLd = {
     "@context": "https://schema.org",
@@ -238,7 +253,6 @@ export default async function FilmsPage({
         description: `Every film Malcolm Xavier has logged, rated, and reviewed on Letterboxd—${summary.totalFilms.toLocaleString()} entries spanning horror, arthouse, and blockbusters.`,
         url: listingUrl,
         inLanguage: "en-US",
-        about: { "@type": "Movie" },
         author: {
           "@type": "Person",
           name: "Malcolm Xavier",
