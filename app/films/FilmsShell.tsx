@@ -169,11 +169,8 @@ export function FilmsShell({
   //   • move focus to the close button (predictable target),
   //   • lock body scroll so the page underneath doesn't pan,
   //   • Esc dismisses and restores focus to the trigger.
-  // Three useEffects on the same dep was tidy by separation-of-
-  // concerns but harder to reason about as a unit — when the
-  // drawer's behavior is wrong it's almost always one of these
-  // three not playing nicely with the others. Cleanup runs in
-  // reverse order so scroll restores before focus moves.
+  // Cleanup runs in reverse order so scroll restores before focus
+  // moves.
   useEffect(() => {
     if (!drawerOpen) return;
     closeButtonRef.current?.focus();
@@ -360,51 +357,44 @@ export function FilmsShell({
   const anyControlChangedFromDefault =
     activeFilterCount > 0 || !sortIsDefault;
 
-  // Two parameterized renders of the same FilterContent — one for
-  // the desktop sidebar, one for the mobile drawer. They share
-  // every prop except announceResultCount, which controls whether
-  // the inner result-count span carries aria-live. Only the
-  // visually-dominant region per viewport announces — see the
-  // FilterContent prop comment for the per-viewport reasoning.
+  // The desktop sidebar and the mobile drawer both render the same
+  // FilterContent. They differ in only two props:
+  //   • announceResultCount — which surface owns the live region
+  //     for the "{N} films" count. Only the visually-dominant
+  //     region per viewport announces; see FilterContent's prop
+  //     comment for the per-viewport reasoning.
+  //   • showClearAll — the desktop sidebar suppresses its inline
+  //     "Clear all" because the active-filter chip rail above the
+  //     grid is the contextually-anchored affordance on md+; the
+  //     drawer keeps its inline "Clear all" since the chip rail
+  //     isn't visible from inside the drawer.
+  // Pulling the shared props into one object keeps both branches
+  // honest — adding a new filter dimension means one edit, not two.
+  const sharedFilterContentProps = {
+    filters,
+    sort,
+    availableGenres,
+    availableWatchedYears,
+    anyControlChangedFromDefault,
+    totalResults,
+    onToggleRating: toggleRating,
+    onToggleGenre: toggleGenre,
+    onToggleWatchedYear: toggleWatchedYear,
+    onSetWatched12Mo: setWatched12Mo,
+    onClearWatchedDate: clearWatchedDate,
+    onSortChange: handleSortChange,
+    onClearAll: clearAll,
+  };
   const sidebarFilterContent = (
     <FilterContent
-      filters={filters}
-      sort={sort}
-      availableGenres={availableGenres}
-      availableWatchedYears={availableWatchedYears}
-      anyControlChangedFromDefault={anyControlChangedFromDefault}
-      totalResults={totalResults}
-      onToggleRating={toggleRating}
-      onToggleGenre={toggleGenre}
-      onToggleWatchedYear={toggleWatchedYear}
-      onSetWatched12Mo={setWatched12Mo}
-      onClearWatchedDate={clearWatchedDate}
-      onSortChange={handleSortChange}
-      onClearAll={clearAll}
+      {...sharedFilterContentProps}
       announceResultCount={true}
-      // The chip rail above the grid carries its own "Clear all"
-      // affordance, anchored beside the chips it dismisses. Without
-      // this suppression, two identical "Clear all" buttons render
-      // simultaneously on md+ — the chip-rail version is the more
-      // contextually anchored one, so it wins.
       showClearAll={false}
     />
   );
   const drawerFilterContent = (
     <FilterContent
-      filters={filters}
-      sort={sort}
-      availableGenres={availableGenres}
-      availableWatchedYears={availableWatchedYears}
-      anyControlChangedFromDefault={anyControlChangedFromDefault}
-      totalResults={totalResults}
-      onToggleRating={toggleRating}
-      onToggleGenre={toggleGenre}
-      onToggleWatchedYear={toggleWatchedYear}
-      onSetWatched12Mo={setWatched12Mo}
-      onClearWatchedDate={clearWatchedDate}
-      onSortChange={handleSortChange}
-      onClearAll={clearAll}
+      {...sharedFilterContentProps}
       announceResultCount={false}
     />
   );
@@ -681,7 +671,15 @@ function FilterContent({
         <Kicker>Sort</Kicker>
         <select
           value={sort}
-          onChange={(e) => onSortChange(e.target.value as FilmSort)}
+          onChange={(e) => {
+            // Validate against SORT_OPTIONS rather than `as FilmSort`
+            // so a tampered value (e.g. via DevTools) doesn't smuggle
+            // an invalid sort past the type system. SORT_OPTIONS is
+            // the runtime source of truth — every value in it is a
+            // valid FilmSort by construction.
+            const match = SORT_OPTIONS.find((o) => o.value === e.target.value);
+            if (match) onSortChange(match.value);
+          }}
           // <Kicker> renders as <p>, not <label>, so the visual
           // label isn't programmatically associated. Without
           // aria-label, SR users hear "combo box" with no name.
@@ -1110,8 +1108,12 @@ function countActiveFilters(filters: FilmFilters): number {
   let n = 0;
   if (filters.ratings && filters.ratings.length > 0) n++;
   if (filters.genres && filters.genres.length > 0) n++;
-  if (filters.releaseYearMin !== undefined) n++;
-  if (filters.releaseYearMax !== undefined) n++;
+  // releaseYearMin / releaseYearMax intentionally NOT counted here
+  // — they're parsed from the URL and respected by applyFilters,
+  // but no chip in ActiveFilterChips and no input in FilterContent
+  // currently surface them. Counting them would bump the badge
+  // without giving the user a chip to dismiss. Add the increments
+  // back when (and if) release-year UI ships.
   // Watched date is one filter slot — years and window are
   // mutually exclusive per the discriminated union, so they share
   // a slot in the active-count badge.

@@ -188,7 +188,13 @@ function resolveFallbackUrl(tmdbMeta) {
 }
 
 /**
- * Enrich a single Film. Mutates and returns the same object.
+ * Enrich a single Film IN PLACE. The function name has the
+ * imperative form ("enrich") to flag the mutation, and the return
+ * value carries status metadata only — `result.film` is the same
+ * reference the caller passed in, not a copy. The caller (enrichFilms
+ * below) iterates an array and relies on this in-place behavior so
+ * downstream stages see the enriched fields without re-assigning.
+ *
  * Caller is responsible for pacing — this function does the
  * lookup (1-2 TMDB requests) without delays.
  */

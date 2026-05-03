@@ -40,6 +40,7 @@ import { SITE_URL } from "@/lib/site-config";
 import { getFilms } from "@/lib/feeds/letterboxd";
 import {
   applyFilters,
+  asString,
   findGenreBySlug,
   paginate,
   parseFilmFilters,
@@ -339,11 +340,6 @@ export default async function FilmGenrePage({
       </Container>
     </div>
   );
-}
-
-function asString(v: string | string[] | undefined): string | undefined {
-  if (Array.isArray(v)) return v[0];
-  return v;
 }
 
 /**

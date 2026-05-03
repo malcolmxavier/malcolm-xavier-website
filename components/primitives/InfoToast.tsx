@@ -108,8 +108,14 @@ export function InfoToast({
 
 // Inline SVG so size + color are deterministic across font-stack
 // variations and the icon scales with the surrounding text. The
-// outer circle uses --icon-information; the inner "i" inverts to
-// --surface-page so the glyph reads cleanly against the dot.
+// outer circle uses --icon-information; the inner "i" is drawn as
+// pure shapes (a dot + a vertical bar) rather than a <text> glyph
+// so the icon doesn't depend on font resolution. The previous
+// <text fontFamily="var(--font-primary)" fontStyle="italic" ...>
+// path resolved Roboto Mono inside data-subbrand="film", and
+// monospace fonts have no true italic — browsers synthesize a
+// slanted roman, which renders inconsistently across Chromium /
+// Gecko / WebKit. Pure paths are immune to that.
 function InfoGlyph() {
   return (
     <svg
@@ -121,18 +127,18 @@ function InfoGlyph() {
       style={{ flexShrink: 0, color: "var(--icon-information)" }}
     >
       <circle cx="12" cy="12" r="10" fill="currentColor" />
-      <text
-        x="12"
-        y="17"
-        textAnchor="middle"
-        fontFamily="var(--font-primary)"
-        fontStyle="italic"
-        fontWeight="600"
-        fontSize="14"
+      {/* Dot of the "i" */}
+      <circle cx="12" cy="7.5" r="1.4" fill="var(--surface-page)" />
+      {/* Stem of the "i" — slightly rounded so it reads as a
+          drawn glyph rather than a flat rectangle */}
+      <rect
+        x="10.7"
+        y="10.5"
+        width="2.6"
+        height="7"
+        rx="0.6"
         fill="var(--surface-page)"
-      >
-        i
-      </text>
+      />
     </svg>
   );
 }
