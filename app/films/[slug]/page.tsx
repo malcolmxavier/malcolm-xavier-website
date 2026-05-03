@@ -37,8 +37,11 @@ import { getFilmBySlug } from "@/lib/feeds/letterboxd";
 import {
   formatRuntime,
   formatWatchedDate,
+  type Film,
   type Review,
 } from "@/lib/feeds/letterboxd-utils";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { BackToFilms } from "./BackToFilms";
 
 type Params = { slug: string };
@@ -71,6 +74,34 @@ export async function generateMetadata({
       : trimmedProse ||
         `Review of ${film.title} (${film.releaseYear}) by Malcolm Xavier.`;
 
+  // OG image: prefer TMDB backdrop (1280×720, landscape, fits OG
+  // renderer specs) over the poster. /films originally tried the
+  // poster first but its w342 fallback was sub-spec — LinkedIn /
+  // Slack / iMessage discard sub-600px images. Use w780 for the
+  // poster fallback so the rare film without a backdrop still
+  // unfurls cleanly. Closes films-detail-og-image-portrait-tiny.
+  const ogImages = film.tmdb?.backdropPath
+    ? [
+        {
+          url: `https://image.tmdb.org/t/p/w1280${film.tmdb.backdropPath}`,
+          width: 1280,
+          height: 720,
+          alt: `${film.title} backdrop`,
+        },
+      ]
+    : film.posterUrl
+      ? [
+          {
+            // Stored posterUrl is w342 (sub-spec). Bump to w780 for
+            // OG so the unfurl image clears the renderer threshold.
+            url: film.posterUrl.replace("/t/p/w342/", "/t/p/w780/"),
+            width: 780,
+            height: 1170,
+            alt: `${film.title} poster`,
+          },
+        ]
+      : undefined;
+
   return {
     title: `${film.title} (${film.releaseYear})`,
     description,
@@ -80,22 +111,18 @@ export async function generateMetadata({
     openGraph: {
       title: `${film.title} (${film.releaseYear})`,
       description,
-      // Poster as the OG image. The on-page backdrop band was
-      // removed (visual review 2026-05-02), but the backdrop is
-      // still useful for unfurls — fall through to it as a wider
-      // alternative when the poster path is missing.
-      images: film.posterUrl
-        ? [{ url: film.posterUrl, alt: `${film.title} poster` }]
-        : film.tmdb?.backdropPath
-          ? [
-              {
-                url: `https://image.tmdb.org/t/p/w1280${film.tmdb.backdropPath}`,
-                width: 1280,
-                height: 720,
-                alt: `${film.title} backdrop`,
-              },
-            ]
-          : undefined,
+      url: `/films/${film.letterboxdSlug}-${film.releaseYear}`,
+      type: "article",
+      images: ogImages,
+    },
+    // Twitter / X / Perplexity card. Without this, every detail
+    // page inherits the sitewide bio card as twitter:title/desc.
+    // Closes films-detail-twitter-card-wrong.
+    twitter: {
+      card: "summary_large_image",
+      title: `${film.title} (${film.releaseYear})`,
+      description,
+      images: ogImages?.map((img) => img.url),
     },
   };
 }
@@ -111,8 +138,21 @@ export default async function FilmDetailPage({
   const film = getFilmBySlug(slug);
   if (!film) notFound();
 
+  // JSON-LD Review schema per detail page. Eligible for SERP star
+  // ratings (rich result), structured consumption by Perplexity /
+  // ChatGPT search, and entity-association with the Movie via
+  // sameAs to TMDB. Closes films-detail-no-jsonld.
+  const jsonLd = buildReviewJsonLd(film);
+
   return (
     <div data-subbrand="film">
+      <script
+        type="application/ld+json"
+        // Server-rendered into the body so AI crawlers + Googlebot
+        // see the schema in the initial HTML response. Stringify
+        // here (not React-serialized) to keep the JSON shape exact.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Container size="lg">
         {/* Back link sits above the hero. Spacing tuned so the
             link clears the nav and never collides with the poster
@@ -235,9 +275,14 @@ export default async function FilmDetailPage({
                   above-the-fold. ↗ is the convention for external
                   links per CTA-arrow rules. */}
               <p style={{ margin: 0 }}>
-                <Link href={film.letterboxdUrl}>
-                  View on Letterboxd ↗
-                </Link>
+                <TrackOnClick
+                  event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
+                  eventData={{ kind: "film-detail", surface: "film-detail-hero" }}
+                >
+                  <Link href={film.letterboxdUrl}>
+                    View on Letterboxd ↗
+                  </Link>
+                </TrackOnClick>
               </p>
             </Stack>
           </div>
@@ -257,6 +302,62 @@ export default async function FilmDetailPage({
       </Container>
     </div>
   );
+}
+
+// ─── JSON-LD ─────────────────────────────────────────────────────
+
+/**
+ * Build a Review schema document for the detail page. Single-review
+ * films emit a single Review object; multi-review films would emit
+ * an array under the same schema (with an aggregateRating on the
+ * Movie itemReviewed). Currently the snapshot has no multi-review
+ * films so we always emit the single-review shape — easy to fan
+ * out later when rewatches start landing.
+ *
+ * Eligible for Google's review-rich-result, Perplexity's structured
+ * consumption, and entity association with the Movie via sameAs to
+ * TMDB. Author Person is given an @id to facilitate cross-page
+ * entity consolidation if Malcolm ships a /author/* page later.
+ */
+function buildReviewJsonLd(film: Film) {
+  const review = film.reviews[0];
+  if (!review) return null;
+  const ratingValue = review.rating;
+  return {
+    "@context": "https://schema.org",
+    "@type": "Review",
+    itemReviewed: {
+      "@type": "Movie",
+      name: film.title,
+      datePublished: String(film.releaseYear),
+      ...(film.tmdb?.director
+        ? { director: { "@type": "Person", name: film.tmdb.director } }
+        : {}),
+      ...(film.tmdb?.id
+        ? { sameAs: `https://www.themoviedb.org/movie/${film.tmdb.id}` }
+        : {}),
+      ...(film.tmdb?.genres && film.tmdb.genres.length > 0
+        ? { genre: film.tmdb.genres }
+        : {}),
+    },
+    ...(ratingValue !== null
+      ? {
+          reviewRating: {
+            "@type": "Rating",
+            ratingValue,
+            bestRating: 5,
+            worstRating: 0.5,
+          },
+        }
+      : {}),
+    author: {
+      "@type": "Person",
+      name: "Malcolm Xavier",
+      "@id": "https://malxavi.com/#person",
+    },
+    datePublished: review.reviewDate,
+    reviewBody: review.reviewText,
+  };
 }
 
 // ─── Sub-components ──────────────────────────────────────────────

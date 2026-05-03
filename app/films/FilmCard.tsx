@@ -13,6 +13,8 @@ import { Stack } from "@/components/layout/Stack";
 import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { StarRating } from "@/components/primitives/StarRating";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import {
   formatWatchedDate,
   type AppliedFilm,
@@ -44,6 +46,13 @@ export function FilmCard({ applied }: { applied: AppliedFilm }) {
 
   return (
     <article className="h-full">
+      {/* Engagement signal — measures whether filter+browse loops
+          produce real reads. Wrapping the link doesn't add a click
+          handler that competes with NextLink's prefetch / navigate. */}
+      <TrackOnClick
+        event={ANALYTICS_EVENTS.FILM_CARD_CLICK}
+        eventData={{ slug, releaseYear: film.releaseYear }}
+      >
       <NextLink
         // ?from=films marks this as in-app navigation so the detail
         // page's BackToFilms link can router.back() into the exact
@@ -171,6 +180,7 @@ export function FilmCard({ applied }: { applied: AppliedFilm }) {
           </Stack>
         </Stack>
       </NextLink>
+      </TrackOnClick>
     </article>
   );
 }

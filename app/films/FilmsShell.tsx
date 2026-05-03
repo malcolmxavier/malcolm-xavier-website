@@ -41,10 +41,12 @@ import {
 } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
+import { track } from "@vercel/analytics";
 import { Stack } from "@/components/layout/Stack";
 import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { Pagination } from "@/components/primitives/Pagination";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import type {
   AppliedFilm,
   FilmFilters,
@@ -164,6 +166,19 @@ export function FilmsShell({
     const onlyPage = Object.keys(updates).every((k) => k === "page");
     if (!onlyPage) {
       params.delete("page");
+    }
+    // Fire FILM_FILTER_APPLIED for non-page navigations so the
+    // dashboard reports which filter dimensions earn their UI
+    // real-estate. dimension is derived from the keys touched —
+    // rating / genre / sort / watched (collapsing watchedYear +
+    // watchedWindow into one dimension since they're mutually
+    // exclusive). Page-only navigations don't fire (they're not
+    // filter changes; they're pagination clicks).
+    if (!onlyPage) {
+      const dimension = pickFilterDimension(Object.keys(updates));
+      if (dimension) {
+        track(ANALYTICS_EVENTS.FILM_FILTER_APPLIED, { dimension });
+      }
     }
     const qs = params.toString();
     router.replace(qs ? `${pathname}?${qs}` : pathname, {
@@ -321,86 +336,72 @@ export function FilmsShell({
       ) : null}
 
       {/* ─── Desktop/tablet layout (md+) ─────────────────────── */}
+      {/* `inert` while the mobile drawer is open removes this
+          subtree from the tab order + accessibility tree, so
+          keyboard users can't escape the drawer into the grid
+          underneath. Browsers (Chrome 102+, Safari 15.5+, Firefox
+          112+) honor it natively; SR follows. Closes
+          films-mobile-drawer-no-focus-trap. */}
       <div
-        className="md:grid md:gap-8 lg:gap-10"
-        style={
-          {
-            // CSS Grid template only at md+ (className above scopes
-            // the grid behavior). Width chosen so the sidebar gives
-            // chips room to wrap without dominating the grid: 280
-            // on tablet, 320 on desktop.
-            "--films-shell-cols-md": "280px 1fr",
-            "--films-shell-cols-lg": "320px 1fr",
-          } as CSSProperties
-        }
+        // Tailwind arbitrary values render the responsive grid
+        // template directly — no inline <style> tag needed.
+        // Closes films-pagination-style-tag-antipattern.
+        className="md:grid md:gap-8 md:grid-cols-[280px_1fr] lg:gap-10 lg:grid-cols-[320px_1fr]"
+        inert={drawerOpen}
       >
-        <style>{`
-          @media (min-width: 768px) {
-            .films-shell-grid {
-              grid-template-columns: var(--films-shell-cols-md);
-            }
-          }
-          @media (min-width: 1024px) {
-            .films-shell-grid {
-              grid-template-columns: var(--films-shell-cols-lg);
-            }
-          }
-        `}</style>
-        <div className="md:grid md:gap-8 lg:gap-10 films-shell-grid">
-          {/* Sidebar — sticky so filters stay visible during long
-              scrolls; max-height + overflow-y so a tall filter list
-              doesn't escape the viewport. top: 5rem clears the
-              sticky Nav (h-16 + small buffer). */}
-          <aside
-            aria-label="Filter and sort"
-            className="hidden md:block"
-            style={{
-              position: "sticky",
-              top: "5rem",
-              maxHeight: "calc(100vh - 6rem)",
-              overflowY: "auto",
-              alignSelf: "start",
-            }}
-          >
-            {filterContent}
-          </aside>
+        {/* Sidebar — sticky so filters stay visible during long
+            scrolls; max-height + overflow-y so a tall filter list
+            doesn't escape the viewport. top: 5rem clears the
+            sticky Nav (h-16 + small buffer). */}
+        <aside
+          aria-label="Filter and sort"
+          className="hidden md:block"
+          style={{
+            position: "sticky",
+            top: "5rem",
+            maxHeight: "calc(100vh - 6rem)",
+            overflowY: "auto",
+            alignSelf: "start",
+          }}
+        >
+          {filterContent}
+        </aside>
 
-          {/* Main content — grid + pagination. */}
-          <div>
-            <Headline level={2} className="sr-only">
-              Film reviews
-            </Headline>
-            {films.length > 0 ? (
-              <ul
-                role="list"
-                className="grid gap-4 sm:gap-6"
-                style={{
-                  gridTemplateColumns:
-                    "repeat(auto-fill, minmax(160px, 1fr))",
-                  listStyle: "none",
-                  padding: 0,
-                  margin: 0,
-                }}
-              >
-                {films.map((applied) => (
-                  <li key={applied.film.id}>
-                    <FilmCard applied={applied} />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <EmptyState onClearAll={clearAll} />
-            )}
-            <div style={{ marginTop: "var(--scale-700)" }}>
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                basePath={pathname}
-                pageParam="page"
-                preserveParams={preserveParams}
-                ariaLabel="Film review pages"
-              />
-            </div>
+        {/* Main content — grid + pagination. */}
+        <div>
+          <Headline level={2} className="sr-only">
+            Film reviews
+          </Headline>
+          {films.length > 0 ? (
+            <ul
+              role="list"
+              className="grid gap-4 sm:gap-6"
+              style={{
+                gridTemplateColumns:
+                  "repeat(auto-fill, minmax(160px, 1fr))",
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+              }}
+            >
+              {films.map((applied) => (
+                <li key={applied.film.id}>
+                  <FilmCard applied={applied} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyState onClearAll={clearAll} />
+          )}
+          <div style={{ marginTop: "var(--scale-700)" }}>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              basePath={pathname}
+              pageParam="page"
+              preserveParams={preserveParams}
+              ariaLabel="Film review pages"
+            />
           </div>
         </div>
       </div>
@@ -456,6 +457,11 @@ function FilterContent({
         <select
           value={sort}
           onChange={(e) => onSortChange(e.target.value as FilmSort)}
+          // <Kicker> renders as <p>, not <label>, so the visual
+          // label isn't programmatically associated. Without
+          // aria-label, SR users hear "combo box" with no name.
+          // Closes films-sort-select-no-label.
+          aria-label="Sort films by"
           style={{
             ...sortSelectStyle,
             marginTop: 8,
@@ -658,6 +664,22 @@ function EmptyState({ onClearAll }: { onClearAll: () => void }) {
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────
+
+/** Map the URL-param keys touched by a navigate() call to a single
+ *  analytics dimension label. watchedYear + watchedWindow collapse
+ *  to "watched" since they're mutually exclusive in the filter
+ *  model. Multiple keys touched in one call (rare; happens only
+ *  when toggling watched-mode) report the most-specific dimension.
+ *  Returns null when the navigate is purely a side-effect (e.g.
+ *  page-only) so the caller can skip firing the event. */
+function pickFilterDimension(keys: string[]): string | null {
+  if (keys.includes("rating")) return "rating";
+  if (keys.includes("genre")) return "genre";
+  if (keys.includes("watchedYear") || keys.includes("watchedWindow"))
+    return "watched";
+  if (keys.includes("sort")) return "sort";
+  return null;
+}
 
 function countActiveFilters(filters: FilmFilters): number {
   let n = 0;

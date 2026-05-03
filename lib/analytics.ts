@@ -48,6 +48,21 @@ export const ANALYTICS_EVENTS = {
    *  conversion-rate denominator question. Fires once per page
    *  load, not on each scroll. */
   HERO_CTA_INVIEW: "hero_cta_inview",
+  /** Any outbound click to letterboxd.com. Pair with `kind`:
+   *  - "profile-follow" — /films hero "Follow along on Letterboxd"
+   *  - "film-detail" — /films/[slug] "View on Letterboxd ↗"
+   *  Separates top-of-funnel follow intent from per-review source
+   *  intent in the dashboard. */
+  LETTERBOXD_CLICK: "letterboxd_click",
+  /** Click on a FilmCard from the /films grid into the detail
+   *  page. Engagement signal — measures whether the
+   *  filter-and-browse loop produces real reads. */
+  FILM_CARD_CLICK: "film_card_click",
+  /** Any filter/sort change on /films via FilmsShell. Pair with
+   *  `dimension`: "rating" | "genre" | "watched" | "sort" so the
+   *  dashboard reports which filter dimensions earn their UI
+   *  real-estate. */
+  FILM_FILTER_APPLIED: "film_filter_applied",
 } as const;
 
 export type AnalyticsEvent =
