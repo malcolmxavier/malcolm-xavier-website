@@ -37,6 +37,44 @@ const SNAPSHOT_PATH = path.resolve(
   "lib/feeds/_fixtures/letterboxd-snapshot.json",
 );
 
+const OVERRIDES_PATH = path.resolve(
+  process.cwd(),
+  "data/films/overrides.json",
+);
+
+// CLI flag: --full-enrich (or env FILMS_FULL_ENRICH=1) drops the
+// sticky-TMDB carryover entirely so every film is re-searched
+// against TMDB. Use this periodically (or when you suspect TMDB
+// has reassigned an id upstream — rare but documented to happen
+// when TMDB merges duplicate film entries). Costs ~2 minutes of
+// API throttle on the full catalog; cheap insurance for an
+// otherwise-invisible drift mode.
+const FULL_ENRICH =
+  process.argv.includes("--full-enrich") ||
+  process.env.FILMS_FULL_ENRICH === "1";
+
+/**
+ * Read overrides.json so the carryover step can detect a manual
+ * override that was added or changed since the previous snapshot.
+ * When `overrides.tmdbId[slug]` doesn't match the carried-over id,
+ * we drop carryover for that film and let the enricher re-search
+ * (which now consults overrides first). Without this, edits to
+ * overrides.json never land — the enrichment is sticky. Mirrors
+ * the loadOverrides() pattern in enrich-tmdb.mjs.
+ */
+function loadOverrides() {
+  if (!existsSync(OVERRIDES_PATH)) return { tmdbId: {}, posterPath: {} };
+  try {
+    const raw = JSON.parse(readFileSync(OVERRIDES_PATH, "utf-8"));
+    return {
+      tmdbId: raw.tmdbId ?? {},
+      posterPath: raw.posterPath ?? {},
+    };
+  } catch {
+    return { tmdbId: {}, posterPath: {} };
+  }
+}
+
 /**
  * Compute pre-aggregated summary stats for the snapshot envelope.
  * The runtime layer reads `summary` directly so SummaryPanel never
@@ -177,9 +215,23 @@ async function main() {
   // skips any film with `tmdb` already populated, so this turns a
   // 2-3 minute refresh into a near-instant sort/aggregate-only
   // pass once the catalog is stable.
+  //
+  // Two carryover-skip rules guard against silent drift:
+  //   1. --full-enrich / FILMS_FULL_ENRICH=1 drops carryover for
+  //      every film. Use periodically to catch upstream TMDB id
+  //      reassignments (rare; happens when TMDB merges duplicate
+  //      entries). Without this lever, a sticky id can outlive
+  //      the underlying TMDB record forever.
+  //   2. If `overrides.tmdbId[slug]` was added or changed since
+  //      the previous snapshot, drop carryover for that film so
+  //      the enricher re-searches against the new override. The
+  //      old behavior silently ignored override edits because the
+  //      sticky path never consulted overrides.
   const prev = readPreviousSnapshot();
+  const overrides = loadOverrides();
   let carriedOver = 0;
-  if (prev?.films) {
+  let overrideDriftSkips = 0;
+  if (prev?.films && !FULL_ENRICH) {
     const prevByIdentity = new Map();
     for (const f of prev.films) {
       prevByIdentity.set(`${f.letterboxdSlug}-${f.releaseYear}`, f);
@@ -188,17 +240,28 @@ async function main() {
       const prevFilm = prevByIdentity.get(
         `${film.letterboxdSlug}-${film.releaseYear}`,
       );
-      if (prevFilm?.tmdb) {
-        film.tmdb = prevFilm.tmdb;
-        film.posterUrl = prevFilm.posterUrl;
-        film.posterFallbackUrl = prevFilm.posterFallbackUrl;
-        film.id = prevFilm.id; // promote seedId → canonical tmdb-X
-        carriedOver++;
+      if (!prevFilm?.tmdb) continue;
+      const overrideId = overrides.tmdbId[film.letterboxdSlug];
+      if (overrideId !== undefined && overrideId !== prevFilm.tmdb.id) {
+        // Override added/changed since previous snapshot — let the
+        // enricher re-resolve so the new override actually lands.
+        overrideDriftSkips++;
+        continue;
       }
+      film.tmdb = prevFilm.tmdb;
+      film.posterUrl = prevFilm.posterUrl;
+      film.posterFallbackUrl = prevFilm.posterFallbackUrl;
+      film.id = prevFilm.id; // promote seedId → canonical tmdb-X
+      carriedOver++;
     }
     console.log(
-      `      Carried over ${carriedOver} TMDB enrichments from previous snapshot.`,
+      `      Carried over ${carriedOver} TMDB enrichments from previous snapshot.` +
+        (overrideDriftSkips > 0
+          ? ` Re-enriching ${overrideDriftSkips} film(s) where overrides.json changed.`
+          : ""),
     );
+  } else if (prev?.films && FULL_ENRICH) {
+    console.log("      --full-enrich set: skipping carryover, re-querying TMDB for every film.");
   }
 
   console.log("\n[2/3] Enriching with TMDB metadata…");

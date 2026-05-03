@@ -18,6 +18,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 
 import type { Film, FilmsSummary } from "./letterboxd-utils";
+import { getTmdbApiKey, isTmdbConfigured } from "./tmdb";
 
 // Re-export the public types so consumers can import everything from
 // either module — same convention as spotify.ts re-exports from
@@ -72,10 +73,29 @@ const SNAPSHOT_PATH = path.resolve(
 // instances reuse the cached snapshot across requests; cron-style
 // invalidation would require a fresh deploy (which is the current
 // refresh ritual anyway).
-let cachedSnapshot: LetterboxdSnapshot | null = null;
+//
+// Both the parsed snapshot AND the derived slug map share a single
+// cache object so they can never drift apart. If the snapshot is
+// ever invalidated (HMR, test isolation, future cache-clear hook),
+// the slug map is dropped in the same beat — replacing one without
+// the other would otherwise leave stale Film references behind.
+type SnapshotCache = {
+  snapshot: LetterboxdSnapshot;
+  slugMap: Map<string, Film>;
+};
 
-function loadSnapshot(): LetterboxdSnapshot {
-  if (cachedSnapshot) return cachedSnapshot;
+let cachedState: SnapshotCache | null = null;
+
+function buildSlugMap(films: Film[]): Map<string, Film> {
+  const slugMap = new Map<string, Film>();
+  for (const film of films) {
+    slugMap.set(`${film.letterboxdSlug}-${film.releaseYear}`, film);
+  }
+  return slugMap;
+}
+
+function loadCache(): SnapshotCache {
+  if (cachedState) return cachedState;
   let raw: string;
   try {
     raw = readFileSync(SNAPSHOT_PATH, "utf-8");
@@ -107,8 +127,15 @@ function loadSnapshot(): LetterboxdSnapshot {
         `\`npm run films:refresh\`.`,
     );
   }
-  cachedSnapshot = parsed;
-  return cachedSnapshot;
+  cachedState = {
+    snapshot: parsed,
+    slugMap: buildSlugMap(parsed.films),
+  };
+  return cachedState;
+}
+
+function loadSnapshot(): LetterboxdSnapshot {
+  return loadCache().snapshot;
 }
 
 // ─── Read API ────────────────────────────────────────────────────
@@ -142,28 +169,17 @@ export function getFilmById(id: string): Film | null {
   return snap.filmById[id] ?? null;
 }
 
-// Module-scoped slug map. Built lazily on first lookup; reused
-// across requests within the same Node process — same lifetime as
-// cachedSnapshot. Built from snap.films because the human-readable
-// slug (`<letterboxdSlug>-<releaseYear>`) isn't a key in filmById
-// (which uses canonical TMDB ids post-enrichment).
-let cachedSlugMap: Map<string, Film> | null = null;
-
 /**
  * O(1) lookup by human-readable URL slug — `<letterboxdSlug>-
  * <releaseYear>`. This is the canonical /films/[slug] URL form and
  * is more SEO-friendly than the TMDB id form. Falls back to id
  * lookup so old `/films/tmdb-X` links still resolve.
+ *
+ * The slug map shares a cache lifetime with the snapshot itself —
+ * see `loadCache()` — so the two can never drift apart.
  */
 export function getFilmBySlug(slug: string): Film | null {
-  if (!cachedSlugMap) {
-    const snap = loadSnapshot();
-    cachedSlugMap = new Map();
-    for (const film of snap.films) {
-      cachedSlugMap.set(`${film.letterboxdSlug}-${film.releaseYear}`, film);
-    }
-  }
-  return cachedSlugMap.get(slug) ?? getFilmById(slug);
+  return loadCache().slugMap.get(slug) ?? getFilmById(slug);
 }
 
 // ─── Diagnostic ──────────────────────────────────────────────────
@@ -271,11 +287,6 @@ async function probeRss(): Promise<LetterboxdHealthProbe> {
 
 async function probeTmdb(): Promise<LetterboxdHealthProbe> {
   const start = Date.now();
-  // Lazy-import TMDB client so this server-only module doesn't pull
-  // it in unnecessarily for plain page renders. Also lets us return
-  // a clean "not configured" probe result without throwing when the
-  // env var is missing on a fresh setup.
-  const { getTmdbApiKey, isTmdbConfigured } = await import("./tmdb");
   if (!isTmdbConfigured()) {
     return {
       name: "tmdb",

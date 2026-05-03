@@ -399,7 +399,7 @@ export default async function FilmDetailPage({
                 ) : null}
                 {film.reviews.map((review, i) => (
                   <ReviewBlock
-                    key={`${review.reviewDate}-${i}`}
+                    key={`${review.reviewDate}-${review.watchedDate}`}
                     review={review}
                     reviewIndex={i}
                   />
@@ -754,7 +754,7 @@ function ReviewToc({ reviews }: { reviews: Review[] }) {
         }}
       >
         {reviews.map((review, i) => (
-          <li key={`${review.reviewDate}-${i}`}>
+          <li key={`${review.reviewDate}-${review.watchedDate}`}>
             {/* Plain anchor — same-page hash. The Link primitive's
                 hash branch routes through <a> which is what we want
                 here, but a direct <a> keeps the markup minimal. */}

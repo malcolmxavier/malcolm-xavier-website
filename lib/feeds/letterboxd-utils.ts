@@ -85,8 +85,14 @@ export type Film = {
   posterFallbackUrl: string | null;
   /** Precomputed at snapshot-write time for O(1) filter membership checks. Unique ratings across reviews. */
   ratingSet: number[];
-  /** Precomputed at snapshot-write time. Unique years from reviews' reviewDate. */
-  reviewYearSet: number[];
+  /**
+   * Precomputed at snapshot-write time. Unique years from reviews'
+   * **watchedDate** — the user-facing event for the watched-year
+   * filter chip rail. Was previously derived from reviewDate, which
+   * silently mismatched the watchedYear filter semantics for
+   * festival/diary-lag films (watched 2024, reviewed 2025).
+   */
+  watchedYearSet: number[];
 };
 
 export type FilmsSummary = {
@@ -178,19 +184,30 @@ export type FilmFilters = {
   genres?: string[];
 } & WatchedDateFilter;
 
-export type FilmSort =
-  /** Most recent watch first — default. Mirrors the snapshot's
-   *  pre-sorted order (latestWatchedDate desc + within-day csvRowIdx
-   *  tiebreaker). */
-  | "latest-watched-desc"
-  | "latest-watched-asc"
-  | "first-review-desc"
-  | "first-review-asc"
-  | "latest-review-desc"
-  | "release-year-desc"
-  | "release-year-asc"
-  | "rating-desc"
-  | "rating-asc";
+/**
+ * Single source of truth for valid sort dimensions. The runtime
+ * VALID_SORTS array (used for URL parsing) and the FilmSort type
+ * are both derived from this — no hand-keeping two parallel lists
+ * in sync. Order matters: it dictates the runtime guard's iteration
+ * order and is the order the UI walks when building the <select>.
+ *
+ * Most recent watch first (`latest-watched-desc`) is the default
+ * — mirrors the snapshot's pre-sorted order (latestWatchedDate
+ * desc + within-day csvRowIdx tiebreaker).
+ */
+export const FILM_SORTS = [
+  "latest-watched-desc",
+  "latest-watched-asc",
+  "first-review-desc",
+  "first-review-asc",
+  "latest-review-desc",
+  "release-year-desc",
+  "release-year-asc",
+  "rating-desc",
+  "rating-asc",
+] as const;
+
+export type FilmSort = (typeof FILM_SORTS)[number];
 
 /** The default sort when none is specified — preserves the
  *  watch-chronological order baked into the snapshot. */
@@ -269,10 +286,15 @@ export function applyFilters(
   // Date.now() at filter time means the rolling window is always
   // anchored to the current request — no caching of "rolling 12mo"
   // values that go stale across requests.
+  //
+  // Calendar-year subtraction (setUTCFullYear), not millisecond
+  // arithmetic. 365*24*60*60*1000 underweights leap years by a day
+  // — a watch on Feb 29, 2024 evaluated on Feb 28, 2025 would fall
+  // outside a 365-day window even though it's "within the last
+  // year" by every human definition. setUTCFullYear handles the
+  // Feb-29 edge case by clamping to Feb 28 in non-leap years.
   const twelveMoCutoffMs =
-    filters.watchedWindow === "12mo"
-      ? Date.now() - 365 * 24 * 60 * 60 * 1000
-      : null;
+    filters.watchedWindow === "12mo" ? computeTwelveMoCutoffMs() : null;
 
   const result: AppliedFilm[] = [];
 
@@ -431,31 +453,39 @@ function sortApplied(
         return b.film.releaseYear - a.film.releaseYear;
       case "release-year-asc":
         return a.film.releaseYear - b.film.releaseYear;
-      case "rating-desc":
-        // Unrated films sort to the bottom in desc order so the
-        // top of the list is always rated content.
-        return (b.cardRating ?? -Infinity) - (a.cardRating ?? -Infinity);
-      case "rating-asc":
+      case "rating-desc": {
+        // Unrated films sort to the bottom in desc order so the top
+        // of the list is always rated content. Tiebreaker:
+        // latestWatchedDate desc — equal-rated films cluster
+        // chronologically so the user's most recent take on a given
+        // rating is always at the top of its band.
+        const ratingCmp =
+          (b.cardRating ?? -Infinity) - (a.cardRating ?? -Infinity);
+        if (ratingCmp !== 0) return ratingCmp;
+        return b.film.latestWatchedDate.localeCompare(a.film.latestWatchedDate);
+      }
+      case "rating-asc": {
         // Unrated films sort to the bottom in asc order too — they
         // shouldn't pollute the "lowest rated" view as faux-zeros.
-        return (a.cardRating ?? Infinity) - (b.cardRating ?? Infinity);
+        // Tiebreaker matches rating-desc (latest-first) so equal-
+        // rated bands always cluster the user's most recent take
+        // first regardless of asc/desc direction.
+        const ratingCmp =
+          (a.cardRating ?? Infinity) - (b.cardRating ?? Infinity);
+        if (ratingCmp !== 0) return ratingCmp;
+        return b.film.latestWatchedDate.localeCompare(a.film.latestWatchedDate);
+      }
     }
   });
 }
 
 // ─── URL param parsing ────────────────────────────────────────────
 
-const VALID_SORTS: FilmSort[] = [
-  "latest-watched-desc",
-  "latest-watched-asc",
-  "first-review-desc",
-  "first-review-asc",
-  "latest-review-desc",
-  "release-year-desc",
-  "release-year-asc",
-  "rating-desc",
-  "rating-asc",
-];
+// VALID_SORTS is the runtime form of FilmSort. Both share FILM_SORTS
+// as the single source of truth — keeping the two in lockstep would
+// otherwise require remembering to update two lists every time we
+// add a sort dimension.
+const VALID_SORTS: readonly FilmSort[] = FILM_SORTS;
 
 const VALID_RATINGS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 
@@ -472,8 +502,8 @@ export function parseFilmFilters(
     VALID_RATINGS.includes(r),
   );
   const genres = parseCsvStrings(asString(params.genre));
-  const releaseYearMin = parsePositiveInt(asString(params.releaseYearMin));
-  const releaseYearMax = parsePositiveInt(asString(params.releaseYearMax));
+  const releaseYearMin = parseReleaseYear(asString(params.releaseYearMin));
+  const releaseYearMax = parseReleaseYear(asString(params.releaseYearMax));
 
   // WatchedYears and watchedWindow are mutually exclusive per the
   // discriminated-union spec — if both are present, watchedYears
@@ -541,6 +571,36 @@ function parsePositiveInt(raw: string | undefined): number | undefined {
   if (!raw) return undefined;
   const n = Number.parseInt(raw, 10);
   return Number.isFinite(n) && n > 0 ? n : undefined;
+}
+
+/**
+ * Like parsePositiveInt but clamps to a release-year-shaped range
+ * so URL tampering with `?releaseYearMin=99999` can't push the
+ * filter into nonsense territory. Anchored loosely: TMDB's catalog
+ * starts in 1880-something but Malcolm's logged films don't pre-
+ * date the 1900s, and we allow a small forward window for upcoming
+ * releases that already have TMDB entries.
+ */
+const RELEASE_YEAR_MIN_BOUND = 1900;
+const RELEASE_YEAR_MAX_BOUND = new Date().getUTCFullYear() + 5;
+
+function parseReleaseYear(raw: string | undefined): number | undefined {
+  const n = parsePositiveInt(raw);
+  if (n === undefined) return undefined;
+  if (n < RELEASE_YEAR_MIN_BOUND || n > RELEASE_YEAR_MAX_BOUND) return undefined;
+  return n;
+}
+
+/**
+ * Compute the "12 months ago from now" cutoff via calendar-year
+ * arithmetic so leap years don't shift the boundary by a day. UTC
+ * throughout to keep the boundary deterministic regardless of
+ * server timezone — same convention as formatWatchedDate.
+ */
+function computeTwelveMoCutoffMs(): number {
+  const d = new Date();
+  d.setUTCFullYear(d.getUTCFullYear() - 1);
+  return d.getTime();
 }
 
 // ─── Pagination ──────────────────────────────────────────────────

@@ -2,28 +2,57 @@
 // BackToFilms — small mono link at the top of /films/[slug].
 //
 // Behavior:
-//   - Click with ?from=films in the URL: navigates back via browser
-//     history. The query param is added by FilmCard's NextLink when
-//     the user clicks into a detail page from the grid (added in a
-//     follow-up commit alongside this component). Combined with the
-//     URL state for filter + page, this restores the exact slice
-//     of the grid the user was looking at.
-//   - Click without ?from=films (direct entry, shared/bookmarked
-//     URL, deep link): push to /films with a clean URL.
+//   - Click with ?ref=internal (or legacy ?from=films) in the URL:
+//     navigates back via browser history. The query param is added
+//     by FilmCard's NextLink when the user clicks into a detail
+//     page from the grid. Combined with the URL state for filter +
+//     page, this restores the exact slice of the grid the user was
+//     looking at.
+//   - Click without an internal-ref marker (direct entry, shared
+//     or bookmarked URL, deep link): push to /films with a clean
+//     URL.
 //   - Default <a href="/films"> means middle-click + JS-disabled
 //     users still get a working "back to grid" link.
+//
+// We also strip the marker from the URL via router.replace on mount
+// so any link the user shares from the detail page comes out clean
+// — `?ref=internal` is meta-state for back-nav, not part of the
+// content URL. Using replace (not push) means History stays intact:
+// the previous /films?<filters>&page=N entry is still there for
+// router.back() when the user does click "All films."
 //
 // Pattern mirrors BackToPlaylists in /music/[playlistId].
 // ─────────────────────────────────────────────────────────────────
 
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function BackToFilms() {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const fromFilms = searchParams.get("from") === "films";
+  const ref = searchParams.get("ref");
+  const from = searchParams.get("from");
+  // Capture once on first render. Once we strip the params from the
+  // URL, the searchParams hook will see them gone — so we cache the
+  // arrived-via-internal signal in a ref to keep the back-nav
+  // behavior intact for the lifetime of the page.
+  const arrivedInternal = useRef(ref === "internal" || from === "films");
+
+  // Strip the meta-state markers from the URL so a copy/paste of
+  // the current page comes out clean. router.replace doesn't add a
+  // history entry — the prior /films?<filters>&page=N stays at the
+  // top of the back stack.
+  useEffect(() => {
+    if (ref === null && from === null) return;
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("ref");
+    params.delete("from");
+    const qs = params.toString();
+    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  }, [ref, from, pathname, router, searchParams]);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     // Modifier-clicks pass through to the browser as "open in new
@@ -38,7 +67,7 @@ export function BackToFilms() {
       return;
     }
     e.preventDefault();
-    if (fromFilms) {
+    if (arrivedInternal.current) {
       router.back();
     } else {
       router.push("/films");

@@ -18,7 +18,7 @@
 //   • Groups multiple diary entries (rewatches with reviews) under
 //     a single Film keyed by `${slug}-${releaseYear}`.
 //   • Computes per-film aggregates (firstReviewDate, latestReviewDate,
-//     primaryRating, ratingSet, reviewYearSet) so the runtime layer
+//     primaryRating, ratingSet, watchedYearSet) so the runtime layer
 //     does O(1) Set membership filtering.
 //
 // Does NOT yet:
@@ -77,14 +77,33 @@ function findLatestExportDir() {
  * collapse non-alphanumeric runs into single hyphens, strip
  * leading/trailing hyphens. Mirrors Letterboxd's own slug
  * convention closely enough for our /films/<slug>-<year> URLs.
+ *
+ * Non-Latin titles (CJK, Cyrillic, etc.) collapse to "" under the
+ * ASCII regex above. When that happens, fall back to a deterministic
+ * "film" stub so the snapshot still has a unique seedId — collisions
+ * within a release year are vanishingly rare for non-Latin titles
+ * in Malcolm's catalog, and the next layer (TMDB enrichment + canonical
+ * id promotion) replaces the seedId with a stable tmdb-X id anyway.
+ * Without this fallback, seedId would be "-2024" for a Japanese title
+ * and any second non-Latin title from the same year would crash the
+ * filmsBySeedId map by overwriting the first.
  */
 function slugify(title) {
-  return title
+  const slug = title
     .normalize("NFKD")
     .replace(/[̀-ͯ]/g, "") // strip combining diacritics
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+  if (slug !== "") return slug;
+  // Build a deterministic alpha-only fallback from the title's char
+  // codes so two different non-Latin titles still get different
+  // slugs. Hex of the first 8 char codes is plenty of entropy for a
+  // ~1000-film catalog.
+  const codes = Array.from(title.slice(0, 8))
+    .map((c) => c.codePointAt(0)?.toString(16) ?? "0")
+    .join("");
+  return `film-${codes || "untitled"}`;
 }
 
 /** Read a CSV with full RFC-4180 quoting + embedded-newline support. */
@@ -226,7 +245,7 @@ export function parseLetterboxdExport(exportDir) {
         posterFallbackUrl: null,
         // Computed below from the review array:
         ratingSet: [],
-        reviewYearSet: [],
+        watchedYearSet: [],
       });
     }
   }
@@ -272,9 +291,16 @@ export function parseLetterboxdExport(exportDir) {
       ),
     ].sort((a, b) => a - b);
 
-    film.reviewYearSet = [
+    // watchedYearSet drives the watched-year filter chip rail.
+    // Source from watchedDate (when Malcolm actually saw the film),
+    // not reviewDate (when he typed up the review). The two diverge
+    // for festival watches and diary-lag entries; using reviewDate
+    // here would offer a "watched in 2025" chip for a 2024 watch
+    // that was reviewed in 2025, then return zero results when
+    // toggled.
+    film.watchedYearSet = [
       ...new Set(
-        film.reviews.map((r) => Number.parseInt(r.reviewDate.slice(0, 4), 10)),
+        film.reviews.map((r) => Number.parseInt(r.watchedDate.slice(0, 4), 10)),
       ),
     ].sort((a, b) => a - b);
 
@@ -329,7 +355,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     console.log(`  firstReviewDate: ${f.firstReviewDate}`);
     console.log(`  latestReviewDate: ${f.latestReviewDate}`);
     console.log(`  ratingSet: [${f.ratingSet.join(", ")}]`);
-    console.log(`  reviewYearSet: [${f.reviewYearSet.join(", ")}]`);
+    console.log(`  watchedYearSet: [${f.watchedYearSet.join(", ")}]`);
     console.log(
       `  most-recent review excerpt: "${f.reviews[0].reviewText.slice(0, 120)}${f.reviews[0].reviewText.length > 120 ? "…" : ""}"`,
     );
