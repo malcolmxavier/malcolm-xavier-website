@@ -248,7 +248,9 @@ export function FilmsShell({
     // disappear silently. Otherwise toggle the year in/out of the
     // array (no destructive transition, no toast).
     if (filters.watchedWindow !== undefined) {
-      setToastMessage(`Switched to ${year}—past 12 months cleared`);
+      setToastMessage(
+        "Specific year filters cannot be used with the relative last 12 months filter",
+      );
       navigate({
         watchedYear: String(year),
         watchedWindow: undefined,
@@ -270,7 +272,7 @@ export function FilmsShell({
     // knows what just happened.
     if (filters.watchedYears && filters.watchedYears.length > 0) {
       setToastMessage(
-        "Switched to past 12 months—specific years cleared",
+        "The relative last 12 months filter cannot be used with specific year filters",
       );
     }
     navigate({
