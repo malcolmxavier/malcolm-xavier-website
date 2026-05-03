@@ -221,7 +221,7 @@ export default async function FilmsPage({
         "@type": "CollectionPage",
         name: "Film Reviews",
         description:
-          "Every film Malcolm Xavier has logged, rated, and reviewed on Letterboxd — 741 entries spanning horror, arthouse, and blockbusters.",
+          "Every film Malcolm Xavier has logged, rated, and reviewed on Letterboxd—741 entries spanning horror, arthouse, and blockbusters.",
         url: listingUrl,
         inLanguage: "en-US",
         about: { "@type": "Movie" },
@@ -280,9 +280,8 @@ export default async function FilmsPage({
               <Display>Every film, every rating, every reaction.</Display>
               <Lede>
                 I watch 300+ films a year and log my reviews on Letterboxd. This is the
-                full backlog. Open any card for the full
-                review. And if you're looking for a recommendation, filter to find what
-                you're looking for.
+                full backlog. Open any card for the full review. And if you want a
+                recommendation, the filters are right there.
               </Lede>
               {/* Follow CTA — sits inside the Stack so it picks up the
                   Lede's gap rhythm. ↗ marks it external per the

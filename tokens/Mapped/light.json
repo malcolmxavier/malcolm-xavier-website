@@ -394,7 +394,7 @@
         "com.figma.hiddenFromPublishing": false
       },
       "$type": "color",
-      "$value": "{information.200}"
+      "$value": "{information.default}"
     },
     "disabled": {
       "$extensions": {

@@ -135,6 +135,15 @@ export function FilmCard({ applied }: { applied: AppliedFilm }) {
                   top: 8,
                   right: 8,
                   fontSize: 16,
+                  // --green-800 explicitly to match the detail-page
+                  // heart. Without this the heart inherits orange
+                  // from the [data-subbrand="film"] a cascade
+                  // (anchor descendants pick up the cluster's link
+                  // color), so the same liked film reads as orange
+                  // on the card and green on the detail page. Both
+                  // surfaces should land on the editorial green
+                  // since "liked" is sub-brand-agnostic identity.
+                  color: "var(--green-800)",
                   filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))",
                 }}
               >

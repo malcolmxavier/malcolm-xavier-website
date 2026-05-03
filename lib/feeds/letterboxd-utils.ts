@@ -325,10 +325,9 @@ export function applyFilters(
       continue;
     }
     if (filters.genres && filters.genres.length > 0) {
-      if (!film.tmdb?.genres) continue;
-      const intersects = filters.genres.some((g) =>
-        film.tmdb!.genres.includes(g),
-      );
+      const filmGenres = film.tmdb?.genres;
+      if (!filmGenres) continue;
+      const intersects = filters.genres.some((g) => filmGenres.includes(g));
       if (!intersects) continue;
     }
 
@@ -592,14 +591,19 @@ function parsePositiveInt(raw: string | undefined): number | undefined {
  * starts in 1880-something but Malcolm's logged films don't pre-
  * date the 1900s, and we allow a small forward window for upcoming
  * releases that already have TMDB entries.
+ *
+ * Max bound is computed per-call (not at module load) so a Vercel
+ * warm instance spanning the year boundary doesn't silently reject
+ * valid future years — a process started in December 2026 would
+ * otherwise still treat 2032 as out-of-range when it runs in 2027.
  */
 const RELEASE_YEAR_MIN_BOUND = 1900;
-const RELEASE_YEAR_MAX_BOUND = new Date().getUTCFullYear() + 5;
 
 function parseReleaseYear(raw: string | undefined): number | undefined {
   const n = parsePositiveInt(raw);
   if (n === undefined) return undefined;
-  if (n < RELEASE_YEAR_MIN_BOUND || n > RELEASE_YEAR_MAX_BOUND) return undefined;
+  const maxBound = new Date().getUTCFullYear() + 5;
+  if (n < RELEASE_YEAR_MIN_BOUND || n > maxBound) return undefined;
   return n;
 }
 
