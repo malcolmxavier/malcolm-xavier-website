@@ -284,7 +284,20 @@ export default async function FilmsPage({
                 </TrackOnClick>
               </p>
             </Stack>
-            <SummaryPanel summary={summary} />
+            {/* SummaryPanel renders alongside the hero only on lg+
+                so the desktop hero+panel side-by-side stays intact.
+                Below lg the panel relocates to a "lifetime stats"
+                footer below the grid (see the second instance after
+                FilmsShell) — keeps ~300px of vertical chrome out of
+                the way at narrow widths so the card grid lands
+                closer to the fold on mobile and tablet. The
+                duplicate render is server-only and cheap; the
+                inactive variant gets display:none which removes
+                the underlying <aside> landmark from the AT tree
+                so SR users only ever encounter one. */}
+            <div className="hidden lg:block">
+              <SummaryPanel summary={summary} />
+            </div>
           </div>
         </Section>
 
@@ -300,6 +313,13 @@ export default async function FilmsPage({
             availableGenres={availableGenres}
             availableReviewYears={availableReviewYears}
           />
+        </Section>
+
+        {/* Mobile/tablet panel — sits as a "lifetime stats" footer
+            below the grid. lg:hidden hides it on desktop (where
+            the hero-aligned instance above takes over). */}
+        <Section padding="md" bordered className="lg:hidden">
+          <SummaryPanel summary={summary} />
         </Section>
       </Container>
     </div>

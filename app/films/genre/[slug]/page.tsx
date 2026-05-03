@@ -273,7 +273,15 @@ export default async function FilmGenrePage({
                 </TrackOnClick>
               </p>
             </Stack>
-            <SummaryPanel summary={summary} />
+            {/* SummaryPanel renders alongside the hero only on lg+;
+                below lg it relocates to a "lifetime stats" footer
+                below the grid so the card content lands closer to
+                the fold on mobile and tablet. Same pattern as
+                /films listing. See the listing's panel comment for
+                the duplication-vs-a11y rationale. */}
+            <div className="hidden lg:block">
+              <SummaryPanel summary={summary} />
+            </div>
           </div>
         </Section>
 
@@ -289,6 +297,12 @@ export default async function FilmGenrePage({
             availableReviewYears={availableReviewYears}
             routeGenre={genre}
           />
+        </Section>
+
+        {/* Mobile/tablet panel — same lifetime stats, relocated
+            below the grid at narrow widths. */}
+        <Section padding="md" bordered className="lg:hidden">
+          <SummaryPanel summary={summary} />
         </Section>
       </Container>
     </div>
