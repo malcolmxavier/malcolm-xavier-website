@@ -281,7 +281,7 @@ export default async function FilmsPage({
               <Lede>
                 I watch 300+ films a year and log my reviews on Letterboxd. This is the
                 full backlog. Open any card for the full review. And if you want a
-                recommendation, the filters are right there.
+                recommendation, the filters are there for you.
               </Lede>
               {/* Follow CTA — sits inside the Stack so it picks up the
                   Lede's gap rhythm. ↗ marks it external per the
