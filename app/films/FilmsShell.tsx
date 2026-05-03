@@ -469,15 +469,18 @@ export function FilmsShell({
               lands on the SummaryPanel "Lifetime · all N films"
               kicker, which makes the chart's scope explicit. */}
           {(anyControlChangedFromDefault || toastMessage) ? (
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                gap: 8,
-                marginBottom: 16,
-              }}
-            >
+            // Block-flow wrapper: chips on the first line, the
+            // (md+ inline) toast on its own line below. Pinning the
+            // toast to a dedicated line keeps its position from
+            // shifting based on the number of active chips or the
+            // length of the toast text — a chip-count change
+            // shouldn't visually relocate a status cue. The
+            // <nav> below is block-level by default; its closing
+            // line break naturally pushes the inline-flex toast
+            // onto the next line. The mobile floating variant of
+            // <InfoToast> is position: fixed and ignores this DOM
+            // placement entirely.
+            <div style={{ marginBottom: 16 }}>
               <ActiveFilterChips
                 filters={filters}
                 sort={sort}
@@ -805,17 +808,17 @@ function ActiveFilterChips({
   if (dismissableCount === 0) return null;
 
   return (
-    // display: contents flattens this <nav> so its <button> children
-    // participate directly in the parent's flex layout (FilmsShell
-    // wraps chips + InfoToast in one flex container so both share
-    // the same row). The nav landmark and aria-label are preserved
-    // in the accessibility tree even though the element is invisible
-    // for layout — modern browsers handle display:contents correctly
-    // on native landmark elements.
+    // Self-contained flex-wrap nav. Block-level outer box so the
+    // following sibling (the InfoToast desktop variant) starts on
+    // its own line below — see the chip-rail wrapper comment in
+    // FilmsShell for the layout reasoning.
     <nav
       aria-label="Active filters"
       style={{
-        display: "contents",
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        gap: 8,
       }}
     >
       {ratings.map((r) => (
