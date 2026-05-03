@@ -241,8 +241,8 @@ function findOrCreateFilm(snapshot, entry) {
 }
 
 /**
- * True if a review with this watchedDate is already in the film's
- * reviews array. watchedDate alone is the natural key — Malcolm
+ * Find the existing review for a film that matches an RSS entry's
+ * watch event. watchedDate alone is the natural key — Malcolm
  * doesn't watch the same film twice on the same day, so a film +
  * watchedDate pair uniquely identifies a watch event.
  *
@@ -256,8 +256,46 @@ function findOrCreateFilm(snapshot, entry) {
  * sidesteps the disagreement entirely; the rest of the review's
  * fields are stable across both sources for matched watches.
  */
-function reviewAlreadyPresent(film, entry) {
-  return film.reviews.some((r) => r.watchedDate === entry.watchedDate);
+function findMatchingReview(film, entry) {
+  return film.reviews.find((r) => r.watchedDate === entry.watchedDate) ?? null;
+}
+
+/**
+ * Detect which fields differ between an existing snapshot review
+ * and an RSS entry. Used to catch in-place edits Malcolm makes
+ * to reviews that are still in the RSS-window (~50 most-recent
+ * publications). Returns a list of field names that changed —
+ * empty array means no edit.
+ *
+ * reviewDate is intentionally NOT compared, for the same reason
+ * findMatchingReview ignores it: CSV vs RSS report it differently
+ * for any post-publish edit.
+ */
+function detectReviewEdits(existing, entry) {
+  const changes = [];
+  if ((existing.reviewText ?? "") !== (entry.reviewText ?? "")) {
+    changes.push("reviewText");
+  }
+  if ((existing.rating ?? null) !== (entry.rating ?? null)) {
+    changes.push("rating");
+  }
+  if (Boolean(existing.rewatch) !== Boolean(entry.rewatch)) {
+    changes.push("rewatch");
+  }
+  return changes;
+}
+
+/**
+ * Mutate an existing review in place with the RSS entry's fields.
+ * Caller has already determined the review needs updating (via
+ * detectReviewEdits). Doesn't touch fields RSS doesn't expose
+ * (containsSpoilers, tags) — those stay at whatever the CSV
+ * bootstrap set.
+ */
+function applyReviewEdits(existing, entry) {
+  existing.reviewText = entry.reviewText;
+  existing.rating = entry.rating;
+  existing.rewatch = entry.rewatch;
 }
 
 /**
@@ -298,7 +336,10 @@ function recomputeFilmAggregates(film) {
   film.firstReviewDate = oldest.reviewDate;
   film.latestReviewDate = newest.reviewDate;
   film.primaryRating = newest.rating;
-  film.liked = !!newest.rating && false; // recomputed below from RSS-derived liked flag
+  // film.liked is managed by the orchestrator after this call —
+  // it's resolved from the RSS entry whose watchedDate matches the
+  // newest review's watchedDate, since RSS exposes liked per watch
+  // event but the snapshot stores it at the film level.
 
   film.ratingSet = [
     ...new Set(
@@ -483,42 +524,74 @@ async function main() {
   console.log("\n[3/5] Diffing against snapshot…");
   const newFilms = [];
   const newReviews = [];
+  const editedReviews = [];
+  // Track entries by filmId so we can later set film.liked from the
+  // entry whose review is the most-recent on that film. RSS surfaces
+  // liked at the watch-event level; our snapshot stores it at the
+  // film level (mirroring the most-recent review's liked flag).
+  const entriesByFilmId = new Map();
+
   for (const entry of entries) {
     const { film, isNew } = findOrCreateFilm(snapshot, entry);
     if (isNew) newFilms.push(film);
-    if (!reviewAlreadyPresent(film, entry)) {
+
+    const matching = findMatchingReview(film, entry);
+    if (!matching) {
+      // New review on this film — append it.
       appendReview(film, entry);
-      newReviews.push({ filmTitle: film.title, entry });
-      // RSS-derived liked flag — the most recent review's liked
-      // value becomes the film's `liked` property after recompute.
-      // We propagate via the review side-channel: stash on the
-      // film and recomputeFilmAggregates honors it below.
-      film.__pendingLiked = entry.liked;
+      newReviews.push({ filmId: film.id, title: film.title, entry });
+    } else {
+      // Existing review — check for edits within the RSS window.
+      const changes = detectReviewEdits(matching, entry);
+      if (changes.length > 0) {
+        applyReviewEdits(matching, entry);
+        editedReviews.push({
+          filmId: film.id,
+          title: film.title,
+          watchedDate: entry.watchedDate,
+          changes,
+        });
+      }
     }
+
+    // Track every entry against its film so we can resolve the
+    // most-recent-review's liked flag after the merge pass.
+    if (!entriesByFilmId.has(film.id)) entriesByFilmId.set(film.id, []);
+    entriesByFilmId.get(film.id).push(entry);
   }
   console.log(
-    `      ${newFilms.length} new film(s), ${newReviews.length} new review(s).`,
+    `      ${newFilms.length} new film(s), ${newReviews.length} new review(s)` +
+      (editedReviews.length > 0
+        ? `, ${editedReviews.length} edit(s) on existing reviews.`
+        : "."),
   );
 
-  if (newReviews.length === 0) {
+  if (newReviews.length === 0 && editedReviews.length === 0) {
     console.log("\nNo changes — snapshot is up to date.");
     return;
   }
 
   // Recompute aggregates for every film that picked up a new
-  // review. Only touch films we actually mutated.
-  const touchedFilms = new Set(
-    newReviews.map((r) =>
-      snapshot.films.find((f) => f.title === r.filmTitle),
-    ),
-  );
-  for (const film of touchedFilms) {
+  // review or an edit. Only touch films we actually mutated.
+  const touchedFilmIds = new Set([
+    ...newReviews.map((r) => r.filmId),
+    ...editedReviews.map((r) => r.filmId),
+  ]);
+  for (const filmId of touchedFilmIds) {
+    const film = snapshot.films.find((f) => f.id === filmId);
     if (!film) continue;
     recomputeFilmAggregates(film);
-    if ("__pendingLiked" in film) {
-      film.liked = film.__pendingLiked;
-      delete film.__pendingLiked;
-    }
+    // Resolve film.liked from the entry whose review is now at
+    // reviews[0] (the most-recent by reviewDate after the resort
+    // inside recomputeFilmAggregates / appendReview). This catches
+    // both new most-recent-review additions and edits that toggled
+    // the liked flag.
+    const newest = film.reviews[0];
+    const candidates = entriesByFilmId.get(filmId) ?? [];
+    const matchingEntry = candidates.find(
+      (e) => e.watchedDate === newest?.watchedDate,
+    );
+    if (matchingEntry) film.liked = matchingEntry.liked;
   }
 
   console.log("\n[4/5] Enriching new films via TMDB…");
@@ -549,13 +622,24 @@ async function main() {
       `  Films:    ${baselineCount} → ${snapshot.films.length}` +
       (newFilms.length > 0 ? ` (+${newFilms.length})` : "") +
       `\n  Reviews:  ${baselineReviews} → ${snapshot.summary.totalReviews}` +
-      ` (+${newReviews.length})`,
+      ` (+${newReviews.length})` +
+      (editedReviews.length > 0
+        ? `\n  Edits:    ${editedReviews.length} review(s) updated in place`
+        : ""),
   );
 
   if (newFilms.length > 0) {
     console.log("\n  New films:");
     for (const f of newFilms) {
       console.log(`    + ${f.title} (${f.releaseYear})`);
+    }
+  }
+  if (editedReviews.length > 0) {
+    console.log("\n  Edited reviews (within RSS window):");
+    for (const e of editedReviews) {
+      console.log(
+        `    ~ ${e.title} — watched ${e.watchedDate} (changed: ${e.changes.join(", ")})`,
+      );
     }
   }
 }
