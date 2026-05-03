@@ -57,6 +57,7 @@ import { track } from "@vercel/analytics";
 import { Stack } from "@/components/layout/Stack";
 import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
+import { InfoToast } from "@/components/primitives/InfoToast";
 import { Pagination } from "@/components/primitives/Pagination";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import type {
@@ -329,16 +330,17 @@ export function FilmsShell({
   return (
     <>
       {/* ─── Mode-switch toast (fixed, transient) ────────────
-          Only renders while toastMessage is non-null; the timer
-          set above clears it after 4s. role="status" + aria-live
-          polite means SR users hear the cue without it stealing
-          focus. Reduced-motion users see the same content with
-          no transition — the toast is informational, not animated. */}
-      {toastMessage ? (
-        <div role="status" aria-live="polite" style={toastStyle}>
-          {toastMessage}
-        </div>
-      ) : null}
+          InfoToast handles the styling (Option A: tinted blue
+          surface with left-bar accent) and accessibility wiring
+          (role=status + aria-live polite). The component is
+          stateless — we own the message state and the 4s dismiss
+          timer above. bottomOffset lifts the toast above the
+          mobile drawer's sticky "Show N films" CTA when the drawer
+          is open; collapses to the default 24px otherwise. */}
+      <InfoToast
+        message={toastMessage}
+        bottomOffset={drawerOpen ? 96 : 24}
+      />
 
       {/* ─── Mobile trigger row (md:hidden) ─────────────────── */}
       <div
@@ -1109,25 +1111,3 @@ const drawerShowResultsButtonStyle: CSSProperties = {
   outlineColor: "var(--border-focus)",
 };
 
-// Bottom-center fixed toast for transient mode-switch cues. Mono
-// caption on a high-contrast surface so it reads as system chrome
-// rather than editorial voice. Pointer-events:none so the toast
-// can't accidentally intercept a tap aimed at the grid below it
-// — the toast is informational, not interactive.
-const toastStyle: CSSProperties = {
-  position: "fixed",
-  bottom: 24,
-  left: "50%",
-  transform: "translateX(-50%)",
-  zIndex: 60,
-  maxWidth: "calc(100% - 32px)",
-  padding: "10px 16px",
-  borderRadius: "var(--border-radius-sm)",
-  background: "var(--text-body)",
-  color: "var(--surface-page)",
-  fontFamily: "var(--font-mono)",
-  fontSize: 12,
-  letterSpacing: "0.04em",
-  boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
-  pointerEvents: "none",
-};
