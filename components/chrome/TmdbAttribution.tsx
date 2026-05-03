@@ -4,9 +4,15 @@
 // genre, runtime, director; /tv (Serializd-backed) will pull the
 // same when it ships.
 //
-// TMDB's API ToS requires visible attribution on any surface using
-// their data; we render it inline with the © dateline rather than
-// scattering it on every page.
+// TMDB's API ToS (themoviedb.org/api-terms-of-use) requires:
+//   1. The TMDB logo identifying our use of TMDB / TMDB APIs / TMDB
+//      Content (rendered as an SVG in /public/images/tmdb-logo.svg).
+//   2. The logo must be less prominent than our own marks — kept
+//      small (height: 14px) and tucked into the footer chrome,
+//      below the editorial CriticDisclaimer.
+//   3. The exact disclaimer notice must appear prominently:
+//      "This website uses TMDB and the TMDB APIs but is not
+//      endorsed, certified, or otherwise approved by TMDB."
 //
 // Route matching reuses CRITIC_ROUTE_PREFIXES from CriticDisclaimer
 // so the two route sets can never drift — adding /tv there
@@ -18,6 +24,7 @@
 
 "use client";
 
+import Image from "next/image";
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
 import { isCriticRoute } from "./CriticDisclaimer";
@@ -34,31 +41,62 @@ export function TmdbAttribution() {
   const label = labelFor(pathname);
 
   return (
-    <p
+    <div
       style={{
-        fontFamily: "var(--font-mono)",
-        fontSize: 11,
-        lineHeight: "var(--p-xs-line-height)",
-        color: "var(--text-caption)",
-        letterSpacing: "0.04em",
-        margin: 0,
+        display: "flex",
+        flexDirection: "column",
+        gap: 4,
       }}
     >
-      {label}{" "}
-      <NextLink
-        href="https://www.themoviedb.org"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={{
-          color: "inherit",
-          textDecoration: "underline",
-          textUnderlineOffset: "2px",
-        }}
-      >
-        powered by TMDB ↗
-      </NextLink>
-      . This site is not endorsed or certified by TMDB.
-    </p>
+      {/* Line 1: logo + label. Inline-flow so the parent's text-
+          alignment (right on tablet+, left on mobile) carries
+          through. The link wraps the logo and the trailing arrow
+          so the entire mark is one tappable target. */}
+      <p style={captionStyle}>
+        {label} via{" "}
+        <NextLink
+          href="https://www.themoviedb.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="The Movie Database (opens in a new tab)"
+          style={{
+            color: "inherit",
+            textDecoration: "none",
+            // Align the logo image with the text baseline so the
+            // mark sits inline like a wordmark instead of floating
+            // above or below the surrounding caption.
+            verticalAlign: "middle",
+          }}
+        >
+          <Image
+            src="/images/tmdb-logo.svg"
+            alt="The Movie Database"
+            width={108}
+            height={14}
+            style={{
+              display: "inline-block",
+              verticalAlign: "middle",
+              // Slight margin so the logo doesn't kiss the
+              // surrounding text on either side.
+              marginInline: 4,
+            }}
+            // SVG asset — Next.js shouldn't try to optimize it
+            // (the optimizer treats SVGs as opaque and can break
+            // gradients/embedded styles).
+            unoptimized
+          />
+          <span style={{ verticalAlign: "middle" }}>↗</span>
+        </NextLink>
+      </p>
+      {/* Line 2: the required ToS disclaimer notice, verbatim.
+          This wording is mandated by TMDB's API ToS — do not
+          paraphrase. text-wrap: balance keeps the multi-line
+          wrap visually even on the right-aligned desktop column. */}
+      <p style={{ ...captionStyle, textWrap: "balance" }}>
+        This website uses TMDB and the TMDB APIs but is not
+        endorsed, certified, or otherwise approved by TMDB.
+      </p>
+    </div>
   );
 }
 
@@ -67,3 +105,16 @@ function labelFor(pathname: string | null): string {
   if (pathname?.startsWith("/tv")) return "TV metadata";
   return "Metadata";
 }
+
+// Shared caption styling for both lines. Mono caption matches the
+// rest of the footer chrome (© dateline, "Stay in touch" labels,
+// etc.) so the TMDB block reads as utility chrome rather than
+// editorial voice.
+const captionStyle = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 11,
+  lineHeight: "var(--p-xs-line-height)",
+  color: "var(--text-caption)",
+  letterSpacing: "0.04em",
+  margin: 0,
+} as const;
