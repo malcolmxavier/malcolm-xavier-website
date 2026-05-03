@@ -41,21 +41,19 @@ export function CriticDisclaimer() {
         lineHeight: "var(--p-sm-line-height)",
         color: "var(--text-caption)",
         margin: 0,
-        // 80ch fits line 1 ("...My taste shouldn't be" ~78ch) on
-        // a single line so the manual <br /> below produces a
-        // visibly even two-line break. On viewports narrower than
-        // ~80ch the natural CSS wrap takes over and the two halves
-        // each wrap as needed.
+        // text-wrap: balance lets the browser pick the cleanest
+        // line breaks for the available width — replaces the
+        // manual <br /> that used to force a desktop-only split
+        // at "...shouldn't be / misconstrued" and produced a
+        // three-line wrap on mid-range viewports. maxWidth keeps
+        // the disclaimer from sprawling on ultra-wide layouts.
         maxWidth: "80ch",
+        textWrap: "balance",
       }}
     >
       Most art is spiritually 5-star and should be celebrated. My
-      taste shouldn&rsquo;t be
-      {/* Editorial line break — splits the sentence at "...be /
-          misconstrued" so the two lines read as roughly even visual
-          weight on desktop. */}
-      <br />
-      misconstrued as disparaging, even when the opinion is critical.
+      taste shouldn&rsquo;t be misconstrued as disparaging, even
+      when the opinion is critical.
     </p>
   );
 }

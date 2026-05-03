@@ -20,9 +20,10 @@
 // URL params owned here:
 //   ?rating=4,4.5,5     — per-review rating multiselect
 //   ?genre=Horror,Drama — per-film genre multiselect
-//   ?watchedYear=2025   — per-review watched-year filter (single year)
-//   ?watchedWindow=12mo — per-review rolling 12-month window
-//                         (mutually exclusive with watchedYear)
+//   ?watchedYear=2026,2024  per-review watched-year multi-select
+//                            (CSV, like ?rating= and ?genre=)
+//   ?watchedWindow=12mo  per-review rolling 12-month window
+//                        (mutually exclusive with watchedYear)
 //   ?sort=...           — sort dimension (omitted = default)
 //   ?page=N             — current page (reset to 1 on any filter change)
 //   ?from=films         — preserved when present so card→detail→back
