@@ -334,10 +334,17 @@ a.link-loud:hover,
 }
 
 /* Sub-brand context wins via specificity (descendant + class) and
-   uses the alias-mapped --primary-default, which the design
-   system flips per sub-brand. */
+   uses --text-action — the contrast-tuned interactive token per
+   cluster. Music defaults --text-action to --primary-default
+   (purple-500), so behavior is unchanged. Films explicitly
+   overrides --text-action to --primary-700 (orange-700) because
+   orange-500 fails AA on white for body text — using
+   --primary-default here would render loud links at orange-500
+   and visually fork the film cluster's orange (links bright;
+   nav, kicker, active chip dark). Caught 2026-05-03 via
+   computed-color audit on /films?rating=4. */
 [data-subbrand] a.link-loud {
-  color: var(--primary-default) !important;
+  color: var(--text-action) !important;
 }
 
 /* ─── Sub-brand link cascade — hardcoded per sub-brand ────────
