@@ -12,17 +12,30 @@
 // inline info glyph, body-color text. Reads as quiet system chrome
 // rather than editorial voice.
 //
+// Responsive placement (single component, two viewport-specific
+// renderings):
+//   • Mobile (<md): fixed-position above the viewport bottom, width
+//     matched to the mobile drawer's "Show N films" sticky CTA via
+//     left/right insets of 20px. The two read as a paired unit when
+//     both are present.
+//   • md+: inline-flex element that flows in the caller's layout —
+//     typical placement is alongside the active-filter chip rail
+//     above the grid, sharing the same flex-wrap row.
+//   Tailwind responsive utilities (flex md:hidden / hidden
+//   md:inline-flex) drive the visibility — `display: none` removes
+//   the inactive variant from the accessibility tree so AT users
+//   only ever announce the visible one.
+//
 // Accessibility:
-//   • role="status" + aria-live="polite" so AT users hear the
-//     content without it stealing focus.
-//   • pointer-events: none so the toast can't intercept a tap that
-//     was aimed at the UI underneath — informational, not interactive.
+//   • role="status" + aria-live="polite" on each variant so AT
+//     users hear the content without it stealing focus.
+//   • pointer-events: none on the mobile floating variant so the
+//     toast can't intercept a tap aimed at the UI underneath —
+//     informational, not interactive.
 //
 // Lifecycle:
 //   • Stateless — caller owns the message state and the dismiss
 //     timer. Pass `null` to hide; pass a string to show.
-//   • Caller can override `bottomOffset` to lift the toast above
-//     other fixed chrome (e.g. mobile drawer's "Show N films" CTA).
 // ─────────────────────────────────────────────────────────────────
 
 import type { CSSProperties } from "react";
@@ -31,29 +44,61 @@ type InfoToastProps = {
   /** Message to surface. null hides the toast (returns null from render). */
   message: string | null;
   /**
-   * Distance from the viewport bottom, in pixels. Default 24. Set to
-   * a higher value (e.g. 96) when other fixed chrome (mobile drawer
-   * sticky CTA, app footer) needs to stay clear underneath the
-   * toast. Passing the value as a number keeps the call site
-   * declarative — no string-template gymnastics.
+   * Mobile-only: distance from the viewport bottom in pixels for
+   * the floating variant. Default 24. Pass a higher value (e.g. 96)
+   * when other fixed chrome — the drawer's "Show N films" sticky
+   * CTA, an app footer — needs to stay clear underneath. Ignored
+   * on md+ where the toast flows inline.
    */
-  bottomOffset?: number;
+  mobileBottomOffset?: number;
 };
 
-export function InfoToast({ message, bottomOffset = 24 }: InfoToastProps) {
+export function InfoToast({
+  message,
+  mobileBottomOffset = 24,
+}: InfoToastProps) {
   if (!message) return null;
   return (
-    <div
-      role="status"
-      aria-live="polite"
-      style={{
-        ...wrapperStyle,
-        bottom: bottomOffset,
-      }}
-    >
-      <InfoGlyph />
-      <span>{message}</span>
-    </div>
+    <>
+      {/* Mobile (<md): fixed at the bottom, pinned to left:20 /
+          right:20 so the toast width matches the drawer CTA above
+          which it stacks. flex md:hidden = display:flex by default,
+          display:none on md+ (so AT only sees this variant on
+          mobile). */}
+      <div
+        role="status"
+        aria-live="polite"
+        className="flex md:hidden"
+        style={{
+          ...visualStyle,
+          position: "fixed",
+          left: 20,
+          right: 20,
+          bottom: mobileBottomOffset,
+          zIndex: 60,
+          boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
+          pointerEvents: "none",
+        }}
+      >
+        <InfoGlyph />
+        <span>{message}</span>
+      </div>
+      {/* md+: inline-flex, flows in the parent's natural layout.
+          The caller places <InfoToast> wherever it should appear
+          (typically alongside the active-filter chips above the
+          grid). hidden md:inline-flex = display:none by default,
+          display:inline-flex on md+ (so AT only sees this variant
+          on tablet/desktop). */}
+      <div
+        role="status"
+        aria-live="polite"
+        className="hidden md:inline-flex"
+        style={visualStyle}
+      >
+        <InfoGlyph />
+        <span>{message}</span>
+      </div>
+    </>
   );
 }
 
@@ -88,13 +133,12 @@ function InfoGlyph() {
   );
 }
 
-const wrapperStyle: CSSProperties = {
-  position: "fixed",
-  left: "50%",
-  transform: "translateX(-50%)",
-  zIndex: 60,
-  maxWidth: "calc(100% - 32px)",
-  display: "inline-flex",
+// Shared visual treatment — tinted blue surface with the saturated
+// left-bar accent (Option A from the design preview). Display is
+// intentionally NOT set here; each variant's wrapper class (flex
+// vs inline-flex) carries it so the responsive visibility toggle
+// works without inline-style precedence fighting Tailwind classes.
+const visualStyle: CSSProperties = {
   alignItems: "center",
   gap: 10,
   padding: "10px 16px",
@@ -106,6 +150,4 @@ const wrapperStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
   fontSize: 12,
   letterSpacing: "0.04em",
-  boxShadow: "0 6px 20px rgba(0,0,0,0.18)",
-  pointerEvents: "none",
 };
