@@ -90,9 +90,20 @@ export function StarRating({
     showEmpty || lastNonEmpty === -1 ? slots : slots.slice(0, lastNonEmpty + 1);
 
   return (
+    // role="meter" with aria-valuemin/max/now communicates the
+    // bounded 0–5 range directly to screen readers — NVDA and
+    // VoiceOver announce it natively as "3.5 of 5" without the
+    // component having to spell it out. aria-valuetext keeps the
+    // legible "Rated 3.5 out of 5 stars" phrasing as the fallback
+    // for AT that don't surface the numeric meter values, and
+    // matches the original aria-label semantics so callers passing
+    // `ariaLabel` keep their override behavior.
     <span
-      role="img"
-      aria-label={label}
+      role="meter"
+      aria-valuemin={0}
+      aria-valuemax={5}
+      aria-valuenow={clamped}
+      aria-valuetext={label}
       className={["star-rating-fill", className].filter(Boolean).join(" ")}
       style={{
         display: "inline-flex",

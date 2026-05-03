@@ -117,9 +117,13 @@ export function FilmCard({ applied }: { applied: AppliedFilm }) {
                 {film.title}
               </div>
             )}
-            {/* Liked heart overlay — top-right corner */}
+            {/* Liked heart overlay — top-right corner. role="img"
+                anchors the aria-label so iOS VoiceOver reads it
+                reliably; without the role, VO can fall back to
+                generic-span behavior and skip the label. */}
             {film.liked ? (
               <span
+                role="img"
                 aria-label="Liked"
                 title="Liked"
                 style={{
@@ -133,9 +137,18 @@ export function FilmCard({ applied }: { applied: AppliedFilm }) {
                 ♥
               </span>
             ) : null}
-            {/* Multi-review badge — bottom-left corner */}
+            {/* Multi-review badge — bottom-left corner. role="img"
+                + aria-label resolves the a11y/growth conflict: AT
+                hears "{N} reviews" inline with the card link's
+                accessible name (informational, what growth wanted)
+                instead of the literal Unicode glyph "clockwise
+                open circle arrow" that some screen readers verbalize
+                (what a11y wanted to suppress). Visual users still
+                see "↻ {N}". */}
             {reviewCount > 1 ? (
               <span
+                role="img"
+                aria-label={`${reviewCount} reviews`}
                 style={{
                   position: "absolute",
                   bottom: 8,
