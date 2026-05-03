@@ -220,7 +220,7 @@
         "com.figma.hiddenFromPublishing": false
       },
       "$type": "color",
-      "$value": "{information.400}"
+      "$value": "{information.200}"
     },
     "disabled": {
       "$extensions": {
@@ -394,7 +394,7 @@
         "com.figma.hiddenFromPublishing": false
       },
       "$type": "color",
-      "$value": "{information.600}"
+      "$value": "{information.200}"
     },
     "disabled": {
       "$extensions": {

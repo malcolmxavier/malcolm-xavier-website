@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-05-02T05:00:17.408Z
+   Built:        2026-05-03T17:41:18.223Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -689,12 +689,7 @@
   --text-on-action: var(--primary-700);
   --text-error: var(--error-default);
   --text-success: var(--success-default);
-  /* --text-warning resolved to --warning-default = --yellow-500
-     (#faef2d) which contrasts at 1.20:1 on white — fails SC 1.4.3.
-     Routed to --yellow-800 directly for AA-safe warning text on
-     light surfaces. Dark mode keeps its own --text-warning binding
-     below (--warning-400 on black passes). */
-  --text-warning: var(--yellow-800);
+  --text-warning: var(--warning-default);
   --text-information: var(--information-default);
   --text-disabled: var(--neutral-default);
   --text-heading: var(--neutral-black);
@@ -713,10 +708,6 @@
   --surface-page: var(--neutral-white);
   --surface-default: var(--neutral-white);
   --surface-muted: var(--neutral-100);
-  /* --surface-elevated for "card / pill on the page surface, but
-     a touch lifted" treatments (Pill component, future card chrome).
-     Was undefined; consumers got transparent fallbacks. */
-  --surface-elevated: var(--neutral-100);
   --surface-action: var(--primary-default);
   --surface-action-hover: var(--primary-600);
   --surface-error: var(--error-50);
@@ -729,7 +720,7 @@
   --border-error: var(--error-200);
   --border-success: var(--success-200);
   --border-warning: var(--warning-200);
-  --border-information: var(--information-200);
+  --border-information: var(--information-default);
   --border-disabled: var(--neutral-default);
   --border-action: var(--primary-default);
   --border-focus: var(--primary-800);
@@ -758,14 +749,11 @@
   --icon-error: var(--error-400);
   --icon-success: var(--success-300);
   --icon-warning: var(--warning-400);
-  --icon-information: var(--information-400);
+  --icon-information: var(--information-200);
   --icon-disabled: var(--neutral-black);
   --surface-page: var(--neutral-black);
   --surface-default: var(--neutral-black);
   --surface-muted: var(--neutral-800);
-  /* See light-root note. Dark variant lifts off the black page
-     surface via the next neutral up. */
-  --surface-elevated: var(--neutral-800);
   --surface-action: var(--primary-400);
   --surface-action-hover: var(--primary-400);
   --surface-error: var(--error-800);
@@ -778,7 +766,7 @@
   --border-error: var(--error-600);
   --border-success: var(--success-600);
   --border-warning: var(--warning-600);
-  --border-information: var(--information-600);
+  --border-information: var(--information-200);
   --border-disabled: var(--neutral-default);
   --border-action: var(--primary-default);
   --border-focus: var(--primary-700);
@@ -805,20 +793,12 @@
 }
 
 [data-subbrand="film"] {
-  /* Bumped from --primary-600 → --primary-700 so the chip-active
-     state (background:--text-action with white text) hits AA. At
-     orange-600, white-on-orange = 3.61:1 (failed SC 1.4.3 at 12px
-     normal weight). At orange-700, white-on-orange = 5.82:1.
-     Hover/focus and icon/border stops shift one stop darker in
-     tandem so the action chain stays internally consistent.
-     Closes films-active-chip-contrast (and several aligned
-     findings) from /full-review 2026-05-02. */
-  --text-action: var(--primary-700);
-  --text-action-hover: var(--primary-800);
-  --icon-action: var(--primary-700);
-  --icon-action-hover: var(--primary-800);
-  --border-action: var(--primary-700);
-  --border-action-hover: var(--primary-800);
+  --text-action: var(--primary-600);
+  --text-action-hover: var(--primary-700);
+  --icon-action: var(--primary-600);
+  --icon-action-hover: var(--primary-700);
+  --border-action: var(--primary-600);
+  --border-action-hover: var(--primary-700);
 }
 
 [data-theme="dark"] [data-subbrand] {

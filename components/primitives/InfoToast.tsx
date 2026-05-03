@@ -150,7 +150,14 @@ const visualStyle: CSSProperties = {
   borderRadius: "var(--border-radius-sm)",
   background: "var(--surface-information)",
   color: "var(--text-body)",
-  borderLeft: "4px solid var(--information-default)",
+  // --border-information is the contrast-tuned border token: in
+  // light mode it resolves to information-default (blue-500, ~7.7:1
+  // on the blue-50 toast surface); in dark mode it resolves to
+  // information-200 (blue-200, ~7.6:1 on the blue-800 toast
+  // surface). Using --information-default directly worked in light
+  // mode but left the dark-mode border at ~1.76:1 — failing
+  // SC 1.4.11 non-text contrast.
+  borderLeft: "4px solid var(--border-information)",
   fontFamily: "var(--font-mono)",
   fontSize: 12,
   letterSpacing: "0.04em",
