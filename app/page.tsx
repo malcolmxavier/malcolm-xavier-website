@@ -51,8 +51,10 @@ import { CONTACT, STATUS } from "./resume/resume-data";
 //
 // `cta` is an optional override for the call-to-action text. When
 // omitted, falls back to "Visit {label}" — fine for most sub-brands.
-// Override when a verb-noun phrase reads more naturally (e.g.
-// "Explore Playlists" for Music).
+// Override when a voice-led phrase reads more truly than the
+// generic verb-noun (e.g. "Hear Me Out" for Music, "Pass the
+// Popcorn" for Films — both invite the reader rather than just
+// describing the surface).
 type SubBrandTile = {
   href: string;
   label: string;
@@ -65,11 +67,11 @@ const SUB_BRAND_TILES: SubBrandTile[] = [
   {
     href: "/films",
     label: "Films",
-    cta: "Find Your Next Watch",
+    cta: "Pass the Popcorn",
     blurb: (
       <>
-        I watch 300+ films a year and log my reviews on Letterboxd.
-        Click through for the full backlog.
+        300+ films a year, with strong opinions and Letterboxd
+        receipts.
       </>
     ),
     accent: "film",
@@ -77,12 +79,11 @@ const SUB_BRAND_TILES: SubBrandTile[] = [
   {
     href: "/music",
     label: "Music",
-    cta: "Find Your Next Listen",
+    cta: "Hear Me Out",
     blurb: (
       <>
-        I release a new playlist each month. <em>settle the score</em>{" "}
-        released with this site&mdash;explore that and the rest of the
-        catalog.
+        A new playlist each month. Now playing:{" "}
+        <em>settle the score</em>.
       </>
     ),
     accent: "music",

@@ -103,7 +103,13 @@ export async function generateMetadata({
       : undefined;
 
   return {
-    title: `${film.title} (${film.releaseYear})`,
+    // .absolute bypasses the root layout's "%s—Malcolm Xavier"
+    // template so we can inject "Reviews by Malcolm Xavier" — the
+    // long-tail anchor for queries like "the substance malcolm
+    // xavier review". Em-dash without spaces per project voice.
+    title: {
+      absolute: `${film.title} (${film.releaseYear})—Reviews by Malcolm Xavier`,
+    },
     description,
     alternates: {
       canonical: `/films/${film.letterboxdSlug}-${film.releaseYear}`,

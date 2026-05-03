@@ -46,9 +46,9 @@ const LETTERBOXD_PROFILE_URL =
   "https://letterboxd.com/malxavi/";
 
 export const metadata: Metadata = {
-  title: "Film reviews",
+  title: "Film Reviews",
   description:
-    "Reviews and ratings of films I've watched, pulled from my Letterboxd journal.",
+    "741 films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.",
   // Without this, /films inherits the root layout's canonical=\"/\"
   // and Google reads the entire films cluster as a duplicate of
   // the homepage. Closes films-listing-canonical-wrong.
@@ -58,17 +58,17 @@ export const metadata: Metadata = {
   // own openGraph block — root layout's OG bleeds through).
   // Closes films-listing-og-missing.
   openGraph: {
-    title: "Film reviews — Malcolm Xavier",
+    title: "Film Reviews — Malcolm Xavier",
     description:
-      "Reviews and ratings of films I've watched, pulled from my Letterboxd journal.",
+      "741 films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.",
     url: "/films",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Film reviews — Malcolm Xavier",
+    title: "Film Reviews — Malcolm Xavier",
     description:
-      "Reviews and ratings of films I've watched, pulled from my Letterboxd journal.",
+      "741 films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.",
   },
 };
 
@@ -148,7 +148,7 @@ export default async function FilmsPage({
               <Display>Every film, every rating, every reaction.</Display>
               <Lede>
                 I watch 300+ films a year and log my reviews on Letterboxd. This is the
-                full backlog. Click any card for the full
+                full backlog. Open any card for the full
                 review. And if you're looking for a recommendation, filter to find what
                 you're looking for.
               </Lede>
