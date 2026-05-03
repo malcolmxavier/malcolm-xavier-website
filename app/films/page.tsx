@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   // own openGraph block — root layout's OG bleeds through).
   // Closes films-listing-og-missing.
   openGraph: {
-    title: "Film Reviews — Malcolm Xavier",
+    title: "Film Reviews—Malcolm Xavier",
     description:
       "741 films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.",
     url: "/films",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Film Reviews — Malcolm Xavier",
+    title: "Film Reviews—Malcolm Xavier",
     description:
       "741 films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.",
   },

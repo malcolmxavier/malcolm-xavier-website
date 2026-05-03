@@ -248,7 +248,7 @@ export function FilmsShell({
     // disappear silently. Otherwise toggle the year in/out of the
     // array (no destructive transition, no toast).
     if (filters.watchedWindow !== undefined) {
-      setToastMessage(`Switched to ${year} — past 12 months cleared`);
+      setToastMessage(`Switched to ${year}—past 12 months cleared`);
       navigate({
         watchedYear: String(year),
         watchedWindow: undefined,
@@ -270,7 +270,7 @@ export function FilmsShell({
     // knows what just happened.
     if (filters.watchedYears && filters.watchedYears.length > 0) {
       setToastMessage(
-        "Switched to past 12 months — specific years cleared",
+        "Switched to past 12 months—specific years cleared",
       );
     }
     navigate({
