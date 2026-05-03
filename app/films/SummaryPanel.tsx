@@ -46,9 +46,21 @@ const RATING_KEYS = [
   "5",
 ] as const;
 
-type Props = { summary: FilmsSummary };
+type Props = {
+  summary: FilmsSummary;
+  /**
+   * Films watched in the current calendar year, derived at request
+   * time (not snapshot-write time). The label below reads
+   * "{currentYearCount} in {currentYear}", and currentYear is
+   * computed from `new Date()` on every render — so the count has
+   * to come from the same "now" or the two will silently disagree
+   * across a year boundary (e.g. snapshot captured Dec 31 2026
+   * shows "89 in 2027" until the next refresh).
+   */
+  currentYearCount: number;
+};
 
-export function SummaryPanel({ summary }: Props) {
+export function SummaryPanel({ summary, currentYearCount }: Props) {
   const ratingValues = Object.values(summary.ratingDistribution);
   const totalRatings = ratingValues.reduce((a, b) => a + b, 0);
   // 1 as a floor so an empty distribution doesn't blow up division.
@@ -87,7 +99,7 @@ export function SummaryPanel({ summary }: Props) {
           films
           {" · "}
           <strong style={emphasizedNumberStyle}>
-            {summary.thisYearCount.toLocaleString()}
+            {currentYearCount.toLocaleString()}
           </strong>{" "}
           in {watchedYear}
           {totalRatings > 0 ? (

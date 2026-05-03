@@ -84,7 +84,14 @@ export function BackToFilms() {
         lineHeight: "var(--p-xs-line-height)",
         letterSpacing: "0.08em",
         textTransform: "uppercase",
-        color: "var(--primary-default)",
+        // --text-action is the semantic alias for "interactive
+        // foreground in the active sub-brand cluster." Using
+        // --primary-default here is a literal-color reference that
+        // skips the alias layer — fine in practice (both resolve
+        // to the same orange today) but it freezes the link's
+        // color at the raw orange instead of riding the alias if
+        // the cluster ever rebinds it.
+        color: "var(--text-action)",
         textDecoration: "none",
         outlineColor: "var(--border-focus)",
       }}
