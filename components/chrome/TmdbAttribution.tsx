@@ -40,63 +40,54 @@ export function TmdbAttribution() {
   // from saying "Film metadata" on a TV page and vice versa.
   const label = labelFor(pathname);
 
+  // Single-paragraph layout: route-aware label, logo+arrow link,
+  // mid-dot separator, then the verbatim ToS disclaimer. Renders
+  // as one continuous caption that wraps naturally inside its
+  // column (right-aligned on tablet+, left-aligned on mobile).
+  // text-wrap: balance keeps the wrap visually even when the
+  // disclaimer breaks across two lines on narrower viewports.
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 4,
-      }}
-    >
-      {/* Line 1: logo + label. Inline-flow so the parent's text-
-          alignment (right on tablet+, left on mobile) carries
-          through. The link wraps the logo and the trailing arrow
-          so the entire mark is one tappable target. */}
-      <p style={captionStyle}>
-        {label} via{" "}
-        <NextLink
-          href="https://www.themoviedb.org"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="The Movie Database (opens in a new tab)"
+    <p style={{ ...captionStyle, textWrap: "balance" }}>
+      {label} via{" "}
+      <NextLink
+        href="https://www.themoviedb.org"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="The Movie Database (opens in a new tab)"
+        style={{
+          color: "inherit",
+          textDecoration: "none",
+          // Align the logo image with the text baseline so the
+          // mark sits inline like a wordmark instead of floating
+          // above or below the surrounding caption.
+          verticalAlign: "middle",
+        }}
+      >
+        <Image
+          src="/images/tmdb-logo.svg"
+          alt="The Movie Database"
+          width={108}
+          height={14}
           style={{
-            color: "inherit",
-            textDecoration: "none",
-            // Align the logo image with the text baseline so the
-            // mark sits inline like a wordmark instead of floating
-            // above or below the surrounding caption.
+            display: "inline-block",
             verticalAlign: "middle",
+            // Slight margin so the logo doesn't kiss the
+            // surrounding text on either side.
+            marginInline: 4,
           }}
-        >
-          <Image
-            src="/images/tmdb-logo.svg"
-            alt="The Movie Database"
-            width={108}
-            height={14}
-            style={{
-              display: "inline-block",
-              verticalAlign: "middle",
-              // Slight margin so the logo doesn't kiss the
-              // surrounding text on either side.
-              marginInline: 4,
-            }}
-            // SVG asset — Next.js shouldn't try to optimize it
-            // (the optimizer treats SVGs as opaque and can break
-            // gradients/embedded styles).
-            unoptimized
-          />
-          <span style={{ verticalAlign: "middle" }}>↗</span>
-        </NextLink>
-      </p>
-      {/* Line 2: the required ToS disclaimer notice, verbatim.
-          This wording is mandated by TMDB's API ToS — do not
-          paraphrase. text-wrap: balance keeps the multi-line
-          wrap visually even on the right-aligned desktop column. */}
-      <p style={{ ...captionStyle, textWrap: "balance" }}>
-        This website uses TMDB and the TMDB APIs but is not
-        endorsed, certified, or otherwise approved by TMDB.
-      </p>
-    </div>
+          // SVG asset — Next.js shouldn't try to optimize it
+          // (the optimizer treats SVGs as opaque and can break
+          // gradients/embedded styles).
+          unoptimized
+        />
+        <span style={{ verticalAlign: "middle" }}>↗</span>
+      </NextLink>
+      {" · "}
+      {/* The disclaimer wording below is mandated verbatim by
+          TMDB's API ToS — do not paraphrase or trim. */}
+      This website uses TMDB and the TMDB APIs but is not
+      endorsed, certified, or otherwise approved by TMDB.
+    </p>
   );
 }
 
