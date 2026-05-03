@@ -998,15 +998,17 @@ function DismissableChip({
       aria-label={ariaLabel}
       style={{
         ...chipBaseStyle,
-        // --primary-default is the foundational sub-brand color for
-        // a fill; --text-action is its alias for FOREGROUND uses
-        // (link/button text on a neutral surface). Using --text-action
-        // as a background is a semantic-token mismatch — both resolve
-        // to the same orange today, but the role-name should match
-        // the role. Same swap below on the drawer's "Show N" button.
-        background: "var(--primary-default)",
+        // --text-action is the right token here even for a fill,
+        // because the films cluster explicitly bumps --text-action
+        // up to --primary-700 (orange-700) so white-on-orange clears
+        // SC 1.4.3 (5.82:1, vs --primary-default's 3.61:1). Using
+        // --primary-default for the fill would re-introduce the
+        // contrast bug AND visually fork the cluster's orange in
+        // light mode (links land at orange-700; this fill at
+        // orange-500 = the "two oranges" people-eye notice).
+        background: "var(--text-action)",
         color: "var(--surface-page)",
-        borderColor: "var(--primary-default)",
+        borderColor: "var(--text-action)",
         display: "inline-flex",
         alignItems: "center",
         gap: 6,
@@ -1247,8 +1249,13 @@ const drawerShowResultsButtonStyle: CSSProperties = {
   textTransform: "uppercase",
   padding: "12px 16px",
   borderRadius: "var(--border-radius-sm)",
-  border: "1px solid var(--primary-default)",
-  background: "var(--primary-default)",
+  // --text-action is the cluster's contrast-safe interactive orange
+  // (orange-700 in films light mode, via the override in globals.css).
+  // Using --primary-default here would drop white-on-orange contrast
+  // below AA AND visually fork the orange family — see DismissableChip
+  // above for the same reasoning.
+  border: "1px solid var(--text-action)",
+  background: "var(--text-action)",
   color: "var(--surface-page)",
   cursor: "pointer",
   outlineColor: "var(--border-focus)",
