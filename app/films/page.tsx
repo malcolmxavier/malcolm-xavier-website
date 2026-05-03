@@ -26,12 +26,14 @@ import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
+import { SITE_URL } from "@/lib/site-config";
 import { getFilms } from "@/lib/feeds/letterboxd";
 import {
   applyFilters,
   paginate,
   parseFilmFilters,
   parseFilmSort,
+  slugifyGenre,
 } from "@/lib/feeds/letterboxd-utils";
 import { FilmsShell } from "./FilmsShell";
 import { SummaryPanel } from "./SummaryPanel";
@@ -45,32 +47,80 @@ const LETTERBOXD_PROFILE_URL =
   ELSEWHERE.find((e) => e.label === "Letterboxd")?.href ??
   "https://letterboxd.com/malxavi/";
 
-export const metadata: Metadata = {
-  title: "Film Reviews",
-  description:
-    "741 films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.",
-  // Without this, /films inherits the root layout's canonical=\"/\"
-  // and Google reads the entire films cluster as a duplicate of
-  // the homepage. Closes films-listing-canonical-wrong.
-  alternates: { canonical: "/films" },
-  // Per-page OG so shares of /films don't unfurl as the homepage
-  // bio card (which is what happens when a Next page omits its
-  // own openGraph block — root layout's OG bleeds through).
-  // Closes films-listing-og-missing.
-  openGraph: {
-    title: "Film Reviews—Malcolm Xavier",
-    description:
-      "741 films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.",
-    url: "/films",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Film Reviews—Malcolm Xavier",
-    description:
-      "741 films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.",
-  },
-};
+const LISTING_DESCRIPTION =
+  "741 films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.";
+
+/**
+ * Per-request metadata. Three crawl directives compose here:
+ *
+ *   1. /films (no params) — canonical to itself, indexable. The
+ *      base listing is the canonical entity for the corpus.
+ *
+ *   2. /films?genre=Single (one genre, nothing else) — canonical
+ *      to /films/genre/<slug>, the dedicated SEO entry point for
+ *      that genre. Consolidates crawl signal; we don't want two
+ *      indexable URLs for the same content.
+ *
+ *   3. /films?<anything-else> or ?page=N>1 — noindex,follow.
+ *      Filter combinations and pagination are crawlable for
+ *      discovery (follow keeps the link graph alive) but kept
+ *      out of the index to avoid thin / duplicate content.
+ */
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}): Promise<Metadata> {
+  const sp = await searchParams;
+  const filters = parseFilmFilters(sp);
+  const page = Number.parseInt(asString(sp.page) ?? "1", 10);
+  const isPagedBeyondFirst = Number.isFinite(page) && page > 1;
+
+  // Detect "single genre, nothing else" — the case where canonical
+  // should hand off to the dedicated /films/genre/<slug> route.
+  const onlyGenreFilter =
+    filters.genres &&
+    filters.genres.length === 1 &&
+    !filters.ratings &&
+    !filters.watchedYears &&
+    !filters.watchedWindow &&
+    filters.releaseYearMin === undefined &&
+    filters.releaseYearMax === undefined &&
+    !isPagedBeyondFirst;
+
+  const filterCombinationActive =
+    !onlyGenreFilter &&
+    (Boolean(filters.ratings && filters.ratings.length > 0) ||
+      Boolean(filters.genres && filters.genres.length > 0) ||
+      Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
+      filters.watchedWindow !== undefined ||
+      filters.releaseYearMin !== undefined ||
+      filters.releaseYearMax !== undefined);
+
+  const noindex = filterCombinationActive || isPagedBeyondFirst;
+
+  const canonical = onlyGenreFilter
+    ? `/films/genre/${slugifyGenre(filters.genres![0])}`
+    : "/films";
+
+  return {
+    title: "Film Reviews",
+    description: LISTING_DESCRIPTION,
+    alternates: { canonical },
+    robots: noindex ? { index: false, follow: true } : undefined,
+    openGraph: {
+      title: "Film Reviews—Malcolm Xavier",
+      description: LISTING_DESCRIPTION,
+      url: "/films",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Film Reviews—Malcolm Xavier",
+      description: LISTING_DESCRIPTION,
+    },
+  };
+}
 
 // 24 is the unified page size across mobile, tablet, and desktop.
 // It divides cleanly into 1/2/3/4/6 columns — every column count
@@ -141,8 +191,60 @@ export default async function FilmsPage({
     page,
   } = paginate(applied, requestedPage, pageSize);
 
+  // CollectionPage + BreadcrumbList JSON-LD. CollectionPage names
+  // the listing as a curated review corpus so AI-search retrievers
+  // (Perplexity, ChatGPT search) understand /films's role; the
+  // about: { @type: Movie } tag anchors the entity to the broad
+  // Movie vocabulary. BreadcrumbList is a single-level trail
+  // ("Films") since the listing is the cluster root. Closes
+  // films-listing-no-collectionpage-jsonld.
+  const listingUrl = `${SITE_URL}/films`;
+  const listingJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: "Film Reviews",
+        description:
+          "Every film Malcolm Xavier has logged, rated, and reviewed on Letterboxd — 741 entries spanning horror, arthouse, and blockbusters.",
+        url: listingUrl,
+        inLanguage: "en-US",
+        about: { "@type": "Movie" },
+        author: {
+          "@type": "Person",
+          name: "Malcolm Xavier",
+          "@id": `${SITE_URL}/#person`,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Films",
+            item: listingUrl,
+          },
+        ],
+      },
+    ],
+  };
+
+  // rel=prev/next link tags for pagination. Google deprecated these
+  // in 2019 but Bing still uses them, and they're a low-cost crawl
+  // signal. React 19 hoists <link> elements rendered in components
+  // to <head> automatically. Closes films-rel-prev-next-pagination-head.
+  const prevHref = page > 1 ? buildPageHref(params, page - 1) : null;
+  const nextHref = page < totalPages ? buildPageHref(params, page + 1) : null;
+
   return (
     <div data-subbrand="film">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(listingJsonLd) }}
+      />
+      {prevHref ? <link rel="prev" href={prevHref} /> : null}
+      {nextHref ? <link rel="next" href={nextHref} /> : null}
       <Container size="lg">
         {/* ─── Hero + Summary (side-by-side on lg+, stacked below) ─
             On lg+ the hero and panel share one row; on smaller
@@ -209,4 +311,29 @@ export default async function FilmsPage({
 function asString(v: string | string[] | undefined): string | undefined {
   if (Array.isArray(v)) return v[0];
   return v;
+}
+
+/**
+ * Build a relative href for /films at a specific page, preserving
+ * any other query-string filters from the current request. Used by
+ * the rel=prev/next link tags so paginated crawls follow the same
+ * filter scope (e.g. /films?genre=Horror,Comedy&page=3).
+ */
+function buildPageHref(
+  params: Record<string, string | string[] | undefined>,
+  page: number,
+): string {
+  const sp = new URLSearchParams();
+  for (const [k, v] of Object.entries(params)) {
+    if (k === "page") continue;
+    if (v === undefined) continue;
+    if (Array.isArray(v)) {
+      if (v[0] !== undefined) sp.set(k, v[0]);
+    } else {
+      sp.set(k, v);
+    }
+  }
+  if (page > 1) sp.set("page", String(page));
+  const qs = sp.toString();
+  return qs ? `/films?${qs}` : "/films";
 }

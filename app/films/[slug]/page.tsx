@@ -61,6 +61,7 @@ import { getFilmBySlug, getFilms } from "@/lib/feeds/letterboxd";
 import {
   formatRuntime,
   formatWatchedDate,
+  slugifyGenre,
   type Film,
   type Review,
 } from "@/lib/feeds/letterboxd-utils";
@@ -311,17 +312,18 @@ export default async function FilmDetailPage({
                   {formatWatchedDate(heroDatelineDate)}
                 </span>
               </div>
-              {/* Genre chips — rendered as links to the listing page
-                  pre-filtered by that genre. Closes the crawl-graph
-                  half of films-related-films-internal-links: gives
-                  Googlebot sideways paths between detail pages and
-                  gives readers a "more like this" affordance without
-                  committing to a curated rail (the editorial half of
-                  that finding stays parked on films-detail-dead-end
-                  for post-launch). The .film-detail-genre-chip class
-                  keeps the chip's resting color quiet and shifts to
-                  orange on hover/focus — see app/components.css for
-                  the override against the cluster's loud-link rule. */}
+              {/* Genre chips — link to the dedicated genre route
+                  (/films/genre/<slug>) which is the canonical SEO
+                  entry point for that genre. Crawlers reading detail
+                  pages discover the genre routes via these links;
+                  human readers get a "more like this" affordance
+                  without committing to a curated rail (the editorial
+                  half of films-related-films-internal-links lives on
+                  in films-detail-dead-end, parked post-launch). The
+                  .film-detail-genre-chip class keeps the chip's
+                  resting color quiet and shifts to orange on
+                  hover/focus — see app/components.css for the
+                  override against the cluster's loud-link rule. */}
               {film.tmdb?.genres && film.tmdb.genres.length > 0 ? (
                 <ul
                   role="list"
@@ -337,7 +339,7 @@ export default async function FilmDetailPage({
                   {film.tmdb.genres.map((g) => (
                     <li key={g}>
                       <NextLink
-                        href={`/films?genre=${encodeURIComponent(g)}`}
+                        href={`/films/genre/${slugifyGenre(g)}`}
                         className="film-detail-genre-chip"
                         style={genreChipStyle}
                       >
