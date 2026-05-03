@@ -5,7 +5,7 @@
 //   • md+ (≥768px): two-column grid — filter sidebar on the left
 //     (sticky-positioned so it stays visible during long-page
 //     scrolls), film grid + pagination on the right.
-//   • <md: a "Filters · N" trigger sits above the grid; tapping it
+//   • <md: a "Filters (N)" trigger sits above the grid; tapping it
 //     opens a full-screen fly-in drawer that contains the same
 //     filter content as the desktop sidebar. The drawer has a
 //     sticky "Show N films" CTA at the bottom that closes the
@@ -90,8 +90,12 @@ const SORT_OPTIONS: { value: FilmSort; label: string }[] = [
   { value: "release-year-desc", label: "Newest released" },
   { value: "release-year-asc", label: "Oldest released" },
   { value: "latest-review-desc", label: "Most recently reviewed" },
-  { value: "first-review-desc", label: "Latest first review" },
-  { value: "first-review-asc", label: "Earliest first review" },
+  // "First-reviewed" hyphenated as a compound adjective so the
+  // user reads "the most-recently-published first-time review" as
+  // one concept, not "Latest" + "first review" (which read as two
+  // unrelated qualifiers in the unhyphenated form).
+  { value: "first-review-desc", label: "Most recently first-reviewed" },
+  { value: "first-review-asc", label: "Earliest first-reviewed" },
 ];
 
 const DRAWER_ID = "films-filter-drawer";
@@ -378,6 +382,12 @@ export function FilmsShell({
       onSortChange={handleSortChange}
       onClearAll={clearAll}
       announceResultCount={true}
+      // The chip rail above the grid carries its own "Clear all"
+      // affordance, anchored beside the chips it dismisses. Without
+      // this suppression, two identical "Clear all" buttons render
+      // simultaneously on md+ — the chip-rail version is the more
+      // contextually anchored one, so it wins.
+      showClearAll={false}
     />
   );
   const drawerFilterContent = (
@@ -416,7 +426,7 @@ export function FilmsShell({
           className="focus-visible:outline-2 focus-visible:outline-offset-2"
         >
           Filters
-          {activeFilterCount > 0 ? ` · ${activeFilterCount}` : ""}
+          {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
         </button>
         <span style={resultCountStyle} aria-live="polite">
           {totalResults.toLocaleString()}{" "}
@@ -621,6 +631,7 @@ function FilterContent({
   onSortChange,
   onClearAll,
   announceResultCount,
+  showClearAll = true,
 }: {
   filters: FilmFilters;
   sort: FilmSort;
@@ -635,6 +646,12 @@ function FilterContent({
   onClearWatchedDate: () => void;
   onSortChange: (v: FilmSort) => void;
   onClearAll: () => void;
+  /** Hide the inline "Clear all" button. The desktop sidebar sets
+   *  this `false` because the active-filter chip rail above the
+   *  grid carries its own clear affordance; the mobile drawer
+   *  defaults `true` because the chip rail isn't visible from
+   *  inside the drawer. */
+  showClearAll?: boolean;
   /**
    * When true, the result-count span carries aria-live="polite" so
    * AT users hear filter-change announcements. Set on the desktop
@@ -773,7 +790,7 @@ function FilterContent({
           {totalResults.toLocaleString()}{" "}
           {totalResults === 1 ? "film" : "films"}
         </span>
-        {anyControlChangedFromDefault ? (
+        {showClearAll && anyControlChangedFromDefault ? (
           <button
             type="button"
             onClick={onClearAll}
@@ -849,11 +866,12 @@ function Chip({
           ? "var(--text-action)"
           : "var(--border-interactive)",
       }}
-      // motion-reduce:transition-none mirrors the rest of the
-      // codebase (Link, Nav, DismissableChip below) — the FilterRow
-      // chip was the only interactive element in this surface
-      // still animating colors when prefers-reduced-motion is set.
-      className="hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none"
+      // .film-filter-chip carries the transition + paired
+      // prefers-reduced-motion override (see components.css). An
+      // inline `transition` on chipBaseStyle would outrank Tailwind's
+      // motion-reduce:transition-none class, silently defeating the
+      // accessibility guard.
+      className="film-filter-chip hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
     >
       {children}
     </button>
@@ -1013,7 +1031,7 @@ function DismissableChip({
         alignItems: "center",
         gap: 6,
       }}
-      className="hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none"
+      className="film-filter-chip hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
     >
       <span>{label}</span>
       <span aria-hidden="true" style={{ fontSize: 14, lineHeight: 1 }}>
@@ -1116,6 +1134,10 @@ function countActiveFilters(filters: FilmFilters): number {
 // page background, so it has to clear AA. Matches the
 // triggerButtonStyle below which already used --border-interactive
 // for the same reason.
+// Transition lives on the .film-filter-chip class in components.css
+// (paired with a prefers-reduced-motion override). Inline styles
+// outrank @media-wrapped Tailwind classes, so the previous inline
+// `transition` defeated motion-reduce:transition-none silently.
 const chipBaseStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
   fontSize: 12,
@@ -1125,7 +1147,6 @@ const chipBaseStyle: CSSProperties = {
   border: "1px solid var(--border-interactive)",
   cursor: "pointer",
   whiteSpace: "nowrap",
-  transition: "background 0.12s, color 0.12s, border-color 0.12s",
   outlineColor: "var(--border-focus)",
 };
 
@@ -1201,11 +1222,20 @@ const drawerHeaderStyle: CSSProperties = {
   background: "var(--surface-page)",
 };
 
+// Match the chip-rail Kicker register so the drawer's "Filters"
+// heading reads as a section label (peer of "Sort", "Rating",
+// "Genre", etc.), not a page-level heading. The semantic h2 stays
+// for aria-labelledby; only the visual treatment shrinks. Was
+// p-lg-font-size in --font-primary (Roboto Slab inside the films
+// cluster), which set "Filters" 1.5× larger than its surrounding
+// content.
 const drawerTitleStyle: CSSProperties = {
-  fontFamily: "var(--font-primary)",
-  fontSize: "var(--p-lg-font-size)",
-  lineHeight: 1.2,
-  color: "var(--text-heading)",
+  fontFamily: "var(--font-mono)",
+  fontSize: "var(--p-sm-font-size)",
+  lineHeight: 1.4,
+  letterSpacing: "0.08em",
+  textTransform: "uppercase",
+  color: "var(--text-caption)",
   margin: 0,
 };
 
