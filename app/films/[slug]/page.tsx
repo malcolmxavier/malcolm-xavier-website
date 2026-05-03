@@ -297,6 +297,7 @@ export default async function FilmDetailPage({
                 ) : null}
                 {film.liked ? (
                   <span
+                    role="img"
                     aria-label="Liked"
                     title="Liked"
                     style={{

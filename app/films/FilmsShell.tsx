@@ -335,9 +335,13 @@ export function FilmsShell({
   const anyControlChangedFromDefault =
     activeFilterCount > 0 || !sortIsDefault;
 
-  // Built once and passed to both the sidebar and the drawer so
-  // there's no chance of the two diverging.
-  const filterContent = (
+  // Two parameterized renders of the same FilterContent — one for
+  // the desktop sidebar, one for the mobile drawer. They share
+  // every prop except announceResultCount, which controls whether
+  // the inner result-count span carries aria-live. Only the
+  // visually-dominant region per viewport announces — see the
+  // FilterContent prop comment for the per-viewport reasoning.
+  const sidebarFilterContent = (
     <FilterContent
       filters={filters}
       sort={sort}
@@ -352,6 +356,25 @@ export function FilmsShell({
       onClearWatchedDate={clearWatchedDate}
       onSortChange={handleSortChange}
       onClearAll={clearAll}
+      announceResultCount={true}
+    />
+  );
+  const drawerFilterContent = (
+    <FilterContent
+      filters={filters}
+      sort={sort}
+      availableGenres={availableGenres}
+      availableReviewYears={availableReviewYears}
+      anyControlChangedFromDefault={anyControlChangedFromDefault}
+      totalResults={totalResults}
+      onToggleRating={toggleRating}
+      onToggleGenre={toggleGenre}
+      onToggleWatchedYear={toggleWatchedYear}
+      onSetWatched12Mo={setWatched12Mo}
+      onClearWatchedDate={clearWatchedDate}
+      onSortChange={handleSortChange}
+      onClearAll={clearAll}
+      announceResultCount={false}
     />
   );
 
@@ -412,7 +435,7 @@ export function FilmsShell({
               <span aria-hidden="true">✕</span>
             </button>
           </header>
-          <div style={drawerBodyStyle}>{filterContent}</div>
+          <div style={drawerBodyStyle}>{drawerFilterContent}</div>
           {/* Sticky footer — single "Show N films" CTA that closes
               the drawer so the user can see the updated grid without
               hunting for the close button. Per-chip taps don't
@@ -465,7 +488,7 @@ export function FilmsShell({
             alignSelf: "start",
           }}
         >
-          {filterContent}
+          {sidebarFilterContent}
         </aside>
 
         {/* Main content — grid + pagination. */}
@@ -576,6 +599,7 @@ function FilterContent({
   onClearWatchedDate,
   onSortChange,
   onClearAll,
+  announceResultCount,
 }: {
   filters: FilmFilters;
   sort: FilmSort;
@@ -590,6 +614,16 @@ function FilterContent({
   onClearWatchedDate: () => void;
   onSortChange: (v: FilmSort) => void;
   onClearAll: () => void;
+  /**
+   * When true, the result-count span carries aria-live="polite" so
+   * AT users hear filter-change announcements. Set on the desktop
+   * sidebar instance (visually dominant on md+); false on the
+   * mobile drawer instance to avoid duplicate announcements with
+   * the trigger row's count above. Only one live region per
+   * viewport is active at a time — see FilmsShell's two
+   * FilterContent renders.
+   */
+  announceResultCount: boolean;
 }) {
   // Singletons (All time, Past 12 months) and multi-select years
   // share the Watched chip rail. Active states derived inline so
@@ -648,7 +682,12 @@ function FilterContent({
         <Chip
           isActive={allTimeActive}
           onClick={onClearWatchedDate}
-          ariaLabel="Clear watched-date filter (all time)"
+          // aria-label is just the chip name — aria-pressed carries
+          // the toggle state, so the previous "Clear watched-date
+          // filter (all time)" verb-phrase conflicted with the
+          // pressed state announcement ("Clear ... pressed" reads
+          // as a contradiction).
+          ariaLabel="All time"
         >
           All time
         </Chip>
@@ -702,11 +741,13 @@ function FilterContent({
       >
         <span
           style={resultCountStyle}
-          aria-live="polite"
-          // Visible on the desktop sidebar; the mobile drawer also
-          // shows it, and the mobile trigger row mirrors it above.
-          // Three views of the same number — accessible and
-          // unambiguous regardless of viewport.
+          // Conditional aria-live — only the visually dominant
+          // region per viewport announces. The mobile trigger row's
+          // count carries aria-live="polite" too; this drawer/sidebar
+          // span gets it only when it's the dominant surface (sidebar
+          // on md+). Stops the same number from being announced
+          // 2-3x in sequence on filter changes.
+          aria-live={announceResultCount ? "polite" : undefined}
         >
           {totalResults.toLocaleString()}{" "}
           {totalResults === 1 ? "film" : "films"}
@@ -734,9 +775,18 @@ function FilterRow({
   label: string;
   children: ReactNode;
 }) {
+  // Stable id derived from the label slug. role="group" +
+  // aria-labelledby give the chip cluster programmatic context for
+  // SR users navigating button-by-button — without this, AT users
+  // hear each chip's aria-label without knowing the chips belong
+  // to a group, which makes multi-select especially confusing
+  // ("can I press more than one? are these mutually exclusive?").
+  const labelId = `films-filter-row-${label
+    .toLowerCase()
+    .replace(/\s+/g, "-")}`;
   return (
-    <div>
-      <Kicker>{label}</Kicker>
+    <div role="group" aria-labelledby={labelId}>
+      <Kicker id={labelId}>{label}</Kicker>
       <div
         style={{
           display: "flex",
@@ -772,11 +822,17 @@ function Chip({
         ...chipBaseStyle,
         background: isActive ? "var(--text-action)" : "transparent",
         color: isActive ? "var(--surface-page)" : "var(--text-body)",
+        // Inactive borderColor mirrors the chipBaseStyle's border —
+        // both must be --border-interactive for SC 1.4.11.
         borderColor: isActive
           ? "var(--text-action)"
-          : "var(--border-default)",
+          : "var(--border-interactive)",
       }}
-      className="hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
+      // motion-reduce:transition-none mirrors the rest of the
+      // codebase (Link, Nav, DismissableChip below) — the FilterRow
+      // chip was the only interactive element in this surface
+      // still animating colors when prefers-reduced-motion is set.
+      className="hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none"
     >
       {children}
     </button>
@@ -969,6 +1025,11 @@ function EmptyState({ onClearAll }: { onClearAll: () => void }) {
       <button
         type="button"
         onClick={onClearAll}
+        // focus-visible utilities match every other focusable
+        // element in this file. Without them, the browser's
+        // default focus indicator was often invisible against the
+        // dashed-border empty-state surface.
+        className="focus-visible:outline-2 focus-visible:outline-offset-2"
         style={{
           marginTop: 12,
           ...clearAllButtonStyle,
@@ -1018,13 +1079,21 @@ function countActiveFilters(filters: FilmFilters): number {
 
 // ─── Inline styles ────────────────────────────────────────────────
 
+// chipBaseStyle uses --border-interactive (grey-700 on white = ~5:1
+// light, grey-600 on black = ~4.35:1 dark). The previous
+// --border-default (grey-50 / grey-800 in dark) failed SC 1.4.11
+// (3:1 minimum for non-text UI components) — the border is the
+// sole visual indicator distinguishing inactive chips from the
+// page background, so it has to clear AA. Matches the
+// triggerButtonStyle below which already used --border-interactive
+// for the same reason.
 const chipBaseStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
   fontSize: 12,
   letterSpacing: "0.04em",
   padding: "6px 12px",
   borderRadius: 999,
-  border: "1px solid var(--border-default)",
+  border: "1px solid var(--border-interactive)",
   cursor: "pointer",
   whiteSpace: "nowrap",
   transition: "background 0.12s, color 0.12s, border-color 0.12s",
@@ -1035,7 +1104,10 @@ const sortSelectStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
   fontSize: 12,
   padding: "6px 8px",
-  border: "1px solid var(--border-default)",
+  // Same SC 1.4.11 fix as chipBaseStyle — the select's border is
+  // the only visual boundary distinguishing the control from the
+  // page surface.
+  border: "1px solid var(--border-interactive)",
   borderRadius: "var(--border-radius-sm)",
   background: "var(--surface-page)",
   color: "var(--text-body)",
