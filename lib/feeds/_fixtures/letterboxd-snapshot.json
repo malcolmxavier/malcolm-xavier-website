@@ -1,35 +1,35 @@
 {
-  "capturedAt": "2026-05-03T16:28:32.440Z",
+  "capturedAt": "2026-05-05T15:29:04.113Z",
   "summary": {
-    "totalFilms": 741,
-    "totalReviews": 741,
-    "thisYearCount": 100,
+    "totalFilms": 742,
+    "totalReviews": 742,
+    "thisYearCount": 101,
     "ratingDistribution": {
       "1": 34,
       "2": 117,
       "3": 141,
       "4": 99,
       "5": 16,
+      "2.5": 100,
       "3.5": 146,
-      "2.5": 99,
       "4.5": 48,
       "1.5": 32,
       "0.5": 9
     },
     "genreDistribution": {
+      "Horror": 125,
+      "Mystery": 77,
+      "Thriller": 211,
       "Comedy": 212,
       "Drama": 351,
       "Action": 108,
-      "Thriller": 210,
       "Crime": 97,
       "Science Fiction": 109,
       "Adventure": 81,
       "Documentary": 57,
-      "Horror": 124,
       "Romance": 86,
       "Music": 45,
       "Fantasy": 56,
-      "Mystery": 76,
       "History": 40,
       "Animation": 42,
       "Family": 18,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 552,
+      "2020s": 553,
       "1990s": 15,
       "2010s": 123,
       "1960s": 1,
@@ -48,6 +48,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-631842",
+      "letterboxdSlug": "knock-at-the-cabin",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/knock-at-the-cabin/",
+      "title": "Knock at the Cabin",
+      "releaseYear": 2023,
+      "firstWatchedDate": "2026-05-05",
+      "latestWatchedDate": "2026-05-05",
+      "firstReviewDate": "2026-05-05",
+      "latestReviewDate": "2026-05-05",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "watchedDate": "2026-05-05",
+          "reviewDate": "2026-05-05",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I don’t think there was enough here for a feature. It’s okay to make a short!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 631842,
+        "posterPath": "/dm06L9pxDOL9jNSK4Cb6y139rrG.jpg",
+        "backdropPath": "/sANUefL2v8VI6fSfK3gWAG3XBt4.jpg",
+        "genres": [
+          "Horror",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 100,
+        "director": "M. Night Shyamalan"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/dm06L9pxDOL9jNSK4Cb6y139rrG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dm06L9pxDOL9jNSK4Cb6y139rrG.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1314481",
       "letterboxdSlug": "the-devil-wears-prada-2",
@@ -32167,6 +32211,50 @@
     }
   ],
   "filmById": {
+    "tmdb-631842": {
+      "id": "tmdb-631842",
+      "letterboxdSlug": "knock-at-the-cabin",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/knock-at-the-cabin/",
+      "title": "Knock at the Cabin",
+      "releaseYear": 2023,
+      "firstWatchedDate": "2026-05-05",
+      "latestWatchedDate": "2026-05-05",
+      "firstReviewDate": "2026-05-05",
+      "latestReviewDate": "2026-05-05",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "watchedDate": "2026-05-05",
+          "reviewDate": "2026-05-05",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I don’t think there was enough here for a feature. It’s okay to make a short!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 631842,
+        "posterPath": "/dm06L9pxDOL9jNSK4Cb6y139rrG.jpg",
+        "backdropPath": "/sANUefL2v8VI6fSfK3gWAG3XBt4.jpg",
+        "genres": [
+          "Horror",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 100,
+        "director": "M. Night Shyamalan"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/dm06L9pxDOL9jNSK4Cb6y139rrG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dm06L9pxDOL9jNSK4Cb6y139rrG.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1314481": {
       "id": "tmdb-1314481",
       "letterboxdSlug": "the-devil-wears-prada-2",
