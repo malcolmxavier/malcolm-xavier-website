@@ -1,12 +1,12 @@
 {
-  "capturedAt": "2026-05-05T17:13:36.559Z",
+  "capturedAt": "2026-05-05T21:53:08.823Z",
   "summary": {
-    "totalFilms": 742,
-    "totalReviews": 743,
-    "thisYearCount": 101,
+    "totalFilms": 743,
+    "totalReviews": 744,
+    "thisYearCount": 102,
     "ratingDistribution": {
       "1": 34,
-      "2": 117,
+      "2": 118,
       "3": 141,
       "4": 99,
       "5": 16,
@@ -20,8 +20,10 @@
       "Horror": 125,
       "Mystery": 77,
       "Thriller": 211,
-      "Comedy": 212,
-      "Drama": 351,
+      "Animation": 43,
+      "Family": 19,
+      "Comedy": 213,
+      "Drama": 352,
       "Action": 108,
       "Crime": 97,
       "Science Fiction": 109,
@@ -31,14 +33,12 @@
       "Music": 45,
       "Fantasy": 56,
       "History": 40,
-      "Animation": 42,
-      "Family": 18,
       "TV Movie": 5,
       "War": 16,
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 553,
+      "2020s": 554,
       "1990s": 15,
       "2010s": 123,
       "1960s": 1,
@@ -96,6 +96,51 @@
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dm06L9pxDOL9jNSK4Cb6y139rrG.jpg",
       "ratingSet": [
         2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-539745",
+      "letterboxdSlug": "animal-farm",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/animal-farm-2025/",
+      "title": "Animal Farm",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-05-05",
+      "latestWatchedDate": "2026-05-05",
+      "firstReviewDate": "2026-05-05",
+      "latestReviewDate": "2026-05-05",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "watchedDate": "2026-05-05",
+          "reviewDate": "2026-05-05",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I was hoping for more of a serve, but the update just didn’t click. In fact, I think this shouldn’t have been constructed as a kids’ movie is the thing.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 539745,
+        "posterPath": "/6pzI1DIlxwAFffw9OZcG6cr031U.jpg",
+        "backdropPath": "/plDfFp8LWIh8c8WK5Xlgvwytgqs.jpg",
+        "genres": [
+          "Animation",
+          "Family",
+          "Comedy",
+          "Drama"
+        ],
+        "runtime": 96,
+        "director": "Andy Serkis"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/6pzI1DIlxwAFffw9OZcG6cr031U.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6pzI1DIlxwAFffw9OZcG6cr031U.jpg",
+      "ratingSet": [
+        2
       ],
       "watchedYearSet": [
         2026
@@ -32268,6 +32313,51 @@
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dm06L9pxDOL9jNSK4Cb6y139rrG.jpg",
       "ratingSet": [
         2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-539745": {
+      "id": "tmdb-539745",
+      "letterboxdSlug": "animal-farm",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/animal-farm-2025/",
+      "title": "Animal Farm",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-05-05",
+      "latestWatchedDate": "2026-05-05",
+      "firstReviewDate": "2026-05-05",
+      "latestReviewDate": "2026-05-05",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "watchedDate": "2026-05-05",
+          "reviewDate": "2026-05-05",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I was hoping for more of a serve, but the update just didn’t click. In fact, I think this shouldn’t have been constructed as a kids’ movie is the thing.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 539745,
+        "posterPath": "/6pzI1DIlxwAFffw9OZcG6cr031U.jpg",
+        "backdropPath": "/plDfFp8LWIh8c8WK5Xlgvwytgqs.jpg",
+        "genres": [
+          "Animation",
+          "Family",
+          "Comedy",
+          "Drama"
+        ],
+        "runtime": 96,
+        "director": "Andy Serkis"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/6pzI1DIlxwAFffw9OZcG6cr031U.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6pzI1DIlxwAFffw9OZcG6cr031U.jpg",
+      "ratingSet": [
+        2
       ],
       "watchedYearSet": [
         2026
