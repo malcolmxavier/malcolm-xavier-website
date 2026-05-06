@@ -13,6 +13,17 @@
 // ─── Public types ────────────────────────────────────────────────
 
 export type Review = {
+  /**
+   * Letterboxd RSS `<guid>` for the underlying review object — stable
+   * identity across edits to watchedDate, rating, or prose. Used by
+   * the RSS-incremental refresh as the primary dedupe key so an edit
+   * to watchedDate doesn't get treated as a brand-new watch event.
+   *
+   * Optional because reviews bootstrapped from the CSV export pre-
+   * date this field; the RSS refresh backfills the guid the first
+   * time it sees a CSV-imported review match by watchedDate.
+   */
+  guid?: string;
   /** ISO date (day precision) — when the film was watched. */
   watchedDate: string;
   /** ISO date — when the review was published on Letterboxd. */

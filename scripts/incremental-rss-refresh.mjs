@@ -241,22 +241,29 @@ function findOrCreateFilm(snapshot, entry) {
 }
 
 /**
- * Find the existing review for a film that matches an RSS entry's
- * watch event. watchedDate alone is the natural key — Malcolm
- * doesn't watch the same film twice on the same day, so a film +
- * watchedDate pair uniquely identifies a watch event.
+ * Find the existing review for a film that matches an RSS entry.
+ * Two-tier match:
  *
- * NOT (watchedDate, reviewDate). The CSV export and the RSS feed
- * surface different reviewDate values for the same review:
- *   • CSV's reviewDate = last-edit date of the review prose
- *   • RSS's pubDate    = first-publish date of the review
- * If Malcolm publishes a review and edits it a day or two later
- * (typical for him to polish prose post-publish), the two sources
- * disagree on reviewDate by 1-2 days. Dedupe by watchedDate alone
- * sidesteps the disagreement entirely; the rest of the review's
- * fields are stable across both sources for matched watches.
+ *   1. RSS `<guid>` — stable identity for the review object on
+ *      Letterboxd. Survives edits to watchedDate, rating, prose,
+ *      rewatch flag, etc. Primary key whenever both sides have it.
+ *   2. watchedDate — fallback for legacy reviews bootstrapped from
+ *      the CSV export, which don't carry a guid. The first RSS pass
+ *      that matches by watchedDate backfills guid via applyReviewEdits
+ *      so future edits are guid-routed.
+ *
+ * History: dedupe was watchedDate-only originally. That broke when
+ * Malcolm edited a review's watchedDate on Letterboxd — the new
+ * RSS entry didn't match the existing review by watchedDate, so it
+ * was appended as a phantom duplicate (caught 2026-05-05 with a
+ * Knock at the Cabin watchedDate edit). Guid is the actual identity;
+ * watchedDate is just the legacy fallback.
  */
 function findMatchingReview(film, entry) {
+  if (entry.guid) {
+    const byGuid = film.reviews.find((r) => r.guid && r.guid === entry.guid);
+    if (byGuid) return byGuid;
+  }
   return film.reviews.find((r) => r.watchedDate === entry.watchedDate) ?? null;
 }
 
@@ -268,8 +275,11 @@ function findMatchingReview(film, entry) {
  * empty array means no edit.
  *
  * reviewDate is intentionally NOT compared, for the same reason
- * findMatchingReview ignores it: CSV vs RSS report it differently
- * for any post-publish edit.
+ * findMatchingReview's fallback ignores it: CSV vs RSS report it
+ * differently for any post-publish edit. watchedDate IS compared
+ * because guid-routed matches catch watchedDate edits, and we want
+ * those to fan out into the snapshot's per-film aggregates (so the
+ * grid re-positions to the corrected watch date on the next refresh).
  */
 function detectReviewEdits(existing, entry) {
   const changes = [];
@@ -282,6 +292,17 @@ function detectReviewEdits(existing, entry) {
   if (Boolean(existing.rewatch) !== Boolean(entry.rewatch)) {
     changes.push("rewatch");
   }
+  if ((existing.watchedDate ?? "") !== (entry.watchedDate ?? "")) {
+    changes.push("watchedDate");
+  }
+  // Backfill-only: existing CSV-imported review with no guid yet,
+  // matched by watchedDate. We want to record the guid for future
+  // edits but it's not a user-visible "edit" — surfacing it in the
+  // change list would noise up the CI log. Tracked here as a
+  // separate flag so applyReviewEdits knows to write it through.
+  if (!existing.guid && entry.guid) {
+    changes.push("guidBackfill");
+  }
   return changes;
 }
 
@@ -291,19 +312,35 @@ function detectReviewEdits(existing, entry) {
  * detectReviewEdits). Doesn't touch fields RSS doesn't expose
  * (containsSpoilers, tags) — those stay at whatever the CSV
  * bootstrap set.
+ *
+ * Updates watchedDate too, so a Letterboxd-side correction to the
+ * watch date (e.g. "I logged this as today but actually watched
+ * it yesterday") fans out into the per-film aggregates the next
+ * refresh tick. Backfills guid on legacy CSV-imported reviews so
+ * subsequent refreshes route by guid, not watchedDate.
  */
 function applyReviewEdits(existing, entry) {
   existing.reviewText = entry.reviewText;
   existing.rating = entry.rating;
   existing.rewatch = entry.rewatch;
+  existing.watchedDate = entry.watchedDate;
+  if (!existing.guid && entry.guid) {
+    existing.guid = entry.guid;
+  }
 }
 
 /**
  * Append a new review to the film. Reviews are stored newest-first
- * by reviewDate, matching the snapshot writer's invariant.
+ * by reviewDate, matching the snapshot writer's invariant. The
+ * RSS guid is stored on the review so later edits route by identity
+ * (see findMatchingReview) instead of watchedDate, which can change.
  */
 function appendReview(film, entry) {
   film.reviews.push({
+    // guid is omitted when the RSS entry has no <guid> element
+    // (shouldn't happen on Letterboxd, but the parser tolerates it).
+    // Optional in the Review type; consumers should not assume presence.
+    ...(entry.guid ? { guid: entry.guid } : {}),
     watchedDate: entry.watchedDate,
     reviewDate: entry.reviewDate,
     rating: entry.rating,
@@ -525,6 +562,13 @@ async function main() {
   const newFilms = [];
   const newReviews = [];
   const editedReviews = [];
+  // Counts opportunistic guid backfills on legacy CSV-imported
+  // reviews. These are not user-visible edits — the review's
+  // content is unchanged — but they DO mutate the snapshot, so
+  // they need to flow through to the write path. Tracked
+  // separately from editedReviews so they don't pollute the CI
+  // log line that announces "X reviews edited."
+  let backfillCount = 0;
   // Track entries by filmId so we can later set film.liked from the
   // entry whose review is the most-recent on that film. RSS surfaces
   // liked at the watch-event level; our snapshot stores it at the
@@ -545,12 +589,20 @@ async function main() {
       const changes = detectReviewEdits(matching, entry);
       if (changes.length > 0) {
         applyReviewEdits(matching, entry);
-        editedReviews.push({
-          filmId: film.id,
-          title: film.title,
-          watchedDate: entry.watchedDate,
-          changes,
-        });
+        // Separate user-visible edits from internal guid backfills.
+        // A backfill alone shouldn't show up as "review updated" in
+        // the CI log, but it DOES mutate the snapshot and must flow
+        // to the write path so the guid persists for future edits.
+        const visibleChanges = changes.filter((c) => c !== "guidBackfill");
+        if (visibleChanges.length > 0) {
+          editedReviews.push({
+            filmId: film.id,
+            title: film.title,
+            watchedDate: entry.watchedDate,
+            changes: visibleChanges,
+          });
+        }
+        if (changes.includes("guidBackfill")) backfillCount++;
       }
     }
 
@@ -562,11 +614,18 @@ async function main() {
   console.log(
     `      ${newFilms.length} new film(s), ${newReviews.length} new review(s)` +
       (editedReviews.length > 0
-        ? `, ${editedReviews.length} edit(s) on existing reviews.`
+        ? `, ${editedReviews.length} edit(s) on existing reviews`
+        : "") +
+      (backfillCount > 0
+        ? `, ${backfillCount} guid backfill(s) on legacy reviews.`
         : "."),
   );
 
-  if (newReviews.length === 0 && editedReviews.length === 0) {
+  if (
+    newReviews.length === 0 &&
+    editedReviews.length === 0 &&
+    backfillCount === 0
+  ) {
     console.log("\nNo changes — snapshot is up to date.");
     return;
   }
@@ -625,6 +684,9 @@ async function main() {
       ` (+${newReviews.length})` +
       (editedReviews.length > 0
         ? `\n  Edits:    ${editedReviews.length} review(s) updated in place`
+        : "") +
+      (backfillCount > 0
+        ? `\n  Backfill: ${backfillCount} legacy review(s) tagged with guid`
         : ""),
   );
 
