@@ -23,6 +23,8 @@ import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
 import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
@@ -96,7 +98,7 @@ export async function generateMetadata({
 
   const noindex = additionalFiltersActive || isPagedBeyondFirst;
   const count = summary.genreDistribution[genre] ?? 0;
-  const description = `${count} ${genre.toLowerCase()} ${count === 1 ? "show" : "shows"} I've reviewed across show, season, and episode levels. Pulled from my Serializd diary.`;
+  const description = `${count} ${genre.toLowerCase()} ${count === 1 ? "show" : "shows"} rated and reviewed at the show, season, and episode level—logged on Serializd. Every card links to its full review hierarchy with TMDB metadata, star ratings, and prose.`;
   const canonical = `/television/genre/${slug}`;
   const titleBase = `${genre} TV Reviews`;
   const socialTitle = `${titleBase}—Malcolm Xavier`;
@@ -274,9 +276,17 @@ export default async function TvGenrePage({
                 they exist.
               </Lede>
               <p style={{ margin: 0 }}>
-                <Link href={SERIALIZD_PROFILE_URL}>
-                  Follow along on Serializd ↗
-                </Link>
+                <TrackOnClick
+                  event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
+                  eventData={{
+                    kind: "profile-follow",
+                    surface: "genre-hero",
+                  }}
+                >
+                  <Link href={SERIALIZD_PROFILE_URL}>
+                    Follow along on Serializd ↗
+                  </Link>
+                </TrackOnClick>
               </p>
             </Stack>
             <div className="hidden lg:block">
