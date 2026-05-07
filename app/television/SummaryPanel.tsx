@@ -145,13 +145,19 @@ export function SummaryPanel({
         </div>
 
         {/* ─── Scope kicker ───────────────────────────────────── */}
-        {/* Names what the chart's counting — same posture as
-            /films's "Lifetime · all N films" kicker. Updates to
-            track the toggle so the user always sees what mode is
-            active even without looking back at the toggle. */}
-        <Kicker>
-          Lifetime · all {summary.totalShows.toLocaleString()} shows
-        </Kicker>
+        {/* Signals scope only. The breadth (152 shows) is surfaced
+            by the catalog stat-bar above the grid; the count is
+            surfaced by the lead-stats line below; the level is
+            surfaced by the mode toggle above. The kicker just says
+            "this is lifetime, not filtered or in-year" — leaving
+            the four other data signals around it to do their jobs
+            without competing. Diverges from /films's
+            "Lifetime · all N films" because films's chart counts
+            films at one level (no Show/Season/Episode toggle), so
+            its kicker stays coherent with a single corpus number;
+            TV's chart unit varies by mode and a single number in
+            the kicker can't track that without redundancy. */}
+        <Kicker>Lifetime</Kicker>
 
         {/* ─── Lead stats — two lines ───────────────────────────── */}
         {/* Counts line + averages line, sharing the same mono
