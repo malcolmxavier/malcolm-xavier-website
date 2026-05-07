@@ -451,6 +451,42 @@ a[data-subbrand="film"] {
   }
 }
 
+/* /television filter-rail + dismiss chips. Same posture as
+   .film-filter-chip — moved into the cascade so prefers-reduced-
+   motion can disable the transition (Tailwind's
+   motion-reduce:transition-none would lose to an inline-style
+   `transition` declaration). Class kept distinct from
+   .film-filter-chip so the two clusters can diverge later
+   (e.g. different timing curves) without forking. */
+.show-filter-chip {
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .show-filter-chip {
+    transition: none;
+  }
+}
+
+/* Pulsing dot used inside the "Watching" badge on
+   /television/watching's InProgressCard. Subtle 2-second cycle
+   between the cluster's blue-300 and a desaturated state — the
+   motion is a soft "alive" cue without being attention-stealing.
+   Disabled entirely under prefers-reduced-motion so vestibular-
+   sensitive users don't see the pulse at all (the badge text
+   "Watching" carries the meaning regardless). */
+@keyframes watching-pulse-keyframes {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+.watching-pulse {
+  animation: watching-pulse-keyframes 2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .watching-pulse {
+    animation: none;
+  }
+}
+
 [data-subbrand="film"] a.film-detail-genre-chip {
   color: var(--text-caption) !important;
   text-decoration: none;
@@ -486,6 +522,36 @@ a[data-subbrand="tv"] {
      (#3e4ad7) was 3.17:1 — would fail the same way the
      music link did when /tv ships. Pre-empt the violation. */
   color: var(--blue-300) !important;
+}
+
+/* /television detail page genre chips — same pattern as
+   .film-detail-genre-chip. Quiet caption-color at rest; shifts
+   to the cluster's blue on hover/focus. The class overrides the
+   loud-link rule above with !important since both selectors
+   carry equal-or-greater specificity. */
+[data-subbrand="tv"] a.show-detail-genre-chip {
+  color: var(--text-caption) !important;
+  text-decoration: none;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+[data-subbrand="tv"] a.show-detail-genre-chip:hover,
+[data-subbrand="tv"] a.show-detail-genre-chip:focus-visible {
+  color: var(--blue-700) !important;
+  border-color: var(--blue-700);
+}
+[data-theme="dark"] [data-subbrand="tv"] a.show-detail-genre-chip:hover,
+[data-theme="dark"] [data-subbrand="tv"] a.show-detail-genre-chip:focus-visible {
+  color: var(--blue-300) !important;
+  border-color: var(--blue-300);
+}
+[data-subbrand="tv"] a.show-detail-genre-chip:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-subbrand="tv"] a.show-detail-genre-chip {
+    transition: none;
+  }
 }
 
 [data-subbrand="games"] a,

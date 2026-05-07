@@ -1,0 +1,221 @@
+// ─────────────────────────────────────────────────────────────────
+// /television/watching — in-progress offshoot.
+//
+// Renders the snapshot's in-progress cards (Season-in-progress —
+// per-season classification rule 2 from PLAN.md). One card per
+// (show, in-progress season) pair. Cards link to the detail
+// page's matching season anchor so the user lands directly at
+// the right Season block.
+//
+// Phase-2 scope: hero + flat grid + back link to /television. No
+// filter sidebar (all filter dimensions in /television apply
+// equally here, but the in-progress catalog is small — typically
+// 16-25 shows — so a sidebar feels heavyweight at launch). Adding
+// the shell back is a straightforward port from /television's
+// page once filter-on-watching usage signals demand.
+//
+// Snapshot-only at request time: getShows() reads the same
+// snapshot fixture /television uses. No live API path.
+// ─────────────────────────────────────────────────────────────────
+
+import type { Metadata } from "next";
+import { Container } from "@/components/layout/Container";
+import { Section } from "@/components/layout/Section";
+import { Stack } from "@/components/layout/Stack";
+import { Display } from "@/components/typography/Display";
+import { Headline } from "@/components/typography/Headline";
+import { Kicker } from "@/components/typography/Kicker";
+import { Lede } from "@/components/typography/Lede";
+import { SITE_URL } from "@/lib/site-config";
+import { getShows } from "@/lib/feeds/serializd";
+import { buildInProgressCards } from "@/lib/feeds/serializd-utils";
+import { AllOrWatchingToggle } from "../AllOrWatchingToggle";
+import { InProgressCard } from "../InProgressCard";
+import { BackToTelevision } from "../BackToTelevision";
+
+// Watching catalog moves more often than the lifetime listing
+// (every episode-watch flips the most-recent date), but the
+// snapshot itself only refreshes on `npm run television:bootstrap`.
+// 1-hour ISR is conservative and matches /films/[slug].
+export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { summary } = getShows();
+  const count = summary.showsInProgressCount;
+  const description = `${count} ${count === 1 ? "show" : "shows"} I'm currently watching, with episode progress per season. Pulled from my Serializd diary.`;
+  return {
+    title: "Currently Watching",
+    description,
+    alternates: { canonical: "/television/watching" },
+    openGraph: {
+      title: "Currently Watching—Malcolm Xavier",
+      description,
+      url: "/television/watching",
+      type: "website",
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Currently Watching—Malcolm Xavier",
+      description,
+      images: ["/opengraph-image"],
+    },
+  };
+}
+
+export default function WatchingPage() {
+  const { shows, summary } = getShows();
+  const cards = buildInProgressCards(shows);
+  // Sort by most-recent activity within the in-progress slice so
+  // the freshest watches surface first. Reuses each card's
+  // episodeReviews[0] (newest) as the sort key.
+  cards.sort((a, b) => {
+    const aDate = a.episodeReviews[0]?.reviewDate ?? "";
+    const bDate = b.episodeReviews[0]?.reviewDate ?? "";
+    return bDate.localeCompare(aDate);
+  });
+
+  // CollectionPage + BreadcrumbList JSON-LD. Same posture as
+  // /television's listing JSON-LD but scoped to the watching
+  // sub-page so AI retrievers understand its role separately.
+  const url = `${SITE_URL}/television/watching`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: "Currently Watching",
+        description: `${summary.showsInProgressCount} TV shows Malcolm Xavier is currently watching, with episode progress per season.`,
+        url,
+        inLanguage: "en-US",
+        author: {
+          "@type": "Person",
+          name: "Malcolm Xavier",
+          "@id": `${SITE_URL}/#person`,
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Television",
+            item: `${SITE_URL}/television`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Watching",
+            item: url,
+          },
+        ],
+      },
+    ],
+  };
+
+  return (
+    <div data-subbrand="tv">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Container size="lg">
+        {/* Back link sits above the hero, same posture as detail
+            pages. Mirrors /films/[slug]'s BackToFilms placement
+            so navigation chrome reads consistently across the
+            site. */}
+        <div
+          style={{
+            paddingTop: "var(--scale-600)",
+            paddingBottom: "var(--scale-400)",
+          }}
+        >
+          <BackToTelevision />
+        </div>
+
+        <Section padding="md">
+          <Stack gap="500">
+            <Kicker accent>Television · Watching</Kicker>
+            <Display>What I&apos;m mid-watch on right now.</Display>
+            <Lede>
+              Each card is a season I&apos;ve started but haven&apos;t finished
+              writing up. The progress line shows how many episodes I&apos;ve
+              logged so far. Open any card for the full hierarchy —
+              episode notes nest under their parent season.
+            </Lede>
+          </Stack>
+        </Section>
+
+        <Section padding="md" bordered>
+          <Headline level={2} className="sr-only">
+            In-progress seasons
+          </Headline>
+          {/* All / Watching toggle — same pattern as on
+              /television's listing. From here, "All" hops back
+              to the cluster root (no filter context to carry,
+              since /watching has no filter sidebar).
+              id="grid" + scroll-margin-top is the anchor target
+              the toggle's hrefs append (#grid) so view switches
+              land at the grid row rather than the page hero. */}
+          <div
+            id="grid"
+            style={{ marginBottom: 16, scrollMarginTop: "5rem" }}
+          >
+            <AllOrWatchingToggle
+              active="watching"
+              watchingCount={cards.length}
+            />
+          </div>
+          {cards.length > 0 ? (
+            <ul
+              role="list"
+              className="grid gap-4 sm:gap-6"
+              style={{
+                gridTemplateColumns:
+                  "repeat(auto-fill, minmax(160px, 1fr))",
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+              }}
+            >
+              {cards.map((card) => (
+                <li key={`${card.show.id}#s${card.seasonNumber}`}>
+                  <InProgressCard
+                    card={card}
+                    originHref="/television/watching"
+                  />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            // Empty-state surface — when Malcolm has no in-progress
+            // seasons (rare, but possible after a bulk Season-write
+            // session). Reads as a positive signal ("all caught up")
+            // rather than a missing-data warning.
+            <div
+              style={{
+                padding: "var(--scale-800)",
+                border: "1px dashed var(--border-default)",
+                borderRadius: "var(--border-radius-md)",
+                textAlign: "center",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-secondary)",
+                  fontSize: "var(--p-md-font-size)",
+                  color: "var(--text-body)",
+                  margin: 0,
+                }}
+              >
+                Nothing in progress right now. Every season I&apos;ve started
+                has a writeup.
+              </p>
+            </div>
+          )}
+        </Section>
+      </Container>
+    </div>
+  );
+}
