@@ -255,6 +255,13 @@ export default async function FilmDetailPage({
                   aspectRatio: "2 / 3",
                   background: "var(--surface-default)",
                   border: "1px solid var(--border-default)",
+                  // Cap the poster at 240px on narrow viewports so
+                  // it doesn't fill the entire 375px first fold —
+                  // class-audit fix from
+                  // tv-detail-hero-poster-no-maxwidth-mobile.
+                  // Desktop is unaffected (md+ constrains the
+                  // column to 200/240px).
+                  maxWidth: "240px",
                 }}
               >
                 <Image
