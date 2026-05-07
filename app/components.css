@@ -800,3 +800,26 @@ code.code-chip {
   background: var(--green-300);
   color: var(--green-800);
 }
+
+/* Season-status in-progress badge — same theme-flipped bg+text
+   pair pattern as .season-status-watched, but on the cluster
+   blue ramp. Closes the SC 1.4.11 non-text-contrast gap caught
+   in the 2026-05-07 re-review: blue-700 (#08127b) on black has
+   ~1.38:1 edge contrast (badge boundary blends into the dark
+   page). The theme-flipped pair gives:
+     • light mode = bg blue-700 + white text (~15.19:1 text +
+       15.19:1 edge against white page; great in both directions)
+     • dark mode  = bg blue-200 + blue-800 text (~6.53:1 text +
+       9.04:1 edge against black page; edge pops)
+   Mirrors the .season-status-watched pattern at one level
+   lighter on the dark-mode bg (blue-200 vs green-300) because
+   blue-300 + blue-800 text only clears 3.93:1 (fails AA body),
+   while blue-200 + blue-800 text clears 6.53:1 cleanly. */
+.season-status-in-progress {
+  background: var(--blue-700);
+  color: #fff;
+}
+[data-theme="dark"] .season-status-in-progress {
+  background: var(--blue-200);
+  color: var(--blue-800);
+}
