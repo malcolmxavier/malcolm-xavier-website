@@ -689,7 +689,14 @@
   --text-on-action: var(--primary-700);
   --text-error: var(--error-default);
   --text-success: var(--success-default);
-  --text-warning: var(--warning-default);
+  /* --warning-800 (yellow-800 #646012) clears AA body-text
+     contrast on white surfaces (~6.4:1); --warning-default
+     (yellow-500 #faef2d) was ~1.1:1 and failed any visible
+     warning-text consumer in light mode. Token-level fix from
+     2026-05-07 re-review (sitewide; covers the TV detail-page
+     Pill warning + the /films Pill, both of which routed
+     through this token). */
+  --text-warning: var(--warning-800);
   --text-information: var(--information-default);
   --text-disabled: var(--neutral-default);
   --text-heading: var(--neutral-black);

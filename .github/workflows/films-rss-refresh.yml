@@ -95,7 +95,8 @@ jobs:
           # Same-window race guard — if the television-refresh job
           # also pushed in this window, the bare push will be
           # rejected as non-fast-forward and the snapshot would
-          # silently fail to land. Pull --rebase the missed commit
-          # and retry once. Cron offset (:00 vs :30) makes this
-          # rare but not impossible.
-          git push || (git pull --rebase && git push)
+          # silently fail to land. Two-attempt rebase-retry
+          # handles a one-step or two-step race window. The cron
+          # offset (:00 vs :30) makes this rare; manual
+          # workflow_dispatch overlap is the primary case.
+          git push || (git pull --rebase && git push) || (git pull --rebase && git push)

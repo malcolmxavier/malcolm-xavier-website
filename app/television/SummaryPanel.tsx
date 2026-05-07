@@ -110,8 +110,13 @@ export function SummaryPanel({
     <aside aria-label="Lifetime stats" className="lg:h-full">
       <Stack gap="400" className="lg:h-full">
         {/* ─── Mode toggle row ──────────────────────────────────── */}
-        <div role="group" aria-labelledby="tv-summary-mode-scope-label">
-          <Kicker id="tv-summary-mode-scope-label">Scope</Kicker>
+        {/* aria-label (not aria-labelledby) — SummaryPanel renders
+            twice in the same document on /television (desktop hidden
+            lg:block + mobile lg:hidden), so a duplicate id collision
+            broke aria-labelledby resolution. Reverted in the
+            2026-05-07 re-review. */}
+        <div role="group" aria-label="Rating distribution scope">
+          <Kicker>Scope</Kicker>
           <div
             style={{
               display: "flex",
@@ -144,20 +149,16 @@ export function SummaryPanel({
           </div>
         </div>
 
-        {/* ─── Scope kicker ───────────────────────────────────── */}
-        {/* Signals scope only. The breadth (152 shows) is surfaced
-            by the catalog stat-bar above the grid; the count is
-            surfaced by the lead-stats line below; the level is
-            surfaced by the mode toggle above. The kicker just says
-            "this is lifetime, not filtered or in-year" — leaving
-            the four other data signals around it to do their jobs
-            without competing. Diverges from /films's
-            "Lifetime · all N films" because films's chart counts
-            films at one level (no Show/Season/Episode toggle), so
-            its kicker stays coherent with a single corpus number;
-            TV's chart unit varies by mode and a single number in
-            the kicker can't track that without redundancy. */}
-        <Kicker>Lifetime</Kicker>
+        {/* The bare "Lifetime" Kicker that previously sat here was
+            dropped in the 2026-05-07 re-review — it had no
+            programmatic association with any element below and
+            duplicated information already carried by the panel's
+            <aside aria-label="Lifetime stats"> wrapper, the catalog
+            stat-bar above the grid (152 shows breadth signal), and
+            the lead-stats line below (mode-aware count + in-year
+            delta). The panel still reads as "lifetime stats" via
+            the aside's aria-label; the visual scope marker the
+            kicker provided was redundant chrome. */}
 
         {/* ─── Lead stats — two lines ───────────────────────────── */}
         {/* Counts line + averages line, sharing the same mono
@@ -390,12 +391,13 @@ const emphasizedNumberStyle: CSSProperties = {
 
 const tailStatsStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
-  // Bumped from 11 → 13 so the LinkedIn-screenshot insights
-  // ("Top genres," "Most-logged decade") read at a glance instead
-  // of fading into the panel's bottom margin. Stays inside the
-  // mono caption register; the larger size just lifts visibility
-  // without competing with the lead-stats line above.
-  fontSize: 13,
+  // var(--p-sm-font-size) (14px) lifts the LinkedIn-screenshot
+  // insights ("Top genres," "Most-logged decade") above the
+  // micro-caption register without breaking out of the type
+  // scale. The earlier fontSize: 13 bumped 11 → 13 for visibility
+  // but sat as a magic number between --p-xs (12) and --p-sm (14);
+  // re-review caught the off-scale, lifted to the canonical --p-sm.
+  fontSize: "var(--p-sm-font-size)",
   color: "var(--text-caption)",
   letterSpacing: "0.04em",
   lineHeight: 1.5,

@@ -178,6 +178,10 @@ export default async function TelevisionDetailPage({
   //     back to the snapshot's latestActivityDate-ordered
   //     neighbors via getShowNeighbors.
   const fromParam = asString(sp.from);
+  // Cache the breadcrumb label once so the JSX doesn't run
+  // describeFilterContext twice per render (conditional + value).
+  // Server-side helper, fast — but no reason to call it twice.
+  const filterContext = describeFilterContext(fromParam);
   const contextual = findContextualNeighbors(show.id, fromParam);
   const fallback = getShowNeighbors(show.id);
   const { newer: newerShow, older: olderShow } = contextual ?? fallback;
@@ -268,11 +272,16 @@ export default async function TelevisionDetailPage({
               mental model. The back link itself still goes to
               the source URL via BackToTelevision; this label is
               purely informational. */}
-          {describeFilterContext(fromParam) ? (
-            <div style={{ marginBottom: "var(--scale-200)" }}>
-              <Kicker>
-                Television · {describeFilterContext(fromParam)}
-              </Kicker>
+          {filterContext ? (
+            // marginBottom var(--scale-400) (16px) gives the
+            // breadcrumb visual breathing room from the
+            // BackToTelevision link below — both render mono
+            // uppercase, and the previous scale-200 (8px) gap
+            // crowded them into a single visual unit. The bump
+            // disambiguates "where you came from" (caption-grey
+            // breadcrumb) from "go back" (text-action-blue link).
+            <div style={{ marginBottom: "var(--scale-400)" }}>
+              <Kicker>Television · {filterContext}</Kicker>
             </div>
           ) : null}
           {/* Suspense wrap — BackToTelevision uses useSearchParams,
@@ -971,7 +980,13 @@ function NeighborLink({
         </span>
         <span
           style={{
-            fontFamily: "var(--font-secondary)",
+            // --font-primary (Roboto Mono) matches the rest of the
+            // TV cluster's show-name surfaces (ShowCard via
+            // Headline, Display on the detail hero) and aligns with
+            // /films and /music NeighborLinks. The earlier
+            // --font-secondary (Roboto Slab) was an outlier flagged
+            // in the 2026-05-07 re-review.
+            fontFamily: "var(--font-primary)",
             fontSize: "var(--p-md-font-size)",
             color: "var(--text-heading)",
           }}
@@ -1040,7 +1055,15 @@ function describeFilterContext(fromUrl: string | undefined): string | null {
     labels.push("Watching");
   } else {
     const genre = parsed.searchParams.get("genre");
-    if (genre) labels.push(genre);
+    if (genre) {
+      // Multi-genre arrives as CSV (e.g. ?genre=Drama,Comedy from
+      // toggleGenre's join). Split + rejoin with " · " so the
+      // breadcrumb reads "Drama · Comedy" instead of the raw
+      // "Drama,Comedy" — mirrors how rating and watchedYear
+      // handle their multi-value params below.
+      const genres = genre.split(",").filter(Boolean);
+      if (genres.length > 0) labels.push(genres.join(" · "));
+    }
   }
   const rating = parsed.searchParams.get("rating");
   if (rating) {
@@ -1302,7 +1325,11 @@ const proseParagraphStyle: React.CSSProperties = {
 const genreChipStyle: React.CSSProperties = {
   display: "inline-block",
   fontFamily: "var(--font-mono)",
-  fontSize: 11,
+  // var(--p-xs-font-size) (12px) keeps the chip inside the type
+  // scale — the prior fontSize: 11 sat below the --p-xs floor
+  // and was 1px smaller than the matching Films chip. Lifted in
+  // the 2026-05-07 re-review along with the Films chip parity fix.
+  fontSize: "var(--p-xs-font-size)",
   letterSpacing: "0.06em",
   textTransform: "uppercase",
   // 6×10 padding keeps the chip pill-shaped while clearing the
