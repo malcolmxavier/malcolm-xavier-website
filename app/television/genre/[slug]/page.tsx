@@ -262,8 +262,8 @@ export default async function TvGenrePage({
             <Stack gap="500">
               <Kicker accent>Television · {genre}</Kicker>
               <Display>
-                Every {genre.toLowerCase()} show, every level of how I
-                watched.
+                Every {genre.toLowerCase()} show, every level, every
+                review.
               </Display>
               <Lede>
                 I&apos;ve logged {summary.genreDistribution[genre] ?? 0}{" "}
