@@ -126,7 +126,11 @@ export async function generateMetadata({
     openGraph: {
       title: "Film Reviews—Malcolm Xavier",
       description,
-      url: "/films",
+      // Track the canonical so unfurlers and crawlers receive the
+      // same "true URL" signal: /films on the listing,
+      // /films/genre/<slug> when ?genre=Single hands off. Class-
+      // audit fix from tv-og-url-genre-redirect-mismatch.
+      url: canonical,
       type: "website",
       // Next.js metadata `openGraph` replaces (not merges) the
       // parent's, so without explicit images here /films would

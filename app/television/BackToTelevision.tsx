@@ -117,6 +117,13 @@ export function BackToTelevision() {
         color: "var(--text-action)",
         textDecoration: "none",
         outlineColor: "var(--border-focus)",
+        // Pad the click target to clear the 24×24 SC 2.5.8 floor.
+        // Text is ~18px tall (12px font / 18px line-height); 3px
+        // top + 3px bottom = 24px total without changing the text
+        // baseline. Inline-block keeps the rounded-sm radius on
+        // the visible target so focus rings still hug the text.
+        paddingBlock: "3px",
+        display: "inline-block",
       }}
       className="hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm"
     >

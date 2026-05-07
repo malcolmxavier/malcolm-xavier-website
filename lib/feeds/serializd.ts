@@ -67,7 +67,14 @@ function isSnapshotShape(value: unknown): value is SerializdSnapshot {
     v.summary !== null &&
     Array.isArray(v.shows) &&
     typeof v.showById === "object" &&
-    v.showById !== null
+    v.showById !== null &&
+    // watchedOnlyShows is consumed via getWatchedOnlyShows() with a
+    // ?? [] fallback. Validating it here means an older snapshot
+    // (pre-watchedOnlyShows) fails fast at load time rather than
+    // silently returning undefined past the fallback. The snapshot
+    // is committed and CI-controlled, so this guard mostly catches
+    // local refresh-script regressions before they ship.
+    Array.isArray(v.watchedOnlyShows)
   );
 }
 

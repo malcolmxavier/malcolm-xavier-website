@@ -30,6 +30,7 @@ import { useState } from "react";
 import type { CSSProperties } from "react";
 import { Stack } from "@/components/layout/Stack";
 import { Kicker } from "@/components/typography/Kicker";
+import { SegmentedButton } from "@/components/primitives/SegmentedButton";
 import type { TvSummary } from "@/lib/feeds/serializd-utils";
 
 const RATING_KEYS = [
@@ -109,8 +110,8 @@ export function SummaryPanel({
     <aside aria-label="Lifetime stats" className="lg:h-full">
       <Stack gap="400" className="lg:h-full">
         {/* ─── Mode toggle row ──────────────────────────────────── */}
-        <div role="group" aria-label="Rating distribution scope">
-          <Kicker>Scope</Kicker>
+        <div role="group" aria-labelledby="tv-summary-mode-scope-label">
+          <Kicker id="tv-summary-mode-scope-label">Scope</Kicker>
           <div
             style={{
               display: "flex",
@@ -122,24 +123,24 @@ export function SummaryPanel({
               borderRadius: "var(--border-radius-sm)",
             }}
           >
-            <ModeButton
+            <SegmentedButton
               active={mode === "season"}
               onClick={() => setMode("season")}
             >
               Seasons
-            </ModeButton>
-            <ModeButton
+            </SegmentedButton>
+            <SegmentedButton
               active={mode === "show"}
               onClick={() => setMode("show")}
             >
               Shows
-            </ModeButton>
-            <ModeButton
+            </SegmentedButton>
+            <SegmentedButton
               active={mode === "episode"}
               onClick={() => setMode("episode")}
             >
               Episodes
-            </ModeButton>
+            </SegmentedButton>
           </div>
         </div>
 
@@ -272,41 +273,6 @@ export function SummaryPanel({
 }
 
 // ─── Sub-components ───────────────────────────────────────────────
-
-function ModeButton({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      style={{
-        flex: 1,
-        fontFamily: "var(--font-mono)",
-        fontSize: 11,
-        letterSpacing: "0.06em",
-        textTransform: "uppercase",
-        padding: "6px 8px",
-        border: "none",
-        borderRadius: "var(--border-radius-sm)",
-        cursor: "pointer",
-        background: active ? "var(--text-action)" : "transparent",
-        color: active ? "var(--surface-page)" : "var(--text-body)",
-        outlineColor: "var(--border-focus)",
-      }}
-      className="hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
-    >
-      {children}
-    </button>
-  );
-}
 
 function DistributionColumn({
   count,
