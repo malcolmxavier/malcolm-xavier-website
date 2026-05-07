@@ -450,6 +450,7 @@ export function TelevisionShell({
               active="all"
               watchingCount={watchingCount}
               allHref={originHref ?? "/television"}
+              from={routeGenre ? "genre" : "listing"}
             />
           </div>
           {(anyControlChangedFromDefault || toastMessage) ? (
@@ -507,6 +508,7 @@ export function TelevisionShell({
               pageParam="page"
               preserveParams={preserveParams}
               ariaLabel="Television review pages"
+              surface={routeGenre ? "television-genre" : "television"}
             />
           </div>
         </div>

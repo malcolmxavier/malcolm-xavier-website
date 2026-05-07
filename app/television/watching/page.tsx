@@ -189,6 +189,7 @@ export default function WatchingPage() {
             <AllOrWatchingToggle
               active="watching"
               watchingCount={cards.length}
+              from="watching"
             />
           </div>
           {cards.length > 0 ? (
