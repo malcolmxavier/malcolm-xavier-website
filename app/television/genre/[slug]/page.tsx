@@ -33,6 +33,7 @@ import {
   asString,
   buildCompletedCards,
   findGenreBySlug,
+  genreInProse,
   paginate,
   parseShowFilters,
   parseShowSort,
@@ -262,12 +263,12 @@ export default async function TvGenrePage({
             <Stack gap="500">
               <Kicker accent>Television · {genre}</Kicker>
               <Display>
-                Every {genre.toLowerCase()} show, every level, every
+                Every {genreInProse(genre)} show, every level, every
                 review.
               </Display>
               <Lede>
                 I&apos;ve logged {summary.genreDistribution[genre] ?? 0}{" "}
-                {genre.toLowerCase()}{" "}
+                {genreInProse(genre)}{" "}
                 {(summary.genreDistribution[genre] ?? 0) === 1
                   ? "show"
                   : "shows"}{" "}

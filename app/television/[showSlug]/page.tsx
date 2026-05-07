@@ -55,6 +55,7 @@ import {
   buildInProgressCards,
   findGenreBySlug,
   formatWatchedDate,
+  genreFromSlug,
   parseShowFilters,
   parseShowSort,
   resolveSeasonPosterUrl,
@@ -963,6 +964,12 @@ function NeighborLink({
         border: "1px solid var(--border-default)",
         borderRadius: "var(--border-radius-md)",
         outlineColor: "var(--border-focus)",
+        // Defensive reset against the browser's default blue
+        // anchor color — matches the /films and /music
+        // NeighborLink wrappers. Inner spans all set explicit
+        // colors today, but this guards against a future inner
+        // refactor exposing the default blue mid-card.
+        color: "inherit",
       }}
       className="hover:[border-color:var(--text-action)] focus-visible:outline-2 focus-visible:outline-offset-2"
     >
@@ -1041,15 +1048,18 @@ function describeFilterContext(fromUrl: string | undefined): string | null {
   const labels: string[] = [];
   const genreMatch = parsed.pathname.match(/^\/television\/genre\/([^/]+)/);
   if (genreMatch) {
-    // Slug → titlecased name. Good enough for the common cases
-    // ("drama" → "Drama"); doesn't handle multi-word genres with
-    // unusual casing (e.g. "Sci-Fi & Fantasy") but those would
-    // need a snapshot lookup that adds load this label doesn't
-    // need to carry.
+    // Multi-word genre slugs (sci-fi--fantasy, action--adventure,
+    // war--politics) carry double-dashes that the slug-to-titlecase
+    // walker can't resolve back to the proper "Sci-Fi & Fantasy"
+    // form, so genreFromSlug returns the static-mapped TMDB name
+    // for those cases. Single-word slugs (drama, comedy, ...) fall
+    // through to the titlecase walker.
+    const slug = genreMatch[1];
     labels.push(
-      genreMatch[1]
-        .replace(/-/g, " ")
-        .replace(/\b\w/g, (l) => l.toUpperCase()),
+      genreFromSlug(slug) ??
+        slug
+          .replace(/-/g, " ")
+          .replace(/\b\w/g, (l) => l.toUpperCase()),
     );
   } else if (parsed.pathname.startsWith("/television/watching")) {
     labels.push("Watching");
