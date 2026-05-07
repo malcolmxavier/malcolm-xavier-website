@@ -176,16 +176,55 @@ export function FilmsShell({
     closeButtonRef.current?.focus();
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    // Inert the global <nav> so keyboard users can't Tab out of
+    // the open drawer into the sticky site nav. The
+    // inert={drawerOpen} on the desktop layout wrapper covers the
+    // sidebar / grid subtree but not <nav>, which lives in
+    // layout.tsx outside this component's render. Class-audited
+    // from TelevisionShell's drawer fix (2026-05-07 launch QA).
+    const navEl = document.querySelector("nav");
+    navEl?.setAttribute("inert", "");
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setDrawerOpen(false);
         triggerRef.current?.focus();
+        return;
+      }
+      // Tab focus-trap — keep focus cycling inside the dialog.
+      // role="dialog" aria-modal hints to AT but doesn't actually
+      // trap keyboard focus; that's the JS responsibility here.
+      // Without this, Tab from the drawer's last focusable
+      // ("Show results" button) escapes to the listing hero /
+      // mobile SummaryPanel siblings of FilmsShell.
+      if (e.key !== "Tab") return;
+      const dialog = document.getElementById(DRAWER_ID);
+      if (!dialog) return;
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((el) => el.offsetParent !== null);
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first || !dialog.contains(active as Node)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (active === last || !dialog.contains(active as Node)) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     }
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = originalOverflow;
+      navEl?.removeAttribute("inert");
     };
   }, [drawerOpen]);
 

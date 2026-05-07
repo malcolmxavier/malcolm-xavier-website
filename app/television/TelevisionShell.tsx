@@ -142,13 +142,20 @@ export function TelevisionShell({
   }, [toastMessage]);
 
   // Drawer-open side effects — focus management, scroll lock,
-  // Esc dismissal, and inert on the global <nav> so keyboard users
-  // can't Tab out of the open drawer into the sticky site nav. The
-  // existing inert={drawerOpen} on the desktop layout wrapper
-  // covers the filter sidebar / grid subtree but not <nav>, which
-  // lives in layout.tsx outside this component's render. Same
-  // convention as FilmsShell so the two clusters' drawers behave
-  // identically for keyboard + AT users.
+  // Esc dismissal, inert on the global <nav>, and a Tab focus-
+  // trap that keeps keyboard focus cycling inside the drawer.
+  // role="dialog" aria-modal="true" hints to AT users that the
+  // dialog is modal but doesn't actually trap keyboard focus —
+  // that's the JS responsibility below. The existing
+  // inert={drawerOpen} on the desktop layout wrapper covers the
+  // filter sidebar / grid subtree, and the navEl.setAttribute
+  // covers the global Nav, but the listing hero / catalog Kicker
+  // / mobile SummaryPanel siblings of TelevisionShell stay
+  // focusable — without the Tab trap, Tab from the last drawer
+  // focusable (the "Show results" button) escapes there.
+  // Cleanup restores tab order. Same convention applied to
+  // FilmsShell so the two clusters' drawers behave identically
+  // for keyboard + AT users.
   useEffect(() => {
     if (!drawerOpen) return;
     closeButtonRef.current?.focus();
@@ -160,6 +167,34 @@ export function TelevisionShell({
       if (e.key === "Escape") {
         setDrawerOpen(false);
         triggerRef.current?.focus();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const dialog = document.getElementById(DRAWER_ID);
+      if (!dialog) return;
+      const focusable = Array.from(
+        dialog.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      ).filter((el) => el.offsetParent !== null);
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey) {
+        // Shift+Tab from first focusable (or focus already
+        // outside the dialog) → cycle to last.
+        if (active === first || !dialog.contains(active as Node)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        // Tab from last focusable (or focus already outside)
+        // → cycle to first.
+        if (active === last || !dialog.contains(active as Node)) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     }
     document.addEventListener("keydown", onKey);
