@@ -271,9 +271,9 @@ export default async function TvGenrePage({
                 {(summary.genreDistribution[genre] ?? 0) === 1
                   ? "show"
                   : "shows"}{" "}
-                on Serializd. Open any card for the full hierarchy —
-                show review, season notes, and episode-by-episode where
-                they exist.
+                on Serializd. Open any card for the full
+                hierarchy—show review, season notes, and
+                episode-by-episode where they exist.
               </Lede>
               <p style={{ margin: 0 }}>
                 <TrackOnClick
