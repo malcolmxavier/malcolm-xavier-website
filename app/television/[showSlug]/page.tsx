@@ -1267,18 +1267,46 @@ function buildPageJsonLd(show: Show) {
   for (const review of show.reviews) {
     if (review.level === "episode") continue; // see comment above
     if (review.reviewText.trim() === "") continue;
+    // Google's Review snippet validator requires itemReviewed to
+    // carry an explicit @type AND name (NOT just an @id reference
+    // into the @graph — even though schema.org allows that, the
+    // validator flags it as invalid). Make both Show-level and
+    // Season-level entities self-contained: @type + name + url
+    // + the structural fields. Caught by Rich Results Test on
+    // 2026-05-07; previous shape rendered "3 invalid items
+    // detected" against Abbott Elementary's three Season-level
+    // prose reviews.
     const itemReviewed: Record<string, unknown> =
       review.level === "show"
-        ? { "@id": `${detailUrl}#tvseries` }
+        ? {
+            "@type": "TVSeries",
+            "@id": `${detailUrl}#tvseries`,
+            name: show.name,
+            url: detailUrl,
+          }
         : (() => {
             // Cache the result so the JSON-LD builder makes one
             // pass over show.seasons per Season-level review
             // instead of two (the prior shape called it twice —
             // once for the truthy check, once for the value).
             const sn = seasonNumberForReview(show, review);
+            const seasonName =
+              sn !== null
+                ? `${show.name}: Season ${sn}`
+                : `${show.name}: Season`;
+            const seasonUrl =
+              sn !== null
+                ? `${detailUrl}#season-${sn}`
+                : detailUrl;
             return {
               "@type": "TVSeason",
-              partOfSeries: { "@id": `${detailUrl}#tvseries` },
+              name: seasonName,
+              url: seasonUrl,
+              partOfSeries: {
+                "@type": "TVSeries",
+                "@id": `${detailUrl}#tvseries`,
+                name: show.name,
+              },
               ...(sn !== null ? { seasonNumber: sn } : {}),
             };
           })();
