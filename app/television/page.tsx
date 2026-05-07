@@ -373,13 +373,17 @@ export default async function TelevisionPage({
               mode toggle's default mode so the cluster's vocabulary
               stays consistent across surfaces. Renders Kicker-styled
               (mono uppercase, --text-caption color) so the line
-              reads as an editorial label, not a SaaS stat-bar. */}
+              reads as an editorial label, not a SaaS stat-bar.
+              Source is titlecase to match the SummaryPanel toggle's
+              source register; CSS textTransform:uppercase renders
+              both surfaces identically at runtime. Source-level
+              alignment from the 2026-05-07 re-review. */}
           <div style={{ marginBottom: "var(--scale-500)" }}>
             <Kicker>
               The catalog:{" "}
-              {summary.totalSeasonReviews.toLocaleString()} seasons ·{" "}
-              {summary.totalShowReviews.toLocaleString()} shows ·{" "}
-              {summary.totalEpisodeReviews.toLocaleString()} episodes
+              {summary.totalSeasonReviews.toLocaleString()} Seasons ·{" "}
+              {summary.totalShowReviews.toLocaleString()} Shows ·{" "}
+              {summary.totalEpisodeReviews.toLocaleString()} Episodes
             </Kicker>
           </div>
           <TelevisionShell

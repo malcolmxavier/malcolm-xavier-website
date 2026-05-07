@@ -1029,6 +1029,18 @@ function resultNoun(
  * setWatched12Mo / toggleWatchedYear handlers always clear the
  * other side). Returns null when the navigate is a side-effect
  * like a pure pagination click so the caller can skip firing.
+ *
+ * First-match precedence: when multiple keys are touched in one
+ * navigate() call (e.g. a hypothetical "apply preset" button
+ * that sets rating AND genre simultaneously), only the first
+ * branch above wins and that single dimension fires. This is
+ * intentional — the precedence mirrors FilmsShell's contract,
+ * keeps the dashboard's per-dimension funnel data clean
+ * (one event per user action), and avoids over-counting on
+ * compound interactions. Current call sites never compound;
+ * if a future preset / multi-action surface lands and needs
+ * compound dimension reporting, refactor to return string[]
+ * and update both clusters in lockstep.
  */
 function pickFilterDimension(keys: string[]): string | null {
   if (keys.includes("rating")) return "rating";

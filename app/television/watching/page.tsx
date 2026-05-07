@@ -253,16 +253,21 @@ export default function WatchingPage() {
                   margin: 0,
                 }}
               >
-                Nothing in progress right now. Every season I&apos;ve started
-                has a writeup.
+                Nothing in progress right now.
               </p>
-              {/* Stub fallback — keeps the empty-state from being a
-                  dead-end if the in-progress queue ever clears.
-                  Anchors at #grid so the user lands at the listing
-                  row rather than the page hero. paddingBlock: 4px
-                  bumps the link's hit-target above the SC 2.5.8
-                  24px floor (small mono caption + 8px total
-                  padding ≈ 24px). */}
+              {/* CTA out of the empty-state. Anchors at #grid so the
+                  user lands at the listing row rather than the page
+                  hero. paddingBlock: 4px bumps the link's hit-target
+                  above the SC 2.5.8 24px floor (small mono caption
+                  + 8px total padding ≈ 24px). Copy bumped from
+                  "Browse all reviews →" → "Browse the rest of the
+                  catalog →" in the 2026-05-07 re-review pass; the
+                  earlier copy was technically misleading from this
+                  surface (could fire because everything was
+                  finished, in which case reviews exist; or because
+                  nothing's in progress, in which case "all reviews"
+                  was correct). The new copy reads correct in both
+                  cases. */}
               <p
                 style={{
                   fontFamily: "var(--font-mono)",
@@ -273,7 +278,9 @@ export default function WatchingPage() {
                   padding: "4px 0",
                 }}
               >
-                <Link href="/television#grid">Browse all reviews →</Link>
+                <Link href="/television#grid">
+                  Browse the rest of the catalog →
+                </Link>
               </p>
             </div>
           )}

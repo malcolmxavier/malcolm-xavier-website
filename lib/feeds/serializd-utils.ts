@@ -369,6 +369,59 @@ export function slugifyGenre(genre: string): string {
 }
 
 /**
+ * Multi-word TV genres whose TMDB casing should be preserved
+ * mid-sentence — they read as proper genre labels (compound
+ * proper-noun categories) rather than generic descriptors.
+ * Single-word genres fall through to .toLowerCase() per normal
+ * sentence-case prose.
+ *
+ * Snapshot inventory at the time of writing (2026-05-07): three
+ * multi-word genres exist in TMDB's TV vocabulary —
+ * "Action & Adventure," "Sci-Fi & Fantasy," and "War & Politics."
+ * Add to the set here when TMDB grows new multi-word genres.
+ */
+const GENRE_PRESERVE_CASE: ReadonlySet<string> = new Set([
+  "Action & Adventure",
+  "Sci-Fi & Fantasy",
+  "War & Politics",
+]);
+
+/**
+ * Inverse of slugifyGenre for the multi-word genres whose proper
+ * case can't be reconstructed from the slug alone — the `&` is
+ * stripped on slugification, leaving double-dashes the
+ * slug-to-titlecase walker can't resolve back. Single-word
+ * genre slugs round-trip cleanly without this map.
+ */
+const SLUG_TO_GENRE: Record<string, string> = {
+  "action--adventure": "Action & Adventure",
+  "sci-fi--fantasy": "Sci-Fi & Fantasy",
+  "war--politics": "War & Politics",
+};
+
+/**
+ * Render a TMDB genre name in mid-sentence prose register.
+ * Single-word genres lowercase ("Drama" → "drama"); multi-word
+ * compound genres preserve TMDB's casing ("Sci-Fi & Fantasy"
+ * stays as-is so the genre label reads as a proper category
+ * rather than a flat descriptor).
+ */
+export function genreInProse(genre: string): string {
+  return GENRE_PRESERVE_CASE.has(genre) ? genre : genre.toLowerCase();
+}
+
+/**
+ * Look up the proper TMDB genre name for a URL slug. Handles
+ * the multi-word special cases the slug-to-titlecase walker
+ * loses information on. Returns null when the slug isn't a
+ * known multi-word case — caller should fall back to its own
+ * titlecase reconstruction.
+ */
+export function genreFromSlug(slug: string): string | null {
+  return SLUG_TO_GENRE[slug] ?? null;
+}
+
+/**
  * Reverse-lookup a TMDB TV genre name from a URL slug. Walks the
  * snapshot's genreDistribution keys (typically <20 genres) so this
  * is O(genres) — trivial. Returns null when the slug doesn't match

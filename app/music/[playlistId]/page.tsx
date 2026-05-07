@@ -50,6 +50,15 @@ export const revalidate = 3600;
 // list to compute newer/older siblings — same pattern as
 // /films/[slug] and /television/[showSlug]. The full list is
 // already what /music renders, so the snapshot is warm.
+//
+// Cost note: in prod (SPOTIFY_OFFLINE=1) this reads the snapshot
+// — fast. In dev:online, getMusicData fetches all owned playlists
+// + one enriched-track call per playlist (batched at 3
+// concurrent). At ~30 playlists, ISR cold-start would noticeably
+// slow. Currently ~25 playlists. If the catalog grows past ~30,
+// revisit and split into a single-playlist fetch + a lightweight
+// neighbor-summary fetch (neighbors only need id, name,
+// tracks.length, total_duration_ms — no track enrichment).
 const getCachedMusicData = cache(() =>
   getMusicData(
     SPOTIFY_USER_ID,
