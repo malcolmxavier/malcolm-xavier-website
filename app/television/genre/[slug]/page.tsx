@@ -24,7 +24,8 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
 import { SITE_URL } from "@/lib/site-config";
-import { getShows } from "@/lib/feeds/serializd";
+import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
+import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
   applyCompletedCardFilters,
   asString,
@@ -162,18 +163,45 @@ export default async function TvGenrePage({
     (a, b) => b - a,
   );
 
-  // Derive per-level current-year counts (same posture as
+  // Derive per-mode current-year counts + averages (same posture as
   // /television's listing) so the SummaryPanel's per-mode in-year
-  // numbers stay scoped to the active toggle.
+  // numbers stay scoped to the active toggle. Routes through
+  // modesForReview so the miniseries double-count rule is honored
+  // here just like it is on the listing — this is the editorial
+  // contract for /television counts (see
+  // lib/feeds/serializd-mode-counts.mjs).
   const currentYear = new Date().getUTCFullYear();
   const cybl = { show: 0, season: 0, episode: 0 };
+  const cyblRatingSums = { show: 0, season: 0, episode: 0 };
+  const cyblRatingCounts = { show: 0, season: 0, episode: 0 };
   for (const show of shows) {
     for (const r of show.reviews) {
       const yr = Number.parseInt(r.watchedDate.slice(0, 4), 10);
       if (yr !== currentYear) continue;
-      cybl[r.level]++;
+      for (const mode of modesForReview(r.level, show.isMiniseries)) {
+        cybl[mode]++;
+        if (r.rating !== null) {
+          cyblRatingSums[mode] += r.rating;
+          cyblRatingCounts[mode]++;
+        }
+      }
     }
   }
+  const currentYearAvgByLevel: { show: number | null; season: number | null; episode: number | null } = {
+    show: cyblRatingCounts.show > 0 ? cyblRatingSums.show / cyblRatingCounts.show : null,
+    season: cyblRatingCounts.season > 0 ? cyblRatingSums.season / cyblRatingCounts.season : null,
+    episode: cyblRatingCounts.episode > 0 ? cyblRatingSums.episode / cyblRatingCounts.episode : null,
+  };
+  // Watching count for the toggle badge — must match
+  // /television/watching after the perpetual-show exclusions
+  // (see overrides.json#excludeFromWatching). Mirrors the listing
+  // page's derivation so both surfaces stay in sync.
+  const watchingExclusions = getWatchingExclusions();
+  const watchingCount = shows.filter(
+    (s) =>
+      !watchingExclusions.has(s.serializdShowId) &&
+      s.inProgressSeasonNumbers.length > 0,
+  ).length;
 
   const applied = applyCompletedCardFilters(allCards, filters, sort);
   const {
@@ -255,6 +283,7 @@ export default async function TvGenrePage({
               <SummaryPanel
                 summary={summary}
                 currentYearByLevel={cybl}
+                currentYearAvgByLevel={currentYearAvgByLevel}
               />
             </div>
           </div>
@@ -272,7 +301,7 @@ export default async function TvGenrePage({
             availableWatchedYears={availableWatchedYears}
             routeGenre={genre}
             originHref={buildOriginHref(`/television/genre/${slug}`, sp)}
-            watchingCount={summary.showsInProgressCount}
+            watchingCount={watchingCount}
           />
         </Section>
 
@@ -280,6 +309,7 @@ export default async function TvGenrePage({
           <SummaryPanel
             summary={summary}
             currentYearByLevel={cybl}
+            currentYearAvgByLevel={currentYearAvgByLevel}
           />
         </Section>
       </Container>

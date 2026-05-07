@@ -27,7 +27,8 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
 import { SITE_URL } from "@/lib/site-config";
-import { getShows } from "@/lib/feeds/serializd";
+import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
+import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
   applyCompletedCardFilters,
   asString,
@@ -172,29 +173,62 @@ export default async function TelevisionPage({
     (a, b) => b - a,
   );
 
-  // Per-level "this year" counts, derived at request time so the
+  // Per-mode "this year" counts, derived at request time so the
   // numbers track `new Date()` and stay correct across the year
   // boundary (snapshot-frozen counts would silently mismatch
   // `currentYear` between Jan 1 and the next refresh tick).
   //
-  // Each mode's number reflects the level's natural unit:
-  //   • show:    Show-level reviews this year (typically 0-5)
-  //   • season:  Season-level reviews this year (typically 50-100)
-  //   • episode: Episode-level reviews this year (typically 100-300)
-  // — matching the SummaryPanel's per-mode lifetime stats. The
-  // SummaryPanel reads currentYearByLevel[mode] when rendering
-  // the lead-stats line so the in-year count stays scoped to the
-  // active mode's level.
+  // Per-mode bucketing routes through modesForReview — the same
+  // helper that drives lifetime totals in aggregateSummary. This
+  // keeps the miniseries double-count rule consistent across both
+  // surfaces (a Show review on a miniseries-pinned show counts in
+  // both Shows and Seasons modes, etc.). Don't increment cybl[r.level]
+  // directly — that path bypasses the double-count rule and produces
+  // in-year totals that under-report relative to the lifetime totals
+  // displayed alongside them. The rule is the editorial source of
+  // truth for /television's per-mode arithmetic; see
+  // lib/feeds/serializd-mode-counts.mjs.
   const currentYear = new Date().getUTCFullYear();
-  const currentYearByLevel = { show: 0, season: 0, episode: 0 } as const;
-  const cybl = currentYearByLevel as { show: number; season: number; episode: number };
+  const cybl = { show: 0, season: 0, episode: 0 };
+  // Parallel sum + count per mode so the SummaryPanel can render
+  // an in-year average next to the lifetime one. Same modesForReview
+  // routing as the count loop below so the in-year avg honors the
+  // miniseries double-count rule (a miniseries Season's rating
+  // contributes to the Shows-mode average too). Null when a mode
+  // has zero rated reviews this year — SummaryPanel suppresses the
+  // parenthetical in that case rather than displaying NaN★.
+  const cyblRatingSums = { show: 0, season: 0, episode: 0 };
+  const cyblRatingCounts = { show: 0, season: 0, episode: 0 };
   for (const show of shows) {
     for (const r of show.reviews) {
       const yr = Number.parseInt(r.watchedDate.slice(0, 4), 10);
       if (yr !== currentYear) continue;
-      cybl[r.level]++;
+      for (const mode of modesForReview(r.level, show.isMiniseries)) {
+        cybl[mode]++;
+        if (r.rating !== null) {
+          cyblRatingSums[mode] += r.rating;
+          cyblRatingCounts[mode]++;
+        }
+      }
     }
   }
+  const currentYearAvgByLevel: { show: number | null; season: number | null; episode: number | null } = {
+    show: cyblRatingCounts.show > 0 ? cyblRatingSums.show / cyblRatingCounts.show : null,
+    season: cyblRatingCounts.season > 0 ? cyblRatingSums.season / cyblRatingCounts.season : null,
+    episode: cyblRatingCounts.episode > 0 ? cyblRatingSums.episode / cyblRatingCounts.episode : null,
+  };
+
+  // Watching count for the All/Watching toggle badge — must match
+  // what /television/watching renders post-exclusion (perpetual
+  // shows like SNL/WWHL are filtered there). Re-derived from the
+  // same exclusion source so both surfaces stay in sync without
+  // a snapshot rebuild.
+  const watchingExclusions = getWatchingExclusions();
+  const watchingCount = shows.filter(
+    (s) =>
+      !watchingExclusions.has(s.serializdShowId) &&
+      s.inProgressSeasonNumbers.length > 0,
+  ).length;
 
   const applied = applyCompletedCardFilters(allCards, filters, sort);
   const {
@@ -282,6 +316,7 @@ export default async function TelevisionPage({
               <SummaryPanel
                 summary={summary}
                 currentYearByLevel={cybl}
+                currentYearAvgByLevel={currentYearAvgByLevel}
               />
             </div>
           </div>
@@ -299,7 +334,7 @@ export default async function TelevisionPage({
             availableGenres={availableGenres}
             availableWatchedYears={availableWatchedYears}
             originHref={buildOriginHref("/television", params)}
-            watchingCount={summary.showsInProgressCount}
+            watchingCount={watchingCount}
           />
         </Section>
 
@@ -309,6 +344,7 @@ export default async function TelevisionPage({
           <SummaryPanel
             summary={summary}
             currentYearByLevel={cybl}
+            currentYearAvgByLevel={currentYearAvgByLevel}
           />
         </Section>
       </Container>

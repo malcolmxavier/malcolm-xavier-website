@@ -62,11 +62,33 @@ type Props = {
    * displays Season-level reviews this year (typically 50-100),
    * Episode mode displays Episode-level reviews this year
    * (typically 100-300).
+   *
+   * Both this and currentYearAvgByLevel apply the miniseries
+   * double-count rule (see lib/feeds/serializd-mode-counts.mjs)
+   * so they stay consistent with the lifetime totals displayed
+   * alongside them.
    */
   currentYearByLevel: { show: number; season: number; episode: number };
+  /**
+   * Per-mode average rating across reviews logged in the current
+   * calendar year. Null when the mode has zero rated reviews this
+   * year — the panel suppresses the in-year parenthetical in that
+   * case rather than rendering NaN★. Derived at request time in
+   * page.tsx using the same modesForReview routing as
+   * currentYearByLevel so the rule stays consistent.
+   */
+  currentYearAvgByLevel: {
+    show: number | null;
+    season: number | null;
+    episode: number | null;
+  };
 };
 
-export function SummaryPanel({ summary, currentYearByLevel }: Props) {
+export function SummaryPanel({
+  summary,
+  currentYearByLevel,
+  currentYearAvgByLevel,
+}: Props) {
   // Default = Season. Highest count + the level that drives most
   // listing cards. Toggle is purely visual, no URL state.
   const [mode, setMode] = useState<Mode>("season");
@@ -78,6 +100,7 @@ export function SummaryPanel({ summary, currentYearByLevel }: Props) {
   const avgRating = computeAverageRating(dist);
   const totalForMode = totalReviewsForMode(summary, mode);
   const inYearForMode = currentYearByLevel[mode];
+  const inYearAvgForMode = currentYearAvgByLevel[mode];
   const topGenres = topN(summary.genreDistribution, 3);
   const topDecade = topN(summary.decadeDistribution, 1)[0];
   const watchedYear = new Date().getUTCFullYear();
@@ -129,36 +152,56 @@ export function SummaryPanel({ summary, currentYearByLevel }: Props) {
           Lifetime · all {summary.totalShows.toLocaleString()} shows
         </Kicker>
 
-        {/* ─── Lead stats line ──────────────────────────────────── */}
-        {/* Single noun ("review") because the toggle above already
-            disambiguates the level. Drops "show review" / "season
-            review" / "episode review" repetition and pulls the
-            line back to one row at the panel's typical width.
-            ariaLabel on the parent paragraph spells out the level
-            once for AT users who miss the toggle's pressed state. */}
-        <p
-          style={leadStatsStyle}
-          aria-label={`Lifetime ${modeReviewLabel(mode, totalForMode)}: ${totalForMode.toLocaleString()} total, ${inYearForMode.toLocaleString()} in ${watchedYear}${totalRatings > 0 ? `, average ${avgRating.toFixed(2)} stars` : ""}`}
+        {/* ─── Lead stats — two lines ───────────────────────────── */}
+        {/* Counts line + averages line, sharing the same mono
+            register and dot-separator pattern. Stacking lets both
+            metrics breathe at the panel's typical width and lets
+            the eye pair lifetime↔in-year vertically (count above
+            avg) rather than scanning a long horizontal stat-rail.
+            Single noun ("review") because the toggle above already
+            disambiguates the level — drops the show/season/episode
+            repetition. Averages line is suppressed entirely when
+            the mode has zero rated reviews (totalRatings === 0)
+            and the in-year half is suppressed when the mode has
+            zero rated reviews this year, so we never render
+            NaN★ for either slot.
+            One paragraph wrapping both lines so the SR aria-label
+            (which spells out the level once for AT users who miss
+            the toggle's pressed state) covers both metrics. */}
+        <div
+          role="group"
+          aria-label={`Lifetime ${modeReviewLabel(mode, totalForMode)}: ${totalForMode.toLocaleString()} total, ${inYearForMode.toLocaleString()} in ${watchedYear}${totalRatings > 0 ? `, average ${avgRating.toFixed(2)} stars${inYearAvgForMode !== null ? `, ${inYearAvgForMode.toFixed(2)} stars in ${watchedYear}` : ""}` : ""}`}
         >
-          <strong style={emphasizedNumberStyle}>
-            {totalForMode.toLocaleString()}
-          </strong>{" "}
-          {totalForMode === 1 ? "review" : "reviews"}
-          {" · "}
-          <strong style={emphasizedNumberStyle}>
-            {inYearForMode.toLocaleString()}
-          </strong>{" "}
-          in {watchedYear}
+          <p style={leadStatsStyle}>
+            <strong style={emphasizedNumberStyle}>
+              {totalForMode.toLocaleString()}
+            </strong>{" "}
+            {totalForMode === 1 ? "review" : "reviews"}
+            {" · "}
+            <strong style={emphasizedNumberStyle}>
+              {inYearForMode.toLocaleString()}
+            </strong>{" "}
+            in {watchedYear}
+          </p>
           {totalRatings > 0 ? (
-            <>
-              {" · Avg "}
+            <p style={{ ...leadStatsStyle, marginTop: 4 }}>
+              {"Avg "}
               <strong style={emphasizedNumberStyle}>
                 {avgRating.toFixed(2)}
               </strong>
               ★
-            </>
+              {inYearAvgForMode !== null ? (
+                <>
+                  {" · "}
+                  <strong style={emphasizedNumberStyle}>
+                    {inYearAvgForMode.toFixed(2)}
+                  </strong>
+                  ★ in {watchedYear}
+                </>
+              ) : null}
+            </p>
           ) : null}
-        </p>
+        </div>
 
         {/* ─── Rating distribution (column chart) ───────────────── */}
         <div className="flex flex-col lg:flex-1" style={{ gap: 8 }}>
