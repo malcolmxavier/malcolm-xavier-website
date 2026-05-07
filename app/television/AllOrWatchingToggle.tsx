@@ -55,6 +55,7 @@ function withGridAnchor(href: string): string {
 export function AllOrWatchingToggle({
   active,
   watchingCount,
+  allCount,
   /**
    * When mounted from a route that should preserve query-string
    * filters on the "All" link (e.g. clicking "All" from a
@@ -79,6 +80,10 @@ export function AllOrWatchingToggle({
    *  toggle communicates how much is on the other side. Hidden
    *  when zero so the inactive label doesn't read as empty. */
   watchingCount: number;
+  /** Pre-filter completed-card count for the "All" tab. Surfaced
+   *  in parity with watchingCount so both tabs read evenly
+   *  (e.g. "All (228) · Watching (14)"). Hidden when zero. */
+  allCount: number;
   allHref?: string;
   from?: Surface;
 }) {
@@ -97,7 +102,7 @@ export function AllOrWatchingToggle({
         from={from}
         to="all"
       >
-        All
+        All{allCount > 0 ? ` (${allCount.toLocaleString()})` : ""}
       </ToggleLink>
       <ToggleLink
         href="/television/watching"

@@ -390,7 +390,12 @@ const emphasizedNumberStyle: CSSProperties = {
 
 const tailStatsStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
-  fontSize: 11,
+  // Bumped from 11 → 13 so the LinkedIn-screenshot insights
+  // ("Top genres," "Most-logged decade") read at a glance instead
+  // of fading into the panel's bottom margin. Stays inside the
+  // mono caption register; the larger size just lifts visibility
+  // without competing with the lead-stats line above.
+  fontSize: 13,
   color: "var(--text-caption)",
   letterSpacing: "0.04em",
   lineHeight: 1.5,

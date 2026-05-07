@@ -13,18 +13,17 @@ import { Suspense, cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import NextLink from "next/link";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Headline } from "@/components/typography/Headline";
 import { Lede } from "@/components/typography/Lede";
-import { Body } from "@/components/typography/Body";
 import { Kicker } from "@/components/typography/Kicker";
 import { Button } from "@/components/primitives/Button";
-import { Link } from "@/components/primitives/Link";
 import {
-  getOwnedPlaylistById,
+  getMusicData,
   formatDuration,
   formatTrackDuration,
   decodeSpotifyDescription,
@@ -33,20 +32,31 @@ import {
 } from "@/lib/feeds/spotify";
 import {
   APPLE_MUSIC_LINKS,
+  EXCLUDE_IDS,
+  MANUAL_BOTTOM_ORDER,
+  MANUAL_ORDER,
   SPOTIFY_USER_ID,
 } from "@/lib/feeds/spotify-config";
 import { BackToPlaylists } from "./BackToPlaylists";
 
 export const revalidate = 3600;
 
-// React.cache memoizes the call within a single render pass, so
+// React.cache memoizes the call within a single render pass so
 // generateMetadata + the page component share one Spotify fetch
 // rather than hitting the rate-limited /me/playlists bucket twice
-// per ISR refresh. The cache scope is per request, so unrelated
-// requests still fetch fresh data on each revalidation.
-const getCachedPlaylist = cache(
-  (userId: string, playlistId: string) =>
-    getOwnedPlaylistById(userId, playlistId),
+// per ISR refresh. Switched from getOwnedPlaylistById (single
+// playlist) to getMusicData (full sorted list) because the detail
+// page now renders adjacent-playlist navigation, which needs the
+// list to compute newer/older siblings — same pattern as
+// /films/[slug] and /television/[showSlug]. The full list is
+// already what /music renders, so the snapshot is warm.
+const getCachedMusicData = cache(() =>
+  getMusicData(
+    SPOTIFY_USER_ID,
+    EXCLUDE_IDS,
+    MANUAL_ORDER,
+    MANUAL_BOTTOM_ORDER,
+  ),
 );
 
 type Params = { playlistId: string };
@@ -55,7 +65,8 @@ export async function generateMetadata(
   { params }: { params: Promise<Params> },
 ): Promise<Metadata> {
   const { playlistId } = await params;
-  const playlist = await getCachedPlaylist(SPOTIFY_USER_ID, playlistId);
+  const { playlists } = await getCachedMusicData();
+  const playlist = playlists.find((p) => p.id === playlistId) ?? null;
   // The root layout's title.template appends "—Malcolm Xavier"
   // automatically. The path /music/[id] already encodes the section,
   // so we don't append "—Music" here — that produced a triple-segment
@@ -132,8 +143,22 @@ export default async function PlaylistDetailPage(
   { params }: { params: Promise<Params> },
 ) {
   const { playlistId } = await params;
-  const playlist = await getCachedPlaylist(SPOTIFY_USER_ID, playlistId);
+  const { playlists } = await getCachedMusicData();
+  const idx = playlists.findIndex((p) => p.id === playlistId);
+  const playlist = idx >= 0 ? playlists[idx] : null;
   if (!playlist) notFound();
+
+  // Adjacent-playlist neighbors — Newer LEFT, Older RIGHT in the
+  // listing's display order. Same convention as /films/[slug] and
+  // /television/[showSlug] so a reader carrying "further right =
+  // older" as their mental model stays consistent across clusters.
+  // sortPlaylistsForDisplay honors MANUAL_ORDER (top-pinned), then
+  // date order, then MANUAL_BOTTOM_ORDER — so the neighbors here
+  // are exactly the ones flanking this playlist on the listing
+  // grid.
+  const newerPlaylist = idx > 0 ? playlists[idx - 1] : null;
+  const olderPlaylist =
+    idx >= 0 && idx < playlists.length - 1 ? playlists[idx + 1] : null;
 
   const cover = pickImage(playlist.images, 640);
   const description = decodeSpotifyDescription(playlist.description);
@@ -259,16 +284,97 @@ export default async function PlaylistDetailPage(
           </Stack>
         </Section>
 
-        {/* ─── Bottom rail ────────────────────────────────────── */}
-        <Section padding="md" bordered>
-          <Stack gap="300" align="start">
-            <Body>
-              <Link href="/music">More from the catalog →</Link>
-            </Body>
-          </Stack>
-        </Section>
+        {/* ─── Adjacent playlists (chronological prev/next) ────
+            Sibling-to-sibling links between playlist detail pages.
+            Newer LEFT, Older RIGHT — same convention as
+            /films/[slug] and /television/[showSlug] so a reader
+            carrying "further right = older" as their mental model
+            stays consistent across clusters. Replaces the prior
+            "More from the catalog →" CTA, which sent users back
+            to the listing root and lost the in-flight context. */}
+        {(newerPlaylist || olderPlaylist) ? (
+          <Section padding="md" bordered>
+            <nav
+              aria-label="Adjacent playlists"
+              className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8"
+            >
+              {newerPlaylist ? (
+                <NeighborLink playlist={newerPlaylist} direction="newer" />
+              ) : (
+                <span aria-hidden="true" />
+              )}
+              {olderPlaylist ? (
+                <NeighborLink playlist={olderPlaylist} direction="older" />
+              ) : (
+                <span aria-hidden="true" />
+              )}
+            </nav>
+          </Section>
+        ) : null}
       </Container>
     </div>
+  );
+}
+
+// ─── Adjacent-playlist NeighborLink ───────────────────────────────
+// Card-shaped link to a sibling playlist. Mirrors the
+// NeighborLink components in /films/[slug] and /television/[showSlug]
+// (bordered wrapper, padding, hover-color-shift on the border)
+// so the cross-cluster "what's next?" affordance reads identically
+// regardless of which sub-brand the visitor is browsing.
+
+function NeighborLink({
+  playlist,
+  direction,
+}: {
+  playlist: EnrichedPlaylist;
+  direction: "newer" | "older";
+}) {
+  const kicker =
+    direction === "newer" ? "← Newer playlist" : "Older playlist →";
+  return (
+    <NextLink
+      href={`/music/${playlist.id}`}
+      style={{
+        textDecoration: "none",
+        display: "block",
+        padding: "var(--scale-400)",
+        border: "1px solid var(--border-default)",
+        borderRadius: "var(--border-radius-md)",
+        outlineColor: "var(--border-focus)",
+        color: "inherit",
+      }}
+      className="hover:[border-color:var(--text-action)] focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      <Stack gap="100">
+        <Kicker>{kicker}</Kicker>
+        <p
+          style={{
+            fontFamily: "var(--font-primary)",
+            fontSize: "var(--p-lg-font-size)",
+            lineHeight: "var(--p-lg-line-height)",
+            color: "var(--text-body)",
+            margin: 0,
+          }}
+        >
+          {playlist.name}
+        </p>
+        <p
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--p-sm-font-size)",
+            lineHeight: "var(--p-sm-line-height)",
+            color: "var(--text-caption)",
+            letterSpacing: "0.04em",
+            margin: 0,
+          }}
+        >
+          {playlist.tracks.length} song
+          {playlist.tracks.length === 1 ? "" : "s"} ·{" "}
+          {formatDuration(playlist.total_duration_ms)}
+        </p>
+      </Stack>
+    </NextLink>
   );
 }
 

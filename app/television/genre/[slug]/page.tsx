@@ -302,6 +302,7 @@ export default async function TvGenrePage({
         <Section padding="md" bordered>
           <TelevisionShell
             cards={pageCards}
+            allCount={allCards.length}
             totalPages={totalPages}
             currentPage={page}
             totalResults={totalResults}
