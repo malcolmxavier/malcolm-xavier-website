@@ -75,6 +75,20 @@ export const ANALYTICS_EVENTS = {
    *  - "profile-follow" — /television hero "Follow along on Serializd"
    *  - "show-detail" — /television/[slug] "View on Serializd ↗" */
   SERIALIZD_CLICK: "serializd_click",
+  /** Pagination control click. Fires from the shared primitive so
+   *  /films, /television, and /music all funnel through one event.
+   *  Pair with:
+   *   - `surface`:   "films" | "television" | "music" (free-form
+   *                  string; consumer chooses the granularity)
+   *   - `page`:      target page number (1-indexed)
+   *   - `direction`: "prev" | "next" | "page" (anchor click vs
+   *                  windowed page-number click) */
+  PAGINATION_CLICK: "pagination_click",
+  /** All/Watching toggle click on the /television cluster. Pair with:
+   *   - `from`: "listing" | "genre" | "watching" (the surface the
+   *             user clicked from)
+   *   - `to`:   "all" | "watching" (which option they clicked) */
+  WATCHING_TAB_CLICK: "watching_tab_click",
 } as const;
 
 export type AnalyticsEvent =
