@@ -38,6 +38,8 @@
 
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import { track } from "@vercel/analytics";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
 // Discriminated union: exactly one of onPageChange / hrefForPage /
 // basePath must be provided. TypeScript enforces this at call sites.
@@ -97,6 +99,12 @@ export type PaginationProps = {
   ariaLabel?: string;
   /** Outer <nav> className. */
   className?: string;
+  /** Surface label fired with PAGINATION_CLICK analytics. Free-form
+   *  string so consumers choose the granularity ("films",
+   *  "television", "music"). When omitted, the primitive renders
+   *  without firing any event — keeps the analytics-agnostic
+   *  default for consumers that don't track pagination. */
+  surface?: string;
 } & (CallbackMode | HrefFnMode | BasePathMode);
 
 /**
@@ -153,6 +161,7 @@ export function Pagination({
   windowSize = 2,
   ariaLabel = "Pagination",
   className,
+  surface,
   ...mode
 }: PaginationProps) {
   // Single-page (or empty) sets don't need pagination chrome.
@@ -184,6 +193,8 @@ export function Pagination({
             ariaLabel="Previous page"
             disabled={atStart}
             target={currentPage - 1}
+            direction="prev"
+            surface={surface}
             mode={modeProps}
           />
         </li>
@@ -194,6 +205,7 @@ export function Pagination({
               <PageItem
                 page={entry.page}
                 isCurrent={entry.page === currentPage}
+                surface={surface}
                 mode={modeProps}
               />
             </li>
@@ -213,12 +225,26 @@ export function Pagination({
             ariaLabel="Next page"
             disabled={atEnd}
             target={currentPage + 1}
+            direction="next"
+            surface={surface}
             mode={modeProps}
           />
         </li>
       </ol>
     </nav>
   );
+}
+
+/** Fire PAGINATION_CLICK with normalized payload. Skipped when the
+ *  consumer didn't pass a surface — keeps the primitive analytics-
+ *  agnostic for consumers that don't track. */
+function firePaginationClick(
+  surface: string | undefined,
+  page: number,
+  direction: "prev" | "next" | "page",
+) {
+  if (surface === undefined) return;
+  track(ANALYTICS_EVENTS.PAGINATION_CLICK, { surface, page, direction });
 }
 
 /** Inert decorative ellipsis cell. Matches the typography of the
@@ -287,12 +313,16 @@ function NavButton({
   ariaLabel,
   disabled,
   target,
+  direction,
+  surface,
   mode,
 }: {
   label: string;
   ariaLabel: string;
   disabled: boolean;
   target: number;
+  direction: "prev" | "next";
+  surface: string | undefined;
   mode: ModeProps;
 }) {
   const style: CSSProperties = {
@@ -324,7 +354,12 @@ function NavButton({
       <button
         type="button"
         onClick={
-          disabled || !isCallback(mode) ? undefined : () => mode.onPageChange(target)
+          disabled || !isCallback(mode)
+            ? undefined
+            : () => {
+                firePaginationClick(surface, target, direction);
+                mode.onPageChange(target);
+              }
         }
         disabled={disabled}
         aria-label={ariaLabel}
@@ -342,6 +377,7 @@ function NavButton({
   return (
     <Link
       href={resolveHref(target, hrefMode)}
+      onClick={() => firePaginationClick(surface, target, direction)}
       aria-label={ariaLabel}
       style={style}
       className={className}
@@ -357,10 +393,12 @@ function NavButton({
 function PageItem({
   page,
   isCurrent,
+  surface,
   mode,
 }: {
   page: number;
   isCurrent: boolean;
+  surface: string | undefined;
   mode: ModeProps;
 }) {
   // Both the active <span> and the inactive <button>/<Link> share
@@ -410,7 +448,10 @@ function PageItem({
     return (
       <button
         type="button"
-        onClick={() => mode.onPageChange(page)}
+        onClick={() => {
+          firePaginationClick(surface, page, "page");
+          mode.onPageChange(page);
+        }}
         aria-label={`Page ${page}`}
         style={interactiveStyle}
         className={className}
@@ -423,6 +464,7 @@ function PageItem({
   return (
     <Link
       href={resolveHref(page, hrefMode)}
+      onClick={() => firePaginationClick(surface, page, "page")}
       aria-label={`Page ${page}`}
       style={interactiveStyle}
       className={className}

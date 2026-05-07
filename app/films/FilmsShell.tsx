@@ -596,6 +596,7 @@ export function FilmsShell({
               pageParam="page"
               preserveParams={preserveParams}
               ariaLabel="Film review pages"
+              surface={routeGenre ? "films-genre" : "films"}
             />
           </div>
         </div>

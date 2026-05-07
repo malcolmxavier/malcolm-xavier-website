@@ -20,10 +20,15 @@
 // state (?view=collections), not separate routes.
 // ─────────────────────────────────────────────────────────────────
 
+"use client";
+
 import NextLink from "next/link";
 import type { ReactNode } from "react";
+import { track } from "@vercel/analytics";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
 type Active = "all" | "watching";
+type Surface = "listing" | "genre" | "watching";
 
 // Anchor convention: the "All" link appends `#grid` so a user
 // switching back from /watching lands at the grid row rather than
@@ -59,6 +64,15 @@ export function AllOrWatchingToggle({
    * filters to carry forward.
    */
   allHref = "/television",
+  /**
+   * Surface label for WATCHING_TAB_CLICK analytics. Names the
+   * page the toggle is mounted on so the dashboard can read which
+   * surface drives engagement with the watching offshoot:
+   *   - "listing" (default) — /television
+   *   - "genre"             — /television/genre/<slug>
+   *   - "watching"          — /television/watching itself
+   */
+  from = "listing",
 }: {
   active: Active;
   /** Surfaced as a parenthetical count next to "Watching" so the
@@ -66,6 +80,7 @@ export function AllOrWatchingToggle({
    *  when zero so the inactive label doesn't read as empty. */
   watchingCount: number;
   allHref?: string;
+  from?: Surface;
 }) {
   return (
     <fieldset
@@ -76,10 +91,20 @@ export function AllOrWatchingToggle({
       {/* "All" appends #grid (return-to-grid behavior); "Watching"
           omits the anchor so a fresh entry sees the hero framing.
           See the rationale comment on withGridAnchor above. */}
-      <ToggleLink href={withGridAnchor(allHref)} active={active === "all"}>
+      <ToggleLink
+        href={withGridAnchor(allHref)}
+        active={active === "all"}
+        from={from}
+        to="all"
+      >
         All
       </ToggleLink>
-      <ToggleLink href="/television/watching" active={active === "watching"}>
+      <ToggleLink
+        href="/television/watching"
+        active={active === "watching"}
+        from={from}
+        to="watching"
+      >
         Watching{watchingCount > 0 ? ` (${watchingCount})` : ""}
       </ToggleLink>
     </fieldset>
@@ -90,14 +115,21 @@ function ToggleLink({
   href,
   active,
   children,
+  from,
+  to,
 }: {
   href: string;
   active: boolean;
   children: ReactNode;
+  from: Surface;
+  to: Active;
 }) {
   return (
     <NextLink
       href={href}
+      onClick={() =>
+        track(ANALYTICS_EVENTS.WATCHING_TAB_CLICK, { from, to })
+      }
       // aria-current names the active route for AT users — the
       // visual underline is decorative; this is the semantic
       // signal. "page" is the spec-correct value for "this is

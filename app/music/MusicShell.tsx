@@ -262,6 +262,7 @@ export function MusicShell({ playlists, collections, saveData = false }: Props) 
             totalPages={totalPages}
             onPageChange={(p) => goToPage(p - 1)}
             ariaLabel="Playlist pages"
+            surface="music"
           />
         </Stack>
       ) : (
