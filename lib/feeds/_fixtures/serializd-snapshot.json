@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-05-07T04:43:12.001Z",
+  "capturedAt": "2026-05-07T05:57:54.092Z",
   "summary": {
     "totalShows": 152,
     "totalShowReviews": 36,
     "totalSeasonReviews": 224,
-    "totalEpisodeReviews": 457,
+    "totalEpisodeReviews": 459,
     "ratingDistribution": {
       "1": 3,
       "2": 40,
-      "3": 164,
+      "3": 165,
       "4": 136,
       "5": 13,
-      "3.5": 202,
+      "3.5": 203,
       "2.5": 77,
       "4.5": 39,
       "1.5": 10,
@@ -40,10 +40,10 @@
       },
       "episode": {
         "2": 19,
-        "3": 108,
+        "3": 109,
         "4": 90,
         "5": 5,
-        "3.5": 143,
+        "3.5": 144,
         "2.5": 55,
         "4.5": 31,
         "1.5": 5
@@ -116,6 +116,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 64891726,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Corey Stoll really knows how to flip a switch. Frightening.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-07T05:19:09Z",
+          "reviewDate": "2026-05-07T05:19:09Z",
+          "seasonId": 160296,
+          "episodeNumber": 7,
+          "episodeName": "Fabulation",
+          "tags": []
+        },
         {
           "id": 64882679,
           "level": "episode",
@@ -228,8 +244,222 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": true,
-      "latestActivityDate": "2026-05-07T02:43:50Z",
+      "latestActivityDate": "2026-05-07T05:19:09Z",
       "primaryRating": 3.5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-247758",
+      "serializdShowId": 247758,
+      "slug": "the-valley-2024",
+      "name": "The Valley",
+      "premiereYear": 2024,
+      "premiereDate": "2024-03-19",
+      "serializdUrl": "https://serializd.com/show/247758",
+      "tmdb": {
+        "id": 247758,
+        "name": "The Valley",
+        "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+        "backdropPath": "/nGBWSonchWojfZMV1eLOYoaq2R3.jpg",
+        "genres": [
+          "Reality"
+        ],
+        "type": "Reality",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 39
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+      "seasons": [
+        {
+          "serializdId": 455076,
+          "showId": 247758,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": null,
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 381517,
+          "showId": 247758,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/qAutqOMfdEC7U5WR5bHJS13feXO.jpg",
+          "episodeCount": 12
+        },
+        {
+          "serializdId": 445888,
+          "showId": 247758,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/cs4oawKduoLgFUeV3mVvkQxYxbg.jpg",
+          "episodeCount": 18
+        },
+        {
+          "serializdId": 501136,
+          "showId": 247758,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+          "episodeCount": 9
+        }
+      ],
+      "reviews": [
+        {
+          "id": 64891704,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-07T05:18:34Z",
+          "reviewDate": "2026-05-07T05:18:40Z",
+          "seasonId": 501136,
+          "episodeNumber": 6,
+          "episodeName": "All Aboard!",
+          "tags": []
+        },
+        {
+          "id": 64141243,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-30T04:02:11Z",
+          "reviewDate": "2026-04-30T04:02:15Z",
+          "seasonId": 501136,
+          "episodeNumber": 5,
+          "episodeName": "The Hive Mentality",
+          "tags": []
+        },
+        {
+          "id": 63478334,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-24T04:17:31Z",
+          "reviewDate": "2026-04-24T04:17:36Z",
+          "seasonId": 501136,
+          "episodeNumber": 4,
+          "episodeName": "Mariposa Momma",
+          "tags": []
+        },
+        {
+          "id": 62549777,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A rare episode that feels too chaotic. I’m so unclear on what’s causing any drama.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-16T04:03:00Z",
+          "reviewDate": "2026-04-16T04:03:40Z",
+          "seasonId": 501136,
+          "episodeNumber": 3,
+          "episodeName": "The Santa Clarita Trail",
+          "tags": []
+        },
+        {
+          "id": 61717365,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T04:02:23Z",
+          "reviewDate": "2026-04-09T04:02:29Z",
+          "seasonId": 501136,
+          "episodeNumber": 2,
+          "episodeName": "Snip Snip",
+          "tags": []
+        },
+        {
+          "id": 60800106,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Michelle stop making me side with Jesse challenge.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-02T03:58:11Z",
+          "reviewDate": "2026-04-02T03:58:48Z",
+          "seasonId": 501136,
+          "episodeNumber": 1,
+          "episodeName": "You Can't Sip With Us",
+          "tags": []
+        },
+        {
+          "id": 45961998,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Exceptionally dark, but unfortunately great television. Don’t hate me — I’m team Jesse.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-08-12T21:42:00Z",
+          "reviewDate": "2025-11-02T22:43:05Z",
+          "seasonId": 445888,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 16530286,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not sure how, but this ate a little. I don’t know any of their names except for the VPR cast, but I care!!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-06-05T22:44:00Z",
+          "reviewDate": "2024-06-06T22:45:08Z",
+          "seasonId": 381517,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2024,
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1,
+        2
+      ],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-07T05:18:40Z",
+      "primaryRating": 3,
       "liked": false
     },
     {
@@ -5111,204 +5341,6 @@
       "hasShowReview": false,
       "isMiniseries": false,
       "latestActivityDate": "2026-05-01T05:59:17Z",
-      "primaryRating": 3.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-247758",
-      "serializdShowId": 247758,
-      "slug": "the-valley-2024",
-      "name": "The Valley",
-      "premiereYear": 2024,
-      "premiereDate": "2024-03-19",
-      "serializdUrl": "https://serializd.com/show/247758",
-      "tmdb": {
-        "id": 247758,
-        "name": "The Valley",
-        "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-        "backdropPath": "/nGBWSonchWojfZMV1eLOYoaq2R3.jpg",
-        "genres": [
-          "Reality"
-        ],
-        "type": "Reality",
-        "status": "Returning Series",
-        "networks": [
-          "Bravo"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 39
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-      "seasons": [
-        {
-          "serializdId": 455076,
-          "showId": 247758,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": null,
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 381517,
-          "showId": 247758,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/qAutqOMfdEC7U5WR5bHJS13feXO.jpg",
-          "episodeCount": 12
-        },
-        {
-          "serializdId": 445888,
-          "showId": 247758,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/cs4oawKduoLgFUeV3mVvkQxYxbg.jpg",
-          "episodeCount": 18
-        },
-        {
-          "serializdId": 501136,
-          "showId": 247758,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-          "episodeCount": 9
-        }
-      ],
-      "reviews": [
-        {
-          "id": 64141243,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-30T04:02:11Z",
-          "reviewDate": "2026-04-30T04:02:15Z",
-          "seasonId": 501136,
-          "episodeNumber": 5,
-          "episodeName": "The Hive Mentality",
-          "tags": []
-        },
-        {
-          "id": 63478334,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-24T04:17:31Z",
-          "reviewDate": "2026-04-24T04:17:36Z",
-          "seasonId": 501136,
-          "episodeNumber": 4,
-          "episodeName": "Mariposa Momma",
-          "tags": []
-        },
-        {
-          "id": 62549777,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "A rare episode that feels too chaotic. I’m so unclear on what’s causing any drama.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-16T04:03:00Z",
-          "reviewDate": "2026-04-16T04:03:40Z",
-          "seasonId": 501136,
-          "episodeNumber": 3,
-          "episodeName": "The Santa Clarita Trail",
-          "tags": []
-        },
-        {
-          "id": 61717365,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T04:02:23Z",
-          "reviewDate": "2026-04-09T04:02:29Z",
-          "seasonId": 501136,
-          "episodeNumber": 2,
-          "episodeName": "Snip Snip",
-          "tags": []
-        },
-        {
-          "id": 60800106,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Michelle stop making me side with Jesse challenge.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-02T03:58:11Z",
-          "reviewDate": "2026-04-02T03:58:48Z",
-          "seasonId": 501136,
-          "episodeNumber": 1,
-          "episodeName": "You Can't Sip With Us",
-          "tags": []
-        },
-        {
-          "id": 45961998,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Exceptionally dark, but unfortunately great television. Don’t hate me — I’m team Jesse.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-08-12T21:42:00Z",
-          "reviewDate": "2025-11-02T22:43:05Z",
-          "seasonId": 445888,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 16530286,
-          "level": "season",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I’m not sure how, but this ate a little. I don’t know any of their names except for the VPR cast, but I care!!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-06-05T22:44:00Z",
-          "reviewDate": "2024-06-06T22:45:08Z",
-          "seasonId": 381517,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2024,
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1,
-        2
-      ],
-      "inProgressSeasonNumbers": [
-        3
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-04-30T04:02:15Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -22802,6 +22834,22 @@
       ],
       "reviews": [
         {
+          "id": 64891726,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Corey Stoll really knows how to flip a switch. Frightening.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-07T05:19:09Z",
+          "reviewDate": "2026-05-07T05:19:09Z",
+          "seasonId": 160296,
+          "episodeNumber": 7,
+          "episodeName": "Fabulation",
+          "tags": []
+        },
+        {
           "id": 64882679,
           "level": "episode",
           "rating": 3.5,
@@ -22913,8 +22961,222 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": true,
-      "latestActivityDate": "2026-05-07T02:43:50Z",
+      "latestActivityDate": "2026-05-07T05:19:09Z",
       "primaryRating": 3.5,
+      "liked": false
+    },
+    "tmdb-tv-247758": {
+      "id": "tmdb-tv-247758",
+      "serializdShowId": 247758,
+      "slug": "the-valley-2024",
+      "name": "The Valley",
+      "premiereYear": 2024,
+      "premiereDate": "2024-03-19",
+      "serializdUrl": "https://serializd.com/show/247758",
+      "tmdb": {
+        "id": 247758,
+        "name": "The Valley",
+        "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+        "backdropPath": "/nGBWSonchWojfZMV1eLOYoaq2R3.jpg",
+        "genres": [
+          "Reality"
+        ],
+        "type": "Reality",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 39
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+      "seasons": [
+        {
+          "serializdId": 455076,
+          "showId": 247758,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": null,
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 381517,
+          "showId": 247758,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/qAutqOMfdEC7U5WR5bHJS13feXO.jpg",
+          "episodeCount": 12
+        },
+        {
+          "serializdId": 445888,
+          "showId": 247758,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/cs4oawKduoLgFUeV3mVvkQxYxbg.jpg",
+          "episodeCount": 18
+        },
+        {
+          "serializdId": 501136,
+          "showId": 247758,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+          "episodeCount": 9
+        }
+      ],
+      "reviews": [
+        {
+          "id": 64891704,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-07T05:18:34Z",
+          "reviewDate": "2026-05-07T05:18:40Z",
+          "seasonId": 501136,
+          "episodeNumber": 6,
+          "episodeName": "All Aboard!",
+          "tags": []
+        },
+        {
+          "id": 64141243,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-30T04:02:11Z",
+          "reviewDate": "2026-04-30T04:02:15Z",
+          "seasonId": 501136,
+          "episodeNumber": 5,
+          "episodeName": "The Hive Mentality",
+          "tags": []
+        },
+        {
+          "id": 63478334,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-24T04:17:31Z",
+          "reviewDate": "2026-04-24T04:17:36Z",
+          "seasonId": 501136,
+          "episodeNumber": 4,
+          "episodeName": "Mariposa Momma",
+          "tags": []
+        },
+        {
+          "id": 62549777,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A rare episode that feels too chaotic. I’m so unclear on what’s causing any drama.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-16T04:03:00Z",
+          "reviewDate": "2026-04-16T04:03:40Z",
+          "seasonId": 501136,
+          "episodeNumber": 3,
+          "episodeName": "The Santa Clarita Trail",
+          "tags": []
+        },
+        {
+          "id": 61717365,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T04:02:23Z",
+          "reviewDate": "2026-04-09T04:02:29Z",
+          "seasonId": 501136,
+          "episodeNumber": 2,
+          "episodeName": "Snip Snip",
+          "tags": []
+        },
+        {
+          "id": 60800106,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Michelle stop making me side with Jesse challenge.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-02T03:58:11Z",
+          "reviewDate": "2026-04-02T03:58:48Z",
+          "seasonId": 501136,
+          "episodeNumber": 1,
+          "episodeName": "You Can't Sip With Us",
+          "tags": []
+        },
+        {
+          "id": 45961998,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Exceptionally dark, but unfortunately great television. Don’t hate me — I’m team Jesse.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-08-12T21:42:00Z",
+          "reviewDate": "2025-11-02T22:43:05Z",
+          "seasonId": 445888,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 16530286,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not sure how, but this ate a little. I don’t know any of their names except for the VPR cast, but I care!!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-06-05T22:44:00Z",
+          "reviewDate": "2024-06-06T22:45:08Z",
+          "seasonId": 381517,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2024,
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1,
+        2
+      ],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-07T05:18:40Z",
+      "primaryRating": 3,
       "liked": false
     },
     "tmdb-tv-17380": {
@@ -27796,204 +28058,6 @@
       "hasShowReview": false,
       "isMiniseries": false,
       "latestActivityDate": "2026-05-01T05:59:17Z",
-      "primaryRating": 3.5,
-      "liked": false
-    },
-    "tmdb-tv-247758": {
-      "id": "tmdb-tv-247758",
-      "serializdShowId": 247758,
-      "slug": "the-valley-2024",
-      "name": "The Valley",
-      "premiereYear": 2024,
-      "premiereDate": "2024-03-19",
-      "serializdUrl": "https://serializd.com/show/247758",
-      "tmdb": {
-        "id": 247758,
-        "name": "The Valley",
-        "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-        "backdropPath": "/nGBWSonchWojfZMV1eLOYoaq2R3.jpg",
-        "genres": [
-          "Reality"
-        ],
-        "type": "Reality",
-        "status": "Returning Series",
-        "networks": [
-          "Bravo"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 39
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-      "seasons": [
-        {
-          "serializdId": 455076,
-          "showId": 247758,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": null,
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 381517,
-          "showId": 247758,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/qAutqOMfdEC7U5WR5bHJS13feXO.jpg",
-          "episodeCount": 12
-        },
-        {
-          "serializdId": 445888,
-          "showId": 247758,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/cs4oawKduoLgFUeV3mVvkQxYxbg.jpg",
-          "episodeCount": 18
-        },
-        {
-          "serializdId": 501136,
-          "showId": 247758,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-          "episodeCount": 9
-        }
-      ],
-      "reviews": [
-        {
-          "id": 64141243,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-30T04:02:11Z",
-          "reviewDate": "2026-04-30T04:02:15Z",
-          "seasonId": 501136,
-          "episodeNumber": 5,
-          "episodeName": "The Hive Mentality",
-          "tags": []
-        },
-        {
-          "id": 63478334,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-24T04:17:31Z",
-          "reviewDate": "2026-04-24T04:17:36Z",
-          "seasonId": 501136,
-          "episodeNumber": 4,
-          "episodeName": "Mariposa Momma",
-          "tags": []
-        },
-        {
-          "id": 62549777,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "A rare episode that feels too chaotic. I’m so unclear on what’s causing any drama.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-16T04:03:00Z",
-          "reviewDate": "2026-04-16T04:03:40Z",
-          "seasonId": 501136,
-          "episodeNumber": 3,
-          "episodeName": "The Santa Clarita Trail",
-          "tags": []
-        },
-        {
-          "id": 61717365,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T04:02:23Z",
-          "reviewDate": "2026-04-09T04:02:29Z",
-          "seasonId": 501136,
-          "episodeNumber": 2,
-          "episodeName": "Snip Snip",
-          "tags": []
-        },
-        {
-          "id": 60800106,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Michelle stop making me side with Jesse challenge.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-02T03:58:11Z",
-          "reviewDate": "2026-04-02T03:58:48Z",
-          "seasonId": 501136,
-          "episodeNumber": 1,
-          "episodeName": "You Can't Sip With Us",
-          "tags": []
-        },
-        {
-          "id": 45961998,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Exceptionally dark, but unfortunately great television. Don’t hate me — I’m team Jesse.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-08-12T21:42:00Z",
-          "reviewDate": "2025-11-02T22:43:05Z",
-          "seasonId": 445888,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 16530286,
-          "level": "season",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I’m not sure how, but this ate a little. I don’t know any of their names except for the VPR cast, but I care!!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-06-05T22:44:00Z",
-          "reviewDate": "2024-06-06T22:45:08Z",
-          "seasonId": 381517,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2024,
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1,
-        2
-      ],
-      "inProgressSeasonNumbers": [
-        3
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-04-30T04:02:15Z",
       "primaryRating": 3.5,
       "liked": false
     },
