@@ -24,6 +24,7 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
+import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
@@ -182,6 +183,16 @@ export default function WatchingPage() {
         </Section>
 
         <Section padding="md" bordered>
+          {/* sr-only h2 bridges the page Display (h1) to the per-card
+              Headline level={3} titles inside InProgressCard. Without
+              this, axe flags the h1→h3 outline skip (regression caught
+              in the 2026-05-07 re-review after Batch B's Low pass had
+              removed it on the wrong rationale). Hidden visually
+              because AllOrWatchingToggle below already names the
+              section for sighted users. */}
+          <Headline level={2} className="sr-only">
+            In-progress seasons
+          </Headline>
           {/* All / Watching toggle — same pattern as on
               /television's listing. From here, "All" hops back
               to the cluster root (no filter context to carry,
@@ -248,7 +259,10 @@ export default function WatchingPage() {
               {/* Stub fallback — keeps the empty-state from being a
                   dead-end if the in-progress queue ever clears.
                   Anchors at #grid so the user lands at the listing
-                  row rather than the page hero. */}
+                  row rather than the page hero. paddingBlock: 4px
+                  bumps the link's hit-target above the SC 2.5.8
+                  24px floor (small mono caption + 8px total
+                  padding ≈ 24px). */}
               <p
                 style={{
                   fontFamily: "var(--font-mono)",
@@ -256,6 +270,7 @@ export default function WatchingPage() {
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
                   margin: "var(--scale-400) 0 0 0",
+                  padding: "4px 0",
                 }}
               >
                 <Link href="/television#grid">Browse all reviews →</Link>

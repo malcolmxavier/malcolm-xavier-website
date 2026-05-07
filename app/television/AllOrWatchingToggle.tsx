@@ -110,7 +110,7 @@ export function AllOrWatchingToggle({
         from={from}
         to="watching"
       >
-        Watching{watchingCount > 0 ? ` (${watchingCount})` : ""}
+        Watching{watchingCount > 0 ? ` (${watchingCount.toLocaleString()})` : ""}
       </ToggleLink>
     </fieldset>
   );
