@@ -228,6 +228,54 @@ export function getShowNeighbors(showId: string): {
   };
 }
 
+// ─── Editorial overrides reader ──────────────────────────────────
+
+/**
+ * Set of Serializd showIds the user has pinned as "exclude from
+ * the /watching page" via data/television/overrides.json#
+ * excludeFromWatching. Used by /television/watching to filter
+ * out perpetual shows (talk shows, weekly variety) where the
+ * in-progress signal is structurally permanent and would clutter
+ * the page indefinitely.
+ *
+ * Read once and cached for the process lifetime, alongside the
+ * snapshot cache. The override file is small, edits go through
+ * the bootstrap workflow, and a fresh deploy invalidates this
+ * automatically since the module reloads.
+ *
+ * Returns an empty Set when the override file is missing or
+ * malformed — fail-soft so a typo in overrides.json never blanks
+ * the /watching page.
+ */
+let cachedWatchingExclusions: Set<number> | null = null;
+
+export function getWatchingExclusions(): Set<number> {
+  if (cachedWatchingExclusions) return cachedWatchingExclusions;
+  const overridesPath = path.resolve(
+    process.cwd(),
+    "data/television/overrides.json",
+  );
+  try {
+    const raw = readFileSync(overridesPath, "utf-8");
+    const parsed = JSON.parse(raw) as {
+      excludeFromWatching?: Record<string, unknown>;
+    };
+    const map = parsed.excludeFromWatching ?? {};
+    const ids = new Set<number>();
+    for (const [key, value] of Object.entries(map)) {
+      if (key.startsWith("_")) continue;
+      if (value !== true) continue;
+      const id = Number.parseInt(key, 10);
+      if (Number.isFinite(id)) ids.add(id);
+    }
+    cachedWatchingExclusions = ids;
+    return ids;
+  } catch {
+    cachedWatchingExclusions = new Set();
+    return cachedWatchingExclusions;
+  }
+}
+
 // ─── Diagnostic ──────────────────────────────────────────────────
 
 /**

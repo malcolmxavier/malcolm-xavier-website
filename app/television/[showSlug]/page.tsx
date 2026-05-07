@@ -201,15 +201,36 @@ export default async function TelevisionDetailPage({
   for (const list of episodeReviewsByNum.values()) {
     list.sort((a, b) => (a.episodeNumber ?? 0) - (b.episodeNumber ?? 0));
   }
+  // Suppress the Specials season (seasonNumber === 0) by default.
+  // TMDB tags an enormous range of bonus content as Specials —
+  // promo featurettes, behind-the-scenes packs, holiday one-offs —
+  // most of which Malcolm hasn't engaged with and doesn't want
+  // surfaced as a placeholder "Unreviewed" block on the detail
+  // page. The rule (set 2026-05-07): hide Specials unless at least
+  // one signal exists for it — a Season-level review, an episode-
+  // level review on a Specials episode, an in-progress flag, or a
+  // Serializd watched-marker. The signal check covers all four
+  // sources so any future engagement (rating, prose, episode log,
+  // or watched tap) automatically un-hides the section without a
+  // manual override.
+  const specialsSeason = show.seasons.find((s) => s.seasonNumber === 0);
+  const specialsHasSignal =
+    specialsSeason !== undefined &&
+    ((show.reviewedSeasonNumbers ?? []).includes(0) ||
+      (show.inProgressSeasonNumbers ?? []).includes(0) ||
+      (show.watchedUnreviewedSeasonNumbers ?? []).includes(0) ||
+      show.reviews.some((r) => r.seasonId === specialsSeason.serializdId));
   // Iterate seasons in number order, surfacing Specials (season 0)
-  // last since it's tangential to the main run.
-  const orderedSeasons = [...show.seasons].sort((a, b) => {
-    const aIsSpecial = a.seasonNumber === 0;
-    const bIsSpecial = b.seasonNumber === 0;
-    if (aIsSpecial && !bIsSpecial) return 1;
-    if (!aIsSpecial && bIsSpecial) return -1;
-    return a.seasonNumber - b.seasonNumber;
-  });
+  // last since it's tangential to the main run when it appears.
+  const orderedSeasons = [...show.seasons]
+    .filter((s) => s.seasonNumber !== 0 || specialsHasSignal)
+    .sort((a, b) => {
+      const aIsSpecial = a.seasonNumber === 0;
+      const bIsSpecial = b.seasonNumber === 0;
+      if (aIsSpecial && !bIsSpecial) return 1;
+      if (!aIsSpecial && bIsSpecial) return -1;
+      return a.seasonNumber - b.seasonNumber;
+    });
 
   // Show-level rating for the hero — null unless at least one
   // Show-level review carries a rating. Picks the most recent
@@ -656,13 +677,21 @@ function SeasonBlock({
             >
               <Headline level={3}>{heading}</Headline>
               {/* Watched badge — minimal label since "Watched"
-                  alone communicates the state. The whole-season
-                  prose block below is suppressed in this case
-                  for compactness. */}
-              {status === "watched" ? (
+                  alone communicates the state. Surfaces on both
+                  the rating-only "watched" status (where the
+                  badge is the only signal of completion) AND on
+                  the "reviewed" status (where the Watched fact
+                  is implicit in the review existing, but the
+                  badge makes the completion legible at-a-glance
+                  next to the heading). The rating beside the
+                  badge only shows for the rating-only branch —
+                  reviewed seasons display their rating inside
+                  the ReviewBlock below, so duplicating it here
+                  would be noisy. */}
+              {status === "watched" || status === "reviewed" ? (
                 <>
                   <SeasonStatusBadge tone="watched">Watched</SeasonStatusBadge>
-                  {watchedRating !== null ? (
+                  {status === "watched" && watchedRating !== null ? (
                     <StarRating rating={watchedRating} size={14} />
                   ) : null}
                 </>
