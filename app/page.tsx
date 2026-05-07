@@ -77,6 +77,18 @@ const SUB_BRAND_TILES: SubBrandTile[] = [
     accent: "film",
   },
   {
+    href: "/television",
+    label: "Television",
+    cta: "Stay Tuned",
+    blurb: (
+      <>
+        Show, season, episode — three takes on the screen, with
+        Serializd receipts.
+      </>
+    ),
+    accent: "tv",
+  },
+  {
     href: "/music",
     label: "Music",
     cta: "Hear Me Out",
