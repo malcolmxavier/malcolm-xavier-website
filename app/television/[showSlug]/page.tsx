@@ -141,7 +141,12 @@ export async function generateMetadata({
     description,
     alternates: { canonical: `/television/${show.slug}` },
     openGraph: {
-      title: `${show.name} (${show.premiereYear})`,
+      // Match the HTML <title> shape ("Reviews by Malcolm Xavier"
+      // suffix) so social unfurls clarify the link's purpose. The
+      // bare "Show Name (Year)" form looked like a TMDB / IMDB
+      // share rather than a personal-review page; the suffix
+      // anchors the unfurl as Malcolm's editorial work.
+      title: `${show.name} (${show.premiereYear})—Reviews by Malcolm Xavier`,
       description,
       url: `/television/${show.slug}`,
       type: "article",
@@ -149,7 +154,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${show.name} (${show.premiereYear})`,
+      title: `${show.name} (${show.premiereYear})—Reviews by Malcolm Xavier`,
       description,
       images: ogImages?.map((img) => img.url),
     },
