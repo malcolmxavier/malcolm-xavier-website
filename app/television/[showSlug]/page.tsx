@@ -818,15 +818,21 @@ function SeasonStatusBadge({
   tone: "watched" | "in-progress";
   children: React.ReactNode;
 }) {
-  // Watched badges use the .season-status-watched class for a
-  // theme-flipped bg+text pair (dark green / white in light;
-  // light green / dark green in dark). In-progress badges keep
-  // the inline blue treatment — --blue-700 is theme-stable so
-  // white-on-blue works in both modes without a class flip.
-  const isWatched = tone === "watched";
+  // Both tones now route through theme-flipped CSS classes for
+  // the bg+text pair. The earlier in-progress inline path used
+  // var(--blue-700) which is theme-stable in token terms, but
+  // the badge BOUNDARY contrast in dark mode (blue-700 on black
+  // = ~1.38:1) failed SC 1.4.11. The .season-status-in-progress
+  // class flips to a lighter blue with dark text in dark mode so
+  // the edge pops against the black page — same pattern
+  // .season-status-watched uses for the green tone.
   return (
     <span
-      className={isWatched ? "season-status-watched" : undefined}
+      className={
+        tone === "watched"
+          ? "season-status-watched"
+          : "season-status-in-progress"
+      }
       style={{
         fontFamily: "var(--font-mono)",
         fontSize: 10,
@@ -834,9 +840,6 @@ function SeasonStatusBadge({
         textTransform: "uppercase",
         padding: "3px 8px",
         borderRadius: 3,
-        ...(isWatched
-          ? {}
-          : { background: "var(--blue-700)", color: "#fff" }),
       }}
     >
       {children}
