@@ -31,11 +31,14 @@ import {
 } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
+import { track } from "@vercel/analytics";
 import { Stack } from "@/components/layout/Stack";
 import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { InfoToast } from "@/components/primitives/InfoToast";
 import { Pagination } from "@/components/primitives/Pagination";
+import { SegmentedButton } from "@/components/primitives/SegmentedButton";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import type {
   CompletedCard,
   ShowFilters,
@@ -130,14 +133,21 @@ export function TelevisionShell({
     return () => clearTimeout(t);
   }, [toastMessage]);
 
-  // Drawer-open side effects — focus management, scroll lock, Esc
-  // dismissal. Same convention as FilmsShell so the two clusters'
-  // drawers behave identically for keyboard + AT users.
+  // Drawer-open side effects — focus management, scroll lock,
+  // Esc dismissal, and inert on the global <nav> so keyboard users
+  // can't Tab out of the open drawer into the sticky site nav. The
+  // existing inert={drawerOpen} on the desktop layout wrapper
+  // covers the filter sidebar / grid subtree but not <nav>, which
+  // lives in layout.tsx outside this component's render. Same
+  // convention as FilmsShell so the two clusters' drawers behave
+  // identically for keyboard + AT users.
   useEffect(() => {
     if (!drawerOpen) return;
     closeButtonRef.current?.focus();
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    const navEl = document.querySelector("nav");
+    navEl?.setAttribute("inert", "");
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") {
         setDrawerOpen(false);
@@ -148,6 +158,7 @@ export function TelevisionShell({
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = originalOverflow;
+      navEl?.removeAttribute("inert");
     };
   }, [drawerOpen]);
 
@@ -179,6 +190,20 @@ export function TelevisionShell({
     }
     const onlyPage = Object.keys(updates).every((k) => k === "page");
     if (!onlyPage) params.delete("page");
+    // Fire SHOW_FILTER_APPLIED for non-page navigations so the
+    // dashboard reports which filter dimensions earn their UI
+    // real-estate. dimension is derived from the keys touched —
+    // mirrors FilmsShell's pickFilterDimension shape (with
+    // cardKind added since TV has the Show/Season segmented
+    // control Films doesn't). Page-only navigations don't fire
+    // (pagination clicks are not filter changes; they get their
+    // own event when PAGINATION_CLICK lands at the primitive).
+    if (!onlyPage) {
+      const dimension = pickFilterDimension(Object.keys(updates));
+      if (dimension) {
+        track(ANALYTICS_EVENTS.SHOW_FILTER_APPLIED, { dimension });
+      }
+    }
     const targetBase = routeGenre ? "/television" : pathname;
     const qs = params.toString();
     router.replace(qs ? `${targetBase}?${qs}` : targetBase, {
@@ -293,21 +318,28 @@ export function TelevisionShell({
     onClearAll: clearAll,
   };
   const sidebarFilterContent = (
-    <FilterContent
-      {...sharedFilterContentProps}
-      announceResultCount={true}
-      showClearAll={false}
-    />
+    <FilterContent {...sharedFilterContentProps} showClearAll={false} />
   );
   const drawerFilterContent = (
-    <FilterContent
-      {...sharedFilterContentProps}
-      announceResultCount={false}
-    />
+    <FilterContent {...sharedFilterContentProps} />
   );
 
   return (
     <>
+      {/* ─── Single result-count live region ─────────────────────
+          One sr-only live region at the Shell root carries the
+          announcement for AT, regardless of viewport. The two
+          visible result-count surfaces below (mobile trigger row,
+          desktop FilterContent footer) duplicate the text for
+          sighted users but no longer carry aria-live themselves
+          — across a viewport-resize the prior pair could
+          double-announce as both rendered briefly during the
+          transition (SC 4.1.3 timing risk). */}
+      <div role="status" aria-live="polite" className="sr-only">
+        {totalResults.toLocaleString()}{" "}
+        {resultNoun(filters.cardKind, totalResults)}
+      </div>
+
       {/* ─── Mobile trigger row (md:hidden) ─────────────────── */}
       <div
         className="flex items-center justify-between gap-4 md:hidden"
@@ -325,7 +357,7 @@ export function TelevisionShell({
           Filters
           {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
         </button>
-        <span style={resultCountStyle} aria-live="polite">
+        <span style={resultCountStyle}>
           {totalResults.toLocaleString()}{" "}
           {resultNoun(filters.cardKind, totalResults)}
         </span>
@@ -500,7 +532,6 @@ function FilterContent({
   onSortChange,
   onSetCardKind,
   onClearAll,
-  announceResultCount,
   showClearAll = true,
 }: {
   filters: ShowFilters;
@@ -529,9 +560,6 @@ function FilterContent({
   /** Hide inline "Clear all" button when the chip rail above the
    *  grid carries the bulk-clear affordance. */
   showClearAll?: boolean;
-  /** Live-region announcement of the result count. Only the
-   *  visually dominant region per viewport announces. */
-  announceResultCount: boolean;
 }) {
   const cardKind = filters.cardKind ?? "both";
   return (
@@ -557,14 +585,18 @@ function FilterContent({
         </select>
       </div>
 
-      {/* Card-kind scope — segmented control. Default "Both" reads
-          as the unfiltered state; "Shows" and "Seasons" narrow.
-          Same visual language as the SummaryPanel's mode toggle so
-          the two read as siblings even though they're independent
-          (grid scope vs. chart scope; see ShowFilters.cardKind
-          comment in serializd-utils). */}
-      <div role="group" aria-label="Card scope">
-        <Kicker>Scope</Kicker>
+      {/* Card-kind scope — segmented control. Default label "All"
+          reads as the unfiltered state (matches surrounding "all
+          reviews" vocabulary); "Shows" and "Seasons" narrow. The
+          internal cardKind value stays "both" — only the user-
+          facing label is "All", so existing shared URLs with
+          ?cardKind=both still resolve. Same visual language as
+          the SummaryPanel's mode toggle so the two read as
+          siblings even though they're independent (grid scope vs.
+          chart scope; see ShowFilters.cardKind comment in
+          serializd-utils). */}
+      <div role="group" aria-labelledby="tv-shell-card-scope-label">
+        <Kicker id="tv-shell-card-scope-label">Scope</Kicker>
         <div
           style={{
             display: "flex",
@@ -576,24 +608,24 @@ function FilterContent({
             borderRadius: "var(--border-radius-sm)",
           }}
         >
-          <ScopeButton
+          <SegmentedButton
             active={cardKind === "both"}
             onClick={() => onSetCardKind("both")}
           >
-            Both
-          </ScopeButton>
-          <ScopeButton
+            All
+          </SegmentedButton>
+          <SegmentedButton
             active={cardKind === "show"}
             onClick={() => onSetCardKind("show")}
           >
             Shows
-          </ScopeButton>
-          <ScopeButton
+          </SegmentedButton>
+          <SegmentedButton
             active={cardKind === "season"}
             onClick={() => onSetCardKind("season")}
           >
             Seasons
-          </ScopeButton>
+          </SegmentedButton>
         </div>
       </div>
 
@@ -671,10 +703,7 @@ function FilterContent({
           borderTop: "1px solid var(--border-default)",
         }}
       >
-        <span
-          style={resultCountStyle}
-          aria-live={announceResultCount ? "polite" : undefined}
-        >
+        <span style={resultCountStyle}>
           {totalResults.toLocaleString()}{" "}
           {resultNoun(filters.cardKind, totalResults)}
         </span>
@@ -691,41 +720,6 @@ function FilterContent({
         ) : null}
       </div>
     </Stack>
-  );
-}
-
-function ScopeButton({
-  active,
-  onClick,
-  children,
-}: {
-  active: boolean;
-  onClick: () => void;
-  children: ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      style={{
-        flex: 1,
-        fontFamily: "var(--font-mono)",
-        fontSize: 11,
-        letterSpacing: "0.06em",
-        textTransform: "uppercase",
-        padding: "6px 8px",
-        border: "none",
-        borderRadius: "var(--border-radius-sm)",
-        cursor: "pointer",
-        background: active ? "var(--text-action)" : "transparent",
-        color: active ? "var(--surface-page)" : "var(--text-body)",
-        outlineColor: "var(--border-focus)",
-      }}
-      className="hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
-    >
-      {children}
-    </button>
   );
 }
 
@@ -830,7 +824,8 @@ function ActiveFilterChips({
   if (dismissableCount === 0) return null;
 
   return (
-    <nav
+    <div
+      role="group"
       aria-label="Active filters"
       style={{
         display: "flex",
@@ -897,7 +892,7 @@ function ActiveFilterChips({
           Clear all
         </button>
       ) : null}
-    </nav>
+    </div>
   );
 }
 
@@ -1008,6 +1003,30 @@ function resultNoun(
         ? "season review"
         : "review";
   return count === 1 ? singular : `${singular}s`;
+}
+
+/**
+ * Map the URL keys touched in a navigate() call to a single
+ * SHOW_FILTER_APPLIED dimension label. Mirrors FilmsShell's
+ * pickFilterDimension contract so cross-cluster comparisons stay
+ * clean — same vocabulary on both sides ("rating", "genre",
+ * "watched", "sort"). TV adds "cardKind" for the Show/Season
+ * segmented control films doesn't have.
+ *
+ * watchedYear and watchedWindow collapse into one "watched"
+ * dimension since they're mutually exclusive (the
+ * setWatched12Mo / toggleWatchedYear handlers always clear the
+ * other side). Returns null when the navigate is a side-effect
+ * like a pure pagination click so the caller can skip firing.
+ */
+function pickFilterDimension(keys: string[]): string | null {
+  if (keys.includes("rating")) return "rating";
+  if (keys.includes("genre")) return "genre";
+  if (keys.includes("watchedYear") || keys.includes("watchedWindow"))
+    return "watched";
+  if (keys.includes("cardKind")) return "cardKind";
+  if (keys.includes("sort")) return "sort";
+  return null;
 }
 
 // ─── Inline styles ────────────────────────────────────────────────

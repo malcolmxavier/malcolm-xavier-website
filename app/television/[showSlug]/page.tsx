@@ -49,6 +49,7 @@ import {
 } from "@/lib/feeds/serializd";
 import {
   applyCompletedCardFilters,
+  asString,
   buildCompletedCards,
   buildInProgressCards,
   findGenreBySlug,
@@ -56,6 +57,7 @@ import {
   parseShowFilters,
   parseShowSort,
   resolveSeasonPosterUrl,
+  seasonNumberForReview,
   slugifyGenre,
   type CompletedCard,
   type InProgressCard as InProgressCardType,
@@ -102,8 +104,13 @@ export async function generateMetadata({
       : trimmedProse ||
         `Reviews of ${show.name} (${show.premiereYear}) by Malcolm Xavier across show, season, and episode levels.`;
 
-  // OG image: prefer TMDB backdrop (1280×720) over poster (sub-spec
-  // for most OG renderers). Same posture as /films detail page.
+  // OG image: prefer TMDB backdrop (1280×720) — landscape, ideal
+  // for unfurlers. When no backdrop is available, fall straight to
+  // the sitewide programmatic OG card rather than the portrait
+  // poster (780×1170 reads poorly in LinkedIn / Slack / iMessage,
+  // which all expect landscape). Same posture as /films detail
+  // page; portrait-poster path was removed per
+  // tv-og-image-portrait-fallback.
   const ogImages = show.tmdb?.backdropPath
     ? [
         {
@@ -113,18 +120,17 @@ export async function generateMetadata({
           alt: `${show.name} backdrop`,
         },
       ]
-    : show.posterUrl
-      ? [
-          {
-            // Stored posterUrl is w342 (sub-spec for OG renderers).
-            // Bump to w780 so the unfurl image clears the threshold.
-            url: show.posterUrl.replace("/t/p/w342/", "/t/p/w780/"),
-            width: 780,
-            height: 1170,
-            alt: `${show.name} poster`,
-          },
-        ]
-      : undefined;
+    : [
+        {
+          // Sitewide programmatic OG card (Satori-rendered at
+          // /opengraph-image, 1200×630). next/metadata resolves
+          // the relative URL via metadataBase at render time.
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: `${show.name} — Malcolm Xavier`,
+        },
+      ];
 
   return {
     title: {
@@ -184,10 +190,10 @@ export default async function TelevisionDetailPage({
   const episodeReviewsByNum = new Map<number, Review[]>();
   for (const r of show.reviews) {
     if (r.level === "season") {
-      const sn = seasonNumberFor(show, r);
+      const sn = seasonNumberForReview(show, r);
       if (sn !== null) seasonReviewsByNum.set(sn, r);
     } else if (r.level === "episode") {
-      const sn = seasonNumberFor(show, r);
+      const sn = seasonNumberForReview(show, r);
       if (sn === null) continue;
       const list = episodeReviewsByNum.get(sn) ?? [];
       list.push(r);
@@ -501,7 +507,7 @@ function ReviewBlock({
             gap: 12,
           }}
         >
-          <h3
+          <p
             style={{
               ...metadataLineStyle,
               margin: 0,
@@ -509,7 +515,7 @@ function ReviewBlock({
             }}
           >
             Watched {formatWatchedDate(review.watchedDate.slice(0, 10))}
-          </h3>
+          </p>
           {review.rating !== null ? (
             <StarRating rating={review.rating} size={16} />
           ) : null}
@@ -628,7 +634,11 @@ function SeasonBlock({
       // rather than tucked behind the nav. 5rem matches the nav's
       // own sticky-top offset used by FilmsShell's filter sidebar.
       style={
-        dim ? { opacity: 0.55, scrollMarginTop: "5rem" } : { scrollMarginTop: "5rem" }
+        // 0.65 keeps the visual dim effect for unreviewed seasons
+        // while clearing SC 1.4.3 with headroom (effective light-
+        // mode contrast was ~4.74:1 at 0.55 — borderline; 0.65 lifts
+        // it well above the 4.5:1 floor for body text).
+        dim ? { opacity: 0.65, scrollMarginTop: "5rem" } : { scrollMarginTop: "5rem" }
       }
     >
       <div className="md:grid md:grid-cols-[200px_1fr] md:gap-8 md:items-start lg:grid-cols-[240px_1fr] lg:gap-10">
@@ -943,17 +953,9 @@ function NeighborLink({
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────
-
-function seasonNumberFor(show: Show, review: Review): number | null {
-  if (review.seasonId === null) return null;
-  const season = show.seasons.find((s) => s.serializdId === review.seasonId);
-  return season ? season.seasonNumber : null;
-}
-
-function asString(v: string | string[] | undefined): string | undefined {
-  if (Array.isArray(v)) return v[0];
-  return v;
-}
+// seasonNumberForReview + asString both live in serializd-utils
+// and are imported above. Local re-declarations were removed in
+// the Batch C cleanup so all consumers stay in lockstep.
 
 /**
  * Compute filter-aware adjacent-show neighbors when the user
@@ -1089,6 +1091,17 @@ function buildPageJsonLd(show: Show) {
     "@id": `${detailUrl}#tvseries`,
     name: show.name,
     url: detailUrl,
+    // Description + author tie the entity to Malcolm's Person graph
+    // and give AI-search retrievers a coherent show summary. The
+    // description fallback mirrors what generateMetadata uses as
+    // its safe default — same phrasing, no truncation needed since
+    // JSON-LD has no length cap.
+    description: `Reviews of ${show.name} (${show.premiereYear}) by Malcolm Xavier across show, season, and episode levels.`,
+    author: {
+      "@type": "Person",
+      name: "Malcolm Xavier",
+      "@id": `${SITE_URL}/#person`,
+    },
     ...(show.premiereDate ? { datePublished: show.premiereDate } : {}),
     ...(show.tmdb?.posterPath
       ? { image: `https://image.tmdb.org/t/p/w780${show.tmdb.posterPath}` }
@@ -1114,13 +1127,18 @@ function buildPageJsonLd(show: Show) {
     const itemReviewed: Record<string, unknown> =
       review.level === "show"
         ? { "@id": `${detailUrl}#tvseries` }
-        : {
-            "@type": "TVSeason",
-            partOfSeries: { "@id": `${detailUrl}#tvseries` },
-            ...(seasonNumberFor(show, review) !== null
-              ? { seasonNumber: seasonNumberFor(show, review) }
-              : {}),
-          };
+        : (() => {
+            // Cache the result so the JSON-LD builder makes one
+            // pass over show.seasons per Season-level review
+            // instead of two (the prior shape called it twice —
+            // once for the truthy check, once for the value).
+            const sn = seasonNumberForReview(show, review);
+            return {
+              "@type": "TVSeason",
+              partOfSeries: { "@id": `${detailUrl}#tvseries` },
+              ...(sn !== null ? { seasonNumber: sn } : {}),
+            };
+          })();
     reviewBlocks.push({
       "@type": "Review",
       itemReviewed,
@@ -1180,7 +1198,9 @@ const genreChipStyle: React.CSSProperties = {
   fontSize: 11,
   letterSpacing: "0.06em",
   textTransform: "uppercase",
-  padding: "4px 10px",
+  // 6×10 padding keeps the chip pill-shaped while clearing the
+  // 24px SC 2.5.8 target-size floor (was 4×10 → ~21px tall).
+  padding: "6px 10px",
   border: "1px solid var(--border-default)",
   borderRadius: 999,
 };

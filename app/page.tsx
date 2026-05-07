@@ -79,11 +79,11 @@ const SUB_BRAND_TILES: SubBrandTile[] = [
   {
     href: "/television",
     label: "Television",
-    cta: "Stay Tuned",
+    cta: "Grab the Remote",
     blurb: (
       <>
-        Show, season, episode — three takes on the screen, with
-        Serializd receipts.
+        Appointment viewing, binge fodder, channel
+        surfing&mdash;100+ seasons a year on Serializd.
       </>
     ),
     accent: "tv",

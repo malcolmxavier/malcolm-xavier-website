@@ -627,8 +627,10 @@ export function buildInProgressCards(shows: Show[]): InProgressCard[] {
 
 /** Resolve a Review's seasonNumber via show.seasons. Returns null
  *  on Show-level reviews (no seasonId) and on the rare TMDB-drift
- *  case where the seasonId isn't in show.seasons. */
-function seasonNumberForReview(show: Show, review: Review): number | null {
+ *  case where the seasonId isn't in show.seasons. Exported so the
+ *  detail-page route can drop its private re-declaration of the
+ *  same logic and stay in lockstep with this utils source. */
+export function seasonNumberForReview(show: Show, review: Review): number | null {
   if (review.seasonId === null) return null;
   const season = show.seasons.find((s) => s.serializdId === review.seasonId);
   return season ? season.seasonNumber : null;

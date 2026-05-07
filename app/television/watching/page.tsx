@@ -53,7 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
       !exclusions.has(s.serializdShowId) &&
       s.inProgressSeasonNumbers.length > 0,
   ).length;
-  const description = `${count} ${count === 1 ? "show" : "shows"} I'm currently watching, with episode progress per season. Pulled from my Serializd diary.`;
+  const description = `${count} ${count === 1 ? "show" : "shows"} I'm currently mid-season on—tracked at the episode level on Serializd. Each card links to its season notes and the episode log inside the full show hierarchy.`;
   return {
     title: "Currently Watching",
     description,
@@ -161,12 +161,12 @@ export default function WatchingPage() {
         <Section padding="md">
           <Stack gap="500">
             <Kicker accent>Television · Watching</Kicker>
-            <Display>What I&apos;m mid-watch on right now.</Display>
+            <Display>What&apos;s on my television right now.</Display>
             <Lede>
-              Each card is a season I&apos;ve started but haven&apos;t finished
-              writing up. The progress line shows how many episodes I&apos;ve
-              logged so far. Open any card for the full hierarchy —
-              episode notes nest under their parent season.
+              Each card is a season I&apos;ve started but haven&apos;t finished.
+              The progress line shows how many episodes I&apos;ve
+              logged so far. Open any card to see episode ratings and reviews,
+              or explore prior ratings and reviews from prior seasons.
             </Lede>
           </Stack>
         </Section>

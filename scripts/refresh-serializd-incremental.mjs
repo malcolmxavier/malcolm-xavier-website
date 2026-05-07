@@ -149,6 +149,16 @@ function runBootstrap() {
     console.error("Bootstrap failed to start:", result.error);
     process.exit(1);
   }
+  // result.status is null when the child is killed by a signal
+  // (OOM, GitHub Actions step timeout). The previous guard only
+  // checked typeof result.status === "number" and silently exited
+  // 0 in that case, causing the workflow to commit "no changes"
+  // after a half-written snapshot. Treat any non-zero status OR
+  // any signal as a hard failure.
+  if (result.signal) {
+    console.error(`Bootstrap killed by signal ${result.signal}.`);
+    process.exit(1);
+  }
   if (typeof result.status === "number" && result.status !== 0) {
     console.error(`Bootstrap exited with status ${result.status}.`);
     process.exit(result.status);

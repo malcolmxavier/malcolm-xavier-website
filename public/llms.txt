@@ -12,7 +12,7 @@ Senior product manager working on growth and data platforms in media, publishing
   - https://malxavi.com/case-studies/building-this-site — meta case study on shipping this portfolio in seven days with Claude Code as a build partner
 - Music: https://malxavi.com/music — monthly Spotify playlists, curated by mood and moment
 - Films: https://malxavi.com/films — full Letterboxd journal with prose reviews. Every film Malcolm has logged (741 entries) is reviewable per-page at /films/{letterboxd-slug}-{year}, with TMDB metadata (poster, genre, runtime, director) and a 0.5–5★ rating. Genre-scoped landing pages live at /films/genre/{slug} (e.g. /films/genre/horror) for long-tail discovery.
-- Television: https://malxavi.com/television — full Serializd journal across three review levels: Show, Season, and Episode. Every reviewed show (151 entries, 704 reviews total) is detailed per-page at /television/{show-slug}-{premiere-year} with the full season-by-season hierarchy, TMDB metadata, and a 0.5–5★ rating. Currently-watching seasons live at /television/watching. Genre-scoped landing pages live at /television/genre/{slug} (e.g. /television/genre/drama).
+- Television: https://malxavi.com/television — full Serializd journal across three review levels: Show, Season, and Episode. Every reviewed show (152 entries, 717 reviews total) is detailed per-page at /television/{show-slug}-{premiere-year} with the full season-by-season hierarchy, TMDB metadata, and a 0.5–5★ rating. Currently-watching seasons live at /television/watching. Genre-scoped landing pages live at /television/genre/{slug} (e.g. /television/genre/drama).
 
 ## Contact
 

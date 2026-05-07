@@ -26,6 +26,8 @@ import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
 import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
@@ -52,7 +54,7 @@ function buildListingDescription(
   totalShows: number,
   totalReviews: number,
 ): string {
-  return `${totalShows.toLocaleString()} shows and ${totalReviews.toLocaleString()} reviews across show, season, and episode levels. Logged on Serializd. Filter by rating, genre, or watched year.`;
+  return `${totalShows.toLocaleString()} shows and ${totalReviews.toLocaleString()} reviews across show, season, and episode levels. Logged on Serializd. Filter by rating, genre, watched year, or review level.`;
 }
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -107,21 +109,35 @@ export async function generateMetadata({
     summary.totalEpisodeReviews;
   const description = buildListingDescription(summary.totalShows, totalReviews);
 
+  // When ?genre=Single hands off, surface a genre-scoped social
+  // title so a share of /television?genre=Drama unfurls with
+  // "Drama TV Reviews—Malcolm Xavier" instead of the generic
+  // listing title. Listing-without-params keeps the parent title.
+  const socialTitle = onlyGenreFilter
+    ? `${filters.genres![0]} TV Reviews—Malcolm Xavier`
+    : "Television Reviews—Malcolm Xavier";
+
   return {
     title: "Television Reviews",
     description,
     alternates: { canonical },
     robots: noindex ? { index: false, follow: true } : undefined,
     openGraph: {
-      title: "Television Reviews—Malcolm Xavier",
+      title: socialTitle,
       description,
-      url: "/television",
+      // Track the canonical so unfurlers and crawlers receive the
+      // same "true URL" signal: /television on the listing,
+      // /television/genre/<slug> when ?genre=Single hands off.
+      // Without this, og:url stays on /television while canonical
+      // points elsewhere — a contradictory pair flagged by
+      // tv-og-url-genre-redirect-mismatch.
+      url: canonical,
       type: "website",
       images: ["/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Television Reviews—Malcolm Xavier",
+      title: socialTitle,
       description,
       images: ["/opengraph-image"],
     },
@@ -252,6 +268,12 @@ export default async function TelevisionPage({
         description: `Television Malcolm Xavier has watched and reviewed across show, season, and episode levels — ${summary.totalShows.toLocaleString()} shows logged on Serializd.`,
         url: listingUrl,
         inLanguage: "en-US",
+        // about ties the page to Malcolm's Person entity so AI-search
+        // retrievers (Perplexity, ChatGPT search) constructing answers
+        // about "Malcolm Xavier's television watching" pick up the
+        // entity link. author already covers authorship; about
+        // declares subject.
+        about: { "@id": `${SITE_URL}/#person` },
         author: {
           "@type": "Person",
           name: "Malcolm Xavier",
@@ -292,13 +314,13 @@ export default async function TelevisionPage({
             <Stack gap="500">
               <Kicker accent>Television</Kicker>
               <Display>
-                Show, season, episode — every level of how I watch.
+                Don&apos;t change the channel.
               </Display>
               <Lede>
-                I track TV three ways: shows I rate as a unit, seasons I write
-                up after the finale, and episodes I log as I go. The grid
-                below shows everything I&apos;ve completed at the show or
-                season level. Filters are there if you want a recommendation.
+                I watch 100+ seasons of television a year and log my reviews
+                on Serializd. Open any card to see that show&apos;s family of
+                ratings and reviews (Show, Season, or Episode-level). And if
+                you want a recommendation, the filters are there for you.
               </Lede>
               {/* Hero CTA — single external link to the Serializd
                   profile. The "Watching" affordance lives on the
@@ -307,9 +329,17 @@ export default async function TelevisionPage({
                   the hero, so the hero stays clean editorial
                   copy + one outbound link. */}
               <p style={{ margin: 0 }}>
-                <Link href={SERIALIZD_PROFILE_URL}>
-                  Follow along on Serializd ↗
-                </Link>
+                <TrackOnClick
+                  event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
+                  eventData={{
+                    kind: "profile-follow",
+                    surface: "listing-hero",
+                  }}
+                >
+                  <Link href={SERIALIZD_PROFILE_URL}>
+                    Follow along on Serializd ↗
+                  </Link>
+                </TrackOnClick>
               </p>
             </Stack>
             <div className="hidden lg:block">

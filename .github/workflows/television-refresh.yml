@@ -89,4 +89,10 @@ jobs:
           via the hourly television-refresh workflow.
 
           $DELTA"
-          git push
+          # Same-window race guard — if the films-rss-refresh job
+          # also pushed in this window, the bare push will be
+          # rejected as non-fast-forward and the snapshot would
+          # silently fail to land. Pull --rebase the missed commit
+          # and retry once. Cron offset (:30 vs :00) makes this
+          # rare but not impossible.
+          git push || (git pull --rebase && git push)
