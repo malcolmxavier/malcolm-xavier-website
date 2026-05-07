@@ -317,10 +317,8 @@ export default async function FilmDetailPage({
                     role="img"
                     aria-label="Liked"
                     title="Liked"
-                    style={{
-                      fontSize: 18,
-                      color: "var(--green-800)",
-                    }}
+                    className="star-rating-fill"
+                    style={{ fontSize: 18 }}
                   >
                     ♥
                   </span>
@@ -920,10 +918,17 @@ const metadataLineStyle = {
 
 const genreChipStyle = {
   fontFamily: "var(--font-mono)",
-  fontSize: 11,
+  // var(--p-xs-font-size) (12px) keeps the chip inside the type
+  // scale — class-audit fix from the 2026-05-07 re-review (Films
+  // chip was 11, TV chip was 11; both lifted to the token).
+  fontSize: "var(--p-xs-font-size)",
   textTransform: "uppercase" as const,
   letterSpacing: "0.08em",
-  padding: "4px 10px",
+  // 6×10 padding matches the TV cluster's chip after the SC 2.5.8
+  // target-size fix landed in the 2026-05-07 re-review (class-audit
+  // miss caught when the Films chip was left at 4×10 while the TV
+  // chip was bumped to 6×10).
+  padding: "6px 10px",
   borderRadius: "999px",
   // --border-interactive (grey-700 on white = 4.55:1, grey-600 on
   // black in dark mode) clears SC 1.4.11 for the chip's resting

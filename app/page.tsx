@@ -26,7 +26,6 @@ import Image from "next/image";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
-import { Grid } from "@/components/layout/Grid";
 import { Display } from "@/components/typography/Display";
 import { Headline } from "@/components/typography/Headline";
 import { Lede } from "@/components/typography/Lede";
@@ -294,26 +293,28 @@ export default function Home() {
         >
           <Stack gap="500">
             <Headline level={2}>The cultural corner.</Headline>
-            <Grid
-              cols={
-                // Tile count → column count:
-                //   1   → 1 col (full-width callout)
-                //   2   → 2 cols (matched pair)
-                //   3   → 3 cols (full row, no orphan)
-                //   4+  → 2 cols (cap kicks in to preserve
-                //          editorial blurb width and stop the
-                //          grid from compressing tiles into
-                //          ad-card density when the matrix grows)
-                // The 3-tile case scales to 3 cols specifically to
-                // avoid the half-width orphan tile that 2-cap would
-                // leave alone in row 2 (Music sat there pre-fix).
+            <div
+              // Tile count → responsive column count:
+              //   1   → 1 col (full-width callout)
+              //   2   → 1 col mobile, 2 cols sm+
+              //   3   → 1 col mobile, 3 cols sm+ (skips the 2-col
+              //          tablet intermediate so Music doesn't sit
+              //          orphan in row 2 at 640-1023px — the Grid
+              //          primitive's cols=3 default routes through
+              //          sm:grid-cols-2 which created that orphan;
+              //          hand-rolled here to bypass that mapping
+              //          per the 2026-05-07 re-review)
+              //   4+  → 1 col mobile, 2 cols sm+ (preserves
+              //          editorial blurb width; Grid component is
+              //          fine for this case)
+              className={`grid ${
                 SUB_BRAND_TILES.length === 3
-                  ? 3
+                  ? "grid-cols-1 sm:grid-cols-3"
                   : SUB_BRAND_TILES.length >= 2
-                    ? 2
-                    : 1
-              }
-              gap="600"
+                    ? "grid-cols-1 sm:grid-cols-2"
+                    : "grid-cols-1"
+              }`}
+              style={{ gap: "var(--scale-600)" }}
             >
               {SUB_BRAND_TILES.map((tile) => (
                 <Card key={tile.href} accent={tile.accent}>
@@ -359,7 +360,7 @@ export default function Home() {
                   </Stack>
                 </Card>
               ))}
-            </Grid>
+            </div>
           </Stack>
         </Section>
       ) : null}
