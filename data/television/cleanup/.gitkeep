@@ -1,0 +1,3 @@
+# Auto-generated cleanup reports land here on every bootstrap and incremental refresh.
+# Committed to git so the editorial backlog is reviewable in PRs.
+# See lib/feeds/serializd-cleanup.mjs for the seven categories.

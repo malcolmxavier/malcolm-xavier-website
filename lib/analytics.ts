@@ -63,6 +63,18 @@ export const ANALYTICS_EVENTS = {
    *  dashboard reports which filter dimensions earn their UI
    *  real-estate. */
   FILM_FILTER_APPLIED: "film_filter_applied",
+  /** Click on a ShowCard from the /television grid into the detail
+   *  page. Pair with `cardKind`: "show" | "season" so the
+   *  dashboard separates Show-card vs Season-card engagement. */
+  SHOW_CARD_CLICK: "show_card_click",
+  /** Any filter/sort change on /television via TelevisionShell.
+   *  Same dimensions vocabulary as FILM_FILTER_APPLIED so cross-
+   *  cluster comparisons are clean. */
+  SHOW_FILTER_APPLIED: "show_filter_applied",
+  /** Outbound click to serializd.com. Pair with `kind`:
+   *  - "profile-follow" — /television hero "Follow along on Serializd"
+   *  - "show-detail" — /television/[slug] "View on Serializd ↗" */
+  SERIALIZD_CLICK: "serializd_click",
 } as const;
 
 export type AnalyticsEvent =

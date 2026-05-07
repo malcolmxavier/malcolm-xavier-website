@@ -1,0 +1,1145 @@
+// ─────────────────────────────────────────────────────────────────
+// TelevisionShell — client wrapper for the /television grid + filter UI.
+//
+// Mirrors FilmsShell's architecture: filter sidebar on md+ (sticky),
+// fly-in drawer on <md, chip rail above grid for active filters,
+// pagination preserved across filter changes. Filter state lives in
+// URL params — every control change calls router.replace, which
+// re-runs page.tsx, which runs applyCompletedCardFilters and passes
+// a new card slice down.
+//
+// URL params owned here:
+//   ?rating=4,4.5,5     — per-review rating multiselect
+//   ?genre=Drama,Comedy — per-show genre multiselect
+//   ?watchedYear=2026,2024  per-review watched-year multi-select (CSV)
+//   ?sort=...           — sort dimension (omitted = default)
+//   ?page=N             — current page (reset to 1 on any filter change)
+//
+// Phase 1 scope: parity with /films minus the rolling 12-month
+// window + mode-switch toast (those compose two mutually-exclusive
+// modes and the TV cluster doesn't need that complexity until the
+// "Past 12 months" affordance lands). Adding them later is a
+// straightforward port from FilmsShell.
+// ─────────────────────────────────────────────────────────────────
+
+"use client";
+
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import type { CSSProperties, ReactNode } from "react";
+import { Stack } from "@/components/layout/Stack";
+import { Headline } from "@/components/typography/Headline";
+import { Kicker } from "@/components/typography/Kicker";
+import { InfoToast } from "@/components/primitives/InfoToast";
+import { Pagination } from "@/components/primitives/Pagination";
+import type {
+  CompletedCard,
+  ShowFilters,
+  ShowSort,
+} from "@/lib/feeds/serializd-utils";
+import { AllOrWatchingToggle } from "./AllOrWatchingToggle";
+import { ShowCard } from "./ShowCard";
+
+const RATING_VALUES = [
+  0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5,
+] as const;
+
+// Most-recent-activity (default) → year/rating/name dimensions.
+// Past tense throughout so vocabulary matches the filter chips
+// ("Watched", "Rated"). Mirrors /films's SORT_OPTIONS posture.
+const SORT_OPTIONS: { value: ShowSort; label: string }[] = [
+  { value: "latest-activity-desc", label: "Most recent activity" },
+  { value: "latest-activity-asc", label: "Earliest activity" },
+  { value: "rating-desc", label: "Highest rated" },
+  { value: "rating-asc", label: "Lowest rated" },
+  { value: "premiere-year-desc", label: "Newest premiered" },
+  { value: "premiere-year-asc", label: "Oldest premiered" },
+  { value: "show-name-asc", label: "A → Z" },
+];
+
+const DRAWER_ID = "television-filter-drawer";
+
+type Props = {
+  cards: CompletedCard[];
+  totalPages: number;
+  currentPage: number;
+  totalResults: number;
+  filters: ShowFilters;
+  sort: ShowSort;
+  /** Genres in the snapshot, sorted by usage descending. */
+  availableGenres: string[];
+  /** Watched years in the snapshot, sorted desc. */
+  availableWatchedYears: number[];
+  /** Genre pinned by the route (when mounted from /television/
+   *  genre/<slug>). Drives query-string seeding so multi-filter
+   *  combos retarget back to /television. */
+  routeGenre?: string;
+  /**
+   * Source listing URL (relative, including any active query
+   * params) — passed down to each ShowCard so the detail page
+   * can compute filter-aware adjacent-show neighbors. Computed
+   * by the parent page from its own URL state. When undefined,
+   * detail pages fall back to latestActivityDate ordering.
+   */
+  originHref?: string;
+  /**
+   * In-progress show count. Surfaces as a parenthetical on the
+   * "Watching" tab of the All/Watching toggle so the user can
+   * tell at a glance how much is on the other view. Falsy /
+   * zero hides the count.
+   */
+  watchingCount: number;
+};
+
+export function TelevisionShell({
+  cards,
+  totalPages,
+  currentPage,
+  totalResults,
+  filters,
+  sort,
+  availableGenres,
+  availableWatchedYears,
+  routeGenre,
+  originHref,
+  watchingCount,
+}: Props) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  // Transient toast for the watched-date mode-switch — set on
+  // destructive transitions between rolling-window and discrete-
+  // year modes (the two are mutually exclusive per the
+  // discriminated-union shape of WatchedDateFilter). aria-live
+  // lets SR users hear the announcement; the auto-clear timer
+  // mirrors /films's 4s window. Closes the parallel of
+  // films-watched-mode-switch-silent-destruction.
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  useEffect(() => {
+    if (!toastMessage) return;
+    const t = setTimeout(() => setToastMessage(null), 4000);
+    return () => clearTimeout(t);
+  }, [toastMessage]);
+
+  // Drawer-open side effects — focus management, scroll lock, Esc
+  // dismissal. Same convention as FilmsShell so the two clusters'
+  // drawers behave identically for keyboard + AT users.
+  useEffect(() => {
+    if (!drawerOpen) return;
+    closeButtonRef.current?.focus();
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setDrawerOpen(false);
+        triggerRef.current?.focus();
+      }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [drawerOpen]);
+
+  // String-form memo dep so a fresh ReadonlyURLSearchParams reference
+  // doesn't bust the memo when the URL hasn't changed. Same trick as
+  // FilmsShell.
+  const searchParamsString = searchParams.toString();
+  const preserveParams = useMemo(() => {
+    const out: Record<string, string> = {};
+    for (const [k, v] of searchParams.entries()) {
+      if (k === "page" || k === "ref" || k === "from") continue;
+      out[k] = v;
+    }
+    return out;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParamsString]);
+
+  function navigate(updates: Record<string, string | undefined>) {
+    const params = new URLSearchParams(searchParams.toString());
+    if (routeGenre && !params.has("genre")) {
+      params.set("genre", routeGenre);
+    }
+    for (const [k, v] of Object.entries(updates)) {
+      if (v === undefined || v === "") {
+        params.delete(k);
+      } else {
+        params.set(k, v);
+      }
+    }
+    const onlyPage = Object.keys(updates).every((k) => k === "page");
+    if (!onlyPage) params.delete("page");
+    const targetBase = routeGenre ? "/television" : pathname;
+    const qs = params.toString();
+    router.replace(qs ? `${targetBase}?${qs}` : targetBase, {
+      scroll: false,
+    });
+  }
+
+  function toggleRating(rating: number) {
+    const current = filters.ratings ?? [];
+    const next = current.includes(rating)
+      ? current.filter((r) => r !== rating)
+      : [...current, rating].sort((a, b) => a - b);
+    navigate({ rating: next.length > 0 ? next.join(",") : undefined });
+  }
+
+  function toggleGenre(genre: string) {
+    const current = filters.genres ?? [];
+    const next = current.includes(genre)
+      ? current.filter((g) => g !== genre)
+      : [...current, genre];
+    navigate({ genre: next.length > 0 ? next.join(",") : undefined });
+  }
+
+  function toggleWatchedYear(year: number) {
+    // Mode-switch handling: when the user is currently in
+    // rolling-window mode and clicks a year chip, the year click
+    // is destructive (it clears the window). Set a transient
+    // toast so the silent state loss surfaces, then switch
+    // modes. Otherwise toggle the year in/out of the array.
+    if (filters.watchedWindow !== undefined) {
+      setToastMessage(
+        "Specific year filters cannot be used with the relative past 12 months filter",
+      );
+      navigate({
+        watchedYear: String(year),
+        watchedWindow: undefined,
+      });
+      return;
+    }
+    const current = filters.watchedYears ?? [];
+    const next = current.includes(year)
+      ? current.filter((y) => y !== year)
+      : [...current, year].sort((a, b) => b - a);
+    navigate({
+      watchedYear: next.length > 0 ? next.join(",") : undefined,
+    });
+  }
+
+  function setWatched12Mo() {
+    // Tapping past-12-months while specific years are selected
+    // destroys the year set. Surface the destructive transition
+    // before flipping modes.
+    if (filters.watchedYears && filters.watchedYears.length > 0) {
+      setToastMessage(
+        "The relative past 12 months filter cannot be used with specific year filters",
+      );
+    }
+    navigate({
+      watchedYear: undefined,
+      watchedWindow: "12mo",
+    });
+  }
+
+  function clearWatchedDate() {
+    navigate({
+      watchedYear: undefined,
+      watchedWindow: undefined,
+    });
+  }
+
+  /**
+   * Set the card-kind scope. "both" clears the filter so the URL
+   * stays shareable without a redundant `?cardKind=both` param;
+   * "show" / "season" narrow the grid to that level. The
+   * SummaryPanel's mode toggle is intentionally NOT synced — the
+   * grid-vs-chart split is preserved per the ShowFilters.cardKind
+   * comment in serializd-utils.
+   */
+  function setCardKind(value: "both" | "show" | "season") {
+    navigate({ cardKind: value === "both" ? undefined : value });
+  }
+
+  function handleSortChange(value: ShowSort) {
+    navigate({
+      sort: value === "latest-activity-desc" ? undefined : value,
+    });
+  }
+
+  function clearAll() {
+    router.replace(pathname, { scroll: false });
+  }
+
+  const activeFilterCount = countActiveFilters(filters);
+  const sortIsDefault = sort === "latest-activity-desc";
+  const anyControlChangedFromDefault =
+    activeFilterCount > 0 || !sortIsDefault;
+
+  const sharedFilterContentProps = {
+    filters,
+    sort,
+    availableGenres,
+    availableWatchedYears,
+    anyControlChangedFromDefault,
+    totalResults,
+    onToggleRating: toggleRating,
+    onToggleGenre: toggleGenre,
+    onToggleWatchedYear: toggleWatchedYear,
+    onSetWatched12Mo: setWatched12Mo,
+    onClearWatchedDate: clearWatchedDate,
+    onSortChange: handleSortChange,
+    onSetCardKind: setCardKind,
+    onClearAll: clearAll,
+  };
+  const sidebarFilterContent = (
+    <FilterContent
+      {...sharedFilterContentProps}
+      announceResultCount={true}
+      showClearAll={false}
+    />
+  );
+  const drawerFilterContent = (
+    <FilterContent
+      {...sharedFilterContentProps}
+      announceResultCount={false}
+    />
+  );
+
+  return (
+    <>
+      {/* ─── Mobile trigger row (md:hidden) ─────────────────── */}
+      <div
+        className="flex items-center justify-between gap-4 md:hidden"
+        style={{ marginBottom: 16 }}
+      >
+        <button
+          ref={triggerRef}
+          type="button"
+          onClick={() => setDrawerOpen(true)}
+          aria-expanded={drawerOpen}
+          aria-controls={DRAWER_ID}
+          style={triggerButtonStyle}
+          className="focus-visible:outline-2 focus-visible:outline-offset-2"
+        >
+          Filters
+          {activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
+        </button>
+        <span style={resultCountStyle} aria-live="polite">
+          {totalResults.toLocaleString()}{" "}
+          {resultNoun(filters.cardKind, totalResults)}
+        </span>
+      </div>
+
+      {/* ─── Mobile drawer ─────────────────────────────────── */}
+      {drawerOpen ? (
+        <div
+          id={DRAWER_ID}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="television-filter-drawer-title"
+          className="md:hidden"
+          style={drawerOverlayStyle}
+        >
+          <header style={drawerHeaderStyle}>
+            <h2 id="television-filter-drawer-title" style={drawerTitleStyle}>
+              Filters
+            </h2>
+            <button
+              ref={closeButtonRef}
+              type="button"
+              onClick={() => {
+                setDrawerOpen(false);
+                triggerRef.current?.focus();
+              }}
+              aria-label="Close filters"
+              style={drawerCloseButtonStyle}
+              className="focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              <span aria-hidden="true">✕</span>
+            </button>
+          </header>
+          <div style={drawerBodyStyle}>{drawerFilterContent}</div>
+          <div style={drawerFooterStyle}>
+            <button
+              type="button"
+              onClick={() => {
+                setDrawerOpen(false);
+                triggerRef.current?.focus();
+              }}
+              style={drawerShowResultsButtonStyle}
+              className="hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              Show {totalResults.toLocaleString()}{" "}
+              {resultNoun(filters.cardKind, totalResults)}
+            </button>
+          </div>
+        </div>
+      ) : null}
+
+      {/* ─── Desktop/tablet layout (md+) ─────────────────────── */}
+      <div
+        className="md:grid md:gap-8 md:grid-cols-[280px_1fr] lg:gap-10 lg:grid-cols-[320px_1fr]"
+        inert={drawerOpen}
+      >
+        <aside
+          aria-label="Filter and sort"
+          className="hidden md:block"
+          style={{
+            position: "sticky",
+            top: "5rem",
+            maxHeight: "calc(100vh - 6rem)",
+            overflowY: "auto",
+            alignSelf: "start",
+          }}
+        >
+          {sidebarFilterContent}
+        </aside>
+
+        <div>
+          <Headline level={2} className="sr-only">
+            Television reviews
+          </Headline>
+          {/* All / Watching toggle — sits above the grid so the
+              user can switch views without leaving the listing
+              context. The "All" link inherits originHref so any
+              active filters carry forward; "Watching" hops to
+              the in-progress route. Placement matches the
+              /music shell's All/Collections toggle.
+              id="grid" + scroll-margin-top is the anchor target
+              the toggle's hrefs append (#grid) — so switching
+              views lands the user at this row, not at the page
+              hero, even after a long-page scroll. */}
+          <div
+            id="grid"
+            style={{ marginBottom: 16, scrollMarginTop: "5rem" }}
+          >
+            <AllOrWatchingToggle
+              active="all"
+              watchingCount={watchingCount}
+              allHref={originHref ?? "/television"}
+            />
+          </div>
+          {(anyControlChangedFromDefault || toastMessage) ? (
+            <div style={{ marginBottom: 16 }}>
+              <ActiveFilterChips
+                filters={filters}
+                sort={sort}
+                onRemoveRating={toggleRating}
+                onRemoveGenre={toggleGenre}
+                onRemoveWatchedYear={toggleWatchedYear}
+                onClearWatchedWindow={clearWatchedDate}
+                onResetCardKind={() => setCardKind("both")}
+                onResetSort={() => handleSortChange("latest-activity-desc")}
+                onClearAll={clearAll}
+              />
+              {/* Inline mode-switch toast — sits below the chip
+                  rail on md+ so a destructive transition stays
+                  visible without shifting the grid. The mobile
+                  variant is fixed-positioned inside InfoToast and
+                  ignores this DOM placement. */}
+              <InfoToast
+                message={toastMessage}
+                mobileBottomOffset={drawerOpen ? 96 : 24}
+              />
+            </div>
+          ) : null}
+          {cards.length > 0 ? (
+            <ul
+              role="list"
+              className="grid gap-4 sm:gap-6"
+              style={{
+                gridTemplateColumns:
+                  "repeat(auto-fill, minmax(160px, 1fr))",
+                listStyle: "none",
+                padding: 0,
+                margin: 0,
+              }}
+            >
+              {cards.map((card) => (
+                <li
+                  key={`${card.show.id}#${card.review.id}`}
+                >
+                  <ShowCard card={card} originHref={originHref} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyState onClearAll={clearAll} />
+          )}
+          <div style={{ marginTop: "var(--scale-700)" }}>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              basePath={pathname}
+              pageParam="page"
+              preserveParams={preserveParams}
+              ariaLabel="Television review pages"
+            />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ─── Sub-components ───────────────────────────────────────────────
+
+function FilterContent({
+  filters,
+  sort,
+  availableGenres,
+  availableWatchedYears,
+  anyControlChangedFromDefault,
+  totalResults,
+  onToggleRating,
+  onToggleGenre,
+  onToggleWatchedYear,
+  onSetWatched12Mo,
+  onClearWatchedDate,
+  onSortChange,
+  onSetCardKind,
+  onClearAll,
+  announceResultCount,
+  showClearAll = true,
+}: {
+  filters: ShowFilters;
+  sort: ShowSort;
+  availableGenres: string[];
+  availableWatchedYears: number[];
+  anyControlChangedFromDefault: boolean;
+  totalResults: number;
+  onToggleRating: (r: number) => void;
+  onToggleGenre: (g: string) => void;
+  onToggleWatchedYear: (y: number) => void;
+  /** Set the rolling 12-month window mode. Mutually exclusive
+   *  with watchedYears — see the toggleWatchedYear /
+   *  setWatched12Mo handlers in TelevisionShell. */
+  onSetWatched12Mo: () => void;
+  /** Clear both watchedYears and watchedWindow so the dimension
+   *  reads as "all time." */
+  onClearWatchedDate: () => void;
+  onSortChange: (v: ShowSort) => void;
+  /** Set the card-kind scope. "both" clears the filter; "show" /
+   *  "season" narrows the grid. Three-state segmented control
+   *  rather than two checkboxes so the mutually-exclusive nature
+   *  of the scope is obvious from the UI. */
+  onSetCardKind: (v: "both" | "show" | "season") => void;
+  onClearAll: () => void;
+  /** Hide inline "Clear all" button when the chip rail above the
+   *  grid carries the bulk-clear affordance. */
+  showClearAll?: boolean;
+  /** Live-region announcement of the result count. Only the
+   *  visually dominant region per viewport announces. */
+  announceResultCount: boolean;
+}) {
+  const cardKind = filters.cardKind ?? "both";
+  return (
+    <Stack gap="500">
+      <div>
+        <Kicker>Sort</Kicker>
+        <select
+          value={sort}
+          onChange={(e) => {
+            const match = SORT_OPTIONS.find(
+              (o) => o.value === e.target.value,
+            );
+            if (match) onSortChange(match.value);
+          }}
+          aria-label="Sort television by"
+          style={{ ...sortSelectStyle, marginTop: 8 }}
+        >
+          {SORT_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* Card-kind scope — segmented control. Default "Both" reads
+          as the unfiltered state; "Shows" and "Seasons" narrow.
+          Same visual language as the SummaryPanel's mode toggle so
+          the two read as siblings even though they're independent
+          (grid scope vs. chart scope; see ShowFilters.cardKind
+          comment in serializd-utils). */}
+      <div role="group" aria-label="Card scope">
+        <Kicker>Scope</Kicker>
+        <div
+          style={{
+            display: "flex",
+            gap: 4,
+            marginTop: 8,
+            padding: 4,
+            background: "var(--surface-default)",
+            border: "1px solid var(--border-default)",
+            borderRadius: "var(--border-radius-sm)",
+          }}
+        >
+          <ScopeButton
+            active={cardKind === "both"}
+            onClick={() => onSetCardKind("both")}
+          >
+            Both
+          </ScopeButton>
+          <ScopeButton
+            active={cardKind === "show"}
+            onClick={() => onSetCardKind("show")}
+          >
+            Shows
+          </ScopeButton>
+          <ScopeButton
+            active={cardKind === "season"}
+            onClick={() => onSetCardKind("season")}
+          >
+            Seasons
+          </ScopeButton>
+        </div>
+      </div>
+
+      <FilterRow label="Rating">
+        {RATING_VALUES.map((r) => (
+          <Chip
+            key={r}
+            isActive={(filters.ratings ?? []).includes(r)}
+            onClick={() => onToggleRating(r)}
+            ariaLabel={`Filter to ${r} star${r === 1 ? "" : "s"}`}
+          >
+            {r}★
+          </Chip>
+        ))}
+      </FilterRow>
+
+      <FilterRow label="Watched">
+        {/* Singletons first — All time clears the dimension; Past
+            12 months sets the rolling window. Either click clears
+            the year multi-select; the toggleWatchedYear /
+            setWatched12Mo handlers fire a toast on the
+            destructive transition so the silent state loss is
+            visible. */}
+        <Chip
+          isActive={
+            (filters.watchedYears ?? []).length === 0 &&
+            filters.watchedWindow === undefined
+          }
+          onClick={onClearWatchedDate}
+          ariaLabel="All time"
+        >
+          All time
+        </Chip>
+        <Chip
+          isActive={filters.watchedWindow === "12mo"}
+          onClick={onSetWatched12Mo}
+          ariaLabel="Filter watched-date to past 12 months"
+        >
+          Past 12 months
+        </Chip>
+        {availableWatchedYears.map((y) => (
+          <Chip
+            key={y}
+            isActive={(filters.watchedYears ?? []).includes(y)}
+            onClick={() => onToggleWatchedYear(y)}
+            ariaLabel={`Filter watched-date to ${y}`}
+          >
+            {y}
+          </Chip>
+        ))}
+      </FilterRow>
+
+      {availableGenres.length > 0 ? (
+        <FilterRow label="Genre">
+          {availableGenres.map((g) => (
+            <Chip
+              key={g}
+              isActive={(filters.genres ?? []).includes(g)}
+              onClick={() => onToggleGenre(g)}
+              ariaLabel={`Filter to ${g}`}
+            >
+              {g}
+            </Chip>
+          ))}
+        </FilterRow>
+      ) : null}
+
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 12,
+          paddingTop: 8,
+          borderTop: "1px solid var(--border-default)",
+        }}
+      >
+        <span
+          style={resultCountStyle}
+          aria-live={announceResultCount ? "polite" : undefined}
+        >
+          {totalResults.toLocaleString()}{" "}
+          {resultNoun(filters.cardKind, totalResults)}
+        </span>
+        {showClearAll && anyControlChangedFromDefault ? (
+          <button
+            type="button"
+            onClick={onClearAll}
+            style={clearAllButtonStyle}
+            aria-label="Clear all filters and reset sort"
+            className="focus-visible:outline-2 focus-visible:outline-offset-2"
+          >
+            Clear all
+          </button>
+        ) : null}
+      </div>
+    </Stack>
+  );
+}
+
+function ScopeButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      style={{
+        flex: 1,
+        fontFamily: "var(--font-mono)",
+        fontSize: 11,
+        letterSpacing: "0.06em",
+        textTransform: "uppercase",
+        padding: "6px 8px",
+        border: "none",
+        borderRadius: "var(--border-radius-sm)",
+        cursor: "pointer",
+        background: active ? "var(--text-action)" : "transparent",
+        color: active ? "var(--surface-page)" : "var(--text-body)",
+        outlineColor: "var(--border-focus)",
+      }}
+      className="hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      {children}
+    </button>
+  );
+}
+
+function FilterRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  const labelId = `television-filter-row-${label
+    .toLowerCase()
+    .replace(/\s+/g, "-")}`;
+  return (
+    <div role="group" aria-labelledby={labelId}>
+      <Kicker id={labelId}>{label}</Kicker>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 6,
+          marginTop: 8,
+        }}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
+
+function Chip({
+  isActive,
+  onClick,
+  children,
+  ariaLabel,
+}: {
+  isActive: boolean;
+  onClick: () => void;
+  children: ReactNode;
+  ariaLabel?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={isActive}
+      aria-label={ariaLabel}
+      style={{
+        ...chipBaseStyle,
+        background: isActive ? "var(--text-action)" : "transparent",
+        color: isActive ? "var(--surface-page)" : "var(--text-body)",
+        borderColor: isActive
+          ? "var(--text-action)"
+          : "var(--border-interactive)",
+      }}
+      // .show-filter-chip class carries the transition + paired
+      // prefers-reduced-motion override (added in components.css
+      // alongside .film-filter-chip).
+      className="show-filter-chip hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      {children}
+    </button>
+  );
+}
+
+function ActiveFilterChips({
+  filters,
+  sort,
+  onRemoveRating,
+  onRemoveGenre,
+  onRemoveWatchedYear,
+  onClearWatchedWindow,
+  onResetCardKind,
+  onResetSort,
+  onClearAll,
+}: {
+  filters: ShowFilters;
+  sort: ShowSort;
+  onRemoveRating: (r: number) => void;
+  onRemoveGenre: (g: string) => void;
+  onRemoveWatchedYear: (y: number) => void;
+  onClearWatchedWindow: () => void;
+  onResetCardKind: () => void;
+  onResetSort: () => void;
+  onClearAll: () => void;
+}) {
+  const ratings = filters.ratings ?? [];
+  const genres = filters.genres ?? [];
+  const watchedYears = filters.watchedYears ?? [];
+  const sortIsDefault = sort === "latest-activity-desc";
+  const cardKindActive = filters.cardKind !== undefined;
+
+  const watchedWindowActive = filters.watchedWindow !== undefined;
+  const dismissableCount =
+    ratings.length +
+    genres.length +
+    watchedYears.length +
+    (cardKindActive ? 1 : 0) +
+    (watchedWindowActive ? 1 : 0) +
+    (sortIsDefault ? 0 : 1);
+
+  if (dismissableCount === 0) return null;
+
+  return (
+    <nav
+      aria-label="Active filters"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        alignItems: "center",
+        gap: 8,
+      }}
+    >
+      {ratings.map((r) => (
+        <DismissableChip
+          key={`rating-${r}`}
+          label={`${r}★`}
+          ariaLabel={`Remove ${r}-star filter`}
+          onDismiss={() => onRemoveRating(r)}
+        />
+      ))}
+      {genres.map((g) => (
+        <DismissableChip
+          key={`genre-${g}`}
+          label={g}
+          ariaLabel={`Remove ${g} filter`}
+          onDismiss={() => onRemoveGenre(g)}
+        />
+      ))}
+      {watchedYears.map((y) => (
+        <DismissableChip
+          key={`year-${y}`}
+          label={String(y)}
+          ariaLabel={`Remove ${y} watched-year filter`}
+          onDismiss={() => onRemoveWatchedYear(y)}
+        />
+      ))}
+      {watchedWindowActive ? (
+        <DismissableChip
+          label="Past 12 months"
+          ariaLabel="Remove past-12-months filter"
+          onDismiss={onClearWatchedWindow}
+        />
+      ) : null}
+      {cardKindActive ? (
+        <DismissableChip
+          label={
+            filters.cardKind === "show" ? "Shows only" : "Seasons only"
+          }
+          ariaLabel="Reset scope to both shows and seasons"
+          onDismiss={onResetCardKind}
+        />
+      ) : null}
+      {!sortIsDefault ? (
+        <DismissableChip
+          label={`Sort: ${labelForSort(sort)}`}
+          ariaLabel="Reset sort to most recent activity"
+          onDismiss={onResetSort}
+        />
+      ) : null}
+      {dismissableCount >= 2 ? (
+        <button
+          type="button"
+          onClick={onClearAll}
+          style={clearAllButtonStyle}
+          aria-label="Clear all filters and reset sort"
+          className="focus-visible:outline-2 focus-visible:outline-offset-2"
+        >
+          Clear all
+        </button>
+      ) : null}
+    </nav>
+  );
+}
+
+function DismissableChip({
+  label,
+  ariaLabel,
+  onDismiss,
+}: {
+  label: string;
+  ariaLabel: string;
+  onDismiss: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onDismiss}
+      aria-label={ariaLabel}
+      style={{
+        ...chipBaseStyle,
+        background: "var(--text-action)",
+        color: "var(--surface-page)",
+        borderColor: "var(--text-action)",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 6,
+      }}
+      className="show-filter-chip hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      <span>{label}</span>
+      <span aria-hidden="true" style={{ fontSize: 14, lineHeight: 1 }}>
+        ✕
+      </span>
+    </button>
+  );
+}
+
+function labelForSort(sort: ShowSort): string {
+  return SORT_OPTIONS.find((o) => o.value === sort)?.label ?? sort;
+}
+
+function EmptyState({ onClearAll }: { onClearAll: () => void }) {
+  return (
+    <div
+      style={{
+        padding: "var(--scale-800)",
+        border: "1px dashed var(--border-default)",
+        borderRadius: "var(--border-radius-md)",
+        textAlign: "center",
+      }}
+    >
+      <p
+        style={{
+          fontFamily: "var(--font-secondary)",
+          fontSize: "var(--p-md-font-size)",
+          color: "var(--text-body)",
+          margin: 0,
+        }}
+      >
+        No reviews match these filters.
+      </p>
+      <button
+        type="button"
+        onClick={onClearAll}
+        className="focus-visible:outline-2 focus-visible:outline-offset-2"
+        style={{ marginTop: 12, ...clearAllButtonStyle }}
+      >
+        Clear all filters
+      </button>
+    </div>
+  );
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────
+
+function countActiveFilters(filters: ShowFilters): number {
+  let n = 0;
+  if (filters.ratings && filters.ratings.length > 0) n++;
+  if (filters.genres && filters.genres.length > 0) n++;
+  if (
+    (filters.watchedYears && filters.watchedYears.length > 0) ||
+    filters.watchedWindow !== undefined
+  ) {
+    n++;
+  }
+  if (filters.cardKind !== undefined) n++;
+  return n;
+}
+
+/**
+ * Singular/plural noun for the result count, scoped to the active
+ * cardKind filter. Reads as one coherent unit:
+ *   • undefined / both → "review" / "reviews"
+ *   • "show"           → "show review" / "show reviews"
+ *   • "season"         → "season review" / "season reviews"
+ *
+ * The grammar mirrors how Malcolm would describe the slice in
+ * conversation — "I have 11 show reviews" reads more naturally
+ * than "I have 11 cards."
+ */
+function resultNoun(
+  cardKind: ShowFilters["cardKind"],
+  count: number,
+): string {
+  const singular =
+    cardKind === "show"
+      ? "show review"
+      : cardKind === "season"
+        ? "season review"
+        : "review";
+  return count === 1 ? singular : `${singular}s`;
+}
+
+// ─── Inline styles ────────────────────────────────────────────────
+
+const chipBaseStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 12,
+  letterSpacing: "0.04em",
+  padding: "6px 12px",
+  borderRadius: 999,
+  border: "1px solid var(--border-interactive)",
+  cursor: "pointer",
+  whiteSpace: "nowrap",
+  outlineColor: "var(--border-focus)",
+};
+
+const sortSelectStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 12,
+  padding: "6px 8px",
+  border: "1px solid var(--border-interactive)",
+  borderRadius: "var(--border-radius-sm)",
+  background: "var(--surface-page)",
+  color: "var(--text-body)",
+  cursor: "pointer",
+  width: "100%",
+  outlineColor: "var(--border-focus)",
+};
+
+const triggerButtonStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 12,
+  letterSpacing: "0.06em",
+  textTransform: "uppercase",
+  padding: "8px 16px",
+  borderRadius: "var(--border-radius-sm)",
+  border: "1px solid var(--border-interactive)",
+  background: "var(--surface-page)",
+  color: "var(--text-body)",
+  cursor: "pointer",
+  outlineColor: "var(--border-focus)",
+};
+
+const resultCountStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 12,
+  color: "var(--text-caption)",
+  letterSpacing: "0.04em",
+};
+
+const clearAllButtonStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 12,
+  letterSpacing: "0.06em",
+  textTransform: "uppercase",
+  color: "var(--text-action)",
+  background: "none",
+  border: "none",
+  padding: 0,
+  cursor: "pointer",
+  textDecoration: "underline",
+  outlineColor: "var(--border-focus)",
+};
+
+const drawerOverlayStyle: CSSProperties = {
+  position: "fixed",
+  inset: 0,
+  zIndex: 50,
+  background: "var(--surface-page)",
+  display: "flex",
+  flexDirection: "column",
+};
+
+const drawerHeaderStyle: CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  padding: "16px 20px",
+  borderBottom: "1px solid var(--border-default)",
+  background: "var(--surface-page)",
+};
+
+const drawerTitleStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: "var(--p-sm-font-size)",
+  lineHeight: 1.4,
+  letterSpacing: "0.08em",
+  textTransform: "uppercase",
+  color: "var(--text-caption)",
+  margin: 0,
+};
+
+const drawerCloseButtonStyle: CSSProperties = {
+  width: 40,
+  height: 40,
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "var(--border-radius-sm)",
+  border: "1px solid var(--border-interactive)",
+  background: "var(--surface-page)",
+  color: "var(--text-body)",
+  cursor: "pointer",
+  fontSize: 16,
+  outlineColor: "var(--border-focus)",
+};
+
+const drawerBodyStyle: CSSProperties = {
+  flex: 1,
+  overflowY: "auto",
+  padding: "20px",
+};
+
+const drawerFooterStyle: CSSProperties = {
+  flexShrink: 0,
+  padding: "16px 20px",
+  borderTop: "1px solid var(--border-default)",
+  background: "var(--surface-page)",
+};
+
+const drawerShowResultsButtonStyle: CSSProperties = {
+  width: "100%",
+  fontFamily: "var(--font-mono)",
+  fontSize: 13,
+  letterSpacing: "0.06em",
+  textTransform: "uppercase",
+  padding: "12px 16px",
+  borderRadius: "var(--border-radius-sm)",
+  border: "1px solid var(--text-action)",
+  background: "var(--text-action)",
+  color: "var(--surface-page)",
+  cursor: "pointer",
+  outlineColor: "var(--border-focus)",
+};
+

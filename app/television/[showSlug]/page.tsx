@@ -1,0 +1,1157 @@
+// ─────────────────────────────────────────────────────────────────
+// /television/[showSlug] — single-show detail page.
+//
+// Renders the full hierarchy for a TV show:
+//
+//   1. Back link — "← All television" mono caption.
+//   2. Hero — poster + title block (kicker, name, premiere year /
+//      type / status / network metadata, primary rating + dateline,
+//      genre chips → /television/genre/<slug>, "View on Serializd ↗").
+//   3. Show review (if any) — full prose, sits at the top of the
+//      review stack since the Show review summarizes the whole.
+//   4. Season hierarchy — every season per TMDB rendered in
+//      seasonNumber asc order. Each season block carries its own
+//      Season-level review (if reviewed) and any nested Episode
+//      reviews. Unreviewed seasons appear as quiet placeholders
+//      so the user sees the full structure.
+//   5. Adjacent shows — chronological prev/next neighbors at the
+//      bottom, walking the snapshot's shows array (sorted by
+//      latestActivityDate desc to match listing default).
+//
+// JSON-LD: TVSeries + per-Review (Show + Season levels) +
+// BreadcrumbList in a single @graph. TVEpisode emission deferred
+// — adds bytes without earning ranking value at current scale.
+//
+// Snapshot-only at request time: getShowBySlug() reads
+// lib/feeds/_fixtures/serializd-snapshot.json directly. ISR
+// revalidate=3600 since the snapshot only changes on bootstrap.
+// ─────────────────────────────────────────────────────────────────
+
+import type { Metadata } from "next";
+import Image from "next/image";
+import NextLink from "next/link";
+import { notFound } from "next/navigation";
+import { Container } from "@/components/layout/Container";
+import { Section } from "@/components/layout/Section";
+import { Stack } from "@/components/layout/Stack";
+import { Display } from "@/components/typography/Display";
+import { Headline } from "@/components/typography/Headline";
+import { Kicker } from "@/components/typography/Kicker";
+import { Link } from "@/components/primitives/Link";
+import { StarRating } from "@/components/primitives/StarRating";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { SITE_URL } from "@/lib/site-config";
+import {
+  getShowBySlug,
+  getShowNeighbors,
+  getShows,
+} from "@/lib/feeds/serializd";
+import {
+  applyCompletedCardFilters,
+  buildCompletedCards,
+  buildInProgressCards,
+  findGenreBySlug,
+  formatWatchedDate,
+  parseShowFilters,
+  parseShowSort,
+  resolveSeasonPosterUrl,
+  slugifyGenre,
+  type CompletedCard,
+  type InProgressCard as InProgressCardType,
+  type Review,
+  type Season,
+  type Show,
+} from "@/lib/feeds/serializd-utils";
+import { BackToTelevision } from "../BackToTelevision";
+
+type Params = { showSlug: string };
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+export const revalidate = 3600;
+
+// ─── SEO metadata ────────────────────────────────────────────────
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+}): Promise<Metadata> {
+  const { showSlug } = await params;
+  const show = getShowBySlug(showSlug);
+  if (!show) {
+    return {
+      title: "Show not found",
+      alternates: { canonical: `/television/${showSlug}` },
+    };
+  }
+  // Description = first ~155 chars of the most useful prose review,
+  // preferring Show-level → Season-level → first review with prose.
+  // Skip episode-level reviews for the meta description (they're
+  // typically short reaction logs).
+  const sourceReview =
+    show.reviews.find((r) => r.level === "show" && r.reviewText.trim() !== "") ??
+    show.reviews.find((r) => r.level === "season" && r.reviewText.trim() !== "") ??
+    show.reviews.find((r) => r.reviewText.trim() !== "");
+  const trimmedProse = sourceReview
+    ? sourceReview.reviewText.replace(/\s+/g, " ").trim()
+    : "";
+  const description =
+    trimmedProse.length > 155
+      ? `${trimmedProse.slice(0, 152)}…`
+      : trimmedProse ||
+        `Reviews of ${show.name} (${show.premiereYear}) by Malcolm Xavier across show, season, and episode levels.`;
+
+  // OG image: prefer TMDB backdrop (1280×720) over poster (sub-spec
+  // for most OG renderers). Same posture as /films detail page.
+  const ogImages = show.tmdb?.backdropPath
+    ? [
+        {
+          url: `https://image.tmdb.org/t/p/w1280${show.tmdb.backdropPath}`,
+          width: 1280,
+          height: 720,
+          alt: `${show.name} backdrop`,
+        },
+      ]
+    : show.posterUrl
+      ? [
+          {
+            // Stored posterUrl is w342 (sub-spec for OG renderers).
+            // Bump to w780 so the unfurl image clears the threshold.
+            url: show.posterUrl.replace("/t/p/w342/", "/t/p/w780/"),
+            width: 780,
+            height: 1170,
+            alt: `${show.name} poster`,
+          },
+        ]
+      : undefined;
+
+  return {
+    title: {
+      absolute: `${show.name} (${show.premiereYear})—Reviews by Malcolm Xavier`,
+    },
+    description,
+    alternates: { canonical: `/television/${show.slug}` },
+    openGraph: {
+      title: `${show.name} (${show.premiereYear})`,
+      description,
+      url: `/television/${show.slug}`,
+      type: "article",
+      images: ogImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${show.name} (${show.premiereYear})`,
+      description,
+      images: ogImages?.map((img) => img.url),
+    },
+  };
+}
+
+// ─── Page ────────────────────────────────────────────────────────
+
+export default async function TelevisionDetailPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<Params>;
+  searchParams: SearchParams;
+}) {
+  const { showSlug } = await params;
+  const sp = await searchParams;
+  const show = getShowBySlug(showSlug);
+  if (!show) notFound();
+
+  // Adjacent-show navigation. Two paths:
+  //   • If `?from=<encoded-listing-url>` is present (the user
+  //     arrived via a card click), reconstruct that listing's
+  //     filter+sort context and find the current show's actual
+  //     visual neighbors in that filtered+sorted card list.
+  //   • Otherwise (direct entry, shared link, deep link), fall
+  //     back to the snapshot's latestActivityDate-ordered
+  //     neighbors via getShowNeighbors.
+  const fromParam = asString(sp.from);
+  const contextual = findContextualNeighbors(show.id, fromParam);
+  const fallback = getShowNeighbors(show.id);
+  const { newer: newerShow, older: olderShow } = contextual ?? fallback;
+  // The from param survives multi-hop browsing — neighbor links
+  // re-encode it so a click on "older" carries the same context.
+  const neighborFrom = fromParam ? encodeURIComponent(fromParam) : null;
+
+  // Group reviews by level for hierarchy rendering.
+  const showReviews = show.reviews.filter((r) => r.level === "show");
+  const seasonReviewsByNum = new Map<number, Review>();
+  const episodeReviewsByNum = new Map<number, Review[]>();
+  for (const r of show.reviews) {
+    if (r.level === "season") {
+      const sn = seasonNumberFor(show, r);
+      if (sn !== null) seasonReviewsByNum.set(sn, r);
+    } else if (r.level === "episode") {
+      const sn = seasonNumberFor(show, r);
+      if (sn === null) continue;
+      const list = episodeReviewsByNum.get(sn) ?? [];
+      list.push(r);
+      episodeReviewsByNum.set(sn, list);
+    }
+  }
+  // Sort episode reviews per season by episode number asc so the
+  // detail-page narrative reads E1 → E2 → … (matches how the user
+  // would re-watch). seasonNumberAsc ordering for the seasons
+  // themselves happens at the iteration site.
+  for (const list of episodeReviewsByNum.values()) {
+    list.sort((a, b) => (a.episodeNumber ?? 0) - (b.episodeNumber ?? 0));
+  }
+  // Iterate seasons in number order, surfacing Specials (season 0)
+  // last since it's tangential to the main run.
+  const orderedSeasons = [...show.seasons].sort((a, b) => {
+    const aIsSpecial = a.seasonNumber === 0;
+    const bIsSpecial = b.seasonNumber === 0;
+    if (aIsSpecial && !bIsSpecial) return 1;
+    if (!aIsSpecial && bIsSpecial) return -1;
+    return a.seasonNumber - b.seasonNumber;
+  });
+
+  // Show-level rating for the hero — null unless at least one
+  // Show-level review carries a rating. Picks the most recent
+  // Show review's rating (showReviews is filtered above; first
+  // entry is newest since show.reviews is pre-sorted reviewDate
+  // desc).
+  const showLevelRating = showReviews[0]?.rating ?? null;
+
+  const jsonLd = buildPageJsonLd(show);
+
+  return (
+    <div data-subbrand="tv">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <Container size="lg">
+        <div
+          style={{
+            paddingTop: "var(--scale-600)",
+            paddingBottom: "var(--scale-400)",
+          }}
+        >
+          <BackToTelevision />
+        </div>
+
+        {/* ─── Hero (poster + title block) ─────────────────────── */}
+        <Section padding="sm">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-[200px_1fr] md:items-end md:gap-8 lg:grid-cols-[240px_1fr] lg:gap-10">
+            {show.posterUrl ? (
+              <div
+                className="relative w-full overflow-hidden rounded-md"
+                style={{
+                  aspectRatio: "2 / 3",
+                  background: "var(--surface-default)",
+                  border: "1px solid var(--border-default)",
+                }}
+              >
+                <Image
+                  src={show.posterUrl}
+                  alt={`${show.name} poster`}
+                  fill
+                  sizes="(max-width: 768px) 80vw, 240px"
+                  style={{ objectFit: "cover" }}
+                  priority
+                />
+              </div>
+            ) : null}
+
+            <Stack gap="400">
+              <Kicker accent>Show</Kicker>
+              <Display>{show.name}</Display>
+              <p style={metadataLineStyle}>
+                {show.premiereYear || ""}
+                {show.tmdb?.type ? ` · ${show.tmdb.type}` : ""}
+                {show.tmdb?.status ? ` · ${show.tmdb.status}` : ""}
+                {show.tmdb?.networks && show.tmdb.networks.length > 0
+                  ? ` · ${show.tmdb.networks[0]}`
+                  : ""}
+              </p>
+              {/* Hero rating shows ONLY when there's a Show-level
+                  review with a rating — i.e. the show has been
+                  rated as a whole. show.primaryRating (most recent
+                  review across any level) is too context-divorced
+                  to surface here; a Season or Episode rating means
+                  something different than "this show, rated."
+                  Most recent activity stays — that's level-
+                  agnostic and useful regardless. */}
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                  gap: 16,
+                }}
+              >
+                {showLevelRating !== null ? (
+                  <StarRating
+                    rating={showLevelRating}
+                    size={20}
+                    showEmpty
+                  />
+                ) : null}
+                {show.liked ? (
+                  <span
+                    role="img"
+                    aria-label="Liked"
+                    title="Liked"
+                    style={{ fontSize: 18, color: "var(--green-800)" }}
+                  >
+                    ♥
+                  </span>
+                ) : null}
+                <span style={metadataLineStyle}>
+                  Most recent activity{" "}
+                  {formatWatchedDate(show.latestActivityDate.slice(0, 10))}
+                </span>
+              </div>
+              {/* Genre chips — link to /television/genre/<slug>.
+                  Mirrors /films's chip pattern but uses the
+                  .show-detail-genre-chip class for sub-brand-specific
+                  hover styling (see components.css). */}
+              {show.tmdb?.genres && show.tmdb.genres.length > 0 ? (
+                <ul
+                  role="list"
+                  style={{
+                    listStyle: "none",
+                    padding: 0,
+                    margin: 0,
+                    display: "flex",
+                    flexWrap: "wrap",
+                    gap: 8,
+                  }}
+                >
+                  {show.tmdb.genres.map((g) => (
+                    <li key={g}>
+                      <NextLink
+                        href={`/television/genre/${slugifyGenre(g)}`}
+                        className="show-detail-genre-chip"
+                        style={genreChipStyle}
+                      >
+                        {g}
+                      </NextLink>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              <p style={{ margin: 0 }}>
+                <TrackOnClick
+                  event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
+                  eventData={{
+                    kind: "show-detail",
+                    showId: show.serializdShowId,
+                  }}
+                >
+                  <Link href={show.serializdUrl}>View on Serializd ↗</Link>
+                </TrackOnClick>
+              </p>
+            </Stack>
+          </div>
+        </Section>
+
+        {/* ─── Show-level review (if any) ──────────────────────── */}
+        {showReviews.length > 0 ? (
+          <Section padding="md" bordered>
+            <div
+              id="show-review"
+              // scroll-margin-top so anchor scrolling (#show-review)
+              // lands the heading clear of the sticky site nav.
+              style={{ scrollMarginTop: "5rem" }}
+              className="md:grid md:grid-cols-[200px_1fr] md:gap-8 lg:grid-cols-[240px_1fr] lg:gap-10"
+            >
+              <div aria-hidden="true" />
+              <div style={{ maxWidth: "65ch" }}>
+                <Stack gap="600">
+                  <Headline level={2}>The whole show</Headline>
+                  {showReviews.map((review, i) => (
+                    <ReviewBlock
+                      key={`show-${i}`}
+                      review={review}
+                      anchorId={`show-review-${i}`}
+                    />
+                  ))}
+                </Stack>
+              </div>
+            </div>
+          </Section>
+        ) : null}
+
+        {/* ─── Seasons ─────────────────────────────────────────── */}
+        {/* Layout note: the section heading uses the same poster-
+            column / content-column grid as the hero, with the
+            poster slot empty (the show poster sits right above it
+            in the hero). Each SeasonBlock owns its own grid row,
+            so each season can fill the poster column with its
+            own poster — distinct visual identity per season,
+            aligned with the show's overall column rhythm. */}
+        {orderedSeasons.length > 0 ? (
+          <Section padding="md" bordered>
+            <Stack gap="800">
+              <div className="md:grid md:grid-cols-[200px_1fr] md:gap-8 lg:grid-cols-[240px_1fr] lg:gap-10">
+                <div aria-hidden="true" />
+                <Headline level={2}>Season by season</Headline>
+              </div>
+              {orderedSeasons.map((season) => (
+                <SeasonBlock
+                  key={season.serializdId}
+                  show={show}
+                  season={season}
+                  seasonReview={
+                    seasonReviewsByNum.get(season.seasonNumber) ?? null
+                  }
+                  episodeReviews={
+                    episodeReviewsByNum.get(season.seasonNumber) ?? []
+                  }
+                  watchedUnreviewed={show.watchedUnreviewedSeasonNumbers.includes(
+                    season.seasonNumber,
+                  )}
+                  inProgress={show.inProgressSeasonNumbers.includes(
+                    season.seasonNumber,
+                  )}
+                />
+              ))}
+            </Stack>
+          </Section>
+        ) : null}
+
+        {/* ─── Adjacent shows (chronological prev/next) ────────
+            Sibling-to-sibling links between detail pages. Newer
+            LEFT, older RIGHT — matches /films's listing-order
+            convention so a reader arriving from /television
+            carries "further right = older" as their mental model.
+            See FilmDetailPage's adjacent-reviews comment for the
+            full rationale. */}
+        {(newerShow || olderShow) ? (
+          <Section padding="md" bordered>
+            <nav
+              aria-label="Adjacent shows"
+              className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8"
+            >
+              {newerShow ? (
+                <NeighborLink
+                  show={newerShow}
+                  direction="newer"
+                  fromParam={neighborFrom}
+                />
+              ) : (
+                <span aria-hidden="true" />
+              )}
+              {olderShow ? (
+                <NeighborLink
+                  show={olderShow}
+                  direction="older"
+                  fromParam={neighborFrom}
+                />
+              ) : (
+                <span aria-hidden="true" />
+              )}
+            </nav>
+          </Section>
+        ) : null}
+      </Container>
+    </div>
+  );
+}
+
+// ─── Sub-components ──────────────────────────────────────────────
+
+function ReviewBlock({
+  review,
+  anchorId,
+}: {
+  review: Review;
+  anchorId: string;
+}) {
+  const paragraphs = review.reviewText
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  return (
+    <article id={anchorId}>
+      <Stack gap="400">
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            gap: 12,
+          }}
+        >
+          <h3
+            style={{
+              ...metadataLineStyle,
+              margin: 0,
+              fontWeight: "inherit",
+            }}
+          >
+            Watched {formatWatchedDate(review.watchedDate.slice(0, 10))}
+          </h3>
+          {review.rating !== null ? (
+            <StarRating rating={review.rating} size={16} />
+          ) : null}
+          {review.isRewatch ? <Pill>Rewatch</Pill> : null}
+          {review.containsSpoiler ? (
+            <Pill tone="warning">Contains spoilers</Pill>
+          ) : null}
+        </div>
+        <div>
+          {paragraphs.length > 0 ? (
+            paragraphs.map((para, i) => (
+              <p key={i} style={proseParagraphStyle}>
+                {para}
+              </p>
+            ))
+          ) : null}
+        </div>
+      </Stack>
+    </article>
+  );
+}
+
+function SeasonBlock({
+  show,
+  season,
+  seasonReview,
+  episodeReviews,
+  watchedUnreviewed,
+  inProgress,
+}: {
+  /** Parent show — used to resolve the season's TMDB poster URL
+   *  (via the shared resolveSeasonPosterUrl helper) for the
+   *  poster column. */
+  show: Show;
+  season: Season;
+  seasonReview: Review | null;
+  episodeReviews: Review[];
+  /** Season is in `show.watchedUnreviewedSeasonNumbers` — watched
+   *  pre-Serializd or otherwise without a writeup. Renders a
+   *  "Watched" badge. */
+  watchedUnreviewed: boolean;
+  /** Season is in `show.inProgressSeasonNumbers` — episode-only
+   *  reviews exist, no Season-level writeup. Renders an "In
+   *  progress" badge. */
+  inProgress: boolean;
+}) {
+  // Season-specific poster URL via the shared helper. Null when
+  // TMDB hasn't populated a poster (common for "Specials" /
+  // season-0 entries). On null we leave the column empty rather
+  // than falling back to the show poster — the show poster is
+  // already in the hero, repeating it here would be redundant.
+  const seasonPosterUrl = resolveSeasonPosterUrl(show, season.seasonNumber);
+  // Status discriminator. A Season review with prose is "reviewed"
+  // (full content). A Season review with rating-only (no prose) is
+  // "watched" — Malcolm completed the season and rated it but
+  // didn't write a recap. Episode-only signal is "in-progress".
+  // Watched-from-API with no diary entry at all is "watched"
+  // without a rating.
+  //
+  // Why rating-only reads as "watched": the user explicitly noted
+  // that a rated-but-not-reviewed season should still carry the
+  // Watched tag — the rating is its own complete signal at the
+  // season level, but a prose-less Season block would otherwise
+  // render as an empty review with rating, which reads more
+  // confusing than helpful. Watched + rating is more compact and
+  // accurate.
+  const reviewHasProse =
+    seasonReview !== null && seasonReview.reviewText.trim() !== "";
+  // Pull the rating from the rating-only Season review when
+  // present; null otherwise. The watchedSeasons API doesn't
+  // surface ratings today, so the API-only "watched" case has no
+  // rating to display.
+  const watchedRating: number | null =
+    seasonReview !== null && !reviewHasProse
+      ? seasonReview.rating
+      : null;
+  const heading =
+    season.seasonNumber === 0
+      ? "Specials"
+      : season.name && season.name !== `Season ${season.seasonNumber}`
+        ? `${season.name} (Season ${season.seasonNumber})`
+        : `Season ${season.seasonNumber}`;
+  const hasReviewContent = reviewHasProse || episodeReviews.length > 0;
+  // Status precedence (most-specific signal wins):
+  //   1. reviewed     → Season review with prose. Full content.
+  //   2. watched      → Season review rating-only (rated but no
+  //                     writeup) OR API-only watched flag. Both
+  //                     express "season completed" without a
+  //                     writeup; the rating-only branch carries
+  //                     a rating for the badge to surface.
+  //   3. in-progress  → episode reviews exist, no Season review.
+  //   4. unreviewed   → no signal either way (default).
+  // Mutually exclusive by construction — bootstrap dedupes
+  // watchedUnreviewedSeasonNumbers against reviewed/in-progress
+  // buckets, and the local `reviewHasProse` flag here disambig-
+  // uates rating-only Season reviews from full ones.
+  const status: "reviewed" | "watched" | "in-progress" | "unreviewed" =
+    reviewHasProse
+      ? "reviewed"
+      : seasonReview !== null
+        ? "watched"
+        : inProgress
+          ? "in-progress"
+          : watchedUnreviewed
+            ? "watched"
+            : "unreviewed";
+  // Only the truly-unreviewed (status unknown) variant fades — the
+  // watched / in-progress / reviewed cases all carry positive
+  // information and earn the eye's attention.
+  const dim = status === "unreviewed" && !hasReviewContent;
+  return (
+    <section
+      id={`season-${season.seasonNumber}`}
+      // scroll-margin-top compensates for the sticky site nav so
+      // anchor scrolling (#season-N) lands the heading in view
+      // rather than tucked behind the nav. 5rem matches the nav's
+      // own sticky-top offset used by FilmsShell's filter sidebar.
+      style={
+        dim ? { opacity: 0.55, scrollMarginTop: "5rem" } : { scrollMarginTop: "5rem" }
+      }
+    >
+      <div className="md:grid md:grid-cols-[200px_1fr] md:gap-8 md:items-start lg:grid-cols-[240px_1fr] lg:gap-10">
+        {/* Season poster — fills the same left column the hero
+            show-poster lives in. Empty when the season has no
+            TMDB poster (the show poster is in the hero already;
+            repeating it would be redundant and noisy on shows
+            with many seasons). On mobile (<md), the column
+            collapses to a single stack — poster on top of
+            content. */}
+        <div>
+          {seasonPosterUrl ? (
+            <div
+              className="relative w-full overflow-hidden rounded-md"
+              style={{
+                aspectRatio: "2 / 3",
+                background: "var(--surface-default)",
+                border: "1px solid var(--border-default)",
+                // Cap the rendered width on mobile so a portrait
+                // poster doesn't dominate the viewport when the
+                // grid collapses to one column. md+ the explicit
+                // grid column size already constrains the width.
+                maxWidth: 200,
+              }}
+            >
+              <Image
+                src={seasonPosterUrl}
+                alt={`${heading} poster`}
+                fill
+                sizes="(max-width: 768px) 200px, 240px"
+                style={{ objectFit: "cover" }}
+                placeholder="empty"
+              />
+            </div>
+          ) : null}
+        </div>
+        <div style={{ maxWidth: "65ch" }}>
+          <Stack gap="400">
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: 12,
+              }}
+            >
+              <Headline level={3}>{heading}</Headline>
+              {/* Watched badge — minimal label since "Watched"
+                  alone communicates the state. The whole-season
+                  prose block below is suppressed in this case
+                  for compactness. */}
+              {status === "watched" ? (
+                <>
+                  <SeasonStatusBadge tone="watched">Watched</SeasonStatusBadge>
+                  {watchedRating !== null ? (
+                    <StarRating rating={watchedRating} size={14} />
+                  ) : null}
+                </>
+              ) : null}
+              {status === "in-progress" && !seasonReview ? (
+                <SeasonStatusBadge tone="in-progress">In progress</SeasonStatusBadge>
+              ) : null}
+            </div>
+            {/* Render the full ReviewBlock only when there's prose
+                to show. Rating-only Season reviews surface their
+                rating inline with the Watched badge above;
+                rendering them here would produce an empty prose
+                section. */}
+            {reviewHasProse && seasonReview ? (
+              <ReviewBlock
+                review={seasonReview}
+                anchorId={`season-${season.seasonNumber}-review`}
+              />
+            ) : null}
+            {episodeReviews.length > 0 ? (
+              <Stack gap="300">
+                <Kicker>Episode notes</Kicker>
+                <ul
+                  role="list"
+                  style={{ listStyle: "none", padding: 0, margin: 0 }}
+                >
+                  {episodeReviews.map((r) => (
+                    <li
+                      key={r.id}
+                      style={{
+                        paddingTop: 12,
+                        paddingBottom: 12,
+                        borderTop: "1px solid var(--border-default)",
+                      }}
+                    >
+                      <EpisodeRow review={r} />
+                    </li>
+                  ))}
+                </ul>
+              </Stack>
+            ) : null}
+            {/* Watched: no caption — the badge says it. Unreviewed
+                gets an italic "Not reviewed here." since there's
+                no other signal carrying the state. */}
+            {status === "unreviewed" ? (
+              <p
+                style={{
+                  ...metadataLineStyle,
+                  margin: 0,
+                  fontStyle: "italic",
+                }}
+              >
+                Not reviewed here.
+              </p>
+            ) : null}
+          </Stack>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Small status pill rendered inline with the season heading.
+ * Two tones, both AA-contrast against the cluster's surfaces:
+ *   • "watched"     → subtle green (watched-no-writeup is a
+ *                     positive completion signal).
+ *   • "in-progress" → cluster blue (matches the watching badge
+ *                     on InProgressCard for visual continuity).
+ */
+function SeasonStatusBadge({
+  tone,
+  children,
+}: {
+  tone: "watched" | "in-progress";
+  children: React.ReactNode;
+}) {
+  const bg =
+    tone === "watched" ? "var(--green-800)" : "var(--blue-700)";
+  return (
+    <span
+      style={{
+        fontFamily: "var(--font-mono)",
+        fontSize: 10,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        padding: "3px 8px",
+        borderRadius: 3,
+        background: bg,
+        color: "#fff",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function EpisodeRow({ review }: { review: Review }) {
+  const epLabel =
+    review.episodeNumber !== null
+      ? `E${review.episodeNumber}${review.episodeName ? ` · ${review.episodeName}` : ""}`
+      : review.episodeName ?? "Episode";
+  const proseParagraphs = review.reviewText
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+  return (
+    <Stack gap="100">
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "baseline",
+          gap: 12,
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--p-sm-font-size)",
+            color: "var(--text-heading)",
+            letterSpacing: "0.04em",
+          }}
+        >
+          {epLabel}
+        </span>
+        {review.rating !== null ? (
+          <StarRating rating={review.rating} size={12} />
+        ) : null}
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            color: "var(--text-caption)",
+            letterSpacing: "0.04em",
+          }}
+        >
+          {formatWatchedDate(review.watchedDate.slice(0, 10))}
+        </span>
+      </div>
+      {proseParagraphs.length > 0 ? (
+        <div>
+          {proseParagraphs.map((para, i) => (
+            <p
+              key={i}
+              style={{ ...proseParagraphStyle, fontSize: "var(--p-sm-font-size)" }}
+            >
+              {para}
+            </p>
+          ))}
+        </div>
+      ) : null}
+    </Stack>
+  );
+}
+
+function Pill({
+  children,
+  tone,
+}: {
+  children: React.ReactNode;
+  tone?: "warning";
+}) {
+  return (
+    <span
+      style={{
+        fontFamily: "var(--font-mono)",
+        fontSize: 10,
+        letterSpacing: "0.08em",
+        textTransform: "uppercase",
+        padding: "2px 6px",
+        borderRadius: 3,
+        border: "1px solid var(--border-interactive)",
+        color:
+          tone === "warning"
+            ? "var(--text-action)"
+            : "var(--text-caption)",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function NeighborLink({
+  show,
+  direction,
+  fromParam,
+}: {
+  show: Show;
+  direction: "newer" | "older";
+  /** URL-encoded source listing — re-attached to the neighbor
+   *  link's href so multi-hop browsing keeps the user's original
+   *  filter+sort context alive across detail pages. Null when
+   *  the current detail page was entered directly (no `from`
+   *  param to forward). */
+  fromParam: string | null;
+}) {
+  const href = fromParam
+    ? `/television/${show.slug}?ref=internal&from=${fromParam}`
+    : `/television/${show.slug}?ref=internal`;
+  return (
+    <NextLink
+      href={href}
+      style={{
+        textDecoration: "none",
+        display: "block",
+        padding: "var(--scale-400)",
+        border: "1px solid var(--border-default)",
+        borderRadius: "var(--border-radius-md)",
+        outlineColor: "var(--border-focus)",
+      }}
+      className="hover:[border-color:var(--text-action)] focus-visible:outline-2 focus-visible:outline-offset-2"
+    >
+      <Stack gap="100">
+        <span
+          style={{
+            fontFamily: "var(--font-mono)",
+            fontSize: 11,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: "var(--text-caption)",
+          }}
+        >
+          {direction === "newer" ? "← Newer review" : "Older review →"}
+        </span>
+        <span
+          style={{
+            fontFamily: "var(--font-secondary)",
+            fontSize: "var(--p-md-font-size)",
+            color: "var(--text-heading)",
+          }}
+        >
+          {show.name}{" "}
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 12,
+              color: "var(--text-caption)",
+              letterSpacing: "0.04em",
+            }}
+          >
+            ({show.premiereYear})
+          </span>
+        </span>
+      </Stack>
+    </NextLink>
+  );
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────
+
+function seasonNumberFor(show: Show, review: Review): number | null {
+  if (review.seasonId === null) return null;
+  const season = show.seasons.find((s) => s.serializdId === review.seasonId);
+  return season ? season.seasonNumber : null;
+}
+
+function asString(v: string | string[] | undefined): string | undefined {
+  if (Array.isArray(v)) return v[0];
+  return v;
+}
+
+/**
+ * Compute filter-aware adjacent-show neighbors when the user
+ * arrived via a card click. Replays the source listing's
+ * predicates (parsed from the encoded `from` URL), dedupes the
+ * resulting card list to unique shows in encounter order, and
+ * returns the show immediately before / after the current one.
+ *
+ * Returns null when the `from` URL is missing, malformed, or
+ * doesn't match a recognized listing pathname — caller falls
+ * back to the snapshot's latestActivityDate ordering.
+ *
+ * Recognized source pathnames:
+ *   • /television              → completed-card listing with
+ *                                user's full filter+sort state
+ *   • /television/watching     → in-progress card listing
+ *                                (sorted by most recent episode
+ *                                review)
+ *   • /television/genre/<slug> → completed cards scoped to the
+ *                                pinned genre + any user filters
+ */
+function findContextualNeighbors(
+  currentShowId: string,
+  fromParam: string | undefined,
+): { newer: Show | null; older: Show | null } | null {
+  if (!fromParam) return null;
+  let url: URL;
+  try {
+    url = new URL(fromParam, "http://internal.local");
+  } catch {
+    return null;
+  }
+  const pathname = url.pathname;
+  const sp: Record<string, string | string[] | undefined> =
+    Object.fromEntries(url.searchParams.entries());
+  const filters = parseShowFilters(sp);
+  const sort = parseShowSort(sp);
+  const { shows, summary } = getShows();
+  let orderedShows: Show[];
+  if (pathname === "/television/watching") {
+    const cards = buildInProgressCards(shows);
+    cards.sort((a, b) => {
+      const aDate = a.episodeReviews[0]?.reviewDate ?? "";
+      const bDate = b.episodeReviews[0]?.reviewDate ?? "";
+      return bDate.localeCompare(aDate);
+    });
+    orderedShows = uniqueShowsInOrder(cards.map((c: InProgressCardType) => c.show));
+  } else if (pathname.startsWith("/television/genre/")) {
+    const slug = pathname.slice("/television/genre/".length);
+    const genre = findGenreBySlug(summary.genreDistribution, slug);
+    if (!genre) return null;
+    const allCards = buildCompletedCards(shows);
+    const filteredCards = applyCompletedCardFilters(
+      allCards,
+      { ...filters, genres: [genre] },
+      sort,
+    );
+    orderedShows = uniqueShowsInOrder(filteredCards.map((c: CompletedCard) => c.show));
+  } else if (pathname === "/television") {
+    const allCards = buildCompletedCards(shows);
+    const filteredCards = applyCompletedCardFilters(allCards, filters, sort);
+    orderedShows = uniqueShowsInOrder(filteredCards.map((c: CompletedCard) => c.show));
+  } else {
+    return null;
+  }
+  const idx = orderedShows.findIndex((s) => s.id === currentShowId);
+  if (idx === -1) return null;
+  return {
+    newer: idx > 0 ? orderedShows[idx - 1] : null,
+    older: idx + 1 < orderedShows.length ? orderedShows[idx + 1] : null,
+  };
+}
+
+/**
+ * Dedupe a Show[] keeping only the first occurrence of each
+ * unique show id. Card lists carry the same show multiple times
+ * (a show with both a Show review and Season reviews surfaces as
+ * multiple cards on the listing); for prev/next navigation we
+ * want one card per show in their listing-encounter order.
+ */
+function uniqueShowsInOrder(shows: Show[]): Show[] {
+  const seen = new Set<string>();
+  const out: Show[] = [];
+  for (const s of shows) {
+    if (seen.has(s.id)) continue;
+    seen.add(s.id);
+    out.push(s);
+  }
+  return out;
+}
+
+// ─── JSON-LD ─────────────────────────────────────────────────────
+
+/**
+ * Build the page-level JSON-LD payload.
+ *
+ *   • TVSeries — the show entity, with TMDB sameAs for entity-link
+ *     consolidation. genre + datePublished + image populated when
+ *     TMDB enrichment is present.
+ *   • Review (per Show-level review) — itemReviewed = TVSeries.
+ *   • Review (per Season-level review) — itemReviewed = TVSeason
+ *     (referenced by partOfSeries; the season entity isn't
+ *     standalone-emitted to keep the @graph compact).
+ *   • BreadcrumbList — Television > {Show name}.
+ *
+ * Episode-level Review entities are intentionally NOT emitted —
+ * adds bytes (potentially hundreds per show) without earning
+ * matching SERP rich-result eligibility at this catalog's scale.
+ * Add later if AI-search retrievers start citing per-episode
+ * notes specifically.
+ */
+function buildPageJsonLd(show: Show) {
+  const detailUrl = `${SITE_URL}/television/${show.slug}`;
+  const breadcrumb = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Television",
+        item: `${SITE_URL}/television`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: `${show.name} (${show.premiereYear})`,
+        item: detailUrl,
+      },
+    ],
+  };
+  const tvSeries: Record<string, unknown> = {
+    "@type": "TVSeries",
+    "@id": `${detailUrl}#tvseries`,
+    name: show.name,
+    url: detailUrl,
+    ...(show.premiereDate ? { datePublished: show.premiereDate } : {}),
+    ...(show.tmdb?.posterPath
+      ? { image: `https://image.tmdb.org/t/p/w780${show.tmdb.posterPath}` }
+      : {}),
+    ...(show.tmdb?.id
+      ? { sameAs: `https://www.themoviedb.org/tv/${show.tmdb.id}` }
+      : {}),
+    ...(show.tmdb?.genres && show.tmdb.genres.length > 0
+      ? { genre: show.tmdb.genres }
+      : {}),
+    ...(show.tmdb?.numberOfSeasons
+      ? { numberOfSeasons: show.tmdb.numberOfSeasons }
+      : {}),
+    ...(show.tmdb?.numberOfEpisodes
+      ? { numberOfEpisodes: show.tmdb.numberOfEpisodes }
+      : {}),
+  };
+
+  const reviewBlocks: Record<string, unknown>[] = [];
+  for (const review of show.reviews) {
+    if (review.level === "episode") continue; // see comment above
+    if (review.reviewText.trim() === "") continue;
+    const itemReviewed: Record<string, unknown> =
+      review.level === "show"
+        ? { "@id": `${detailUrl}#tvseries` }
+        : {
+            "@type": "TVSeason",
+            partOfSeries: { "@id": `${detailUrl}#tvseries` },
+            ...(seasonNumberFor(show, review) !== null
+              ? { seasonNumber: seasonNumberFor(show, review) }
+              : {}),
+          };
+    reviewBlocks.push({
+      "@type": "Review",
+      itemReviewed,
+      ...(review.rating !== null
+        ? {
+            reviewRating: {
+              "@type": "Rating",
+              ratingValue: review.rating,
+              bestRating: 5,
+              worstRating: 0.5,
+            },
+          }
+        : {}),
+      author: {
+        "@type": "Person",
+        name: "Malcolm Xavier",
+        "@id": `${SITE_URL}/#person`,
+      },
+      datePublished: review.reviewDate,
+      reviewBody: review.reviewText,
+    });
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [tvSeries, ...reviewBlocks, breadcrumb],
+  };
+}
+
+// ─── Inline styles ────────────────────────────────────────────────
+
+const metadataLineStyle: React.CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: "var(--p-sm-font-size)",
+  lineHeight: "var(--p-sm-line-height)",
+  letterSpacing: "0.02em",
+  color: "var(--text-caption)",
+  margin: 0,
+};
+
+const proseParagraphStyle: React.CSSProperties = {
+  fontFamily: "var(--font-secondary)",
+  fontSize: "var(--p-md-font-size)",
+  lineHeight: "var(--p-md-line-height)",
+  color: "var(--text-body)",
+  margin: 0,
+  marginBottom: "var(--scale-400)",
+};
+
+// Genre chip — small mono pill that renders in muted caption color
+// at rest, with .show-detail-genre-chip class providing the blue
+// hover/focus color via components.css. Same shape as /films but
+// the cluster's blue rather than orange.
+const genreChipStyle: React.CSSProperties = {
+  display: "inline-block",
+  fontFamily: "var(--font-mono)",
+  fontSize: 11,
+  letterSpacing: "0.06em",
+  textTransform: "uppercase",
+  padding: "4px 10px",
+  border: "1px solid var(--border-default)",
+  borderRadius: 999,
+};
