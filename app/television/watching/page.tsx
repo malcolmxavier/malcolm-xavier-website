@@ -19,17 +19,20 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
-import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
 import { SITE_URL } from "@/lib/site-config";
 import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
-import { buildInProgressCards } from "@/lib/feeds/serializd-utils";
+import {
+  buildCompletedCards,
+  buildInProgressCards,
+} from "@/lib/feeds/serializd-utils";
 import { AllOrWatchingToggle } from "../AllOrWatchingToggle";
 import { InProgressCard } from "../InProgressCard";
 import { BackToTelevision } from "../BackToTelevision";
@@ -156,7 +159,13 @@ export default function WatchingPage() {
             paddingBottom: "var(--scale-400)",
           }}
         >
-          <BackToTelevision />
+          {/* Suspense wrap — BackToTelevision uses useSearchParams,
+              which Next.js 15+ requires inside a Suspense boundary
+              for static prerender. fallback=null since the link is
+              small chrome that hydrates fast. */}
+          <Suspense fallback={null}>
+            <BackToTelevision />
+          </Suspense>
         </div>
 
         <Section padding="md">
@@ -173,9 +182,6 @@ export default function WatchingPage() {
         </Section>
 
         <Section padding="md" bordered>
-          <Headline level={2} className="sr-only">
-            In-progress seasons
-          </Headline>
           {/* All / Watching toggle — same pattern as on
               /television's listing. From here, "All" hops back
               to the cluster root (no filter context to carry,
@@ -190,6 +196,7 @@ export default function WatchingPage() {
             <AllOrWatchingToggle
               active="watching"
               watchingCount={cards.length}
+              allCount={buildCompletedCards(shows).length}
               from="watching"
             />
           </div>

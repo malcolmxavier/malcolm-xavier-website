@@ -96,6 +96,13 @@ type Props = {
    * zero hides the count.
    */
   watchingCount: number;
+  /**
+   * Pre-filter completed-card count for the "All" tab parity
+   * count — i.e. allCards.length at the page level before
+   * applyCompletedCardFilters runs. Same posture as watchingCount
+   * (hidden when zero).
+   */
+  allCount: number;
 };
 
 export function TelevisionShell({
@@ -103,6 +110,7 @@ export function TelevisionShell({
   totalPages,
   currentPage,
   totalResults,
+  allCount,
   filters,
   sort,
   availableGenres,
@@ -449,6 +457,7 @@ export function TelevisionShell({
             <AllOrWatchingToggle
               active="all"
               watchingCount={watchingCount}
+              allCount={allCount}
               allHref={originHref ?? "/television"}
               from={routeGenre ? "genre" : "listing"}
             />
@@ -953,7 +962,7 @@ function EmptyState({ onClearAll }: { onClearAll: () => void }) {
           margin: 0,
         }}
       >
-        No reviews match these filters.
+        Nothing here matches. Try clearing a filter or two.
       </p>
       <button
         type="button"
