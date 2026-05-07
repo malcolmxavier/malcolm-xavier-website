@@ -26,6 +26,7 @@ import { Display } from "@/components/typography/Display";
 import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
+import { Link } from "@/components/primitives/Link";
 import { SITE_URL } from "@/lib/site-config";
 import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
 import { buildInProgressCards } from "@/lib/feeds/serializd-utils";
@@ -236,6 +237,21 @@ export default function WatchingPage() {
               >
                 Nothing in progress right now. Every season I&apos;ve started
                 has a writeup.
+              </p>
+              {/* Stub fallback — keeps the empty-state from being a
+                  dead-end if the in-progress queue ever clears.
+                  Anchors at #grid so the user lands at the listing
+                  row rather than the page hero. */}
+              <p
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "var(--p-xs-font-size)",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  margin: "var(--scale-400) 0 0 0",
+                }}
+              >
+                <Link href="/television#grid">Browse all reviews →</Link>
               </p>
             </div>
           )}
