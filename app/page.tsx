@@ -296,14 +296,22 @@ export default function Home() {
             <Headline level={2}>The cultural corner.</Headline>
             <Grid
               cols={
-                // Cap at 2 columns: a single tile reads as a
-                // callout; two-or-more fills a 2-up grid that
-                // wraps to additional rows. Capping at 2 (rather
-                // than scaling to 3 or 4) keeps each tile's
-                // editorial blurb at a comfortable reading width
-                // and stops the grid from compressing tiles into
-                // ad-card density when the matrix grows.
-                SUB_BRAND_TILES.length >= 2 ? 2 : 1
+                // Tile count → column count:
+                //   1   → 1 col (full-width callout)
+                //   2   → 2 cols (matched pair)
+                //   3   → 3 cols (full row, no orphan)
+                //   4+  → 2 cols (cap kicks in to preserve
+                //          editorial blurb width and stop the
+                //          grid from compressing tiles into
+                //          ad-card density when the matrix grows)
+                // The 3-tile case scales to 3 cols specifically to
+                // avoid the half-width orphan tile that 2-cap would
+                // leave alone in row 2 (Music sat there pre-fix).
+                SUB_BRAND_TILES.length === 3
+                  ? 3
+                  : SUB_BRAND_TILES.length >= 2
+                    ? 2
+                    : 1
               }
               gap="600"
             >

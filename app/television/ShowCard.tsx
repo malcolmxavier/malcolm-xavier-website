@@ -188,12 +188,17 @@ export function ShowCard({
                   role="img"
                   aria-label="Liked"
                   title="Liked"
+                  className="star-rating-fill"
                   style={{
                     position: "absolute",
                     top: 8,
                     right: 8,
                     fontSize: 16,
-                    color: "var(--green-800)",
+                    // color is inherited from .star-rating-fill —
+                    // green-800 in light mode, green-400 in dark.
+                    // Using the class instead of an inline color
+                    // keeps the heart and the star-rating system
+                    // on the same theme-aware token pair.
                     filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))",
                   }}
                 >

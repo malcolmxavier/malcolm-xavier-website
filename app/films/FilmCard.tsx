@@ -130,20 +130,20 @@ export function FilmCard({ applied }: { applied: AppliedFilm }) {
                 role="img"
                 aria-label="Liked"
                 title="Liked"
+                className="star-rating-fill"
                 style={{
                   position: "absolute",
                   top: 8,
                   right: 8,
                   fontSize: 16,
-                  // --green-800 explicitly to match the detail-page
-                  // heart. Without this the heart inherits orange
-                  // from the [data-subbrand="film"] a cascade
-                  // (anchor descendants pick up the cluster's link
-                  // color), so the same liked film reads as orange
-                  // on the card and green on the detail page. Both
-                  // surfaces should land on the editorial green
-                  // since "liked" is sub-brand-agnostic identity.
-                  color: "var(--green-800)",
+                  // Color from .star-rating-fill — green-800 light,
+                  // green-400 dark. The class beats the
+                  // [data-subbrand="film"] anchor cascade (which
+                  // would otherwise tint the heart orange to match
+                  // the cluster link color), so the heart stays on
+                  // the editorial green. "Liked" is sub-brand-
+                  // agnostic identity — the heart should read the
+                  // same on the card and the detail page.
                   filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))",
                 }}
               >

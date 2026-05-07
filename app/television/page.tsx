@@ -313,7 +313,20 @@ export default async function TelevisionPage({
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
             <Stack gap="500">
               <Kicker accent>Television</Kicker>
-              <Display>
+              {/* textBoxTrim mirrors the landing page Display so
+                  the visual top of the headline (cap-line) sits
+                  flush with the surrounding rhythm. Same modern-
+                  CSS posture as app/page.tsx:154 — older browsers
+                  ignore it and render with the small leading drift
+                  the prior version had. */}
+              <Display
+                style={
+                  {
+                    textBoxTrim: "trim-start",
+                    textBoxEdge: "cap",
+                  } as React.CSSProperties
+                }
+              >
                 Don&apos;t change the channel.
               </Display>
               <Lede>
