@@ -52,6 +52,7 @@ import {
   CLEANUP_CATEGORIES,
   renderReport,
 } from "../lib/feeds/serializd-cleanup.mjs";
+import { modesForReview } from "../lib/feeds/serializd-mode-counts.mjs";
 
 // ─── Paths ───────────────────────────────────────────────────────
 
@@ -572,27 +573,19 @@ function aggregateSummary(shows) {
     if (watchedThisYear) thisYearCount++;
 
     for (const r of show.reviews) {
-      // Per-mode bucketing per the double-count table. Each branch
-      // contributes to the modes the table prescribes for that
-      // (level, isMiniseries) combination.
       const ratingKey = r.rating !== null ? String(r.rating) : null;
-      if (r.level === "show") {
-        totalShowReviews++;
-        if (ratingKey) addToBucket(ratingDistByLevel.show, ratingKey);
-        if (show.isMiniseries) {
-          totalSeasonReviews++;
-          if (ratingKey) addToBucket(ratingDistByLevel.season, ratingKey);
-        }
-      } else if (r.level === "season") {
-        if (show.isMiniseries) {
-          totalShowReviews++;
-          if (ratingKey) addToBucket(ratingDistByLevel.show, ratingKey);
-        }
-        totalSeasonReviews++;
-        if (ratingKey) addToBucket(ratingDistByLevel.season, ratingKey);
-      } else if (r.level === "episode") {
-        totalEpisodeReviews++;
-        if (ratingKey) addToBucket(ratingDistByLevel.episode, ratingKey);
+      // Per-mode bucketing — single-source-of-truth helper in
+      // lib/feeds/serializd-mode-counts.mjs. Returns the list of
+      // mode buckets this review contributes to (covers the
+      // miniseries double-count rule). Don't hand-roll this here —
+      // any drift between this loop and the in-year loop in
+      // app/television/page.tsx is exactly what the helper exists
+      // to prevent.
+      for (const mode of modesForReview(r.level, show.isMiniseries)) {
+        if (mode === "show") totalShowReviews++;
+        else if (mode === "season") totalSeasonReviews++;
+        else if (mode === "episode") totalEpisodeReviews++;
+        if (ratingKey) addToBucket(ratingDistByLevel[mode], ratingKey);
       }
 
       // Lifetime distribution stays one-count-per-review (no

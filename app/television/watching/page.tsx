@@ -27,7 +27,7 @@ import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { SITE_URL } from "@/lib/site-config";
-import { getShows } from "@/lib/feeds/serializd";
+import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
 import { buildInProgressCards } from "@/lib/feeds/serializd-utils";
 import { AllOrWatchingToggle } from "../AllOrWatchingToggle";
 import { InProgressCard } from "../InProgressCard";
@@ -40,8 +40,19 @@ import { BackToTelevision } from "../BackToTelevision";
 export const revalidate = 3600;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { summary } = getShows();
-  const count = summary.showsInProgressCount;
+  const { shows } = getShows();
+  // Mirror the same exclusion the page render applies so the
+  // metadata count matches what the user actually sees on the
+  // page. Re-derived here (rather than reading
+  // summary.showsInProgressCount) because the snapshot's count
+  // includes the perpetual-show exclusions and we want this
+  // description to match the displayed grid.
+  const exclusions = getWatchingExclusions();
+  const count = shows.filter(
+    (s) =>
+      !exclusions.has(s.serializdShowId) &&
+      s.inProgressSeasonNumbers.length > 0,
+  ).length;
   const description = `${count} ${count === 1 ? "show" : "shows"} I'm currently watching, with episode progress per season. Pulled from my Serializd diary.`;
   return {
     title: "Currently Watching",
@@ -64,8 +75,18 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function WatchingPage() {
-  const { shows, summary } = getShows();
-  const cards = buildInProgressCards(shows);
+  const { shows } = getShows();
+  // Editorial exclusion list — perpetual shows (talk shows, weekly
+  // variety) where the in-progress signal is structurally permanent.
+  // Reading from data/television/overrides.json#excludeFromWatching
+  // so the list lives next to the other editorial pins (miniseries,
+  // poster overrides, watchedSeasons). Filtered AFTER buildInProgress-
+  // Cards so the SummaryPanel and any other consumer of the snapshot
+  // still sees the un-edited data.
+  const exclusions = getWatchingExclusions();
+  const cards = buildInProgressCards(shows).filter(
+    (c) => !exclusions.has(c.show.serializdShowId),
+  );
   // Sort by most-recent activity within the in-progress slice so
   // the freshest watches surface first. Reuses each card's
   // episodeReviews[0] (newest) as the sort key.
@@ -78,6 +99,9 @@ export default function WatchingPage() {
   // CollectionPage + BreadcrumbList JSON-LD. Same posture as
   // /television's listing JSON-LD but scoped to the watching
   // sub-page so AI retrievers understand its role separately.
+  // Count = post-exclusion `cards.length` (NOT the snapshot's raw
+  // showsInProgressCount) so the schema description matches what's
+  // actually rendered on the page.
   const url = `${SITE_URL}/television/watching`;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -85,7 +109,7 @@ export default function WatchingPage() {
       {
         "@type": "CollectionPage",
         name: "Currently Watching",
-        description: `${summary.showsInProgressCount} TV shows Malcolm Xavier is currently watching, with episode progress per season.`,
+        description: `${cards.length} TV shows Malcolm Xavier is currently watching, with episode progress per season.`,
         url,
         inLanguage: "en-US",
         author: {
