@@ -70,6 +70,7 @@ type NavRoute = {
 // match a `[data-subbrand="X"]` rule in components.css.
 const SUB_BRAND_ROUTES: NavRoute[] = [
   { label: "Films", href: "/films", subbrand: "film" },
+  { label: "Television", href: "/television", subbrand: "tv" },
   { label: "Music", href: "/music", subbrand: "music" },
 ];
 

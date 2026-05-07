@@ -296,13 +296,14 @@ export default function Home() {
             <Headline level={2}>The cultural corner.</Headline>
             <Grid
               cols={
-                // 1 tile reads as a single-column callout; 2-3 fill
-                // a tablet-width row; 4+ shifts to the proper matrix.
-                SUB_BRAND_TILES.length >= 3
-                  ? 3
-                  : SUB_BRAND_TILES.length >= 2
-                  ? 2
-                  : 1
+                // Cap at 2 columns: a single tile reads as a
+                // callout; two-or-more fills a 2-up grid that
+                // wraps to additional rows. Capping at 2 (rather
+                // than scaling to 3 or 4) keeps each tile's
+                // editorial blurb at a comfortable reading width
+                // and stops the grid from compressing tiles into
+                // ad-card density when the matrix grows.
+                SUB_BRAND_TILES.length >= 2 ? 2 : 1
               }
               gap="600"
             >
