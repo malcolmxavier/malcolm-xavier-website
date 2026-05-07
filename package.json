@@ -26,6 +26,7 @@
     "films:health": "curl -s http://127.0.0.1:3001/api/letterboxd/health | python3 -m json.tool",
     "films:snapshot": "curl --fail -sS http://127.0.0.1:3001/api/letterboxd/snapshot -o lib/feeds/_fixtures/letterboxd-snapshot.json && echo 'Snapshot captured to lib/feeds/_fixtures/letterboxd-snapshot.json'",
     "television:bootstrap": "node --env-file=.env.local scripts/bootstrap-serializd-snapshot.mjs",
+    "television:refresh": "node --env-file=.env.local scripts/refresh-serializd-incremental.mjs",
     "prebuild": "npm run tokens:build"
   },
   "dependencies": {
