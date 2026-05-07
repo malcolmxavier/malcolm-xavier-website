@@ -384,6 +384,7 @@ export default async function TelevisionPage({
           </div>
           <TelevisionShell
             cards={pageCards}
+            allCount={allCards.length}
             totalPages={totalPages}
             currentPage={page}
             totalResults={totalResults}

@@ -849,9 +849,8 @@ function NeighborLink({
   direction: "older" | "newer";
 }) {
   const slug = `${film.letterboxdSlug}-${film.releaseYear}`;
-  const isNewer = direction === "newer";
-  const kicker = isNewer ? "← Newer review" : "Older review →";
-  const align: "left" | "right" = isNewer ? "left" : "right";
+  const kicker =
+    direction === "newer" ? "← Newer review" : "Older review →";
   // Use the latestWatchedDate to match the listing's sort key, so
   // the date the user sees here is the same date that determines
   // the neighbor's position in the listing order.
@@ -859,51 +858,51 @@ function NeighborLink({
   return (
     <NextLink
       href={`/films/${slug}`}
-      // The neighbor link is a card-shaped affordance — wrapping
-      // it in a single anchor keeps the entire title + dateline
-      // tappable. focus-visible outline matches the FilmCard
-      // pattern so keyboard users see a consistent focus ring
-      // across grid + detail surfaces.
-      className="block focus-visible:outline-2 focus-visible:outline-offset-4 rounded-sm"
+      // Card-shaped affordance — bordered wrapper, padding, hover
+      // color-shift on the border so the whole tile reads as a
+      // tappable card. Mirrors /television/[showSlug]'s
+      // NeighborLink for cross-cluster cohesion (a recruiter
+      // bouncing between /films and /television sees the same
+      // adjacent-review pattern). textAlign was previously
+      // direction-driven (left/right); the card wrapper renders
+      // both sides left-aligned, with the directional arrow
+      // inline in the Kicker carrying the affordance.
       style={{
-        outlineColor: "var(--border-focus)",
         textDecoration: "none",
+        display: "block",
+        padding: "var(--scale-400)",
+        border: "1px solid var(--border-default)",
+        borderRadius: "var(--border-radius-md)",
+        outlineColor: "var(--border-focus)",
         color: "inherit",
-        textAlign: align,
       }}
+      className="hover:[border-color:var(--text-action)] focus-visible:outline-2 focus-visible:outline-offset-2"
     >
-      {/* Kicker primitive carries the kicker visual register
-          (mono / uppercase / 0.08em letter-spacing / caption color).
-          Was a hand-rolled <p> before; Kicker keeps the cluster
-          internally consistent and inherits future style changes
-          automatically. The directional arrow lives inline with the
-          kicker text so left/right alignment carries the affordance
-          without adding a separate icon node. */}
-      <div style={{ marginBottom: "var(--scale-200)" }}>
+      <Stack gap="100">
         <Kicker>{kicker}</Kicker>
-      </div>
-      <p
-        style={{
-          // p-lg (20px) reads as a neighbor-card title without
-          // competing with the page's h1 (Display) above. No h-md
-          // token exists in the type scale; sticking to the p-* row
-          // keeps the rhythm aligned with the rest of the surface.
-          fontFamily: "var(--font-primary)",
-          fontSize: "var(--p-lg-font-size)",
-          lineHeight: "var(--p-lg-line-height)",
-          color: "var(--text-body)",
-          margin: 0,
-          marginBottom: "var(--scale-100)",
-        }}
-      >
-        {film.title}{" "}
-        <span style={{ color: "var(--text-caption)", fontWeight: 400 }}>
-          ({film.releaseYear})
-        </span>
-      </p>
-      <p style={{ ...metadataLineStyle, margin: 0 }}>
-        Watched {formatWatchedDate(datelineDate)}
-      </p>
+        <p
+          style={{
+            // p-lg (20px) reads as a neighbor-card title without
+            // competing with the page's h1 (Display) above. No
+            // h-md token exists in the type scale; sticking to the
+            // p-* row keeps the rhythm aligned with the rest of
+            // the surface.
+            fontFamily: "var(--font-primary)",
+            fontSize: "var(--p-lg-font-size)",
+            lineHeight: "var(--p-lg-line-height)",
+            color: "var(--text-body)",
+            margin: 0,
+          }}
+        >
+          {film.title}{" "}
+          <span style={{ color: "var(--text-caption)", fontWeight: 400 }}>
+            ({film.releaseYear})
+          </span>
+        </p>
+        <p style={{ ...metadataLineStyle, margin: 0 }}>
+          Watched {formatWatchedDate(datelineDate)}
+        </p>
+      </Stack>
     </NextLink>
   );
 }

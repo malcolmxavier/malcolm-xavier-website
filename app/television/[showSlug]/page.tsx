@@ -28,6 +28,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import Image from "next/image";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
@@ -274,7 +275,13 @@ export default async function TelevisionDetailPage({
               </Kicker>
             </div>
           ) : null}
-          <BackToTelevision />
+          {/* Suspense wrap — BackToTelevision uses useSearchParams,
+              which Next.js 15+ requires inside a Suspense boundary
+              for static prerender. fallback=null since the link is
+              small chrome that hydrates fast. */}
+          <Suspense fallback={null}>
+            <BackToTelevision />
+          </Suspense>
         </div>
 
         {/* ─── Hero (poster + title block) ─────────────────────── */}
