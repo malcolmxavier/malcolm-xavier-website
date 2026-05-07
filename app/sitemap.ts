@@ -25,7 +25,9 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-config";
 import { getFilms } from "@/lib/feeds/letterboxd";
-import { slugifyGenre } from "@/lib/feeds/letterboxd-utils";
+import { slugifyGenre as slugifyFilmGenre } from "@/lib/feeds/letterboxd-utils";
+import { getShows } from "@/lib/feeds/serializd";
+import { slugifyGenre as slugifyTvGenre } from "@/lib/feeds/serializd-utils";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -51,7 +53,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // queries, so they earn higher signal than a single review.
     for (const genre of Object.keys(summary.genreDistribution)) {
       filmEntries.push({
-        url: `${SITE_URL}/films/genre/${slugifyGenre(genre)}`,
+        url: `${SITE_URL}/films/genre/${slugifyFilmGenre(genre)}`,
         lastModified,
         changeFrequency: "weekly",
         priority: 0.55,
@@ -71,6 +73,49 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Snapshot read failure (missing fixture, malformed JSON).
     // Skip film entries rather than crash the whole sitemap; the
     // static pages below still serve. Next refresh rebuilds clean.
+  }
+
+  // /television cluster — same shape as the films block above:
+  // listing + watching offshoot + every detail page + a genre
+  // route per active TMDB-TV genre. Detail-page lastModified
+  // uses latestActivityDate so freshness signals reflect actual
+  // review activity (newer episode logs bump the show's date).
+  const tvEntries: MetadataRoute.Sitemap = [];
+  try {
+    const { shows, summary } = getShows();
+    tvEntries.push({
+      url: `${SITE_URL}/television`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    tvEntries.push({
+      url: `${SITE_URL}/television/watching`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.55,
+    });
+    for (const genre of Object.keys(summary.genreDistribution)) {
+      tvEntries.push({
+        url: `${SITE_URL}/television/genre/${slugifyTvGenre(genre)}`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.55,
+      });
+    }
+    for (const show of shows) {
+      tvEntries.push({
+        url: `${SITE_URL}/television/${show.slug}`,
+        lastModified: show.latestActivityDate
+          ? new Date(show.latestActivityDate)
+          : lastModified,
+        changeFrequency: "yearly",
+        priority: 0.5,
+      });
+    }
+  } catch {
+    // Snapshot read failure — same defensive posture as the
+    // films block above. Static pages still serve.
   }
 
   return [
@@ -134,5 +179,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     ...filmEntries,
+    ...tvEntries,
   ];
 }
