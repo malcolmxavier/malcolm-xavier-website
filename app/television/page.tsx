@@ -265,7 +265,7 @@ export default async function TelevisionPage({
       {
         "@type": "CollectionPage",
         name: "Television Reviews",
-        description: `Television Malcolm Xavier has watched and reviewed across show, season, and episode levels — ${summary.totalShows.toLocaleString()} shows logged on Serializd.`,
+        description: `Television Malcolm Xavier has watched and reviewed across show, season, and episode levels—${summary.totalShows.toLocaleString()} shows logged on Serializd.`,
         url: listingUrl,
         inLanguage: "en-US",
         // about ties the page to Malcolm's Person entity so AI-search
@@ -365,8 +365,23 @@ export default async function TelevisionPage({
           </div>
         </Section>
 
-        {/* ─── Filter rail + Grid + Pagination (client) ───────── */}
+        {/* ─── Catalog stat-bar + Filter rail + Grid + Pagination ─ */}
         <Section padding="md" bordered>
+          {/* The catalog kicker surfaces the three-level review
+              system as concrete numbers above the grid. Order
+              (Seasons / Shows / Episodes) matches the SummaryPanel
+              mode toggle's default mode so the cluster's vocabulary
+              stays consistent across surfaces. Renders Kicker-styled
+              (mono uppercase, --text-caption color) so the line
+              reads as an editorial label, not a SaaS stat-bar. */}
+          <div style={{ marginBottom: "var(--scale-500)" }}>
+            <Kicker>
+              The catalog:{" "}
+              {summary.totalSeasonReviews.toLocaleString()} seasons ·{" "}
+              {summary.totalShowReviews.toLocaleString()} shows ·{" "}
+              {summary.totalEpisodeReviews.toLocaleString()} episodes
+            </Kicker>
+          </div>
           <TelevisionShell
             cards={pageCards}
             totalPages={totalPages}

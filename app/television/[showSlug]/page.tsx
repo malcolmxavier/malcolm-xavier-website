@@ -128,7 +128,7 @@ export async function generateMetadata({
           url: "/opengraph-image",
           width: 1200,
           height: 630,
-          alt: `${show.name} — Malcolm Xavier`,
+          alt: `${show.name}—Malcolm Xavier`,
         },
       ];
 
@@ -260,6 +260,20 @@ export default async function TelevisionDetailPage({
             paddingBottom: "var(--scale-400)",
           }}
         >
+          {/* Filter-context breadcrumb — quiet kicker above the
+              back link, surfaced only when the visitor came from
+              a filtered listing. Tells them where they were
+              exploring so the detail page doesn't strip their
+              mental model. The back link itself still goes to
+              the source URL via BackToTelevision; this label is
+              purely informational. */}
+          {describeFilterContext(fromParam) ? (
+            <div style={{ marginBottom: "var(--scale-200)" }}>
+              <Kicker>
+                Television · {describeFilterContext(fromParam)}
+              </Kicker>
+            </div>
+          ) : null}
           <BackToTelevision />
         </div>
 
@@ -976,6 +990,72 @@ function NeighborLink({
 // seasonNumberForReview + asString both live in serializd-utils
 // and are imported above. Local re-declarations were removed in
 // the Batch C cleanup so all consumers stay in lockstep.
+
+/**
+ * Translate a `?from=<encoded-listing-url>` value into a short
+ * editorial breadcrumb label so the detail-page hero shows the
+ * filter context the visitor came from. Examples:
+ *   /television/genre/drama                          → "Drama"
+ *   /television?genre=Drama&rating=5                 → "Drama · 5★"
+ *   /television?rating=5,4.5                         → "5/4.5★"
+ *   /television?watchedYear=2025                     → "2025"
+ *   /television?watchedWindow=12mo                   → "Past 12mo"
+ *   /television?cardKind=show                        → "Shows"
+ *   /television/watching                             → "Watching"
+ * Returns null when there's nothing distinctive to surface (e.g.
+ * the visitor came from the bare /television listing) so the
+ * caller can skip rendering the breadcrumb.
+ */
+function describeFilterContext(fromUrl: string | undefined): string | null {
+  if (!fromUrl) return null;
+  let parsed: URL;
+  try {
+    // The `from` param is a relative URL; resolve against a stub
+    // origin so URL parsing works without a real host.
+    parsed = new URL(fromUrl, "http://stub.local");
+  } catch {
+    return null;
+  }
+  const labels: string[] = [];
+  const genreMatch = parsed.pathname.match(/^\/television\/genre\/([^/]+)/);
+  if (genreMatch) {
+    // Slug → titlecased name. Good enough for the common cases
+    // ("drama" → "Drama"); doesn't handle multi-word genres with
+    // unusual casing (e.g. "Sci-Fi & Fantasy") but those would
+    // need a snapshot lookup that adds load this label doesn't
+    // need to carry.
+    labels.push(
+      genreMatch[1]
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, (l) => l.toUpperCase()),
+    );
+  } else if (parsed.pathname.startsWith("/television/watching")) {
+    labels.push("Watching");
+  } else {
+    const genre = parsed.searchParams.get("genre");
+    if (genre) labels.push(genre);
+  }
+  const rating = parsed.searchParams.get("rating");
+  if (rating) {
+    const ratings = rating.split(",").filter(Boolean);
+    labels.push(
+      ratings.length === 1
+        ? `${ratings[0]}★`
+        : `${ratings.join("/")}★`,
+    );
+  }
+  const watchedYear = parsed.searchParams.get("watchedYear");
+  if (watchedYear) {
+    labels.push(watchedYear.split(",").filter(Boolean).join("/"));
+  }
+  if (parsed.searchParams.get("watchedWindow") === "12mo") {
+    labels.push("Past 12mo");
+  }
+  const cardKind = parsed.searchParams.get("cardKind");
+  if (cardKind === "show") labels.push("Shows");
+  else if (cardKind === "season") labels.push("Seasons");
+  return labels.length > 0 ? labels.join(" · ") : null;
+}
 
 /**
  * Compute filter-aware adjacent-show neighbors when the user
