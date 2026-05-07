@@ -330,10 +330,10 @@ export default async function TelevisionPage({
                 Don&apos;t change the channel.
               </Display>
               <Lede>
-                I watch 100+ seasons of television a year and log my reviews
-                on Serializd. Open any card to see that show&apos;s family of
-                ratings and reviews (Show, Season, or Episode-level). And if
-                you want a recommendation, the filters are there for you.
+                I watch 100+ seasons of television a year and log my
+                reviews on Serializd. Open any card for the full review
+                hierarchy. And if you want a recommendation, the
+                filters are there for you.
               </Lede>
               {/* Hero CTA — single external link to the Serializd
                   profile. The "Watching" affordance lives on the
