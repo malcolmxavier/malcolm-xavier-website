@@ -778,3 +778,25 @@ code.code-chip {
 [data-theme="dark"] .star-rating-fill {
   color: var(--green-400);
 }
+
+/* Season-status watched badge — theme-flipped bg+text pair so
+   white-on-green stays legible AND the badge edge pops against
+   the page background. The token system doesn't expose a
+   --text-on-success pair, and routing through --success-default
+   alone (which maps to bright green-500/400) tanks white-text
+   contrast (~1.5:1). Hand-rolled here so:
+     • light mode = dark green fill + white text (16:1, edge
+       contrasts cleanly against the white page)
+     • dark mode  = light green fill + dark green text (~10:1
+       text, light edge pops against the black page)
+   In-progress badges use --blue-700 with white text directly —
+   blue is theme-stable enough that one pair works in both modes,
+   so no separate class is needed there. */
+.season-status-watched {
+  background: var(--green-700);
+  color: #fff;
+}
+[data-theme="dark"] .season-status-watched {
+  background: var(--green-300);
+  color: var(--green-800);
+}

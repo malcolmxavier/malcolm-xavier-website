@@ -273,6 +273,13 @@ export default async function TelevisionDetailPage({
                   aspectRatio: "2 / 3",
                   background: "var(--surface-default)",
                   border: "1px solid var(--border-default)",
+                  // Cap the poster at 240px on narrow viewports so
+                  // it doesn't fill the entire 375px first fold
+                  // (the season-block posters below cap at 200px,
+                  // so an unconstrained hero poster broke the
+                  // rhythm). Desktop is unaffected — md+ already
+                  // constrains the column to 200/240px.
+                  maxWidth: "240px",
                 }}
               >
                 <Image
@@ -325,7 +332,8 @@ export default async function TelevisionDetailPage({
                     role="img"
                     aria-label="Liked"
                     title="Liked"
-                    style={{ fontSize: 18, color: "var(--green-800)" }}
+                    className="star-rating-fill"
+                    style={{ fontSize: 18 }}
                   >
                     ♥
                   </span>
@@ -779,10 +787,15 @@ function SeasonStatusBadge({
   tone: "watched" | "in-progress";
   children: React.ReactNode;
 }) {
-  const bg =
-    tone === "watched" ? "var(--green-800)" : "var(--blue-700)";
+  // Watched badges use the .season-status-watched class for a
+  // theme-flipped bg+text pair (dark green / white in light;
+  // light green / dark green in dark). In-progress badges keep
+  // the inline blue treatment — --blue-700 is theme-stable so
+  // white-on-blue works in both modes without a class flip.
+  const isWatched = tone === "watched";
   return (
     <span
+      className={isWatched ? "season-status-watched" : undefined}
       style={{
         fontFamily: "var(--font-mono)",
         fontSize: 10,
@@ -790,8 +803,9 @@ function SeasonStatusBadge({
         textTransform: "uppercase",
         padding: "3px 8px",
         borderRadius: 3,
-        background: bg,
-        color: "#fff",
+        ...(isWatched
+          ? {}
+          : { background: "var(--blue-700)", color: "#fff" }),
       }}
     >
       {children}
@@ -875,9 +889,15 @@ function Pill({
         padding: "2px 6px",
         borderRadius: 3,
         border: "1px solid var(--border-interactive)",
+        // tone="warning" routes through --text-warning so the
+        // pill renders yellow regardless of cluster context. Inside
+        // [data-subbrand="tv"] the --text-action alias resolves to
+        // the cluster's blue, which made the "Contains spoilers"
+        // pill read as a link rather than a caution signal — same
+        // posture as /films which uses --text-warning here.
         color:
           tone === "warning"
-            ? "var(--text-action)"
+            ? "var(--text-warning)"
             : "var(--text-caption)",
       }}
     >
