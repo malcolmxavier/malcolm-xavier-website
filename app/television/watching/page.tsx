@@ -58,13 +58,13 @@ export async function generateMetadata(): Promise<Metadata> {
       !exclusions.has(s.serializdShowId) &&
       s.inProgressSeasonNumbers.length > 0,
   ).length;
-  const description = `${count} ${count === 1 ? "show" : "shows"} I'm currently mid-season on—tracked at the episode level on Serializd. Each card links to its season notes and the episode log inside the full show hierarchy.`;
+  const description = `${count} TV ${count === 1 ? "show" : "shows"} I'm currently mid-season on—tracked at the episode level on Serializd. Each card links to its season notes and the episode log inside the full show hierarchy.`;
   return {
-    title: "Currently Watching",
+    title: "Currently Watching TV",
     description,
     alternates: { canonical: "/television/watching" },
     openGraph: {
-      title: "Currently Watching—Malcolm Xavier",
+      title: "Currently Watching TV—Malcolm Xavier",
       description,
       url: "/television/watching",
       type: "website",
@@ -72,7 +72,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: "summary_large_image",
-      title: "Currently Watching—Malcolm Xavier",
+      title: "Currently Watching TV—Malcolm Xavier",
       description,
       images: ["/opengraph-image"],
     },

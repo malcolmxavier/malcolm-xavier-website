@@ -54,7 +54,7 @@ function buildListingDescription(
   totalShows: number,
   totalReviews: number,
 ): string {
-  return `${totalShows.toLocaleString()} shows and ${totalReviews.toLocaleString()} reviews across show, season, and episode levels. Logged on Serializd. Filter by rating, genre, watched year, or review level.`;
+  return `${totalShows.toLocaleString()} shows and ${totalReviews.toLocaleString()} reviews and counting, across show, season, and episode levels. Logged on Serializd. Filter by rating, genre, watched year, or review level.`;
 }
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
