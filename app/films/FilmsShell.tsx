@@ -295,7 +295,7 @@ export function FilmsShell({
     // array (no destructive transition, no toast).
     if (filters.watchedWindow !== undefined) {
       setToastMessage(
-        "Specific year filters cannot be used with the relative last 12 months filter",
+        "Specific year filters cannot be used with the relative past 12 months filter",
       );
       navigate({
         watchedYear: String(year),
@@ -318,7 +318,7 @@ export function FilmsShell({
     // knows what just happened.
     if (filters.watchedYears && filters.watchedYears.length > 0) {
       setToastMessage(
-        "The relative last 12 months filter cannot be used with specific year filters",
+        "The relative past 12 months filter cannot be used with specific year filters",
       );
     }
     navigate({

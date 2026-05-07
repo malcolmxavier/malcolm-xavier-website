@@ -1,0 +1,13 @@
+{
+  "_comment": "Manual overrides for the /television cluster. Edit when TMDB resolution misses, when Malcolm has selected a non-default poster on Serializd, when the miniseries classifier needs to be pinned, or when seasons have been watched pre-Serializd and need to be marked. The bootstrap + incremental refresh scripts consult this file before writing the snapshot. Same posture as data/films/overrides.json — manual pins, never auto-corrected by the cleanup pass.",
+  "_schema": {
+    "tmdbId": "Maps Serializd showId (number, stringified as JSON key) -> correct TMDB tv id (number). Use when /tv/{serializd-showId} returns 404. Surfaces in cleanup/tmdb-unresolved.md when needed.",
+    "posterPath": "Maps Serializd showId -> TMDB poster path (e.g. '/abc123.jpg'). Use when Malcolm wants to honor a non-default poster choice from Serializd that TMDB's default doesn't match.",
+    "isMiniseries": "Maps Serializd showId -> boolean. True forces Show-card placement when TMDB type would otherwise route to Season cards; false forces the inverse. Surfaces in cleanup/maybe-miniseries.md as candidates.",
+    "watchedSeasons": "Maps Serializd showId -> array of season numbers Malcolm has watched but never reviewed on Serializd. Pre-Serializd viewing history lives here (e.g. Game of Thrones seasons 1-8 watched live; never logged). Renders as a 'Watched · No writeup' badge on the show detail page. The bootstrap dedupes against reviewedSeasonNumbers + inProgressSeasonNumbers so a season only counts as watched-unreviewed if it has zero review activity in Serializd."
+  },
+  "tmdbId": {},
+  "posterPath": {},
+  "isMiniseries": {},
+  "watchedSeasons": {}
+}
