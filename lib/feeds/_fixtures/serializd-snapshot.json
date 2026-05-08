@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-05-08T00:13:35.349Z",
+  "capturedAt": "2026-05-08T03:58:32.074Z",
   "summary": {
     "totalShows": 152,
     "totalShowReviews": 37,
     "totalSeasonReviews": 225,
-    "totalEpisodeReviews": 464,
+    "totalEpisodeReviews": 467,
     "ratingDistribution": {
       "1": 3,
       "2": 40,
       "3": 169,
-      "4": 136,
+      "4": 138,
       "5": 13,
       "3.5": 204,
-      "2.5": 78,
       "4.5": 39,
+      "2.5": 79,
       "1.5": 10,
       "0.5": 1
     },
@@ -41,21 +41,21 @@
       "episode": {
         "2": 19,
         "3": 113,
-        "4": 90,
+        "4": 92,
         "5": 5,
         "3.5": 145,
-        "2.5": 55,
         "4.5": 31,
+        "2.5": 56,
         "1.5": 5
       }
     },
     "genreDistribution": {
-      "Reality": 26,
+      "Comedy": 54,
       "Drama": 93,
+      "Reality": 26,
       "Mystery": 31,
       "Crime": 28,
       "Talk": 1,
-      "Comedy": 54,
       "Action & Adventure": 17,
       "Sci-Fi & Fantasy": 23,
       "Documentary": 12,
@@ -65,8 +65,8 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
-      "2000s": 6,
       "2020s": 124,
+      "2000s": 6,
       "2010s": 20,
       "1970s": 1,
       "1990s": 1
@@ -77,6 +77,251 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-124101",
+      "serializdShowId": 124101,
+      "slug": "hacks-2021",
+      "name": "Hacks",
+      "premiereYear": 2021,
+      "premiereDate": "2021-05-13",
+      "serializdUrl": "https://serializd.com/show/124101",
+      "tmdb": {
+        "id": 124101,
+        "name": "Hacks",
+        "posterPath": "/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+        "backdropPath": "/bbAR4qKxjnjyKAt4YMrL725Mtfw.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO Max",
+          "Max",
+          "HBO Max"
+        ],
+        "numberOfSeasons": 5,
+        "numberOfEpisodes": 47
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+      "seasons": [
+        {
+          "serializdId": 192055,
+          "showId": 124101,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/3G5OwUxs25GdQjbhIp9ah4gSLgW.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 287642,
+          "showId": 124101,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/q32wjcRi7Ix4DAqFA8kR7KGneyo.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 381723,
+          "showId": 124101,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/lba4WOJ5tUFhgc5Uo2jWhIZG5SO.jpg",
+          "episodeCount": 9
+        },
+        {
+          "serializdId": 427668,
+          "showId": 124101,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/ulBzMy5DZjBeUo6wHqn8ao0Zn6j.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 506657,
+          "showId": 124101,
+          "seasonNumber": 5,
+          "name": "Season 5",
+          "posterPath": "/eerCQAUkogIQfRjNugG7qiRcNSG.jpg",
+          "episodeCount": 10
+        }
+      ],
+      "reviews": [
+        {
+          "id": 64980748,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m always gonna want more Cherry Jones on my screen.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-08T02:37:24Z",
+          "reviewDate": "2026-05-08T02:37:51Z",
+          "seasonId": 506657,
+          "episodeNumber": 7,
+          "episodeName": "Womyn's Weekend",
+          "tags": []
+        },
+        {
+          "id": 64977036,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Paul Downs body tea and an anti-AI arc. Okay!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-08T01:43:51Z",
+          "reviewDate": "2026-05-08T01:44:14Z",
+          "seasonId": 506657,
+          "episodeNumber": 6,
+          "episodeName": "Artificial IntelliVance",
+          "tags": []
+        },
+        {
+          "id": 64248997,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-01T05:59:03Z",
+          "reviewDate": "2026-05-01T05:59:17Z",
+          "seasonId": 506657,
+          "episodeNumber": 5,
+          "episodeName": "D'Amazing Race",
+          "tags": []
+        },
+        {
+          "id": 64245965,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Not the jailhouse set!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-01T05:01:59Z",
+          "reviewDate": "2026-05-01T05:02:45Z",
+          "seasonId": 506657,
+          "episodeNumber": 4,
+          "episodeName": "Who's Making Dinner?",
+          "tags": []
+        },
+        {
+          "id": 63485442,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The Peppermint Patty stray…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-24T06:30:11Z",
+          "reviewDate": "2026-04-24T06:30:11Z",
+          "seasonId": 506657,
+          "episodeNumber": 3,
+          "episodeName": "No New Tricks",
+          "tags": []
+        },
+        {
+          "id": 61878902,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "The doxxing plot absolutely frying me!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T14:14:00Z",
+          "reviewDate": "2026-04-10T14:14:46Z",
+          "seasonId": 506657,
+          "episodeNumber": 2,
+          "episodeName": "Number One Fan",
+          "tags": []
+        },
+        {
+          "id": 61878339,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "We’ve never been more back! The EGOT of it all. The Sofar Sounds inspiration. The Deborah-Ava joint plotting! We deserve.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T14:08:00Z",
+          "reviewDate": "2026-04-10T14:08:57Z",
+          "seasonId": 506657,
+          "episodeNumber": 1,
+          "episodeName": "EGOT",
+          "tags": []
+        },
+        {
+          "id": 35855437,
+          "level": "season",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "In which they do it again. I’m so happy to see these characters grow and subvert our expectations after watching them for a while. However, I can’t help but be even more anxious that the show has to end soon — even if I want to watch it forever. Jean Smart’s and Hannah Einbinder’s chemistry continues to ratchet up and I so appreciate how their work in this season pulls us beyond a crescendo and into the next movement, especially in the finale.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-05-29T20:14:00Z",
+          "reviewDate": "2025-06-19T20:14:35Z",
+          "seasonId": 427668,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 16347358,
+          "level": "season",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "An incredible season. They almost had me thinking they tanked it, but the twist is the last few minutes of the finale really cemented it for me that this is the best thing they’ve done yet. The character development across the board feels rich and lived in, even when some of them are pissing me off. Tears in my eyes for Deborah Vance. Ava Daniels forever.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-05-30T20:48:00Z",
+          "reviewDate": "2024-06-01T20:53:28Z",
+          "seasonId": 381723,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4,
+        4.5,
+        5
+      ],
+      "watchedYearSet": [
+        2024,
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        3,
+        4
+      ],
+      "inProgressSeasonNumbers": [
+        5
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        1,
+        2
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-08T02:37:51Z",
+      "primaryRating": 4,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-17380",
       "serializdShowId": 17380,
@@ -250,6 +495,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 64972824,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "These dinners aren’t hitting like I need them to.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-08T00:45:47Z",
+          "reviewDate": "2026-05-08T00:46:02Z",
+          "seasonId": 112064,
+          "episodeNumber": 6,
+          "episodeName": "Whining and Dining",
+          "tags": []
+        },
         {
           "id": 64968890,
           "level": "episode",
@@ -1769,8 +2030,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-07T23:59:08Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-05-08T00:46:02Z",
+      "primaryRating": 2.5,
       "liked": false
     },
     {
@@ -5225,219 +5486,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-01T16:58:50Z",
       "primaryRating": 4,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-124101",
-      "serializdShowId": 124101,
-      "slug": "hacks-2021",
-      "name": "Hacks",
-      "premiereYear": 2021,
-      "premiereDate": "2021-05-13",
-      "serializdUrl": "https://serializd.com/show/124101",
-      "tmdb": {
-        "id": 124101,
-        "name": "Hacks",
-        "posterPath": "/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-        "backdropPath": "/bbAR4qKxjnjyKAt4YMrL725Mtfw.jpg",
-        "genres": [
-          "Comedy",
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO Max",
-          "Max",
-          "HBO Max"
-        ],
-        "numberOfSeasons": 5,
-        "numberOfEpisodes": 47
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-      "seasons": [
-        {
-          "serializdId": 192055,
-          "showId": 124101,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/3G5OwUxs25GdQjbhIp9ah4gSLgW.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 287642,
-          "showId": 124101,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/q32wjcRi7Ix4DAqFA8kR7KGneyo.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 381723,
-          "showId": 124101,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/lba4WOJ5tUFhgc5Uo2jWhIZG5SO.jpg",
-          "episodeCount": 9
-        },
-        {
-          "serializdId": 427668,
-          "showId": 124101,
-          "seasonNumber": 4,
-          "name": "Season 4",
-          "posterPath": "/ulBzMy5DZjBeUo6wHqn8ao0Zn6j.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 506657,
-          "showId": 124101,
-          "seasonNumber": 5,
-          "name": "Season 5",
-          "posterPath": "/eerCQAUkogIQfRjNugG7qiRcNSG.jpg",
-          "episodeCount": 10
-        }
-      ],
-      "reviews": [
-        {
-          "id": 64248997,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-01T05:59:03Z",
-          "reviewDate": "2026-05-01T05:59:17Z",
-          "seasonId": 506657,
-          "episodeNumber": 5,
-          "episodeName": "D'Amazing Race",
-          "tags": []
-        },
-        {
-          "id": 64245965,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Not the jailhouse set!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-01T05:01:59Z",
-          "reviewDate": "2026-05-01T05:02:45Z",
-          "seasonId": 506657,
-          "episodeNumber": 4,
-          "episodeName": "Who's Making Dinner?",
-          "tags": []
-        },
-        {
-          "id": 63485442,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "The Peppermint Patty stray…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-24T06:30:11Z",
-          "reviewDate": "2026-04-24T06:30:11Z",
-          "seasonId": 506657,
-          "episodeNumber": 3,
-          "episodeName": "No New Tricks",
-          "tags": []
-        },
-        {
-          "id": 61878902,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "The doxxing plot absolutely frying me!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T14:14:00Z",
-          "reviewDate": "2026-04-10T14:14:46Z",
-          "seasonId": 506657,
-          "episodeNumber": 2,
-          "episodeName": "Number One Fan",
-          "tags": []
-        },
-        {
-          "id": 61878339,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "We’ve never been more back! The EGOT of it all. The Sofar Sounds inspiration. The Deborah-Ava joint plotting! We deserve.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T14:08:00Z",
-          "reviewDate": "2026-04-10T14:08:57Z",
-          "seasonId": 506657,
-          "episodeNumber": 1,
-          "episodeName": "EGOT",
-          "tags": []
-        },
-        {
-          "id": 35855437,
-          "level": "season",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "In which they do it again. I’m so happy to see these characters grow and subvert our expectations after watching them for a while. However, I can’t help but be even more anxious that the show has to end soon — even if I want to watch it forever. Jean Smart’s and Hannah Einbinder’s chemistry continues to ratchet up and I so appreciate how their work in this season pulls us beyond a crescendo and into the next movement, especially in the finale.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-05-29T20:14:00Z",
-          "reviewDate": "2025-06-19T20:14:35Z",
-          "seasonId": 427668,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 16347358,
-          "level": "season",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "An incredible season. They almost had me thinking they tanked it, but the twist is the last few minutes of the finale really cemented it for me that this is the best thing they’ve done yet. The character development across the board feels rich and lived in, even when some of them are pissing me off. Tears in my eyes for Deborah Vance. Ava Daniels forever.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-05-30T20:48:00Z",
-          "reviewDate": "2024-06-01T20:53:28Z",
-          "seasonId": 381723,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4,
-        4.5,
-        5
-      ],
-      "watchedYearSet": [
-        2024,
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        3,
-        4
-      ],
-      "inProgressSeasonNumbers": [
-        5
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        1,
-        2
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-01T05:59:17Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -22890,6 +22938,251 @@
     }
   ],
   "showById": {
+    "tmdb-tv-124101": {
+      "id": "tmdb-tv-124101",
+      "serializdShowId": 124101,
+      "slug": "hacks-2021",
+      "name": "Hacks",
+      "premiereYear": 2021,
+      "premiereDate": "2021-05-13",
+      "serializdUrl": "https://serializd.com/show/124101",
+      "tmdb": {
+        "id": 124101,
+        "name": "Hacks",
+        "posterPath": "/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+        "backdropPath": "/bbAR4qKxjnjyKAt4YMrL725Mtfw.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO Max",
+          "Max",
+          "HBO Max"
+        ],
+        "numberOfSeasons": 5,
+        "numberOfEpisodes": 47
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+      "seasons": [
+        {
+          "serializdId": 192055,
+          "showId": 124101,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/3G5OwUxs25GdQjbhIp9ah4gSLgW.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 287642,
+          "showId": 124101,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/q32wjcRi7Ix4DAqFA8kR7KGneyo.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 381723,
+          "showId": 124101,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/lba4WOJ5tUFhgc5Uo2jWhIZG5SO.jpg",
+          "episodeCount": 9
+        },
+        {
+          "serializdId": 427668,
+          "showId": 124101,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/ulBzMy5DZjBeUo6wHqn8ao0Zn6j.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 506657,
+          "showId": 124101,
+          "seasonNumber": 5,
+          "name": "Season 5",
+          "posterPath": "/eerCQAUkogIQfRjNugG7qiRcNSG.jpg",
+          "episodeCount": 10
+        }
+      ],
+      "reviews": [
+        {
+          "id": 64980748,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m always gonna want more Cherry Jones on my screen.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-08T02:37:24Z",
+          "reviewDate": "2026-05-08T02:37:51Z",
+          "seasonId": 506657,
+          "episodeNumber": 7,
+          "episodeName": "Womyn's Weekend",
+          "tags": []
+        },
+        {
+          "id": 64977036,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Paul Downs body tea and an anti-AI arc. Okay!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-08T01:43:51Z",
+          "reviewDate": "2026-05-08T01:44:14Z",
+          "seasonId": 506657,
+          "episodeNumber": 6,
+          "episodeName": "Artificial IntelliVance",
+          "tags": []
+        },
+        {
+          "id": 64248997,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-01T05:59:03Z",
+          "reviewDate": "2026-05-01T05:59:17Z",
+          "seasonId": 506657,
+          "episodeNumber": 5,
+          "episodeName": "D'Amazing Race",
+          "tags": []
+        },
+        {
+          "id": 64245965,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Not the jailhouse set!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-01T05:01:59Z",
+          "reviewDate": "2026-05-01T05:02:45Z",
+          "seasonId": 506657,
+          "episodeNumber": 4,
+          "episodeName": "Who's Making Dinner?",
+          "tags": []
+        },
+        {
+          "id": 63485442,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The Peppermint Patty stray…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-24T06:30:11Z",
+          "reviewDate": "2026-04-24T06:30:11Z",
+          "seasonId": 506657,
+          "episodeNumber": 3,
+          "episodeName": "No New Tricks",
+          "tags": []
+        },
+        {
+          "id": 61878902,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "The doxxing plot absolutely frying me!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T14:14:00Z",
+          "reviewDate": "2026-04-10T14:14:46Z",
+          "seasonId": 506657,
+          "episodeNumber": 2,
+          "episodeName": "Number One Fan",
+          "tags": []
+        },
+        {
+          "id": 61878339,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "We’ve never been more back! The EGOT of it all. The Sofar Sounds inspiration. The Deborah-Ava joint plotting! We deserve.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T14:08:00Z",
+          "reviewDate": "2026-04-10T14:08:57Z",
+          "seasonId": 506657,
+          "episodeNumber": 1,
+          "episodeName": "EGOT",
+          "tags": []
+        },
+        {
+          "id": 35855437,
+          "level": "season",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "In which they do it again. I’m so happy to see these characters grow and subvert our expectations after watching them for a while. However, I can’t help but be even more anxious that the show has to end soon — even if I want to watch it forever. Jean Smart’s and Hannah Einbinder’s chemistry continues to ratchet up and I so appreciate how their work in this season pulls us beyond a crescendo and into the next movement, especially in the finale.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-05-29T20:14:00Z",
+          "reviewDate": "2025-06-19T20:14:35Z",
+          "seasonId": 427668,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 16347358,
+          "level": "season",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "An incredible season. They almost had me thinking they tanked it, but the twist is the last few minutes of the finale really cemented it for me that this is the best thing they’ve done yet. The character development across the board feels rich and lived in, even when some of them are pissing me off. Tears in my eyes for Deborah Vance. Ava Daniels forever.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-05-30T20:48:00Z",
+          "reviewDate": "2024-06-01T20:53:28Z",
+          "seasonId": 381723,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4,
+        4.5,
+        5
+      ],
+      "watchedYearSet": [
+        2024,
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        3,
+        4
+      ],
+      "inProgressSeasonNumbers": [
+        5
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        1,
+        2
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-08T02:37:51Z",
+      "primaryRating": 4,
+      "liked": false
+    },
     "tmdb-tv-17380": {
       "id": "tmdb-tv-17380",
       "serializdShowId": 17380,
@@ -23063,6 +23356,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 64972824,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "These dinners aren’t hitting like I need them to.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-08T00:45:47Z",
+          "reviewDate": "2026-05-08T00:46:02Z",
+          "seasonId": 112064,
+          "episodeNumber": 6,
+          "episodeName": "Whining and Dining",
+          "tags": []
+        },
         {
           "id": 64968890,
           "level": "episode",
@@ -24582,8 +24891,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-07T23:59:08Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-05-08T00:46:02Z",
+      "primaryRating": 2.5,
       "liked": false
     },
     "tmdb-tv-108181": {
@@ -28038,219 +28347,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-01T16:58:50Z",
       "primaryRating": 4,
-      "liked": false
-    },
-    "tmdb-tv-124101": {
-      "id": "tmdb-tv-124101",
-      "serializdShowId": 124101,
-      "slug": "hacks-2021",
-      "name": "Hacks",
-      "premiereYear": 2021,
-      "premiereDate": "2021-05-13",
-      "serializdUrl": "https://serializd.com/show/124101",
-      "tmdb": {
-        "id": 124101,
-        "name": "Hacks",
-        "posterPath": "/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-        "backdropPath": "/bbAR4qKxjnjyKAt4YMrL725Mtfw.jpg",
-        "genres": [
-          "Comedy",
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO Max",
-          "Max",
-          "HBO Max"
-        ],
-        "numberOfSeasons": 5,
-        "numberOfEpisodes": 47
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-      "seasons": [
-        {
-          "serializdId": 192055,
-          "showId": 124101,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/3G5OwUxs25GdQjbhIp9ah4gSLgW.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 287642,
-          "showId": 124101,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/q32wjcRi7Ix4DAqFA8kR7KGneyo.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 381723,
-          "showId": 124101,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/lba4WOJ5tUFhgc5Uo2jWhIZG5SO.jpg",
-          "episodeCount": 9
-        },
-        {
-          "serializdId": 427668,
-          "showId": 124101,
-          "seasonNumber": 4,
-          "name": "Season 4",
-          "posterPath": "/ulBzMy5DZjBeUo6wHqn8ao0Zn6j.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 506657,
-          "showId": 124101,
-          "seasonNumber": 5,
-          "name": "Season 5",
-          "posterPath": "/eerCQAUkogIQfRjNugG7qiRcNSG.jpg",
-          "episodeCount": 10
-        }
-      ],
-      "reviews": [
-        {
-          "id": 64248997,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-01T05:59:03Z",
-          "reviewDate": "2026-05-01T05:59:17Z",
-          "seasonId": 506657,
-          "episodeNumber": 5,
-          "episodeName": "D'Amazing Race",
-          "tags": []
-        },
-        {
-          "id": 64245965,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Not the jailhouse set!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-01T05:01:59Z",
-          "reviewDate": "2026-05-01T05:02:45Z",
-          "seasonId": 506657,
-          "episodeNumber": 4,
-          "episodeName": "Who's Making Dinner?",
-          "tags": []
-        },
-        {
-          "id": 63485442,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "The Peppermint Patty stray…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-24T06:30:11Z",
-          "reviewDate": "2026-04-24T06:30:11Z",
-          "seasonId": 506657,
-          "episodeNumber": 3,
-          "episodeName": "No New Tricks",
-          "tags": []
-        },
-        {
-          "id": 61878902,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "The doxxing plot absolutely frying me!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T14:14:00Z",
-          "reviewDate": "2026-04-10T14:14:46Z",
-          "seasonId": 506657,
-          "episodeNumber": 2,
-          "episodeName": "Number One Fan",
-          "tags": []
-        },
-        {
-          "id": 61878339,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "We’ve never been more back! The EGOT of it all. The Sofar Sounds inspiration. The Deborah-Ava joint plotting! We deserve.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T14:08:00Z",
-          "reviewDate": "2026-04-10T14:08:57Z",
-          "seasonId": 506657,
-          "episodeNumber": 1,
-          "episodeName": "EGOT",
-          "tags": []
-        },
-        {
-          "id": 35855437,
-          "level": "season",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "In which they do it again. I’m so happy to see these characters grow and subvert our expectations after watching them for a while. However, I can’t help but be even more anxious that the show has to end soon — even if I want to watch it forever. Jean Smart’s and Hannah Einbinder’s chemistry continues to ratchet up and I so appreciate how their work in this season pulls us beyond a crescendo and into the next movement, especially in the finale.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-05-29T20:14:00Z",
-          "reviewDate": "2025-06-19T20:14:35Z",
-          "seasonId": 427668,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 16347358,
-          "level": "season",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "An incredible season. They almost had me thinking they tanked it, but the twist is the last few minutes of the finale really cemented it for me that this is the best thing they’ve done yet. The character development across the board feels rich and lived in, even when some of them are pissing me off. Tears in my eyes for Deborah Vance. Ava Daniels forever.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-05-30T20:48:00Z",
-          "reviewDate": "2024-06-01T20:53:28Z",
-          "seasonId": 381723,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4,
-        4.5,
-        5
-      ],
-      "watchedYearSet": [
-        2024,
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        3,
-        4
-      ],
-      "inProgressSeasonNumbers": [
-        5
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        1,
-        2
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-01T05:59:17Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-302074": {
