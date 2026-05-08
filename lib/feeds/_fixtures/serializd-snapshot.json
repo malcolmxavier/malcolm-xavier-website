@@ -1,14 +1,14 @@
 {
-  "capturedAt": "2026-05-07T23:37:26.592Z",
+  "capturedAt": "2026-05-08T00:13:35.349Z",
   "summary": {
     "totalShows": 152,
     "totalShowReviews": 37,
     "totalSeasonReviews": 225,
-    "totalEpisodeReviews": 463,
+    "totalEpisodeReviews": 464,
     "ratingDistribution": {
       "1": 3,
       "2": 40,
-      "3": 168,
+      "3": 169,
       "4": 136,
       "5": 13,
       "3.5": 204,
@@ -40,7 +40,7 @@
       },
       "episode": {
         "2": 19,
-        "3": 112,
+        "3": 113,
         "4": 90,
         "5": 5,
         "3.5": 145,
@@ -250,6 +250,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 64968890,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not vibing with Ronnie.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-07T23:58:49Z",
+          "reviewDate": "2026-05-07T23:59:08Z",
+          "seasonId": 112064,
+          "episodeNumber": 5,
+          "episodeName": "Tatted Tales",
+          "tags": []
+        },
         {
           "id": 64956266,
           "level": "episode",
@@ -1753,8 +1769,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-07T21:28:47Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-05-07T23:59:08Z",
+      "primaryRating": 3,
       "liked": false
     },
     {
@@ -23048,6 +23064,22 @@
       ],
       "reviews": [
         {
+          "id": 64968890,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not vibing with Ronnie.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-07T23:58:49Z",
+          "reviewDate": "2026-05-07T23:59:08Z",
+          "seasonId": 112064,
+          "episodeNumber": 5,
+          "episodeName": "Tatted Tales",
+          "tags": []
+        },
+        {
           "id": 64956266,
           "level": "episode",
           "rating": 3.5,
@@ -24550,8 +24582,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-07T21:28:47Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-05-07T23:59:08Z",
+      "primaryRating": 3,
       "liked": false
     },
     "tmdb-tv-108181": {
