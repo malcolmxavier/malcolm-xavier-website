@@ -46,6 +46,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { enrichShows } from "./enrich-serializd-tmdb.mjs";
 import {
@@ -645,15 +646,24 @@ function buildSnapshot(shows) {
 // ─── Cleanup pass ─────────────────────────────────────────────────
 
 /**
- * Run all seven cleanup categories against the snapshot. Writes
- * each category's report to data/television/cleanup/<filename>,
- * preserving any `# Accepted:` block from the previous version.
+ * Run all seven cleanup categories against the snapshot. When
+ * `writeReports` is true, writes each category's report to
+ * data/television/cleanup/<filename>, preserving any `# Accepted:`
+ * block from the previous version.
+ *
+ * The Vercel cron route passes `writeReports: false` because the
+ * function filesystem is read-only at request time, and the
+ * cleanup .md files are editorial-only artifacts that don't need
+ * to refresh on every cron tick. The blocking-issue check still
+ * runs (reading any bundled-with-the-deploy report so accepted
+ * rows aren't re-flagged), so a busted enrichment still aborts
+ * the push.
  *
  * Returns { hasBlockingIssues } — true if any blocking category
  * has unresolved (un-accepted) entries.
  */
-function runCleanupPass(snapshot, overrides) {
-  if (!existsSync(CLEANUP_DIR)) {
+function runCleanupPass(snapshot, overrides, { writeReports = true } = {}) {
+  if (writeReports && !existsSync(CLEANUP_DIR)) {
     mkdirSync(CLEANUP_DIR, { recursive: true });
   }
   let hasBlockingIssues = false;
@@ -669,7 +679,9 @@ function runCleanupPass(snapshot, overrides) {
       rows,
       existing,
     );
-    writeFileSync(filePath, content + "\n");
+    if (writeReports) {
+      writeFileSync(filePath, content + "\n");
+    }
     const status = hasUnacceptedRows
       ? `${rows.length} unresolved`
       : "clean";
@@ -797,9 +809,35 @@ function applyCarryover(shows, prev, overrides) {
   return { carriedOver, overrideDriftSkips };
 }
 
-// ─── Main ─────────────────────────────────────────────────────────
+// ─── Orchestrator ─────────────────────────────────────────────────
+//
+// The same orchestration shape powers two callers:
+//   1. The CLI (`npm run television:bootstrap`) — runs with
+//      `writeToDisk: true`, reads prev snapshot + overrides from
+//      disk, writes the new snapshot + cleanup reports, prints the
+//      "git add / commit / push" footer.
+//   2. The Vercel cron route at /api/cron/television-refresh —
+//      runs with `writeToDisk: false` and passes prev snapshot +
+//      overrides explicitly (the cron route reads them from the
+//      bundled deploy). Returns the in-memory snapshot for the
+//      route to PUT to GitHub via the contents API.
+//
+// `prevSnapshot` and `overrides` are optional; when undefined, the
+// function falls back to `readPreviousSnapshot()` and
+// `loadOverridesFromDisk()` so the CLI path is unchanged.
+//
+// Returns { snapshot, hasBlockingIssues }. When `hasBlockingIssues`
+// is true, the snapshot was built but is NOT written to disk and
+// should NOT be pushed — caller must inspect the cleanup reports
+// (or the per-category log lines above) and resolve before retrying.
 
-async function main() {
+export async function bootstrapSnapshot(options = {}) {
+  const {
+    writeToDisk = false,
+    prevSnapshot: injectedPrev,
+    overrides: injectedOverrides,
+  } = options;
+
   console.log("[1/5] Fetching Serializd diary + watched-list (politely-paginated)…");
   const rawReviews = await fetchAllReviews();
   console.log(`      Fetched ${rawReviews.length} raw review entries.`);
@@ -813,8 +851,8 @@ async function main() {
   const shows = buildSkeletonShows(rawReviews);
   console.log(`      Grouped into ${shows.length} unique shows.`);
 
-  const prev = readPreviousSnapshot();
-  const overrides = loadOverridesFromDisk();
+  const prev = injectedPrev ?? readPreviousSnapshot();
+  const overrides = injectedOverrides ?? loadOverridesFromDisk();
   const carry = applyCarryover(shows, prev, overrides);
   if (prev?.shows && !FULL_ENRICH) {
     console.log(
@@ -918,7 +956,9 @@ async function main() {
   snapshot.summary.totalWatchedShows = shows.length + watchedOnlyShows.length;
   snapshot.summary.totalWatchedOnlyShows = watchedOnlyShows.length;
 
-  const { hasBlockingIssues } = runCleanupPass(snapshot, overrides);
+  const { hasBlockingIssues } = runCleanupPass(snapshot, overrides, {
+    writeReports: writeToDisk,
+  });
   if (hasBlockingIssues) {
     console.error(
       "\n❌ Blocking cleanup category has unresolved entries. " +
@@ -926,30 +966,45 @@ async function main() {
         "   See data/television/cleanup/tmdb-unresolved.md and pin " +
         "via data/television/overrides.json#tmdbId.",
     );
-    process.exit(1);
+    return { snapshot, hasBlockingIssues: true };
   }
 
-  console.log("\n[5/5] Writing snapshot…");
   printDiff(prev, snapshot);
-  writeFileSync(SNAPSHOT_PATH, JSON.stringify(snapshot, null, 2) + "\n");
-  console.log(
-    `\n✓ Wrote ${SNAPSHOT_PATH} (${snapshot.shows.length} shows).`,
-  );
-  console.log(
-    `✓ Wrote ${
-      readdirSync(CLEANUP_DIR).filter((f) => f.endsWith(".md")).length
-    } cleanup reports under ${CLEANUP_DIR}/.`,
-  );
-  console.log("\nNext: review the diff + cleanup reports, commit + push.");
-  console.log("  git add lib/feeds/_fixtures/serializd-snapshot.json data/television/cleanup/");
-  console.log("  git commit -m 'Bootstrap television snapshot'");
-  console.log("  git push");
+  if (writeToDisk) {
+    console.log("\n[5/5] Writing snapshot…");
+    writeFileSync(SNAPSHOT_PATH, JSON.stringify(snapshot, null, 2) + "\n");
+    console.log(
+      `\n✓ Wrote ${SNAPSHOT_PATH} (${snapshot.shows.length} shows).`,
+    );
+    console.log(
+      `✓ Wrote ${
+        readdirSync(CLEANUP_DIR).filter((f) => f.endsWith(".md")).length
+      } cleanup reports under ${CLEANUP_DIR}/.`,
+    );
+    console.log("\nNext: review the diff + cleanup reports, commit + push.");
+    console.log("  git add lib/feeds/_fixtures/serializd-snapshot.json data/television/cleanup/");
+    console.log("  git commit -m 'Bootstrap television snapshot'");
+    console.log("  git push");
+  }
+
+  return { snapshot, hasBlockingIssues: false };
 }
 
-main().catch((err) => {
-  console.error(
-    "\n[bootstrap-serializd-snapshot] FAILED:",
-    err instanceof Error ? err.message : err,
-  );
-  process.exit(1);
-});
+// Direct CLI invocation only. When imported as a module (cron route),
+// this branch is skipped — the caller drives bootstrapSnapshot()
+// explicitly with `writeToDisk: false`.
+const isDirectInvocation =
+  process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+if (isDirectInvocation) {
+  bootstrapSnapshot({ writeToDisk: true })
+    .then(({ hasBlockingIssues }) => {
+      if (hasBlockingIssues) process.exit(1);
+    })
+    .catch((err) => {
+      console.error(
+        "\n[bootstrap-serializd-snapshot] FAILED:",
+        err instanceof Error ? err.message : err,
+      );
+      process.exit(1);
+    });
+}
