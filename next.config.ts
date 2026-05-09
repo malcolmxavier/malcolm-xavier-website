@@ -15,12 +15,11 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "image.tmdb.org" },
     ],
   },
-  // The /api/cron/television-refresh route reads runtime files
-  // (the prev snapshot, editorial overrides, and the cleanup .md
-  // files used for accepted-rows tracking) via fs.readFileSync at
+  // The /api/cron/* routes read runtime files (prev snapshot,
+  // editorial overrides, cleanup reports) via fs.readFileSync at
   // request time. Next.js's static analysis can't see those reads,
   // so we declare them explicitly here — without this, the cron
-  // function would fail with ENOENT on Vercel.
+  // functions would fail with ENOENT on Vercel.
   //
   // Globs are resolved from the project root.
   outputFileTracingIncludes: {
@@ -28,6 +27,10 @@ const nextConfig: NextConfig = {
       "./lib/feeds/_fixtures/serializd-snapshot.json",
       "./data/television/overrides.json",
       "./data/television/cleanup/*.md",
+    ],
+    "/api/cron/films-refresh": [
+      "./lib/feeds/_fixtures/letterboxd-snapshot.json",
+      "./data/films/overrides.json",
     ],
   },
 };
