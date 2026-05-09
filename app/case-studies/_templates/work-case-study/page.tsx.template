@@ -1,0 +1,411 @@
+// ─────────────────────────────────────────────────────────────────
+// /case-studies/<SLUG> — work-experience case-study page.
+//
+// TEMPLATE FILE — do not edit in place. To use:
+//   1. Copy this directory to `app/case-studies/<your-slug>/`.
+//   2. Rename `page.tsx.template` → `page.tsx`.
+//   3. Update SLUG / EMPLOYER constants below.
+//   4. Replace each beat's annotated stub with real copy.
+//   5. Add this case study's metadata to `CASE_STUDIES` in
+//      `app/resume/resume-data.tsx` with `employer` set.
+//   6. Add the slug to the matching role's `relatedCaseStudies` in
+//      the same file. The slug-integrity check at module-load time
+//      validates the link.
+//   7. Add the new case study URL to `public/llms.txt` so AI-search
+//      indexers discover it the same way they find the other studies.
+//      The `/sitemap.xml` already iterates CASE_STUDIES — no edit
+//      needed there.
+//   8. Trim or delete this comment block.
+//
+// ─── Editorial posture ────────────────────────────────────────────
+//
+// Privacy / IP framing
+//   • Default scope is public-publishable. Surface industry / function /
+//     outcome at a level any reader could verify or reasonably contest.
+//   • For NDA-protected items, reframe to pattern-level (no specific
+//     feature names, no specific user counts when sensitive). If the
+//     only honest version of this case study would breach an NDA,
+//     don't ship it.
+//   • Use redaction markers when needed: `[anonymized: internal tool]`,
+//     `[redacted: company-confidential metric]` — keeps the structural
+//     shape of the sentence, signals deliberate scoping.
+//   • Name the employer plainly. The privacy posture is around what
+//     was done and which numbers shipped, not whether you worked there.
+//
+// Voice
+//   • First-person past-tense, peer-to-peer. Same register as
+//     basecamp-coffee and building-this-site — defensible facts, no
+//     marketing voice. No "thrilled to share." No "leveraged."
+//   • Quant claims need to land: numbers in `MetricsTable` and `Stat`
+//     must be either publicly defensible or clearly framed (e.g.
+//     "internal cohort metric, directional"). A peer reviewer should
+//     be able to interrogate every number.
+//   • Qual claims earn their pull-quotes: `Pullquote` is for stake-
+//     holder voice or named research insight, not "I think." Use
+//     `Body` italic / `Emph` for personal voice; reserve `Pullquote`
+//     for *attributed* qual.
+//
+// Beats are 01–07; collapse or merge as the story warrants. Keep or
+// delete primitive blocks (MetricsTable, EvidenceCard, etc.) based
+// on what the case actually has — don't force a `MetricsTable` if
+// there are no defensible quant outcomes.
+// ─────────────────────────────────────────────────────────────────
+
+import { Link } from "@/components/primitives/Link";
+import {
+  rolesReferencingCaseStudy,
+  slugifyRoleAnchor,
+} from "@/app/resume/resume-data";
+import { TableOfContents, type TocItem } from "@/components/chrome/TableOfContents";
+import { ScrollProgress } from "@/components/case-study/ScrollProgress";
+import { CaseStudyHero } from "@/components/case-study/Hero";
+import {
+  Beat,
+  BeatSeparator,
+  Body,
+  Code,
+  Emph,
+  EvidenceCard,
+  EvidenceGrid,
+  GateCard,
+  IterationCard,
+  IterationGrid,
+  MetricsTable,
+  Pullquote,
+  Stat,
+  StatRow,
+  SuccessGate,
+} from "@/components/case-study/primitives";
+
+// ─── Tokens to fill in ─────────────────────────────────────────────
+// Keep SLUG in sync with the layout's SLUG and the CASE_STUDIES entry
+// in resume-data.tsx. The slug-integrity check at module-load time
+// catches drift if a role's `relatedCaseStudies` falls out of sync.
+
+const SLUG = "<slug>"; // must match layout's SLUG
+const EMPLOYER = "<Company Name>";
+
+// Resolve the resume-side role this case study attributes to. If the
+// matching ResumeRole has `relatedCaseStudies` including SLUG, the
+// hero kicker deep-links to that role's anchor on /resume; otherwise
+// it falls back to the resume's work-experience section.
+const RELATED_ROLE = rolesReferencingCaseStudy(SLUG)[0];
+const ROLE_BACKLINK_HREF = RELATED_ROLE
+  ? `/resume#${slugifyRoleAnchor(RELATED_ROLE)}`
+  : "/resume#work-experience";
+const ROLE_BACKLINK_LABEL = RELATED_ROLE
+  ? `From my time at ${EMPLOYER} · ${RELATED_ROLE.title}`
+  : `From my time at ${EMPLOYER}`;
+
+// ─── TOC ──────────────────────────────────────────────────────────
+// Beat ids match the `id` prop on each <Beat> below. Drop entries if
+// you collapse beats; the rail handles 4–7 items cleanly.
+
+const TOC_ITEMS: TocItem[] = [
+  { href: "#top", label: "↑ Top" },
+  { href: "#context", prefix: "01", label: "Context" },
+  { href: "#challenge", prefix: "02", label: "Challenge" },
+  { href: "#research", prefix: "03", label: "Research" },
+  { href: "#strategy", prefix: "04", label: "Strategy" },
+  { href: "#execution", prefix: "05", label: "Execution" },
+  { href: "#outcomes", prefix: "06", label: "Outcomes" },
+  { href: "#reflection", prefix: "07", label: "Reflection" },
+];
+
+// ─── Page ─────────────────────────────────────────────────────────
+
+export default function WorkCaseStudyTemplate() {
+  return (
+    <>
+      <ScrollProgress />
+
+      {/* xl+ fixed-position TOC rail; lg-but-not-xl renders the rail
+          inside the column grid below. Mirrors basecamp-coffee/page.tsx. */}
+      <aside
+        aria-label="Article sections"
+        className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30"
+      >
+        <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
+      </aside>
+
+      <div className="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
+        <aside aria-label="Article sections" className="hidden lg:block xl:hidden">
+          <div className="sticky top-24 pl-4">
+            <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
+          </div>
+        </aside>
+        <article id="top">
+          <Hero />
+          <BeatSeparator />
+          <BeatContext />
+          <BeatSeparator />
+          <BeatChallenge />
+          <BeatSeparator />
+          <BeatResearch />
+          <BeatSeparator />
+          <BeatStrategy />
+          <BeatSeparator />
+          <BeatExecution />
+          <BeatSeparator />
+          <BeatOutcomes />
+          <BeatSeparator />
+          <BeatReflection />
+        </article>
+      </div>
+    </>
+  );
+}
+
+// ─── Hero ─────────────────────────────────────────────────────────
+
+function Hero() {
+  return (
+    <CaseStudyHero
+      title="<Case Study Title>"
+      subtitle="<One-line subtitle that frames the bet>"
+      readMin={8}
+      updatedDate="<Month DD, YYYY>"
+    >
+      {/* Resume backlink kicker. Subtle, reads as editorial chrome,
+          closes the loop with the per-role footer link on /resume. */}
+      <p style={{ marginBottom: "var(--scale-300)", fontSize: "var(--p-xs-font-size)", color: "var(--text-caption)", fontFamily: "var(--font-mono)" }}>
+        <Link href={ROLE_BACKLINK_HREF}>{ROLE_BACKLINK_LABEL}</Link>
+      </p>
+      {/* Lede — 2–3 sentences. Frame the case study like you'd frame
+          it to a hiring manager who has 20 seconds. What was the
+          situation, what did you do, what did it move? */}
+      Lede goes here. Replace this placeholder with 2–3 sentences that
+      tell the reader what they&apos;re about to read. The first
+      sentence should make the bet visible.
+    </CaseStudyHero>
+  );
+}
+
+// ─── Beat 01 — Context ────────────────────────────────────────────
+
+function BeatContext() {
+  return (
+    <Beat
+      id="context"
+      number="01"
+      title="Context"
+      headline="<one-line headline that frames the org-shape>"
+    >
+      <Body>
+        <p>
+          {/* Industry, role, timeline, org shape, what was true coming in.
+              One paragraph. Mention what data systems, team shape, and
+              stakeholder context were in place when you started. The
+              reader should be able to picture the room you walked into. */}
+          Replace with one paragraph of context.
+        </p>
+        <p>
+          {/* Optional second paragraph if the context has two beats —
+              e.g., "the org was X but the team was Y." Cut if not needed. */}
+          Optional second paragraph.
+        </p>
+      </Body>
+    </Beat>
+  );
+}
+
+// ─── Beat 02 — Challenge ──────────────────────────────────────────
+
+function BeatChallenge() {
+  return (
+    <Beat
+      id="challenge"
+      number="02"
+      title="Challenge"
+      headline="<one-line headline that names the problem>"
+    >
+      <Body>
+        <p>
+          {/* Problem statement, business questions, what failed without
+              intervention. Don't bury the lede. State the problem as
+              the org saw it, not as you saw it after solving it. */}
+          Problem statement goes here.
+        </p>
+      </Body>
+
+      {/* Optional stakeholder framing — a single Pullquote works well
+          here if you can attribute one. Drop if you can't. */}
+      {/* <Pullquote attribution="<Name, Title>">
+        Stakeholder quote that captures the felt urgency.
+      </Pullquote> */}
+    </Beat>
+  );
+}
+
+// ─── Beat 03 — Research ───────────────────────────────────────────
+
+function BeatResearch() {
+  return (
+    <Beat
+      id="research"
+      number="03"
+      title="Research"
+      headline="<one-line headline summarizing the primary finding>"
+    >
+      <Body>
+        <p>
+          {/* Quant signals + qual research, primary findings. What did
+              you go look at, and what did you learn? */}
+          Research summary goes here.
+        </p>
+      </Body>
+
+      {/* Headline numbers — drop the StatRow if you don't have any. */}
+      <StatRow>
+        <Stat eyebrow="<metric>" caption="<context for the number>">
+          <Emph>NN%</Emph>
+        </Stat>
+        <Stat eyebrow="<metric>" caption="<context for the number>">
+          <Emph>NN</Emph>
+        </Stat>
+      </StatRow>
+
+      {/* Two or three qual findings. Each is one card; titles state
+          the finding, body unpacks. Drop the EvidenceGrid block if
+          your research was purely quant. */}
+      <EvidenceGrid>
+        <EvidenceCard eyebrow="<source>" title="<finding>">
+          <p>One-paragraph unpack of the finding.</p>
+        </EvidenceCard>
+        <EvidenceCard eyebrow="<source>" title="<finding>">
+          <p>One-paragraph unpack of the finding.</p>
+        </EvidenceCard>
+      </EvidenceGrid>
+    </Beat>
+  );
+}
+
+// ─── Beat 04 — Strategy ───────────────────────────────────────────
+
+function BeatStrategy() {
+  return (
+    <Beat
+      id="strategy"
+      number="04"
+      title="Strategy"
+      headline="<one-line headline naming the bet>"
+    >
+      <Body>
+        <p>
+          {/* Hypothesis, decision frames, success criteria. Why this
+              shape and not the alternatives? */}
+          Strategy summary.
+        </p>
+      </Body>
+
+      {/* Success criteria, gate-style. Each gate names a metric, the
+          threshold for go/no-go, and a one-line caption explaining
+          why that threshold. Drop the SuccessGate block if your
+          strategy didn't have explicit gates. */}
+      <SuccessGate>
+        <GateCard metric="<primary metric>" threshold="<+X% / N units>" caption="<why this threshold>" />
+        <GateCard metric="<guardrail metric>" threshold="<no worse than X>" caption="<what it protects>" />
+      </SuccessGate>
+    </Beat>
+  );
+}
+
+// ─── Beat 05 — Execution ──────────────────────────────────────────
+
+function BeatExecution() {
+  return (
+    <Beat
+      id="execution"
+      number="05"
+      title="Execution"
+      headline="<one-line headline summarizing the rollout shape>"
+    >
+      <Body>
+        <p>
+          {/* Iteration log, what was actually built, key team decisions.
+              File paths via <Code> when relevant: <Code>app/foo.tsx</Code>. */}
+          Execution narrative.
+        </p>
+      </Body>
+
+      {/* Iteration cards — each describes one round / one decision.
+          Lens is a 1-2 word frame ("Round 1", "Pivot", "Cleanup");
+          title states what changed; body unpacks why. */}
+      <IterationGrid>
+        <IterationCard lens="Round 1" title="<what shipped first>">
+          <p>One paragraph on the first iteration.</p>
+        </IterationCard>
+        <IterationCard lens="Round 2" title="<what changed>">
+          <p>What we learned that drove the next round.</p>
+        </IterationCard>
+      </IterationGrid>
+    </Beat>
+  );
+}
+
+// ─── Beat 06 — Outcomes ───────────────────────────────────────────
+
+function BeatOutcomes() {
+  return (
+    <Beat
+      id="outcomes"
+      number="06"
+      title="Outcomes"
+      headline="<one-line headline naming the lift>"
+    >
+      <Body>
+        <p>
+          {/* Numbers up front. Frame any internal-only metrics
+              explicitly ("internal cohort metric, directional"). */}
+          Outcomes narrative.
+        </p>
+      </Body>
+
+      {/* Quant outcomes — primary table. Drop the row entirely if a
+          metric isn't defensible; don't pad. */}
+      <MetricsTable
+        rows={[
+          {
+            metric: "<primary metric>",
+            was: "<baseline>",
+            now: "<post-ship>",
+            target: "<original target>",
+          },
+          {
+            metric: "<secondary metric>",
+            was: "<baseline>",
+            now: "<post-ship>",
+            target: "<original target>",
+          },
+        ]}
+      />
+
+      {/* Qual outcome — an attributed Pullquote works well here. Drop
+          if you don't have one you can attribute. */}
+      {/* <Pullquote attribution="<Name, Title>">
+        What the stakeholder said after launch.
+      </Pullquote> */}
+    </Beat>
+  );
+}
+
+// ─── Beat 07 — Reflection ─────────────────────────────────────────
+
+function BeatReflection() {
+  return (
+    <Beat
+      id="reflection"
+      number="07"
+      title="Reflection"
+      headline="<one-line headline on what generalizes>"
+    >
+      <Body>
+        <p>
+          {/* What worked, what didn't, what generalizes. Keep this
+              beat lean — no card clutter. One or two paragraphs. */}
+          Reflection.
+        </p>
+      </Body>
+    </Beat>
+  );
+}

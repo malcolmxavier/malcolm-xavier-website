@@ -28,6 +28,7 @@ import { getFilms } from "@/lib/feeds/letterboxd";
 import { slugifyGenre as slugifyFilmGenre } from "@/lib/feeds/letterboxd-utils";
 import { getShows } from "@/lib/feeds/serializd";
 import { slugifyGenre as slugifyTvGenre } from "@/lib/feeds/serializd-utils";
+import { CASE_STUDIES } from "@/app/resume/resume-data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -153,31 +154,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     // Case studies — long-form artifacts of past work. Higher
     // priority than Music since recruiters explicitly hunt for
-    // these, but lower than the core funnel pages.
+    // these, but lower than the core funnel pages. The index page
+    // is listed explicitly; individual entries iterate CASE_STUDIES
+    // from resume-data.tsx so a new case study lands in the sitemap
+    // automatically without a parallel edit here.
     {
-      // Index page listing all case studies. Same priority as the
-      // individual studies so crawlers treat it as part of the
-      // long-form cluster, not a higher-tier funnel page.
       url: `${SITE_URL}/case-studies`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    {
-      url: `${SITE_URL}/case-studies/basecamp-coffee`,
+    ...CASE_STUDIES.map((study) => ({
+      url: `${SITE_URL}${study.href}`,
       lastModified,
-      changeFrequency: "yearly",
+      // Work case studies are presumed stable once shipped (the work
+      // itself doesn't iterate); the meta "building-this-site" study
+      // updates with the portfolio. "monthly" reads honestly across
+      // both shapes without forcing a per-entry override.
+      changeFrequency: "monthly" as const,
       priority: 0.7,
-    },
-    {
-      url: `${SITE_URL}/case-studies/building-this-site`,
-      lastModified,
-      // Meta case study about shipping the portfolio with Claude
-      // Code. Updates as the portfolio itself does, so monthly
-      // freshness reads more honestly than "yearly".
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+    })),
     ...filmEntries,
     ...tvEntries,
   ];

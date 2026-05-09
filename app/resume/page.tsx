@@ -67,6 +67,7 @@ import {
   ROLES,
   EDUCATION,
   CASE_STUDIES,
+  slugifyRoleAnchor,
   type ResumeRole,
   type ResumeEducation,
   type ResumeCaseStudy,
@@ -134,8 +135,13 @@ export const metadata: Metadata = {
  *   • Italic context, then bullets
  */
 function RoleBlock({ role }: { role: ResumeRole }) {
+  // Stable per-role anchor id. Work-case-study layouts target this
+  // via `From my time at <Employer> · <Title>` backlinks under their
+  // hero, so the case study can deep-link a reader straight back to
+  // the role on the resume.
+  const anchorId = slugifyRoleAnchor(role);
   return (
-    <article>
+    <article id={anchorId} style={{ scrollMarginTop: "6rem" }}>
       <Stack gap="300">
         {/* Anchor line: Company — Location.
             Company name renders as a Link when role.url is present.
@@ -239,8 +245,56 @@ function RoleBlock({ role }: { role: ResumeRole }) {
             ))}
           </ul>
         ) : null}
+        {/* Related-case-study footer link. Renders only on roles
+            that opt in via the `relatedCaseStudies` field; absent
+            when the array is unset or empty. Subtle by design. */}
+        <RoleCaseStudyLink role={role} />
       </Stack>
     </article>
+  );
+}
+
+/**
+ * Subtle inline arrow link surfaced under a role's bullets when
+ * `role.relatedCaseStudies` is set. One slug deep-links straight to
+ * the case study; two or more roll up to /case-studies#work so the
+ * resume itself stays tight. The role's accent flows through to the
+ * link to signal which role the studies relate to.
+ */
+function RoleCaseStudyLink({ role }: { role: ResumeRole }) {
+  const slugs = role.relatedCaseStudies;
+  if (!slugs || slugs.length === 0) return null;
+
+  const linkStyle: React.CSSProperties = {
+    fontFamily: "var(--font-mono)",
+    fontSize: "var(--p-xs-font-size)",
+    lineHeight: "var(--p-xs-line-height)",
+    color: "var(--text-caption)",
+    margin: 0,
+  };
+
+  if (slugs.length === 1) {
+    const study = CASE_STUDIES.find((s) => s.slug === slugs[0]);
+    // Fallback to a constructed path so a typo would still render
+    // a navigable (if 404'ing) link rather than throwing — though
+    // the load-time assertion in resume-data.tsx should catch
+    // typos before they ever get here.
+    const href = study?.href ?? `/case-studies/${slugs[0]}`;
+    return (
+      <p style={linkStyle}>
+        <Link href={href} accent={role.accent}>
+          → Read the case study
+        </Link>
+      </p>
+    );
+  }
+
+  return (
+    <p style={linkStyle}>
+      <Link href="/case-studies#work" accent={role.accent}>
+        → Related case studies ({slugs.length})
+      </Link>
+    </p>
   );
 }
 
