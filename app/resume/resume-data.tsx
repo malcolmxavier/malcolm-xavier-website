@@ -55,6 +55,14 @@ export type ResumeRole = {
    *  embed inline <Link>s for orgs / projects mentioned in the
    *  copy that don't get a top-level role of their own. */
   bullets: React.ReactNode[];
+  /**
+   * Optional slugs of related work case studies (must match
+   * `slug` values in CASE_STUDIES below). Surfaces a subtle
+   * "Read the case study →" link in the role's footer on /resume.
+   * Slug integrity is validated at module-load time — see the
+   * assertion below CASE_STUDIES.
+   */
+  relatedCaseStudies?: string[];
 };
 
 export type ResumeEducation = {
@@ -84,6 +92,15 @@ export type ResumeCaseStudy = {
   liveHref?: string;
   /** Optional sub-brand accent for the card stripe. */
   accent?: SubBrand;
+  /**
+   * Optional employer name. Setting this marks the case study as a
+   * work-experience case study (vs. personal/site case studies that
+   * leave it undefined). The /case-studies index groups studies into
+   * two sections by `employer != null`; the work-case-study layout
+   * surfaces it in the JSON-LD `author.affiliation` schema and in the
+   * "From my time at <Employer>" backlink under the hero.
+   */
+  employer?: string;
 };
 
 // ─── Header / contact ──────────────────────────────────────────────
@@ -325,3 +342,66 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     href: "/case-studies/building-this-site",
   },
 ];
+
+// ─── Helpers ───────────────────────────────────────────────────────
+
+/**
+ * Stable per-role anchor id used by /resume's RoleBlock and by
+ * work-case-study layouts that backlink to the originating role
+ * ("From my time at <Employer> · <Title>").
+ *
+ * Derived from company + dates so it survives ordering changes
+ * but breaks if the role is restated with different dates — which
+ * is the right behavior, since "Senior PM at People Inc 2024-2025"
+ * and "Lead PM at People Inc 2026-..." are distinct entries.
+ */
+export function slugifyRoleAnchor(role: Pick<ResumeRole, "company" | "dates">): string {
+  const base = `${role.company}-${role.dates}`;
+  const slug = base
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `role-${slug}`;
+}
+
+/**
+ * Find the role(s) that reference a given case-study slug via
+ * `relatedCaseStudies`. Used by the work-case-study template to
+ * surface the "From my time at <Employer>" backlink under the hero.
+ *
+ * Returns an array because a single case study could plausibly be
+ * referenced by two consecutive roles at the same company (e.g. a
+ * promotion mid-project). Callers default to the first entry.
+ */
+export function rolesReferencingCaseStudy(slug: string): ResumeRole[] {
+  return ROLES.filter((role) =>
+    role.relatedCaseStudies?.includes(slug),
+  );
+}
+
+// ─── Slug integrity check ─────────────────────────────────────────
+//
+// Runs once at module import time. Fails loudly if any role's
+// `relatedCaseStudies` references a slug that doesn't exist in
+// CASE_STUDIES — this would otherwise silently render a broken link
+// on /resume. The assertion lands in dev (immediate) and in build
+// (since Next.js evaluates the module while collecting page data).
+{
+  const knownSlugs = new Set(CASE_STUDIES.map((s) => s.slug));
+  const broken: { role: string; slug: string }[] = [];
+  for (const role of ROLES) {
+    for (const slug of role.relatedCaseStudies ?? []) {
+      if (!knownSlugs.has(slug)) {
+        broken.push({ role: `${role.company} · ${role.dates}`, slug });
+      }
+    }
+  }
+  if (broken.length > 0) {
+    const lines = broken.map(
+      (b) => `  • role "${b.role}" → unknown slug "${b.slug}"`,
+    );
+    throw new Error(
+      `[resume-data] relatedCaseStudies references unknown slug(s):\n${lines.join("\n")}\n\nKnown slugs: ${[...knownSlugs].join(", ")}`,
+    );
+  }
+}

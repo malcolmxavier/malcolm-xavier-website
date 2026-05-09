@@ -72,7 +72,27 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Decide grid column count for a given count of studies. Same
+ * conditional-cols pattern the homepage matrix uses: 1 reads as a
+ * single-column callout, 2 fills a tablet row, 3+ shifts to a proper
+ * grid.
+ */
+function gridColsFor(count: number): 1 | 2 | 3 {
+  if (count >= 3) return 3;
+  if (count >= 2) return 2;
+  return 1;
+}
+
 export default function CaseStudiesIndex() {
+  // Personal/site case studies (no employer) and work-experience
+  // case studies (employer set) render in two distinct sections so
+  // a recruiter can scan the categories independently. The work
+  // section is suppressed entirely when empty — no "coming soon"
+  // placeholder.
+  const personalStudies = CASE_STUDIES.filter((s) => !s.employer);
+  const workStudies = CASE_STUDIES.filter((s) => s.employer);
+
   return (
     <Container size="md">
       {/* ─── Hero ──────────────────────────────────────────────── */}
@@ -81,34 +101,38 @@ export default function CaseStudiesIndex() {
           <Kicker>Case studies</Kicker>
           <Display>The long-form work.</Display>
           <Lede>
-            Two studies today. Both written with Claude Code as build
-            partner — one is a Growth PM artifact dissecting a
-            collapsing loyalty program, the other is the meta version
-            of how this site itself was shipped.
+            Personal and meta studies below; work-experience studies
+            from past roles when applicable. All written with Claude
+            Code as build partner.
           </Lede>
         </Stack>
       </Section>
 
-      {/* ─── Studies grid ──────────────────────────────────────── */}
+      {/* ─── Personal / site studies ───────────────────────────── */}
       <Section padding="md" bordered>
-        <Grid
-          // 1 study reads as a single-column callout; 2 fills a tablet
-          // row; 3+ shifts to a proper grid. Same conditional-cols
-          // pattern the homepage matrix uses.
-          cols={
-            CASE_STUDIES.length >= 3
-              ? 3
-              : CASE_STUDIES.length >= 2
-              ? 2
-              : 1
-          }
-          gap="600"
-        >
-          {CASE_STUDIES.map((study) => (
-            <CaseStudyCard key={study.slug} study={study} />
-          ))}
-        </Grid>
+        <Stack gap="500">
+          <Kicker as="h2">Case studies</Kicker>
+          <Grid cols={gridColsFor(personalStudies.length)} gap="600">
+            {personalStudies.map((study) => (
+              <CaseStudyCard key={study.slug} study={study} />
+            ))}
+          </Grid>
+        </Stack>
       </Section>
+
+      {/* ─── Work case studies — only when there are any ───────── */}
+      {workStudies.length > 0 ? (
+        <Section id="work" padding="md" bordered style={{ scrollMarginTop: "6rem" }}>
+          <Stack gap="500">
+            <Kicker as="h2">Work case studies</Kicker>
+            <Grid cols={gridColsFor(workStudies.length)} gap="600">
+              {workStudies.map((study) => (
+                <CaseStudyCard key={study.slug} study={study} />
+              ))}
+            </Grid>
+          </Stack>
+        </Section>
+      ) : null}
     </Container>
   );
 }
