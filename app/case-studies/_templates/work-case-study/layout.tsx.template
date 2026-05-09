@@ -1,0 +1,155 @@
+// ─────────────────────────────────────────────────────────────────
+// /case-studies/<SLUG> — work-experience case-study route layout.
+//
+// TEMPLATE FILE — do not edit in place. To use:
+//   1. Copy this directory to `app/case-studies/<your-slug>/`.
+//   2. Rename `layout.tsx.template` → `layout.tsx` (drop the suffix).
+//   3. Find-and-replace every `<TOKEN>` placeholder below with real
+//      values for this case study.
+//   4. Delete this comment block (or trim to the relevant parts).
+//
+// This file is a near-mirror of basecamp-coffee/layout.tsx with one
+// addition: the JSON-LD `author.affiliation` field surfaces the
+// employer for AI-search and rich-result attribution. Work case
+// studies render in the recruiter cluster (no `data-subbrand`),
+// matching the existing case studies — no extra fonts or CSS here.
+//
+// Glass-card chrome is opted into via the import below; remove the
+// import to render flat cards instead.
+// ─────────────────────────────────────────────────────────────────
+
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import "@/components/case-study/case-glass.css";
+
+// ─── Tokens to fill in ─────────────────────────────────────────────
+// These constants drive both the metadata block and the JSON-LD
+// schema below. Keep SLUG in sync with the directory name and the
+// CASE_STUDIES entry in app/resume/resume-data.tsx — the slug-
+// integrity check at module-load time will fail loudly if they drift.
+
+const SLUG = "<slug>"; // e.g. "people-inc-recipe-recommendation"
+const TITLE = "<Case Study Title>"; // e.g. "Recipe recommendation at scale"
+const DESCRIPTION = "<1–2 sentence description for OG / search snippets>";
+const EMPLOYER = "<Company Name>"; // e.g. "People Inc."
+const EMPLOYER_URL = "<https://employer.example>"; // company URL for the affiliation schema
+const PUBLISHED = "<YYYY-MM-DD>"; // ISO date
+const MODIFIED = "<YYYY-MM-DD>"; // ISO date — bump when you edit copy
+
+const ARTICLE_URL = `https://malxavi.com/case-studies/${SLUG}`;
+const ARTICLE_HEADLINE = `${TITLE} — Case Study`;
+
+// ─── Page metadata ────────────────────────────────────────────────
+// Per-page openGraph + twitter blocks because Next.js App Router
+// REPLACES (does not merge) parent OG blocks. Without these, the
+// page would unfurl with the sitewide stub on LinkedIn / Slack.
+//
+// `type: "article"` is what eligibles long-form for Google Top Stories
+// and is the right schema for Perplexity / ChatGPT search citation.
+
+export const metadata: Metadata = {
+  title: `${TITLE}—Case Study`,
+  description: DESCRIPTION,
+  alternates: {
+    canonical: `/case-studies/${SLUG}`,
+  },
+  openGraph: {
+    title: `${TITLE}—Case Study`,
+    description: DESCRIPTION,
+    type: "article",
+    url: `/case-studies/${SLUG}`,
+    siteName: "Malcolm Xavier",
+    locale: "en_US",
+    publishedTime: PUBLISHED,
+    modifiedTime: MODIFIED,
+    authors: ["Malcolm Xavier"],
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${TITLE}—Case Study`,
+    description: DESCRIPTION,
+    images: ["/opengraph-image"],
+  },
+};
+
+// ─── JSON-LD ──────────────────────────────────────────────────────
+// Article + BreadcrumbList, plus an `author.affiliation` element that
+// surfaces the employer organization for AI-search attribution. The
+// author / publisher reference the sitewide Person `@id` from
+// app/layout.tsx so the attribution graph stays clean.
+
+const ARTICLE_SCHEMA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": `${ARTICLE_URL}/#article`,
+      headline: ARTICLE_HEADLINE,
+      description: DESCRIPTION,
+      url: ARTICLE_URL,
+      datePublished: PUBLISHED,
+      dateModified: MODIFIED,
+      inLanguage: "en-US",
+      articleSection: "Case Study",
+      author: {
+        "@id": "https://malxavi.com/#person",
+        affiliation: {
+          "@type": "Organization",
+          name: EMPLOYER,
+          url: EMPLOYER_URL,
+        },
+      },
+      publisher: { "@id": "https://malxavi.com/#person" },
+      mainEntityOfPage: ARTICLE_URL,
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://malxavi.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Case studies",
+          item: "https://malxavi.com/case-studies",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: TITLE,
+          item: ARTICLE_URL,
+        },
+      ],
+    },
+  ],
+};
+
+export default function WorkCaseStudyLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(ARTICLE_SCHEMA),
+        }}
+      />
+      {children}
+    </>
+  );
+}
