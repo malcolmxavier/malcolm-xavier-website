@@ -46,6 +46,7 @@
 
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { XMLParser } from "fast-xml-parser";
 import {
   fetchMovieDetails,
@@ -511,11 +512,28 @@ function extractTmdbIdFromFilm(film) {
 }
 
 // ─── Orchestrator ───────────────────────────────────────────────
+//
+// The same orchestrator powers two callers:
+//   1. The CLI (`npm run films:rss-refresh`) — runs with
+//      `writeToDisk: true`, reads prev snapshot from disk, writes
+//      the new snapshot back to disk on changes.
+//   2. The Vercel cron route at /api/cron/films-refresh — runs with
+//      `writeToDisk: false` and passes prev snapshot explicitly (the
+//      cron route reads it from the bundled deploy via
+//      outputFileTracingIncludes). Returns the in-memory snapshot for
+//      the route to PUT to GitHub via the contents API.
+//
+// Returns { snapshot, changed, ... }. When `changed` is false, the
+// snapshot was unchanged (RSS hasn't moved since the last refresh) and
+// the caller should NOT push. When true, the additional fields
+// (newFilms, newReviews, editedReviews, backfillCount) describe what
+// moved so the caller can compose a useful commit message.
 
 /**
- * Read the existing snapshot from disk. If the file is missing
- * we exit cleanly (the GitHub Action will skip; the CSV bootstrap
- * is the right path for a from-zero refresh anyway).
+ * Read the existing snapshot from disk. Returns null when the file
+ * is missing (the CLI surfaces a friendly message; the cron route
+ * never hits this branch because it injects `prevSnapshot`
+ * explicitly from the bundled deploy).
  */
 function readSnapshot() {
   if (!existsSync(SNAPSHOT_PATH)) return null;
@@ -530,31 +548,28 @@ function readSnapshot() {
   }
 }
 
-async function main() {
+export async function refreshSnapshotIncremental(options = {}) {
+  const { writeToDisk = false, prevSnapshot: injectedPrev } = options;
+
   console.log("[1/5] Reading existing snapshot…");
-  const snapshot = readSnapshot();
+  const snapshot = injectedPrev ?? readSnapshot();
   if (!snapshot) {
-    console.log(
-      "      No snapshot found at " +
-        SNAPSHOT_PATH +
-        " — run npm run films:refresh to bootstrap the catalog first.",
+    // CLI path falls through here when the snapshot file doesn't
+    // exist yet. The cron route always injects a snapshot, so it
+    // never reaches this branch — it would surface as a 500 from
+    // the route's outer error handler if it ever did.
+    throw new Error(
+      `No snapshot found at ${SNAPSHOT_PATH} — run npm run films:refresh to bootstrap the catalog first.`,
     );
-    return;
   }
   const baselineCount = snapshot.films.length;
   const baselineReviews = snapshot.summary?.totalReviews ?? 0;
 
   console.log("\n[2/5] Fetching RSS feed…");
-  let xml;
-  try {
-    xml = await fetchRss();
-  } catch (err) {
-    console.error(
-      "      RSS fetch failed: " +
-        (err instanceof Error ? err.message : String(err)),
-    );
-    process.exit(1);
-  }
+  // Let RSS-fetch errors bubble. The CLI's main wrapper catches and
+  // exit(1)s; the cron route catches and returns 502 so the next tick
+  // can retry without taking the route's health down.
+  const xml = await fetchRss();
   const entries = parseRssEntries(xml);
   console.log(`      Parsed ${entries.length} RSS items.`);
 
@@ -627,7 +642,16 @@ async function main() {
     backfillCount === 0
   ) {
     console.log("\nNo changes — snapshot is up to date.");
-    return;
+    return {
+      snapshot,
+      changed: false,
+      baselineCount,
+      baselineReviews,
+      newFilms: [],
+      newReviews: [],
+      editedReviews: [],
+      backfillCount: 0,
+    };
   }
 
   // Recompute aggregates for every film that picked up a new
@@ -674,42 +698,64 @@ async function main() {
   for (const f of snapshot.films) snapshot.filmById[f.id] = f;
   snapshot.capturedAt = new Date().toISOString();
 
-  console.log("\n[5/5] Writing snapshot…");
-  writeFileSync(SNAPSHOT_PATH, JSON.stringify(snapshot, null, 2) + "\n");
   console.log(
-    `\n✓ Wrote ${SNAPSHOT_PATH}\n` +
-      `  Films:    ${baselineCount} → ${snapshot.films.length}` +
-      (newFilms.length > 0 ? ` (+${newFilms.length})` : "") +
-      `\n  Reviews:  ${baselineReviews} → ${snapshot.summary.totalReviews}` +
-      ` (+${newReviews.length})` +
-      (editedReviews.length > 0
-        ? `\n  Edits:    ${editedReviews.length} review(s) updated in place`
-        : "") +
-      (backfillCount > 0
-        ? `\n  Backfill: ${backfillCount} legacy review(s) tagged with guid`
-        : ""),
+    writeToDisk ? "\n[5/5] Writing snapshot…" : "\n[5/5] Skipping disk write (cron path).",
   );
+  if (writeToDisk) {
+    writeFileSync(SNAPSHOT_PATH, JSON.stringify(snapshot, null, 2) + "\n");
+    console.log(
+      `\n✓ Wrote ${SNAPSHOT_PATH}\n` +
+        `  Films:    ${baselineCount} → ${snapshot.films.length}` +
+        (newFilms.length > 0 ? ` (+${newFilms.length})` : "") +
+        `\n  Reviews:  ${baselineReviews} → ${snapshot.summary.totalReviews}` +
+        ` (+${newReviews.length})` +
+        (editedReviews.length > 0
+          ? `\n  Edits:    ${editedReviews.length} review(s) updated in place`
+          : "") +
+        (backfillCount > 0
+          ? `\n  Backfill: ${backfillCount} legacy review(s) tagged with guid`
+          : ""),
+    );
 
-  if (newFilms.length > 0) {
-    console.log("\n  New films:");
-    for (const f of newFilms) {
-      console.log(`    + ${f.title} (${f.releaseYear})`);
+    if (newFilms.length > 0) {
+      console.log("\n  New films:");
+      for (const f of newFilms) {
+        console.log(`    + ${f.title} (${f.releaseYear})`);
+      }
+    }
+    if (editedReviews.length > 0) {
+      console.log("\n  Edited reviews (within RSS window):");
+      for (const e of editedReviews) {
+        console.log(
+          `    ~ ${e.title} — watched ${e.watchedDate} (changed: ${e.changes.join(", ")})`,
+        );
+      }
     }
   }
-  if (editedReviews.length > 0) {
-    console.log("\n  Edited reviews (within RSS window):");
-    for (const e of editedReviews) {
-      console.log(
-        `    ~ ${e.title} — watched ${e.watchedDate} (changed: ${e.changes.join(", ")})`,
-      );
-    }
-  }
+
+  return {
+    snapshot,
+    changed: true,
+    baselineCount,
+    baselineReviews,
+    newFilms,
+    newReviews,
+    editedReviews,
+    backfillCount,
+  };
 }
 
-main().catch((err) => {
-  console.error(
-    "\n[incremental-rss-refresh] FAILED:",
-    err instanceof Error ? err.stack || err.message : err,
-  );
-  process.exit(1);
-});
+// Direct CLI invocation only. When imported as a module (cron route),
+// this branch is skipped — the caller drives refreshSnapshotIncremental()
+// explicitly with `writeToDisk: false` and an injected prevSnapshot.
+const isDirectInvocation =
+  process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1]);
+if (isDirectInvocation) {
+  refreshSnapshotIncremental({ writeToDisk: true }).catch((err) => {
+    console.error(
+      "\n[incremental-rss-refresh] FAILED:",
+      err instanceof Error ? err.stack || err.message : err,
+    );
+    process.exit(1);
+  });
+}
