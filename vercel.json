@@ -4,6 +4,10 @@
     {
       "path": "/api/cron/television-refresh",
       "schedule": "30 * * * *"
+    },
+    {
+      "path": "/api/cron/films-refresh",
+      "schedule": "0 * * * *"
     }
   ]
 }
