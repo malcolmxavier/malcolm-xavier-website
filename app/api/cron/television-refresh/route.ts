@@ -34,9 +34,11 @@
 // so committing each refresh (vs. writing to Vercel Blob) is a
 // feature, not a wart. See vercel-cron migration notes in memory.
 //
-// Schedule lives in vercel.json (cron at "30 * * * *", UTC).
-// Films-rss-refresh stays on GitHub Actions for now; will follow
-// the same migration pattern after this one bakes for ~24h.
+// Schedule lives in vercel.json (cron at "30 * * * *", UTC). The
+// :30 offset from /api/cron/films-refresh's :00 schedule is the
+// race-guard posture inherited from the old GH Actions workflows —
+// keeps simultaneous pushes to main from competing for the same
+// fast-forward window.
 // ─────────────────────────────────────────────────────────────────
 
 import "server-only";
