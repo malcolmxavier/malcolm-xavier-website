@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-05-03T17:41:18.223Z
+   Built:        2026-05-09T21:47:01.869Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -689,13 +689,6 @@
   --text-on-action: var(--primary-700);
   --text-error: var(--error-default);
   --text-success: var(--success-default);
-  /* --warning-800 (yellow-800 #646012) clears AA body-text
-     contrast on white surfaces (~6.4:1); --warning-default
-     (yellow-500 #faef2d) was ~1.1:1 and failed any visible
-     warning-text consumer in light mode. Token-level fix from
-     2026-05-07 re-review (sitewide; covers the TV detail-page
-     Pill warning + the /films Pill, both of which routed
-     through this token). */
   --text-warning: var(--warning-800);
   --text-information: var(--information-default);
   --text-disabled: var(--neutral-default);
@@ -709,7 +702,7 @@
   --icon-on-action: var(--neutral-white);
   --icon-error: var(--error-default);
   --icon-success: var(--success-default);
-  --icon-warning: var(--warning-default);
+  --icon-warning: var(--warning-800);
   --icon-information: var(--information-default);
   --icon-disabled: var(--neutral-default);
   --surface-page: var(--neutral-white);

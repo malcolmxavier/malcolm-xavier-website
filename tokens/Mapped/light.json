@@ -78,7 +78,7 @@
         "com.figma.hiddenFromPublishing": false
       },
       "$type": "color",
-      "$value": "{warning.default}"
+      "$value": "{warning.800}"
     },
     "information": {
       "$extensions": {
@@ -210,7 +210,7 @@
         "com.figma.hiddenFromPublishing": false
       },
       "$type": "color",
-      "$value": "{warning.default}"
+      "$value": "{warning.800}"
     },
     "information": {
       "$extensions": {
