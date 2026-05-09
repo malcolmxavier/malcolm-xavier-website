@@ -1,24 +1,24 @@
 {
-  "capturedAt": "2026-05-09T01:54:36.156Z",
+  "capturedAt": "2026-05-09T07:42:06.200Z",
   "summary": {
-    "totalFilms": 744,
-    "totalReviews": 744,
-    "thisYearCount": 103,
+    "totalFilms": 745,
+    "totalReviews": 745,
+    "thisYearCount": 104,
     "ratingDistribution": {
       "1": 34,
       "2": 118,
       "3": 141,
       "4": 99,
       "5": 16,
-      "3.5": 147,
+      "3.5": 148,
       "2.5": 100,
       "4.5": 48,
       "1.5": 32,
       "0.5": 9
     },
     "genreDistribution": {
-      "Documentary": 58,
-      "Music": 46,
+      "Documentary": 59,
+      "Music": 47,
       "Animation": 43,
       "Family": 19,
       "Comedy": 213,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 555,
+      "2020s": 556,
       "1990s": 15,
       "2010s": 123,
       "1960s": 1,
@@ -85,6 +85,50 @@
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/bDQ95W5LPHW9FHlPj3QX3jvM9Z7.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bDQ95W5LPHW9FHlPj3QX3jvM9Z7.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1515899",
+      "letterboxdSlug": "billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/billie-eilish-hit-me-hard-and-soft-the-tour/",
+      "title": "Billie Eilish — Hit Me Hard and Soft: The Tour (Live in 3D)",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-08",
+      "latestWatchedDate": "2026-05-08",
+      "firstReviewDate": "2026-05-09",
+      "latestReviewDate": "2026-05-09",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1309174811",
+          "watchedDate": "2026-05-08",
+          "reviewDate": "2026-05-09",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "It’s hard for a concert film for pop stars of this era to be of quality because the shows themselves are entirely about the live experience, which does not usually include vocals—I say this as a Charli stan, so there’s no judgment. But no shade, most of the audio in this was the audience singing along. Still, I think this is as close as we can come to concert film greatness for these younger stars. The show looked amazing and was more enjoyable than being sandwiched into an arena with a bunch of teenagers. If the last documentary was about establishing Billie as an everywoman, this is about establishing that she’s for everybody. Even though I knew every song, seeing this begged the question: what is it to make a hit with performance longevity in this era? Will Billie be singing Bad Guy, her biggest hit, 20 years from now? I can’t see the vision. And that’s not true for every song of hers, but the idea of an artist’s biggest song not having that sort of performance longevity is interesting to me. The song will still bang, but I just can’t see a full grown adult performing it. Is that just me? Something about James Cameron being involved in this really tickles me.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1515899,
+        "posterPath": "/5fudu2BSuUcwsMycHDNA0l1FDPH.jpg",
+        "backdropPath": "/uRs7s4CowsDqium4ses8tc5QNO5.jpg",
+        "genres": [
+          "Music",
+          "Documentary"
+        ],
+        "runtime": 114,
+        "director": "James Cameron"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5fudu2BSuUcwsMycHDNA0l1FDPH.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5fudu2BSuUcwsMycHDNA0l1FDPH.jpg",
       "ratingSet": [
         3.5
       ],
@@ -32387,6 +32431,50 @@
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/bDQ95W5LPHW9FHlPj3QX3jvM9Z7.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bDQ95W5LPHW9FHlPj3QX3jvM9Z7.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1515899": {
+      "id": "tmdb-1515899",
+      "letterboxdSlug": "billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/billie-eilish-hit-me-hard-and-soft-the-tour/",
+      "title": "Billie Eilish — Hit Me Hard and Soft: The Tour (Live in 3D)",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-08",
+      "latestWatchedDate": "2026-05-08",
+      "firstReviewDate": "2026-05-09",
+      "latestReviewDate": "2026-05-09",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1309174811",
+          "watchedDate": "2026-05-08",
+          "reviewDate": "2026-05-09",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "It’s hard for a concert film for pop stars of this era to be of quality because the shows themselves are entirely about the live experience, which does not usually include vocals—I say this as a Charli stan, so there’s no judgment. But no shade, most of the audio in this was the audience singing along. Still, I think this is as close as we can come to concert film greatness for these younger stars. The show looked amazing and was more enjoyable than being sandwiched into an arena with a bunch of teenagers. If the last documentary was about establishing Billie as an everywoman, this is about establishing that she’s for everybody. Even though I knew every song, seeing this begged the question: what is it to make a hit with performance longevity in this era? Will Billie be singing Bad Guy, her biggest hit, 20 years from now? I can’t see the vision. And that’s not true for every song of hers, but the idea of an artist’s biggest song not having that sort of performance longevity is interesting to me. The song will still bang, but I just can’t see a full grown adult performing it. Is that just me? Something about James Cameron being involved in this really tickles me.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1515899,
+        "posterPath": "/5fudu2BSuUcwsMycHDNA0l1FDPH.jpg",
+        "backdropPath": "/uRs7s4CowsDqium4ses8tc5QNO5.jpg",
+        "genres": [
+          "Music",
+          "Documentary"
+        ],
+        "runtime": 114,
+        "director": "James Cameron"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5fudu2BSuUcwsMycHDNA0l1FDPH.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5fudu2BSuUcwsMycHDNA0l1FDPH.jpg",
       "ratingSet": [
         3.5
       ],
