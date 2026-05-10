@@ -1,6 +1,32 @@
 {
-  "capturedAt": "2026-04-30T19:54:21.352Z",
+  "capturedAt": "2026-05-10T16:43:51.146Z",
   "ownedPlaylists": [
+    {
+      "id": "0fq7idcIaFTbFfziDVe9VC",
+      "name": "mothers",
+      "description": "(and daughters)",
+      "images": [
+        {
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84a1d9ef24d7799b59c64af42a",
+          "height": null,
+          "width": null
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/0fq7idcIaFTbFfziDVe9VC"
+      },
+      "public": true,
+      "collaborative": false,
+      "snapshot_id": "AAAASGo5GTlSYA1+0gVWfGkCdkzvVDlc",
+      "owner": {
+        "id": "malcolmxevans",
+        "display_name": "Malcolm Xavier"
+      },
+      "items": {
+        "href": "https://api.spotify.com/v1/playlists/0fq7idcIaFTbFfziDVe9VC/items",
+        "total": 12
+      }
+    },
     {
       "id": "73ul92F8QeL0r1X4T2hnLC",
       "name": "settle the score",
@@ -59,7 +85,7 @@
       "description": "clanker core",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8433446f73d583af99787e0108",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8433446f73d583af99787e0108",
           "height": null,
           "width": null
         }
@@ -85,7 +111,7 @@
       "description": "i can feel you coming from miles away",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84ad5c264ce6aee0054b4fe358",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84ad5c264ce6aee0054b4fe358",
           "height": null,
           "width": null
         }
@@ -189,7 +215,7 @@
       "description": "et tu, brutè?",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84318b703cd081de6375ebfe80",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84318b703cd081de6375ebfe80",
           "height": null,
           "width": null
         }
@@ -215,7 +241,7 @@
       "description": "martinis at dusk with you rich Black auntie; hold the vermouth 🍸🍸",
       "images": [
         {
-          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da842fdaf7dbf87ea7c72ef1b2fb",
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da842fdaf7dbf87ea7c72ef1b2fb",
           "height": null,
           "width": null
         }
@@ -371,7 +397,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8445739f7b72a17550f754a3d5",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8445739f7b72a17550f754a3d5",
           "height": null,
           "width": null
         }
@@ -691,7 +717,7 @@
       "description": "there&#x27;s no such thing as a clean break",
       "images": [
         {
-          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da846b7cde91d6d59523bdd8b434",
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da846b7cde91d6d59523bdd8b434",
           "height": null,
           "width": null
         }
@@ -821,7 +847,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da843995a51d94e9643072ac4b19",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da843995a51d94e9643072ac4b19",
           "height": null,
           "width": null
         }
@@ -1081,6 +1107,561 @@
     }
   ],
   "enrichedById": {
+    "0fq7idcIaFTbFfziDVe9VC": {
+      "id": "0fq7idcIaFTbFfziDVe9VC",
+      "name": "mothers",
+      "description": "(and daughters)",
+      "images": [
+        {
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84a1d9ef24d7799b59c64af42a",
+          "height": null,
+          "width": null
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/0fq7idcIaFTbFfziDVe9VC"
+      },
+      "public": true,
+      "collaborative": false,
+      "snapshot_id": "AAAASGo5GTlSYA1+0gVWfGkCdkzvVDlc",
+      "owner": {
+        "id": "malcolmxevans",
+        "display_name": "Malcolm Xavier"
+      },
+      "items": {
+        "href": "https://api.spotify.com/v1/playlists/0fq7idcIaFTbFfziDVe9VC/items",
+        "total": 12
+      },
+      "tracks": [
+        {
+          "added_at": "2026-05-08T17:52:43Z",
+          "track": {
+            "id": "0qmCk0qi44SBvugoXwwsnc",
+            "name": "Ouchies",
+            "type": "track",
+            "duration_ms": 122186,
+            "artists": [
+              {
+                "id": "5cj0lLjcoR7YOSnhnX0Po5",
+                "name": "Doja Cat",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/5cj0lLjcoR7YOSnhnX0Po5"
+                }
+              }
+            ],
+            "album": {
+              "id": "1bBez9PNvkJPW08bU7NYta",
+              "name": "Scarlet",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b273a54499d7ba4e9afeea91df86",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e02a54499d7ba4e9afeea91df86",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00004851a54499d7ba4e9afeea91df86",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/0qmCk0qi44SBvugoXwwsnc"
+            }
+          }
+        },
+        {
+          "added_at": "2026-05-08T17:51:59Z",
+          "track": {
+            "id": "14MdehDJ3lgRO6SVe60eHk",
+            "name": "Pacer",
+            "type": "track",
+            "duration_ms": 176516,
+            "artists": [
+              {
+                "id": "4E2rKHVDssGJm2SCDOMMJB",
+                "name": "Doechii",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/4E2rKHVDssGJm2SCDOMMJB"
+                }
+              }
+            ],
+            "album": {
+              "id": "0C4bcDFbb7cQf2W3WH6RVm",
+              "name": "Pacer",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b27324d40a2f531da5c86e7c6695",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e0224d40a2f531da5c86e7c6695",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000485124d40a2f531da5c86e7c6695",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/14MdehDJ3lgRO6SVe60eHk"
+            }
+          }
+        },
+        {
+          "added_at": "2026-05-01T04:39:33Z",
+          "track": {
+            "id": "7mo71jiMK8N3I0A2HucGEE",
+            "name": "Check Please",
+            "type": "track",
+            "duration_ms": 121546,
+            "artists": [
+              {
+                "id": "4kYSro6naA4h99UJvo89HB",
+                "name": "Cardi B",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/4kYSro6naA4h99UJvo89HB"
+                }
+              }
+            ],
+            "album": {
+              "id": "1LsNb6mVitbLZCxnRsbCDJ",
+              "name": "AM I THE DRAMA?",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b2734449c12628ef639dd6500c4a",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e024449c12628ef639dd6500c4a",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d000048514449c12628ef639dd6500c4a",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/7mo71jiMK8N3I0A2HucGEE"
+            }
+          }
+        },
+        {
+          "added_at": "2026-05-09T20:10:52Z",
+          "track": {
+            "id": "6rx4jBTSagd1W4ZkQI63oK",
+            "name": "GO! (feat. Karen O)",
+            "type": "track",
+            "duration_ms": 203053,
+            "artists": [
+              {
+                "id": "6Jrxnp0JgqmeUX1veU591p",
+                "name": "Santigold",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/6Jrxnp0JgqmeUX1veU591p"
+                }
+              },
+              {
+                "id": "6emHCSoB4tJxTVXakbrpPz",
+                "name": "Karen O",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/6emHCSoB4tJxTVXakbrpPz"
+                }
+              }
+            ],
+            "album": {
+              "id": "58ZjpgafuBeQ0JVxIt0hdr",
+              "name": "Master of My Make-Believe",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b2731df652eb00ae939358d8f3b1",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e021df652eb00ae939358d8f3b1",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d000048511df652eb00ae939358d8f3b1",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/6rx4jBTSagd1W4ZkQI63oK"
+            }
+          }
+        },
+        {
+          "added_at": "2025-05-01T17:44:31Z",
+          "track": {
+            "id": "5UcUppRaEIBMIHXiUFl7LI",
+            "name": "SPAGHETTII",
+            "type": "track",
+            "duration_ms": 158477,
+            "artists": [
+              {
+                "id": "6vWDO969PvNqNYHIOW5v0m",
+                "name": "Beyoncé",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/6vWDO969PvNqNYHIOW5v0m"
+                }
+              },
+              {
+                "id": "78adFi9EyRkMh3CTIatrV9",
+                "name": "Linda Martell",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/78adFi9EyRkMh3CTIatrV9"
+                }
+              },
+              {
+                "id": "3y2cIKLjiOlp1Np37WiUdH",
+                "name": "Shaboozey",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/3y2cIKLjiOlp1Np37WiUdH"
+                }
+              }
+            ],
+            "album": {
+              "id": "6BzxX6zkDsYKFJ04ziU5xQ",
+              "name": "COWBOY CARTER",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b273208e593c3565dae1295b5a26",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e02208e593c3565dae1295b5a26",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00004851208e593c3565dae1295b5a26",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/5UcUppRaEIBMIHXiUFl7LI"
+            }
+          }
+        },
+        {
+          "added_at": "2026-05-01T04:23:25Z",
+          "track": {
+            "id": "3C8lsLOz4Jk0ELFpf0eUIk",
+            "name": "OKAY",
+            "type": "track",
+            "duration_ms": 164074,
+            "artists": [
+              {
+                "id": "39af15p0feaAOdL9DTRj3m",
+                "name": "JT",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/39af15p0feaAOdL9DTRj3m"
+                }
+              }
+            ],
+            "album": {
+              "id": "66HrXUpGRlJdwXIw7B9SQI",
+              "name": "City Cinderella",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b2733765656c0034599b672661b3",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e023765656c0034599b672661b3",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d000048513765656c0034599b672661b3",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/3C8lsLOz4Jk0ELFpf0eUIk"
+            }
+          }
+        },
+        {
+          "added_at": "2025-02-07T03:24:46Z",
+          "track": {
+            "id": "6UPiTNzNmUFE59YkkyCs9n",
+            "name": "Peggy",
+            "type": "track",
+            "duration_ms": 159336,
+            "artists": [
+              {
+                "id": "0K71lFgGGmekeFSUrWaRhg",
+                "name": "Ceechynaa",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/0K71lFgGGmekeFSUrWaRhg"
+                }
+              }
+            ],
+            "album": {
+              "id": "6sDFqQIVuSySxkc1F0tWCR",
+              "name": "Peggy",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b2734e5fd26c04d140b0fd02e48d",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e024e5fd26c04d140b0fd02e48d",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d000048514e5fd26c04d140b0fd02e48d",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/6UPiTNzNmUFE59YkkyCs9n"
+            }
+          }
+        },
+        {
+          "added_at": "2026-05-01T04:41:16Z",
+          "track": {
+            "id": "52BJrldggFQyTiW8XrILhO",
+            "name": "In The Party",
+            "type": "track",
+            "duration_ms": 137361,
+            "artists": [
+              {
+                "id": "08PvCOlef4xdOr20jFSTPd",
+                "name": "Flo Milli",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/08PvCOlef4xdOr20jFSTPd"
+                }
+              }
+            ],
+            "album": {
+              "id": "49FIsErcdC5rfTFhRpPZ7P",
+              "name": "Ho, why is you here ?",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b273dda9b4c261703fa8575f73bd",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e02dda9b4c261703fa8575f73bd",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00004851dda9b4c261703fa8575f73bd",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/52BJrldggFQyTiW8XrILhO"
+            }
+          }
+        },
+        {
+          "added_at": "2026-05-08T17:48:06Z",
+          "track": {
+            "id": "0mgnFP2bLDhkG4NvlIDW41",
+            "name": "Coconut Water",
+            "type": "track",
+            "duration_ms": 117624,
+            "artists": [
+              {
+                "id": "1xkEwol8vsfO4m2WP8Dyk9",
+                "name": "Trim",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/1xkEwol8vsfO4m2WP8Dyk9"
+                }
+              }
+            ],
+            "album": {
+              "id": "50rJrnieqMH6EScNI6BgXB",
+              "name": "Coconut Water",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b2731bb97cb4c710621e29bd10ff",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e021bb97cb4c710621e29bd10ff",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d000048511bb97cb4c710621e29bd10ff",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/0mgnFP2bLDhkG4NvlIDW41"
+            }
+          }
+        },
+        {
+          "added_at": "2025-05-07T14:25:25Z",
+          "track": {
+            "id": "0jdNoNSnFwqftO9s7az6r4",
+            "name": "Body Do",
+            "type": "track",
+            "duration_ms": 140197,
+            "artists": [
+              {
+                "id": "1FtBEIWAwvw5ymBen5GICR",
+                "name": "Chlöe",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/1FtBEIWAwvw5ymBen5GICR"
+                }
+              }
+            ],
+            "album": {
+              "id": "57eOzR6RxyfJLC3ggBQfRI",
+              "name": "In Pieces",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b2730b207265751693def1345c7e",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e020b207265751693def1345c7e",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d000048510b207265751693def1345c7e",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/0jdNoNSnFwqftO9s7az6r4"
+            }
+          }
+        },
+        {
+          "added_at": "2025-12-16T00:44:55Z",
+          "track": {
+            "id": "0xH565ykWKUrYdcizBbz30",
+            "name": "Sexy Soulaan",
+            "type": "track",
+            "duration_ms": 122000,
+            "artists": [
+              {
+                "id": "2sflbTtCirog5VxD6jPAfb",
+                "name": "Monaleo",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/2sflbTtCirog5VxD6jPAfb"
+                }
+              }
+            ],
+            "album": {
+              "id": "3ChMIwC91eiIA6KMJNq8EK",
+              "name": "Sexy Soulaan",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b273d9d4f7f78a87e130b32e1e7d",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e02d9d4f7f78a87e130b32e1e7d",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00004851d9d4f7f78a87e130b32e1e7d",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/0xH565ykWKUrYdcizBbz30"
+            }
+          }
+        },
+        {
+          "added_at": "2026-05-08T17:53:21Z",
+          "track": {
+            "id": "10iTXqoNGHVJKczWVREdUP",
+            "name": "Sunday Service",
+            "type": "track",
+            "duration_ms": 166613,
+            "artists": [
+              {
+                "id": "3MdXrJWsbVzdn6fe5JYkSQ",
+                "name": "Latto",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/3MdXrJWsbVzdn6fe5JYkSQ"
+                }
+              }
+            ],
+            "album": {
+              "id": "4Qsc4at71izsrBdiJv3Kds",
+              "name": "Sugar Honey Iced Tea",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b27315f46b3bf4b61978b205b31c",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e0215f46b3bf4b61978b205b31c",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000485115f46b3bf4b61978b205b31c",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/10iTXqoNGHVJKczWVREdUP"
+            }
+          }
+        }
+      ],
+      "total_duration_ms": 1788983,
+      "last_added_at_ms": 1778357452000
+    },
     "73ul92F8QeL0r1X4T2hnLC": {
       "id": "73ul92F8QeL0r1X4T2hnLC",
       "name": "settle the score",
@@ -3254,7 +3835,7 @@
       "description": "clanker core",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8433446f73d583af99787e0108",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8433446f73d583af99787e0108",
           "height": null,
           "width": null
         }
@@ -3837,7 +4418,7 @@
       "description": "i can feel you coming from miles away",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84ad5c264ce6aee0054b4fe358",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84ad5c264ce6aee0054b4fe358",
           "height": null,
           "width": null
         }
@@ -8150,7 +8731,7 @@
       "description": "et tu, brutè?",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84318b703cd081de6375ebfe80",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84318b703cd081de6375ebfe80",
           "height": null,
           "width": null
         }
@@ -9188,7 +9769,7 @@
       "description": "martinis at dusk with you rich Black auntie; hold the vermouth 🍸🍸",
       "images": [
         {
-          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da842fdaf7dbf87ea7c72ef1b2fb",
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da842fdaf7dbf87ea7c72ef1b2fb",
           "height": null,
           "width": null
         }
@@ -13596,7 +14177,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8445739f7b72a17550f754a3d5",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8445739f7b72a17550f754a3d5",
           "height": null,
           "width": null
         }
@@ -22916,7 +23497,7 @@
       "description": "there&#x27;s no such thing as a clean break",
       "images": [
         {
-          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da846b7cde91d6d59523bdd8b434",
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da846b7cde91d6d59523bdd8b434",
           "height": null,
           "width": null
         }
@@ -26566,7 +27147,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da843995a51d94e9643072ac4b19",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da843995a51d94e9643072ac4b19",
           "height": null,
           "width": null
         }
