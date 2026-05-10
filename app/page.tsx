@@ -296,23 +296,21 @@ export default function Home() {
             <div
               // Tile count → responsive column count:
               //   1   → 1 col (full-width callout)
-              //   2   → 1 col mobile, 2 cols sm+
-              //   3   → 1 col mobile, 3 cols sm+ (skips the 2-col
-              //          tablet intermediate so Music doesn't sit
-              //          orphan in row 2 at 640-1023px — the Grid
-              //          primitive's cols=3 default routes through
-              //          sm:grid-cols-2 which created that orphan;
-              //          hand-rolled here to bypass that mapping
-              //          per the 2026-05-07 re-review)
-              //   4+  → 1 col mobile, 2 cols sm+ (preserves
-              //          editorial blurb width; Grid component is
-              //          fine for this case)
+              //   2+  → 1 col mobile, 2 cols sm+
+              //
+              // Two-per-row is the locked matrix rule (preserves
+              // editorial blurb width and lets each tile breathe).
+              // For odd tile counts, the last card sits alone in
+              // row 2 at half-width — that orphan is accepted by
+              // design, NOT a bug. This reverses the 2026-05-08
+              // TV-launch fix (tv-rev2-3up-grid-tablet-orphan),
+              // which had routed 3 tiles through sm:grid-cols-3
+              // to avoid the row-2 orphan; the 2-per-row rule
+              // wins over orphan-avoidance.
               className={`grid ${
-                SUB_BRAND_TILES.length === 3
-                  ? "grid-cols-1 sm:grid-cols-3"
-                  : SUB_BRAND_TILES.length >= 2
-                    ? "grid-cols-1 sm:grid-cols-2"
-                    : "grid-cols-1"
+                SUB_BRAND_TILES.length >= 2
+                  ? "grid-cols-1 sm:grid-cols-2"
+                  : "grid-cols-1"
               }`}
               style={{ gap: "var(--scale-600)" }}
             >
