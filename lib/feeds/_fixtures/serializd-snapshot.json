@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-05-09T06:31:05.334Z",
+  "capturedAt": "2026-05-10T05:31:46.177Z",
   "summary": {
     "totalShows": 153,
     "totalShowReviews": 37,
     "totalSeasonReviews": 229,
-    "totalEpisodeReviews": 473,
+    "totalEpisodeReviews": 474,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
       "3": 173,
       "4": 139,
       "5": 13,
-      "3.5": 205,
+      "3.5": 206,
       "2.5": 80,
       "1.5": 11,
       "4.5": 39,
@@ -43,7 +43,7 @@
         "3": 116,
         "4": 93,
         "5": 5,
-        "3.5": 146,
+        "3.5": 147,
         "2.5": 56,
         "1.5": 5,
         "4.5": 31
@@ -51,12 +51,12 @@
     },
     "genreDistribution": {
       "Drama": 94,
+      "Mystery": 31,
       "Action & Adventure": 17,
       "Crime": 28,
       "Talk": 1,
       "Comedy": 55,
       "Reality": 26,
-      "Mystery": 31,
       "Sci-Fi & Fantasy": 23,
       "Documentary": 12,
       "News": 1,
@@ -65,8 +65,8 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
-      "2000s": 6,
       "2020s": 125,
+      "2000s": 6,
       "2010s": 20,
       "1970s": 1,
       "1990s": 1
@@ -77,6 +77,111 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-257994",
+      "serializdShowId": 257994,
+      "slug": "half-man-2026",
+      "name": "Half Man",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-28",
+      "serializdUrl": "https://serializd.com/show/257994",
+      "tmdb": {
+        "id": 257994,
+        "name": "Half Man",
+        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
+        "genres": [
+          "Drama",
+          "Mystery"
+        ],
+        "type": "Miniseries",
+        "status": "Returning Series",
+        "networks": [
+          "BBC One"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "seasons": [
+        {
+          "serializdId": 400120,
+          "showId": 257994,
+          "seasonNumber": 1,
+          "name": "Miniseries",
+          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 65194601,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Ruben the terrorist for real.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-10T04:50:49Z",
+          "reviewDate": "2026-05-10T04:51:09Z",
+          "seasonId": 400120,
+          "episodeNumber": 3,
+          "episodeName": "Episode 3",
+          "tags": []
+        },
+        {
+          "id": 64347442,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T04:53:15Z",
+          "reviewDate": "2026-05-02T04:54:46Z",
+          "seasonId": 400120,
+          "episodeNumber": 2,
+          "episodeName": "Episode 2",
+          "tags": []
+        },
+        {
+          "id": 64344500,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "So, this show is gonna stress me. Got it.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T03:58:00Z",
+          "reviewDate": "2026-05-02T03:58:20Z",
+          "seasonId": 400120,
+          "episodeNumber": 1,
+          "episodeName": "Episode 1",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-05-10T04:51:09Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-1416",
       "serializdShowId": 1416,
@@ -1463,7 +1568,7 @@
           "reviewDate": "2026-05-08T05:30:52Z",
           "seasonId": 492037,
           "episodeNumber": 78,
-          "episodeName": "Episode 78",
+          "episodeName": "Casey Wilson & Andrew Rannells",
           "tags": []
         },
         {
@@ -1479,7 +1584,7 @@
           "reviewDate": "2026-05-07T06:04:38Z",
           "seasonId": 492037,
           "episodeNumber": 77,
-          "episodeName": "Episode 77",
+          "episodeName": "Ella Stiller & Zack Wickham",
           "tags": []
         },
         {
@@ -5611,94 +5716,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-04T02:11:46Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-257994",
-      "serializdShowId": 257994,
-      "slug": "half-man-2026",
-      "name": "Half Man",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-28",
-      "serializdUrl": "https://serializd.com/show/257994",
-      "tmdb": {
-        "id": 257994,
-        "name": "Half Man",
-        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
-        "genres": [
-          "Drama",
-          "Mystery"
-        ],
-        "type": "Miniseries",
-        "status": "Returning Series",
-        "networks": [
-          "BBC One"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 6
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "seasons": [
-        {
-          "serializdId": 400120,
-          "showId": 257994,
-          "seasonNumber": 1,
-          "name": "Miniseries",
-          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 64347442,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T04:53:15Z",
-          "reviewDate": "2026-05-02T04:54:46Z",
-          "seasonId": 400120,
-          "episodeNumber": 2,
-          "episodeName": "Episode 2",
-          "tags": []
-        },
-        {
-          "id": 64344500,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "So, this show is gonna stress me. Got it.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T03:58:00Z",
-          "reviewDate": "2026-05-02T03:58:20Z",
-          "seasonId": 400120,
-          "episodeNumber": 1,
-          "episodeName": "Episode 1",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        4
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": true,
-      "latestActivityDate": "2026-05-02T04:54:46Z",
-      "primaryRating": 4,
       "liked": false
     },
     {
@@ -23151,6 +23168,111 @@
     }
   ],
   "showById": {
+    "tmdb-tv-257994": {
+      "id": "tmdb-tv-257994",
+      "serializdShowId": 257994,
+      "slug": "half-man-2026",
+      "name": "Half Man",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-28",
+      "serializdUrl": "https://serializd.com/show/257994",
+      "tmdb": {
+        "id": 257994,
+        "name": "Half Man",
+        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
+        "genres": [
+          "Drama",
+          "Mystery"
+        ],
+        "type": "Miniseries",
+        "status": "Returning Series",
+        "networks": [
+          "BBC One"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "seasons": [
+        {
+          "serializdId": 400120,
+          "showId": 257994,
+          "seasonNumber": 1,
+          "name": "Miniseries",
+          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 65194601,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Ruben the terrorist for real.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-10T04:50:49Z",
+          "reviewDate": "2026-05-10T04:51:09Z",
+          "seasonId": 400120,
+          "episodeNumber": 3,
+          "episodeName": "Episode 3",
+          "tags": []
+        },
+        {
+          "id": 64347442,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T04:53:15Z",
+          "reviewDate": "2026-05-02T04:54:46Z",
+          "seasonId": 400120,
+          "episodeNumber": 2,
+          "episodeName": "Episode 2",
+          "tags": []
+        },
+        {
+          "id": 64344500,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "So, this show is gonna stress me. Got it.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T03:58:00Z",
+          "reviewDate": "2026-05-02T03:58:20Z",
+          "seasonId": 400120,
+          "episodeNumber": 1,
+          "episodeName": "Episode 1",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-05-10T04:51:09Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     "tmdb-tv-1416": {
       "id": "tmdb-tv-1416",
       "serializdShowId": 1416,
@@ -24537,7 +24659,7 @@
           "reviewDate": "2026-05-08T05:30:52Z",
           "seasonId": 492037,
           "episodeNumber": 78,
-          "episodeName": "Episode 78",
+          "episodeName": "Casey Wilson & Andrew Rannells",
           "tags": []
         },
         {
@@ -24553,7 +24675,7 @@
           "reviewDate": "2026-05-07T06:04:38Z",
           "seasonId": 492037,
           "episodeNumber": 77,
-          "episodeName": "Episode 77",
+          "episodeName": "Ella Stiller & Zack Wickham",
           "tags": []
         },
         {
@@ -28685,94 +28807,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-04T02:11:46Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    "tmdb-tv-257994": {
-      "id": "tmdb-tv-257994",
-      "serializdShowId": 257994,
-      "slug": "half-man-2026",
-      "name": "Half Man",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-28",
-      "serializdUrl": "https://serializd.com/show/257994",
-      "tmdb": {
-        "id": 257994,
-        "name": "Half Man",
-        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
-        "genres": [
-          "Drama",
-          "Mystery"
-        ],
-        "type": "Miniseries",
-        "status": "Returning Series",
-        "networks": [
-          "BBC One"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 6
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "seasons": [
-        {
-          "serializdId": 400120,
-          "showId": 257994,
-          "seasonNumber": 1,
-          "name": "Miniseries",
-          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 64347442,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T04:53:15Z",
-          "reviewDate": "2026-05-02T04:54:46Z",
-          "seasonId": 400120,
-          "episodeNumber": 2,
-          "episodeName": "Episode 2",
-          "tags": []
-        },
-        {
-          "id": 64344500,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "So, this show is gonna stress me. Got it.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T03:58:00Z",
-          "reviewDate": "2026-05-02T03:58:20Z",
-          "seasonId": 400120,
-          "episodeNumber": 1,
-          "episodeName": "Episode 1",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        4
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": true,
-      "latestActivityDate": "2026-05-02T04:54:46Z",
-      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-302074": {
@@ -48147,7 +48181,7 @@
       "serializdShowId": 38472,
       "name": "Marvel's Jessica Jones",
       "premiereDate": "2015-11-20",
-      "bannerImage": "/paf9wL3mOW9LT3ZjRxXqJcjeMEv.jpg",
+      "bannerImage": "/1ghmaDw650NuUpGI7mYq6xE2QE2.jpg",
       "numSeasons": 3,
       "numEpisodes": 39,
       "watchedSeasonIds": [
