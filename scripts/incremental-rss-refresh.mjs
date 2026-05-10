@@ -102,7 +102,11 @@ function parseRssEntries(xml) {
  * whole refresh.
  */
 function rssItemToEntry(item) {
-  const filmTitle = stringOf(item["letterboxd:filmTitle"]);
+  // letterboxd:filmTitle arrives CDATA-wrapped, so HTML entities like
+  // `&#039;` survive the XML parse — decode them here so the title
+  // lands in the snapshot as readable text rather than a literal
+  // entity that React then double-escapes at render time.
+  const filmTitle = decodeHtmlEntities(stringOf(item["letterboxd:filmTitle"]));
   const filmYearRaw = stringOf(item["letterboxd:filmYear"]);
   const filmYear = Number.parseInt(filmYearRaw, 10);
   if (!filmTitle || !Number.isFinite(filmYear)) return null;
@@ -158,6 +162,36 @@ function isoDateFromPubDate(pubDate) {
 }
 
 /**
+ * Decode the HTML entities Letterboxd emits inside RSS payloads.
+ * Used for both review prose and film titles — Letterboxd wraps
+ * fields in CDATA, which suppresses XML-level entity decoding, so
+ * sequences like `&#039;` survive the XML parse and need a second
+ * decode pass here. Without it, "World&#039;s" lands in the
+ * snapshot verbatim and double-escapes to `World&amp;#039;s` when
+ * React serializes the title back to HTML at render time.
+ *
+ * Covers the entities seen in the wild — apostrophe (named + numeric
+ * forms), ampersand, quotes, angle brackets. Generic numeric
+ * decoding (&#NNN; / &#xHH;) catches future surprises like &#8217;
+ * (right single quote) without another patch.
+ */
+function decodeHtmlEntities(s) {
+  if (!s) return "";
+  return s
+    .replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number.parseInt(n, 10)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) =>
+      String.fromCodePoint(Number.parseInt(h, 16)),
+    )
+    .replace(/&apos;/g, "'")
+    .replace(/&quot;/g, '"')
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    // &amp; last so we don't accidentally double-decode entities
+    // that started life as `&amp;#039;` from a re-encoded source.
+    .replace(/&amp;/g, "&");
+}
+
+/**
  * Strip the leading poster <img> tag and unwrap <p>...</p>
  * paragraph breaks into double-newlines so the resulting text
  * matches what the CSV importer produces. <i>...</i> markup is
@@ -172,15 +206,7 @@ function extractReviewProse(html) {
   // Convert <p>...</p> into paragraph-separated text.
   text = text.replace(/<\/p>\s*<p>/gi, "\n\n");
   text = text.replace(/<\/?p>/gi, "");
-  // Decode the most common HTML entities — Letterboxd emits these
-  // for ampersands and quotes inside review prose.
-  text = text
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">");
-  return text.trim();
+  return decodeHtmlEntities(text).trim();
 }
 
 async function fetchRss() {
@@ -396,15 +422,22 @@ function recomputeFilmAggregates(film) {
 /**
  * After every review-merge pass, re-sort the films array by
  * latestWatchedDate desc — same primary sort the snapshot writer
- * uses. Films with the same latestWatchedDate fall back to the
- * existing array order (the RSS path doesn't have CSV-row-index
- * information, but ties on the most-recent date are vanishingly
- * rare in practice).
+ * uses. For films watched the same day, fall back to
+ * latestReviewDate desc so the more-recently-reviewed film
+ * surfaces first. The CSV bootstrap path uses csvRowIdx desc as
+ * its tiebreaker (chronological order within the day's diary),
+ * but that index isn't carried on the RSS path; latestReviewDate
+ * is the closest-available proxy for "logged later" and produced
+ * the right order for the 2026-05-08 Billie Eilish double-bill
+ * (concert film reviewed 05-09 ranking above documentary
+ * reviewed 05-08).
  */
 function resortFilms(snapshot) {
-  snapshot.films.sort((a, b) =>
-    b.latestWatchedDate.localeCompare(a.latestWatchedDate),
-  );
+  snapshot.films.sort((a, b) => {
+    const dateCmp = b.latestWatchedDate.localeCompare(a.latestWatchedDate);
+    if (dateCmp !== 0) return dateCmp;
+    return b.latestReviewDate.localeCompare(a.latestReviewDate);
+  });
 }
 
 /**

@@ -33,6 +33,27 @@ const nextConfig: NextConfig = {
       "./data/films/overrides.json",
     ],
   },
+  // Legacy-slug 301s for film detail pages whose `letterboxdSlug`
+  // changed after the source-of-truth title was corrected. Each
+  // entry preserves any inbound link/share that landed on the old
+  // URL and consolidates SEO equity on the new canonical.
+  //
+  // 2026-05-09 — `Billie Eilish: The World's a Little Blurry` was
+  // ingested from RSS with the title HTML-entity-encoded
+  // (`World&#039;s`). slugify therefore produced `…-world-039-s-…`
+  // and that slug shipped to production before the entity-decode
+  // pass was added at intake. Title is now decoded at intake going
+  // forward, but this one detail URL needs an explicit 301 so old
+  // shares keep working.
+  async redirects() {
+    return [
+      {
+        source: "/films/billie-eilish-the-world-039-s-a-little-blurry-2021",
+        destination: "/films/billie-eilish-the-world-s-a-little-blurry-2021",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
