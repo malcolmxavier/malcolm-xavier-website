@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-05-11T01:31:11.181Z",
+  "capturedAt": "2026-05-11T03:30:51.473Z",
   "summary": {
     "totalShows": 153,
     "totalShowReviews": 37,
-    "totalSeasonReviews": 229,
-    "totalEpisodeReviews": 479,
+    "totalSeasonReviews": 230,
+    "totalEpisodeReviews": 481,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
-      "3": 175,
+      "3": 177,
       "4": 141,
       "5": 13,
-      "3.5": 207,
       "2.5": 80,
+      "3.5": 208,
       "4.5": 39,
       "1.5": 11,
       "0.5": 1
@@ -29,7 +29,7 @@
       "season": {
         "1": 3,
         "2": 22,
-        "3": 55,
+        "3": 56,
         "4": 45,
         "5": 8,
         "4.5": 8,
@@ -40,23 +40,23 @@
       },
       "episode": {
         "2": 20,
-        "3": 118,
+        "3": 119,
         "4": 95,
         "5": 5,
-        "3.5": 148,
         "2.5": 56,
+        "3.5": 149,
         "4.5": 31,
         "1.5": 5
       }
     },
     "genreDistribution": {
-      "Reality": 26,
+      "Comedy": 55,
       "Drama": 94,
+      "Reality": 26,
       "Mystery": 31,
       "Action & Adventure": 17,
       "Crime": 28,
       "Talk": 1,
-      "Comedy": 55,
       "Sci-Fi & Fantasy": 23,
       "Documentary": 12,
       "News": 1,
@@ -65,18 +65,417 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
-      "2000s": 6,
       "2020s": 125,
       "2010s": 20,
+      "2000s": 6,
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 12,
+    "showsInProgressCount": 11,
     "thisYearCount": 46,
     "totalWatchedShows": 339,
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-254953",
+      "serializdShowId": 254953,
+      "slug": "rooster-2026",
+      "name": "Rooster",
+      "premiereYear": 2026,
+      "premiereDate": "2026-03-08",
+      "serializdUrl": "https://serializd.com/show/254953",
+      "tmdb": {
+        "id": 254953,
+        "name": "Rooster",
+        "posterPath": "/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
+        "backdropPath": "/mhZAT8ktiNi7YwuL50kmumsau69.jpg",
+        "genres": [
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 10
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
+      "seasons": [
+        {
+          "serializdId": 394796,
+          "showId": 254953,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/5O9t2xxzBnPdBRmD3vzZKRVhMKB.jpg",
+          "episodeCount": 10
+        }
+      ],
+      "reviews": [
+        {
+          "id": 65307765,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Had its moments, but overall another show using its first season as a prequel. This energy is becoming endemic and I don’t like it.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-11T03:26:14Z",
+          "reviewDate": "2026-05-11T03:27:13Z",
+          "seasonId": 394796,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 65307677,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-11T03:25:58Z",
+          "reviewDate": "2026-05-11T03:25:58Z",
+          "seasonId": 394796,
+          "episodeNumber": 10,
+          "episodeName": "Songs for Raisa",
+          "tags": []
+        },
+        {
+          "id": 64565059,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "The sauna bit is as tired as this white woman whinging about her inadequacy.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-04T02:41:32Z",
+          "reviewDate": "2026-05-04T02:42:12Z",
+          "seasonId": 394796,
+          "episodeNumber": 9,
+          "episodeName": "Ludlow's Fourth Hottest Professor",
+          "tags": []
+        },
+        {
+          "id": 63818592,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I would die for Tommy???",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-27T04:10:50Z",
+          "reviewDate": "2026-04-27T04:11:06Z",
+          "seasonId": 394796,
+          "episodeNumber": 8,
+          "episodeName": "Nobody Spook It",
+          "tags": []
+        },
+        {
+          "id": 63016809,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-20T03:27:30Z",
+          "reviewDate": "2026-04-20T03:27:36Z",
+          "seasonId": 394796,
+          "episodeNumber": 7,
+          "episodeName": "All the Dogs' Names",
+          "tags": []
+        },
+        {
+          "id": 62205775,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Maybe I’m just watching this for a slutted out Steve Carell.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-13T04:27:41Z",
+          "reviewDate": "2026-04-13T04:28:17Z",
+          "seasonId": 394796,
+          "episodeNumber": 6,
+          "episodeName": "Cop Hawk",
+          "tags": []
+        },
+        {
+          "id": 61334909,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Steve Carell in those skates made me forget how he savagely attacked Connie Britton.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-06T04:37:23Z",
+          "reviewDate": "2026-04-06T04:38:56Z",
+          "seasonId": 394796,
+          "episodeNumber": 5,
+          "episodeName": "Mr. Razzles",
+          "tags": []
+        },
+        {
+          "id": 60537825,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I actually don’t know how I’m supposed to feel about anyone on this show.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-30T18:38:45Z",
+          "reviewDate": "2026-03-30T18:39:17Z",
+          "seasonId": 394796,
+          "episodeNumber": 4,
+          "episodeName": "Angry, Like An Angry Person",
+          "tags": []
+        },
+        {
+          "id": 60534154,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-30T17:58:37Z",
+          "reviewDate": "2026-03-30T17:58:40Z",
+          "seasonId": 394796,
+          "episodeNumber": 3,
+          "episodeName": "White Whale",
+          "tags": []
+        },
+        {
+          "id": 60527591,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-30T16:42:30Z",
+          "reviewDate": "2026-03-30T16:42:34Z",
+          "seasonId": 394796,
+          "episodeNumber": 2,
+          "episodeName": "Trousers",
+          "tags": []
+        },
+        {
+          "id": 60525560,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Cozy vibes—wish this had premiered in the Fall.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-30T16:17:48Z",
+          "reviewDate": "2026-03-30T16:18:13Z",
+          "seasonId": 394796,
+          "episodeNumber": 1,
+          "episodeName": "Release the Brown Fat",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-11T03:27:13Z",
+      "primaryRating": 3,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-85552",
+      "serializdShowId": 85552,
+      "slug": "euphoria-2019",
+      "name": "Euphoria",
+      "premiereYear": 2019,
+      "premiereDate": "2019-06-16",
+      "serializdUrl": "https://serializd.com/show/85552",
+      "tmdb": {
+        "id": 85552,
+        "name": "Euphoria",
+        "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+        "backdropPath": "/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 24
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+      "seasons": [
+        {
+          "serializdId": 166250,
+          "showId": 85552,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/bNsxPilhY9V72QsrnjP9eiuF30j.jpg",
+          "episodeCount": 2
+        },
+        {
+          "serializdId": 115613,
+          "showId": 85552,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/5mi3aRl16yKmfpQJMzvqN5TXkdA.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 220804,
+          "showId": 85552,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 487853,
+          "showId": 85552,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 65304294,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Maddy supremacy. Give me the spinoff with Alamo Brown and I’ll forgive everything else.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-11T02:38:44Z",
+          "reviewDate": "2026-05-11T02:39:12Z",
+          "seasonId": 487853,
+          "episodeNumber": 5,
+          "episodeName": "This Little Piggy",
+          "tags": []
+        },
+        {
+          "id": 64562535,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A collection of fun scenes, but still not hitting the same.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-04T02:11:14Z",
+          "reviewDate": "2026-05-04T02:11:46Z",
+          "seasonId": 487853,
+          "episodeNumber": 4,
+          "episodeName": "Kitty Likes to Dance",
+          "tags": []
+        },
+        {
+          "id": 63815117,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Cassie is so unserious. Needed more interaction between Jules and both Jacobs men.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-27T03:22:01Z",
+          "reviewDate": "2026-04-27T03:22:59Z",
+          "seasonId": 487853,
+          "episodeNumber": 3,
+          "episodeName": "The Ballad of Paladin",
+          "tags": []
+        },
+        {
+          "id": 63014094,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "It’s giving ragebait as a decision because he knows highbrow or camp is unattainable.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-20T02:54:41Z",
+          "reviewDate": "2026-04-20T02:55:39Z",
+          "seasonId": 487853,
+          "episodeNumber": 2,
+          "episodeName": "America My Dream",
+          "tags": []
+        },
+        {
+          "id": 62193535,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "And let’s start addressing Sam Levinson’s weird obsession with Black men, too.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-13T02:07:58Z",
+          "reviewDate": "2026-04-13T02:08:28Z",
+          "seasonId": 487853,
+          "episodeNumber": 1,
+          "episodeName": "Andale",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        0,
+        1,
+        2
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-11T02:39:12Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-17380",
       "serializdShowId": 17380,
@@ -5444,357 +5843,6 @@
       "hasShowReview": false,
       "isMiniseries": false,
       "latestActivityDate": "2026-05-04T05:07:31Z",
-      "primaryRating": 3,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-254953",
-      "serializdShowId": 254953,
-      "slug": "rooster-2026",
-      "name": "Rooster",
-      "premiereYear": 2026,
-      "premiereDate": "2026-03-08",
-      "serializdUrl": "https://serializd.com/show/254953",
-      "tmdb": {
-        "id": 254953,
-        "name": "Rooster",
-        "posterPath": "/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
-        "backdropPath": "/mhZAT8ktiNi7YwuL50kmumsau69.jpg",
-        "genres": [
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 10
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
-      "seasons": [
-        {
-          "serializdId": 394796,
-          "showId": 254953,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/5O9t2xxzBnPdBRmD3vzZKRVhMKB.jpg",
-          "episodeCount": 10
-        }
-      ],
-      "reviews": [
-        {
-          "id": 64565059,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "The sauna bit is as tired as this white woman whinging about her inadequacy.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-04T02:41:32Z",
-          "reviewDate": "2026-05-04T02:42:12Z",
-          "seasonId": 394796,
-          "episodeNumber": 9,
-          "episodeName": "Ludlow's Fourth Hottest Professor",
-          "tags": []
-        },
-        {
-          "id": 63818592,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I would die for Tommy???",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-27T04:10:50Z",
-          "reviewDate": "2026-04-27T04:11:06Z",
-          "seasonId": 394796,
-          "episodeNumber": 8,
-          "episodeName": "Nobody Spook It",
-          "tags": []
-        },
-        {
-          "id": 63016809,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-20T03:27:30Z",
-          "reviewDate": "2026-04-20T03:27:36Z",
-          "seasonId": 394796,
-          "episodeNumber": 7,
-          "episodeName": "All the Dogs' Names",
-          "tags": []
-        },
-        {
-          "id": 62205775,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Maybe I’m just watching this for a slutted out Steve Carell.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-13T04:27:41Z",
-          "reviewDate": "2026-04-13T04:28:17Z",
-          "seasonId": 394796,
-          "episodeNumber": 6,
-          "episodeName": "Cop Hawk",
-          "tags": []
-        },
-        {
-          "id": 61334909,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Steve Carell in those skates made me forget how he savagely attacked Connie Britton.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-06T04:37:23Z",
-          "reviewDate": "2026-04-06T04:38:56Z",
-          "seasonId": 394796,
-          "episodeNumber": 5,
-          "episodeName": "Mr. Razzles",
-          "tags": []
-        },
-        {
-          "id": 60537825,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I actually don’t know how I’m supposed to feel about anyone on this show.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-30T18:38:45Z",
-          "reviewDate": "2026-03-30T18:39:17Z",
-          "seasonId": 394796,
-          "episodeNumber": 4,
-          "episodeName": "Angry, Like An Angry Person",
-          "tags": []
-        },
-        {
-          "id": 60534154,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-30T17:58:37Z",
-          "reviewDate": "2026-03-30T17:58:40Z",
-          "seasonId": 394796,
-          "episodeNumber": 3,
-          "episodeName": "White Whale",
-          "tags": []
-        },
-        {
-          "id": 60527591,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-30T16:42:30Z",
-          "reviewDate": "2026-03-30T16:42:34Z",
-          "seasonId": 394796,
-          "episodeNumber": 2,
-          "episodeName": "Trousers",
-          "tags": []
-        },
-        {
-          "id": 60525560,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Cozy vibes—wish this had premiered in the Fall.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-30T16:17:48Z",
-          "reviewDate": "2026-03-30T16:18:13Z",
-          "seasonId": 394796,
-          "episodeNumber": 1,
-          "episodeName": "Release the Brown Fat",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-04T02:42:12Z",
-      "primaryRating": 2.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-85552",
-      "serializdShowId": 85552,
-      "slug": "euphoria-2019",
-      "name": "Euphoria",
-      "premiereYear": 2019,
-      "premiereDate": "2019-06-16",
-      "serializdUrl": "https://serializd.com/show/85552",
-      "tmdb": {
-        "id": 85552,
-        "name": "Euphoria",
-        "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-        "backdropPath": "/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg",
-        "genres": [
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 24
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-      "seasons": [
-        {
-          "serializdId": 166250,
-          "showId": 85552,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/bNsxPilhY9V72QsrnjP9eiuF30j.jpg",
-          "episodeCount": 2
-        },
-        {
-          "serializdId": 115613,
-          "showId": 85552,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/5mi3aRl16yKmfpQJMzvqN5TXkdA.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 220804,
-          "showId": 85552,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 487853,
-          "showId": 85552,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 64562535,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "A collection of fun scenes, but still not hitting the same.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-04T02:11:14Z",
-          "reviewDate": "2026-05-04T02:11:46Z",
-          "seasonId": 487853,
-          "episodeNumber": 4,
-          "episodeName": "Kitty Likes to Dance",
-          "tags": []
-        },
-        {
-          "id": 63815117,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "Cassie is so unserious. Needed more interaction between Jules and both Jacobs men.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-27T03:22:01Z",
-          "reviewDate": "2026-04-27T03:22:59Z",
-          "seasonId": 487853,
-          "episodeNumber": 3,
-          "episodeName": "The Ballad of Paladin",
-          "tags": []
-        },
-        {
-          "id": 63014094,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "It’s giving ragebait as a decision because he knows highbrow or camp is unattainable.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-20T02:54:41Z",
-          "reviewDate": "2026-04-20T02:55:39Z",
-          "seasonId": 487853,
-          "episodeNumber": 2,
-          "episodeName": "America My Dream",
-          "tags": []
-        },
-        {
-          "id": 62193535,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "And let’s start addressing Sam Levinson’s weird obsession with Black men, too.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-13T02:07:58Z",
-          "reviewDate": "2026-04-13T02:08:28Z",
-          "seasonId": 487853,
-          "episodeNumber": 1,
-          "episodeName": "Andale",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        3
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        0,
-        1,
-        2
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-04T02:11:46Z",
       "primaryRating": 3,
       "liked": false
     },
@@ -23248,6 +23296,405 @@
     }
   ],
   "showById": {
+    "tmdb-tv-254953": {
+      "id": "tmdb-tv-254953",
+      "serializdShowId": 254953,
+      "slug": "rooster-2026",
+      "name": "Rooster",
+      "premiereYear": 2026,
+      "premiereDate": "2026-03-08",
+      "serializdUrl": "https://serializd.com/show/254953",
+      "tmdb": {
+        "id": 254953,
+        "name": "Rooster",
+        "posterPath": "/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
+        "backdropPath": "/mhZAT8ktiNi7YwuL50kmumsau69.jpg",
+        "genres": [
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 10
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
+      "seasons": [
+        {
+          "serializdId": 394796,
+          "showId": 254953,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/5O9t2xxzBnPdBRmD3vzZKRVhMKB.jpg",
+          "episodeCount": 10
+        }
+      ],
+      "reviews": [
+        {
+          "id": 65307765,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Had its moments, but overall another show using its first season as a prequel. This energy is becoming endemic and I don’t like it.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-11T03:26:14Z",
+          "reviewDate": "2026-05-11T03:27:13Z",
+          "seasonId": 394796,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 65307677,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-11T03:25:58Z",
+          "reviewDate": "2026-05-11T03:25:58Z",
+          "seasonId": 394796,
+          "episodeNumber": 10,
+          "episodeName": "Songs for Raisa",
+          "tags": []
+        },
+        {
+          "id": 64565059,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "The sauna bit is as tired as this white woman whinging about her inadequacy.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-04T02:41:32Z",
+          "reviewDate": "2026-05-04T02:42:12Z",
+          "seasonId": 394796,
+          "episodeNumber": 9,
+          "episodeName": "Ludlow's Fourth Hottest Professor",
+          "tags": []
+        },
+        {
+          "id": 63818592,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I would die for Tommy???",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-27T04:10:50Z",
+          "reviewDate": "2026-04-27T04:11:06Z",
+          "seasonId": 394796,
+          "episodeNumber": 8,
+          "episodeName": "Nobody Spook It",
+          "tags": []
+        },
+        {
+          "id": 63016809,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-20T03:27:30Z",
+          "reviewDate": "2026-04-20T03:27:36Z",
+          "seasonId": 394796,
+          "episodeNumber": 7,
+          "episodeName": "All the Dogs' Names",
+          "tags": []
+        },
+        {
+          "id": 62205775,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Maybe I’m just watching this for a slutted out Steve Carell.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-13T04:27:41Z",
+          "reviewDate": "2026-04-13T04:28:17Z",
+          "seasonId": 394796,
+          "episodeNumber": 6,
+          "episodeName": "Cop Hawk",
+          "tags": []
+        },
+        {
+          "id": 61334909,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Steve Carell in those skates made me forget how he savagely attacked Connie Britton.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-06T04:37:23Z",
+          "reviewDate": "2026-04-06T04:38:56Z",
+          "seasonId": 394796,
+          "episodeNumber": 5,
+          "episodeName": "Mr. Razzles",
+          "tags": []
+        },
+        {
+          "id": 60537825,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I actually don’t know how I’m supposed to feel about anyone on this show.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-30T18:38:45Z",
+          "reviewDate": "2026-03-30T18:39:17Z",
+          "seasonId": 394796,
+          "episodeNumber": 4,
+          "episodeName": "Angry, Like An Angry Person",
+          "tags": []
+        },
+        {
+          "id": 60534154,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-30T17:58:37Z",
+          "reviewDate": "2026-03-30T17:58:40Z",
+          "seasonId": 394796,
+          "episodeNumber": 3,
+          "episodeName": "White Whale",
+          "tags": []
+        },
+        {
+          "id": 60527591,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-30T16:42:30Z",
+          "reviewDate": "2026-03-30T16:42:34Z",
+          "seasonId": 394796,
+          "episodeNumber": 2,
+          "episodeName": "Trousers",
+          "tags": []
+        },
+        {
+          "id": 60525560,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Cozy vibes—wish this had premiered in the Fall.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-30T16:17:48Z",
+          "reviewDate": "2026-03-30T16:18:13Z",
+          "seasonId": 394796,
+          "episodeNumber": 1,
+          "episodeName": "Release the Brown Fat",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-11T03:27:13Z",
+      "primaryRating": 3,
+      "liked": false
+    },
+    "tmdb-tv-85552": {
+      "id": "tmdb-tv-85552",
+      "serializdShowId": 85552,
+      "slug": "euphoria-2019",
+      "name": "Euphoria",
+      "premiereYear": 2019,
+      "premiereDate": "2019-06-16",
+      "serializdUrl": "https://serializd.com/show/85552",
+      "tmdb": {
+        "id": 85552,
+        "name": "Euphoria",
+        "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+        "backdropPath": "/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 24
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+      "seasons": [
+        {
+          "serializdId": 166250,
+          "showId": 85552,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/bNsxPilhY9V72QsrnjP9eiuF30j.jpg",
+          "episodeCount": 2
+        },
+        {
+          "serializdId": 115613,
+          "showId": 85552,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/5mi3aRl16yKmfpQJMzvqN5TXkdA.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 220804,
+          "showId": 85552,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 487853,
+          "showId": 85552,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 65304294,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Maddy supremacy. Give me the spinoff with Alamo Brown and I’ll forgive everything else.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-11T02:38:44Z",
+          "reviewDate": "2026-05-11T02:39:12Z",
+          "seasonId": 487853,
+          "episodeNumber": 5,
+          "episodeName": "This Little Piggy",
+          "tags": []
+        },
+        {
+          "id": 64562535,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A collection of fun scenes, but still not hitting the same.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-04T02:11:14Z",
+          "reviewDate": "2026-05-04T02:11:46Z",
+          "seasonId": 487853,
+          "episodeNumber": 4,
+          "episodeName": "Kitty Likes to Dance",
+          "tags": []
+        },
+        {
+          "id": 63815117,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Cassie is so unserious. Needed more interaction between Jules and both Jacobs men.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-27T03:22:01Z",
+          "reviewDate": "2026-04-27T03:22:59Z",
+          "seasonId": 487853,
+          "episodeNumber": 3,
+          "episodeName": "The Ballad of Paladin",
+          "tags": []
+        },
+        {
+          "id": 63014094,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "It’s giving ragebait as a decision because he knows highbrow or camp is unattainable.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-20T02:54:41Z",
+          "reviewDate": "2026-04-20T02:55:39Z",
+          "seasonId": 487853,
+          "episodeNumber": 2,
+          "episodeName": "America My Dream",
+          "tags": []
+        },
+        {
+          "id": 62193535,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "And let’s start addressing Sam Levinson’s weird obsession with Black men, too.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-13T02:07:58Z",
+          "reviewDate": "2026-04-13T02:08:28Z",
+          "seasonId": 487853,
+          "episodeNumber": 1,
+          "episodeName": "Andale",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        0,
+        1,
+        2
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-11T02:39:12Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     "tmdb-tv-17380": {
       "id": "tmdb-tv-17380",
       "serializdShowId": 17380,
@@ -28615,357 +29062,6 @@
       "hasShowReview": false,
       "isMiniseries": false,
       "latestActivityDate": "2026-05-04T05:07:31Z",
-      "primaryRating": 3,
-      "liked": false
-    },
-    "tmdb-tv-254953": {
-      "id": "tmdb-tv-254953",
-      "serializdShowId": 254953,
-      "slug": "rooster-2026",
-      "name": "Rooster",
-      "premiereYear": 2026,
-      "premiereDate": "2026-03-08",
-      "serializdUrl": "https://serializd.com/show/254953",
-      "tmdb": {
-        "id": 254953,
-        "name": "Rooster",
-        "posterPath": "/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
-        "backdropPath": "/mhZAT8ktiNi7YwuL50kmumsau69.jpg",
-        "genres": [
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 10
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aikvD4Nu7N6ekbrXNua8vJlO8JU.jpg",
-      "seasons": [
-        {
-          "serializdId": 394796,
-          "showId": 254953,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/5O9t2xxzBnPdBRmD3vzZKRVhMKB.jpg",
-          "episodeCount": 10
-        }
-      ],
-      "reviews": [
-        {
-          "id": 64565059,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "The sauna bit is as tired as this white woman whinging about her inadequacy.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-04T02:41:32Z",
-          "reviewDate": "2026-05-04T02:42:12Z",
-          "seasonId": 394796,
-          "episodeNumber": 9,
-          "episodeName": "Ludlow's Fourth Hottest Professor",
-          "tags": []
-        },
-        {
-          "id": 63818592,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I would die for Tommy???",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-27T04:10:50Z",
-          "reviewDate": "2026-04-27T04:11:06Z",
-          "seasonId": 394796,
-          "episodeNumber": 8,
-          "episodeName": "Nobody Spook It",
-          "tags": []
-        },
-        {
-          "id": 63016809,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-20T03:27:30Z",
-          "reviewDate": "2026-04-20T03:27:36Z",
-          "seasonId": 394796,
-          "episodeNumber": 7,
-          "episodeName": "All the Dogs' Names",
-          "tags": []
-        },
-        {
-          "id": 62205775,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Maybe I’m just watching this for a slutted out Steve Carell.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-13T04:27:41Z",
-          "reviewDate": "2026-04-13T04:28:17Z",
-          "seasonId": 394796,
-          "episodeNumber": 6,
-          "episodeName": "Cop Hawk",
-          "tags": []
-        },
-        {
-          "id": 61334909,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Steve Carell in those skates made me forget how he savagely attacked Connie Britton.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-06T04:37:23Z",
-          "reviewDate": "2026-04-06T04:38:56Z",
-          "seasonId": 394796,
-          "episodeNumber": 5,
-          "episodeName": "Mr. Razzles",
-          "tags": []
-        },
-        {
-          "id": 60537825,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I actually don’t know how I’m supposed to feel about anyone on this show.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-30T18:38:45Z",
-          "reviewDate": "2026-03-30T18:39:17Z",
-          "seasonId": 394796,
-          "episodeNumber": 4,
-          "episodeName": "Angry, Like An Angry Person",
-          "tags": []
-        },
-        {
-          "id": 60534154,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-30T17:58:37Z",
-          "reviewDate": "2026-03-30T17:58:40Z",
-          "seasonId": 394796,
-          "episodeNumber": 3,
-          "episodeName": "White Whale",
-          "tags": []
-        },
-        {
-          "id": 60527591,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-30T16:42:30Z",
-          "reviewDate": "2026-03-30T16:42:34Z",
-          "seasonId": 394796,
-          "episodeNumber": 2,
-          "episodeName": "Trousers",
-          "tags": []
-        },
-        {
-          "id": 60525560,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Cozy vibes—wish this had premiered in the Fall.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-30T16:17:48Z",
-          "reviewDate": "2026-03-30T16:18:13Z",
-          "seasonId": 394796,
-          "episodeNumber": 1,
-          "episodeName": "Release the Brown Fat",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-04T02:42:12Z",
-      "primaryRating": 2.5,
-      "liked": false
-    },
-    "tmdb-tv-85552": {
-      "id": "tmdb-tv-85552",
-      "serializdShowId": 85552,
-      "slug": "euphoria-2019",
-      "name": "Euphoria",
-      "premiereYear": 2019,
-      "premiereDate": "2019-06-16",
-      "serializdUrl": "https://serializd.com/show/85552",
-      "tmdb": {
-        "id": 85552,
-        "name": "Euphoria",
-        "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-        "backdropPath": "/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg",
-        "genres": [
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 24
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-      "seasons": [
-        {
-          "serializdId": 166250,
-          "showId": 85552,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/bNsxPilhY9V72QsrnjP9eiuF30j.jpg",
-          "episodeCount": 2
-        },
-        {
-          "serializdId": 115613,
-          "showId": 85552,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/5mi3aRl16yKmfpQJMzvqN5TXkdA.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 220804,
-          "showId": 85552,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 487853,
-          "showId": 85552,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 64562535,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "A collection of fun scenes, but still not hitting the same.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-04T02:11:14Z",
-          "reviewDate": "2026-05-04T02:11:46Z",
-          "seasonId": 487853,
-          "episodeNumber": 4,
-          "episodeName": "Kitty Likes to Dance",
-          "tags": []
-        },
-        {
-          "id": 63815117,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "Cassie is so unserious. Needed more interaction between Jules and both Jacobs men.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-27T03:22:01Z",
-          "reviewDate": "2026-04-27T03:22:59Z",
-          "seasonId": 487853,
-          "episodeNumber": 3,
-          "episodeName": "The Ballad of Paladin",
-          "tags": []
-        },
-        {
-          "id": 63014094,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "It’s giving ragebait as a decision because he knows highbrow or camp is unattainable.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-20T02:54:41Z",
-          "reviewDate": "2026-04-20T02:55:39Z",
-          "seasonId": 487853,
-          "episodeNumber": 2,
-          "episodeName": "America My Dream",
-          "tags": []
-        },
-        {
-          "id": 62193535,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "And let’s start addressing Sam Levinson’s weird obsession with Black men, too.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-13T02:07:58Z",
-          "reviewDate": "2026-04-13T02:08:28Z",
-          "seasonId": 487853,
-          "episodeNumber": 1,
-          "episodeName": "Andale",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        3
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        0,
-        1,
-        2
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-04T02:11:46Z",
       "primaryRating": 3,
       "liked": false
     },
