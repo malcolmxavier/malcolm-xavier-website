@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-05-10T23:31:36.278Z",
+  "capturedAt": "2026-05-11T00:31:10.075Z",
   "summary": {
     "totalShows": 153,
     "totalShowReviews": 37,
     "totalSeasonReviews": 229,
-    "totalEpisodeReviews": 477,
+    "totalEpisodeReviews": 478,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
       "3": 174,
-      "4": 140,
+      "4": 141,
       "5": 13,
       "3.5": 207,
       "2.5": 80,
@@ -41,7 +41,7 @@
       "episode": {
         "2": 20,
         "3": 117,
-        "4": 94,
+        "4": 95,
         "5": 5,
         "3.5": 148,
         "2.5": 56,
@@ -250,6 +250,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 65289392,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I can’t judge whether or not Kandi should be willing to move forward with Porsha, but I do think Porsha’s right in saying that she’s being fake about it.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-10T23:43:36Z",
+          "reviewDate": "2026-05-10T23:44:15Z",
+          "seasonId": 112064,
+          "episodeNumber": 10,
+          "episodeName": "The Wrong Road",
+          "tags": []
+        },
         {
           "id": 65284586,
           "level": "episode",
@@ -1833,8 +1849,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-10T22:48:39Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-05-10T23:44:15Z",
+      "primaryRating": 4,
       "liked": false
     },
     {
@@ -23390,6 +23406,22 @@
       ],
       "reviews": [
         {
+          "id": 65289392,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I can’t judge whether or not Kandi should be willing to move forward with Porsha, but I do think Porsha’s right in saying that she’s being fake about it.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-10T23:43:36Z",
+          "reviewDate": "2026-05-10T23:44:15Z",
+          "seasonId": 112064,
+          "episodeNumber": 10,
+          "episodeName": "The Wrong Road",
+          "tags": []
+        },
+        {
           "id": 65284586,
           "level": "episode",
           "rating": 3.5,
@@ -24972,8 +25004,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-10T22:48:39Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-05-10T23:44:15Z",
+      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-257994": {
