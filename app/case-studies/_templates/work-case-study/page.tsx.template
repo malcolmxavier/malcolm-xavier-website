@@ -121,15 +121,12 @@ export default function WorkCaseStudyTemplate() {
 
       {/* xl+ fixed-position TOC rail; lg-but-not-xl renders the rail
           inside the column grid below. Mirrors basecamp-coffee/page.tsx. */}
-      <aside
-        aria-label="Article sections"
-        className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30"
-      >
+      <aside className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30">
         <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
       </aside>
 
       <div className="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
-        <aside aria-label="Article sections" className="hidden lg:block xl:hidden">
+        <aside className="hidden lg:block xl:hidden">
           <div className="sticky top-24 pl-4">
             <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
           </div>

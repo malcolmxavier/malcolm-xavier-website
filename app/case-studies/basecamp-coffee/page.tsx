@@ -96,10 +96,7 @@ export default function BasecampCoffeeCaseStudy() {
           the wrapper below switches to display:block at xl, so this
           rail floats in the article's left margin without affecting
           article width or internal vertical rhythm. */}
-      <aside
-        aria-label="Article sections"
-        className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30"
-      >
+      <aside className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30">
         <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
       </aside>
 
@@ -114,10 +111,7 @@ export default function BasecampCoffeeCaseStudy() {
           sees the article shrink (~656px content) to make room for
           the rail column. */}
       <div className="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
-        <aside
-          aria-label="Article sections"
-          className="hidden lg:block xl:hidden"
-        >
+        <aside className="hidden lg:block xl:hidden">
           {/* Sticky inside the column. pl-4 pushes the rail's text
               16px in from the viewport-left edge, matching the xl
               rail's left-4 offset so the rail's resting position is

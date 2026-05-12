@@ -73,12 +73,23 @@ export const CASE_STUDY_WIDTH =
 export function CaseStudyKicker({
   children,
   className,
+  as,
 }: {
   children: ReactNode;
   className?: string;
+  /** Heading tag for the kicker. Defaults to <p> (decorative
+   *  eyebrow). Pass "h2" / "h3" / "h4" when the kicker also serves
+   *  as the accessible name + heading-nav anchor for a section
+   *  landmark — e.g. the TL;DR section's "If you're skimming" or
+   *  the end-of-article ExploreCTAGrid's "See it in action," where
+   *  the kicker IS the section's accessible name and skim readers
+   *  reach it via the H key. Forwarded directly to the underlying
+   *  Kicker primitive. */
+  as?: "p" | "h2" | "h3" | "h4";
 }) {
   return (
     <Kicker
+      as={as}
       className={`m-0 ${className ?? ""}`}
       style={{
         // 11px is one step below --p-xs-font-size (12px) — an

@@ -33,7 +33,6 @@ import type { Metadata } from "next";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
-import { Grid } from "@/components/layout/Grid";
 import { Display } from "@/components/typography/Display";
 import { Headline } from "@/components/typography/Headline";
 import { Lede } from "@/components/typography/Lede";
@@ -42,7 +41,6 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Dateline } from "@/components/typography/Dateline";
 import { Button } from "@/components/primitives/Button";
 import { Link } from "@/components/primitives/Link";
-import { Card } from "@/components/primitives/Card";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
@@ -70,8 +68,8 @@ import {
   slugifyRoleAnchor,
   type ResumeRole,
   type ResumeEducation,
-  type ResumeCaseStudy,
 } from "./resume-data";
+import { CaseStudyCarousel } from "./CaseStudyCarousel";
 
 // SEO metadata. Distinct title so resume pastes well in Slack /
 // iMessage previews and search results. The explicit `canonical`
@@ -421,40 +419,6 @@ function ResumeTableOfContents() {
   );
 }
 
-/**
- * Case-study card — links to the curated write-up on malxavi.com,
- * and (when the underlying project still has a live demo) carries
- * a secondary link to that live artifact too.
- */
-function CaseStudyCard({ study }: { study: ResumeCaseStudy }) {
-  return (
-    <Card accent={study.accent}>
-      <Stack gap="300">
-        <Kicker>Case study</Kicker>
-        <Headline
-          level={3}
-          style={{
-            fontSize: "var(--h5-font-size)",
-            lineHeight: "var(--h5-line-height)",
-          }}
-        >
-          {study.title}
-        </Headline>
-        <Body size="md">{study.description}</Body>
-        {/* Primary action — internal link to the curated case study. */}
-        <Link href={study.href}>Read the case study →</Link>
-        {/* Optional secondary action — visit the live artifact, if
-            the project is still serving its original deployment. */}
-        {study.liveHref && (
-          <Link href={study.liveHref} quiet>
-            Visit the live project ↗
-          </Link>
-        )}
-      </Stack>
-    </Card>
-  );
-}
-
 // ─── Page ──────────────────────────────────────────────────────────
 
 export default function ResumePage() {
@@ -679,14 +643,11 @@ export default function ResumePage() {
           padding="md"
           bordered
         >
-          <Stack gap="600">
-            <Kicker as="h2">03 · Case studies</Kicker>
-            <Grid cols={CASE_STUDIES.length >= 2 ? 2 : 1} gap="600">
-              {CASE_STUDIES.map((study) => (
-                <CaseStudyCard key={study.slug} study={study} />
-              ))}
-            </Grid>
-          </Stack>
+          {/* Carousel owns the section's kicker + control row so the
+              arrow buttons sit on the same baseline as the heading.
+              Section's <Stack> wrapping is collapsed since the
+              carousel renders its own internal vertical rhythm. */}
+          <CaseStudyCarousel kickerLabel="03 · Case studies" />
         </Section>
   
         {/* ─── Closing CTA ───────────────────────────────────────── */}

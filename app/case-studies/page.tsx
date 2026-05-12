@@ -29,8 +29,8 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Card } from "@/components/primitives/Card";
 import { Link } from "@/components/primitives/Link";
 import {
-  CASE_STUDIES,
   type ResumeCaseStudy,
+  sortedCaseStudiesNewestFirst,
 } from "../resume/resume-data";
 
 // Per-page openGraph + twitter blocks because Next.js App Router
@@ -39,7 +39,7 @@ import {
 // would unfurl with the sitewide stub. (2026-04-29 /full-review,
 // a-per-page-og-twitter.)
 const INDEX_DESCRIPTION =
-  "Long-form case studies from Malcolm Xavier — Growth PM artifacts and the meta build of this portfolio. Both written with Claude Code as build partner.";
+  "Long-form case studies from Malcolm Xavier—Growth PM artifacts and the meta build of this portfolio. Both written with Claude Code as build partner.";
 const INDEX_OG_TITLE = "Case Studies · Malcolm Xavier";
 
 export const metadata: Metadata = {
@@ -73,15 +73,15 @@ export const metadata: Metadata = {
 };
 
 /**
- * Decide grid column count for a given count of studies. Same
- * conditional-cols pattern the homepage matrix uses: 1 reads as a
- * single-column callout, 2 fills a tablet row, 3+ shifts to a proper
- * grid.
+ * Decide grid column count for a given count of studies. The index
+ * locks to a maximum of two columns regardless of total count: with
+ * newest-first sort, the top-left tile is the lead surface and the
+ * 2-up rhythm keeps every card at a comparable visual weight. A
+ * single study still gets its own row (a one-card 2-col grid reads
+ * as a stretched orphan).
  */
-function gridColsFor(count: number): 1 | 2 | 3 {
-  if (count >= 3) return 3;
-  if (count >= 2) return 2;
-  return 1;
+function gridColsFor(count: number): 1 | 2 {
+  return count >= 2 ? 2 : 1;
 }
 
 export default function CaseStudiesIndex() {
@@ -90,8 +90,14 @@ export default function CaseStudiesIndex() {
   // a recruiter can scan the categories independently. The work
   // section is suppressed entirely when empty — no "coming soon"
   // placeholder.
-  const personalStudies = CASE_STUDIES.filter((s) => !s.employer);
-  const workStudies = CASE_STUDIES.filter((s) => s.employer);
+  //
+  // Both lists are sorted newest-first by publishedAt so the lead
+  // tile of each section is the most recent study; with the locked
+  // 2-col grid, reading left-to-right then top-to-bottom traverses
+  // the publication timeline in reverse chronological order.
+  const sorted = sortedCaseStudiesNewestFirst();
+  const personalStudies = sorted.filter((s) => !s.employer);
+  const workStudies = sorted.filter((s) => s.employer);
 
   return (
     <Container size="md">
@@ -146,7 +152,7 @@ function CaseStudyCard({ study }: { study: ResumeCaseStudy }) {
       <Stack gap="300">
         <Kicker>Case study</Kicker>
         <Headline
-          level={2}
+          level={3}
           style={{
             fontSize: "var(--h5-font-size)",
             lineHeight: "var(--h5-line-height)",
