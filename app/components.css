@@ -524,6 +524,57 @@ a[data-subbrand="tv"] {
   color: var(--blue-300) !important;
 }
 
+/* ExploreCard hover border + focus outline (case-studies/
+   architecture-under-contract). The card renders as an <a> with
+   data-subbrand directly on it; the only direct-anchor uses of
+   data-subbrand sitewide. Without these rules, the Tailwind
+   classes `hover:border-[var(--primary-default)]` and
+   `focus-visible:outline-[var(--primary-default)]` resolve to the
+   per-subbrand 500-step, which fails WCAG 1.4.11 (3:1 non-text
+   contrast) on the Film card in light mode — orange-500 (#ef941e)
+   on white is 2.35:1. Mirrors the AA-safe color cascade above:
+   700-step in light, 300/400-step in dark. !important is needed
+   because the Tailwind hover/focus utilities sit at the same
+   specificity tier. */
+a[data-subbrand="music"]:hover {
+  border-color: var(--purple-700) !important;
+}
+a[data-subbrand="music"]:focus-visible {
+  outline-color: var(--purple-700) !important;
+}
+[data-theme="dark"] a[data-subbrand="music"]:hover {
+  border-color: var(--purple-300) !important;
+}
+[data-theme="dark"] a[data-subbrand="music"]:focus-visible {
+  outline-color: var(--purple-300) !important;
+}
+
+a[data-subbrand="film"]:hover {
+  border-color: var(--orange-700) !important;
+}
+a[data-subbrand="film"]:focus-visible {
+  outline-color: var(--orange-700) !important;
+}
+[data-theme="dark"] a[data-subbrand="film"]:hover {
+  border-color: var(--orange-400) !important;
+}
+[data-theme="dark"] a[data-subbrand="film"]:focus-visible {
+  outline-color: var(--orange-400) !important;
+}
+
+a[data-subbrand="tv"]:hover {
+  border-color: var(--blue-700) !important;
+}
+a[data-subbrand="tv"]:focus-visible {
+  outline-color: var(--blue-700) !important;
+}
+[data-theme="dark"] a[data-subbrand="tv"]:hover {
+  border-color: var(--blue-300) !important;
+}
+[data-theme="dark"] a[data-subbrand="tv"]:focus-visible {
+  outline-color: var(--blue-300) !important;
+}
+
 /* /television detail page genre chips — same pattern as
    .film-detail-genre-chip. Quiet caption-color at rest; shifts
    to the cluster's blue on hover/focus. The class overrides the
@@ -822,4 +873,20 @@ code.code-chip {
 [data-theme="dark"] .season-status-in-progress {
   background: var(--blue-200);
   color: var(--blue-800);
+}
+
+/* Hide native horizontal scrollbar without disabling scroll. Used
+   by the resume case-study carousel where arrow buttons replace
+   the scrollbar as the visible scroll affordance. The scroll
+   container still scrolls (programmatic scrollBy from the buttons,
+   plus touch swipe on mobile and keyboard tab traversal across
+   focusable card content); only the visual scrollbar is hidden.
+   Pair with `aria-hidden`-friendly programmatic controls so a
+   keyboard user can still navigate. */
+.no-scrollbar {
+  scrollbar-width: none;            /* Firefox */
+  -ms-overflow-style: none;         /* IE/legacy Edge */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;                    /* Safari/Chrome */
 }
