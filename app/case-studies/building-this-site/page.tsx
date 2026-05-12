@@ -98,41 +98,35 @@ export default function BuildingThisSiteCaseStudy() {
           the matching block in basecamp-coffee/page.tsx for the
           full rationale (xl keeps original behavior, lg-but-not-xl
           uses the grid wrapper, <lg has neither rail). */}
-      <aside
-        aria-label="Article sections"
-        className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30"
-      >
+      <aside className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30">
         <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
       </aside>
 
       <div className="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
-        <aside
-          aria-label="Article sections"
-          className="hidden lg:block xl:hidden"
-        >
+        <aside className="hidden lg:block xl:hidden">
           <div className="sticky top-24 pl-4">
             <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
           </div>
         </aside>
-      <article>
-        <Hero />
-        <BeatSeparator />
-        <BeatBrief />
-        <BeatSeparator />
-        <BeatWorkflow />
-        <BeatSeparator />
-        <BeatArchitecture />
-        <BeatSeparator />
-        <BeatSpotify />
-        <BeatSeparator />
-        <BeatButton />
-        <BeatSeparator />
-        <BeatResumes />
-        <BeatSeparator />
-        <BeatReview />
-        <BeatSeparator />
-        <BeatLive />
-      </article>
+        <article>
+          <Hero />
+          <BeatSeparator />
+          <BeatBrief />
+          <BeatSeparator />
+          <BeatWorkflow />
+          <BeatSeparator />
+          <BeatArchitecture />
+          <BeatSeparator />
+          <BeatSpotify />
+          <BeatSeparator />
+          <BeatButton />
+          <BeatSeparator />
+          <BeatResumes />
+          <BeatSeparator />
+          <BeatReview />
+          <BeatSeparator />
+          <BeatLive />
+        </article>
       </div>
     </>
   );
@@ -842,7 +836,7 @@ function BeatResumes() {
             through the PDF in Gmail get a working link.
           </li>
           <li>
-            <Emph>Friendly link labels.</Emph>{" "}
+            <Emph>Friendly link labels</Emph>.{" "}
             &ldquo;LinkedIn · GitHub · Personal Website&rdquo; instead
             of bare URLs in the contact strip. Easier to scan, less
             visual noise, the underlying hyperlink still resolves.
@@ -1135,9 +1129,10 @@ function BeatLive() {
           rate-limit diagnostics.
         </HarnessFeature>
         <HarnessFeature name="Case studies">
-          Two articles in the cluster: the Basecamp Coffee turnaround and
-          this meta study. Shared chrome, shared primitives, shared
-          scroll-progress bar.
+          Three articles in the cluster: the Basecamp Coffee turnaround,
+          this meta study, and the sequel on the integration architecture
+          behind /music, /films, and /television. Shared chrome, shared
+          primitives, shared scroll-progress bar.
         </HarnessFeature>
         <HarnessFeature name="Test coverage">
           Vitest suite covering the brittle paths the audit flagged—rate-limit
@@ -1258,6 +1253,22 @@ function BeatLive() {
           <Link href="/case-studies/basecamp-coffee">
             Basecamp Coffee &rarr;
           </Link>
+          .
+        </p>
+        <p>
+          And if you want the follow-up—same rendering contract,
+          three completely different upstreams:{" "}
+          <TrackOnClick
+            event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
+            eventData={{
+              surface: "building-this-site",
+              destination: "case-study:architecture-under-contract",
+            }}
+          >
+            <Link href="/case-studies/architecture-under-contract">
+              Architecture under contract &rarr;
+            </Link>
+          </TrackOnClick>
           .
         </p>
         <p>

@@ -43,6 +43,19 @@ export const ANALYTICS_EVENTS = {
    *  slug (e.g. `tile: "music"`) so the dashboard reports per-
    *  cluster engagement. */
   SUBBRAND_TILE_CLICK: "subbrand_tile_click",
+  /** Click on an end-of-article CTA inside a case study — either
+   *  one of the sub-brand "explore" cards or an inline cross-link
+   *  to another case study. Pair with:
+   *   - `surface`:     case-study slug the click originated from
+   *                    (e.g. "architecture-under-contract",
+   *                    "building-this-site")
+   *   - `destination`: where the click goes — sub-brand slug
+   *                    ("music" | "films" | "television") or
+   *                    "case-study:<slug>" for case-study-to-
+   *                    case-study cross-links.
+   *  Lets the dashboard answer "does this article pull clicks
+   *  through?" per surface AND per destination. */
+  CASE_STUDY_CTA_CLICK: "case_study_cta_click",
   /** Resume CTA enters the viewport on /. Lets the dashboard
    *  separate "didn't see it" from "saw it, didn't bite" —
    *  conversion-rate denominator question. Fires once per page

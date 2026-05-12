@@ -84,6 +84,13 @@ export type ResumeCaseStudy = {
   /** Internal URL of the curated case study on malxavi.com. */
   href: string;
   /**
+   * ISO date (YYYY-MM-DD) the study went live. Drives sort order on
+   * the resume case-study carousel and the /case-studies index
+   * (both render newest-first via sortedCaseStudiesNewestFirst).
+   * Should match `datePublished` in the study's layout JSON-LD.
+   */
+  publishedAt: string;
+  /**
    * Optional external URL of the live project / artifact this case
    * study documents (e.g. the standalone Basecamp Coffee app). When
    * present, the card renders a secondary "Visit live project ↗" CTA
@@ -327,6 +334,7 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     description:
       "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
     href: "/case-studies/basecamp-coffee",
+    publishedAt: "2026-04-26",
     liveHref: "https://quiz-project-flax-beta.vercel.app/",
   },
   {
@@ -340,8 +348,39 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     description:
       "A meta case study on shipping this portfolio with Claude Code as build partner. Architecture bets, production incidents, and what AI-native PM work looks like when the human stays in the loop. The live artifact is this site.",
     href: "/case-studies/building-this-site",
+    publishedAt: "2026-04-29",
+  },
+  {
+    slug: "architecture-under-contract",
+    title: "Architecture under contract",
+    // Planned publish: Tue 2026-05-12. Updating this date if the
+    // publish slips keeps the carousel sort correct without code
+    // changes elsewhere.
+    description:
+      "One architectural rule that keeps three integrations online when their upstreams break. Polite-client posture for the one with no API, TMDB enrichment for two. Sequel to Building this site.",
+    href: "/case-studies/architecture-under-contract",
+    publishedAt: "2026-05-12",
   },
 ];
+
+// ─── Sort helper ──────────────────────────────────────────────────
+//
+// Newest-first sort by publishedAt (ISO YYYY-MM-DD). Used by:
+//   • /resume — the case-study carousel takes the top 3
+//   • /case-studies — the index lists every study in this order
+//   • sitemap.ts — order doesn't matter to crawlers, but stays
+//     consistent with the human-facing surfaces
+//
+// Returns a new array; doesn't mutate the source. Stable on ties —
+// publishedAt collisions resolve in original CASE_STUDIES order,
+// which is fine since the field is intended to be unique per study.
+export function sortedCaseStudiesNewestFirst(
+  studies: readonly ResumeCaseStudy[] = CASE_STUDIES,
+): ResumeCaseStudy[] {
+  return [...studies].sort((a, b) =>
+    a.publishedAt < b.publishedAt ? 1 : a.publishedAt > b.publishedAt ? -1 : 0,
+  );
+}
 
 // ─── Helpers ───────────────────────────────────────────────────────
 

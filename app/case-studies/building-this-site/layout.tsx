@@ -75,6 +75,15 @@ const ARTICLE_SCHEMA = {
       "@id": `${ARTICLE_URL}/#article`,
       headline: ARTICLE_HEADLINE,
       description: ARTICLE_DESCRIPTION,
+      // image is a required field for Google Article rich results.
+      // Mirrors the OG image URL declared in metadata.openGraph.images;
+      // dimensions match the Satori-rendered /opengraph-image route.
+      image: {
+        "@type": "ImageObject",
+        url: "https://malxavi.com/opengraph-image",
+        width: 1200,
+        height: 630,
+      },
       url: ARTICLE_URL,
       datePublished: "2026-04-29",
       dateModified: "2026-04-29",
