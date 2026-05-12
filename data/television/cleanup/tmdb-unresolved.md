@@ -3,7 +3,7 @@
 **Severity:** blocking
 **Unresolved:** 0
 **Accepted (won't-fix):** 0
-**Last regenerated:** 2026-05-07T05:57:54.093Z
+**Last regenerated:** 2026-05-12T06:26:30.105Z
 
 Shows where Serializd's showId returns 404 from TMDB `/tv/{id}`. Pin manually via `data/television/overrides.json#tmdbId`. **Blocks the snapshot from shipping** — slug, poster, decade, genre, and JSON-LD all depend on resolved TMDB metadata.
 
