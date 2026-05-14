@@ -38,13 +38,22 @@ import {
 
 // ─── Static carousel data ────────────────────────────────────────
 //
-// CASE_STUDIES is a static import — sort + slice run once at module
-// load. Computing these inside the component re-allocates them on
-// every state update (canScrollLeft / canScrollRight fire on every
-// scroll), which has no functional cost over ~5 items but adds
-// noise to the React Profiler and obscures intent. Module-scope
-// constants make it clear the data never varies.
-const SORTED_STUDIES = sortedCaseStudiesNewestFirst();
+// The carousel surfaces personal / site case studies only. Work
+// case studies (those with an `employer` set) live in the relevant
+// role's footer link on /resume (via `relatedCaseStudies`) and on
+// the /case-studies index; pulling them into the carousel would
+// double-surface them and dilute the "selected projects" framing.
+// See app/resume/SURFACES.md → Case studies.
+//
+// CASE_STUDIES is a static import — sort + filter + slice run once
+// at module load. Computing these inside the component re-allocates
+// them on every state update (canScrollLeft / canScrollRight fire
+// on every scroll), which has no functional cost over ~5 items but
+// adds noise to the React Profiler and obscures intent. Module-
+// scope constants make it clear the data never varies.
+const SORTED_STUDIES = sortedCaseStudiesNewestFirst().filter(
+  (s) => !s.employer,
+);
 const VISIBLE_STUDIES = SORTED_STUDIES.slice(0, 3);
 const OLDER_COUNT = Math.max(0, SORTED_STUDIES.length - 3);
 
