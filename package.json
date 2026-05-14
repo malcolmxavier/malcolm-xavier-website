@@ -17,6 +17,7 @@
     "tokens:build": "node scripts/build-tokens.mjs",
     "resume:docx": "node scripts/build-resume-docx.mjs",
     "resume:pdf": "npm run resume:docx && node scripts/build-resume-pdf.mjs",
+    "resume:check": "node scripts/check-resume-sync.mjs",
     "cover-letter:docx": "node scripts/build-cover-letter-docx.mjs",
     "bullet-bank:docx": "node scripts/build-bullet-bank-docx.mjs",
     "music:refresh": "node scripts/refresh-music-snapshot.mjs",
