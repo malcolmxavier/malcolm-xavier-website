@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Resume sync pre-commit hook
+#
+# Runs `npm run resume:check` when any staged files touch resume-content
+# sources. Other files in the resume area (SURFACES.md, CLAUDE.md, the
+# check script itself, page.tsx) don't require a sync re-check — they
+# don't carry the shared scalar fields the check verifies.
+#
+# Installed by scripts/install-git-hooks.mjs (which runs via `prepare`
+# after every `npm install`). To bypass for an intentional divergence:
+#
+#   git commit --no-verify
+#
+# When bypassing, document the divergence in app/resume/SURFACES.md and
+# update the FIELDS list in scripts/check-resume-sync.mjs so the check
+# doesn't keep flagging it.
+
+set -e
+
+# The four files that carry shared scalar fields. Keep this regex in
+# sync with the SURFACES constant in scripts/check-resume-sync.mjs.
+RESUME_FILES_REGEX='^(app/resume/resume-data\.tsx|scripts/build-(resume|bullet-bank|cover-letter)-docx\.mjs)$'
+
+# --diff-filter=ACM catches Added, Copied, and Modified files. Renames
+# and deletes don't change shared-field content in a way the check
+# would catch, so they're omitted to avoid spurious runs.
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+
+if echo "$STAGED" | grep -qE "$RESUME_FILES_REGEX"; then
+  echo "▶ Resume content staged — running npm run resume:check..."
+  if ! npm run --silent resume:check; then
+    echo ""
+    echo "✗ Resume sync check failed. Fix drift before committing,"
+    echo "  or use 'git commit --no-verify' if the divergence is"
+    echo "  intentional (document it in app/resume/SURFACES.md)."
+    exit 1
+  fi
+  echo "✓ Resume sync check passed."
+fi
+
+exit 0
