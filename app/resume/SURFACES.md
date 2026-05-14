@@ -49,6 +49,7 @@ These differences are by design. The check script normalizes them out where appl
 - **`SUMMARY` section header**: site renders a SUMMARY label above the paragraph. Docx omits the label; the paragraph sits between contact and EXPERIENCE.
 - **LinkedIn vs resume title**: LinkedIn carries `Senior Product Manager, Audience Relationships (Growth, MarTech, and Data Platform)` for Boolean search. The repo carries the clean form. The bullets on the resume already establish scope; the parenthetical just causes line wraps. (Memory: `feedback_linkedin_vs_resume_keyword_strategy.md`.)
 - **Bullet bank contact block**: the bullet bank is a private working doc for drafting per-application bullets — not an external-facing artifact. Its contact block intentionally stops at LinkedIn (no GitHub) to keep the header lean. The check script excludes `bulletBank` from the GitHub URL field for this reason.
+- **Case study curation**: the `/resume` carousel and the resume docx's Case Studies section both surface case studies, but with intentionally different curation rules — see the dedicated "Case studies" section below. The sync check does not enforce parity here.
 
 ## Workflows
 
@@ -97,6 +98,47 @@ npm run hooks:install -- --force       # overwrite an existing custom hook
 ```
 
 To bypass the hook for an intentional divergence: `git commit --no-verify`. When you do, document the divergence under "Intentional divergences" above and update the `FIELDS` list in `scripts/check-resume-sync.mjs` so the check stops flagging it.
+
+## Case studies
+
+Case studies appear on several surfaces, with two distinct types that follow different rules:
+
+- **Personal / site studies** (no `employer` field) — portfolio pieces built deliberately to demonstrate craft (e.g. `basecamp-coffee`, `building-this-site`, `architecture-under-contract`).
+- **Work studies** (`employer` field set to the employer's name) — case studies attached to a specific role, drawn from real work history.
+
+### Surface rules
+
+| Surface | Personal studies | Work studies |
+|---|---|---|
+| `/resume` carousel | Newest 3, filtered by `!employer` | **Excluded** — they live in the role footer instead |
+| `/resume` role footer | Not surfaced here | "Read the case study →" link via the role's `relatedCaseStudies` field |
+| `/case-studies` index | Section 1 — appears regardless of work-study volume | Section 2 — appears as soon as ≥1 work study exists |
+| Resume docx Case Studies section | Curated 2-entry list (tighter than the carousel; selected for senior-PM signal density on a page-limited surface) | Excluded — the malxavi.com URL in the contact block routes any deeper interest to `/case-studies` |
+
+### Why the docx is tighter than the carousel
+
+The `/resume` carousel has horizontal room and reads as a "selected projects" strip; three entries fit cleanly and each tells a different story. The docx is page-bound and ATS-bound — fewer, denser entries serve the recruiter better. The 2-entry set should lead with the highest signal-density study (currently `architecture-under-contract`, then `building-this-site`).
+
+When you add a personal case study that beats one of the current two on senior-PM signal density, swap it in. The carousel and docx lists evolve independently.
+
+### Why work studies don't appear in the docx body
+
+Each work study is attached to a role via `relatedCaseStudies`. On `/resume`, the role footer renders the link inline next to the role it documents — the strongest possible context. In the docx, the role bullets already carry the "what"; a separate Case Studies section that duplicates the work-study list would add noise without adding signal. The contact-block URL to malxavi.com routes any reader who wants depth.
+
+### Adding a work case study
+
+1. Add the entry to `CASE_STUDIES` in `app/resume/resume-data.tsx` with `employer: "<Employer Name>"`.
+2. Add the slug to the relevant role's `relatedCaseStudies` array.
+3. Build the case study page at `/case-studies/<slug>`.
+4. The study auto-renders on `/case-studies` (Section 2) and on `/resume` (role footer). No docx update needed.
+
+### Adding a personal case study
+
+1. Add the entry to `CASE_STUDIES` in `app/resume/resume-data.tsx` (no `employer`).
+2. Build the case study page at `/case-studies/<slug>`.
+3. It auto-enters the `/resume` carousel at the top (newest 3 visible).
+4. If it should also appear in the docx, edit the `CASE_STUDIES` array in `scripts/build-resume-docx.mjs` (curated independently — swap out the weakest of the existing two if you're at the 2-entry cap).
+5. Run `npm run resume:pdf` to regenerate.
 
 ## Adding a new surface
 
