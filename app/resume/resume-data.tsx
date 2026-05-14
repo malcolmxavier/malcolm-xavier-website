@@ -151,7 +151,7 @@ export const ROLES: ResumeRole[] = [
     url: "https://people.inc",
     accent: "yellow",
     location: "Remote",
-    title: "Senior Product Manager, Audience Relationships",
+    title: "Senior Product Manager, Audience Relationships (Growth, MarTech, and Data Platform)",
     dates: "Feb 2024 – Oct 2025",
     context:
       "America's largest publisher (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
@@ -241,7 +241,7 @@ export const ROLES: ResumeRole[] = [
     url: "https://www.fullstackacademy.com",
     accent: "red",
     location: "New York, NY",
-    title: "Admissions Lead (Project Manager)",
+    title: "Admissions Lead, Project Manager",
     dates: "Jun 2018 – Feb 2020",
     context:
       "Web-development bootcamp (and The Grace Hopper Program). Scaled and optimized the enrollment system to exceed growth targets.",

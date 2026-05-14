@@ -160,7 +160,7 @@ const ROLES = [
     company: "People Inc. (previously Dotdash Meredith)",
     url: "https://people.inc",
     location: "Remote",
-    title: "Senior Product Manager, Audience Relationships",
+    title: "Senior Product Manager, Audience Relationships (Growth, MarTech, and Data Platform)",
     dates: "Feb 2024 – Oct 2025",
     bullets: [
       "Managed shared audience and engagement growth platform for network of 40+ brands",
@@ -293,7 +293,7 @@ const ROLES = [
     company: "Fullstack Academy (and Grace Hopper Academy)",
     url: "https://www.fullstackacademy.com",
     location: "New York, NY",
-    title: "Admissions Lead (Project Manager)",
+    title: "Admissions Lead, Project Manager",
     dates: "Jun 2018 – Feb 2020",
     bullets: [
       [
