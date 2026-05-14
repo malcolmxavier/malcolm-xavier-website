@@ -123,7 +123,7 @@ const CONTACT = {
   // PDF source had a two-line title + tagline treatment; collapsed
   // here to match the resume's single-line positioning.
   headline:
-    "Senior Product Manager · Growth, MarTech, and Data Platform · Media, Publishing, and Streaming · AI-Native",
+    "Senior Product Manager · Growth and Data Platform · Media, Publishing, and Streaming · AI-Native",
   email: "malcolm@malxavi.com",
   phone: "(774) 262-2606",
   location: "Los Angeles, CA",
@@ -160,7 +160,7 @@ const ROLES = [
     company: "People Inc. (previously Dotdash Meredith)",
     url: "https://people.inc",
     location: "Remote",
-    title: "Senior Product Manager, Audience Relationships (Growth, MarTech, and Data Platform)",
+    title: "Senior Product Manager, Audience Relationships",
     dates: "Feb 2024 – Oct 2025",
     bullets: [
       "Managed shared audience and engagement growth platform for network of 40+ brands",

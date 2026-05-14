@@ -119,7 +119,7 @@ const ContactSchema = z.object({
 const CONTACT = {
   name: "Malcolm Xavier",
   headline:
-    "Senior Product Manager · Growth, MarTech, and Data Platform · Media, Publishing, and Streaming · AI-Native",
+    "Senior Product Manager · Growth and Data Platform · Media, Publishing, and Streaming · AI-Native",
   email: "malcolm@malxavi.com",
   phone: "(774) 262-2606",
   location: "Los Angeles, CA",
@@ -144,7 +144,7 @@ const ROLES = [
     company: "People Inc.",
     url: "https://people.inc",
     location: "Remote",
-    title: "Senior Product Manager, Audience Relationships (Growth, MarTech, and Data Platform)",
+    title: "Senior Product Manager, Audience Relationships",
     dates: "Feb 2024 – Oct 2025",
     context:
       "America's largest publisher (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
