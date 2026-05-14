@@ -332,16 +332,16 @@ const EDUCATION = [
 // hand. When updating one, update the other.
 const CASE_STUDIES = [
   {
-    title: "Architecture under contract",
-    url: "https://malxavi.com/case-studies/architecture-under-contract",
-    description:
-      "One architectural rule that keeps three integrations online when their upstreams break. Polite-client posture for the one with no API, TMDB enrichment for two. Sequel to Building this site.",
-  },
-  {
     title: "Building my personal website, malxavi.com",
     url: "https://malxavi.com/case-studies/building-this-site",
     description:
       "A meta case study on shipping my personal website with Claude Code as build partner. Architecture bets, production incidents, and what AI-native PM work looks like when the human stays in the loop.",
+  },
+  {
+    title: "Architecture under contract",
+    url: "https://malxavi.com/case-studies/architecture-under-contract",
+    description:
+      "One architectural rule that keeps three integrations online when their upstreams break. Polite-client posture for the one with no API, TMDB enrichment for two. Sequel to building my personal website.",
   },
 ];
 
