@@ -182,7 +182,7 @@ const ROLES = [
     company: "Muck Rack",
     url: "https://muckrack.com",
     location: "Remote",
-    title: "Technical Product Manager, Content & Data Ingestion",
+    title: "Technical Product Manager, Content and Data Ingestion",
     dates: "Sep 2022 – Feb 2024",
     context:
       "SaaS reporting tool for PR professionals. Scaled the content platform; enabled search and monitoring features.",
