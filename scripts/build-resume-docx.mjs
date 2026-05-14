@@ -119,7 +119,7 @@ const ContactSchema = z.object({
 const CONTACT = {
   name: "Malcolm Xavier",
   headline:
-    "Senior Product Manager · Growth and Data · Media, Publishing, and Streaming · AI-Native",
+    "Senior Product Manager · Growth, MarTech, and Data Platform · Media, Publishing, and Streaming · AI-Native",
   email: "malcolm@malxavi.com",
   phone: "(774) 262-2606",
   location: "Los Angeles, CA",

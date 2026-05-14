@@ -123,7 +123,7 @@ const CONTACT = {
   // PDF source had a two-line title + tagline treatment; collapsed
   // here to match the resume's single-line positioning.
   headline:
-    "Senior Product Manager · Growth and Data · Media, Publishing, and Streaming · AI-Native",
+    "Senior Product Manager · Growth, MarTech, and Data Platform · Media, Publishing, and Streaming · AI-Native",
   email: "malcolm@malxavi.com",
   phone: "(774) 262-2606",
   location: "Los Angeles, CA",
