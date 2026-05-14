@@ -87,7 +87,16 @@ The bullet bank (`npm run bullet-bank:docx`) generates a reference document with
 npm run resume:check
 ```
 
-Greps every shared scalar field across all four scripts and reports drift. Run after any change that touches resume content; ideally wire as a pre-commit hook for `app/resume/**` or `scripts/build-*.mjs` paths.
+Greps every shared scalar field across all four scripts and reports drift. Exits non-zero on failure.
+
+This also runs automatically as a **pre-commit hook** whenever a staged file matches one of the four resume content sources. The hook is installed by `scripts/install-git-hooks.mjs`, which is wired to the `prepare` npm lifecycle — so fresh clones get it after the first `npm install`. Manual install / reinstall:
+
+```
+npm run hooks:install                  # install or update
+npm run hooks:install -- --force       # overwrite an existing custom hook
+```
+
+To bypass the hook for an intentional divergence: `git commit --no-verify`. When you do, document the divergence under "Intentional divergences" above and update the `FIELDS` list in `scripts/check-resume-sync.mjs` so the check stops flagging it.
 
 ## Adding a new surface
 
