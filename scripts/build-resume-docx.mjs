@@ -332,10 +332,10 @@ const EDUCATION = [
 // hand. When updating one, update the other.
 const CASE_STUDIES = [
   {
-    title: "Basecamp Coffee—Find your ritual",
-    url: "https://malxavi.com/case-studies/basecamp-coffee",
+    title: "Architecture under contract",
+    url: "https://malxavi.com/case-studies/architecture-under-contract",
     description:
-      "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
+      "One architectural rule that keeps three integrations online when their upstreams break. Polite-client posture for the one with no API, TMDB enrichment for two. Sequel to Building this site.",
   },
   {
     title: "Building my personal website, malxavi.com",
