@@ -1,32 +1,32 @@
 {
-  "capturedAt": "2026-05-12T06:28:00.000Z",
+  "capturedAt": "2026-05-16T06:00:27.358Z",
   "summary": {
-    "totalFilms": 745,
-    "totalReviews": 745,
-    "thisYearCount": 104,
+    "totalFilms": 747,
+    "totalReviews": 747,
+    "thisYearCount": 106,
     "ratingDistribution": {
       "1": 34,
       "2": 118,
       "3": 141,
-      "4": 99,
+      "4": 100,
       "5": 16,
+      "4.5": 49,
       "3.5": 148,
       "2.5": 100,
-      "4.5": 48,
       "1.5": 32,
       "0.5": 9
     },
     "genreDistribution": {
-      "Documentary": 59,
+      "Action": 109,
+      "Thriller": 213,
+      "Drama": 353,
+      "Mystery": 78,
       "Music": 47,
+      "Documentary": 59,
       "Animation": 43,
       "Family": 19,
       "Comedy": 213,
-      "Drama": 352,
       "Horror": 125,
-      "Mystery": 77,
-      "Thriller": 211,
-      "Action": 108,
       "Crime": 97,
       "Science Fiction": 109,
       "Adventure": 81,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 556,
+      "2020s": 558,
       "1990s": 15,
       "2010s": 123,
       "1960s": 1,
@@ -48,6 +48,95 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1122573",
+      "letterboxdSlug": "in-the-grey",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/in-the-grey-2026/",
+      "title": "In the Grey",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-14",
+      "latestWatchedDate": "2026-05-14",
+      "firstReviewDate": "2026-05-16",
+      "latestReviewDate": "2026-05-16",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1317469633",
+          "watchedDate": "2026-05-14",
+          "reviewDate": "2026-05-16",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "This was lowkey so gay and surprisingly good. A lot of narration for my taste, but well-implemented narration for whatever that’s worth. Coming around to Henry Cavill…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1122573,
+        "posterPath": "/dQgIcW6Th08kMRf2HBoYWoFE6OD.jpg",
+        "backdropPath": "/oBft4BZeoDQzTT9ZGijClr76qvK.jpg",
+        "genres": [
+          "Action",
+          "Thriller"
+        ],
+        "runtime": 98,
+        "director": "Guy Ritchie"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/dQgIcW6Th08kMRf2HBoYWoFE6OD.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dQgIcW6Th08kMRf2HBoYWoFE6OD.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1380316",
+      "letterboxdSlug": "is-god-is",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/is-god-is/",
+      "title": "Is God Is",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-14",
+      "latestWatchedDate": "2026-05-14",
+      "firstReviewDate": "2026-05-16",
+      "latestReviewDate": "2026-05-16",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1317467791",
+          "watchedDate": "2026-05-14",
+          "reviewDate": "2026-05-16",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Wow. I saw so much of myself and my sister in each of these characters. This was chilling as often as it was hilarious. I appreciate that they kept the pacing crisp and Moses Sumney’s touch was noted. Kara Young tore!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1380316,
+        "posterPath": "/rCYQGHdoz7qwYsb6wXETJfUfDLX.jpg",
+        "backdropPath": "/e7NygxiX8rTsHWthLc4zvwLzson.jpg",
+        "genres": [
+          "Drama",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 99,
+        "director": "Aleshea Harris"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/rCYQGHdoz7qwYsb6wXETJfUfDLX.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/rCYQGHdoz7qwYsb6wXETJfUfDLX.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1515899",
       "letterboxdSlug": "billie-eilish-hit-me-hard-and-soft-the-tour-live-in-3d",
@@ -32394,45 +32483,90 @@
     }
   ],
   "filmById": {
-    "tmdb-654754": {
-      "id": "tmdb-654754",
-      "letterboxdSlug": "billie-eilish-the-world-039-s-a-little-blurry",
-      "letterboxdUrl": "https://letterboxd.com/malxavi/film/billie-eilish-the-worlds-a-little-blurry/",
-      "title": "Billie Eilish: The World&#039;s a Little Blurry",
-      "releaseYear": 2021,
-      "firstWatchedDate": "2026-05-08",
-      "latestWatchedDate": "2026-05-08",
-      "firstReviewDate": "2026-05-08",
-      "latestReviewDate": "2026-05-08",
-      "primaryRating": 3.5,
+    "tmdb-1122573": {
+      "id": "tmdb-1122573",
+      "letterboxdSlug": "in-the-grey",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/in-the-grey-2026/",
+      "title": "In the Grey",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-14",
+      "latestWatchedDate": "2026-05-14",
+      "firstReviewDate": "2026-05-16",
+      "latestReviewDate": "2026-05-16",
+      "primaryRating": 4,
       "liked": false,
       "reviews": [
         {
-          "guid": "letterboxd-review-1308854091",
-          "watchedDate": "2026-05-08",
-          "reviewDate": "2026-05-08",
-          "rating": 3.5,
+          "guid": "letterboxd-review-1317469633",
+          "watchedDate": "2026-05-14",
+          "reviewDate": "2026-05-16",
+          "rating": 4,
           "rewatch": false,
           "containsSpoilers": false,
-          "reviewText": "If every documentary has an angle, this one seeks to cast Billie Eilish as “normal.” I don’t know how possible that was to do, even at that time, but a two and a half hour documentary almost certainly works against that goal. Funny enough, I think a short docuseries would’ve captured that better. Looking forward to the future on this entire family’s relationships and dynamics. Forever haunting to me.",
+          "reviewText": "This was lowkey so gay and surprisingly good. A lot of narration for my taste, but well-implemented narration for whatever that’s worth. Coming around to Henry Cavill…",
           "tags": []
         }
       ],
       "tmdb": {
-        "id": 654754,
-        "posterPath": "/bDQ95W5LPHW9FHlPj3QX3jvM9Z7.jpg",
-        "backdropPath": "/8ys6VgwZCIQ7nN4Nv4z7GPPuFMv.jpg",
+        "id": 1122573,
+        "posterPath": "/dQgIcW6Th08kMRf2HBoYWoFE6OD.jpg",
+        "backdropPath": "/oBft4BZeoDQzTT9ZGijClr76qvK.jpg",
         "genres": [
-          "Documentary",
-          "Music"
+          "Action",
+          "Thriller"
         ],
-        "runtime": 140,
-        "director": "R. J. Cutler"
+        "runtime": 98,
+        "director": "Guy Ritchie"
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/bDQ95W5LPHW9FHlPj3QX3jvM9Z7.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bDQ95W5LPHW9FHlPj3QX3jvM9Z7.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/dQgIcW6Th08kMRf2HBoYWoFE6OD.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dQgIcW6Th08kMRf2HBoYWoFE6OD.jpg",
       "ratingSet": [
-        3.5
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1380316": {
+      "id": "tmdb-1380316",
+      "letterboxdSlug": "is-god-is",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/is-god-is/",
+      "title": "Is God Is",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-14",
+      "latestWatchedDate": "2026-05-14",
+      "firstReviewDate": "2026-05-16",
+      "latestReviewDate": "2026-05-16",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1317467791",
+          "watchedDate": "2026-05-14",
+          "reviewDate": "2026-05-16",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Wow. I saw so much of myself and my sister in each of these characters. This was chilling as often as it was hilarious. I appreciate that they kept the pacing crisp and Moses Sumney’s touch was noted. Kara Young tore!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1380316,
+        "posterPath": "/rCYQGHdoz7qwYsb6wXETJfUfDLX.jpg",
+        "backdropPath": "/e7NygxiX8rTsHWthLc4zvwLzson.jpg",
+        "genres": [
+          "Drama",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 99,
+        "director": "Aleshea Harris"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/rCYQGHdoz7qwYsb6wXETJfUfDLX.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/rCYQGHdoz7qwYsb6wXETJfUfDLX.jpg",
+      "ratingSet": [
+        4.5
       ],
       "watchedYearSet": [
         2026
@@ -32475,6 +32609,50 @@
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/5fudu2BSuUcwsMycHDNA0l1FDPH.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5fudu2BSuUcwsMycHDNA0l1FDPH.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-654754": {
+      "id": "tmdb-654754",
+      "letterboxdSlug": "billie-eilish-the-world-s-a-little-blurry",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/billie-eilish-the-worlds-a-little-blurry/",
+      "title": "Billie Eilish: The World's a Little Blurry",
+      "releaseYear": 2021,
+      "firstWatchedDate": "2026-05-08",
+      "latestWatchedDate": "2026-05-08",
+      "firstReviewDate": "2026-05-08",
+      "latestReviewDate": "2026-05-08",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1308854091",
+          "watchedDate": "2026-05-08",
+          "reviewDate": "2026-05-08",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "If every documentary has an angle, this one seeks to cast Billie Eilish as “normal.” I don’t know how possible that was to do, even at that time, but a two and a half hour documentary almost certainly works against that goal. Funny enough, I think a short docuseries would’ve captured that better. Looking forward to the future on this entire family’s relationships and dynamics. Forever haunting to me.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 654754,
+        "posterPath": "/bDQ95W5LPHW9FHlPj3QX3jvM9Z7.jpg",
+        "backdropPath": "/8ys6VgwZCIQ7nN4Nv4z7GPPuFMv.jpg",
+        "genres": [
+          "Documentary",
+          "Music"
+        ],
+        "runtime": 140,
+        "director": "R. J. Cutler"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/bDQ95W5LPHW9FHlPj3QX3jvM9Z7.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bDQ95W5LPHW9FHlPj3QX3jvM9Z7.jpg",
       "ratingSet": [
         3.5
       ],
