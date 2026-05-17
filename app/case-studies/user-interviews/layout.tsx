@@ -35,8 +35,14 @@ const EMPLOYER_URL = "https://www.userinterviews.com";
 const ROLE_TITLE = "Product Manager";
 const ROLE_START = "2020-09";
 const ROLE_END = "2022-02";
-const PUBLISHED = "2026-05-14";
-const MODIFIED = "2026-05-14";
+// ISO 8601 with timezone. Google's Rich Results validator flags date-only
+// values as "missing a timezone" for Article datePublished/dateModified —
+// the format-only fix is to append T<time>-07:00 (Pacific) or +00:00 (UTC).
+// Real publish date is 2026-05-16 (case study merged to main and Vercel
+// deployed that afternoon); the earlier "2026-05-14" was a draft-time
+// placeholder set while authoring locally.
+const PUBLISHED = "2026-05-16T22:00:00-07:00";
+const MODIFIED = "2026-05-16T22:00:00-07:00";
 
 const ARTICLE_URL = `${SITE_URL}/case-studies/${SLUG}`;
 const ARTICLE_HEADLINE = `${TITLE}—Case Study`;

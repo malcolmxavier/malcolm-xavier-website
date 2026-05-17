@@ -47,8 +47,13 @@ const EMPLOYER_URL = "<https://employer.example>"; // company URL for the affili
 const ROLE_TITLE = "<Product Manager>"; // role title at the time
 const ROLE_START = "<YYYY-MM>"; // e.g. "2020-09"
 const ROLE_END = "<YYYY-MM>"; // e.g. "2022-02"
-const PUBLISHED = "<YYYY-MM-DD>"; // ISO date
-const MODIFIED = "<YYYY-MM-DD>"; // ISO date — bump when you edit copy
+// Full ISO 8601 datetime with timezone. Google's Rich Results validator
+// flags date-only values on Article datePublished/dateModified as "missing
+// a timezone." Use Pacific (-07:00 during PDT, -08:00 during PST) or UTC
+// (+00:00). The specific time within the day isn't load-bearing — 12:00
+// is fine as a neutral default.
+const PUBLISHED = "<YYYY-MM-DDT12:00:00-07:00>";
+const MODIFIED = "<YYYY-MM-DDT12:00:00-07:00>"; // bump when you edit copy
 
 const ARTICLE_URL = `${SITE_URL}/case-studies/${SLUG}`;
 const ARTICLE_HEADLINE = `${TITLE}—Case Study`;
