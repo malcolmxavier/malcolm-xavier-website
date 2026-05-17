@@ -27,7 +27,7 @@
 // matching token.
 // ─────────────────────────────────────────────────────────────────
 
-import type { ReactNode } from "react";
+import { Children, type ReactNode } from "react";
 import { Kicker } from "@/components/typography/Kicker";
 
 // ─── Article width rail ─────────────────────────────────────────
@@ -232,7 +232,13 @@ export function Emph({ children }: { children: ReactNode }) {
   // and the Basecamp drink-archetype span — every site where
   // serif italic runs inline beside roman body.
   return (
-    <span
+    // <em> instead of <span> so screen readers convey semantic
+    // emphasis (announced with stress / contrastive intonation by
+    // most ATs). The browser's built-in italic for <em> is overlaid
+    // with the Instrument Serif italic face below; fontStyle stays
+    // explicit so a CSS reset that strips the UA default doesn't
+    // also strip the visual emphasis.
+    <em
       className="italic-inline text-[var(--text-heading)]"
       style={{
         fontFamily: "var(--font-instrument-serif)",
@@ -240,7 +246,7 @@ export function Emph({ children }: { children: ReactNode }) {
       }}
     >
       {children}
-    </span>
+    </em>
   );
 }
 
@@ -351,8 +357,14 @@ export function ClaudeNote({
 // ────────────────────────────────────────────────────────────────
 
 export function StatRow({ children }: { children: ReactNode }) {
+  // Child-count-aware grid: 3+ Stats render as a triptych at lg+ to avoid
+  // the half-width orphan that 3 stats produce in a 2-column grid (the
+  // third tile lands alone in row 2). 2-stat rows keep the existing 2-col
+  // rhythm so existing case studies don't render narrower than before.
+  const count = Children.count(children);
+  const lgCols = count >= 3 ? "lg:grid-cols-3" : "lg:grid-cols-2";
   return (
-    <div className="my-8 md:my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className={`my-8 md:my-10 grid grid-cols-1 md:grid-cols-2 ${lgCols} gap-4`}>
       {children}
     </div>
   );
@@ -362,10 +374,21 @@ export function Stat({
   big,
   eyebrow,
   caption,
+  bigClassName = "text-[56px] md:text-[68px] lg:text-[80px]",
 }: {
   big: string;
   eyebrow: string;
   caption: string;
+  /**
+   * Optional override for the big-number font-size classes. Default
+   * sizes (56/68/80px across breakpoints) work for short values like
+   * percentages or 2-3 character numbers, but longer values (e.g.
+   * "2 quarters") overflow the half-width card at md+. Pass a smaller
+   * responsive size scale here when the big text won't fit. Caller
+   * is responsible for picking sizes that read as still-dominant
+   * relative to the eyebrow + caption.
+   */
+  bigClassName?: string;
 }) {
   return (
     <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
@@ -375,7 +398,7 @@ export function Stat({
       >
         {eyebrow}
       </p>
-      <p className="m-0 text-[56px] md:text-[68px] lg:text-[80px] leading-none tracking-[-0.03em] text-[var(--text-heading)]">
+      <p className={`m-0 ${bigClassName} leading-none tracking-[-0.03em] text-[var(--text-heading)]`}>
         {big}
       </p>
       <p className="m-0 text-[14px] leading-[1.5] text-[var(--text-caption)]">

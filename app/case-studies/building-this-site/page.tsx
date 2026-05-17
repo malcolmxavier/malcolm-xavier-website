@@ -37,10 +37,8 @@ import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { CONTACT } from "@/app/resume/resume-data";
-import {
-  TableOfContents,
-  type TocItem,
-} from "@/components/chrome/TableOfContents";
+import type { TocItem } from "@/components/chrome/TableOfContents";
+import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
 import {
@@ -66,10 +64,9 @@ import {
 // every deploy without duplicating the git-log shell-out.
 import { formatLastUpdated } from "@/lib/case-studies/basecamp-coffee/last-updated";
 
-// External anchors referenced multiple times in the narrative.
+// External anchor referenced multiple times in the narrative.
 // Centralized so a destination change is one line, not a scavenger
 // hunt through the article body.
-const SITE_REPO_HREF = "https://github.com/malcolmxavier/malcolm-xavier-website";
 const CLAUDE_CODE_HREF = "https://claude.com/claude-code";
 
 // TOC schema matches the chrome/TableOfContents primitive used by
@@ -92,22 +89,13 @@ export default function BuildingThisSiteCaseStudy() {
     <>
       <ScrollProgress />
 
-      {/* xl+ fixed-position TOC rail + dual-mode wrapper for lg.
-          Same treatment as the Basecamp case study so the chrome
-          reads consistently across the /case-studies cluster. See
-          the matching block in basecamp-coffee/page.tsx for the
-          full rationale (xl keeps original behavior, lg-but-not-xl
-          uses the grid wrapper, <lg has neither rail). */}
-      <aside className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30">
-        <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
-      </aside>
-
-      <div className="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
-        <aside className="hidden lg:block xl:hidden">
-          <div className="sticky top-24 pl-4">
-            <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
-          </div>
-        </aside>
+      {/* `relative` establishes the positioning context the xl+ TOC rail
+          uses to bound its sticky child to the article's vertical extent. */}
+      <div className="relative lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
+        {/* Dual-mode TOC rail. xl+ uses position: sticky inside an
+            absolutely-positioned column; lg-but-not-xl uses sticky inside
+            the grid column. Both clamp naturally to the article's bottom. */}
+        <CaseStudyTocRail items={TOC_ITEMS} ariaLabel="Article sections" />
         <article>
           <Hero />
           <BeatSeparator />
@@ -209,8 +197,8 @@ function BeatBrief() {
 
       <Body>
         <p>
-          This site has a wide scope, and more is coming soon. I deliberately scoped MVP down to five pages—{" "}
-          <Emph>Landing, Resume, About, Contact, Music</Emph>—with
+          This site has a wide scope, and more is coming soon. I deliberately scoped MVP
+          down to five pages—<Emph>Landing, Resume, About, Contact, Music</Emph>—with
           everything else I'm working on gated behind a no-public-placeholders rule. Day 4
           was my deadline for a shippable MVP; Days 5 through
           7 were for polish and stretch goals.
@@ -1060,7 +1048,7 @@ function BeatReview() {
         </p>
         <p>
           A new instance landed mid-redline on this very article. One
-          visible JSX-whitespace bug in Section 8 (Three Resumes)
+          visible JSX-whitespace bug in Section 6 (Three Resumes)
           surfaced eleven siblings—ten on this page, one on the
           Basecamp study—once the trigger was audited rather than
           patched. The rule paid for itself in a single sweep.
@@ -1226,38 +1214,15 @@ function BeatLive() {
         </EvidenceCard>
       </EvidenceGrid>
 
-      <ClaudeNote>
-        Source is on{" "}
-        <Link href={SITE_REPO_HREF}>GitHub ↗</Link>. The Basecamp Coffee
-        case study and this meta study both live in this repo, alongside
-        the design tokens, the build scripts, and the writing-style
-        guides Claude reads on every turn. The Basecamp prototype itself
-        lives in a sibling repo, linked from inside that case study. If
-        you&apos;re a recruiter who wants to see how the sausage is
-        made, that&apos;s the address.
-      </ClaudeNote>
-
       {/* Case-study close — exit ramp for the highest-intent reader.
-          Cross-link points at the Basecamp Coffee study (Malcolm's
-          first time using Claude to build a site); CTA row hands
-          off to the recruiter funnel. Closes the meta-study half of
-          a-case-study-no-next-step from the 2026-04-29 /full-review.
-          The earlier Resume-only inline link was replaced with the
-          structured close so both case studies share the same exit
-          shape. */}
+          Surfaces the sequel study, then the recruiter funnel (resume
+          + Calendly). The earlier Basecamp Coffee cross-link and
+          GitHub-source ClaudeNote were dropped to de-clutter the
+          close; Basecamp is still linked from /case-studies. */}
       <Body>
         <p>
-          This case study is a deep dive into how this site was
-          built. My first time using Claude to build a site is
-          documented in another case study:{" "}
-          <Link href="/case-studies/basecamp-coffee">
-            Basecamp Coffee &rarr;
-          </Link>
-          .
-        </p>
-        <p>
-          And if you want the follow-up—same rendering contract,
-          three completely different upstreams:{" "}
+          If you want the follow-up—same rendering contract, three
+          completely different upstreams:{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{

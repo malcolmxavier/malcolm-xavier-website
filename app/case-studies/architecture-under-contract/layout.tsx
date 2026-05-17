@@ -21,8 +21,9 @@
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { SITE_URL } from "@/lib/site-config";
 
-const ARTICLE_URL = "https://malxavi.com/case-studies/architecture-under-contract";
+const ARTICLE_URL = `${SITE_URL}/case-studies/architecture-under-contract`;
 const ARTICLE_HEADLINE = "Architecture under contract—Case Study";
 const ARTICLE_DESCRIPTION =
   "Three pages, three completely different upstreams, one rendering contract. Polite-client posture for the one with no API; TMDB enrichment for two.";
@@ -88,8 +89,8 @@ const ARTICLE_SCHEMA = {
       dateModified: "2026-05-12",
       inLanguage: "en-US",
       articleSection: "Case Study",
-      author: { "@id": "https://malxavi.com/#person" },
-      publisher: { "@id": "https://malxavi.com/#person" },
+      author: { "@id": `${SITE_URL}/#person` },
+      publisher: { "@id": `${SITE_URL}/#person` },
       mainEntityOfPage: ARTICLE_URL,
     },
     {
@@ -99,13 +100,13 @@ const ARTICLE_SCHEMA = {
           "@type": "ListItem",
           position: 1,
           name: "Home",
-          item: "https://malxavi.com",
+          item: SITE_URL,
         },
         {
           "@type": "ListItem",
           position: 2,
-          name: "Case Studies",
-          item: "https://malxavi.com/case-studies",
+          name: "Case studies",
+          item: `${SITE_URL}/case-studies`,
         },
         {
           "@type": "ListItem",

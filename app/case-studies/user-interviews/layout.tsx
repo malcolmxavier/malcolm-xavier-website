@@ -1,54 +1,42 @@
-// ─────────────────────────────────────────────────────────────────
-// /case-studies/<SLUG> — work-experience case-study route layout.
-//
-// TEMPLATE FILE — do not edit in place. To use:
-//   1. Copy this directory to `app/case-studies/<your-slug>/`.
-//   2. Rename `layout.tsx.template` → `layout.tsx` (drop the suffix).
-//   3. Find-and-replace every `<TOKEN>` placeholder below with real
-//      values for this case study.
-//   4. Delete this comment block (or trim to the relevant parts).
-//
-// This file mirrors `app/case-studies/user-interviews/layout.tsx`.
-// Work case studies render in the recruiter cluster (no `data-
-// subbrand`), matching the existing case studies — no extra fonts
-// or CSS here.
-//
-// Glass-card chrome is opted into via the import below; remove the
-// import to render flat cards instead.
-// ─────────────────────────────────────────────────────────────────
+// /case-studies/user-interviews — work-experience case-study layout.
+// Metadata + JSON-LD (Article + BreadcrumbList). The recruiter-cluster
+// brand (Instrument Serif + DM Sans + Roboto Mono, semantic tokens)
+// comes from the root layout, so this layout is metadata-only except
+// for the case-glass.css import for the glass-card chrome.
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SITE_URL } from "@/lib/site-config";
 import "@/components/case-study/case-glass.css";
 
-// ─── Tokens to fill in ─────────────────────────────────────────────
-// These constants drive both the metadata block and the JSON-LD
-// schema below. Keep SLUG in sync with the directory name and the
-// CASE_STUDIES entry in app/resume/resume-data.tsx — the slug-
-// integrity check at module-load time will fail loudly if they drift.
-
-const SLUG = "<slug>"; // e.g. "people-inc-recipe-recommendation"
-const TITLE = "<Case Study Title>"; // e.g. "Recipe recommendation at scale"
-// Social-card title shows up on LinkedIn / Slack unfurls. Often
-// different from the on-page TITLE: the editorial title can stay
-// poetic on the page where the reader has context; the social card
-// needs to win in a feed where the recipient has none. Lead with
-// the searchable phrase + employer.
-const SOCIAL_TITLE = "<Searchable phrase at Employer>";
-const DESCRIPTION = "<1–2 sentence description for OG / search snippets>";
-const EMPLOYER = "<Company Name>"; // e.g. "People Inc."
-const EMPLOYER_URL = "<https://employer.example>"; // company URL for the affiliation schema
-// Role period covered by the case study. Used as
-// startDate/endDate on the OrganizationRole below so Schema.org
-// parsers know the author was at EMPLOYER during this window, NOT
-// currently. Mirror these from the matching role's `dates` in
-// app/resume/resume-data.tsx.
-const ROLE_TITLE = "<Product Manager>"; // role title at the time
-const ROLE_START = "<YYYY-MM>"; // e.g. "2020-09"
-const ROLE_END = "<YYYY-MM>"; // e.g. "2022-02"
-const PUBLISHED = "<YYYY-MM-DD>"; // ISO date
-const MODIFIED = "<YYYY-MM-DD>"; // ISO date — bump when you edit copy
+const SLUG = "user-interviews";
+const TITLE = "Steering leading indicators";
+// Social-card title is intentionally different from the on-page H1
+// and SERP title. The conceptual editorial title ("Steering leading
+// indicators") wins on the page where the reader has context; the
+// social card needs to win in a feed where the recipient has none —
+// so the unfurl leads with the searchable subtitle phrase, mirrors
+// the on-page hero subtitle exactly (editorial integrity bonus), and
+// drops the "—Case Study" suffix because at 66 chars the social
+// title is already long enough without it (OG `type: "article"` plus
+// the URL path signal case-study status to crawlers regardless).
+const SOCIAL_TITLE =
+  "Targeting, retention, and marketplace mechanics at User Interviews";
+const DESCRIPTION =
+  "How occupational targeting lifted Early Qualification Rate 15% at User Interviews—a leading-indicator bet on a two-sided UXR marketplace.";
+const EMPLOYER = "User Interviews";
+const EMPLOYER_URL = "https://www.userinterviews.com";
+// Role period covered by the case study. These dates are the
+// startDate/endDate on the OrganizationRole below — they tell
+// Schema.org parsers that the author was affiliated with the
+// EMPLOYER during this window, not currently. Mirrors the
+// `dates: "Sep 2020 – Feb 2022"` on the matching role in
+// app/resume/resume-data.tsx; keep in sync if either side moves.
+const ROLE_TITLE = "Product Manager";
+const ROLE_START = "2020-09";
+const ROLE_END = "2022-02";
+const PUBLISHED = "2026-05-14";
+const MODIFIED = "2026-05-14";
 
 const ARTICLE_URL = `${SITE_URL}/case-studies/${SLUG}`;
 const ARTICLE_HEADLINE = `${TITLE}—Case Study`;
@@ -103,7 +91,7 @@ export const metadata: Metadata = {
 // startDate/endDate — Schema.org's pattern for time-bounded
 // affiliations. This tells AI-search systems and crawlers that
 // the author was at EMPLOYER during the role period, not that
-// they're currently there.
+// they're currently there. Mirrors the resume's role dates.
 //
 // `image` is a required field for Google Article rich results.
 // Mirrors the OG image URL declared in metadata.openGraph.images.

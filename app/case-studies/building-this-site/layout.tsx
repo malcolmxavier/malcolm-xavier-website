@@ -15,9 +15,10 @@
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { SITE_URL } from "@/lib/site-config";
 
-const ARTICLE_URL = "https://malxavi.com/case-studies/building-this-site";
-const ARTICLE_HEADLINE = "Building this site — Case Study";
+const ARTICLE_URL = `${SITE_URL}/case-studies/building-this-site`;
+const ARTICLE_HEADLINE = "Building this site—Case Study";
 // Description trimmed from 210 chars (Google would truncate above
 // ~160) to ~155, matching the workshopped copy from the 2026-04-29
 // /full-review (a-meta-descriptions-thin).
@@ -80,7 +81,7 @@ const ARTICLE_SCHEMA = {
       // dimensions match the Satori-rendered /opengraph-image route.
       image: {
         "@type": "ImageObject",
-        url: "https://malxavi.com/opengraph-image",
+        url: `${SITE_URL}/opengraph-image`,
         width: 1200,
         height: 630,
       },
@@ -89,8 +90,8 @@ const ARTICLE_SCHEMA = {
       dateModified: "2026-04-29",
       inLanguage: "en-US",
       articleSection: "Case Study",
-      author: { "@id": "https://malxavi.com/#person" },
-      publisher: { "@id": "https://malxavi.com/#person" },
+      author: { "@id": `${SITE_URL}/#person` },
+      publisher: { "@id": `${SITE_URL}/#person` },
       mainEntityOfPage: ARTICLE_URL,
     },
     {
@@ -100,11 +101,17 @@ const ARTICLE_SCHEMA = {
           "@type": "ListItem",
           position: 1,
           name: "Home",
-          item: "https://malxavi.com",
+          item: SITE_URL,
         },
         {
           "@type": "ListItem",
           position: 2,
+          name: "Case studies",
+          item: `${SITE_URL}/case-studies`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
           name: "Building this site",
           item: ARTICLE_URL,
         },

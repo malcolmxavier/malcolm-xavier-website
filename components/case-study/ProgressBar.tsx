@@ -23,10 +23,20 @@ interface ProgressBarProps {
 
 export function ProgressBar({ fraction }: ProgressBarProps) {
   const pct = Math.max(0, Math.min(1, fraction)) * 100;
+  // role="progressbar" + aria-valuenow/min/max so screen-reader
+  // users perceive reading progress alongside the visual bar.
+  // Without these the element is announced as a generic group and
+  // the progress information is lost. aria-label is set explicitly
+  // because the bar has no visible label.
   return (
     <div
       className="h-[1px] w-full"
       style={{ background: "var(--progress-track)" }}
+      role="progressbar"
+      aria-label="Reading progress"
+      aria-valuenow={Math.round(pct)}
+      aria-valuemin={0}
+      aria-valuemax={100}
     >
       <div
         className="h-full transition-[width] duration-300 ease-out motion-reduce:transition-none"
