@@ -263,11 +263,15 @@ function RoleCaseStudyLink({ role }: { role: ResumeRole }) {
   const slugs = role.relatedCaseStudies;
   if (!slugs || slugs.length === 0) return null;
 
+  // No `color` here — the Link primitive's `accent` prop owns the
+  // text color so the affordance reads at the body weight (or accent
+  // tone) rather than crushing the link to caption-grey alongside
+  // the role's bullets. Drops the previous `color: var(--text-caption)`
+  // on the wrapper which was muting the Link's intended accent.
   const linkStyle: React.CSSProperties = {
     fontFamily: "var(--font-mono)",
     fontSize: "var(--p-xs-font-size)",
     lineHeight: "var(--p-xs-line-height)",
-    color: "var(--text-caption)",
     margin: 0,
   };
 
@@ -278,20 +282,42 @@ function RoleCaseStudyLink({ role }: { role: ResumeRole }) {
     // the load-time assertion in resume-data.tsx should catch
     // typos before they ever get here.
     const href = study?.href ?? `/case-studies/${slugs[0]}`;
+    const ariaLabel = study
+      ? `Read the case study: ${study.title}`
+      : `Read the case study for ${role.company}`;
     return (
       <p style={linkStyle}>
-        <Link href={href} accent={role.accent}>
-          → Read the case study
-        </Link>
+        {/* TrackOnClick instruments the resume → case-study half of
+            the cross-link loop; the paired case-study → resume
+            half is wrapped on the case-study hero kicker.
+            aria-label disambiguates the link in screen-reader
+            rotor lists. */}
+        <TrackOnClick
+          event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
+          eventData={{ surface: `resume-role-${slugs[0]}`, direction: "to-case-study" }}
+        >
+          <Link href={href} accent={role.accent} aria-label={ariaLabel}>
+            → Read the case study
+          </Link>
+        </TrackOnClick>
       </p>
     );
   }
 
   return (
     <p style={linkStyle}>
-      <Link href="/case-studies#work" accent={role.accent}>
-        → Related case studies ({slugs.length})
-      </Link>
+      <TrackOnClick
+        event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
+        eventData={{ surface: `resume-role-${slugs[0]}-multi`, direction: "to-case-study-index" }}
+      >
+        <Link
+          href="/case-studies#work"
+          accent={role.accent}
+          aria-label={`Related case studies for ${role.company} (${slugs.length})`}
+        >
+          → Related case studies ({slugs.length})
+        </Link>
+      </TrackOnClick>
     </p>
   );
 }

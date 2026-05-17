@@ -17,6 +17,7 @@
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { SITE_URL } from "@/lib/site-config";
 // Glass-card chrome lives in a shared location now (see
 // components/case-study/case-glass.css). The previous local
 // case-study.css had been deleted; this layout opts into the glass
@@ -24,8 +25,8 @@ import type { ReactNode } from "react";
 // want flat cards simply omit this import.
 import "@/components/case-study/case-glass.css";
 
-const ARTICLE_URL = "https://malxavi.com/case-studies/basecamp-coffee";
-const ARTICLE_HEADLINE = "Basecamp Coffee — Case Study";
+const ARTICLE_URL = `${SITE_URL}/case-studies/basecamp-coffee`;
+const ARTICLE_HEADLINE = "Basecamp Coffee—Case Study";
 const ARTICLE_DESCRIPTION =
   "How I used Claude Code to diagnose a collapsing loyalty program and ship a working prototype. A Growth PM portfolio artifact.";
 
@@ -84,13 +85,22 @@ const ARTICLE_SCHEMA = {
       "@id": `${ARTICLE_URL}/#article`,
       headline: ARTICLE_HEADLINE,
       description: ARTICLE_DESCRIPTION,
+      // image is a required field for Google Article rich results.
+      // Mirrors the OG image URL declared in metadata.openGraph.images;
+      // dimensions match the Satori-rendered /opengraph-image route.
+      image: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/opengraph-image`,
+        width: 1200,
+        height: 630,
+      },
       url: ARTICLE_URL,
       datePublished: "2026-04-26",
       dateModified: "2026-04-29",
       inLanguage: "en-US",
       articleSection: "Case Study",
-      author: { "@id": "https://malxavi.com/#person" },
-      publisher: { "@id": "https://malxavi.com/#person" },
+      author: { "@id": `${SITE_URL}/#person` },
+      publisher: { "@id": `${SITE_URL}/#person` },
       mainEntityOfPage: ARTICLE_URL,
     },
     {
@@ -100,11 +110,17 @@ const ARTICLE_SCHEMA = {
           "@type": "ListItem",
           position: 1,
           name: "Home",
-          item: "https://malxavi.com",
+          item: SITE_URL,
         },
         {
           "@type": "ListItem",
           position: 2,
+          name: "Case studies",
+          item: `${SITE_URL}/case-studies`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
           name: "Basecamp Coffee",
           item: ARTICLE_URL,
         },

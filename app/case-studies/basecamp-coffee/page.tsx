@@ -22,10 +22,8 @@ import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { CONTACT } from "@/app/resume/resume-data";
-import {
-  TableOfContents,
-  type TocItem,
-} from "@/components/chrome/TableOfContents";
+import type { TocItem } from "@/components/chrome/TableOfContents";
+import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
 import {
@@ -91,15 +89,6 @@ export default function BasecampCoffeeCaseStudy() {
     <>
       <ScrollProgress />
 
-      {/* xl+ fixed-position TOC rail — original behavior preserved.
-          The article keeps its full lg:max-w-[1024px] at xl+ because
-          the wrapper below switches to display:block at xl, so this
-          rail floats in the article's left margin without affecting
-          article width or internal vertical rhythm. */}
-      <aside className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30">
-        <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
-      </aside>
-
       {/* Two-column grid ONLY at lg-but-not-xl (≈ iPad Pro portrait,
           narrow desktop windows). At xl+ the `xl:block` cancels the
           grid and the wrapper reverts to a transparent block container
@@ -107,20 +96,16 @@ export default function BasecampCoffeeCaseStudy() {
           it did before the tablet-TOC change, and internal primitives
           (FacetMapper, EvidenceGrid, MetricsTable) keep their original
           column proportions. At <lg the wrapper is also a plain block
-          container with both asides hidden. Only the narrow lg window
+          container with the rail hidden. Only the narrow lg window
           sees the article shrink (~656px content) to make room for
           the rail column. */}
-      <div className="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
-        <aside className="hidden lg:block xl:hidden">
-          {/* Sticky inside the column. pl-4 pushes the rail's text
-              16px in from the viewport-left edge, matching the xl
-              rail's left-4 offset so the rail's resting position is
-              identical across breakpoints. top-24 (96px) matches the
-              resume's TOC offset for visual consistency. */}
-          <div className="sticky top-24 pl-4">
-            <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
-          </div>
-        </aside>
+      {/* `relative` establishes the positioning context the xl+ TOC rail
+          uses to bound its sticky child to the article's vertical extent. */}
+      <div className="relative lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
+        {/* Dual-mode TOC rail. xl+ uses position: sticky inside an
+            absolutely-positioned column; lg-but-not-xl uses sticky inside
+            the grid column. Both clamp naturally to the article's bottom. */}
+        <CaseStudyTocRail items={TOC_ITEMS} ariaLabel="Article sections" />
       <article>
         <Hero />
         <BeatSeparator />

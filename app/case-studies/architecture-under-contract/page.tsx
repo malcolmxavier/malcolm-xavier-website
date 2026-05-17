@@ -16,10 +16,8 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { Link } from "@/components/primitives/Link";
-import {
-  TableOfContents,
-  type TocItem,
-} from "@/components/chrome/TableOfContents";
+import type { TocItem } from "@/components/chrome/TableOfContents";
+import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
 import {
@@ -76,22 +74,13 @@ export default function FeedTrilogyCaseStudy() {
     <>
       <ScrollProgress />
 
-      {/* xl+ fixed-position TOC rail + dual-mode wrapper for lg.
-          Same treatment as the building-this-site case study so the
-          chrome reads consistently across the /case-studies cluster.
-          xl keeps original behavior (fixed rail off the article
-          column); lg-but-not-xl uses the grid wrapper with an
-          in-flow sticky rail; <lg has neither rail. */}
-      <aside className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30">
-        <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
-      </aside>
-
-      <div className="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
-        <aside className="hidden lg:block xl:hidden">
-          <div className="sticky top-24 pl-4">
-            <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
-          </div>
-        </aside>
+      {/* `relative` establishes the positioning context the xl+ TOC rail
+          uses to bound its sticky child to the article's vertical extent. */}
+      <div className="relative lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
+        {/* Dual-mode TOC rail. xl+ uses position: sticky inside an
+            absolutely-positioned column; lg-but-not-xl uses sticky inside
+            the grid column. Both clamp naturally to the article's bottom. */}
+        <CaseStudyTocRail items={TOC_ITEMS} ariaLabel="Article sections" />
         <article>
           <Hero />
           <BeatSeparator />

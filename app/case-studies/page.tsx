@@ -29,6 +29,10 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Card } from "@/components/primitives/Card";
 import { Link } from "@/components/primitives/Link";
 import {
+  TableOfContents,
+  type TocItem,
+} from "@/components/chrome/TableOfContents";
+import {
   type ResumeCaseStudy,
   sortedCaseStudiesNewestFirst,
 } from "../resume/resume-data";
@@ -39,7 +43,7 @@ import {
 // would unfurl with the sitewide stub. (2026-04-29 /full-review,
 // a-per-page-og-twitter.)
 const INDEX_DESCRIPTION =
-  "Long-form case studies from Malcolm Xavier—Growth PM artifacts and the meta build of this portfolio. Both written with Claude Code as build partner.";
+  "Long-form case studies from Malcolm Xavier on PM craft, AI-native shipping, and growth experiments. All written with Claude Code as build partner.";
 const INDEX_OG_TITLE = "Case Studies · Malcolm Xavier";
 
 export const metadata: Metadata = {
@@ -73,16 +77,38 @@ export const metadata: Metadata = {
 };
 
 /**
- * Decide grid column count for a given count of studies. The index
- * locks to a maximum of two columns regardless of total count: with
- * newest-first sort, the top-left tile is the lead surface and the
- * 2-up rhythm keeps every card at a comparable visual weight. A
- * single study still gets its own row (a one-card 2-col grid reads
- * as a stretched orphan).
+ * Sticky table-of-contents that lives in the left gutter on desktop
+ * (lg+) and is hidden below that breakpoint. Mirrors the resume
+ * page's ResumeTableOfContents pattern so the two index-style
+ * surfaces (/resume and /case-studies) feel like the same primitive.
+ *
+ * Each item is a hash anchor pointing to a section id on the page;
+ * matching <Section> elements set `scrollMarginTop` so the sticky
+ * Nav doesn't clip the section heading after a TOC jump.
+ *
+ * Designed to grow: adding a new section (e.g. "Product teardowns")
+ * is one new TOC_ITEMS entry plus one new <Section id="..."> below.
  */
-function gridColsFor(count: number): 1 | 2 {
-  return count >= 2 ? 2 : 1;
+const TOC_ITEMS: TocItem[] = [
+  { href: "#top", label: "↑ Top" },
+  { href: "#work", prefix: "01", label: "Work" },
+  { href: "#project", prefix: "02", label: "Project" },
+];
+
+function CaseStudiesTableOfContents() {
+  return (
+    <aside className="hidden lg:block">
+      <div className="sticky top-24">
+        <TableOfContents items={TOC_ITEMS} ariaLabel="Page sections" />
+      </div>
+    </aside>
+  );
 }
+
+// Shared anchor offset so TOC jumps land below the sticky Nav.
+// Matches the TOC's `top-24` sticky offset for visual consistency,
+// and mirrors the resume page's `sectionAnchorStyle`.
+const sectionAnchorStyle: React.CSSProperties = { scrollMarginTop: "6rem" };
 
 export default function CaseStudiesIndex() {
   // Personal/site case studies (no employer) and work-experience
@@ -96,49 +122,70 @@ export default function CaseStudiesIndex() {
   // 2-col grid, reading left-to-right then top-to-bottom traverses
   // the publication timeline in reverse chronological order.
   const sorted = sortedCaseStudiesNewestFirst();
-  const personalStudies = sorted.filter((s) => !s.employer);
+  const projectStudies = sorted.filter((s) => !s.employer);
   const workStudies = sorted.filter((s) => s.employer);
 
   return (
-    <Container size="md">
-      {/* ─── Hero ──────────────────────────────────────────────── */}
-      <Section padding="lg">
-        <Stack gap="500">
-          <Kicker>Case studies</Kicker>
-          <Display>The long-form work.</Display>
-          <Lede>
-            Personal and meta studies below; work-experience studies
-            from past roles when applicable. All written with Claude
-            Code as build partner.
-          </Lede>
-        </Stack>
-      </Section>
+    <Container size="lg">
+      {/* Two-column on desktop: TOC in the left gutter, content on the
+          right. Below lg, the TOC is hidden and the content reverts to
+          a single readable column constrained to ~64rem. Mirrors the
+          resume page's grid wrapper for visual parity across the two
+          index surfaces. */}
+      <div className="mx-auto max-w-[64rem] lg:max-w-none lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16">
+        <CaseStudiesTableOfContents />
+        <div>
+          {/* ─── Hero ──────────────────────────────────────────────── */}
+          <Section id="top" style={sectionAnchorStyle} padding="lg">
+            <Stack gap="500">
+              <Kicker>Case studies</Kicker>
+              <Display>The long-form work.</Display>
+              <Lede>
+                Work case studies from past roles up top; project case
+                studies and meta builds below. All written with Claude
+                Code as build partner.
+              </Lede>
+            </Stack>
+          </Section>
 
-      {/* ─── Personal / site studies ───────────────────────────── */}
-      <Section padding="md" bordered>
-        <Stack gap="500">
-          <Kicker as="h2">Case studies</Kicker>
-          <Grid cols={gridColsFor(personalStudies.length)} gap="600">
-            {personalStudies.map((study) => (
-              <CaseStudyCard key={study.slug} study={study} />
-            ))}
-          </Grid>
-        </Stack>
-      </Section>
+          {/* All sections use cols={2}. Index policy is "every section
+              renders in a 2-col grid, full stop" — keeps single-card
+              orphans at the same half-width as multi-card neighbors,
+              regardless of which section has how many cards. Grid is
+              `grid-cols-1 sm:grid-cols-2`, so mobile still stacks. */}
 
-      {/* ─── Work case studies — only when there are any ───────── */}
-      {workStudies.length > 0 ? (
-        <Section id="work" padding="md" bordered style={{ scrollMarginTop: "6rem" }}>
-          <Stack gap="500">
-            <Kicker as="h2">Work case studies</Kicker>
-            <Grid cols={gridColsFor(workStudies.length)} gap="600">
-              {workStudies.map((study) => (
-                <CaseStudyCard key={study.slug} study={study} />
-              ))}
-            </Grid>
-          </Stack>
-        </Section>
-      ) : null}
+          {/* Section order is Work → Project (and eventually →
+              Teardowns). Work-experience is the higher-priority signal
+              for the recruiter audience; project case studies + meta
+              builds follow as the "how I think and build" surface. */}
+
+          {/* ─── Work case studies — only when there are any ───────── */}
+          {workStudies.length > 0 ? (
+            <Section id="work" style={sectionAnchorStyle} padding="md" bordered>
+              <Stack gap="500">
+                <Kicker as="h2">Work case studies</Kicker>
+                <Grid cols={2} gap="600">
+                  {workStudies.map((study) => (
+                    <CaseStudyCard key={study.slug} study={study} />
+                  ))}
+                </Grid>
+              </Stack>
+            </Section>
+          ) : null}
+
+          {/* ─── Project case studies ──────────────────────────────── */}
+          <Section id="project" style={sectionAnchorStyle} padding="md" bordered>
+            <Stack gap="500">
+              <Kicker as="h2">Project case studies</Kicker>
+              <Grid cols={2} gap="600">
+                {projectStudies.map((study) => (
+                  <CaseStudyCard key={study.slug} study={study} />
+                ))}
+              </Grid>
+            </Stack>
+          </Section>
+        </div>
+      </div>
     </Container>
   );
 }
@@ -161,9 +208,23 @@ function CaseStudyCard({ study }: { study: ResumeCaseStudy }) {
           {study.title}
         </Headline>
         <Body size="md">{study.description}</Body>
-        <Link href={study.href}>Read the case study &rarr;</Link>
+        {/* aria-label disambiguates "Read the case study →" in
+            screen-reader rotor/link lists where multiple cards on
+            this page would otherwise expose identical strings.
+            Sighted users see the same visible label; AT users hear
+            the case-study title appended. */}
+        <Link
+          href={study.href}
+          aria-label={`Read the case study: ${study.title}`}
+        >
+          Read the case study &rarr;
+        </Link>
         {study.liveHref && (
-          <Link href={study.liveHref} quiet>
+          <Link
+            href={study.liveHref}
+            quiet
+            aria-label={`Visit the live project: ${study.title}`}
+          >
             Visit the live project &#8599;
           </Link>
         )}
