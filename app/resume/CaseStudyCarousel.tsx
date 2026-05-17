@@ -309,9 +309,21 @@ function CaseStudyCard({ study }: { study: ResumeCaseStudy }) {
           {study.title}
         </Headline>
         <Body size="md">{study.description}</Body>
-        <Link href={study.href}>Read the case study →</Link>
+        {/* aria-label disambiguates "Read the case study →" in
+            screen-reader rotor/link lists. Mirrors the pattern on
+            /case-studies CaseStudyCard. */}
+        <Link
+          href={study.href}
+          aria-label={`Read the case study: ${study.title}`}
+        >
+          Read the case study →
+        </Link>
         {study.liveHref && (
-          <Link href={study.liveHref} quiet>
+          <Link
+            href={study.liveHref}
+            quiet
+            aria-label={`Visit the live project: ${study.title}`}
+          >
             Visit the live project ↗
           </Link>
         )}

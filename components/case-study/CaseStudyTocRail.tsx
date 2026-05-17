@@ -1,0 +1,83 @@
+// ─────────────────────────────────────────────────────────────────
+// CaseStudyTocRail — dual-mode TOC chrome for case-study pages.
+//
+// Bundles the two positioning patterns case studies need:
+//
+//   • xl+ (≥1280px): rendered as a sticky rail in the left viewport
+//     margin. Absolutely positioned inside the page's (relative)
+//     wrapping div so that the sticky's bounding parent matches the
+//     <article>'s vertical extent. As the user scrolls past the
+//     article into the footer, the sticky TOC slides up out of view
+//     alongside the article — it never visually overlaps the footer.
+//
+//   • lg-but-not-xl (1024–1279px): rendered inside the case-study
+//     page's grid container as a sticky-top sidebar in the first
+//     column. `position: sticky` inside a CSS grid column is
+//     naturally bounded by the column's height, so this variant
+//     clamps cleanly to the article's bottom without any special
+//     handling.
+//
+//   • <lg (<1024px): not rendered. The article runs full width and
+//     the reader uses scroll alone — no TOC chrome.
+//
+// Required parent shape: the wrapping div around <CaseStudyTocRail />
+// and <article> MUST have `relative` so the xl+ rail's absolute
+// positioning is anchored to the right element. The case-study
+// page's existing wrapper has `lg:grid lg:grid-cols-[14rem_minmax(0,1fr)]
+// lg:gap-16 xl:block` — add `relative` at the front:
+//
+//     <div className="relative lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
+//       <CaseStudyTocRail items={TOC_ITEMS} ariaLabel="Article sections" />
+//       <article>...</article>
+//     </div>
+//
+// Without `relative` on the parent, the xl+ rail will anchor to the
+// nearest positioned ancestor (likely <main> or the viewport), which
+// breaks the sticky's bounding behavior and lets the TOC overlap the
+// footer again.
+// ─────────────────────────────────────────────────────────────────
+
+import { TableOfContents, type TocItem } from "@/components/chrome/TableOfContents";
+
+interface CaseStudyTocRailProps {
+  items: TocItem[];
+  /** Forwarded to TableOfContents. Defaults to "Article sections". */
+  ariaLabel?: string;
+}
+
+export function CaseStudyTocRail({
+  items,
+  ariaLabel = "Article sections",
+}: CaseStudyTocRailProps) {
+  return (
+    <>
+      {/* xl+ rail. The outer <aside> is absolutely positioned within
+          the page's (relative) wrapping div, spanning its full height
+          (top-0) minus a bottom buffer (bottom-8 = 32px). The bottom
+          buffer keeps the sticky child's clamp window 32px above the
+          article's bottom edge, so the TOC's active-item left rail
+          never visually kisses the footer divider. The clearance is
+          a constant 32px regardless of TOC item count — works for any
+          length case study (an 8-item TOC and a 14-item TOC both clamp
+          with the same gap). pointer-events-none on the outer aside
+          keeps the empty column from blocking clicks on the article
+          below; pointer-events-auto on the sticky child restores
+          clicks where the actual TOC content lives. */}
+      <aside className="hidden xl:block absolute top-0 bottom-8 left-0 w-[180px] 2xl:w-[220px] z-30 pointer-events-none">
+        <div className="sticky top-32 ml-4 2xl:ml-8 pointer-events-auto">
+          <TableOfContents items={items} ariaLabel={ariaLabel} />
+        </div>
+      </aside>
+
+      {/* lg-but-not-xl in-grid sticky rail. position: sticky inside
+          the parent grid column is naturally bounded by the column's
+          height = the article's height. No special handling needed —
+          this variant already clamped correctly before. */}
+      <aside className="hidden lg:block xl:hidden">
+        <div className="sticky top-24 pl-4">
+          <TableOfContents items={items} ariaLabel={ariaLabel} />
+        </div>
+      </aside>
+    </>
+  );
+}

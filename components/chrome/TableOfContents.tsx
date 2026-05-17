@@ -35,6 +35,14 @@ export type TocItem = {
   label: string;
   /** Optional eyebrow / number prefix, e.g. "01". Rendered in mono. */
   prefix?: string;
+  /**
+   * Optional aria-label override for the rendered <a>. Use when the
+   * visible label contains a glyph or symbol that screen readers will
+   * announce literally (e.g. "↑ Top" announces as "upwards arrow Top"
+   * in punctuation-verbose modes). If omitted, "↑ Top" auto-falls-back
+   * to "Back to top"; other glyph labels can set this explicitly.
+   */
+  ariaLabel?: string;
 };
 
 interface TableOfContentsProps {
@@ -193,6 +201,10 @@ export function TableOfContents({
                 className="toc-item"
                 data-active={isActive ? "true" : undefined}
                 aria-current={isActive ? "location" : undefined}
+                aria-label={
+                  item.ariaLabel ??
+                  (item.label.startsWith("↑") ? "Back to top" : undefined)
+                }
               >
                 {item.prefix ? (
                   <span className="toc-prefix">{item.prefix}</span>

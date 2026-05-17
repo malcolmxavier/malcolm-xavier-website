@@ -56,7 +56,8 @@ import {
   rolesReferencingCaseStudy,
   slugifyRoleAnchor,
 } from "@/app/resume/resume-data";
-import { TableOfContents, type TocItem } from "@/components/chrome/TableOfContents";
+import type { TocItem } from "@/components/chrome/TableOfContents";
+import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
 import {
@@ -119,18 +120,13 @@ export default function WorkCaseStudyTemplate() {
     <>
       <ScrollProgress />
 
-      {/* xl+ fixed-position TOC rail; lg-but-not-xl renders the rail
-          inside the column grid below. Mirrors basecamp-coffee/page.tsx. */}
-      <aside className="hidden xl:block fixed top-32 left-4 w-[180px] 2xl:left-8 2xl:w-[220px] z-30">
-        <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
-      </aside>
-
-      <div className="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
-        <aside className="hidden lg:block xl:hidden">
-          <div className="sticky top-24 pl-4">
-            <TableOfContents items={TOC_ITEMS} ariaLabel="Article sections" />
-          </div>
-        </aside>
+      {/* `relative` establishes the positioning context the xl+ TOC rail
+          uses to bound its sticky child to the article's vertical extent. */}
+      <div className="relative lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
+        {/* Dual-mode TOC rail. xl+ uses position: sticky inside an
+            absolutely-positioned column; lg-but-not-xl uses sticky inside
+            the grid column. Both clamp naturally to the article's bottom. */}
+        <CaseStudyTocRail items={TOC_ITEMS} ariaLabel="Article sections" />
         <article id="top">
           <Hero />
           <BeatSeparator />
@@ -252,25 +248,37 @@ function BeatResearch() {
         </p>
       </Body>
 
-      {/* Headline numbers — drop the StatRow if you don't have any. */}
+      {/* Headline numbers — drop the StatRow if you don't have any.
+          Stat takes `big` as a string prop, not children. Caption is
+          also a string prop, so use literal Unicode characters (e.g.
+          —, ', ") rather than HTML entities (&mdash;, &apos;, &quot;) —
+          JSX only decodes entities in text content, not string props. */}
       <StatRow>
-        <Stat eyebrow="<metric>" caption="<context for the number>">
-          <Emph>NN%</Emph>
-        </Stat>
-        <Stat eyebrow="<metric>" caption="<context for the number>">
-          <Emph>NN</Emph>
-        </Stat>
+        <Stat
+          big="NN%"
+          eyebrow="<metric>"
+          caption="<context for the number>"
+        />
+        <Stat
+          big="NN"
+          eyebrow="<metric>"
+          caption="<context for the number>"
+        />
       </StatRow>
 
       {/* Two or three qual findings. Each is one card; titles state
           the finding, body unpacks. Drop the EvidenceGrid block if
           your research was purely quant. */}
+      {/* Pass plain text or inline elements (<Emph>, <Code>) as
+          children — NOT a <p> wrapper. The EvidenceCard primitive
+          already wraps its children in a <p>; passing your own <p>
+          produces invalid nested-<p> HTML which browsers silently strip. */}
       <EvidenceGrid>
         <EvidenceCard eyebrow="<source>" title="<finding>">
-          <p>One-paragraph unpack of the finding.</p>
+          One-paragraph unpack of the finding.
         </EvidenceCard>
         <EvidenceCard eyebrow="<source>" title="<finding>">
-          <p>One-paragraph unpack of the finding.</p>
+          One-paragraph unpack of the finding.
         </EvidenceCard>
       </EvidenceGrid>
     </Beat>
@@ -328,12 +336,14 @@ function BeatExecution() {
       {/* Iteration cards — each describes one round / one decision.
           Lens is a 1-2 word frame ("Round 1", "Pivot", "Cleanup");
           title states what changed; body unpacks why. */}
+      {/* Same rule as EvidenceCard: plain text / inline elements as
+          children, no <p> wrapper. */}
       <IterationGrid>
         <IterationCard lens="Round 1" title="<what shipped first>">
-          <p>One paragraph on the first iteration.</p>
+          One paragraph on the first iteration.
         </IterationCard>
         <IterationCard lens="Round 2" title="<what changed>">
-          <p>What we learned that drove the next round.</p>
+          What we learned that drove the next round.
         </IterationCard>
       </IterationGrid>
     </Beat>

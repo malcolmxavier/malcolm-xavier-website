@@ -38,8 +38,11 @@
   align-items: baseline;
   gap: 10px;
   /* Padding leaves room for the left-border indicator without
-     shifting text on hover/active state. */
-  padding: 6px 0 6px 10px;
+     shifting text on hover/active state. Vertical padding bumped
+     from 6px to 8px so the effective target height (~33px) gives
+     a comfortable margin over WCAG 2.5.8's 24×24 minimum on touch
+     viewports. */
+  padding: 8px 0 8px 10px;
   border-left: 1px solid transparent;
   text-decoration: none;
   font-size: 13px;

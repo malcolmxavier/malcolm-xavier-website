@@ -241,6 +241,7 @@ export const ROLES: ResumeRole[] = [
       "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations",
       "Led update to product pricing, including onsite creative and purchase flow",
     ],
+    relatedCaseStudies: ["user-interviews"],
   },
   {
     company: "Fullstack Academy",
@@ -366,6 +367,15 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
       "One architectural rule that keeps three integrations online when their upstreams break. Polite-client posture for the one with no API, TMDB enrichment for two. Sequel to Building this site.",
     href: "/case-studies/architecture-under-contract",
     publishedAt: "2026-05-12",
+  },
+  {
+    slug: "user-interviews",
+    title: "Steering leading indicators",
+    description:
+      "How occupational targeting lifted Early Qualification Rate 15% at User Interviews—a leading-indicator bet on a two-sided UXR marketplace.",
+    href: "/case-studies/user-interviews",
+    publishedAt: "2026-05-14",
+    employer: "User Interviews",
   },
 ];
 
