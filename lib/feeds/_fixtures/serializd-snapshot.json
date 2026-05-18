@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-05-18T03:31:38.478Z",
+  "capturedAt": "2026-05-18T04:30:57.275Z",
   "summary": {
     "totalShows": 155,
     "totalShowReviews": 37,
     "totalSeasonReviews": 232,
-    "totalEpisodeReviews": 510,
+    "totalEpisodeReviews": 511,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
       "3": 187,
       "4": 146,
       "5": 13,
+      "3.5": 221,
       "2.5": 84,
-      "3.5": 220,
       "4.5": 39,
       "1.5": 11,
       "0.5": 1
@@ -43,8 +43,8 @@
         "3": 129,
         "4": 100,
         "5": 5,
+        "3.5": 161,
         "2.5": 59,
-        "3.5": 160,
         "4.5": 31,
         "1.5": 5
       }
@@ -250,6 +250,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 66090748,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Porsha, stop having that man on my screen now, chile…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-18T04:24:40Z",
+          "reviewDate": "2026-05-18T04:25:02Z",
+          "seasonId": 135301,
+          "episodeNumber": 7,
+          "episodeName": "What Would Michelle O Do?",
+          "tags": []
+        },
         {
           "id": 66086326,
           "level": "episode",
@@ -2170,8 +2186,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-18T03:24:57Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-05-18T04:25:02Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -24081,6 +24097,22 @@
       ],
       "reviews": [
         {
+          "id": 66090748,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Porsha, stop having that man on my screen now, chile…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-18T04:24:40Z",
+          "reviewDate": "2026-05-18T04:25:02Z",
+          "seasonId": 135301,
+          "episodeNumber": 7,
+          "episodeName": "What Would Michelle O Do?",
+          "tags": []
+        },
+        {
           "id": 66086326,
           "level": "episode",
           "rating": 4,
@@ -26000,8 +26032,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-18T03:24:57Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-05-18T04:25:02Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-85552": {
