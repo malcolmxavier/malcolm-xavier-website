@@ -1,14 +1,14 @@
 {
-  "capturedAt": "2026-05-17T22:31:04.978Z",
+  "capturedAt": "2026-05-18T02:31:15.894Z",
   "summary": {
     "totalShows": 155,
     "totalShowReviews": 37,
     "totalSeasonReviews": 232,
-    "totalEpisodeReviews": 507,
+    "totalEpisodeReviews": 509,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
-      "3": 185,
+      "3": 187,
       "4": 145,
       "5": 13,
       "2.5": 84,
@@ -40,7 +40,7 @@
       },
       "episode": {
         "2": 20,
-        "3": 127,
+        "3": 129,
         "4": 99,
         "5": 5,
         "2.5": 59,
@@ -250,6 +250,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 66080034,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-18T02:10:35Z",
+          "reviewDate": "2026-05-18T02:10:35Z",
+          "seasonId": 135301,
+          "episodeNumber": 5,
+          "episodeName": "The Regift That Keeps on Giving",
+          "tags": []
+        },
         {
           "id": 66050676,
           "level": "episode",
@@ -2138,7 +2154,188 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-17T20:43:45Z",
+      "latestActivityDate": "2026-05-18T02:10:35Z",
+      "primaryRating": 3,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-85552",
+      "serializdShowId": 85552,
+      "slug": "euphoria-2019",
+      "name": "Euphoria",
+      "premiereYear": 2019,
+      "premiereDate": "2019-06-16",
+      "serializdUrl": "https://serializd.com/show/85552",
+      "tmdb": {
+        "id": 85552,
+        "name": "Euphoria",
+        "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+        "backdropPath": "/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 24
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+      "seasons": [
+        {
+          "serializdId": 166250,
+          "showId": 85552,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/bNsxPilhY9V72QsrnjP9eiuF30j.jpg",
+          "episodeCount": 2
+        },
+        {
+          "serializdId": 115613,
+          "showId": 85552,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/5mi3aRl16yKmfpQJMzvqN5TXkdA.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 220804,
+          "showId": 85552,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 487853,
+          "showId": 85552,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 66080006,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Less offensive and more boring than prior installments this season. Lexi is a grade A hater and I love that for her.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-18T02:09:42Z",
+          "reviewDate": "2026-05-18T02:10:15Z",
+          "seasonId": 487853,
+          "episodeNumber": 6,
+          "episodeName": "Stand Still and See",
+          "tags": []
+        },
+        {
+          "id": 65304294,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Maddy supremacy. Give me the spinoff with Alamo Brown and I’ll forgive everything else.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-11T02:38:44Z",
+          "reviewDate": "2026-05-11T02:39:12Z",
+          "seasonId": 487853,
+          "episodeNumber": 5,
+          "episodeName": "This Little Piggy",
+          "tags": []
+        },
+        {
+          "id": 64562535,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A collection of fun scenes, but still not hitting the same.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-04T02:11:14Z",
+          "reviewDate": "2026-05-04T02:11:46Z",
+          "seasonId": 487853,
+          "episodeNumber": 4,
+          "episodeName": "Kitty Likes to Dance",
+          "tags": []
+        },
+        {
+          "id": 63815117,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Cassie is so unserious. Needed more interaction between Jules and both Jacobs men.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-27T03:22:01Z",
+          "reviewDate": "2026-04-27T03:22:59Z",
+          "seasonId": 487853,
+          "episodeNumber": 3,
+          "episodeName": "The Ballad of Paladin",
+          "tags": []
+        },
+        {
+          "id": 63014094,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "It’s giving ragebait as a decision because he knows highbrow or camp is unattainable.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-20T02:54:41Z",
+          "reviewDate": "2026-04-20T02:55:39Z",
+          "seasonId": 487853,
+          "episodeNumber": 2,
+          "episodeName": "America My Dream",
+          "tags": []
+        },
+        {
+          "id": 62193535,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "And let’s start addressing Sam Levinson’s weird obsession with Black men, too.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-13T02:07:58Z",
+          "reviewDate": "2026-04-13T02:08:28Z",
+          "seasonId": 487853,
+          "episodeNumber": 1,
+          "episodeName": "Andale",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        0,
+        1,
+        2
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-18T02:10:15Z",
       "primaryRating": 3,
       "liked": false
     },
@@ -2542,7 +2739,7 @@
           "reviewDate": "2026-05-16T05:06:26Z",
           "seasonId": 506657,
           "episodeNumber": 8,
-          "episodeName": "The Garden",
+          "episodeName": "The Cube",
           "tags": []
         },
         {
@@ -4090,171 +4287,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-11T03:27:13Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-85552",
-      "serializdShowId": 85552,
-      "slug": "euphoria-2019",
-      "name": "Euphoria",
-      "premiereYear": 2019,
-      "premiereDate": "2019-06-16",
-      "serializdUrl": "https://serializd.com/show/85552",
-      "tmdb": {
-        "id": 85552,
-        "name": "Euphoria",
-        "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-        "backdropPath": "/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg",
-        "genres": [
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 24
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-      "seasons": [
-        {
-          "serializdId": 166250,
-          "showId": 85552,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/bNsxPilhY9V72QsrnjP9eiuF30j.jpg",
-          "episodeCount": 2
-        },
-        {
-          "serializdId": 115613,
-          "showId": 85552,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/5mi3aRl16yKmfpQJMzvqN5TXkdA.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 220804,
-          "showId": 85552,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 487853,
-          "showId": 85552,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 65304294,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Maddy supremacy. Give me the spinoff with Alamo Brown and I’ll forgive everything else.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-11T02:38:44Z",
-          "reviewDate": "2026-05-11T02:39:12Z",
-          "seasonId": 487853,
-          "episodeNumber": 5,
-          "episodeName": "This Little Piggy",
-          "tags": []
-        },
-        {
-          "id": 64562535,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "A collection of fun scenes, but still not hitting the same.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-04T02:11:14Z",
-          "reviewDate": "2026-05-04T02:11:46Z",
-          "seasonId": 487853,
-          "episodeNumber": 4,
-          "episodeName": "Kitty Likes to Dance",
-          "tags": []
-        },
-        {
-          "id": 63815117,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "Cassie is so unserious. Needed more interaction between Jules and both Jacobs men.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-27T03:22:01Z",
-          "reviewDate": "2026-04-27T03:22:59Z",
-          "seasonId": 487853,
-          "episodeNumber": 3,
-          "episodeName": "The Ballad of Paladin",
-          "tags": []
-        },
-        {
-          "id": 63014094,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "It’s giving ragebait as a decision because he knows highbrow or camp is unattainable.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-20T02:54:41Z",
-          "reviewDate": "2026-04-20T02:55:39Z",
-          "seasonId": 487853,
-          "episodeNumber": 2,
-          "episodeName": "America My Dream",
-          "tags": []
-        },
-        {
-          "id": 62193535,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "And let’s start addressing Sam Levinson’s weird obsession with Black men, too.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-13T02:07:58Z",
-          "reviewDate": "2026-04-13T02:08:28Z",
-          "seasonId": 487853,
-          "episodeNumber": 1,
-          "episodeName": "Andale",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        3
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        0,
-        1,
-        2
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-11T02:39:12Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -24033,6 +24065,22 @@
       ],
       "reviews": [
         {
+          "id": 66080034,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-18T02:10:35Z",
+          "reviewDate": "2026-05-18T02:10:35Z",
+          "seasonId": 135301,
+          "episodeNumber": 5,
+          "episodeName": "The Regift That Keeps on Giving",
+          "tags": []
+        },
+        {
           "id": 66050676,
           "level": "episode",
           "rating": 3,
@@ -25920,7 +25968,188 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-17T20:43:45Z",
+      "latestActivityDate": "2026-05-18T02:10:35Z",
+      "primaryRating": 3,
+      "liked": false
+    },
+    "tmdb-tv-85552": {
+      "id": "tmdb-tv-85552",
+      "serializdShowId": 85552,
+      "slug": "euphoria-2019",
+      "name": "Euphoria",
+      "premiereYear": 2019,
+      "premiereDate": "2019-06-16",
+      "serializdUrl": "https://serializd.com/show/85552",
+      "tmdb": {
+        "id": 85552,
+        "name": "Euphoria",
+        "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+        "backdropPath": "/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 24
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+      "seasons": [
+        {
+          "serializdId": 166250,
+          "showId": 85552,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/bNsxPilhY9V72QsrnjP9eiuF30j.jpg",
+          "episodeCount": 2
+        },
+        {
+          "serializdId": 115613,
+          "showId": 85552,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/5mi3aRl16yKmfpQJMzvqN5TXkdA.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 220804,
+          "showId": 85552,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 487853,
+          "showId": 85552,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 66080006,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Less offensive and more boring than prior installments this season. Lexi is a grade A hater and I love that for her.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-18T02:09:42Z",
+          "reviewDate": "2026-05-18T02:10:15Z",
+          "seasonId": 487853,
+          "episodeNumber": 6,
+          "episodeName": "Stand Still and See",
+          "tags": []
+        },
+        {
+          "id": 65304294,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Maddy supremacy. Give me the spinoff with Alamo Brown and I’ll forgive everything else.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-11T02:38:44Z",
+          "reviewDate": "2026-05-11T02:39:12Z",
+          "seasonId": 487853,
+          "episodeNumber": 5,
+          "episodeName": "This Little Piggy",
+          "tags": []
+        },
+        {
+          "id": 64562535,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A collection of fun scenes, but still not hitting the same.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-04T02:11:14Z",
+          "reviewDate": "2026-05-04T02:11:46Z",
+          "seasonId": 487853,
+          "episodeNumber": 4,
+          "episodeName": "Kitty Likes to Dance",
+          "tags": []
+        },
+        {
+          "id": 63815117,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Cassie is so unserious. Needed more interaction between Jules and both Jacobs men.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-27T03:22:01Z",
+          "reviewDate": "2026-04-27T03:22:59Z",
+          "seasonId": 487853,
+          "episodeNumber": 3,
+          "episodeName": "The Ballad of Paladin",
+          "tags": []
+        },
+        {
+          "id": 63014094,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "It’s giving ragebait as a decision because he knows highbrow or camp is unattainable.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-20T02:54:41Z",
+          "reviewDate": "2026-04-20T02:55:39Z",
+          "seasonId": 487853,
+          "episodeNumber": 2,
+          "episodeName": "America My Dream",
+          "tags": []
+        },
+        {
+          "id": 62193535,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "And let’s start addressing Sam Levinson’s weird obsession with Black men, too.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-13T02:07:58Z",
+          "reviewDate": "2026-04-13T02:08:28Z",
+          "seasonId": 487853,
+          "episodeNumber": 1,
+          "episodeName": "Andale",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        0,
+        1,
+        2
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-18T02:10:15Z",
       "primaryRating": 3,
       "liked": false
     },
@@ -26324,7 +26553,7 @@
           "reviewDate": "2026-05-16T05:06:26Z",
           "seasonId": 506657,
           "episodeNumber": 8,
-          "episodeName": "The Garden",
+          "episodeName": "The Cube",
           "tags": []
         },
         {
@@ -27872,171 +28101,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-11T03:27:13Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    "tmdb-tv-85552": {
-      "id": "tmdb-tv-85552",
-      "serializdShowId": 85552,
-      "slug": "euphoria-2019",
-      "name": "Euphoria",
-      "premiereYear": 2019,
-      "premiereDate": "2019-06-16",
-      "serializdUrl": "https://serializd.com/show/85552",
-      "tmdb": {
-        "id": 85552,
-        "name": "Euphoria",
-        "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-        "backdropPath": "/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg",
-        "genres": [
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 24
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-      "seasons": [
-        {
-          "serializdId": 166250,
-          "showId": 85552,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/bNsxPilhY9V72QsrnjP9eiuF30j.jpg",
-          "episodeCount": 2
-        },
-        {
-          "serializdId": 115613,
-          "showId": 85552,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/5mi3aRl16yKmfpQJMzvqN5TXkdA.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 220804,
-          "showId": 85552,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/jtnfNzqZwN4E32FGGxx1YZaBWWf.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 487853,
-          "showId": 85552,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 65304294,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Maddy supremacy. Give me the spinoff with Alamo Brown and I’ll forgive everything else.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-11T02:38:44Z",
-          "reviewDate": "2026-05-11T02:39:12Z",
-          "seasonId": 487853,
-          "episodeNumber": 5,
-          "episodeName": "This Little Piggy",
-          "tags": []
-        },
-        {
-          "id": 64562535,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "A collection of fun scenes, but still not hitting the same.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-04T02:11:14Z",
-          "reviewDate": "2026-05-04T02:11:46Z",
-          "seasonId": 487853,
-          "episodeNumber": 4,
-          "episodeName": "Kitty Likes to Dance",
-          "tags": []
-        },
-        {
-          "id": 63815117,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "Cassie is so unserious. Needed more interaction between Jules and both Jacobs men.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-27T03:22:01Z",
-          "reviewDate": "2026-04-27T03:22:59Z",
-          "seasonId": 487853,
-          "episodeNumber": 3,
-          "episodeName": "The Ballad of Paladin",
-          "tags": []
-        },
-        {
-          "id": 63014094,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "It’s giving ragebait as a decision because he knows highbrow or camp is unattainable.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-20T02:54:41Z",
-          "reviewDate": "2026-04-20T02:55:39Z",
-          "seasonId": 487853,
-          "episodeNumber": 2,
-          "episodeName": "America My Dream",
-          "tags": []
-        },
-        {
-          "id": 62193535,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "And let’s start addressing Sam Levinson’s weird obsession with Black men, too.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-13T02:07:58Z",
-          "reviewDate": "2026-04-13T02:08:28Z",
-          "seasonId": 487853,
-          "episodeNumber": 1,
-          "episodeName": "Andale",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        3
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        0,
-        1,
-        2
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-11T02:39:12Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-1416": {
@@ -47911,7 +47975,7 @@
       "serializdShowId": 118321,
       "name": "Allen v. Farrow",
       "premiereDate": "2021-02-21",
-      "bannerImage": "/jXC3tk2apwPxDpFHQaQH5ATDhlP.jpg",
+      "bannerImage": "/oDIn7IJBy1ZugYXvji5a1L7MnBi.jpg",
       "numSeasons": 1,
       "numEpisodes": 4,
       "watchedSeasonIds": [
