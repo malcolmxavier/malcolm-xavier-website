@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-05-19T22:31:09.360Z",
+  "capturedAt": "2026-05-19T23:31:21.619Z",
   "summary": {
     "totalShows": 155,
     "totalShowReviews": 37,
     "totalSeasonReviews": 232,
-    "totalEpisodeReviews": 524,
+    "totalEpisodeReviews": 526,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
       "3": 190,
-      "4": 149,
+      "4": 150,
       "5": 13,
-      "3.5": 227,
+      "3.5": 228,
       "4.5": 40,
       "2.5": 84,
       "1.5": 11,
@@ -41,9 +41,9 @@
       "episode": {
         "2": 20,
         "3": 132,
-        "4": 103,
+        "4": 104,
         "5": 5,
-        "3.5": 167,
+        "3.5": 168,
         "4.5": 32,
         "2.5": 59,
         "1.5": 5
@@ -250,6 +250,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 66285512,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Todd better watch that tone!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-19T23:21:49Z",
+          "reviewDate": "2026-05-19T23:21:49Z",
+          "seasonId": 135301,
+          "episodeNumber": 20,
+          "episodeName": "More Love More Problems",
+          "tags": []
+        },
+        {
+          "id": 66281736,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "You can talk about people’s actions, but the way Kenya speaks to everybody when she feels singled out? She still gotta work on that because some of these women are not even trying to come for her…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-19T22:31:09Z",
+          "reviewDate": "2026-05-19T22:32:17Z",
+          "seasonId": 135301,
+          "episodeNumber": 19,
+          "episodeName": "Ruined Peaches",
+          "tags": []
+        },
         {
           "id": 66277603,
           "level": "episode",
@@ -2362,8 +2394,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-19T21:44:41Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-05-19T23:21:49Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -24305,6 +24337,38 @@
       ],
       "reviews": [
         {
+          "id": 66285512,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Todd better watch that tone!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-19T23:21:49Z",
+          "reviewDate": "2026-05-19T23:21:49Z",
+          "seasonId": 135301,
+          "episodeNumber": 20,
+          "episodeName": "More Love More Problems",
+          "tags": []
+        },
+        {
+          "id": 66281736,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "You can talk about people’s actions, but the way Kenya speaks to everybody when she feels singled out? She still gotta work on that because some of these women are not even trying to come for her…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-19T22:31:09Z",
+          "reviewDate": "2026-05-19T22:32:17Z",
+          "seasonId": 135301,
+          "episodeNumber": 19,
+          "episodeName": "Ruined Peaches",
+          "tags": []
+        },
+        {
           "id": 66277603,
           "level": "episode",
           "rating": 4,
@@ -26416,8 +26480,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-19T21:44:41Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-05-19T23:21:49Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-22980": {
