@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-05-19T04:30:56.212Z",
+  "capturedAt": "2026-05-19T16:31:56.011Z",
   "summary": {
     "totalShows": 155,
     "totalShowReviews": 37,
     "totalSeasonReviews": 232,
-    "totalEpisodeReviews": 519,
+    "totalEpisodeReviews": 520,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
       "3": 190,
       "4": 148,
       "5": 13,
-      "3.5": 224,
+      "3.5": 225,
       "2.5": 84,
       "4.5": 39,
       "1.5": 11,
@@ -43,7 +43,7 @@
         "3": 132,
         "4": 102,
         "5": 5,
-        "3.5": 164,
+        "3.5": 165,
         "2.5": 59,
         "4.5": 31,
         "1.5": 5
@@ -250,6 +250,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 66243341,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Getting tired of Ms. Leakes, sorry to say!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-19T15:51:30Z",
+          "reviewDate": "2026-05-19T15:51:30Z",
+          "seasonId": 135301,
+          "episodeNumber": 14,
+          "episodeName": "Lions and Tigers and Shade",
+          "tags": []
+        },
         {
           "id": 66202407,
           "level": "episode",
@@ -2282,7 +2298,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-19T04:10:33Z",
+      "latestActivityDate": "2026-05-19T15:51:30Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -24225,6 +24241,22 @@
       ],
       "reviews": [
         {
+          "id": 66243341,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Getting tired of Ms. Leakes, sorry to say!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-19T15:51:30Z",
+          "reviewDate": "2026-05-19T15:51:30Z",
+          "seasonId": 135301,
+          "episodeNumber": 14,
+          "episodeName": "Lions and Tigers and Shade",
+          "tags": []
+        },
+        {
           "id": 66202407,
           "level": "episode",
           "rating": 3.5,
@@ -26256,7 +26288,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-19T04:10:33Z",
+      "latestActivityDate": "2026-05-19T15:51:30Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -48295,7 +48327,7 @@
       "serializdShowId": 118321,
       "name": "Allen v. Farrow",
       "premiereDate": "2021-02-21",
-      "bannerImage": "/oDIn7IJBy1ZugYXvji5a1L7MnBi.jpg",
+      "bannerImage": "/jXC3tk2apwPxDpFHQaQH5ATDhlP.jpg",
       "numSeasons": 1,
       "numEpisodes": 4,
       "watchedSeasonIds": [
