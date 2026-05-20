@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-05-20T03:31:06.324Z",
+  "capturedAt": "2026-05-20T04:31:16.824Z",
   "summary": {
     "totalShows": 155,
     "totalShowReviews": 37,
     "totalSeasonReviews": 232,
-    "totalEpisodeReviews": 529,
+    "totalEpisodeReviews": 530,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
       "3": 192,
       "4": 151,
       "5": 13,
-      "3.5": 228,
+      "3.5": 229,
       "4.5": 40,
       "2.5": 84,
       "1.5": 11,
@@ -43,7 +43,7 @@
         "3": 134,
         "4": 105,
         "5": 5,
-        "3.5": 168,
+        "3.5": 169,
         "4.5": 32,
         "2.5": 59,
         "1.5": 5
@@ -250,6 +250,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 66302842,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Andy loves him some melanin.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-20T03:49:18Z",
+          "reviewDate": "2026-05-20T03:49:36Z",
+          "seasonId": 135301,
+          "episodeNumber": 24,
+          "episodeName": "Reunion (1)",
+          "tags": []
+        },
         {
           "id": 66300243,
           "level": "episode",
@@ -2442,8 +2458,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-20T03:01:37Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-05-20T03:49:36Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -24385,6 +24401,22 @@
       ],
       "reviews": [
         {
+          "id": 66302842,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Andy loves him some melanin.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-20T03:49:18Z",
+          "reviewDate": "2026-05-20T03:49:36Z",
+          "seasonId": 135301,
+          "episodeNumber": 24,
+          "episodeName": "Reunion (1)",
+          "tags": []
+        },
+        {
           "id": 66300243,
           "level": "episode",
           "rating": 3,
@@ -26576,8 +26608,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-20T03:01:37Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-05-20T03:49:36Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-22980": {
