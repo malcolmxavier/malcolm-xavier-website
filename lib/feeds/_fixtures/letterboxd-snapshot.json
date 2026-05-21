@@ -1,53 +1,232 @@
 {
-  "capturedAt": "2026-05-18T04:00:23.303Z",
+  "capturedAt": "2026-05-21T05:00:17.101Z",
   "summary": {
-    "totalFilms": 748,
-    "totalReviews": 748,
-    "thisYearCount": 107,
+    "totalFilms": 752,
+    "totalReviews": 752,
+    "thisYearCount": 111,
     "ratingDistribution": {
       "1": 34,
-      "2": 118,
-      "3": 141,
+      "2": 119,
+      "3": 142,
       "4": 101,
       "5": 16,
+      "2.5": 101,
+      "3.5": 149,
       "4.5": 49,
-      "3.5": 148,
-      "2.5": 100,
       "1.5": 32,
       "0.5": 9
     },
     "genreDistribution": {
+      "Action": 113,
+      "Fantasy": 58,
+      "Adventure": 83,
+      "Drama": 355,
+      "Romance": 87,
       "Crime": 98,
       "Thriller": 214,
       "Comedy": 214,
       "Music": 48,
-      "Action": 109,
-      "Drama": 353,
       "Mystery": 78,
       "Documentary": 59,
       "Animation": 43,
       "Family": 19,
       "Horror": 125,
       "Science Fiction": 109,
-      "Adventure": 81,
-      "Romance": 86,
-      "Fantasy": 56,
       "History": 40,
       "TV Movie": 5,
       "War": 16,
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 559,
+      "2020s": 562,
+      "1980s": 16,
       "1990s": 15,
       "2010s": 123,
       "1960s": 1,
       "1970s": 4,
-      "2000s": 31,
-      "1980s": 15
+      "2000s": 31
     }
   },
   "films": [
+    {
+      "id": "tmdb-931285",
+      "letterboxdSlug": "mortal-kombat-ii",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/mortal-kombat-ii/",
+      "title": "Mortal Kombat II",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-20",
+      "latestWatchedDate": "2026-05-20",
+      "firstReviewDate": "2026-05-21",
+      "latestReviewDate": "2026-05-21",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1323625441",
+          "watchedDate": "2026-05-20",
+          "reviewDate": "2026-05-21",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Fan service that is trying to both lean into and avoid its campiness at the same time. To think they keep foreshadowing sequels for a movie with no meaningful plot or character development.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 931285,
+        "posterPath": "/lIsMeDbwntNXSUVHmWMMRXEZOVc.jpg",
+        "backdropPath": "/4EAAwpylq313qrDqpCxulUrXBNF.jpg",
+        "genres": [
+          "Action",
+          "Fantasy",
+          "Adventure"
+        ],
+        "runtime": 116,
+        "director": "Simon McQuoid"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/lIsMeDbwntNXSUVHmWMMRXEZOVc.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lIsMeDbwntNXSUVHmWMMRXEZOVc.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-460465",
+      "letterboxdSlug": "mortal-kombat",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/mortal-kombat-2021/",
+      "title": "Mortal Kombat",
+      "releaseYear": 2021,
+      "firstWatchedDate": "2026-05-18",
+      "latestWatchedDate": "2026-05-18",
+      "firstReviewDate": "2026-05-21",
+      "latestReviewDate": "2026-05-21",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1323623957",
+          "watchedDate": "2026-05-18",
+          "reviewDate": "2026-05-21",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I’m just here for the VFX and Hiroyuki Sanada.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 460465,
+        "posterPath": "/ybrX94xQm8lXYpZAPRmwD9iIbWP.jpg",
+        "backdropPath": "/6ELCZlTA5lGUops70hKdB83WJxH.jpg",
+        "genres": [
+          "Action",
+          "Fantasy",
+          "Adventure"
+        ],
+        "runtime": 110,
+        "director": "Simon McQuoid"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ybrX94xQm8lXYpZAPRmwD9iIbWP.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ybrX94xQm8lXYpZAPRmwD9iIbWP.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-361743",
+      "letterboxdSlug": "top-gun-maverick",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/top-gun-maverick/",
+      "title": "Top Gun: Maverick",
+      "releaseYear": 2022,
+      "firstWatchedDate": "2026-05-18",
+      "latestWatchedDate": "2026-05-18",
+      "firstReviewDate": "2026-05-21",
+      "latestReviewDate": "2026-05-21",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1323622870",
+          "watchedDate": "2026-05-18",
+          "reviewDate": "2026-05-21",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Good, but with a lot of filler that tries to connect more dots to the original. In fact, I thought I had missed an entire other sequel somewhere in there because of how the script was constructed. Unfortunately for Miles Teller, Rooster didn’t inherit Goose’s juice—sorry! We spent so much time with Jennifer Connelly and just forgot that Ed Harris and Manny Jacinto were here…I don’t like that.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 361743,
+        "posterPath": "/n0YuM4f5lvGAP6MAW2kBIzugXnc.jpg",
+        "backdropPath": "/AaV1YIdWKnjAIAOe8UUKBFm327v.jpg",
+        "genres": [
+          "Action",
+          "Drama"
+        ],
+        "runtime": 131,
+        "director": "Joseph Kosinski"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/n0YuM4f5lvGAP6MAW2kBIzugXnc.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/n0YuM4f5lvGAP6MAW2kBIzugXnc.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-744",
+      "letterboxdSlug": "top-gun",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/top-gun/",
+      "title": "Top Gun",
+      "releaseYear": 1986,
+      "firstWatchedDate": "2026-05-18",
+      "latestWatchedDate": "2026-05-18",
+      "firstReviewDate": "2026-05-21",
+      "latestReviewDate": "2026-05-21",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1323620789",
+          "watchedDate": "2026-05-18",
+          "reviewDate": "2026-05-21",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "The Goose is loose! I’ll never forgive them for how they did you, king. I finally understand why this movie’s presence lingers—all the latent homosexuality. An easy and fun watch, so much so that all the heinous cuts and plot progression aren’t even worth being seriously critical about. This is camp. This is cinema.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 744,
+        "posterPath": "/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg",
+        "backdropPath": "/dBgxEkWe17R0AJDAvAhpeVELQx2.jpg",
+        "genres": [
+          "Action",
+          "Drama",
+          "Romance"
+        ],
+        "runtime": 110,
+        "director": "Tony Scott"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1340206",
       "letterboxdSlug": "tuner",
@@ -32529,6 +32708,185 @@
     }
   ],
   "filmById": {
+    "tmdb-931285": {
+      "id": "tmdb-931285",
+      "letterboxdSlug": "mortal-kombat-ii",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/mortal-kombat-ii/",
+      "title": "Mortal Kombat II",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-20",
+      "latestWatchedDate": "2026-05-20",
+      "firstReviewDate": "2026-05-21",
+      "latestReviewDate": "2026-05-21",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1323625441",
+          "watchedDate": "2026-05-20",
+          "reviewDate": "2026-05-21",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Fan service that is trying to both lean into and avoid its campiness at the same time. To think they keep foreshadowing sequels for a movie with no meaningful plot or character development.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 931285,
+        "posterPath": "/lIsMeDbwntNXSUVHmWMMRXEZOVc.jpg",
+        "backdropPath": "/4EAAwpylq313qrDqpCxulUrXBNF.jpg",
+        "genres": [
+          "Action",
+          "Fantasy",
+          "Adventure"
+        ],
+        "runtime": 116,
+        "director": "Simon McQuoid"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/lIsMeDbwntNXSUVHmWMMRXEZOVc.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lIsMeDbwntNXSUVHmWMMRXEZOVc.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-460465": {
+      "id": "tmdb-460465",
+      "letterboxdSlug": "mortal-kombat",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/mortal-kombat-2021/",
+      "title": "Mortal Kombat",
+      "releaseYear": 2021,
+      "firstWatchedDate": "2026-05-18",
+      "latestWatchedDate": "2026-05-18",
+      "firstReviewDate": "2026-05-21",
+      "latestReviewDate": "2026-05-21",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1323623957",
+          "watchedDate": "2026-05-18",
+          "reviewDate": "2026-05-21",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I’m just here for the VFX and Hiroyuki Sanada.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 460465,
+        "posterPath": "/ybrX94xQm8lXYpZAPRmwD9iIbWP.jpg",
+        "backdropPath": "/6ELCZlTA5lGUops70hKdB83WJxH.jpg",
+        "genres": [
+          "Action",
+          "Fantasy",
+          "Adventure"
+        ],
+        "runtime": 110,
+        "director": "Simon McQuoid"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ybrX94xQm8lXYpZAPRmwD9iIbWP.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ybrX94xQm8lXYpZAPRmwD9iIbWP.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-361743": {
+      "id": "tmdb-361743",
+      "letterboxdSlug": "top-gun-maverick",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/top-gun-maverick/",
+      "title": "Top Gun: Maverick",
+      "releaseYear": 2022,
+      "firstWatchedDate": "2026-05-18",
+      "latestWatchedDate": "2026-05-18",
+      "firstReviewDate": "2026-05-21",
+      "latestReviewDate": "2026-05-21",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1323622870",
+          "watchedDate": "2026-05-18",
+          "reviewDate": "2026-05-21",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Good, but with a lot of filler that tries to connect more dots to the original. In fact, I thought I had missed an entire other sequel somewhere in there because of how the script was constructed. Unfortunately for Miles Teller, Rooster didn’t inherit Goose’s juice—sorry! We spent so much time with Jennifer Connelly and just forgot that Ed Harris and Manny Jacinto were here…I don’t like that.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 361743,
+        "posterPath": "/n0YuM4f5lvGAP6MAW2kBIzugXnc.jpg",
+        "backdropPath": "/AaV1YIdWKnjAIAOe8UUKBFm327v.jpg",
+        "genres": [
+          "Action",
+          "Drama"
+        ],
+        "runtime": 131,
+        "director": "Joseph Kosinski"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/n0YuM4f5lvGAP6MAW2kBIzugXnc.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/n0YuM4f5lvGAP6MAW2kBIzugXnc.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-744": {
+      "id": "tmdb-744",
+      "letterboxdSlug": "top-gun",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/top-gun/",
+      "title": "Top Gun",
+      "releaseYear": 1986,
+      "firstWatchedDate": "2026-05-18",
+      "latestWatchedDate": "2026-05-18",
+      "firstReviewDate": "2026-05-21",
+      "latestReviewDate": "2026-05-21",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1323620789",
+          "watchedDate": "2026-05-18",
+          "reviewDate": "2026-05-21",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "The Goose is loose! I’ll never forgive them for how they did you, king. I finally understand why this movie’s presence lingers—all the latent homosexuality. An easy and fun watch, so much so that all the heinous cuts and plot progression aren’t even worth being seriously critical about. This is camp. This is cinema.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 744,
+        "posterPath": "/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg",
+        "backdropPath": "/dBgxEkWe17R0AJDAvAhpeVELQx2.jpg",
+        "genres": [
+          "Action",
+          "Drama",
+          "Romance"
+        ],
+        "runtime": 110,
+        "director": "Tony Scott"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/xUuHj3CgmZQ9P2cMaqQs4J0d4Zc.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1340206": {
       "id": "tmdb-1340206",
       "letterboxdSlug": "tuner",
