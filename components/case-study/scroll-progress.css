@@ -6,16 +6,19 @@
    tokens and Nav-border-suppression rule load on any route that
    mounts a <ScrollProgress />. No per-case-study setup required.
 
-   Track color matches the Nav's bottom border (--border-default)
+   Track color sits a notch darker than the Nav's bottom border
    so visually the bar reads as a continuation of the chrome —
-   the green gradient then "fills in" that border as the user
-   scrolls. Light-mode track resolves to --foundation-white-tinted
-   green-grey because --border-default is near-white-on-white in
-   light mode and would otherwise be invisible.
+   the accent gradient then "fills in" that line as the user
+   scrolls. The accent hue follows the case study's employer
+   brand via --cs-accent-soft + --cs-accent-strong (defined in
+   app/components.css); non-themed surfaces fall through to the
+   green recruiter defaults.
 
-   Why per-theme gradients: success-700 (deep forest) dissolves
-   on the dark page bg; success-200 (mint) disappears on white.
-   Each mode runs a stop set tuned for its background.
+   Why per-theme gradients: the -700 deep stop dissolves on the
+   dark page bg, and the -200 pastel disappears on white. Each
+   mode runs a stop set tuned for its background — light uses
+   pastel→deep; dark uses pastel→white→bright so the leading
+   edge stays visible against the black canvas.
    ────────────────────────────────────────────────────────── */
 :root {
   /* Light track — medium grey on white. Original spec was a
@@ -25,13 +28,19 @@
      "progressbar" element's boundary, so the rule applies. Using
      --grey-700 (#7b7e7b) gives 4.25:1 on white — the minimum-
      viable bump that keeps the track subtle while passing AA. The
-     green gradient still carries the brand color as it fills. */
+     accent gradient still carries the brand color as it fills. */
   --progress-track: var(--grey-700);
 
+  /* Gradient hue follows the case-study's employer brand via the
+     --cs-accent-* tokens (defined in app/components.css). Work
+     studies wrap themselves in `[data-cs-accent]`, which retints
+     these stops; non-themed surfaces inherit the green recruiter
+     defaults at :root. -200 → -700 reads as pastel→deep, matching
+     the existing light-mode green treatment. */
   --progress-gradient: linear-gradient(
     90deg,
-    var(--success-200) 0%,
-    var(--success-700) 100%
+    var(--cs-accent-soft) 0%,
+    var(--cs-accent-strong) 100%
   );
 }
 
@@ -44,11 +53,15 @@
      over behavior, not by literal color matching. */
   --progress-track: var(--grey-700);
 
+  /* Same accent-aware gradient, with a foundation-white midpoint
+     that keeps the bar bright at the leading edge against a dark
+     page. Themed studies replace the pastel + strong stops with
+     their brand hues via [data-cs-accent]. */
   --progress-gradient: linear-gradient(
     90deg,
-    var(--success-200) 0%,
+    var(--cs-accent-soft) 0%,
     var(--foundation-white) 60%,
-    var(--success-default) 100%
+    var(--cs-accent-strong) 100%
   );
 }
 

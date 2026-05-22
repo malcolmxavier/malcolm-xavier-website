@@ -8,9 +8,16 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SITE_URL } from "@/lib/site-config";
+import { getCaseStudyAccent } from "@/app/resume/resume-data";
 import "@/components/case-study/case-glass.css";
 
 const SLUG = "muck-rack";
+// Resolved at module load. Muck Rack's role carries `accent: "blue"`,
+// so this resolves to "blue" and the layout wrapper below tints the
+// chrome (TOC active rail, progress bar, Hero accent, in-body links)
+// to Muck Rack's brand color. See app/components.css for the
+// --cs-accent-* tokens this attribute hooks into.
+const ACCENT = getCaseStudyAccent(SLUG);
 const TITLE = "Data platforms: quality over quantity";
 // Social-card title is intentionally different from the on-page H1
 // and SERP title. The editorial title wins on the page where the
@@ -177,7 +184,13 @@ export default function WorkCaseStudyLayout({
           __html: JSON.stringify(ARTICLE_SCHEMA),
         }}
       />
-      {children}
+      {/* Wrapper carries data-cs-accent so the chrome under it picks
+          up the employer's brand color via the --cs-accent-* tokens
+          in app/components.css. Falls through to a fragment when
+          ACCENT is null (defensive — wouldn't happen for a properly
+          configured work case study, but keeps the layout safe if
+          the lookup ever returns null). */}
+      {ACCENT ? <div data-cs-accent={ACCENT}>{children}</div> : children}
     </>
   );
 }

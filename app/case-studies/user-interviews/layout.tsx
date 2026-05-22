@@ -7,9 +7,17 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SITE_URL } from "@/lib/site-config";
+import { getCaseStudyAccent } from "@/app/resume/resume-data";
 import "@/components/case-study/case-glass.css";
 
 const SLUG = "user-interviews";
+// Resolved at module load. The UI role doesn't set an explicit
+// accent (the loud-link default green is already User Interviews'
+// brand color), so getCaseStudyAccent falls back to "green". The
+// resulting --cs-accent-* values match the chrome's pre-themed
+// hardcoded greens, so this study renders identically to before
+// while still going through the unified themed code path.
+const ACCENT = getCaseStudyAccent(SLUG);
 const TITLE = "Steering leading indicators";
 // Social-card title is intentionally different from the on-page H1
 // and SERP title. The conceptual editorial title ("Steering leading
@@ -180,7 +188,11 @@ export default function WorkCaseStudyLayout({
           __html: JSON.stringify(ARTICLE_SCHEMA),
         }}
       />
-      {children}
+      {/* Wrapper carries data-cs-accent so the chrome under it picks
+          up the employer's brand color via the --cs-accent-* tokens
+          in app/components.css. See the muck-rack layout for the
+          fuller comment — this study uses the same pattern. */}
+      {ACCENT ? <div data-cs-accent={ACCENT}>{children}</div> : children}
     </>
   );
 }

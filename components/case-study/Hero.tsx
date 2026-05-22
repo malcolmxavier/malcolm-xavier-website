@@ -55,12 +55,32 @@ export function CaseStudyHero({
   id = "intro",
 }: CaseStudyHeroProps) {
   return (
+    // `relative` + `isolation: isolate` create a stacking context
+    // bounded to this section so the .cs-hero-tint child below
+    // (z-index: -1) sits behind the hero's content but doesn't punch
+    // through to the page background. `cs-hero-section` is the hook
+    // for the [data-cs-accent] background-tint rule in
+    // app/components.css — non-themed case studies don't render the
+    // tint at all (CSS gates it on the data attribute).
     <section
       id={id}
-      className={`${CASE_STUDY_WIDTH} scroll-mt-28 pt-9 pb-6 md:pt-14 md:pb-8`}
+      className={`cs-hero-section relative ${CASE_STUDY_WIDTH} scroll-mt-28 pt-9 pb-6 md:pt-14 md:pb-8`}
+      style={{ isolation: "isolate" }}
     >
+      {/* Decorative accent-tinted background. CSS gates visibility on
+          [data-cs-accent] — visually a no-op on non-work case studies
+          (the freelance/personal trio), and a faint employer-color
+          atmosphere wash on the work studies. aria-hidden because
+          there's no semantic content here, only decoration. */}
+      <div className="cs-hero-tint" aria-hidden="true" />
       <div className="flex items-baseline justify-between gap-4 mb-3">
-        <CaseStudyKicker>{kicker}</CaseStudyKicker>
+        {/* cs-hero-kicker hooks into the [data-cs-accent] rule that
+            tints the "CASE STUDY" eyebrow to the employer brand
+            color. Only the left/lede kicker carries the class —
+            the right metadata kicker (read time + updated date) stays
+            in --text-caption so the brand color doesn't overload the
+            row with two heavy hits. */}
+        <CaseStudyKicker className="cs-hero-kicker">{kicker}</CaseStudyKicker>
         <CaseStudyKicker>
           {readMin} min read ·{" "}
           {/* white-space: nowrap covers the whole "Updated [date]"
