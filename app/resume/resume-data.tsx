@@ -202,6 +202,7 @@ export const ROLES: ResumeRole[] = [
       "Collaborated with partnerships, legal, and GTM to establish strategy for content and data solutions",
       "Liaised with external content vendors and developers to ensure data-processing compliance",
     ],
+    relatedCaseStudies: ["muck-rack"],
   },
   {
     company: "Independent Consulting",
@@ -376,6 +377,15 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     href: "/case-studies/user-interviews",
     publishedAt: "2026-05-14",
     employer: "User Interviews",
+  },
+  {
+    slug: "muck-rack",
+    title: "Data platforms: quality over quantity",
+    description:
+      "Quality was the lever; quantity was the language. Reframing timeliness, accuracy, and connectivity into the volume metric a sales-led org renewed on lifted average daily ingestion 350% YoY at Muck Rack.",
+    href: "/case-studies/muck-rack",
+    publishedAt: "2026-05-18",
+    employer: "Muck Rack",
   },
 ];
 

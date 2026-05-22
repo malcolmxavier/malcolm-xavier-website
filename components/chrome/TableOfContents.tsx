@@ -25,7 +25,8 @@
 
 "use client";
 
-import { useEffect, useState, type MouseEvent as ReactMouseEvent } from "react";
+import { type MouseEvent as ReactMouseEvent } from "react";
+import { useScrollSpy } from "./useScrollSpy";
 import "./TableOfContents.css";
 
 export type TocItem = {
@@ -53,6 +54,15 @@ interface TableOfContentsProps {
   heading?: string;
   /** aria-label on the inner <nav>. Falls back to heading. */
   ariaLabel?: string;
+  /**
+   * Controlled-mode active id. Pass when a parent renders multiple
+   * TableOfContents (e.g. breakpoint-conditional duplicates) and
+   * wants them to share a single scroll-spy listener — call
+   * useScrollSpy(items) once at the parent and thread the result
+   * through this prop. Omit for the common single-instance case;
+   * the component falls back to its own useScrollSpy call.
+   */
+  activeId?: string;
 }
 
 export function TableOfContents({
@@ -60,105 +70,16 @@ export function TableOfContents({
   topOffset = 120,
   heading = "On this page",
   ariaLabel,
+  activeId: activeIdProp,
 }: TableOfContentsProps) {
-  const [activeId, setActiveId] = useState<string>("");
-
-  useEffect(() => {
-    // Strip the "#" off each href so we can match against DOM ids.
-    const ids = items.map((i) => i.href.replace(/^#/, "")).filter(Boolean);
-    let rafId: number | null = null;
-
-    function update() {
-      rafId = null;
-
-      // Scroll-progress reading-point rule.
-      //
-      // Earlier rules ("last heading top to cross topOffset," then
-      // "section body straddles topOffset") both anchored the active
-      // section to a fixed viewport y-line at `topOffset`. That
-      // anchor breaks on tall viewports paired with shorter
-      // documents — once the document is too short for max-scroll
-      // to bring later sections' tops up to the trigger line, those
-      // sections can never satisfy the rule and stay bypassed even
-      // while the user is clearly reading them. Concrete failure
-      // mode on the resume at iPad Pro 12.9" portrait (~1366px
-      // viewport, ~3000px doc): Case Studies sits ~2500px into the
-      // doc, but max scrollY is ~1634px, so Case Studies' top can
-      // only reach ~viewport_y 866 — never the 120px trigger.
-      // Education stays active until atBottom forces "Let's talk,"
-      // skipping Case Studies entirely.
-      //
-      // The fix decouples the active-state rule from "where the
-      // section is on screen" and ties it instead to "how far the
-      // user has scrolled through the document." A reading point
-      // (in document coordinates) interpolates linearly from
-      // topOffset at scrollProgress=0 to docHeight at
-      // scrollProgress=1. The active section is whichever one's
-      // document-position range contains the reading point.
-      //
-      // Side benefit: every section now gets a window of being
-      // active proportional to its size in the document, regardless
-      // of viewport height. Long docs (case studies on desktop)
-      // and short docs (resume on tablet) both behave consistently.
-      // Each section's progress range = (its size) / (doc minus
-      // topOffset). On the resume with five sections, each gets
-      // ~20% of the scroll progress, with proportional adjustments
-      // for size differences.
-      const docHeight = document.documentElement.scrollHeight;
-      const viewportHeight = window.innerHeight;
-      const scrollY = window.scrollY;
-      const maxScroll = Math.max(0, docHeight - viewportHeight);
-      // Clamp progress to [0,1] — Safari's elastic overscroll can
-      // push scrollY above maxScroll briefly during inertial bounce.
-      const scrollProgress =
-        maxScroll > 0
-          ? Math.min(1, Math.max(0, scrollY / maxScroll))
-          : 0;
-      const readingPoint =
-        topOffset + scrollProgress * (docHeight - topOffset);
-
-      // Resolve each section's top in DOCUMENT coordinates (rect.top
-      // is viewport-relative; add scrollY to get document-relative).
-      // We need document coords because readingPoint is also in
-      // document coords.
-      const tops: { id: string; top: number }[] = [];
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        tops.push({ id, top: el.getBoundingClientRect().top + scrollY });
-      }
-
-      // Walk the sections in document order; find the one whose
-      // [start, nextStart) range contains the reading point. The
-      // last section's range ends at Infinity so any reading point
-      // past its start matches it (handles the boundary case of
-      // readingPoint === docHeight at scrollProgress=1).
-      let current = tops[0]?.id ?? "";
-      for (let i = 0; i < tops.length; i++) {
-        const start = tops[i].top;
-        const isLast = i === tops.length - 1;
-        const end = isLast ? Infinity : tops[i + 1].top;
-        if (readingPoint >= start && readingPoint < end) {
-          current = tops[i].id;
-          break;
-        }
-      }
-      setActiveId(current);
-    }
-
-    function onScroll() {
-      if (rafId === null) rafId = requestAnimationFrame(update);
-    }
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (rafId !== null) cancelAnimationFrame(rafId);
-    };
-  }, [items, topOffset]);
+  // Self-spy when uncontrolled (single-instance callers), defer to
+  // the parent-supplied id when controlled (CaseStudyTocRail's
+  // lg-vs-xl duplicate-render case). The `enabled` flag short-
+  // circuits the hook's listener setup when controlled, so we don't
+  // pay for two listeners on the same page.
+  const isControlled = activeIdProp !== undefined;
+  const selfActiveId = useScrollSpy(items, topOffset, !isControlled);
+  const activeId = isControlled ? activeIdProp : selfActiveId;
 
   function handleClick(
     e: ReactMouseEvent<HTMLAnchorElement>,
@@ -200,7 +121,7 @@ export function TableOfContents({
                 onClick={(e) => handleClick(e, item.href)}
                 className="toc-item"
                 data-active={isActive ? "true" : undefined}
-                aria-current={isActive ? "location" : undefined}
+                aria-current={isActive ? "true" : undefined}
                 aria-label={
                   item.ariaLabel ??
                   (item.label.startsWith("↑") ? "Back to top" : undefined)

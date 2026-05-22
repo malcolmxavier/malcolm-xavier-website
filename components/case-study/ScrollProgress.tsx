@@ -50,6 +50,8 @@ export function ScrollProgress() {
     // Re-measure on resize because the Nav may grow taller on
     // narrow viewports where the wordmark wraps, or when the user
     // bumps their browser font-size.
+    let resizeRafId: number | null = null;
+
     function measureNav() {
       // Select via the data-site-nav hook (set on Nav.tsx) rather
       // than the bare "header" tag — any future <header>-using
@@ -60,9 +62,26 @@ export function ScrollProgress() {
         setNavBottom(Math.round(nav.getBoundingClientRect().height));
       }
     }
+
+    // rAF-throttle the resize handler. getBoundingClientRect forces
+    // a synchronous layout read; firing it on every native resize
+    // event (which storms during window drag or mobile-keyboard
+    // appearance) is a jank source. Coalescing to one read per frame
+    // keeps measurements current without thrashing layout.
+    function onResize() {
+      if (resizeRafId === null)
+        resizeRafId = requestAnimationFrame(() => {
+          resizeRafId = null;
+          measureNav();
+        });
+    }
+
     measureNav();
-    window.addEventListener("resize", measureNav, { passive: true });
-    return () => window.removeEventListener("resize", measureNav);
+    window.addEventListener("resize", onResize, { passive: true });
+    return () => {
+      window.removeEventListener("resize", onResize);
+      if (resizeRafId !== null) cancelAnimationFrame(resizeRafId);
+    };
   }, []);
 
   useEffect(() => {

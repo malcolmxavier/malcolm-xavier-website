@@ -1,48 +1,45 @@
-// /case-studies/user-interviews — work-experience case-study layout.
+// /case-studies/muck-rack — work-experience case-study layout.
 // Metadata + JSON-LD (Article + BreadcrumbList). The recruiter-cluster
 // brand (Instrument Serif + DM Sans + Roboto Mono, semantic tokens)
 // comes from the root layout, so this layout is metadata-only except
-// for the case-glass.css import for the glass-card chrome.
+// for the case-glass.css import that opts the study into elevated
+// card chrome on EvidenceCard / IterationCard / Stat.
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SITE_URL } from "@/lib/site-config";
 import "@/components/case-study/case-glass.css";
 
-const SLUG = "user-interviews";
-const TITLE = "Steering leading indicators";
+const SLUG = "muck-rack";
+const TITLE = "Data platforms: quality over quantity";
 // Social-card title is intentionally different from the on-page H1
-// and SERP title. The conceptual editorial title ("Steering leading
-// indicators") wins on the page where the reader has context; the
-// social card needs to win in a feed where the recipient has none —
-// so the unfurl leads with the searchable subtitle phrase, mirrors
-// the on-page hero subtitle exactly (editorial integrity bonus), and
-// drops the "—Case Study" suffix because at 66 chars the social
-// title is already long enough without it (OG `type: "article"` plus
-// the URL path signal case-study status to crawlers regardless).
+// and SERP title. The editorial title wins on the page where the
+// reader has context; the social card needs to win in a feed where
+// the recipient has none — so the unfurl leads with a searchable
+// phrase + employer rather than the conceptual title alone. Mirrors
+// the User Interviews study's split approach (editorial title in
+// SERP, searchable phrase in social card).
 const SOCIAL_TITLE =
-  "Targeting, retention, and marketplace mechanics at User Interviews";
+  "Decomposing the ingestion monolith at Muck Rack";
 const DESCRIPTION =
-  "How occupational targeting lifted Early Qualification Rate 15% at User Interviews—a leading-indicator bet on a two-sided UXR marketplace.";
-const EMPLOYER = "User Interviews";
-const EMPLOYER_URL = "https://www.userinterviews.com";
+  "How decomposing a content ingestion ETL monolith into microservices lifted daily ingestion 350% YoY at Muck Rack—a platform PM quality-over-quantity bet.";
+const EMPLOYER = "Muck Rack";
+const EMPLOYER_URL = "https://muckrack.com";
 // Role period covered by the case study. These dates are the
 // startDate/endDate on the OrganizationRole below — they tell
 // Schema.org parsers that the author was affiliated with the
 // EMPLOYER during this window, not currently. Mirrors the
-// `dates: "Sep 2020 – Feb 2022"` on the matching role in
+// `dates: "Sep 2022 – Feb 2024"` on the matching role in
 // app/resume/resume-data.tsx; keep in sync if either side moves.
-const ROLE_TITLE = "Product Manager";
-const ROLE_START = "2020-09";
-const ROLE_END = "2022-02";
-// ISO 8601 with timezone. Google's Rich Results validator flags date-only
-// values as "missing a timezone" for Article datePublished/dateModified —
-// the format-only fix is to append T<time>-07:00 (Pacific) or +00:00 (UTC).
-// Real publish date is 2026-05-16 (case study merged to main and Vercel
-// deployed that afternoon); the earlier "2026-05-14" was a draft-time
-// placeholder set while authoring locally.
-const PUBLISHED = "2026-05-16T22:00:00-07:00";
-const MODIFIED = "2026-05-16T22:00:00-07:00";
+const ROLE_TITLE = "Technical Product Manager, Content and Data Ingestion";
+const ROLE_START = "2022-09";
+const ROLE_END = "2024-02";
+// ISO 8601 with timezone. Google's Rich Results validator flags
+// date-only values on Article datePublished/dateModified as "missing
+// a timezone" — append T<time>-07:00 (Pacific) or +00:00 (UTC).
+// Real publish date is 2026-05-18 (case study authored today).
+const PUBLISHED = "2026-05-18T12:00:00-07:00";
+const MODIFIED = "2026-05-18T12:00:00-07:00";
 
 const ARTICLE_URL = `${SITE_URL}/case-studies/${SLUG}`;
 const ARTICLE_HEADLINE = `${TITLE}—Case Study`;

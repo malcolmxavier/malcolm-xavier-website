@@ -902,7 +902,7 @@ function ExploreCard({
     <a
       data-subbrand={subbrand}
       href={href}
-      className="group flex flex-col gap-3 p-5 rounded-[22px] border border-[var(--border-default)] no-underline transition-colors hover:border-[var(--primary-default)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary-default)]"
+      className="group flex flex-col gap-3 p-5 rounded-[22px] border border-[var(--border-default)] no-underline transition-colors hover:border-[var(--primary-default)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--border-focus)]"
     >
       <p
         className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
