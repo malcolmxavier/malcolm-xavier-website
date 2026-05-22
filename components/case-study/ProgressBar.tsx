@@ -7,13 +7,18 @@
 //     border at the same y-coordinate so the bar reads as a
 //     continuation of the Nav chrome rather than a stacked
 //     separate line.
-//   - Inner fill: width = scroll fraction, painted with
-//     `var(--progress-gradient)`. As the user scrolls, the
-//     gradient paints over the track from left to right.
+//   - Inner fill: width = scroll fraction, painted by the
+//     `.progress-bar-fill` rule in scroll-progress.css. The fill
+//     gradient is declared on the class (not via an intermediate
+//     custom property) so its `var(--cs-accent-*)` references
+//     resolve at the fill element itself — inside the
+//     [data-cs-accent] themed scope — instead of at :root where
+//     they'd bake in the green recruiter defaults.
 //
-// Both vars are defined per-theme in scroll-progress.css (loaded
-// by ScrollProgress.tsx). Bar height is 1px to match the Nav's
-// `border-b` thickness.
+// Track color (--progress-track) is the only token still set at
+// :root; gradient cascade lives entirely on the class. Both are
+// defined in scroll-progress.css (loaded by ScrollProgress.tsx).
+// Bar height is 1px to match the Nav's `border-b` thickness.
 // ─────────────────────────────────────────────────────────────
 
 interface ProgressBarProps {
@@ -45,11 +50,8 @@ export function ProgressBar({ fraction }: ProgressBarProps) {
       aria-valuemax={100}
     >
       <div
-        className="h-full transition-[width] duration-100 ease-out motion-reduce:transition-none"
-        style={{
-          width: `${pct}%`,
-          background: "var(--progress-gradient)",
-        }}
+        className="progress-bar-fill h-full transition-[width] duration-100 ease-out motion-reduce:transition-none"
+        style={{ width: `${pct}%` }}
       />
     </div>
   );
