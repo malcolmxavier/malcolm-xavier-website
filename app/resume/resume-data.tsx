@@ -444,6 +444,29 @@ export function rolesReferencingCaseStudy(slug: string): ResumeRole[] {
   );
 }
 
+/**
+ * Resolve the employer-brand accent for a work case study. Walks
+ * CASE_STUDIES → employer → matching ROLE.accent so each work
+ * case-study layout can tint its chrome (TOC active, progress bar,
+ * hero accent, in-body links) to the brand that role belongs to.
+ *
+ * Returns null for non-work case studies (no employer field, or no
+ * matching role) so their layouts can skip the themed wrapper and
+ * keep the default recruiter-cluster chrome.
+ *
+ * When the matching role has no explicit `accent`, falls back to
+ * "green" — the recruiter cluster's default loud-link color, which
+ * also happens to be User Interviews' brand color (the only role
+ * relying on this default today).
+ */
+export function getCaseStudyAccent(slug: string): LinkAccent | null {
+  const caseStudy = CASE_STUDIES.find((cs) => cs.slug === slug);
+  if (!caseStudy?.employer) return null;
+  const role = ROLES.find((r) => r.company === caseStudy.employer);
+  if (!role) return null;
+  return role.accent ?? "green";
+}
+
 // ─── Slug integrity check ─────────────────────────────────────────
 //
 // Runs once at module import time. Fails loudly if any role's

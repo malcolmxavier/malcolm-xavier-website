@@ -3,11 +3,12 @@
 
    The component is themable via CSS custom properties (semantic
    text + border tokens), so it adapts automatically when the
-   visitor toggles light / dark mode. Active-state color is the
-   one place we hand-pick a hue: deep green in light mode, neon
-   green in dark mode — high contrast against either page bg
-   and reads as the recruiter cluster's accent rather than as a
-   sub-brand color.
+   visitor toggles light / dark mode. Active-state color comes
+   from --cs-accent-strong (app/components.css), which resolves
+   to the recruiter green by default and to the employer's brand
+   color inside any [data-cs-accent="..."] scope — i.e. work
+   case studies retint the active rail to their employer's brand
+   automatically.
    ────────────────────────────────────────────────────────── */
 
 .toc-root {
@@ -68,18 +69,19 @@
   border-radius: 2px;
 }
 
-/* Active state — recruiter green left-rail + label color. The
-   green token swap keeps both modes legible: deep green on white
-   and neon green on black both clear ~7:1 contrast on body text. */
+/* Active state — left-rail + label color follow the case-study's
+   employer brand via --cs-accent-strong. Both modes clear AA
+   easily on either page background:
+     green-700 ≈ 9:1 on white, green-500 ≈ 11:1 on black
+     blue-700 ≈ 13:1 on white, blue-400 ≈ 5.6:1 on black
+     yellow-700 ≈ 4.7:1 on white, yellow-400 ≈ 15.5:1 on black
+     red-700 ≈ 8:1 on white, red-400 ≈ 6:1 on black
+   --cs-accent-strong already resolves per theme via the rules in
+   app/components.css, so a single declaration covers both modes. */
 .toc-item[data-active="true"] {
-  color: var(--green-700);
-  border-left-color: var(--green-700);
+  color: var(--cs-accent-strong);
+  border-left-color: var(--cs-accent-strong);
   font-weight: 500;
-}
-
-[data-theme="dark"] .toc-item[data-active="true"] {
-  color: var(--green-500);
-  border-left-color: var(--green-500);
 }
 
 .toc-prefix {

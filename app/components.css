@@ -716,6 +716,162 @@ a.link-accent-pink,
   color: var(--pink-400) !important;
 }
 
+/* ─── Case-study accent palette ────────────────────────────────
+   Work case studies wrap their layout in
+   `<div data-cs-accent="{color}">` (resolved by getCaseStudyAccent
+   in app/resume/resume-data.tsx) so the chrome can pick up the
+   employer's brand color: TOC active-rail, scroll-progress fill,
+   Hero accent eyebrow + soft background tint, and in-body loud links.
+
+   Two named stops per accent — strong for text-grade contrast
+   (TOC active, Hero kicker, loud body links, progress bar
+   terminator) and soft for decorative pastel tints (progress bar
+   leading stop, faint Hero bg). Defaults to the recruiter cluster's
+   green ramp at :root so non-themed surfaces (the 3 freelance case
+   studies, the standalone resume) keep their current chrome.
+
+   Light mode mirrors link-accent-{color}'s -700 (and purple's -500
+   special case) for the strong stop, with one exception: yellow
+   uses -800 because -700 (#96901b) only clears ~3.3:1 on white,
+   below the 4.5:1 AA threshold for normal text. -800 (#646012)
+   clears ~6.4:1 while staying recognizably yellow-olive — the
+   minimum-viable bump.
+
+   Dark mode mirrors -400 for most colors, with three exceptions:
+     • green stays at -500 (existing TOC active behavior, preserves
+       the User Interviews case study's pre-themed appearance and
+       still clears 16:1 on black).
+     • blue + purple step UP to -300 because their -400 stops
+       (#3e4ad7 ≈ 3.2:1 on black; #903bd9 ≈ 3.0:1) fail WCAG 2.2
+       SC 1.4.3 (AA, 4.5:1 for normal text). The -300 stops clear
+       ≥5:1 while preserving brand identity.
+
+   Soft is -200 in both modes — same pastel reads as a quiet tint
+   against either page background. */
+
+:root {
+  --cs-accent-strong: var(--green-700);
+  --cs-accent-soft: var(--green-200);
+}
+[data-theme="dark"] {
+  --cs-accent-strong: var(--green-500);
+  --cs-accent-soft: var(--green-200);
+}
+
+[data-cs-accent="blue"] {
+  --cs-accent-strong: var(--blue-700);
+  --cs-accent-soft: var(--blue-200);
+}
+[data-theme="dark"] [data-cs-accent="blue"] {
+  --cs-accent-strong: var(--blue-300);
+  --cs-accent-soft: var(--blue-200);
+}
+
+[data-cs-accent="yellow"] {
+  --cs-accent-strong: var(--yellow-800);
+  --cs-accent-soft: var(--yellow-200);
+}
+[data-theme="dark"] [data-cs-accent="yellow"] {
+  --cs-accent-strong: var(--yellow-400);
+  --cs-accent-soft: var(--yellow-200);
+}
+
+[data-cs-accent="red"] {
+  --cs-accent-strong: var(--red-700);
+  --cs-accent-soft: var(--red-200);
+}
+[data-theme="dark"] [data-cs-accent="red"] {
+  --cs-accent-strong: var(--red-400);
+  --cs-accent-soft: var(--red-200);
+}
+
+[data-cs-accent="orange"] {
+  --cs-accent-strong: var(--orange-700);
+  --cs-accent-soft: var(--orange-200);
+}
+[data-theme="dark"] [data-cs-accent="orange"] {
+  --cs-accent-strong: var(--orange-400);
+  --cs-accent-soft: var(--orange-200);
+}
+
+[data-cs-accent="purple"] {
+  --cs-accent-strong: var(--purple-500);
+  --cs-accent-soft: var(--purple-200);
+}
+[data-theme="dark"] [data-cs-accent="purple"] {
+  --cs-accent-strong: var(--purple-300);
+  --cs-accent-soft: var(--purple-200);
+}
+
+[data-cs-accent="pink"] {
+  --cs-accent-strong: var(--pink-700);
+  --cs-accent-soft: var(--pink-200);
+}
+[data-theme="dark"] [data-cs-accent="pink"] {
+  --cs-accent-strong: var(--pink-400);
+  --cs-accent-soft: var(--pink-200);
+}
+
+/* In-body loud links inside a themed case study pick up the
+   accent automatically — no per-Link `accent={...}` prop required.
+   Mirrors the precedent of `[data-subbrand] a.link-loud` (where a
+   container attribute retints every descendant loud link). The
+   !important rises above the .link-loud rule and any link-accent-X
+   class set explicitly inside the same scope (matching the
+   specificity baseline the existing link-accent rules use). */
+[data-cs-accent] a.link-loud {
+  color: var(--cs-accent-strong) !important;
+}
+
+/* Hero kicker — the "CASE STUDY" eyebrow at the top of the article.
+   CaseStudyKicker sets `color: var(--text-caption)` inline, so the
+   override needs !important to win over the inline declaration
+   (same pattern the link-accent rules use to override Link's
+   inline color above). Only kicks in inside a themed scope; non-
+   work case studies keep the caption-grey kicker. */
+[data-cs-accent] .cs-hero-kicker {
+  color: var(--cs-accent-strong) !important;
+}
+
+/* Hero atmosphere tint — a faint radial gradient at the top of the
+   hero that visually announces "this is the <employer> story"
+   without crossing into vendor-page territory. Display: none by
+   default so non-themed case studies render no tint at all. Inside
+   a themed scope the tint becomes a soft ellipse at the top of the
+   section, fading to transparent by ~60% height.
+
+   Per-theme color-mix percentages tuned for atmospheric presence
+   without text-contrast loss:
+     • Light: 50% mix of the -200 pastel with transparent — visible
+       enough to read as a tint on the white page; the resulting
+       background (≈ #c5c9f3 for blue) still clears 8:1+ for the
+       blue-700 kicker text, well above AA.
+     • Dark: 25% mix — the -200 pastel reads more strongly against
+       a pure-black page, so a lower mix matches the visual weight
+       of light without overpowering. */
+.cs-hero-tint {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+[data-cs-accent] .cs-hero-tint {
+  display: block;
+  background: radial-gradient(
+    ellipse at top,
+    color-mix(in oklab, var(--cs-accent-soft) 50%, transparent) 0%,
+    transparent 60%
+  );
+}
+[data-theme="dark"] [data-cs-accent] .cs-hero-tint {
+  background: radial-gradient(
+    ellipse at top,
+    color-mix(in oklab, var(--cs-accent-soft) 25%, transparent) 0%,
+    transparent 60%
+  );
+}
+
 /* ─── Inline code chip ─────────────────────────────────────────
    The case-study Code primitive renders inline `<code>` text as
    a subtle chip. The original 6% color-mix on transparent (set in
