@@ -189,7 +189,15 @@ export default function WorkCaseStudyLayout({
           in app/components.css. Falls through to a fragment when
           ACCENT is null (defensive — wouldn't happen for a properly
           configured work case study, but keeps the layout safe if
-          the lookup ever returns null). */}
+          the lookup ever returns null).
+
+          INVARIANT: <ScrollProgress /> in this route's page.tsx MUST
+          render as a DOM descendant of this wrapper. The progress-
+          bar fill gradient resolves var(--cs-accent-strong) at the
+          .progress-bar-fill element, so a lift outside the scope
+          (e.g. into a shared chrome above the layout) would silently
+          retint the bar to the recruiter-green :root default. See
+          scroll-progress.css for the var-resolution rationale. */}
       {ACCENT ? <div data-cs-accent={ACCENT}>{children}</div> : children}
     </>
   );

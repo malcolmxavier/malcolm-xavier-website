@@ -9,6 +9,15 @@
    color inside any [data-cs-accent="..."] scope — i.e. work
    case studies retint the active rail to their employer's brand
    automatically.
+
+   Implicit consumer: the /resume route also mounts this TOC and
+   has no [data-cs-accent] wrapper, so its active rail picks up
+   the :root default. This is intentional — :root's --cs-accent-*
+   defaults double as the recruiter-cluster brand color, and the
+   resume is part of that cluster. If the :root defaults ever move
+   off the recruiter green, the resume TOC needs its own override
+   declared somewhere (e.g. on [data-route="resume"] or via a
+   dedicated --toc-active-color token at that scope).
    ────────────────────────────────────────────────────────── */
 
 .toc-root {
