@@ -21,43 +21,43 @@
    edge stays visible against the black canvas.
    ────────────────────────────────────────────────────────── */
 :root {
-  /* Light track — medium grey on white. Original spec was a
+  /* Track color — medium grey, theme-agnostic. Original spec was a
      mint-grey color-mix tied to --green-700, but that resolved to
      ~1.82:1 against white and failed WCAG 2.2 SC 1.4.11 (3:1
      non-text contrast). The progress-bar track defines the role=
      "progressbar" element's boundary, so the rule applies. Using
-     --grey-700 (#7b7e7b) gives 4.25:1 on white — the minimum-
-     viable bump that keeps the track subtle while passing AA. The
-     accent gradient still carries the brand color as it fills. */
+     --grey-700 (#7b7e7b) gives 4.25:1 on white and 4.94:1 on black
+     — the minimum-viable bump that keeps the track subtle while
+     passing AA in both modes. The accent gradient still carries
+     the brand color as it fills. */
   --progress-track: var(--grey-700);
+}
 
-  /* Gradient hue follows the case-study's employer brand via the
-     --cs-accent-* tokens (defined in app/components.css). Work
-     studies wrap themselves in `[data-cs-accent]`, which retints
-     these stops; non-themed surfaces inherit the green recruiter
-     defaults at :root. -200 → -700 reads as pastel→deep, matching
-     the existing light-mode green treatment. */
-  --progress-gradient: linear-gradient(
+/* Fill gradient — applied directly on .progress-bar-fill (not via
+   an intermediate `--progress-gradient` custom property). This
+   matters because Chrome computes the value of a custom property
+   AT THE ELEMENT WHERE IT'S DEFINED: had we set --progress-gradient
+   at :root with `var(--cs-accent-soft)` inside, the inner var()s
+   would resolve to the green :root defaults at :root and inherit as
+   the fully-resolved green gradient — the [data-cs-accent="blue"]
+   override on a descendant wrapper would never reach this property.
+   Putting the gradient declaration directly on the fill element's
+   class moves the var() resolution to the fill element itself,
+   which IS inside the themed scope, so the cascade lands. */
+.progress-bar-fill {
+  background: linear-gradient(
     90deg,
     var(--cs-accent-soft) 0%,
     var(--cs-accent-strong) 100%
   );
 }
 
-[data-theme="dark"] {
-  /* Dark track — same neutral grey as light mode (4.94:1 on black).
-     Previously bound to --border-default to match the Nav's bottom
-     border visually, but --border-default in dark resolves to
-     --neutral-800 (#525452) = 2.75:1, failing SC 1.4.11. The Nav-
-     border-replacement intent is retained by the gradient paint-
-     over behavior, not by literal color matching. */
-  --progress-track: var(--grey-700);
-
-  /* Same accent-aware gradient, with a foundation-white midpoint
-     that keeps the bar bright at the leading edge against a dark
-     page. Themed studies replace the pastel + strong stops with
-     their brand hues via [data-cs-accent]. */
-  --progress-gradient: linear-gradient(
+/* Dark mode adds a foundation-white midpoint so the bar's leading
+   edge stays bright against a black page bg — the -200 pastel and
+   the strong stop both lift through white at the midpoint, which
+   keeps the bar visible regardless of how saturated either end is. */
+[data-theme="dark"] .progress-bar-fill {
+  background: linear-gradient(
     90deg,
     var(--cs-accent-soft) 0%,
     var(--foundation-white) 60%,
