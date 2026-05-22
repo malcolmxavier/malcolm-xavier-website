@@ -93,6 +93,12 @@ const TOC_ITEMS: TocItem[] = [
 export default function MuckRackCaseStudy() {
   return (
     <>
+      {/* ScrollProgress MUST remain a DOM descendant of the
+          [data-cs-accent] wrapper declared in this route's layout.tsx
+          — the fill gradient resolves --cs-accent-strong at the
+          .progress-bar-fill element, so a lift outside the scope
+          (e.g. into a shared chrome above the layout) would silently
+          retint the bar to the recruiter-green :root default. */}
       <ScrollProgress />
 
       {/* `relative` establishes the positioning context the xl+ TOC

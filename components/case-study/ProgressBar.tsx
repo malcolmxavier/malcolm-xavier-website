@@ -2,11 +2,15 @@
 // ProgressBar — the visual track + fill for ScrollProgress.
 //
 // Two stacked elements:
-//   - Wrapper: 1px tall, full width, painted with
-//     `var(--progress-track)`. The track matches the Nav's bottom
-//     border at the same y-coordinate so the bar reads as a
-//     continuation of the Nav chrome rather than a stacked
-//     separate line.
+//   - Wrapper: 2px tall, full width, painted with
+//     `var(--progress-track)`. Sits at the Nav's bottom-border
+//     y-coordinate (the border itself is suppressed in
+//     scroll-progress.css when ScrollProgress is mounted) and
+//     reads as the chrome's bottom edge plus a deliberate
+//     reading-progress indicator. 2px (vs. the Nav's original
+//     1px border) is the visibility-vs-subtlety compromise: 1px
+//     reads as pure continuation but disappears against busy
+//     page content; 3px+ feels heavy.
 //   - Inner fill: width = scroll fraction, painted by the
 //     `.progress-bar-fill` rule in scroll-progress.css. The fill
 //     gradient is declared on the class (not via an intermediate
@@ -18,7 +22,6 @@
 // Track color (--progress-track) is the only token still set at
 // :root; gradient cascade lives entirely on the class. Both are
 // defined in scroll-progress.css (loaded by ScrollProgress.tsx).
-// Bar height is 1px to match the Nav's `border-b` thickness.
 // ─────────────────────────────────────────────────────────────
 
 interface ProgressBarProps {
@@ -41,7 +44,7 @@ export function ProgressBar({ fraction }: ProgressBarProps) {
   // because the bar has no visible label.
   return (
     <div
-      className="h-[1px] w-full"
+      className="h-[2px] w-full"
       style={{ background: "var(--progress-track)" }}
       role="progressbar"
       aria-label="Reading progress"

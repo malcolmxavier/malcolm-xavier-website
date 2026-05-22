@@ -74,6 +74,10 @@ const TOC_ITEMS: TocItem[] = [
 export default function UserInterviewsCaseStudy() {
   return (
     <>
+      {/* ScrollProgress MUST remain a DOM descendant of the
+          [data-cs-accent] wrapper declared in this route's layout.tsx.
+          See the matching comment in muck-rack/page.tsx for the var-
+          resolution rationale (same pattern, same invariant). */}
       <ScrollProgress />
 
       {/* `relative` establishes the positioning context the xl+ TOC rail

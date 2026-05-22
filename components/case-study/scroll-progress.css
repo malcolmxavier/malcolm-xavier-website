@@ -10,15 +10,18 @@
    so visually the bar reads as a continuation of the chrome —
    the accent gradient then "fills in" that line as the user
    scrolls. The accent hue follows the case study's employer
-   brand via --cs-accent-soft + --cs-accent-strong (defined in
-   app/components.css); non-themed surfaces fall through to the
-   green recruiter defaults.
+   brand via --cs-accent-strong (defined in app/components.css);
+   non-themed surfaces fall through to the green recruiter default.
 
-   Why per-theme gradients: the -700 deep stop dissolves on the
-   dark page bg, and the -200 pastel disappears on white. Each
-   mode runs a stop set tuned for its background — light uses
-   pastel→deep; dark uses pastel→white→bright so the leading
-   edge stays visible against the black canvas.
+   Why color-mix gradients (and not soft → strong): the previous
+   design opened on var(--cs-accent-soft), which resolved to the
+   -200 pastel of each brand ramp. That stop failed WCAG 2.2 SC
+   1.4.11 against white in light mode — blue-200 = 2.32:1,
+   green-200 = 1.22:1 vs. the 3:1 threshold for non-text UI. Both
+   stops now anchor on --cs-accent-strong (which is mode-aware and
+   pre-verified for contrast), and the 0% stop mixes 60% strong
+   toward the page background for visual softness. Every visible
+   portion of the bar passes contrast in both modes.
    ────────────────────────────────────────────────────────── */
 :root {
   /* Track color — medium grey, theme-agnostic. Original spec was a
@@ -26,7 +29,7 @@
      ~1.82:1 against white and failed WCAG 2.2 SC 1.4.11 (3:1
      non-text contrast). The progress-bar track defines the role=
      "progressbar" element's boundary, so the rule applies. Using
-     --grey-700 (#7b7e7b) gives 4.25:1 on white and 4.94:1 on black
+     --grey-700 (#7b7e7b) gives 4.11:1 on white and 5.11:1 on black
      — the minimum-viable bump that keeps the track subtle while
      passing AA in both modes. The accent gradient still carries
      the brand color as it fills. */
@@ -34,33 +37,40 @@
 }
 
 /* Fill gradient — applied directly on .progress-bar-fill (not via
-   an intermediate `--progress-gradient` custom property). This
-   matters because Chrome computes the value of a custom property
-   AT THE ELEMENT WHERE IT'S DEFINED: had we set --progress-gradient
-   at :root with `var(--cs-accent-soft)` inside, the inner var()s
-   would resolve to the green :root defaults at :root and inherit as
-   the fully-resolved green gradient — the [data-cs-accent="blue"]
-   override on a descendant wrapper would never reach this property.
-   Putting the gradient declaration directly on the fill element's
-   class moves the var() resolution to the fill element itself,
-   which IS inside the themed scope, so the cascade lands. */
+   an intermediate `--progress-gradient` custom property). The
+   declaration site matters: CSS resolves a custom property's value
+   AT THE ELEMENT WHERE IT'S DEFINED, so if we set the gradient at
+   :root, the inner var(--cs-accent-strong) would resolve to the
+   recruiter-green default and inherit fully-resolved — the
+   [data-cs-accent="blue"] override on a descendant wrapper would
+   never reach it. Declaring on .progress-bar-fill moves var()
+   resolution to the fill element itself, which IS inside the
+   themed scope, so the cascade lands.
+
+   Both stops anchor on --cs-accent-strong. The 0% stop mixes 60%
+   strong with 40% --foundation-white for visual softness without
+   sliding into a low-contrast pastel; the 100% stop is the pure
+   brand-strong color. */
 .progress-bar-fill {
   background: linear-gradient(
     90deg,
-    var(--cs-accent-soft) 0%,
+    color-mix(in oklab, var(--cs-accent-strong) 60%, var(--foundation-white)) 0%,
     var(--cs-accent-strong) 100%
   );
 }
 
-/* Dark mode adds a foundation-white midpoint so the bar's leading
-   edge stays bright against a black page bg — the -200 pastel and
-   the strong stop both lift through white at the midpoint, which
-   keeps the bar visible regardless of how saturated either end is. */
+/* Dark mode mirrors the light rule but mixes toward black at the
+   0% stop. An earlier design used a foundation-white midpoint to
+   keep the leading edge visible on the dark canvas, but that
+   created a jarring bright spike inside what should read as a
+   brand gradient. --cs-accent-strong is redefined per brand in
+   dark mode to a higher-luminance ramp (e.g. blue-300 instead of
+   blue-700), so the strong end stays legible on black without
+   needing a white midpoint to lift it. */
 [data-theme="dark"] .progress-bar-fill {
   background: linear-gradient(
     90deg,
-    var(--cs-accent-soft) 0%,
-    var(--foundation-white) 60%,
+    color-mix(in oklab, var(--cs-accent-strong) 60%, var(--foundation-black)) 0%,
     var(--cs-accent-strong) 100%
   );
 }
@@ -68,9 +78,12 @@
 /* ──────────────────────────────────────────────────────────
    Suppress the Nav's bottom border whenever a ScrollProgress
    is rendered. The bar takes the border's place at the same
-   y-coordinate and same 1px thickness, so a visitor moving
-   between routes doesn't perceive a thickness shift in the
-   chrome's bottom edge.
+   y-coordinate; it's 2px tall (one px more than the original
+   border) so the reading-progress signal reads as a deliberate
+   chrome element rather than only as a continuation of the Nav
+   line. Visitors moving between case-study and non-case-study
+   routes see the chrome's bottom edge shift by 1px — small
+   enough not to register, big enough to make the bar legible.
 
    - color: transparent !important — beats the Nav's inline
      `style={{ borderColor: var(--border-default) }}`.
