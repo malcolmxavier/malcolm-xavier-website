@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: ARTICLE_HEADLINE,
     description: ARTICLE_DESCRIPTION,
     type: "article",
-    url: "/case-studies/architecture-under-contract",
+    url: ARTICLE_URL,
     siteName: "Malcolm Xavier",
     locale: "en_US",
     publishedTime: "2026-05-12",
@@ -81,6 +81,8 @@ const ARTICLE_SCHEMA = {
       image: {
         "@type": "ImageObject",
         url: `${ARTICLE_URL}/opengraph-image`,
+        contentUrl: `${ARTICLE_URL}/opengraph-image`,
+        caption: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
         width: 1200,
         height: 630,
       },

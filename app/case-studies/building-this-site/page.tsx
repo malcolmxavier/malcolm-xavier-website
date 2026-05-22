@@ -142,6 +142,7 @@ function Hero() {
             to upright sans so it reads as a clean external-link
             affordance — same trick the Basecamp Hero uses. */}
         <span
+          aria-hidden="true"
           style={{
             fontFamily: "var(--font-secondary)",
             fontStyle: "normal",
@@ -572,7 +573,7 @@ function BeatButton() {
           loop is a critical PM skill that I would argue requires some
           level of{" "}
           <Link href="https://www.linkedin.com/pulse/technically-speaking-malcolm-xavier-nsf3c">
-            technical expertise ↗
+            technical expertise <span aria-hidden="true">↗</span>
           </Link>
           .
         </p>
@@ -594,7 +595,7 @@ function BeatButton() {
           The 15-commit saga happened anyway. Documentation of a
           lesson isn&apos;t the same as discipline around
           it—writing the postmortem feels like resolution; carrying
-          it into the next session <Emph>is</Emph> the resolution.
+          it into the next session <Emph>is</Emph>{" "}the resolution.
           Almost every product org I&apos;ve worked in conflates the
           two, and an AI-native system will pick up the same
           conflation if you&apos;re not careful.
@@ -629,7 +630,7 @@ function BeatButton() {
         </p>
         <p>
           Three loops, three rules. They now load on every Claude session
-          because they live in <Code>~/.claude/</Code> memory—not because
+          because they live in <Code>~/.claude/</Code>{" "}memory—not because
           I&apos;ve reread the postmortem. The difference, again, is the
           difference between memory and discipline. The class hasn&apos;t
           stopped showing up; the rules make each recurrence cheaper than
@@ -654,7 +655,7 @@ function BeatButton() {
         >
           Postmortems documented in markdown rot the moment the next
           session starts. Project-level rules in <Code>AGENTS.md</Code>{" "}
-          and operator-level rules in <Code>~/.claude/</Code> load on
+          and operator-level rules in <Code>~/.claude/</Code>{" "}load on
           every turn—that&apos;s the surface that drives behavior. Two
           failed fixes means the diagnosis is wrong; root-cause it before
           iterating again.
@@ -1237,14 +1238,19 @@ function BeatLive() {
           .
         </p>
         <p>
-          If this resonated, two next steps:{" "}
-          <Link href="/resume">Review my resume &rarr;</Link>{" "}or{" "}
+          Two next steps, if this resonated:{" "}
+          <TrackOnClick
+            event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
+            eventData={{ surface: "case-study-meta-close", destination: "resume" }}
+          >
+            <Link href="/resume">Review my resume <span aria-hidden="true">&rarr;</span></Link>
+          </TrackOnClick>{" "}or{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-meta-close" }}
           >
             <Link href={CONTACT.calendly}>
-              Book a 30-min product chat &#8599;
+              Book a 30-min product chat <span aria-hidden="true">&#8599;</span>
             </Link>
           </TrackOnClick>
           .

@@ -18,12 +18,15 @@
    Each mode runs a stop set tuned for its background.
    ────────────────────────────────────────────────────────── */
 :root {
-  /* Light track — soft mint-grey on white. We use --foundation-
-     white directly (not --surface-page) because --surface-page
-     flows through --neutral-white which is undefined at :root on
-     recruiter-cluster pages. --foundation-white is defined at
-     :root globally and always resolves. */
-  --progress-track: color-mix(in oklab, var(--green-700) 28%, var(--foundation-white));
+  /* Light track — medium grey on white. Original spec was a
+     mint-grey color-mix tied to --green-700, but that resolved to
+     ~1.82:1 against white and failed WCAG 2.2 SC 1.4.11 (3:1
+     non-text contrast). The progress-bar track defines the role=
+     "progressbar" element's boundary, so the rule applies. Using
+     --grey-700 (#7b7e7b) gives 4.25:1 on white — the minimum-
+     viable bump that keeps the track subtle while passing AA. The
+     green gradient still carries the brand color as it fills. */
+  --progress-track: var(--grey-700);
 
   --progress-gradient: linear-gradient(
     90deg,
@@ -33,11 +36,13 @@
 }
 
 [data-theme="dark"] {
-  /* Dark track — same grey as the Nav's bottom border so the bar
-     visually replaces it. The gradient paints over this grey as
-     scroll fraction grows, so the green progress "fills in" the
-     border from left to right. */
-  --progress-track: var(--border-default);
+  /* Dark track — same neutral grey as light mode (4.94:1 on black).
+     Previously bound to --border-default to match the Nav's bottom
+     border visually, but --border-default in dark resolves to
+     --neutral-800 (#525452) = 2.75:1, failing SC 1.4.11. The Nav-
+     border-replacement intent is retained by the gradient paint-
+     over behavior, not by literal color matching. */
+  --progress-track: var(--grey-700);
 
   --progress-gradient: linear-gradient(
     90deg,

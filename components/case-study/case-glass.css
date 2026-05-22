@@ -71,7 +71,10 @@
 /* Top-edge sheen — a 2px gradient that simulates light catching
    the upper edge of the card. Most distinctive original detail.
    Bumped from 1px to 2px and from 18-32% to 35-60% opacity so the
-   gleam actually reads at typical viewing distance. */
+   gleam actually reads at typical viewing distance. Light-mode
+   centre stop is white-at-70%, not black: a dark band over a near-
+   white card reads as a depression, the opposite of the intended
+   "light from above" effect. Dark mode keeps its white-at-60%. */
 .case-glass::before {
   content: "";
   position: absolute;
@@ -83,7 +86,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(0, 0, 0, 0.35),
+    rgba(255, 255, 255, 0.7),
     transparent
   );
 }
@@ -95,4 +98,30 @@
     rgba(255, 255, 255, 0.6),
     transparent
   );
+}
+
+/* ──────────────────────────────────────────────────────────
+   Pipeline-diagram tint percentage.
+
+   Consumed by SVG <rect> fills in muck-rack's Beat 04 figures
+   (DiagramBox variant="nanoservice"). The tint encodes
+   "nanoservice vs microservice" without a label.
+
+   8% works against the white page in light mode. In dark mode
+   the same 8% against pure black collapses to ~1.14:1
+   fill-vs-fill — perceptually invisible. 20% restores the
+   legibility while staying quiet enough to read as a subtle
+   variant rather than a brand color.
+
+   Lives in case-glass.css because (1) it's case-study-scoped
+   styling, (2) this file is already imported by case-study
+   layouts that opt into it, and (3) it's already theme-aware
+   via [data-theme="dark"]. Same precedent as the 7% / 14%
+   light-vs-dark split above.
+   ────────────────────────────────────────────────────────── */
+:root {
+  --diagram-tint-pct: 8%;
+}
+[data-theme="dark"] {
+  --diagram-tint-pct: 20%;
 }

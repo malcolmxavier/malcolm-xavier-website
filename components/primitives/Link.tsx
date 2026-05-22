@@ -124,6 +124,17 @@ export function Link({
 
   if (isExternal) {
     // External link: open in new tab, scrub referrer for privacy.
+    // The sr-only span appends "(opens in new tab)" to the accessible
+    // name so screen-reader users get the same context-change warning
+    // sighted users get from the visible ↗ glyph (which is typically
+    // aria-hidden at the call site). Not a hard SC 3.2.2 failure to
+    // omit, but a usability gap for cognitive-disability users and
+    // a one-shot fix at the primitive level. Suppressed when the
+    // caller passes their own aria-label, since that overrides the
+    // accessible name and the consumer presumably encoded the warning
+    // already (zero existing aria-labels matched a "new tab" or "new
+    // window" pattern in the codebase at the time of this change).
+    const hasAriaLabel = "aria-label" in rest && rest["aria-label"] != null;
     return (
       <a
         href={href}
@@ -134,6 +145,9 @@ export function Link({
         {...rest}
       >
         {children}
+        {hasAriaLabel ? null : (
+          <span className="sr-only">{" "}(opens in new tab)</span>
+        )}
       </a>
     );
   }

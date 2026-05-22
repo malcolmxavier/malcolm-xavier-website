@@ -37,7 +37,10 @@
 // footer again.
 // ─────────────────────────────────────────────────────────────────
 
+"use client";
+
 import { TableOfContents, type TocItem } from "@/components/chrome/TableOfContents";
+import { useScrollSpy } from "@/components/chrome/useScrollSpy";
 
 interface CaseStudyTocRailProps {
   items: TocItem[];
@@ -49,6 +52,13 @@ export function CaseStudyTocRail({
   items,
   ariaLabel = "Article sections",
 }: CaseStudyTocRailProps) {
+  // Single scroll-spy listener shared across both breakpoint-
+  // conditional TOC variants. CSS `hidden` removes one variant from
+  // the a11y tree but does NOT unmount it, so without this lift each
+  // child TableOfContents would register its own rAF-throttled scroll
+  // listener and race the other's activeId state at lg+ viewports.
+  const activeId = useScrollSpy(items);
+
   return (
     <>
       {/* xl+ rail. The outer <aside> is absolutely positioned within
@@ -62,10 +72,19 @@ export function CaseStudyTocRail({
           with the same gap). pointer-events-none on the outer aside
           keeps the empty column from blocking clicks on the article
           below; pointer-events-auto on the sticky child restores
-          clicks where the actual TOC content lives. */}
-      <aside className="hidden xl:block absolute top-0 bottom-8 left-0 w-[180px] 2xl:w-[220px] z-30 pointer-events-none">
+          clicks where the actual TOC content lives.
+
+          aria-label on the <aside> is defensive: in practice CSS
+          `hidden` removes one of the two asides from the a11y tree
+          at any given viewport, so AT only ever sees one landmark.
+          But if a user stylesheet or future CSS change exposes both,
+          the label disambiguates the duplicate landmarks. */}
+      <aside
+        className="hidden xl:block absolute top-0 bottom-8 left-0 w-[180px] 2xl:w-[220px] z-30 pointer-events-none"
+        aria-label={ariaLabel}
+      >
         <div className="sticky top-32 ml-4 2xl:ml-8 pointer-events-auto">
-          <TableOfContents items={items} ariaLabel={ariaLabel} />
+          <TableOfContents items={items} ariaLabel={ariaLabel} activeId={activeId} />
         </div>
       </aside>
 
@@ -73,9 +92,9 @@ export function CaseStudyTocRail({
           the parent grid column is naturally bounded by the column's
           height = the article's height. No special handling needed —
           this variant already clamped correctly before. */}
-      <aside className="hidden lg:block xl:hidden">
+      <aside className="hidden lg:block xl:hidden" aria-label={ariaLabel}>
         <div className="sticky top-24 pl-4">
-          <TableOfContents items={items} ariaLabel={ariaLabel} />
+          <TableOfContents items={items} ariaLabel={ariaLabel} activeId={activeId} />
         </div>
       </aside>
     </>

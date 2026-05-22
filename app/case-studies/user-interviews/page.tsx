@@ -234,7 +234,7 @@ function BeatOpportunity() {
           <Emph>&ldquo;Are you a product manager?&rdquo;</Emph> and
           relying on the post-invitation screener to filter. The
           problem is that screener filtering happens{" "}
-          <Emph>after</Emph> the invitation lands. By the time a
+          <Emph>after</Emph>{" "}the invitation lands. By the time a
           participant is told they don&apos;t qualify, they&apos;re
           already hopeful if not expectant that they do.
         </p>
@@ -460,7 +460,7 @@ function BeatOutcomes() {
         </p>
       </Body>
 
-      <StatRow>
+      <StatRow cols={3}>
         <Stat
           big="2 qtrs"
           eyebrow="Time to scale"
@@ -550,15 +550,20 @@ function BeatReflection() {
             piece of writing. Closes ui-c-exit-ramp and
             ui-c-activation from the 2026-05-16 /full-review. */}
         <p>
-          If this is the kind of PM work you&apos;re hiring for, two
-          next steps:{" "}
-          <Link href="/resume">Review my resume &rarr;</Link>{" "}or{" "}
+          Two next steps, if this is the kind of PM work
+          you&apos;re hiring for:{" "}
+          <TrackOnClick
+            event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
+            eventData={{ surface: "case-study-user-interviews-close", destination: "resume" }}
+          >
+            <Link href="/resume">Review my resume <span aria-hidden="true">&rarr;</span></Link>
+          </TrackOnClick>{" "}or{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-user-interviews-close" }}
           >
             <Link href={CONTACT.calendly}>
-              Book a 30-min product chat &#8599;
+              Book a 30-min product chat <span aria-hidden="true">&#8599;</span>
             </Link>
           </TrackOnClick>
           .

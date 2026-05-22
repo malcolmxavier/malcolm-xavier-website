@@ -153,6 +153,7 @@ function Hero() {
             arrow back to upright sans so it reads as a clean
             external-link affordance. */}
         <span
+          aria-hidden="true"
           style={{
             fontFamily: "var(--font-secondary)",
             fontStyle: "normal",
@@ -425,7 +426,7 @@ function BeatArtifact() {
     >
       <Body>
         <p>
-          <Link href={QUIZ_HREF}>Take the quiz ↗</Link>. Sixty seconds. It maps you to one of 16 archetypes, recommends a drink from the actual
+          <Link href={QUIZ_HREF}>Take the quiz <span aria-hidden="true">↗</span></Link>. Sixty seconds. It maps you to one of 16 archetypes, recommends a drink from the actual
           Basecamp menu, and mints a one-time discount code. The recommender is a pure function—facet
           state in (from the user&apos;s answers), drink and archetype out. No AI call at runtime. The intelligence is in the facet
           system.
@@ -584,14 +585,19 @@ function BeatHowBuilt() {
           .
         </p>
         <p>
-          If this resonated, two next steps:{" "}
-          <Link href="/resume">Review my resume &rarr;</Link>{" "}or{" "}
+          Two next steps, if this resonated:{" "}
+          <TrackOnClick
+            event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
+            eventData={{ surface: "case-study-basecamp-close", destination: "resume" }}
+          >
+            <Link href="/resume">Review my resume <span aria-hidden="true">&rarr;</span></Link>
+          </TrackOnClick>{" "}or{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-basecamp-close" }}
           >
             <Link href={CONTACT.calendly}>
-              Book a 30-min product chat &#8599;
+              Book a 30-min product chat <span aria-hidden="true">&#8599;</span>
             </Link>
           </TrackOnClick>
           .

@@ -27,7 +27,7 @@
 // matching token.
 // ─────────────────────────────────────────────────────────────────
 
-import { Children, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Kicker } from "@/components/typography/Kicker";
 
 // ─── Article width rail ─────────────────────────────────────────
@@ -187,7 +187,10 @@ export function Beat({
           </CaseStudyKicker>
         )}
       </div>
-      <h2 className="m-0 mb-6 md:mb-8 text-[40px] md:text-[52px] lg:text-[60px] leading-[1.05] tracking-[-0.02em] text-[var(--text-heading)]">
+      <h2
+        className="m-0 mb-6 md:mb-8 text-[40px] md:text-[52px] lg:text-[60px] leading-[1.05] tracking-[-0.02em] text-[var(--text-heading)]"
+        style={{ fontFamily: "var(--font-primary)" }}
+      >
         {headline}
       </h2>
       {children}
@@ -356,13 +359,23 @@ export function ClaudeNote({
 // body text.
 // ────────────────────────────────────────────────────────────────
 
-export function StatRow({ children }: { children: ReactNode }) {
-  // Child-count-aware grid: 3+ Stats render as a triptych at lg+ to avoid
-  // the half-width orphan that 3 stats produce in a 2-column grid (the
-  // third tile lands alone in row 2). 2-stat rows keep the existing 2-col
-  // rhythm so existing case studies don't render narrower than before.
-  const count = Children.count(children);
-  const lgCols = count >= 3 ? "lg:grid-cols-3" : "lg:grid-cols-2";
+export function StatRow({
+  children,
+  cols = 2,
+}: {
+  children: ReactNode;
+  /**
+   * Number of columns at lg+. Defaults to 2; pass `3` for triptych
+   * rows to avoid the half-width orphan that 3 Stats produce inside
+   * a 2-column grid (the third tile lands alone in row 2). Mobile
+   * stays 1-col, md stays 2-col regardless. Was previously inferred
+   * via Children.count, but that API is React-19-legacy with a
+   * StrictMode warning; explicit prop is the right shape and lets
+   * the caller declare intent.
+   */
+  cols?: 2 | 3;
+}) {
+  const lgCols = cols === 3 ? "lg:grid-cols-3" : "lg:grid-cols-2";
   return (
     <div className={`my-8 md:my-10 grid grid-cols-1 md:grid-cols-2 ${lgCols} gap-4`}>
       {children}
@@ -398,7 +411,10 @@ export function Stat({
       >
         {eyebrow}
       </p>
-      <p className={`m-0 ${bigClassName} leading-none tracking-[-0.03em] text-[var(--text-heading)]`}>
+      <p
+        className={`m-0 ${bigClassName} leading-none tracking-[-0.03em] text-[var(--text-heading)]`}
+        style={{ fontFamily: "var(--font-primary)" }}
+      >
         {big}
       </p>
       <p className="m-0 text-[14px] leading-[1.5] text-[var(--text-caption)]">

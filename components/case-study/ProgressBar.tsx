@@ -22,7 +22,13 @@ interface ProgressBarProps {
 }
 
 export function ProgressBar({ fraction }: ProgressBarProps) {
-  const pct = Math.max(0, Math.min(1, fraction)) * 100;
+  // Trust the contract: callers MUST pass a clamped fraction in
+  // [0,1] per the JSDoc above. ScrollProgress (the only producer)
+  // already clamps before set-state, so a defensive re-clamp here
+  // was dead work AND fragmented the invariant — a future caller
+  // passing a raw unclamped value would have been silently fixed,
+  // masking the upstream bug.
+  const pct = fraction * 100;
   // role="progressbar" + aria-valuenow/min/max so screen-reader
   // users perceive reading progress alongside the visual bar.
   // Without these the element is announced as a generic group and
@@ -39,7 +45,7 @@ export function ProgressBar({ fraction }: ProgressBarProps) {
       aria-valuemax={100}
     >
       <div
-        className="h-full transition-[width] duration-300 ease-out motion-reduce:transition-none"
+        className="h-full transition-[width] duration-100 ease-out motion-reduce:transition-none"
         style={{
           width: `${pct}%`,
           background: "var(--progress-gradient)",

@@ -86,7 +86,13 @@ export function CaseStudyHero({
       <h2 className="m-0 mb-6 md:mb-8 text-[24px] md:text-[32px] lg:text-[36px] leading-[1.15] tracking-[-0.015em] text-[var(--text-caption)]">
         {subtitle}
       </h2>
-      <p
+      {/* div, not p — case studies (e.g. muck-rack) embed block-level
+          elements like the resume-backlink kicker inside this lede.
+          A <p> wrapper would split the accessibility tree at any
+          block-level child. div preserves the visual treatment
+          (italic Instrument Serif at body size) without imposing
+          paragraph semantics on consumers. */}
+      <div
         className="italic-kern m-0 text-[19px] md:text-[21px] leading-[1.4] text-[var(--text-caption)]"
         style={{
           fontFamily: "var(--font-primary)",
@@ -94,7 +100,7 @@ export function CaseStudyHero({
         }}
       >
         {children}
-      </p>
+      </div>
     </section>
   );
 }
