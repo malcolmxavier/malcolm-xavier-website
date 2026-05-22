@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-05-22T02:31:24.990Z",
+  "capturedAt": "2026-05-22T03:31:12.058Z",
   "summary": {
     "totalShows": 155,
     "totalShowReviews": 37,
     "totalSeasonReviews": 233,
-    "totalEpisodeReviews": 545,
+    "totalEpisodeReviews": 546,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
       "3": 197,
       "4": 154,
       "5": 14,
+      "4.5": 41,
       "3.5": 234,
-      "4.5": 40,
       "2.5": 86,
       "1.5": 11,
       "0.5": 1
@@ -43,18 +43,18 @@
         "3": 138,
         "4": 108,
         "5": 6,
+        "4.5": 33,
         "3.5": 174,
-        "4.5": 32,
         "2.5": 61,
         "1.5": 5
       }
     },
     "genreDistribution": {
-      "Comedy": 56,
       "Drama": 95,
+      "Mystery": 32,
+      "Comedy": 56,
       "Reality": 27,
       "Talk": 1,
-      "Mystery": 32,
       "Action & Adventure": 17,
       "Crime": 28,
       "Sci-Fi & Fantasy": 23,
@@ -77,6 +77,144 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-257994",
+      "serializdShowId": 257994,
+      "slug": "half-man-2026",
+      "name": "Half Man",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-28",
+      "serializdUrl": "https://serializd.com/show/257994",
+      "tmdb": {
+        "id": 257994,
+        "name": "Half Man",
+        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
+        "genres": [
+          "Drama",
+          "Mystery"
+        ],
+        "type": "Miniseries",
+        "status": "Returning Series",
+        "networks": [
+          "BBC One"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "seasons": [
+        {
+          "serializdId": 400120,
+          "showId": 257994,
+          "seasonNumber": 1,
+          "name": "Miniseries",
+          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 66536683,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Unfortunately, everyone is lowkey evil. An already dark show, pushing into the bleakest of areas. Ruben being among the public is so terrifying.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-22T03:21:14Z",
+          "reviewDate": "2026-05-22T03:22:23Z",
+          "seasonId": 400120,
+          "episodeNumber": 5,
+          "episodeName": "Episode 5",
+          "tags": []
+        },
+        {
+          "id": 65856699,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I feel sick (complimentary). I would guess this episode is the home of the show’s thesis on cycles of abuse, particularly violent sexual abuse among men and how that interacts with sexuality. Niall is such a heartbreaking character in that you feel badly for him, but he’s also never at a healed place in his journey where he takes any accountability. And what’s wild is that there’s not much accountability to take as much as it’s ownership and conviction in his decisions, many of which have been justified.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-16T05:07:29Z",
+          "reviewDate": "2026-05-16T05:10:20Z",
+          "seasonId": 400120,
+          "episodeNumber": 4,
+          "episodeName": "Episode 4",
+          "tags": []
+        },
+        {
+          "id": 65194601,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Ruben the terrorist for real.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-10T04:50:49Z",
+          "reviewDate": "2026-05-10T04:51:09Z",
+          "seasonId": 400120,
+          "episodeNumber": 3,
+          "episodeName": "Episode 3",
+          "tags": []
+        },
+        {
+          "id": 64347442,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T04:53:15Z",
+          "reviewDate": "2026-05-02T04:54:46Z",
+          "seasonId": 400120,
+          "episodeNumber": 2,
+          "episodeName": "Episode 2",
+          "tags": []
+        },
+        {
+          "id": 64344500,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "So, this show is gonna stress me. Got it.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T03:58:00Z",
+          "reviewDate": "2026-05-02T03:58:20Z",
+          "seasonId": 400120,
+          "episodeNumber": 1,
+          "episodeName": "Episode 1",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-05-22T03:22:23Z",
+      "primaryRating": 4.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-124101",
       "serializdShowId": 124101,
@@ -4295,127 +4433,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-16T05:59:15Z",
       "primaryRating": 3.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-257994",
-      "serializdShowId": 257994,
-      "slug": "half-man-2026",
-      "name": "Half Man",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-28",
-      "serializdUrl": "https://serializd.com/show/257994",
-      "tmdb": {
-        "id": 257994,
-        "name": "Half Man",
-        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
-        "genres": [
-          "Drama",
-          "Mystery"
-        ],
-        "type": "Miniseries",
-        "status": "Returning Series",
-        "networks": [
-          "BBC One"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 6
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "seasons": [
-        {
-          "serializdId": 400120,
-          "showId": 257994,
-          "seasonNumber": 1,
-          "name": "Miniseries",
-          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 65856699,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I feel sick (complimentary). I would guess this episode is the home of the show’s thesis on cycles of abuse, particularly violent sexual abuse among men and how that interacts with sexuality. Niall is such a heartbreaking character in that you feel badly for him, but he’s also never at a healed place in his journey where he takes any accountability. And what’s wild is that there’s not much accountability to take as much as it’s ownership and conviction in his decisions, many of which have been justified.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-16T05:07:29Z",
-          "reviewDate": "2026-05-16T05:10:20Z",
-          "seasonId": 400120,
-          "episodeNumber": 4,
-          "episodeName": "Episode 4",
-          "tags": []
-        },
-        {
-          "id": 65194601,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Ruben the terrorist for real.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-10T04:50:49Z",
-          "reviewDate": "2026-05-10T04:51:09Z",
-          "seasonId": 400120,
-          "episodeNumber": 3,
-          "episodeName": "Episode 3",
-          "tags": []
-        },
-        {
-          "id": 64347442,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T04:53:15Z",
-          "reviewDate": "2026-05-02T04:54:46Z",
-          "seasonId": 400120,
-          "episodeNumber": 2,
-          "episodeName": "Episode 2",
-          "tags": []
-        },
-        {
-          "id": 64344500,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "So, this show is gonna stress me. Got it.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T03:58:00Z",
-          "reviewDate": "2026-05-02T03:58:20Z",
-          "seasonId": 400120,
-          "episodeNumber": 1,
-          "episodeName": "Episode 1",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": true,
-      "latestActivityDate": "2026-05-16T05:10:20Z",
-      "primaryRating": 4,
       "liked": false
     },
     {
@@ -24484,6 +24501,144 @@
     }
   ],
   "showById": {
+    "tmdb-tv-257994": {
+      "id": "tmdb-tv-257994",
+      "serializdShowId": 257994,
+      "slug": "half-man-2026",
+      "name": "Half Man",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-28",
+      "serializdUrl": "https://serializd.com/show/257994",
+      "tmdb": {
+        "id": 257994,
+        "name": "Half Man",
+        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
+        "genres": [
+          "Drama",
+          "Mystery"
+        ],
+        "type": "Miniseries",
+        "status": "Returning Series",
+        "networks": [
+          "BBC One"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "seasons": [
+        {
+          "serializdId": 400120,
+          "showId": 257994,
+          "seasonNumber": 1,
+          "name": "Miniseries",
+          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 66536683,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Unfortunately, everyone is lowkey evil. An already dark show, pushing into the bleakest of areas. Ruben being among the public is so terrifying.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-22T03:21:14Z",
+          "reviewDate": "2026-05-22T03:22:23Z",
+          "seasonId": 400120,
+          "episodeNumber": 5,
+          "episodeName": "Episode 5",
+          "tags": []
+        },
+        {
+          "id": 65856699,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I feel sick (complimentary). I would guess this episode is the home of the show’s thesis on cycles of abuse, particularly violent sexual abuse among men and how that interacts with sexuality. Niall is such a heartbreaking character in that you feel badly for him, but he’s also never at a healed place in his journey where he takes any accountability. And what’s wild is that there’s not much accountability to take as much as it’s ownership and conviction in his decisions, many of which have been justified.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-16T05:07:29Z",
+          "reviewDate": "2026-05-16T05:10:20Z",
+          "seasonId": 400120,
+          "episodeNumber": 4,
+          "episodeName": "Episode 4",
+          "tags": []
+        },
+        {
+          "id": 65194601,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Ruben the terrorist for real.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-10T04:50:49Z",
+          "reviewDate": "2026-05-10T04:51:09Z",
+          "seasonId": 400120,
+          "episodeNumber": 3,
+          "episodeName": "Episode 3",
+          "tags": []
+        },
+        {
+          "id": 64347442,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T04:53:15Z",
+          "reviewDate": "2026-05-02T04:54:46Z",
+          "seasonId": 400120,
+          "episodeNumber": 2,
+          "episodeName": "Episode 2",
+          "tags": []
+        },
+        {
+          "id": 64344500,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "So, this show is gonna stress me. Got it.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T03:58:00Z",
+          "reviewDate": "2026-05-02T03:58:20Z",
+          "seasonId": 400120,
+          "episodeNumber": 1,
+          "episodeName": "Episode 1",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-05-22T03:22:23Z",
+      "primaryRating": 4.5,
+      "liked": false
+    },
     "tmdb-tv-124101": {
       "id": "tmdb-tv-124101",
       "serializdShowId": 124101,
@@ -28702,127 +28857,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-16T05:59:15Z",
       "primaryRating": 3.5,
-      "liked": false
-    },
-    "tmdb-tv-257994": {
-      "id": "tmdb-tv-257994",
-      "serializdShowId": 257994,
-      "slug": "half-man-2026",
-      "name": "Half Man",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-28",
-      "serializdUrl": "https://serializd.com/show/257994",
-      "tmdb": {
-        "id": 257994,
-        "name": "Half Man",
-        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
-        "genres": [
-          "Drama",
-          "Mystery"
-        ],
-        "type": "Miniseries",
-        "status": "Returning Series",
-        "networks": [
-          "BBC One"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 6
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "seasons": [
-        {
-          "serializdId": 400120,
-          "showId": 257994,
-          "seasonNumber": 1,
-          "name": "Miniseries",
-          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 65856699,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I feel sick (complimentary). I would guess this episode is the home of the show’s thesis on cycles of abuse, particularly violent sexual abuse among men and how that interacts with sexuality. Niall is such a heartbreaking character in that you feel badly for him, but he’s also never at a healed place in his journey where he takes any accountability. And what’s wild is that there’s not much accountability to take as much as it’s ownership and conviction in his decisions, many of which have been justified.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-16T05:07:29Z",
-          "reviewDate": "2026-05-16T05:10:20Z",
-          "seasonId": 400120,
-          "episodeNumber": 4,
-          "episodeName": "Episode 4",
-          "tags": []
-        },
-        {
-          "id": 65194601,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Ruben the terrorist for real.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-10T04:50:49Z",
-          "reviewDate": "2026-05-10T04:51:09Z",
-          "seasonId": 400120,
-          "episodeNumber": 3,
-          "episodeName": "Episode 3",
-          "tags": []
-        },
-        {
-          "id": 64347442,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T04:53:15Z",
-          "reviewDate": "2026-05-02T04:54:46Z",
-          "seasonId": 400120,
-          "episodeNumber": 2,
-          "episodeName": "Episode 2",
-          "tags": []
-        },
-        {
-          "id": 64344500,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "So, this show is gonna stress me. Got it.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T03:58:00Z",
-          "reviewDate": "2026-05-02T03:58:20Z",
-          "seasonId": 400120,
-          "episodeNumber": 1,
-          "episodeName": "Episode 1",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": true,
-      "latestActivityDate": "2026-05-16T05:10:20Z",
-      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-247758": {
