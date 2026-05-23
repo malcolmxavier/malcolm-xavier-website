@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-05-23T15:31:58.068Z",
+  "capturedAt": "2026-05-23T16:31:54.600Z",
   "summary": {
     "totalShows": 155,
     "totalShowReviews": 37,
     "totalSeasonReviews": 233,
-    "totalEpisodeReviews": 552,
+    "totalEpisodeReviews": 553,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
       "3": 199,
       "4": 157,
       "5": 14,
-      "3.5": 235,
+      "3.5": 236,
       "2.5": 86,
       "4.5": 41,
       "1.5": 11,
@@ -43,7 +43,7 @@
         "3": 140,
         "4": 111,
         "5": 6,
-        "3.5": 175,
+        "3.5": 176,
         "2.5": 61,
         "4.5": 33,
         "1.5": 5
@@ -250,6 +250,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 66687052,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-23T15:59:57Z",
+          "reviewDate": "2026-05-23T16:00:08Z",
+          "seasonId": 167122,
+          "episodeNumber": 19,
+          "episodeName": "Reunion Part 1",
+          "tags": []
+        },
         {
           "id": 66682297,
           "level": "episode",
@@ -2795,8 +2811,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-23T15:08:14Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-05-23T16:00:08Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -24771,6 +24787,22 @@
       ],
       "reviews": [
         {
+          "id": 66687052,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-23T15:59:57Z",
+          "reviewDate": "2026-05-23T16:00:08Z",
+          "seasonId": 167122,
+          "episodeNumber": 19,
+          "episodeName": "Reunion Part 1",
+          "tags": []
+        },
+        {
           "id": 66682297,
           "level": "episode",
           "rating": 4,
@@ -27315,8 +27347,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-23T15:08:14Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-05-23T16:00:08Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-257994": {
