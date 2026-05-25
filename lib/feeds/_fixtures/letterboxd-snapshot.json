@@ -1,44 +1,44 @@
 {
-  "capturedAt": "2026-05-21T05:00:17.101Z",
+  "capturedAt": "2026-05-25T16:00:50.328Z",
   "summary": {
-    "totalFilms": 752,
-    "totalReviews": 752,
-    "thisYearCount": 111,
+    "totalFilms": 755,
+    "totalReviews": 755,
+    "thisYearCount": 114,
     "ratingDistribution": {
       "1": 34,
       "2": 119,
       "3": 142,
-      "4": 101,
+      "4": 103,
       "5": 16,
+      "3.5": 150,
       "2.5": 101,
-      "3.5": 149,
       "4.5": 49,
       "1.5": 32,
       "0.5": 9
     },
     "genreDistribution": {
+      "Horror": 126,
+      "Drama": 356,
+      "Comedy": 215,
+      "Science Fiction": 110,
+      "Crime": 99,
       "Action": 113,
       "Fantasy": 58,
       "Adventure": 83,
-      "Drama": 355,
       "Romance": 87,
-      "Crime": 98,
       "Thriller": 214,
-      "Comedy": 214,
       "Music": 48,
       "Mystery": 78,
       "Documentary": 59,
       "Animation": 43,
       "Family": 19,
-      "Horror": 125,
-      "Science Fiction": 109,
       "History": 40,
       "TV Movie": 5,
       "War": 16,
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 562,
+      "2020s": 565,
       "1980s": 16,
       "1990s": 15,
       "2010s": 123,
@@ -48,6 +48,137 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1339713",
+      "letterboxdSlug": "obsession",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/obsession-2025-2/",
+      "title": "Obsession",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-05-23",
+      "latestWatchedDate": "2026-05-23",
+      "firstReviewDate": "2026-05-25",
+      "latestReviewDate": "2026-05-25",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1328996310",
+          "watchedDate": "2026-05-23",
+          "reviewDate": "2026-05-25",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Inde Navarrette absolutely smashed it, but I think this film trusts the average viewer’s intellect a bit too much. The read is meant to approach feminism, but I fear it is giving red pill.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1339713,
+        "posterPath": "/40I66L7QKguTFDPvcLcdiTbAD7I.jpg",
+        "backdropPath": "/1pKFDggvtk23zcn1vUcPiKyuHxM.jpg",
+        "genres": [
+          "Horror"
+        ],
+        "runtime": 108,
+        "director": "Curry Barker"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/40I66L7QKguTFDPvcLcdiTbAD7I.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/40I66L7QKguTFDPvcLcdiTbAD7I.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1283320",
+      "letterboxdSlug": "urchin",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/urchin-2025/",
+      "title": "Urchin",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-05-22",
+      "latestWatchedDate": "2026-05-22",
+      "firstReviewDate": "2026-05-25",
+      "latestReviewDate": "2026-05-25",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1328993759",
+          "watchedDate": "2026-05-22",
+          "reviewDate": "2026-05-25",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I didn’t realize Harris Dickinson had this in him! I’m so glad I finally caught this. I was on the edge of my seat and practically watching through my fingers. It’s interesting to see how post-incarceration life is difficult outside of the US as well.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1283320,
+        "posterPath": "/zc8n3hm3S2VxFxlNH1MNN28LVMa.jpg",
+        "backdropPath": "/1M8MgXc9UifZFA8qeC2gG4UCQe.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "runtime": 99,
+        "director": "Harris Dickinson"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/zc8n3hm3S2VxFxlNH1MNN28LVMa.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/zc8n3hm3S2VxFxlNH1MNN28LVMa.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1227877",
+      "letterboxdSlug": "i-love-boosters",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/i-love-boosters/",
+      "title": "I Love Boosters",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-22",
+      "latestWatchedDate": "2026-05-22",
+      "firstReviewDate": "2026-05-25",
+      "latestReviewDate": "2026-05-25",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1328991084",
+          "watchedDate": "2026-05-22",
+          "reviewDate": "2026-05-25",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Boots’s maximalism really shines in this one. I keep coming back to the gag of the raked building. I love how Boots always mixes class conscious commentary with absurdist narrative. This feels like it exists in the same world as <i>Sorry to Bother You</i>. Ultimately, this packed a softer punch than it’s predecessor, and is more focused on being a fun watch.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1227877,
+        "posterPath": "/4pNKIUFy7tkZiBx0rnSmG9ysRy.jpg",
+        "backdropPath": "/2fuXHiUrCMp100jC6e4k2H222Jn.jpg",
+        "genres": [
+          "Comedy",
+          "Science Fiction",
+          "Crime"
+        ],
+        "runtime": 105,
+        "director": "Boots Riley"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4pNKIUFy7tkZiBx0rnSmG9ysRy.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4pNKIUFy7tkZiBx0rnSmG9ysRy.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-931285",
       "letterboxdSlug": "mortal-kombat-ii",
@@ -32708,6 +32839,137 @@
     }
   ],
   "filmById": {
+    "tmdb-1339713": {
+      "id": "tmdb-1339713",
+      "letterboxdSlug": "obsession",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/obsession-2025-2/",
+      "title": "Obsession",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-05-23",
+      "latestWatchedDate": "2026-05-23",
+      "firstReviewDate": "2026-05-25",
+      "latestReviewDate": "2026-05-25",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1328996310",
+          "watchedDate": "2026-05-23",
+          "reviewDate": "2026-05-25",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Inde Navarrette absolutely smashed it, but I think this film trusts the average viewer’s intellect a bit too much. The read is meant to approach feminism, but I fear it is giving red pill.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1339713,
+        "posterPath": "/40I66L7QKguTFDPvcLcdiTbAD7I.jpg",
+        "backdropPath": "/1pKFDggvtk23zcn1vUcPiKyuHxM.jpg",
+        "genres": [
+          "Horror"
+        ],
+        "runtime": 108,
+        "director": "Curry Barker"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/40I66L7QKguTFDPvcLcdiTbAD7I.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/40I66L7QKguTFDPvcLcdiTbAD7I.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1283320": {
+      "id": "tmdb-1283320",
+      "letterboxdSlug": "urchin",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/urchin-2025/",
+      "title": "Urchin",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-05-22",
+      "latestWatchedDate": "2026-05-22",
+      "firstReviewDate": "2026-05-25",
+      "latestReviewDate": "2026-05-25",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1328993759",
+          "watchedDate": "2026-05-22",
+          "reviewDate": "2026-05-25",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I didn’t realize Harris Dickinson had this in him! I’m so glad I finally caught this. I was on the edge of my seat and practically watching through my fingers. It’s interesting to see how post-incarceration life is difficult outside of the US as well.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1283320,
+        "posterPath": "/zc8n3hm3S2VxFxlNH1MNN28LVMa.jpg",
+        "backdropPath": "/1M8MgXc9UifZFA8qeC2gG4UCQe.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "runtime": 99,
+        "director": "Harris Dickinson"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/zc8n3hm3S2VxFxlNH1MNN28LVMa.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/zc8n3hm3S2VxFxlNH1MNN28LVMa.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1227877": {
+      "id": "tmdb-1227877",
+      "letterboxdSlug": "i-love-boosters",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/i-love-boosters/",
+      "title": "I Love Boosters",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-22",
+      "latestWatchedDate": "2026-05-22",
+      "firstReviewDate": "2026-05-25",
+      "latestReviewDate": "2026-05-25",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1328991084",
+          "watchedDate": "2026-05-22",
+          "reviewDate": "2026-05-25",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Boots’s maximalism really shines in this one. I keep coming back to the gag of the raked building. I love how Boots always mixes class conscious commentary with absurdist narrative. This feels like it exists in the same world as <i>Sorry to Bother You</i>. Ultimately, this packed a softer punch than it’s predecessor, and is more focused on being a fun watch.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1227877,
+        "posterPath": "/4pNKIUFy7tkZiBx0rnSmG9ysRy.jpg",
+        "backdropPath": "/2fuXHiUrCMp100jC6e4k2H222Jn.jpg",
+        "genres": [
+          "Comedy",
+          "Science Fiction",
+          "Crime"
+        ],
+        "runtime": 105,
+        "director": "Boots Riley"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4pNKIUFy7tkZiBx0rnSmG9ysRy.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4pNKIUFy7tkZiBx0rnSmG9ysRy.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-931285": {
       "id": "tmdb-931285",
       "letterboxdSlug": "mortal-kombat-ii",
