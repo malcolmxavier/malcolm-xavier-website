@@ -160,7 +160,7 @@ export const ROLES: ResumeRole[] = [
     title: "Senior Product Manager, Audience Relationships",
     dates: "Feb 2024 – Oct 2025",
     context:
-      "America's largest publisher (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
+      "“America's largest publisher” (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
     bullets: [
       <><strong>Grew email revenue 33% YoY</strong> with reusable components and lifecycle marketing playbooks</>,
       <>Partnered with data science to scale a recipe recommendation service and drive <strong>2x traffic</strong></>,
