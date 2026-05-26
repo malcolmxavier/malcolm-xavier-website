@@ -147,7 +147,7 @@ const ROLES = [
     title: "Senior Product Manager, Audience Relationships",
     dates: "Feb 2024 – Oct 2025",
     context:
-      "America's largest publisher (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
+      "“America's largest publisher” (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
     bullets: [
       [
         { text: "Grew email revenue 33% YoY", bold: true },
