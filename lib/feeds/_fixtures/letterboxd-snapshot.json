@@ -1,13 +1,13 @@
 {
-  "capturedAt": "2026-05-25T16:00:50.328Z",
+  "capturedAt": "2026-05-26T00:00:21.640Z",
   "summary": {
-    "totalFilms": 755,
-    "totalReviews": 755,
-    "thisYearCount": 114,
+    "totalFilms": 756,
+    "totalReviews": 756,
+    "thisYearCount": 115,
     "ratingDistribution": {
       "1": 34,
       "2": 119,
-      "3": 142,
+      "3": 143,
       "4": 103,
       "5": 16,
       "3.5": 150,
@@ -17,16 +17,16 @@
       "0.5": 9
     },
     "genreDistribution": {
+      "Romance": 88,
+      "Science Fiction": 111,
+      "Thriller": 215,
       "Horror": 126,
       "Drama": 356,
       "Comedy": 215,
-      "Science Fiction": 110,
       "Crime": 99,
       "Action": 113,
       "Fantasy": 58,
       "Adventure": 83,
-      "Romance": 87,
-      "Thriller": 214,
       "Music": 48,
       "Mystery": 78,
       "Documentary": 59,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 565,
+      "2020s": 566,
       "1980s": 16,
       "1990s": 15,
       "2010s": 123,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-950396",
+      "letterboxdSlug": "the-gorge",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-gorge-2025/",
+      "title": "The Gorge",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-05-25",
+      "latestWatchedDate": "2026-05-25",
+      "firstReviewDate": "2026-05-25",
+      "latestReviewDate": "2026-05-25",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1329536975",
+          "watchedDate": "2026-05-25",
+          "reviewDate": "2026-05-25",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Lots of solid pieces, but no cohesion. A great long weekend afternoon film to pass time with.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 950396,
+        "posterPath": "/7iMBZzVZtG0oBug4TfqDb9ZxAOa.jpg",
+        "backdropPath": "/9nhjGaFLKtddDPtPaX5EmKqsWdH.jpg",
+        "genres": [
+          "Romance",
+          "Science Fiction",
+          "Thriller"
+        ],
+        "runtime": 128,
+        "director": "Scott Derrickson"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7iMBZzVZtG0oBug4TfqDb9ZxAOa.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7iMBZzVZtG0oBug4TfqDb9ZxAOa.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1339713",
       "letterboxdSlug": "obsession",
@@ -32839,6 +32884,51 @@
     }
   ],
   "filmById": {
+    "tmdb-950396": {
+      "id": "tmdb-950396",
+      "letterboxdSlug": "the-gorge",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-gorge-2025/",
+      "title": "The Gorge",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-05-25",
+      "latestWatchedDate": "2026-05-25",
+      "firstReviewDate": "2026-05-25",
+      "latestReviewDate": "2026-05-25",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1329536975",
+          "watchedDate": "2026-05-25",
+          "reviewDate": "2026-05-25",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Lots of solid pieces, but no cohesion. A great long weekend afternoon film to pass time with.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 950396,
+        "posterPath": "/7iMBZzVZtG0oBug4TfqDb9ZxAOa.jpg",
+        "backdropPath": "/9nhjGaFLKtddDPtPaX5EmKqsWdH.jpg",
+        "genres": [
+          "Romance",
+          "Science Fiction",
+          "Thriller"
+        ],
+        "runtime": 128,
+        "director": "Scott Derrickson"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7iMBZzVZtG0oBug4TfqDb9ZxAOa.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7iMBZzVZtG0oBug4TfqDb9ZxAOa.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1339713": {
       "id": "tmdb-1339713",
       "letterboxdSlug": "obsession",
