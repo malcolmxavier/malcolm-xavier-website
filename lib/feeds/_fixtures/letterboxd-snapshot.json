@@ -1,28 +1,28 @@
 {
-  "capturedAt": "2026-05-26T00:00:21.640Z",
+  "capturedAt": "2026-05-27T01:00:02.639Z",
   "summary": {
-    "totalFilms": 756,
-    "totalReviews": 756,
-    "thisYearCount": 115,
+    "totalFilms": 758,
+    "totalReviews": 758,
+    "thisYearCount": 117,
     "ratingDistribution": {
-      "1": 34,
+      "1": 35,
       "2": 119,
       "3": 143,
       "4": 103,
       "5": 16,
+      "1.5": 33,
       "3.5": 150,
       "2.5": 101,
       "4.5": 49,
-      "1.5": 32,
       "0.5": 9
     },
     "genreDistribution": {
+      "Comedy": 216,
+      "Drama": 357,
+      "Horror": 127,
+      "Thriller": 216,
       "Romance": 88,
       "Science Fiction": 111,
-      "Thriller": 215,
-      "Horror": 126,
-      "Drama": 356,
-      "Comedy": 215,
       "Crime": 99,
       "Action": 113,
       "Fantasy": 58,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 566,
+      "2020s": 568,
       "1980s": 16,
       "1990s": 15,
       "2010s": 123,
@@ -48,6 +48,94 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1049471",
+      "letterboxdSlug": "outcome",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/outcome/",
+      "title": "Outcome",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-26",
+      "latestWatchedDate": "2026-05-26",
+      "firstReviewDate": "2026-05-27",
+      "latestReviewDate": "2026-05-27",
+      "primaryRating": 1,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1330887421",
+          "watchedDate": "2026-05-26",
+          "reviewDate": "2026-05-27",
+          "rating": 1,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "This movie’s got everything: Susan Lucci as a RHOBH cast member, bald Jonah Hill, and Drew Barrymore as herself shading Ellen. But beyond that I’m not sure…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1049471,
+        "posterPath": "/kSzcpfbTy2pXHGvrVU2WhQTo6oU.jpg",
+        "backdropPath": "/avwIERZtWiWa34qShf5biDzAVaF.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "runtime": 84,
+        "director": "Jonah Hill"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kSzcpfbTy2pXHGvrVU2WhQTo6oU.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kSzcpfbTy2pXHGvrVU2WhQTo6oU.jpg",
+      "ratingSet": [
+        1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1368314",
+      "letterboxdSlug": "passenger",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/passenger-2026/",
+      "title": "Passenger",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-25",
+      "latestWatchedDate": "2026-05-25",
+      "firstReviewDate": "2026-05-27",
+      "latestReviewDate": "2026-05-27",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1330884362",
+          "watchedDate": "2026-05-25",
+          "reviewDate": "2026-05-27",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Too much going on and heavy-handed. Get Melissa Leo out of here!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1368314,
+        "posterPath": "/2sOEJzhPzjTkZSlPbGxOJ7xgIyS.jpg",
+        "backdropPath": "/hl7FEzMqgpsD0RfwMzskzQoiD1M.jpg",
+        "genres": [
+          "Horror",
+          "Thriller"
+        ],
+        "runtime": 94,
+        "director": "André Øvredal"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/2sOEJzhPzjTkZSlPbGxOJ7xgIyS.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/2sOEJzhPzjTkZSlPbGxOJ7xgIyS.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-950396",
       "letterboxdSlug": "the-gorge",
@@ -32884,6 +32972,94 @@
     }
   ],
   "filmById": {
+    "tmdb-1049471": {
+      "id": "tmdb-1049471",
+      "letterboxdSlug": "outcome",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/outcome/",
+      "title": "Outcome",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-26",
+      "latestWatchedDate": "2026-05-26",
+      "firstReviewDate": "2026-05-27",
+      "latestReviewDate": "2026-05-27",
+      "primaryRating": 1,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1330887421",
+          "watchedDate": "2026-05-26",
+          "reviewDate": "2026-05-27",
+          "rating": 1,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "This movie’s got everything: Susan Lucci as a RHOBH cast member, bald Jonah Hill, and Drew Barrymore as herself shading Ellen. But beyond that I’m not sure…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1049471,
+        "posterPath": "/kSzcpfbTy2pXHGvrVU2WhQTo6oU.jpg",
+        "backdropPath": "/avwIERZtWiWa34qShf5biDzAVaF.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "runtime": 84,
+        "director": "Jonah Hill"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kSzcpfbTy2pXHGvrVU2WhQTo6oU.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kSzcpfbTy2pXHGvrVU2WhQTo6oU.jpg",
+      "ratingSet": [
+        1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1368314": {
+      "id": "tmdb-1368314",
+      "letterboxdSlug": "passenger",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/passenger-2026/",
+      "title": "Passenger",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-25",
+      "latestWatchedDate": "2026-05-25",
+      "firstReviewDate": "2026-05-27",
+      "latestReviewDate": "2026-05-27",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1330884362",
+          "watchedDate": "2026-05-25",
+          "reviewDate": "2026-05-27",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Too much going on and heavy-handed. Get Melissa Leo out of here!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1368314,
+        "posterPath": "/2sOEJzhPzjTkZSlPbGxOJ7xgIyS.jpg",
+        "backdropPath": "/hl7FEzMqgpsD0RfwMzskzQoiD1M.jpg",
+        "genres": [
+          "Horror",
+          "Thriller"
+        ],
+        "runtime": 94,
+        "director": "André Øvredal"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/2sOEJzhPzjTkZSlPbGxOJ7xgIyS.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/2sOEJzhPzjTkZSlPbGxOJ7xgIyS.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-950396": {
       "id": "tmdb-950396",
       "letterboxdSlug": "the-gorge",
