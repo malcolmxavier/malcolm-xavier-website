@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-05-27T04:31:16.297Z",
+  "capturedAt": "2026-05-27T05:31:06.057Z",
   "summary": {
     "totalShows": 156,
     "totalShowReviews": 37,
     "totalSeasonReviews": 234,
-    "totalEpisodeReviews": 566,
+    "totalEpisodeReviews": 568,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
-      "3": 202,
+      "3": 204,
       "4": 162,
       "5": 14,
-      "4.5": 43,
       "3.5": 240,
+      "4.5": 43,
       "2.5": 86,
       "1.5": 11,
       "0.5": 1
@@ -40,19 +40,19 @@
       },
       "episode": {
         "2": 20,
-        "3": 143,
+        "3": 145,
         "4": 116,
         "5": 6,
-        "4.5": 35,
         "3.5": 179,
+        "4.5": 35,
         "2.5": 61,
         "1.5": 5
       }
     },
     "genreDistribution": {
       "Drama": 96,
-      "Mystery": 32,
       "Comedy": 57,
+      "Mystery": 32,
       "Talk": 1,
       "Reality": 27,
       "Action & Adventure": 17,
@@ -77,6 +77,111 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-245318",
+      "serializdShowId": 245318,
+      "slug": "margos-got-money-troubles-2026",
+      "name": "Margo's Got Money Troubles",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-14",
+      "serializdUrl": "https://serializd.com/show/245318",
+      "tmdb": {
+        "id": 245318,
+        "name": "Margo's Got Money Troubles",
+        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "seasons": [
+        {
+          "serializdId": 377231,
+          "showId": 245318,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67100224,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:48:46Z",
+          "reviewDate": "2026-05-27T04:48:46Z",
+          "seasonId": 377231,
+          "episodeNumber": 3,
+          "episodeName": "Jinxed",
+          "tags": []
+        },
+        {
+          "id": 67086459,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T01:21:34Z",
+          "reviewDate": "2026-05-27T01:23:11Z",
+          "seasonId": 377231,
+          "episodeNumber": 2,
+          "episodeName": "Homecoming",
+          "tags": []
+        },
+        {
+          "id": 67083702,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T00:41:40Z",
+          "reviewDate": "2026-05-27T00:42:20Z",
+          "seasonId": 377231,
+          "episodeNumber": 1,
+          "episodeName": "The Hungry Ghost",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-27T04:48:46Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-270476",
       "serializdShowId": 270476,
@@ -116,6 +221,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 67100173,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:47:57Z",
+          "reviewDate": "2026-05-27T04:48:01Z",
+          "seasonId": 416679,
+          "episodeNumber": 7,
+          "episodeName": "Seasickness",
+          "tags": []
+        },
         {
           "id": 67097489,
           "level": "episode",
@@ -229,96 +350,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-27T04:06:17Z",
-      "primaryRating": 4.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-245318",
-      "serializdShowId": 245318,
-      "slug": "margos-got-money-troubles-2026",
-      "name": "Margo's Got Money Troubles",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-14",
-      "serializdUrl": "https://serializd.com/show/245318",
-      "tmdb": {
-        "id": 245318,
-        "name": "Margo's Got Money Troubles",
-        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
-        "genres": [
-          "Drama",
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Apple TV"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "seasons": [
-        {
-          "serializdId": 377231,
-          "showId": 245318,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 67086459,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T01:21:34Z",
-          "reviewDate": "2026-05-27T01:23:11Z",
-          "seasonId": 377231,
-          "episodeNumber": 2,
-          "episodeName": "Homecoming",
-          "tags": []
-        },
-        {
-          "id": 67083702,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T00:41:40Z",
-          "reviewDate": "2026-05-27T00:42:20Z",
-          "seasonId": 377231,
-          "episodeNumber": 1,
-          "episodeName": "The Hungry Ghost",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-27T01:23:11Z",
+      "latestActivityDate": "2026-05-27T04:48:01Z",
       "primaryRating": 3,
       "liked": false
     },
@@ -24898,6 +24930,111 @@
     }
   ],
   "showById": {
+    "tmdb-tv-245318": {
+      "id": "tmdb-tv-245318",
+      "serializdShowId": 245318,
+      "slug": "margos-got-money-troubles-2026",
+      "name": "Margo's Got Money Troubles",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-14",
+      "serializdUrl": "https://serializd.com/show/245318",
+      "tmdb": {
+        "id": 245318,
+        "name": "Margo's Got Money Troubles",
+        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "seasons": [
+        {
+          "serializdId": 377231,
+          "showId": 245318,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67100224,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:48:46Z",
+          "reviewDate": "2026-05-27T04:48:46Z",
+          "seasonId": 377231,
+          "episodeNumber": 3,
+          "episodeName": "Jinxed",
+          "tags": []
+        },
+        {
+          "id": 67086459,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T01:21:34Z",
+          "reviewDate": "2026-05-27T01:23:11Z",
+          "seasonId": 377231,
+          "episodeNumber": 2,
+          "episodeName": "Homecoming",
+          "tags": []
+        },
+        {
+          "id": 67083702,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T00:41:40Z",
+          "reviewDate": "2026-05-27T00:42:20Z",
+          "seasonId": 377231,
+          "episodeNumber": 1,
+          "episodeName": "The Hungry Ghost",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-27T04:48:46Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     "tmdb-tv-270476": {
       "id": "tmdb-tv-270476",
       "serializdShowId": 270476,
@@ -24937,6 +25074,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 67100173,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:47:57Z",
+          "reviewDate": "2026-05-27T04:48:01Z",
+          "seasonId": 416679,
+          "episodeNumber": 7,
+          "episodeName": "Seasickness",
+          "tags": []
+        },
         {
           "id": 67097489,
           "level": "episode",
@@ -25050,96 +25203,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-27T04:06:17Z",
-      "primaryRating": 4.5,
-      "liked": false
-    },
-    "tmdb-tv-245318": {
-      "id": "tmdb-tv-245318",
-      "serializdShowId": 245318,
-      "slug": "margos-got-money-troubles-2026",
-      "name": "Margo's Got Money Troubles",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-14",
-      "serializdUrl": "https://serializd.com/show/245318",
-      "tmdb": {
-        "id": 245318,
-        "name": "Margo's Got Money Troubles",
-        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
-        "genres": [
-          "Drama",
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Apple TV"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "seasons": [
-        {
-          "serializdId": 377231,
-          "showId": 245318,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 67086459,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T01:21:34Z",
-          "reviewDate": "2026-05-27T01:23:11Z",
-          "seasonId": 377231,
-          "episodeNumber": 2,
-          "episodeName": "Homecoming",
-          "tags": []
-        },
-        {
-          "id": 67083702,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T00:41:40Z",
-          "reviewDate": "2026-05-27T00:42:20Z",
-          "seasonId": 377231,
-          "episodeNumber": 1,
-          "episodeName": "The Hungry Ghost",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-27T01:23:11Z",
+      "latestActivityDate": "2026-05-27T04:48:01Z",
       "primaryRating": 3,
       "liked": false
     },
