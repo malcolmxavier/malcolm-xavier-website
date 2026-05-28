@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-05-27T23:31:23.084Z",
+  "capturedAt": "2026-05-28T01:31:52.078Z",
   "summary": {
     "totalShows": 156,
     "totalShowReviews": 37,
     "totalSeasonReviews": 234,
-    "totalEpisodeReviews": 569,
+    "totalEpisodeReviews": 571,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
       "3": 204,
-      "4": 162,
+      "4": 163,
       "5": 14,
-      "4.5": 44,
-      "3.5": 240,
+      "3.5": 241,
       "2.5": 86,
+      "4.5": 44,
       "1.5": 11,
       "0.5": 1
     },
@@ -41,20 +41,20 @@
       "episode": {
         "2": 20,
         "3": 145,
-        "4": 116,
+        "4": 117,
         "5": 6,
-        "4.5": 36,
-        "3.5": 179,
+        "3.5": 180,
         "2.5": 61,
+        "4.5": 36,
         "1.5": 5
       }
     },
     "genreDistribution": {
-      "Reality": 27,
       "Drama": 96,
       "Comedy": 57,
-      "Mystery": 32,
       "Talk": 1,
+      "Reality": 27,
+      "Mystery": 32,
       "Action & Adventure": 17,
       "Crime": 28,
       "Sci-Fi & Fantasy": 23,
@@ -77,253 +77,6 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
-    {
-      "id": "tmdb-tv-247758",
-      "serializdShowId": 247758,
-      "slug": "the-valley-2024",
-      "name": "The Valley",
-      "premiereYear": 2024,
-      "premiereDate": "2024-03-19",
-      "serializdUrl": "https://serializd.com/show/247758",
-      "tmdb": {
-        "id": 247758,
-        "name": "The Valley",
-        "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-        "backdropPath": "/nGBWSonchWojfZMV1eLOYoaq2R3.jpg",
-        "genres": [
-          "Reality"
-        ],
-        "type": "Reality",
-        "status": "Returning Series",
-        "networks": [
-          "Bravo"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 39
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-      "seasons": [
-        {
-          "serializdId": 455076,
-          "showId": 247758,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": null,
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 381517,
-          "showId": 247758,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/qAutqOMfdEC7U5WR5bHJS13feXO.jpg",
-          "episodeCount": 12
-        },
-        {
-          "serializdId": 445888,
-          "showId": 247758,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/cs4oawKduoLgFUeV3mVvkQxYxbg.jpg",
-          "episodeCount": 18
-        },
-        {
-          "serializdId": 501136,
-          "showId": 247758,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-          "episodeCount": 9
-        }
-      ],
-      "reviews": [
-        {
-          "id": 67187970,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "That episode had everything, but the drama of the basketball scene will live in my mind for a while.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T23:18:34Z",
-          "reviewDate": "2026-05-27T23:19:31Z",
-          "seasonId": 501136,
-          "episodeNumber": 8,
-          "episodeName": "Miss Behavior",
-          "tags": []
-        },
-        {
-          "id": 65637777,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Michelle stays making me question if I can call myself a feminist…like I really don’t know how to feel.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-14T04:23:24Z",
-          "reviewDate": "2026-05-14T04:24:10Z",
-          "seasonId": 501136,
-          "episodeNumber": 7,
-          "episodeName": "Triggers and Tiaras",
-          "tags": []
-        },
-        {
-          "id": 64891704,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-07T05:18:34Z",
-          "reviewDate": "2026-05-07T05:18:40Z",
-          "seasonId": 501136,
-          "episodeNumber": 6,
-          "episodeName": "All Aboard!",
-          "tags": []
-        },
-        {
-          "id": 64141243,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-30T04:02:11Z",
-          "reviewDate": "2026-04-30T04:02:15Z",
-          "seasonId": 501136,
-          "episodeNumber": 5,
-          "episodeName": "The Hive Mentality",
-          "tags": []
-        },
-        {
-          "id": 63478334,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-24T04:17:31Z",
-          "reviewDate": "2026-04-24T04:17:36Z",
-          "seasonId": 501136,
-          "episodeNumber": 4,
-          "episodeName": "Mariposa Momma",
-          "tags": []
-        },
-        {
-          "id": 62549777,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "A rare episode that feels too chaotic. I’m so unclear on what’s causing any drama.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-16T04:03:00Z",
-          "reviewDate": "2026-04-16T04:03:40Z",
-          "seasonId": 501136,
-          "episodeNumber": 3,
-          "episodeName": "The Santa Clarita Trail",
-          "tags": []
-        },
-        {
-          "id": 61717365,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T04:02:23Z",
-          "reviewDate": "2026-04-09T04:02:29Z",
-          "seasonId": 501136,
-          "episodeNumber": 2,
-          "episodeName": "Snip Snip",
-          "tags": []
-        },
-        {
-          "id": 60800106,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Michelle stop making me side with Jesse challenge.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-02T03:58:11Z",
-          "reviewDate": "2026-04-02T03:58:48Z",
-          "seasonId": 501136,
-          "episodeNumber": 1,
-          "episodeName": "You Can't Sip With Us",
-          "tags": []
-        },
-        {
-          "id": 45961998,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Exceptionally dark, but unfortunately great television. Don’t hate me — I’m team Jesse.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-08-12T21:42:00Z",
-          "reviewDate": "2025-11-02T22:43:05Z",
-          "seasonId": 445888,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 16530286,
-          "level": "season",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I’m not sure how, but this ate a little. I don’t know any of their names except for the VPR cast, but I care!!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-06-05T22:44:00Z",
-          "reviewDate": "2024-06-06T22:45:08Z",
-          "seasonId": 381517,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2024,
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1,
-        2
-      ],
-      "inProgressSeasonNumbers": [
-        3
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-27T23:19:31Z",
-      "primaryRating": 4.5,
-      "liked": false
-    },
     {
       "id": "tmdb-tv-245318",
       "serializdShowId": 245318,
@@ -362,6 +115,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 67198534,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Nicole Kidman really does any role—I love that for us. Nick Offerman putting in work on multiple levels.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T01:14:51Z",
+          "reviewDate": "2026-05-28T01:15:53Z",
+          "seasonId": 377231,
+          "episodeNumber": 4,
+          "episodeName": "Buddies",
+          "tags": []
+        },
         {
           "id": 67100224,
           "level": "episode",
@@ -413,179 +182,8 @@
       ],
       "ratingSet": [
         3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-27T04:48:46Z",
-      "primaryRating": 3,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-270476",
-      "serializdShowId": 270476,
-      "slug": "widows-bay-2026",
-      "name": "Widow's Bay",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-28",
-      "serializdUrl": "https://serializd.com/show/270476",
-      "tmdb": {
-        "id": 270476,
-        "name": "Widow's Bay",
-        "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-        "backdropPath": "/u6XtMg9Ai9siEbEs0UudPS3EaZY.jpg",
-        "genres": [
-          "Drama",
-          "Mystery",
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Apple TV"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 10
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-      "seasons": [
-        {
-          "serializdId": 416679,
-          "showId": 270476,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-          "episodeCount": 10
-        }
-      ],
-      "reviews": [
-        {
-          "id": 67100173,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T04:47:57Z",
-          "reviewDate": "2026-05-27T04:48:01Z",
-          "seasonId": 416679,
-          "episodeNumber": 7,
-          "episodeName": "Seasickness",
-          "tags": []
-        },
-        {
-          "id": 67097489,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "Betty Gilpin every time.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T04:05:58Z",
-          "reviewDate": "2026-05-27T04:06:17Z",
-          "seasonId": 416679,
-          "episodeNumber": 6,
-          "episodeName": "Our History",
-          "tags": []
-        },
-        {
-          "id": 66999210,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I’ve been in this state before—accurate depiction.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-26T06:51:48Z",
-          "reviewDate": "2026-05-26T06:53:18Z",
-          "seasonId": 416679,
-          "episodeNumber": 5,
-          "episodeName": "What to Expect on Your Trip",
-          "tags": []
-        },
-        {
-          "id": 66997246,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "And if I said our girl was justified?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-26T06:15:26Z",
-          "reviewDate": "2026-05-26T06:15:46Z",
-          "seasonId": 416679,
-          "episodeNumber": 4,
-          "episodeName": "Beach Reads",
-          "tags": []
-        },
-        {
-          "id": 66995342,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Okay, I’m awake now.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-26T05:39:19Z",
-          "reviewDate": "2026-05-26T05:39:33Z",
-          "seasonId": 416679,
-          "episodeNumber": 3,
-          "episodeName": "The Inaugural Swim",
-          "tags": []
-        },
-        {
-          "id": 66995310,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-26T05:38:57Z",
-          "reviewDate": "2026-05-26T05:38:57Z",
-          "seasonId": 416679,
-          "episodeNumber": 2,
-          "episodeName": "Lodging",
-          "tags": []
-        },
-        {
-          "id": 65859416,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Stephen Root clocking tea!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-16T05:59:00Z",
-          "reviewDate": "2026-05-16T05:59:15Z",
-          "seasonId": 416679,
-          "episodeNumber": 1,
-          "episodeName": "Welcome to Widow's Bay!",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
         3.5,
-        4,
-        4.5
+        4
       ],
       "watchedYearSet": [
         2026
@@ -597,8 +195,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-27T04:48:01Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-05-28T01:15:53Z",
+      "primaryRating": 4,
       "liked": false
     },
     {
@@ -823,6 +421,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 67198457,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T01:14:34Z",
+          "reviewDate": "2026-05-28T01:14:40Z",
+          "seasonId": 492037,
+          "episodeNumber": 87,
+          "episodeName": "Tom Schwartz & Luke Broderick",
+          "tags": []
+        },
         {
           "id": 66917938,
           "level": "episode",
@@ -1370,8 +984,427 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-25T15:35:36Z",
+      "latestActivityDate": "2026-05-28T01:14:40Z",
       "primaryRating": 3.5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-247758",
+      "serializdShowId": 247758,
+      "slug": "the-valley-2024",
+      "name": "The Valley",
+      "premiereYear": 2024,
+      "premiereDate": "2024-03-19",
+      "serializdUrl": "https://serializd.com/show/247758",
+      "tmdb": {
+        "id": 247758,
+        "name": "The Valley",
+        "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+        "backdropPath": "/nGBWSonchWojfZMV1eLOYoaq2R3.jpg",
+        "genres": [
+          "Reality"
+        ],
+        "type": "Reality",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 39
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+      "seasons": [
+        {
+          "serializdId": 455076,
+          "showId": 247758,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": null,
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 381517,
+          "showId": 247758,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/qAutqOMfdEC7U5WR5bHJS13feXO.jpg",
+          "episodeCount": 12
+        },
+        {
+          "serializdId": 445888,
+          "showId": 247758,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/cs4oawKduoLgFUeV3mVvkQxYxbg.jpg",
+          "episodeCount": 18
+        },
+        {
+          "serializdId": 501136,
+          "showId": 247758,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+          "episodeCount": 9
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67187970,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "That episode had everything, but the drama of the basketball scene will live in my mind for a while.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T23:18:34Z",
+          "reviewDate": "2026-05-27T23:19:31Z",
+          "seasonId": 501136,
+          "episodeNumber": 8,
+          "episodeName": "Miss Behavior",
+          "tags": []
+        },
+        {
+          "id": 65637777,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Michelle stays making me question if I can call myself a feminist…like I really don’t know how to feel.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-14T04:23:24Z",
+          "reviewDate": "2026-05-14T04:24:10Z",
+          "seasonId": 501136,
+          "episodeNumber": 7,
+          "episodeName": "Triggers and Tiaras",
+          "tags": []
+        },
+        {
+          "id": 64891704,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-07T05:18:34Z",
+          "reviewDate": "2026-05-07T05:18:40Z",
+          "seasonId": 501136,
+          "episodeNumber": 6,
+          "episodeName": "All Aboard!",
+          "tags": []
+        },
+        {
+          "id": 64141243,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-30T04:02:11Z",
+          "reviewDate": "2026-04-30T04:02:15Z",
+          "seasonId": 501136,
+          "episodeNumber": 5,
+          "episodeName": "The Hive Mentality",
+          "tags": []
+        },
+        {
+          "id": 63478334,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-24T04:17:31Z",
+          "reviewDate": "2026-04-24T04:17:36Z",
+          "seasonId": 501136,
+          "episodeNumber": 4,
+          "episodeName": "Mariposa Momma",
+          "tags": []
+        },
+        {
+          "id": 62549777,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A rare episode that feels too chaotic. I’m so unclear on what’s causing any drama.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-16T04:03:00Z",
+          "reviewDate": "2026-04-16T04:03:40Z",
+          "seasonId": 501136,
+          "episodeNumber": 3,
+          "episodeName": "The Santa Clarita Trail",
+          "tags": []
+        },
+        {
+          "id": 61717365,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T04:02:23Z",
+          "reviewDate": "2026-04-09T04:02:29Z",
+          "seasonId": 501136,
+          "episodeNumber": 2,
+          "episodeName": "Snip Snip",
+          "tags": []
+        },
+        {
+          "id": 60800106,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Michelle stop making me side with Jesse challenge.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-02T03:58:11Z",
+          "reviewDate": "2026-04-02T03:58:48Z",
+          "seasonId": 501136,
+          "episodeNumber": 1,
+          "episodeName": "You Can't Sip With Us",
+          "tags": []
+        },
+        {
+          "id": 45961998,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Exceptionally dark, but unfortunately great television. Don’t hate me — I’m team Jesse.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-08-12T21:42:00Z",
+          "reviewDate": "2025-11-02T22:43:05Z",
+          "seasonId": 445888,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 16530286,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not sure how, but this ate a little. I don’t know any of their names except for the VPR cast, but I care!!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-06-05T22:44:00Z",
+          "reviewDate": "2024-06-06T22:45:08Z",
+          "seasonId": 381517,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2024,
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1,
+        2
+      ],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-27T23:19:31Z",
+      "primaryRating": 4.5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-270476",
+      "serializdShowId": 270476,
+      "slug": "widows-bay-2026",
+      "name": "Widow's Bay",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-28",
+      "serializdUrl": "https://serializd.com/show/270476",
+      "tmdb": {
+        "id": 270476,
+        "name": "Widow's Bay",
+        "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+        "backdropPath": "/u6XtMg9Ai9siEbEs0UudPS3EaZY.jpg",
+        "genres": [
+          "Drama",
+          "Mystery",
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 10
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+      "seasons": [
+        {
+          "serializdId": 416679,
+          "showId": 270476,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+          "episodeCount": 10
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67100173,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:47:57Z",
+          "reviewDate": "2026-05-27T04:48:01Z",
+          "seasonId": 416679,
+          "episodeNumber": 7,
+          "episodeName": "Seasickness",
+          "tags": []
+        },
+        {
+          "id": 67097489,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Betty Gilpin every time.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:05:58Z",
+          "reviewDate": "2026-05-27T04:06:17Z",
+          "seasonId": 416679,
+          "episodeNumber": 6,
+          "episodeName": "Our History",
+          "tags": []
+        },
+        {
+          "id": 66999210,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’ve been in this state before—accurate depiction.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-26T06:51:48Z",
+          "reviewDate": "2026-05-26T06:53:18Z",
+          "seasonId": 416679,
+          "episodeNumber": 5,
+          "episodeName": "What to Expect on Your Trip",
+          "tags": []
+        },
+        {
+          "id": 66997246,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "And if I said our girl was justified?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-26T06:15:26Z",
+          "reviewDate": "2026-05-26T06:15:46Z",
+          "seasonId": 416679,
+          "episodeNumber": 4,
+          "episodeName": "Beach Reads",
+          "tags": []
+        },
+        {
+          "id": 66995342,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Okay, I’m awake now.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-26T05:39:19Z",
+          "reviewDate": "2026-05-26T05:39:33Z",
+          "seasonId": 416679,
+          "episodeNumber": 3,
+          "episodeName": "The Inaugural Swim",
+          "tags": []
+        },
+        {
+          "id": 66995310,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-26T05:38:57Z",
+          "reviewDate": "2026-05-26T05:38:57Z",
+          "seasonId": 416679,
+          "episodeNumber": 2,
+          "episodeName": "Lodging",
+          "tags": []
+        },
+        {
+          "id": 65859416,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Stephen Root clocking tea!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-16T05:59:00Z",
+          "reviewDate": "2026-05-16T05:59:15Z",
+          "seasonId": 416679,
+          "episodeNumber": 1,
+          "episodeName": "Welcome to Widow's Bay!",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-27T04:48:01Z",
+      "primaryRating": 3,
       "liked": false
     },
     {
@@ -24947,253 +24980,6 @@
     }
   ],
   "showById": {
-    "tmdb-tv-247758": {
-      "id": "tmdb-tv-247758",
-      "serializdShowId": 247758,
-      "slug": "the-valley-2024",
-      "name": "The Valley",
-      "premiereYear": 2024,
-      "premiereDate": "2024-03-19",
-      "serializdUrl": "https://serializd.com/show/247758",
-      "tmdb": {
-        "id": 247758,
-        "name": "The Valley",
-        "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-        "backdropPath": "/nGBWSonchWojfZMV1eLOYoaq2R3.jpg",
-        "genres": [
-          "Reality"
-        ],
-        "type": "Reality",
-        "status": "Returning Series",
-        "networks": [
-          "Bravo"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 39
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-      "seasons": [
-        {
-          "serializdId": 455076,
-          "showId": 247758,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": null,
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 381517,
-          "showId": 247758,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/qAutqOMfdEC7U5WR5bHJS13feXO.jpg",
-          "episodeCount": 12
-        },
-        {
-          "serializdId": 445888,
-          "showId": 247758,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/cs4oawKduoLgFUeV3mVvkQxYxbg.jpg",
-          "episodeCount": 18
-        },
-        {
-          "serializdId": 501136,
-          "showId": 247758,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-          "episodeCount": 9
-        }
-      ],
-      "reviews": [
-        {
-          "id": 67187970,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "That episode had everything, but the drama of the basketball scene will live in my mind for a while.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T23:18:34Z",
-          "reviewDate": "2026-05-27T23:19:31Z",
-          "seasonId": 501136,
-          "episodeNumber": 8,
-          "episodeName": "Miss Behavior",
-          "tags": []
-        },
-        {
-          "id": 65637777,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Michelle stays making me question if I can call myself a feminist…like I really don’t know how to feel.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-14T04:23:24Z",
-          "reviewDate": "2026-05-14T04:24:10Z",
-          "seasonId": 501136,
-          "episodeNumber": 7,
-          "episodeName": "Triggers and Tiaras",
-          "tags": []
-        },
-        {
-          "id": 64891704,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-07T05:18:34Z",
-          "reviewDate": "2026-05-07T05:18:40Z",
-          "seasonId": 501136,
-          "episodeNumber": 6,
-          "episodeName": "All Aboard!",
-          "tags": []
-        },
-        {
-          "id": 64141243,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-30T04:02:11Z",
-          "reviewDate": "2026-04-30T04:02:15Z",
-          "seasonId": 501136,
-          "episodeNumber": 5,
-          "episodeName": "The Hive Mentality",
-          "tags": []
-        },
-        {
-          "id": 63478334,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-24T04:17:31Z",
-          "reviewDate": "2026-04-24T04:17:36Z",
-          "seasonId": 501136,
-          "episodeNumber": 4,
-          "episodeName": "Mariposa Momma",
-          "tags": []
-        },
-        {
-          "id": 62549777,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "A rare episode that feels too chaotic. I’m so unclear on what’s causing any drama.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-16T04:03:00Z",
-          "reviewDate": "2026-04-16T04:03:40Z",
-          "seasonId": 501136,
-          "episodeNumber": 3,
-          "episodeName": "The Santa Clarita Trail",
-          "tags": []
-        },
-        {
-          "id": 61717365,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T04:02:23Z",
-          "reviewDate": "2026-04-09T04:02:29Z",
-          "seasonId": 501136,
-          "episodeNumber": 2,
-          "episodeName": "Snip Snip",
-          "tags": []
-        },
-        {
-          "id": 60800106,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Michelle stop making me side with Jesse challenge.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-02T03:58:11Z",
-          "reviewDate": "2026-04-02T03:58:48Z",
-          "seasonId": 501136,
-          "episodeNumber": 1,
-          "episodeName": "You Can't Sip With Us",
-          "tags": []
-        },
-        {
-          "id": 45961998,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Exceptionally dark, but unfortunately great television. Don’t hate me — I’m team Jesse.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-08-12T21:42:00Z",
-          "reviewDate": "2025-11-02T22:43:05Z",
-          "seasonId": 445888,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 16530286,
-          "level": "season",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I’m not sure how, but this ate a little. I don’t know any of their names except for the VPR cast, but I care!!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-06-05T22:44:00Z",
-          "reviewDate": "2024-06-06T22:45:08Z",
-          "seasonId": 381517,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2024,
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1,
-        2
-      ],
-      "inProgressSeasonNumbers": [
-        3
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-27T23:19:31Z",
-      "primaryRating": 4.5,
-      "liked": false
-    },
     "tmdb-tv-245318": {
       "id": "tmdb-tv-245318",
       "serializdShowId": 245318,
@@ -25232,6 +25018,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 67198534,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Nicole Kidman really does any role—I love that for us. Nick Offerman putting in work on multiple levels.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T01:14:51Z",
+          "reviewDate": "2026-05-28T01:15:53Z",
+          "seasonId": 377231,
+          "episodeNumber": 4,
+          "episodeName": "Buddies",
+          "tags": []
+        },
         {
           "id": 67100224,
           "level": "episode",
@@ -25283,179 +25085,8 @@
       ],
       "ratingSet": [
         3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-27T04:48:46Z",
-      "primaryRating": 3,
-      "liked": false
-    },
-    "tmdb-tv-270476": {
-      "id": "tmdb-tv-270476",
-      "serializdShowId": 270476,
-      "slug": "widows-bay-2026",
-      "name": "Widow's Bay",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-28",
-      "serializdUrl": "https://serializd.com/show/270476",
-      "tmdb": {
-        "id": 270476,
-        "name": "Widow's Bay",
-        "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-        "backdropPath": "/u6XtMg9Ai9siEbEs0UudPS3EaZY.jpg",
-        "genres": [
-          "Drama",
-          "Mystery",
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Apple TV"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 10
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-      "seasons": [
-        {
-          "serializdId": 416679,
-          "showId": 270476,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-          "episodeCount": 10
-        }
-      ],
-      "reviews": [
-        {
-          "id": 67100173,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T04:47:57Z",
-          "reviewDate": "2026-05-27T04:48:01Z",
-          "seasonId": 416679,
-          "episodeNumber": 7,
-          "episodeName": "Seasickness",
-          "tags": []
-        },
-        {
-          "id": 67097489,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "Betty Gilpin every time.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T04:05:58Z",
-          "reviewDate": "2026-05-27T04:06:17Z",
-          "seasonId": 416679,
-          "episodeNumber": 6,
-          "episodeName": "Our History",
-          "tags": []
-        },
-        {
-          "id": 66999210,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I’ve been in this state before—accurate depiction.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-26T06:51:48Z",
-          "reviewDate": "2026-05-26T06:53:18Z",
-          "seasonId": 416679,
-          "episodeNumber": 5,
-          "episodeName": "What to Expect on Your Trip",
-          "tags": []
-        },
-        {
-          "id": 66997246,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "And if I said our girl was justified?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-26T06:15:26Z",
-          "reviewDate": "2026-05-26T06:15:46Z",
-          "seasonId": 416679,
-          "episodeNumber": 4,
-          "episodeName": "Beach Reads",
-          "tags": []
-        },
-        {
-          "id": 66995342,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Okay, I’m awake now.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-26T05:39:19Z",
-          "reviewDate": "2026-05-26T05:39:33Z",
-          "seasonId": 416679,
-          "episodeNumber": 3,
-          "episodeName": "The Inaugural Swim",
-          "tags": []
-        },
-        {
-          "id": 66995310,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-26T05:38:57Z",
-          "reviewDate": "2026-05-26T05:38:57Z",
-          "seasonId": 416679,
-          "episodeNumber": 2,
-          "episodeName": "Lodging",
-          "tags": []
-        },
-        {
-          "id": 65859416,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Stephen Root clocking tea!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-16T05:59:00Z",
-          "reviewDate": "2026-05-16T05:59:15Z",
-          "seasonId": 416679,
-          "episodeNumber": 1,
-          "episodeName": "Welcome to Widow's Bay!",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
         3.5,
-        4,
-        4.5
+        4
       ],
       "watchedYearSet": [
         2026
@@ -25467,8 +25098,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-27T04:48:01Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-05-28T01:15:53Z",
+      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-22980": {
@@ -25693,6 +25324,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 67198457,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T01:14:34Z",
+          "reviewDate": "2026-05-28T01:14:40Z",
+          "seasonId": 492037,
+          "episodeNumber": 87,
+          "episodeName": "Tom Schwartz & Luke Broderick",
+          "tags": []
+        },
         {
           "id": 66917938,
           "level": "episode",
@@ -26240,8 +25887,427 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-05-25T15:35:36Z",
+      "latestActivityDate": "2026-05-28T01:14:40Z",
       "primaryRating": 3.5,
+      "liked": false
+    },
+    "tmdb-tv-247758": {
+      "id": "tmdb-tv-247758",
+      "serializdShowId": 247758,
+      "slug": "the-valley-2024",
+      "name": "The Valley",
+      "premiereYear": 2024,
+      "premiereDate": "2024-03-19",
+      "serializdUrl": "https://serializd.com/show/247758",
+      "tmdb": {
+        "id": 247758,
+        "name": "The Valley",
+        "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+        "backdropPath": "/nGBWSonchWojfZMV1eLOYoaq2R3.jpg",
+        "genres": [
+          "Reality"
+        ],
+        "type": "Reality",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 39
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+      "seasons": [
+        {
+          "serializdId": 455076,
+          "showId": 247758,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": null,
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 381517,
+          "showId": 247758,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/qAutqOMfdEC7U5WR5bHJS13feXO.jpg",
+          "episodeCount": 12
+        },
+        {
+          "serializdId": 445888,
+          "showId": 247758,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/cs4oawKduoLgFUeV3mVvkQxYxbg.jpg",
+          "episodeCount": 18
+        },
+        {
+          "serializdId": 501136,
+          "showId": 247758,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+          "episodeCount": 9
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67187970,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "That episode had everything, but the drama of the basketball scene will live in my mind for a while.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T23:18:34Z",
+          "reviewDate": "2026-05-27T23:19:31Z",
+          "seasonId": 501136,
+          "episodeNumber": 8,
+          "episodeName": "Miss Behavior",
+          "tags": []
+        },
+        {
+          "id": 65637777,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Michelle stays making me question if I can call myself a feminist…like I really don’t know how to feel.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-14T04:23:24Z",
+          "reviewDate": "2026-05-14T04:24:10Z",
+          "seasonId": 501136,
+          "episodeNumber": 7,
+          "episodeName": "Triggers and Tiaras",
+          "tags": []
+        },
+        {
+          "id": 64891704,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-07T05:18:34Z",
+          "reviewDate": "2026-05-07T05:18:40Z",
+          "seasonId": 501136,
+          "episodeNumber": 6,
+          "episodeName": "All Aboard!",
+          "tags": []
+        },
+        {
+          "id": 64141243,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-30T04:02:11Z",
+          "reviewDate": "2026-04-30T04:02:15Z",
+          "seasonId": 501136,
+          "episodeNumber": 5,
+          "episodeName": "The Hive Mentality",
+          "tags": []
+        },
+        {
+          "id": 63478334,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-24T04:17:31Z",
+          "reviewDate": "2026-04-24T04:17:36Z",
+          "seasonId": 501136,
+          "episodeNumber": 4,
+          "episodeName": "Mariposa Momma",
+          "tags": []
+        },
+        {
+          "id": 62549777,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A rare episode that feels too chaotic. I’m so unclear on what’s causing any drama.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-16T04:03:00Z",
+          "reviewDate": "2026-04-16T04:03:40Z",
+          "seasonId": 501136,
+          "episodeNumber": 3,
+          "episodeName": "The Santa Clarita Trail",
+          "tags": []
+        },
+        {
+          "id": 61717365,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T04:02:23Z",
+          "reviewDate": "2026-04-09T04:02:29Z",
+          "seasonId": 501136,
+          "episodeNumber": 2,
+          "episodeName": "Snip Snip",
+          "tags": []
+        },
+        {
+          "id": 60800106,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Michelle stop making me side with Jesse challenge.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-02T03:58:11Z",
+          "reviewDate": "2026-04-02T03:58:48Z",
+          "seasonId": 501136,
+          "episodeNumber": 1,
+          "episodeName": "You Can't Sip With Us",
+          "tags": []
+        },
+        {
+          "id": 45961998,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Exceptionally dark, but unfortunately great television. Don’t hate me — I’m team Jesse.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-08-12T21:42:00Z",
+          "reviewDate": "2025-11-02T22:43:05Z",
+          "seasonId": 445888,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 16530286,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not sure how, but this ate a little. I don’t know any of their names except for the VPR cast, but I care!!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-06-05T22:44:00Z",
+          "reviewDate": "2024-06-06T22:45:08Z",
+          "seasonId": 381517,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2024,
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1,
+        2
+      ],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-27T23:19:31Z",
+      "primaryRating": 4.5,
+      "liked": false
+    },
+    "tmdb-tv-270476": {
+      "id": "tmdb-tv-270476",
+      "serializdShowId": 270476,
+      "slug": "widows-bay-2026",
+      "name": "Widow's Bay",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-28",
+      "serializdUrl": "https://serializd.com/show/270476",
+      "tmdb": {
+        "id": 270476,
+        "name": "Widow's Bay",
+        "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+        "backdropPath": "/u6XtMg9Ai9siEbEs0UudPS3EaZY.jpg",
+        "genres": [
+          "Drama",
+          "Mystery",
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 10
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+      "seasons": [
+        {
+          "serializdId": 416679,
+          "showId": 270476,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+          "episodeCount": 10
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67100173,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:47:57Z",
+          "reviewDate": "2026-05-27T04:48:01Z",
+          "seasonId": 416679,
+          "episodeNumber": 7,
+          "episodeName": "Seasickness",
+          "tags": []
+        },
+        {
+          "id": 67097489,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Betty Gilpin every time.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:05:58Z",
+          "reviewDate": "2026-05-27T04:06:17Z",
+          "seasonId": 416679,
+          "episodeNumber": 6,
+          "episodeName": "Our History",
+          "tags": []
+        },
+        {
+          "id": 66999210,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’ve been in this state before—accurate depiction.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-26T06:51:48Z",
+          "reviewDate": "2026-05-26T06:53:18Z",
+          "seasonId": 416679,
+          "episodeNumber": 5,
+          "episodeName": "What to Expect on Your Trip",
+          "tags": []
+        },
+        {
+          "id": 66997246,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "And if I said our girl was justified?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-26T06:15:26Z",
+          "reviewDate": "2026-05-26T06:15:46Z",
+          "seasonId": 416679,
+          "episodeNumber": 4,
+          "episodeName": "Beach Reads",
+          "tags": []
+        },
+        {
+          "id": 66995342,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Okay, I’m awake now.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-26T05:39:19Z",
+          "reviewDate": "2026-05-26T05:39:33Z",
+          "seasonId": 416679,
+          "episodeNumber": 3,
+          "episodeName": "The Inaugural Swim",
+          "tags": []
+        },
+        {
+          "id": 66995310,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-26T05:38:57Z",
+          "reviewDate": "2026-05-26T05:38:57Z",
+          "seasonId": 416679,
+          "episodeNumber": 2,
+          "episodeName": "Lodging",
+          "tags": []
+        },
+        {
+          "id": 65859416,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Stephen Root clocking tea!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-16T05:59:00Z",
+          "reviewDate": "2026-05-16T05:59:15Z",
+          "seasonId": 416679,
+          "episodeNumber": 1,
+          "episodeName": "Welcome to Widow's Bay!",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-27T04:48:01Z",
+      "primaryRating": 3,
       "liked": false
     },
     "tmdb-tv-290883": {
