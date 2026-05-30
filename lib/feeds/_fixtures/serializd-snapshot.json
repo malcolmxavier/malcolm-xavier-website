@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-05-28T04:31:48.999Z",
+  "capturedAt": "2026-05-30T20:31:38.694Z",
   "summary": {
     "totalShows": 156,
-    "totalShowReviews": 37,
-    "totalSeasonReviews": 234,
-    "totalEpisodeReviews": 572,
+    "totalShowReviews": 39,
+    "totalSeasonReviews": 236,
+    "totalEpisodeReviews": 576,
     "ratingDistribution": {
       "1": 3,
       "2": 42,
       "3": 205,
       "4": 163,
-      "5": 14,
-      "4.5": 44,
-      "3.5": 241,
+      "5": 17,
+      "3.5": 243,
       "2.5": 86,
+      "4.5": 46,
       "1.5": 11,
       "0.5": 1
     },
@@ -23,6 +23,8 @@
         "2": 7,
         "3": 9,
         "4": 4,
+        "5": 1,
+        "4.5": 1,
         "2.5": 4,
         "3.5": 11
       },
@@ -31,9 +33,9 @@
         "2": 22,
         "3": 57,
         "4": 45,
-        "5": 8,
+        "5": 9,
+        "4.5": 9,
         "3.5": 60,
-        "4.5": 8,
         "2.5": 24,
         "1.5": 6,
         "0.5": 1
@@ -42,19 +44,19 @@
         "2": 20,
         "3": 146,
         "4": 117,
-        "5": 6,
-        "4.5": 36,
-        "3.5": 180,
+        "5": 7,
+        "3.5": 182,
         "2.5": 61,
+        "4.5": 37,
         "1.5": 5
       }
     },
     "genreDistribution": {
-      "Reality": 27,
       "Drama": 96,
-      "Comedy": 57,
-      "Talk": 1,
       "Mystery": 32,
+      "Comedy": 57,
+      "Reality": 27,
+      "Talk": 1,
       "Action & Adventure": 17,
       "Crime": 28,
       "Sci-Fi & Fantasy": 23,
@@ -71,12 +73,809 @@
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 13,
+    "showsInProgressCount": 11,
     "thisYearCount": 49,
     "totalWatchedShows": 342,
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-237748",
+      "serializdShowId": 237748,
+      "slug": "brilliant-minds-2024",
+      "name": "Brilliant Minds",
+      "premiereYear": 2024,
+      "premiereDate": "2024-09-23",
+      "serializdUrl": "https://serializd.com/show/237748",
+      "tmdb": {
+        "id": 237748,
+        "name": "Brilliant Minds",
+        "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+        "backdropPath": "/qV6tQhqNyb3NXCx8MWELOf9glTu.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Canceled",
+        "networks": [
+          "NBC"
+        ],
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 33
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+      "seasons": [
+        {
+          "serializdId": 361920,
+          "showId": 237748,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/bcRmIcc1Sw2LnZ1qYK6XFcQqacB.jpg",
+          "episodeCount": 13
+        },
+        {
+          "serializdId": 467366,
+          "showId": 237748,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+          "episodeCount": 20
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67511085,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I’m leaning into the comedy of how this show was handled. I really think if they had gotten to this part of the narrative sooner we might have a forthcoming season.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-29T20:11:00Z",
+          "reviewDate": "2026-05-30T20:12:26Z",
+          "seasonId": 467366,
+          "episodeNumber": 15,
+          "episodeName": "The Missing Person",
+          "tags": []
+        },
+        {
+          "id": 55052331,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-02-05T03:57:06Z",
+          "reviewDate": "2026-02-05T03:57:12Z",
+          "seasonId": 467366,
+          "episodeNumber": 14,
+          "episodeName": "The Invisible Man",
+          "tags": []
+        },
+        {
+          "id": 54094418,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-27T22:00:16Z",
+          "reviewDate": "2026-01-27T22:00:25Z",
+          "seasonId": 467366,
+          "episodeNumber": 13,
+          "episodeName": "The Rabbit Hole",
+          "tags": []
+        },
+        {
+          "id": 52592359,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-15T01:48:55Z",
+          "reviewDate": "2026-01-15T01:48:56Z",
+          "seasonId": 467366,
+          "episodeNumber": 12,
+          "episodeName": "The Rider",
+          "tags": []
+        },
+        {
+          "id": 51640509,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "No shade — we don’t know these characters well enough for all this.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-06T23:11:13Z",
+          "reviewDate": "2026-01-06T23:11:38Z",
+          "seasonId": 467366,
+          "episodeNumber": 11,
+          "episodeName": "The Boy Who Feels Everything",
+          "tags": []
+        },
+        {
+          "id": 27218407,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I am gobsmacked at how locked in this show is. They break away from the procedural model really quickly while establishing an ensemble cast, referencing other classic hospital shows, and carving out their own path. The most curious part for me is how conservative the shows aesthetics are; the content is so left-leaning that this feels contradictory, but I think that is probably because the show is really center left, more than anything else. Zachary Quinto is still so nice to look at.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-02-01T15:27:16Z",
+          "reviewDate": "2025-02-01T15:29:39Z",
+          "seasonId": 361920,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [
+        2
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-30T20:12:26Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-257994",
+      "serializdShowId": 257994,
+      "slug": "half-man-2026",
+      "name": "Half Man",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-28",
+      "serializdUrl": "https://serializd.com/show/257994",
+      "tmdb": {
+        "id": 257994,
+        "name": "Half Man",
+        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
+        "genres": [
+          "Drama",
+          "Mystery"
+        ],
+        "type": "Miniseries",
+        "status": "Returning Series",
+        "networks": [
+          "BBC One"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "seasons": [
+        {
+          "serializdId": 400120,
+          "showId": 257994,
+          "seasonNumber": 1,
+          "name": "Miniseries",
+          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67510922,
+          "level": "season",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "What a ride. Richard Gadd does it again. I love his sick, twisted little mind. This is incredibly show over tell, to the point that I feel like we should have told a touch more. But truly excellent throughout and as hard to look away from as it was to keep watching.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T20:09:00Z",
+          "reviewDate": "2026-05-30T20:11:00Z",
+          "seasonId": 400120,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 67510593,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "A banger of an ending. My jaw was on the floor.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T20:08:00Z",
+          "reviewDate": "2026-05-30T20:08:43Z",
+          "seasonId": 400120,
+          "episodeNumber": 6,
+          "episodeName": "Episode 6",
+          "tags": []
+        },
+        {
+          "id": 66536683,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Unfortunately, everyone is lowkey evil. An already dark show, pushing into the bleakest of areas. Ruben being among the public is so terrifying.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-22T03:21:14Z",
+          "reviewDate": "2026-05-22T03:22:23Z",
+          "seasonId": 400120,
+          "episodeNumber": 5,
+          "episodeName": "Episode 5",
+          "tags": []
+        },
+        {
+          "id": 65856699,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I feel sick (complimentary). I would guess this episode is the home of the show’s thesis on cycles of abuse, particularly violent sexual abuse among men and how that interacts with sexuality. Niall is such a heartbreaking character in that you feel badly for him, but he’s also never at a healed place in his journey where he takes any accountability. And what’s wild is that there’s not much accountability to take as much as it’s ownership and conviction in his decisions, many of which have been justified.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-16T05:07:29Z",
+          "reviewDate": "2026-05-16T05:10:20Z",
+          "seasonId": 400120,
+          "episodeNumber": 4,
+          "episodeName": "Episode 4",
+          "tags": []
+        },
+        {
+          "id": 65194601,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Ruben the terrorist for real.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-10T04:50:49Z",
+          "reviewDate": "2026-05-10T04:51:09Z",
+          "seasonId": 400120,
+          "episodeNumber": 3,
+          "episodeName": "Episode 3",
+          "tags": []
+        },
+        {
+          "id": 64347442,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T04:53:15Z",
+          "reviewDate": "2026-05-02T04:54:46Z",
+          "seasonId": 400120,
+          "episodeNumber": 2,
+          "episodeName": "Episode 2",
+          "tags": []
+        },
+        {
+          "id": 64344500,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "So, this show is gonna stress me. Got it.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T03:58:00Z",
+          "reviewDate": "2026-05-02T03:58:20Z",
+          "seasonId": 400120,
+          "episodeNumber": 1,
+          "episodeName": "Episode 1",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-05-30T20:11:00Z",
+      "primaryRating": 4.5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-124101",
+      "serializdShowId": 124101,
+      "slug": "hacks-2021",
+      "name": "Hacks",
+      "premiereYear": 2021,
+      "premiereDate": "2021-05-13",
+      "serializdUrl": "https://serializd.com/show/124101",
+      "tmdb": {
+        "id": 124101,
+        "name": "Hacks",
+        "posterPath": "/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+        "backdropPath": "/bbAR4qKxjnjyKAt4YMrL725Mtfw.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO Max",
+          "Max",
+          "HBO Max"
+        ],
+        "numberOfSeasons": 5,
+        "numberOfEpisodes": 47
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+      "seasons": [
+        {
+          "serializdId": 192055,
+          "showId": 124101,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/3G5OwUxs25GdQjbhIp9ah4gSLgW.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 287642,
+          "showId": 124101,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/q32wjcRi7Ix4DAqFA8kR7KGneyo.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 381723,
+          "showId": 124101,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/lba4WOJ5tUFhgc5Uo2jWhIZG5SO.jpg",
+          "episodeCount": 9
+        },
+        {
+          "serializdId": 427668,
+          "showId": 124101,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/ulBzMy5DZjBeUo6wHqn8ao0Zn6j.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 506657,
+          "showId": 124101,
+          "seasonNumber": 5,
+          "name": "Season 5",
+          "posterPath": "/eerCQAUkogIQfRjNugG7qiRcNSG.jpg",
+          "episodeCount": 10
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67510363,
+          "level": "show",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "Honestly, a perfect show. Better and richer with each season. We were so treated to brilliant writing and deep relationships throughout. I cried as much as I laughed and always felt welcome to learn a new perspective. Women!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T20:04:00Z",
+          "reviewDate": "2026-05-30T20:06:57Z",
+          "seasonId": null,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 67509879,
+          "level": "season",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "A fan service season that rested on its relationship with its audience, rather than trying to pander to late adopters. It was so rich and full of reference without abusing it, which feels rare in writing these days. I cannot wait to watch this back in the full knowledge of how it ends.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T20:01:00Z",
+          "reviewDate": "2026-05-30T20:03:23Z",
+          "seasonId": 506657,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 67509615,
+          "level": "episode",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "I’ve never laughed so much while questioning my entire existence and what it means to be human. This was such a beautiful tribute to the relationships between these characters we’ve come to love. And the callbacks were so perfect.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T19:58:00Z",
+          "reviewDate": "2026-05-30T20:01:26Z",
+          "seasonId": 506657,
+          "episodeNumber": 10,
+          "episodeName": "Hacks",
+          "tags": []
+        },
+        {
+          "id": 66530498,
+          "level": "episode",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "What did they put in that episode? Because I already know next week is gonna hurt. Luigi mentioned.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-22T01:56:04Z",
+          "reviewDate": "2026-05-22T01:56:59Z",
+          "seasonId": 506657,
+          "episodeNumber": 9,
+          "episodeName": "The Garden",
+          "tags": []
+        },
+        {
+          "id": 65856492,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The Jimmy storyline is breaking my heart. Lauren Weedman reigns supreme.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-15T05:05:00Z",
+          "reviewDate": "2026-05-16T05:06:26Z",
+          "seasonId": 506657,
+          "episodeNumber": 8,
+          "episodeName": "The Cube",
+          "tags": []
+        },
+        {
+          "id": 64980748,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m always gonna want more Cherry Jones on my screen.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-08T02:37:24Z",
+          "reviewDate": "2026-05-08T02:37:51Z",
+          "seasonId": 506657,
+          "episodeNumber": 7,
+          "episodeName": "Montecito",
+          "tags": []
+        },
+        {
+          "id": 64977036,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Paul Downs body tea and an anti-AI arc. Okay!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-08T01:43:51Z",
+          "reviewDate": "2026-05-08T01:44:14Z",
+          "seasonId": 506657,
+          "episodeNumber": 6,
+          "episodeName": "QuikScribbl",
+          "tags": []
+        },
+        {
+          "id": 64248997,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-01T05:59:03Z",
+          "reviewDate": "2026-05-01T05:59:17Z",
+          "seasonId": 506657,
+          "episodeNumber": 5,
+          "episodeName": "D'Amazing Race",
+          "tags": []
+        },
+        {
+          "id": 64245965,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Not the jailhouse set!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-01T05:01:59Z",
+          "reviewDate": "2026-05-01T05:02:45Z",
+          "seasonId": 506657,
+          "episodeNumber": 4,
+          "episodeName": "Who's Making Dinner?",
+          "tags": []
+        },
+        {
+          "id": 63485442,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The Peppermint Patty stray…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-24T06:30:11Z",
+          "reviewDate": "2026-04-24T06:30:11Z",
+          "seasonId": 506657,
+          "episodeNumber": 3,
+          "episodeName": "No New Tricks",
+          "tags": []
+        },
+        {
+          "id": 61878902,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "The doxxing plot absolutely frying me!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T14:14:00Z",
+          "reviewDate": "2026-04-10T14:14:46Z",
+          "seasonId": 506657,
+          "episodeNumber": 2,
+          "episodeName": "Number One Fan",
+          "tags": []
+        },
+        {
+          "id": 61878339,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "We’ve never been more back! The EGOT of it all. The Sofar Sounds inspiration. The Deborah-Ava joint plotting! We deserve.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T14:08:00Z",
+          "reviewDate": "2026-04-10T14:08:57Z",
+          "seasonId": 506657,
+          "episodeNumber": 1,
+          "episodeName": "EGOT",
+          "tags": []
+        },
+        {
+          "id": 35855437,
+          "level": "season",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "In which they do it again. I’m so happy to see these characters grow and subvert our expectations after watching them for a while. However, I can’t help but be even more anxious that the show has to end soon — even if I want to watch it forever. Jean Smart’s and Hannah Einbinder’s chemistry continues to ratchet up and I so appreciate how their work in this season pulls us beyond a crescendo and into the next movement, especially in the finale.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-05-29T20:14:00Z",
+          "reviewDate": "2025-06-19T20:14:35Z",
+          "seasonId": 427668,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 16347358,
+          "level": "season",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "An incredible season. They almost had me thinking they tanked it, but the twist is the last few minutes of the finale really cemented it for me that this is the best thing they’ve done yet. The character development across the board feels rich and lived in, even when some of them are pissing me off. Tears in my eyes for Deborah Vance. Ava Daniels forever.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-05-30T20:48:00Z",
+          "reviewDate": "2024-06-01T20:53:28Z",
+          "seasonId": 381723,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4,
+        4.5,
+        5
+      ],
+      "watchedYearSet": [
+        2024,
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        3,
+        4,
+        5
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [
+        1,
+        2
+      ],
+      "hasShowReview": true,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-30T20:06:57Z",
+      "primaryRating": 5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-245318",
+      "serializdShowId": 245318,
+      "slug": "margos-got-money-troubles-2026",
+      "name": "Margo's Got Money Troubles",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-14",
+      "serializdUrl": "https://serializd.com/show/245318",
+      "tmdb": {
+        "id": 245318,
+        "name": "Margo's Got Money Troubles",
+        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "seasons": [
+        {
+          "serializdId": 377231,
+          "showId": 245318,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67508906,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T19:55:00Z",
+          "reviewDate": "2026-05-30T19:56:06Z",
+          "seasonId": 377231,
+          "episodeNumber": 5,
+          "episodeName": "Flamingoes",
+          "tags": []
+        },
+        {
+          "id": 67198534,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Nicole Kidman really does any role—I love that for us. Nick Offerman putting in work on multiple levels.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T01:14:51Z",
+          "reviewDate": "2026-05-28T01:15:53Z",
+          "seasonId": 377231,
+          "episodeNumber": 4,
+          "episodeName": "Buddies",
+          "tags": []
+        },
+        {
+          "id": 67100224,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:48:46Z",
+          "reviewDate": "2026-05-27T04:48:46Z",
+          "seasonId": 377231,
+          "episodeNumber": 3,
+          "episodeName": "Jinxed",
+          "tags": []
+        },
+        {
+          "id": 67086459,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T01:21:34Z",
+          "reviewDate": "2026-05-27T01:23:11Z",
+          "seasonId": 377231,
+          "episodeNumber": 2,
+          "episodeName": "Homecoming",
+          "tags": []
+        },
+        {
+          "id": 67083702,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T00:41:40Z",
+          "reviewDate": "2026-05-27T00:42:20Z",
+          "seasonId": 377231,
+          "episodeNumber": 1,
+          "episodeName": "The Hungry Ghost",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-30T19:56:06Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-247758",
       "serializdShowId": 247758,
@@ -338,128 +1137,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-28T04:00:23Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-245318",
-      "serializdShowId": 245318,
-      "slug": "margos-got-money-troubles-2026",
-      "name": "Margo's Got Money Troubles",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-14",
-      "serializdUrl": "https://serializd.com/show/245318",
-      "tmdb": {
-        "id": 245318,
-        "name": "Margo's Got Money Troubles",
-        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
-        "genres": [
-          "Drama",
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Apple TV"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "seasons": [
-        {
-          "serializdId": 377231,
-          "showId": 245318,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 67198534,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Nicole Kidman really does any role—I love that for us. Nick Offerman putting in work on multiple levels.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-28T01:14:51Z",
-          "reviewDate": "2026-05-28T01:15:53Z",
-          "seasonId": 377231,
-          "episodeNumber": 4,
-          "episodeName": "Buddies",
-          "tags": []
-        },
-        {
-          "id": 67100224,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T04:48:46Z",
-          "reviewDate": "2026-05-27T04:48:46Z",
-          "seasonId": 377231,
-          "episodeNumber": 3,
-          "episodeName": "Jinxed",
-          "tags": []
-        },
-        {
-          "id": 67086459,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T01:21:34Z",
-          "reviewDate": "2026-05-27T01:23:11Z",
-          "seasonId": 377231,
-          "episodeNumber": 2,
-          "episodeName": "Homecoming",
-          "tags": []
-        },
-        {
-          "id": 67083702,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T00:41:40Z",
-          "reviewDate": "2026-05-27T00:42:20Z",
-          "seasonId": 377231,
-          "episodeNumber": 1,
-          "episodeName": "The Hungry Ghost",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-28T01:15:53Z",
-      "primaryRating": 4,
       "liked": false
     },
     {
@@ -4622,421 +5299,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-23T22:21:03Z",
       "primaryRating": 3.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-257994",
-      "serializdShowId": 257994,
-      "slug": "half-man-2026",
-      "name": "Half Man",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-28",
-      "serializdUrl": "https://serializd.com/show/257994",
-      "tmdb": {
-        "id": 257994,
-        "name": "Half Man",
-        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
-        "genres": [
-          "Drama",
-          "Mystery"
-        ],
-        "type": "Miniseries",
-        "status": "Returning Series",
-        "networks": [
-          "BBC One"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 6
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "seasons": [
-        {
-          "serializdId": 400120,
-          "showId": 257994,
-          "seasonNumber": 1,
-          "name": "Miniseries",
-          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 66536683,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "Unfortunately, everyone is lowkey evil. An already dark show, pushing into the bleakest of areas. Ruben being among the public is so terrifying.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-22T03:21:14Z",
-          "reviewDate": "2026-05-22T03:22:23Z",
-          "seasonId": 400120,
-          "episodeNumber": 5,
-          "episodeName": "Episode 5",
-          "tags": []
-        },
-        {
-          "id": 65856699,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I feel sick (complimentary). I would guess this episode is the home of the show’s thesis on cycles of abuse, particularly violent sexual abuse among men and how that interacts with sexuality. Niall is such a heartbreaking character in that you feel badly for him, but he’s also never at a healed place in his journey where he takes any accountability. And what’s wild is that there’s not much accountability to take as much as it’s ownership and conviction in his decisions, many of which have been justified.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-16T05:07:29Z",
-          "reviewDate": "2026-05-16T05:10:20Z",
-          "seasonId": 400120,
-          "episodeNumber": 4,
-          "episodeName": "Episode 4",
-          "tags": []
-        },
-        {
-          "id": 65194601,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Ruben the terrorist for real.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-10T04:50:49Z",
-          "reviewDate": "2026-05-10T04:51:09Z",
-          "seasonId": 400120,
-          "episodeNumber": 3,
-          "episodeName": "Episode 3",
-          "tags": []
-        },
-        {
-          "id": 64347442,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T04:53:15Z",
-          "reviewDate": "2026-05-02T04:54:46Z",
-          "seasonId": 400120,
-          "episodeNumber": 2,
-          "episodeName": "Episode 2",
-          "tags": []
-        },
-        {
-          "id": 64344500,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "So, this show is gonna stress me. Got it.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T03:58:00Z",
-          "reviewDate": "2026-05-02T03:58:20Z",
-          "seasonId": 400120,
-          "episodeNumber": 1,
-          "episodeName": "Episode 1",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": true,
-      "latestActivityDate": "2026-05-22T03:22:23Z",
-      "primaryRating": 4.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-124101",
-      "serializdShowId": 124101,
-      "slug": "hacks-2021",
-      "name": "Hacks",
-      "premiereYear": 2021,
-      "premiereDate": "2021-05-13",
-      "serializdUrl": "https://serializd.com/show/124101",
-      "tmdb": {
-        "id": 124101,
-        "name": "Hacks",
-        "posterPath": "/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-        "backdropPath": "/bbAR4qKxjnjyKAt4YMrL725Mtfw.jpg",
-        "genres": [
-          "Comedy",
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO Max",
-          "Max",
-          "HBO Max"
-        ],
-        "numberOfSeasons": 5,
-        "numberOfEpisodes": 47
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-      "seasons": [
-        {
-          "serializdId": 192055,
-          "showId": 124101,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/3G5OwUxs25GdQjbhIp9ah4gSLgW.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 287642,
-          "showId": 124101,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/q32wjcRi7Ix4DAqFA8kR7KGneyo.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 381723,
-          "showId": 124101,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/lba4WOJ5tUFhgc5Uo2jWhIZG5SO.jpg",
-          "episodeCount": 9
-        },
-        {
-          "serializdId": 427668,
-          "showId": 124101,
-          "seasonNumber": 4,
-          "name": "Season 4",
-          "posterPath": "/ulBzMy5DZjBeUo6wHqn8ao0Zn6j.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 506657,
-          "showId": 124101,
-          "seasonNumber": 5,
-          "name": "Season 5",
-          "posterPath": "/eerCQAUkogIQfRjNugG7qiRcNSG.jpg",
-          "episodeCount": 10
-        }
-      ],
-      "reviews": [
-        {
-          "id": 66530498,
-          "level": "episode",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "What did they put in that episode? Because I already know next week is gonna hurt. Luigi mentioned.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-22T01:56:04Z",
-          "reviewDate": "2026-05-22T01:56:59Z",
-          "seasonId": 506657,
-          "episodeNumber": 9,
-          "episodeName": "The Garden",
-          "tags": []
-        },
-        {
-          "id": 65856492,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "The Jimmy storyline is breaking my heart. Lauren Weedman reigns supreme.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-15T05:05:00Z",
-          "reviewDate": "2026-05-16T05:06:26Z",
-          "seasonId": 506657,
-          "episodeNumber": 8,
-          "episodeName": "The Cube",
-          "tags": []
-        },
-        {
-          "id": 64980748,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I’m always gonna want more Cherry Jones on my screen.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-08T02:37:24Z",
-          "reviewDate": "2026-05-08T02:37:51Z",
-          "seasonId": 506657,
-          "episodeNumber": 7,
-          "episodeName": "Montecito",
-          "tags": []
-        },
-        {
-          "id": 64977036,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Paul Downs body tea and an anti-AI arc. Okay!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-08T01:43:51Z",
-          "reviewDate": "2026-05-08T01:44:14Z",
-          "seasonId": 506657,
-          "episodeNumber": 6,
-          "episodeName": "QuikScribbl",
-          "tags": []
-        },
-        {
-          "id": 64248997,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-01T05:59:03Z",
-          "reviewDate": "2026-05-01T05:59:17Z",
-          "seasonId": 506657,
-          "episodeNumber": 5,
-          "episodeName": "D'Amazing Race",
-          "tags": []
-        },
-        {
-          "id": 64245965,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Not the jailhouse set!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-01T05:01:59Z",
-          "reviewDate": "2026-05-01T05:02:45Z",
-          "seasonId": 506657,
-          "episodeNumber": 4,
-          "episodeName": "Who's Making Dinner?",
-          "tags": []
-        },
-        {
-          "id": 63485442,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "The Peppermint Patty stray…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-24T06:30:11Z",
-          "reviewDate": "2026-04-24T06:30:11Z",
-          "seasonId": 506657,
-          "episodeNumber": 3,
-          "episodeName": "No New Tricks",
-          "tags": []
-        },
-        {
-          "id": 61878902,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "The doxxing plot absolutely frying me!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T14:14:00Z",
-          "reviewDate": "2026-04-10T14:14:46Z",
-          "seasonId": 506657,
-          "episodeNumber": 2,
-          "episodeName": "Number One Fan",
-          "tags": []
-        },
-        {
-          "id": 61878339,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "We’ve never been more back! The EGOT of it all. The Sofar Sounds inspiration. The Deborah-Ava joint plotting! We deserve.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T14:08:00Z",
-          "reviewDate": "2026-04-10T14:08:57Z",
-          "seasonId": 506657,
-          "episodeNumber": 1,
-          "episodeName": "EGOT",
-          "tags": []
-        },
-        {
-          "id": 35855437,
-          "level": "season",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "In which they do it again. I’m so happy to see these characters grow and subvert our expectations after watching them for a while. However, I can’t help but be even more anxious that the show has to end soon — even if I want to watch it forever. Jean Smart’s and Hannah Einbinder’s chemistry continues to ratchet up and I so appreciate how their work in this season pulls us beyond a crescendo and into the next movement, especially in the finale.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-05-29T20:14:00Z",
-          "reviewDate": "2025-06-19T20:14:35Z",
-          "seasonId": 427668,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 16347358,
-          "level": "season",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "An incredible season. They almost had me thinking they tanked it, but the twist is the last few minutes of the finale really cemented it for me that this is the best thing they’ve done yet. The character development across the board feels rich and lived in, even when some of them are pissing me off. Tears in my eyes for Deborah Vance. Ava Daniels forever.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-05-30T20:48:00Z",
-          "reviewDate": "2024-06-01T20:53:28Z",
-          "seasonId": 381723,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4,
-        4.5,
-        5
-      ],
-      "watchedYearSet": [
-        2024,
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        3,
-        4
-      ],
-      "inProgressSeasonNumbers": [
-        5
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        1,
-        2
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-22T01:56:59Z",
-      "primaryRating": 5,
       "liked": false
     },
     {
@@ -14353,154 +14615,6 @@
       "isMiniseries": true,
       "latestActivityDate": "2026-02-06T01:09:32Z",
       "primaryRating": 3.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-237748",
-      "serializdShowId": 237748,
-      "slug": "brilliant-minds-2024",
-      "name": "Brilliant Minds",
-      "premiereYear": 2024,
-      "premiereDate": "2024-09-23",
-      "serializdUrl": "https://serializd.com/show/237748",
-      "tmdb": {
-        "id": 237748,
-        "name": "Brilliant Minds",
-        "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-        "backdropPath": "/qV6tQhqNyb3NXCx8MWELOf9glTu.jpg",
-        "genres": [
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Canceled",
-        "networks": [
-          "NBC"
-        ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 33
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-      "seasons": [
-        {
-          "serializdId": 361920,
-          "showId": 237748,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/bcRmIcc1Sw2LnZ1qYK6XFcQqacB.jpg",
-          "episodeCount": 13
-        },
-        {
-          "serializdId": 467366,
-          "showId": 237748,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-          "episodeCount": 20
-        }
-      ],
-      "reviews": [
-        {
-          "id": 55052331,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-02-05T03:57:06Z",
-          "reviewDate": "2026-02-05T03:57:12Z",
-          "seasonId": 467366,
-          "episodeNumber": 14,
-          "episodeName": "The Invisible Man",
-          "tags": []
-        },
-        {
-          "id": 54094418,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-27T22:00:16Z",
-          "reviewDate": "2026-01-27T22:00:25Z",
-          "seasonId": 467366,
-          "episodeNumber": 13,
-          "episodeName": "The Rabbit Hole",
-          "tags": []
-        },
-        {
-          "id": 52592359,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-15T01:48:55Z",
-          "reviewDate": "2026-01-15T01:48:56Z",
-          "seasonId": 467366,
-          "episodeNumber": 12,
-          "episodeName": "The Rider",
-          "tags": []
-        },
-        {
-          "id": 51640509,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "No shade — we don’t know these characters well enough for all this.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-06T23:11:13Z",
-          "reviewDate": "2026-01-06T23:11:38Z",
-          "seasonId": 467366,
-          "episodeNumber": 11,
-          "episodeName": "The Boy Who Feels Everything",
-          "tags": []
-        },
-        {
-          "id": 27218407,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I am gobsmacked at how locked in this show is. They break away from the procedural model really quickly while establishing an ensemble cast, referencing other classic hospital shows, and carving out their own path. The most curious part for me is how conservative the shows aesthetics are; the content is so left-leaning that this feels contradictory, but I think that is probably because the show is really center left, more than anything else. Zachary Quinto is still so nice to look at.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-02-01T15:27:16Z",
-          "reviewDate": "2025-02-01T15:29:39Z",
-          "seasonId": 361920,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        4
-      ],
-      "watchedYearSet": [
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [
-        2
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-02-05T03:57:12Z",
-      "primaryRating": 4,
       "liked": false
     },
     {
@@ -24996,6 +25110,803 @@
     }
   ],
   "showById": {
+    "tmdb-tv-237748": {
+      "id": "tmdb-tv-237748",
+      "serializdShowId": 237748,
+      "slug": "brilliant-minds-2024",
+      "name": "Brilliant Minds",
+      "premiereYear": 2024,
+      "premiereDate": "2024-09-23",
+      "serializdUrl": "https://serializd.com/show/237748",
+      "tmdb": {
+        "id": 237748,
+        "name": "Brilliant Minds",
+        "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+        "backdropPath": "/qV6tQhqNyb3NXCx8MWELOf9glTu.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Canceled",
+        "networks": [
+          "NBC"
+        ],
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 33
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+      "seasons": [
+        {
+          "serializdId": 361920,
+          "showId": 237748,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/bcRmIcc1Sw2LnZ1qYK6XFcQqacB.jpg",
+          "episodeCount": 13
+        },
+        {
+          "serializdId": 467366,
+          "showId": 237748,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+          "episodeCount": 20
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67511085,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I’m leaning into the comedy of how this show was handled. I really think if they had gotten to this part of the narrative sooner we might have a forthcoming season.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-29T20:11:00Z",
+          "reviewDate": "2026-05-30T20:12:26Z",
+          "seasonId": 467366,
+          "episodeNumber": 15,
+          "episodeName": "The Missing Person",
+          "tags": []
+        },
+        {
+          "id": 55052331,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-02-05T03:57:06Z",
+          "reviewDate": "2026-02-05T03:57:12Z",
+          "seasonId": 467366,
+          "episodeNumber": 14,
+          "episodeName": "The Invisible Man",
+          "tags": []
+        },
+        {
+          "id": 54094418,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-27T22:00:16Z",
+          "reviewDate": "2026-01-27T22:00:25Z",
+          "seasonId": 467366,
+          "episodeNumber": 13,
+          "episodeName": "The Rabbit Hole",
+          "tags": []
+        },
+        {
+          "id": 52592359,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-15T01:48:55Z",
+          "reviewDate": "2026-01-15T01:48:56Z",
+          "seasonId": 467366,
+          "episodeNumber": 12,
+          "episodeName": "The Rider",
+          "tags": []
+        },
+        {
+          "id": 51640509,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "No shade — we don’t know these characters well enough for all this.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-06T23:11:13Z",
+          "reviewDate": "2026-01-06T23:11:38Z",
+          "seasonId": 467366,
+          "episodeNumber": 11,
+          "episodeName": "The Boy Who Feels Everything",
+          "tags": []
+        },
+        {
+          "id": 27218407,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I am gobsmacked at how locked in this show is. They break away from the procedural model really quickly while establishing an ensemble cast, referencing other classic hospital shows, and carving out their own path. The most curious part for me is how conservative the shows aesthetics are; the content is so left-leaning that this feels contradictory, but I think that is probably because the show is really center left, more than anything else. Zachary Quinto is still so nice to look at.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-02-01T15:27:16Z",
+          "reviewDate": "2025-02-01T15:29:39Z",
+          "seasonId": 361920,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [
+        2
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-30T20:12:26Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
+    "tmdb-tv-257994": {
+      "id": "tmdb-tv-257994",
+      "serializdShowId": 257994,
+      "slug": "half-man-2026",
+      "name": "Half Man",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-28",
+      "serializdUrl": "https://serializd.com/show/257994",
+      "tmdb": {
+        "id": 257994,
+        "name": "Half Man",
+        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
+        "genres": [
+          "Drama",
+          "Mystery"
+        ],
+        "type": "Miniseries",
+        "status": "Returning Series",
+        "networks": [
+          "BBC One"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
+      "seasons": [
+        {
+          "serializdId": 400120,
+          "showId": 257994,
+          "seasonNumber": 1,
+          "name": "Miniseries",
+          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67510922,
+          "level": "season",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "What a ride. Richard Gadd does it again. I love his sick, twisted little mind. This is incredibly show over tell, to the point that I feel like we should have told a touch more. But truly excellent throughout and as hard to look away from as it was to keep watching.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T20:09:00Z",
+          "reviewDate": "2026-05-30T20:11:00Z",
+          "seasonId": 400120,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 67510593,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "A banger of an ending. My jaw was on the floor.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T20:08:00Z",
+          "reviewDate": "2026-05-30T20:08:43Z",
+          "seasonId": 400120,
+          "episodeNumber": 6,
+          "episodeName": "Episode 6",
+          "tags": []
+        },
+        {
+          "id": 66536683,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Unfortunately, everyone is lowkey evil. An already dark show, pushing into the bleakest of areas. Ruben being among the public is so terrifying.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-22T03:21:14Z",
+          "reviewDate": "2026-05-22T03:22:23Z",
+          "seasonId": 400120,
+          "episodeNumber": 5,
+          "episodeName": "Episode 5",
+          "tags": []
+        },
+        {
+          "id": 65856699,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I feel sick (complimentary). I would guess this episode is the home of the show’s thesis on cycles of abuse, particularly violent sexual abuse among men and how that interacts with sexuality. Niall is such a heartbreaking character in that you feel badly for him, but he’s also never at a healed place in his journey where he takes any accountability. And what’s wild is that there’s not much accountability to take as much as it’s ownership and conviction in his decisions, many of which have been justified.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-16T05:07:29Z",
+          "reviewDate": "2026-05-16T05:10:20Z",
+          "seasonId": 400120,
+          "episodeNumber": 4,
+          "episodeName": "Episode 4",
+          "tags": []
+        },
+        {
+          "id": 65194601,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Ruben the terrorist for real.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-10T04:50:49Z",
+          "reviewDate": "2026-05-10T04:51:09Z",
+          "seasonId": 400120,
+          "episodeNumber": 3,
+          "episodeName": "Episode 3",
+          "tags": []
+        },
+        {
+          "id": 64347442,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T04:53:15Z",
+          "reviewDate": "2026-05-02T04:54:46Z",
+          "seasonId": 400120,
+          "episodeNumber": 2,
+          "episodeName": "Episode 2",
+          "tags": []
+        },
+        {
+          "id": 64344500,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "So, this show is gonna stress me. Got it.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-02T03:58:00Z",
+          "reviewDate": "2026-05-02T03:58:20Z",
+          "seasonId": 400120,
+          "episodeNumber": 1,
+          "episodeName": "Episode 1",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-05-30T20:11:00Z",
+      "primaryRating": 4.5,
+      "liked": false
+    },
+    "tmdb-tv-124101": {
+      "id": "tmdb-tv-124101",
+      "serializdShowId": 124101,
+      "slug": "hacks-2021",
+      "name": "Hacks",
+      "premiereYear": 2021,
+      "premiereDate": "2021-05-13",
+      "serializdUrl": "https://serializd.com/show/124101",
+      "tmdb": {
+        "id": 124101,
+        "name": "Hacks",
+        "posterPath": "/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+        "backdropPath": "/bbAR4qKxjnjyKAt4YMrL725Mtfw.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO Max",
+          "Max",
+          "HBO Max"
+        ],
+        "numberOfSeasons": 5,
+        "numberOfEpisodes": 47
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
+      "seasons": [
+        {
+          "serializdId": 192055,
+          "showId": 124101,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/3G5OwUxs25GdQjbhIp9ah4gSLgW.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 287642,
+          "showId": 124101,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/q32wjcRi7Ix4DAqFA8kR7KGneyo.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 381723,
+          "showId": 124101,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/lba4WOJ5tUFhgc5Uo2jWhIZG5SO.jpg",
+          "episodeCount": 9
+        },
+        {
+          "serializdId": 427668,
+          "showId": 124101,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/ulBzMy5DZjBeUo6wHqn8ao0Zn6j.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 506657,
+          "showId": 124101,
+          "seasonNumber": 5,
+          "name": "Season 5",
+          "posterPath": "/eerCQAUkogIQfRjNugG7qiRcNSG.jpg",
+          "episodeCount": 10
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67510363,
+          "level": "show",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "Honestly, a perfect show. Better and richer with each season. We were so treated to brilliant writing and deep relationships throughout. I cried as much as I laughed and always felt welcome to learn a new perspective. Women!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T20:04:00Z",
+          "reviewDate": "2026-05-30T20:06:57Z",
+          "seasonId": null,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 67509879,
+          "level": "season",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "A fan service season that rested on its relationship with its audience, rather than trying to pander to late adopters. It was so rich and full of reference without abusing it, which feels rare in writing these days. I cannot wait to watch this back in the full knowledge of how it ends.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T20:01:00Z",
+          "reviewDate": "2026-05-30T20:03:23Z",
+          "seasonId": 506657,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 67509615,
+          "level": "episode",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "I’ve never laughed so much while questioning my entire existence and what it means to be human. This was such a beautiful tribute to the relationships between these characters we’ve come to love. And the callbacks were so perfect.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T19:58:00Z",
+          "reviewDate": "2026-05-30T20:01:26Z",
+          "seasonId": 506657,
+          "episodeNumber": 10,
+          "episodeName": "Hacks",
+          "tags": []
+        },
+        {
+          "id": 66530498,
+          "level": "episode",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "What did they put in that episode? Because I already know next week is gonna hurt. Luigi mentioned.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-22T01:56:04Z",
+          "reviewDate": "2026-05-22T01:56:59Z",
+          "seasonId": 506657,
+          "episodeNumber": 9,
+          "episodeName": "The Garden",
+          "tags": []
+        },
+        {
+          "id": 65856492,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The Jimmy storyline is breaking my heart. Lauren Weedman reigns supreme.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-15T05:05:00Z",
+          "reviewDate": "2026-05-16T05:06:26Z",
+          "seasonId": 506657,
+          "episodeNumber": 8,
+          "episodeName": "The Cube",
+          "tags": []
+        },
+        {
+          "id": 64980748,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m always gonna want more Cherry Jones on my screen.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-08T02:37:24Z",
+          "reviewDate": "2026-05-08T02:37:51Z",
+          "seasonId": 506657,
+          "episodeNumber": 7,
+          "episodeName": "Montecito",
+          "tags": []
+        },
+        {
+          "id": 64977036,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Paul Downs body tea and an anti-AI arc. Okay!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-08T01:43:51Z",
+          "reviewDate": "2026-05-08T01:44:14Z",
+          "seasonId": 506657,
+          "episodeNumber": 6,
+          "episodeName": "QuikScribbl",
+          "tags": []
+        },
+        {
+          "id": 64248997,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-01T05:59:03Z",
+          "reviewDate": "2026-05-01T05:59:17Z",
+          "seasonId": 506657,
+          "episodeNumber": 5,
+          "episodeName": "D'Amazing Race",
+          "tags": []
+        },
+        {
+          "id": 64245965,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Not the jailhouse set!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-01T05:01:59Z",
+          "reviewDate": "2026-05-01T05:02:45Z",
+          "seasonId": 506657,
+          "episodeNumber": 4,
+          "episodeName": "Who's Making Dinner?",
+          "tags": []
+        },
+        {
+          "id": 63485442,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The Peppermint Patty stray…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-24T06:30:11Z",
+          "reviewDate": "2026-04-24T06:30:11Z",
+          "seasonId": 506657,
+          "episodeNumber": 3,
+          "episodeName": "No New Tricks",
+          "tags": []
+        },
+        {
+          "id": 61878902,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "The doxxing plot absolutely frying me!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T14:14:00Z",
+          "reviewDate": "2026-04-10T14:14:46Z",
+          "seasonId": 506657,
+          "episodeNumber": 2,
+          "episodeName": "Number One Fan",
+          "tags": []
+        },
+        {
+          "id": 61878339,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "We’ve never been more back! The EGOT of it all. The Sofar Sounds inspiration. The Deborah-Ava joint plotting! We deserve.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-09T14:08:00Z",
+          "reviewDate": "2026-04-10T14:08:57Z",
+          "seasonId": 506657,
+          "episodeNumber": 1,
+          "episodeName": "EGOT",
+          "tags": []
+        },
+        {
+          "id": 35855437,
+          "level": "season",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "In which they do it again. I’m so happy to see these characters grow and subvert our expectations after watching them for a while. However, I can’t help but be even more anxious that the show has to end soon — even if I want to watch it forever. Jean Smart’s and Hannah Einbinder’s chemistry continues to ratchet up and I so appreciate how their work in this season pulls us beyond a crescendo and into the next movement, especially in the finale.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-05-29T20:14:00Z",
+          "reviewDate": "2025-06-19T20:14:35Z",
+          "seasonId": 427668,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 16347358,
+          "level": "season",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "An incredible season. They almost had me thinking they tanked it, but the twist is the last few minutes of the finale really cemented it for me that this is the best thing they’ve done yet. The character development across the board feels rich and lived in, even when some of them are pissing me off. Tears in my eyes for Deborah Vance. Ava Daniels forever.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-05-30T20:48:00Z",
+          "reviewDate": "2024-06-01T20:53:28Z",
+          "seasonId": 381723,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4,
+        4.5,
+        5
+      ],
+      "watchedYearSet": [
+        2024,
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        3,
+        4,
+        5
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [
+        1,
+        2
+      ],
+      "hasShowReview": true,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-30T20:06:57Z",
+      "primaryRating": 5,
+      "liked": false
+    },
+    "tmdb-tv-245318": {
+      "id": "tmdb-tv-245318",
+      "serializdShowId": 245318,
+      "slug": "margos-got-money-troubles-2026",
+      "name": "Margo's Got Money Troubles",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-14",
+      "serializdUrl": "https://serializd.com/show/245318",
+      "tmdb": {
+        "id": 245318,
+        "name": "Margo's Got Money Troubles",
+        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "seasons": [
+        {
+          "serializdId": 377231,
+          "showId": 245318,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 67508906,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T19:55:00Z",
+          "reviewDate": "2026-05-30T19:56:06Z",
+          "seasonId": 377231,
+          "episodeNumber": 5,
+          "episodeName": "Flamingoes",
+          "tags": []
+        },
+        {
+          "id": 67198534,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Nicole Kidman really does any role—I love that for us. Nick Offerman putting in work on multiple levels.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T01:14:51Z",
+          "reviewDate": "2026-05-28T01:15:53Z",
+          "seasonId": 377231,
+          "episodeNumber": 4,
+          "episodeName": "Buddies",
+          "tags": []
+        },
+        {
+          "id": 67100224,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:48:46Z",
+          "reviewDate": "2026-05-27T04:48:46Z",
+          "seasonId": 377231,
+          "episodeNumber": 3,
+          "episodeName": "Jinxed",
+          "tags": []
+        },
+        {
+          "id": 67086459,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T01:21:34Z",
+          "reviewDate": "2026-05-27T01:23:11Z",
+          "seasonId": 377231,
+          "episodeNumber": 2,
+          "episodeName": "Homecoming",
+          "tags": []
+        },
+        {
+          "id": 67083702,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T00:41:40Z",
+          "reviewDate": "2026-05-27T00:42:20Z",
+          "seasonId": 377231,
+          "episodeNumber": 1,
+          "episodeName": "The Hungry Ghost",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-05-30T19:56:06Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     "tmdb-tv-247758": {
       "id": "tmdb-tv-247758",
       "serializdShowId": 247758,
@@ -25257,128 +26168,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-28T04:00:23Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    "tmdb-tv-245318": {
-      "id": "tmdb-tv-245318",
-      "serializdShowId": 245318,
-      "slug": "margos-got-money-troubles-2026",
-      "name": "Margo's Got Money Troubles",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-14",
-      "serializdUrl": "https://serializd.com/show/245318",
-      "tmdb": {
-        "id": 245318,
-        "name": "Margo's Got Money Troubles",
-        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
-        "genres": [
-          "Drama",
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Apple TV"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "seasons": [
-        {
-          "serializdId": 377231,
-          "showId": 245318,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 67198534,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Nicole Kidman really does any role—I love that for us. Nick Offerman putting in work on multiple levels.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-28T01:14:51Z",
-          "reviewDate": "2026-05-28T01:15:53Z",
-          "seasonId": 377231,
-          "episodeNumber": 4,
-          "episodeName": "Buddies",
-          "tags": []
-        },
-        {
-          "id": 67100224,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T04:48:46Z",
-          "reviewDate": "2026-05-27T04:48:46Z",
-          "seasonId": 377231,
-          "episodeNumber": 3,
-          "episodeName": "Jinxed",
-          "tags": []
-        },
-        {
-          "id": 67086459,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T01:21:34Z",
-          "reviewDate": "2026-05-27T01:23:11Z",
-          "seasonId": 377231,
-          "episodeNumber": 2,
-          "episodeName": "Homecoming",
-          "tags": []
-        },
-        {
-          "id": 67083702,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T00:41:40Z",
-          "reviewDate": "2026-05-27T00:42:20Z",
-          "seasonId": 377231,
-          "episodeNumber": 1,
-          "episodeName": "The Hungry Ghost",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-28T01:15:53Z",
-      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-22980": {
@@ -29541,421 +30330,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-05-23T22:21:03Z",
       "primaryRating": 3.5,
-      "liked": false
-    },
-    "tmdb-tv-257994": {
-      "id": "tmdb-tv-257994",
-      "serializdShowId": 257994,
-      "slug": "half-man-2026",
-      "name": "Half Man",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-28",
-      "serializdUrl": "https://serializd.com/show/257994",
-      "tmdb": {
-        "id": 257994,
-        "name": "Half Man",
-        "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
-        "genres": [
-          "Drama",
-          "Mystery"
-        ],
-        "type": "Miniseries",
-        "status": "Returning Series",
-        "networks": [
-          "BBC One"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 6
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-      "seasons": [
-        {
-          "serializdId": 400120,
-          "showId": 257994,
-          "seasonNumber": 1,
-          "name": "Miniseries",
-          "posterPath": "/trkH9wvcTUFRqjiu5z7sYItwbDN.jpg",
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 66536683,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "Unfortunately, everyone is lowkey evil. An already dark show, pushing into the bleakest of areas. Ruben being among the public is so terrifying.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-22T03:21:14Z",
-          "reviewDate": "2026-05-22T03:22:23Z",
-          "seasonId": 400120,
-          "episodeNumber": 5,
-          "episodeName": "Episode 5",
-          "tags": []
-        },
-        {
-          "id": 65856699,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I feel sick (complimentary). I would guess this episode is the home of the show’s thesis on cycles of abuse, particularly violent sexual abuse among men and how that interacts with sexuality. Niall is such a heartbreaking character in that you feel badly for him, but he’s also never at a healed place in his journey where he takes any accountability. And what’s wild is that there’s not much accountability to take as much as it’s ownership and conviction in his decisions, many of which have been justified.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-16T05:07:29Z",
-          "reviewDate": "2026-05-16T05:10:20Z",
-          "seasonId": 400120,
-          "episodeNumber": 4,
-          "episodeName": "Episode 4",
-          "tags": []
-        },
-        {
-          "id": 65194601,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Ruben the terrorist for real.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-10T04:50:49Z",
-          "reviewDate": "2026-05-10T04:51:09Z",
-          "seasonId": 400120,
-          "episodeNumber": 3,
-          "episodeName": "Episode 3",
-          "tags": []
-        },
-        {
-          "id": 64347442,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Absolutely nauseating. Storyline feeling a little on the nose so far, but well-produced through and through. Let’s give “Only You” a break for a second.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T04:53:15Z",
-          "reviewDate": "2026-05-02T04:54:46Z",
-          "seasonId": 400120,
-          "episodeNumber": 2,
-          "episodeName": "Episode 2",
-          "tags": []
-        },
-        {
-          "id": 64344500,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "So, this show is gonna stress me. Got it.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-02T03:58:00Z",
-          "reviewDate": "2026-05-02T03:58:20Z",
-          "seasonId": 400120,
-          "episodeNumber": 1,
-          "episodeName": "Episode 1",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": true,
-      "latestActivityDate": "2026-05-22T03:22:23Z",
-      "primaryRating": 4.5,
-      "liked": false
-    },
-    "tmdb-tv-124101": {
-      "id": "tmdb-tv-124101",
-      "serializdShowId": 124101,
-      "slug": "hacks-2021",
-      "name": "Hacks",
-      "premiereYear": 2021,
-      "premiereDate": "2021-05-13",
-      "serializdUrl": "https://serializd.com/show/124101",
-      "tmdb": {
-        "id": 124101,
-        "name": "Hacks",
-        "posterPath": "/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-        "backdropPath": "/bbAR4qKxjnjyKAt4YMrL725Mtfw.jpg",
-        "genres": [
-          "Comedy",
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO Max",
-          "Max",
-          "HBO Max"
-        ],
-        "numberOfSeasons": 5,
-        "numberOfEpisodes": 47
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ca5XiEFgyGsI38QT3wEKa1QVGX.jpg",
-      "seasons": [
-        {
-          "serializdId": 192055,
-          "showId": 124101,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/3G5OwUxs25GdQjbhIp9ah4gSLgW.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 287642,
-          "showId": 124101,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/q32wjcRi7Ix4DAqFA8kR7KGneyo.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 381723,
-          "showId": 124101,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/lba4WOJ5tUFhgc5Uo2jWhIZG5SO.jpg",
-          "episodeCount": 9
-        },
-        {
-          "serializdId": 427668,
-          "showId": 124101,
-          "seasonNumber": 4,
-          "name": "Season 4",
-          "posterPath": "/ulBzMy5DZjBeUo6wHqn8ao0Zn6j.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 506657,
-          "showId": 124101,
-          "seasonNumber": 5,
-          "name": "Season 5",
-          "posterPath": "/eerCQAUkogIQfRjNugG7qiRcNSG.jpg",
-          "episodeCount": 10
-        }
-      ],
-      "reviews": [
-        {
-          "id": 66530498,
-          "level": "episode",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "What did they put in that episode? Because I already know next week is gonna hurt. Luigi mentioned.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-22T01:56:04Z",
-          "reviewDate": "2026-05-22T01:56:59Z",
-          "seasonId": 506657,
-          "episodeNumber": 9,
-          "episodeName": "The Garden",
-          "tags": []
-        },
-        {
-          "id": 65856492,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "The Jimmy storyline is breaking my heart. Lauren Weedman reigns supreme.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-15T05:05:00Z",
-          "reviewDate": "2026-05-16T05:06:26Z",
-          "seasonId": 506657,
-          "episodeNumber": 8,
-          "episodeName": "The Cube",
-          "tags": []
-        },
-        {
-          "id": 64980748,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I’m always gonna want more Cherry Jones on my screen.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-08T02:37:24Z",
-          "reviewDate": "2026-05-08T02:37:51Z",
-          "seasonId": 506657,
-          "episodeNumber": 7,
-          "episodeName": "Montecito",
-          "tags": []
-        },
-        {
-          "id": 64977036,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Paul Downs body tea and an anti-AI arc. Okay!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-08T01:43:51Z",
-          "reviewDate": "2026-05-08T01:44:14Z",
-          "seasonId": 506657,
-          "episodeNumber": 6,
-          "episodeName": "QuikScribbl",
-          "tags": []
-        },
-        {
-          "id": 64248997,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-01T05:59:03Z",
-          "reviewDate": "2026-05-01T05:59:17Z",
-          "seasonId": 506657,
-          "episodeNumber": 5,
-          "episodeName": "D'Amazing Race",
-          "tags": []
-        },
-        {
-          "id": 64245965,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Not the jailhouse set!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-01T05:01:59Z",
-          "reviewDate": "2026-05-01T05:02:45Z",
-          "seasonId": 506657,
-          "episodeNumber": 4,
-          "episodeName": "Who's Making Dinner?",
-          "tags": []
-        },
-        {
-          "id": 63485442,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "The Peppermint Patty stray…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-24T06:30:11Z",
-          "reviewDate": "2026-04-24T06:30:11Z",
-          "seasonId": 506657,
-          "episodeNumber": 3,
-          "episodeName": "No New Tricks",
-          "tags": []
-        },
-        {
-          "id": 61878902,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "The doxxing plot absolutely frying me!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T14:14:00Z",
-          "reviewDate": "2026-04-10T14:14:46Z",
-          "seasonId": 506657,
-          "episodeNumber": 2,
-          "episodeName": "Number One Fan",
-          "tags": []
-        },
-        {
-          "id": 61878339,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "We’ve never been more back! The EGOT of it all. The Sofar Sounds inspiration. The Deborah-Ava joint plotting! We deserve.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-09T14:08:00Z",
-          "reviewDate": "2026-04-10T14:08:57Z",
-          "seasonId": 506657,
-          "episodeNumber": 1,
-          "episodeName": "EGOT",
-          "tags": []
-        },
-        {
-          "id": 35855437,
-          "level": "season",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "In which they do it again. I’m so happy to see these characters grow and subvert our expectations after watching them for a while. However, I can’t help but be even more anxious that the show has to end soon — even if I want to watch it forever. Jean Smart’s and Hannah Einbinder’s chemistry continues to ratchet up and I so appreciate how their work in this season pulls us beyond a crescendo and into the next movement, especially in the finale.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-05-29T20:14:00Z",
-          "reviewDate": "2025-06-19T20:14:35Z",
-          "seasonId": 427668,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 16347358,
-          "level": "season",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "An incredible season. They almost had me thinking they tanked it, but the twist is the last few minutes of the finale really cemented it for me that this is the best thing they’ve done yet. The character development across the board feels rich and lived in, even when some of them are pissing me off. Tears in my eyes for Deborah Vance. Ava Daniels forever.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-05-30T20:48:00Z",
-          "reviewDate": "2024-06-01T20:53:28Z",
-          "seasonId": 381723,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4,
-        4.5,
-        5
-      ],
-      "watchedYearSet": [
-        2024,
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        3,
-        4
-      ],
-      "inProgressSeasonNumbers": [
-        5
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        1,
-        2
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-05-22T01:56:59Z",
-      "primaryRating": 5,
       "liked": false
     },
     "tmdb-tv-104756": {
@@ -39272,154 +39646,6 @@
       "isMiniseries": true,
       "latestActivityDate": "2026-02-06T01:09:32Z",
       "primaryRating": 3.5,
-      "liked": false
-    },
-    "tmdb-tv-237748": {
-      "id": "tmdb-tv-237748",
-      "serializdShowId": 237748,
-      "slug": "brilliant-minds-2024",
-      "name": "Brilliant Minds",
-      "premiereYear": 2024,
-      "premiereDate": "2024-09-23",
-      "serializdUrl": "https://serializd.com/show/237748",
-      "tmdb": {
-        "id": 237748,
-        "name": "Brilliant Minds",
-        "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-        "backdropPath": "/qV6tQhqNyb3NXCx8MWELOf9glTu.jpg",
-        "genres": [
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Canceled",
-        "networks": [
-          "NBC"
-        ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 33
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-      "seasons": [
-        {
-          "serializdId": 361920,
-          "showId": 237748,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/bcRmIcc1Sw2LnZ1qYK6XFcQqacB.jpg",
-          "episodeCount": 13
-        },
-        {
-          "serializdId": 467366,
-          "showId": 237748,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-          "episodeCount": 20
-        }
-      ],
-      "reviews": [
-        {
-          "id": 55052331,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-02-05T03:57:06Z",
-          "reviewDate": "2026-02-05T03:57:12Z",
-          "seasonId": 467366,
-          "episodeNumber": 14,
-          "episodeName": "The Invisible Man",
-          "tags": []
-        },
-        {
-          "id": 54094418,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-27T22:00:16Z",
-          "reviewDate": "2026-01-27T22:00:25Z",
-          "seasonId": 467366,
-          "episodeNumber": 13,
-          "episodeName": "The Rabbit Hole",
-          "tags": []
-        },
-        {
-          "id": 52592359,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-15T01:48:55Z",
-          "reviewDate": "2026-01-15T01:48:56Z",
-          "seasonId": 467366,
-          "episodeNumber": 12,
-          "episodeName": "The Rider",
-          "tags": []
-        },
-        {
-          "id": 51640509,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "No shade — we don’t know these characters well enough for all this.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-06T23:11:13Z",
-          "reviewDate": "2026-01-06T23:11:38Z",
-          "seasonId": 467366,
-          "episodeNumber": 11,
-          "episodeName": "The Boy Who Feels Everything",
-          "tags": []
-        },
-        {
-          "id": 27218407,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I am gobsmacked at how locked in this show is. They break away from the procedural model really quickly while establishing an ensemble cast, referencing other classic hospital shows, and carving out their own path. The most curious part for me is how conservative the shows aesthetics are; the content is so left-leaning that this feels contradictory, but I think that is probably because the show is really center left, more than anything else. Zachary Quinto is still so nice to look at.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-02-01T15:27:16Z",
-          "reviewDate": "2025-02-01T15:29:39Z",
-          "seasonId": 361920,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        4
-      ],
-      "watchedYearSet": [
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [
-        2
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-02-05T03:57:12Z",
-      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-110381": {
