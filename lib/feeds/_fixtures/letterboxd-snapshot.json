@@ -1,12 +1,12 @@
 {
-  "capturedAt": "2026-05-27T01:00:02.639Z",
+  "capturedAt": "2026-05-30T20:00:51.047Z",
   "summary": {
-    "totalFilms": 758,
-    "totalReviews": 758,
-    "thisYearCount": 117,
+    "totalFilms": 760,
+    "totalReviews": 760,
+    "thisYearCount": 119,
     "ratingDistribution": {
-      "1": 35,
-      "2": 119,
+      "1": 36,
+      "2": 120,
       "3": 143,
       "4": 103,
       "5": 16,
@@ -17,30 +17,30 @@
       "0.5": 9
     },
     "genreDistribution": {
-      "Comedy": 216,
+      "Science Fiction": 112,
+      "Action": 114,
+      "Adventure": 84,
+      "Comedy": 217,
+      "Family": 20,
       "Drama": 357,
       "Horror": 127,
       "Thriller": 216,
       "Romance": 88,
-      "Science Fiction": 111,
       "Crime": 99,
-      "Action": 113,
       "Fantasy": 58,
-      "Adventure": 83,
       "Music": 48,
       "Mystery": 78,
       "Documentary": 59,
       "Animation": 43,
-      "Family": 19,
       "History": 40,
       "TV Movie": 5,
       "War": 16,
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 568,
+      "1990s": 16,
+      "2020s": 569,
       "1980s": 16,
-      "1990s": 15,
       "2010s": 123,
       "1960s": 1,
       "1970s": 4,
@@ -48,6 +48,95 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-9886",
+      "letterboxdSlug": "johnny-mnemonic",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/johnny-mnemonic/",
+      "title": "Johnny Mnemonic",
+      "releaseYear": 1995,
+      "firstWatchedDate": "2026-05-29",
+      "latestWatchedDate": "2026-05-29",
+      "firstReviewDate": "2026-05-30",
+      "latestReviewDate": "2026-05-30",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1335422769",
+          "watchedDate": "2026-05-29",
+          "reviewDate": "2026-05-30",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I’m so floored I don’t even know how to address what I saw. This recent Keanu adventure I’ve been on may need to pause.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 9886,
+        "posterPath": "/iH8Jgi8qvb7pnBfI8fVGaUbyRna.jpg",
+        "backdropPath": "/7FRYVIF2hnh1IbPtqMgF5iygdjz.jpg",
+        "genres": [
+          "Science Fiction",
+          "Action",
+          "Adventure"
+        ],
+        "runtime": 97,
+        "director": "Robert Longo"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/iH8Jgi8qvb7pnBfI8fVGaUbyRna.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iH8Jgi8qvb7pnBfI8fVGaUbyRna.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1440050",
+      "letterboxdSlug": "the-breadwinner",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-breadwinner-2026/",
+      "title": "The Breadwinner",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-28",
+      "latestWatchedDate": "2026-05-28",
+      "firstReviewDate": "2026-05-30",
+      "latestReviewDate": "2026-05-30",
+      "primaryRating": 1,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1335419856",
+          "watchedDate": "2026-05-28",
+          "reviewDate": "2026-05-30",
+          "rating": 1,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Yikes! Not the weaponized incompetence.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1440050,
+        "posterPath": "/4apG9Xk6HQvV48JKEjSUeiebju7.jpg",
+        "backdropPath": "/epIN71wb1bZBPmPu0EV4z6ce5J8.jpg",
+        "genres": [
+          "Comedy",
+          "Family"
+        ],
+        "runtime": 100,
+        "director": "Eric Appel"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4apG9Xk6HQvV48JKEjSUeiebju7.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4apG9Xk6HQvV48JKEjSUeiebju7.jpg",
+      "ratingSet": [
+        1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1049471",
       "letterboxdSlug": "outcome",
@@ -32972,6 +33061,95 @@
     }
   ],
   "filmById": {
+    "tmdb-9886": {
+      "id": "tmdb-9886",
+      "letterboxdSlug": "johnny-mnemonic",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/johnny-mnemonic/",
+      "title": "Johnny Mnemonic",
+      "releaseYear": 1995,
+      "firstWatchedDate": "2026-05-29",
+      "latestWatchedDate": "2026-05-29",
+      "firstReviewDate": "2026-05-30",
+      "latestReviewDate": "2026-05-30",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1335422769",
+          "watchedDate": "2026-05-29",
+          "reviewDate": "2026-05-30",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I’m so floored I don’t even know how to address what I saw. This recent Keanu adventure I’ve been on may need to pause.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 9886,
+        "posterPath": "/iH8Jgi8qvb7pnBfI8fVGaUbyRna.jpg",
+        "backdropPath": "/7FRYVIF2hnh1IbPtqMgF5iygdjz.jpg",
+        "genres": [
+          "Science Fiction",
+          "Action",
+          "Adventure"
+        ],
+        "runtime": 97,
+        "director": "Robert Longo"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/iH8Jgi8qvb7pnBfI8fVGaUbyRna.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iH8Jgi8qvb7pnBfI8fVGaUbyRna.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1440050": {
+      "id": "tmdb-1440050",
+      "letterboxdSlug": "the-breadwinner",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-breadwinner-2026/",
+      "title": "The Breadwinner",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-28",
+      "latestWatchedDate": "2026-05-28",
+      "firstReviewDate": "2026-05-30",
+      "latestReviewDate": "2026-05-30",
+      "primaryRating": 1,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1335419856",
+          "watchedDate": "2026-05-28",
+          "reviewDate": "2026-05-30",
+          "rating": 1,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Yikes! Not the weaponized incompetence.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1440050,
+        "posterPath": "/4apG9Xk6HQvV48JKEjSUeiebju7.jpg",
+        "backdropPath": "/epIN71wb1bZBPmPu0EV4z6ce5J8.jpg",
+        "genres": [
+          "Comedy",
+          "Family"
+        ],
+        "runtime": 100,
+        "director": "Eric Appel"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4apG9Xk6HQvV48JKEjSUeiebju7.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4apG9Xk6HQvV48JKEjSUeiebju7.jpg",
+      "ratingSet": [
+        1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1049471": {
       "id": "tmdb-1049471",
       "letterboxdSlug": "outcome",
