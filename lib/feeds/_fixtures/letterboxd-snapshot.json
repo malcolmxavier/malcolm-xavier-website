@@ -1,35 +1,35 @@
 {
-  "capturedAt": "2026-05-30T20:00:51.047Z",
+  "capturedAt": "2026-05-31T06:00:14.168Z",
   "summary": {
-    "totalFilms": 760,
-    "totalReviews": 760,
-    "thisYearCount": 119,
+    "totalFilms": 762,
+    "totalReviews": 762,
+    "thisYearCount": 121,
     "ratingDistribution": {
       "1": 36,
-      "2": 120,
+      "2": 121,
       "3": 143,
       "4": 103,
       "5": 16,
+      "3.5": 151,
       "1.5": 33,
-      "3.5": 150,
       "2.5": 101,
       "4.5": 49,
       "0.5": 9
     },
     "genreDistribution": {
-      "Science Fiction": 112,
+      "Comedy": 218,
+      "Music": 49,
+      "Drama": 358,
+      "Horror": 128,
+      "Mystery": 79,
+      "Science Fiction": 113,
       "Action": 114,
       "Adventure": 84,
-      "Comedy": 217,
       "Family": 20,
-      "Drama": 357,
-      "Horror": 127,
       "Thriller": 216,
       "Romance": 88,
       "Crime": 99,
       "Fantasy": 58,
-      "Music": 48,
-      "Mystery": 78,
       "Documentary": 59,
       "Animation": 43,
       "History": 40,
@@ -38,8 +38,8 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "2020s": 571,
       "1990s": 16,
-      "2020s": 569,
       "1980s": 16,
       "2010s": 123,
       "1960s": 1,
@@ -48,6 +48,96 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1284016",
+      "letterboxdSlug": "power-ballad",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/power-ballad/",
+      "title": "Power Ballad",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-30",
+      "latestWatchedDate": "2026-05-30",
+      "firstReviewDate": "2026-05-31",
+      "latestReviewDate": "2026-05-31",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1336151194",
+          "watchedDate": "2026-05-30",
+          "reviewDate": "2026-05-31",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "White people, take “I Wish” off your setlists…you all must think you’re Celine Dion.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1284016,
+        "posterPath": "/lsDLLagSIyTu0Gi06QjVKDp2LI2.jpg",
+        "backdropPath": "/u1c2DAXhpyAwFK8zljcMc4FFEc3.jpg",
+        "genres": [
+          "Comedy",
+          "Music",
+          "Drama"
+        ],
+        "runtime": 98,
+        "director": "John Carney"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/lsDLLagSIyTu0Gi06QjVKDp2LI2.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lsDLLagSIyTu0Gi06QjVKDp2LI2.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1083381",
+      "letterboxdSlug": "backrooms",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/backrooms-2026/",
+      "title": "Backrooms",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-30",
+      "latestWatchedDate": "2026-05-30",
+      "firstReviewDate": "2026-05-31",
+      "latestReviewDate": "2026-05-31",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1336149469",
+          "watchedDate": "2026-05-30",
+          "reviewDate": "2026-05-31",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I simply think we could’ve gotten darker and weirder. But really I think I just yearn for <i>House of Leaves</i>.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1083381,
+        "posterPath": "/vpkNMkbisv5cTaIfCzUduYzXnjb.jpg",
+        "backdropPath": "/oUozq2XHWifwAVOoS1qHU0qfXqM.jpg",
+        "genres": [
+          "Horror",
+          "Mystery",
+          "Science Fiction"
+        ],
+        "runtime": 110,
+        "director": "Kane Parsons"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vpkNMkbisv5cTaIfCzUduYzXnjb.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vpkNMkbisv5cTaIfCzUduYzXnjb.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-9886",
       "letterboxdSlug": "johnny-mnemonic",
@@ -33061,6 +33151,96 @@
     }
   ],
   "filmById": {
+    "tmdb-1284016": {
+      "id": "tmdb-1284016",
+      "letterboxdSlug": "power-ballad",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/power-ballad/",
+      "title": "Power Ballad",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-30",
+      "latestWatchedDate": "2026-05-30",
+      "firstReviewDate": "2026-05-31",
+      "latestReviewDate": "2026-05-31",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1336151194",
+          "watchedDate": "2026-05-30",
+          "reviewDate": "2026-05-31",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "White people, take “I Wish” off your setlists…you all must think you’re Celine Dion.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1284016,
+        "posterPath": "/lsDLLagSIyTu0Gi06QjVKDp2LI2.jpg",
+        "backdropPath": "/u1c2DAXhpyAwFK8zljcMc4FFEc3.jpg",
+        "genres": [
+          "Comedy",
+          "Music",
+          "Drama"
+        ],
+        "runtime": 98,
+        "director": "John Carney"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/lsDLLagSIyTu0Gi06QjVKDp2LI2.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lsDLLagSIyTu0Gi06QjVKDp2LI2.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1083381": {
+      "id": "tmdb-1083381",
+      "letterboxdSlug": "backrooms",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/backrooms-2026/",
+      "title": "Backrooms",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-30",
+      "latestWatchedDate": "2026-05-30",
+      "firstReviewDate": "2026-05-31",
+      "latestReviewDate": "2026-05-31",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1336149469",
+          "watchedDate": "2026-05-30",
+          "reviewDate": "2026-05-31",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I simply think we could’ve gotten darker and weirder. But really I think I just yearn for <i>House of Leaves</i>.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1083381,
+        "posterPath": "/vpkNMkbisv5cTaIfCzUduYzXnjb.jpg",
+        "backdropPath": "/oUozq2XHWifwAVOoS1qHU0qfXqM.jpg",
+        "genres": [
+          "Horror",
+          "Mystery",
+          "Science Fiction"
+        ],
+        "runtime": 110,
+        "director": "Kane Parsons"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vpkNMkbisv5cTaIfCzUduYzXnjb.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vpkNMkbisv5cTaIfCzUduYzXnjb.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-9886": {
       "id": "tmdb-9886",
       "letterboxdSlug": "johnny-mnemonic",
