@@ -1,13 +1,13 @@
 {
-  "capturedAt": "2026-05-31T06:00:14.168Z",
+  "capturedAt": "2026-05-31T08:01:12.392Z",
   "summary": {
-    "totalFilms": 762,
-    "totalReviews": 762,
-    "thisYearCount": 121,
+    "totalFilms": 763,
+    "totalReviews": 763,
+    "thisYearCount": 122,
     "ratingDistribution": {
       "1": 36,
       "2": 121,
-      "3": 143,
+      "3": 144,
       "4": 103,
       "5": 16,
       "3.5": 151,
@@ -17,12 +17,13 @@
       "0.5": 9
     },
     "genreDistribution": {
-      "Comedy": 218,
+      "Comedy": 219,
       "Music": 49,
-      "Drama": 358,
+      "Drama": 359,
       "Horror": 128,
       "Mystery": 79,
       "Science Fiction": 113,
+      "History": 41,
       "Action": 114,
       "Adventure": 84,
       "Family": 20,
@@ -32,13 +33,12 @@
       "Fantasy": 58,
       "Documentary": 59,
       "Animation": 43,
-      "History": 40,
       "TV Movie": 5,
       "War": 16,
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 571,
+      "2020s": 572,
       "1990s": 16,
       "1980s": 16,
       "2010s": 123,
@@ -133,6 +133,51 @@
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vpkNMkbisv5cTaIfCzUduYzXnjb.jpg",
       "ratingSet": [
         3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1016084",
+      "letterboxdSlug": "blackberry",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/blackberry-2023/",
+      "title": "BlackBerry",
+      "releaseYear": 2023,
+      "firstWatchedDate": "2026-05-30",
+      "latestWatchedDate": "2026-05-30",
+      "firstReviewDate": "2026-05-31",
+      "latestReviewDate": "2026-05-31",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1336241652",
+          "watchedDate": "2026-05-30",
+          "reviewDate": "2026-05-31",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I lowkey miss my study abroad Fall 2011 BlackBerry era.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1016084,
+        "posterPath": "/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
+        "backdropPath": "/cUHxmWfkp6se0Rt10Kr86bMCYDE.jpg",
+        "genres": [
+          "Comedy",
+          "Drama",
+          "History"
+        ],
+        "runtime": 120,
+        "director": "Matt Johnson"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
+      "ratingSet": [
+        3
       ],
       "watchedYearSet": [
         2026
@@ -33236,6 +33281,51 @@
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vpkNMkbisv5cTaIfCzUduYzXnjb.jpg",
       "ratingSet": [
         3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1016084": {
+      "id": "tmdb-1016084",
+      "letterboxdSlug": "blackberry",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/blackberry-2023/",
+      "title": "BlackBerry",
+      "releaseYear": 2023,
+      "firstWatchedDate": "2026-05-30",
+      "latestWatchedDate": "2026-05-30",
+      "firstReviewDate": "2026-05-31",
+      "latestReviewDate": "2026-05-31",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1336241652",
+          "watchedDate": "2026-05-30",
+          "reviewDate": "2026-05-31",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I lowkey miss my study abroad Fall 2011 BlackBerry era.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1016084,
+        "posterPath": "/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
+        "backdropPath": "/cUHxmWfkp6se0Rt10Kr86bMCYDE.jpg",
+        "genres": [
+          "Comedy",
+          "Drama",
+          "History"
+        ],
+        "runtime": 120,
+        "director": "Matt Johnson"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
+      "ratingSet": [
+        3
       ],
       "watchedYearSet": [
         2026
