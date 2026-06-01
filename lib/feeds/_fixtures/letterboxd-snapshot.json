@@ -1,12 +1,12 @@
 {
-  "capturedAt": "2026-06-01T05:00:40.637Z",
+  "capturedAt": "2026-06-01T07:00:49.140Z",
   "summary": {
-    "totalFilms": 764,
-    "totalReviews": 764,
-    "thisYearCount": 123,
+    "totalFilms": 765,
+    "totalReviews": 765,
+    "thisYearCount": 124,
     "ratingDistribution": {
       "1": 37,
-      "2": 121,
+      "2": 122,
       "3": 144,
       "4": 103,
       "5": 16,
@@ -19,8 +19,9 @@
     "genreDistribution": {
       "Comedy": 220,
       "Fantasy": 59,
+      "Thriller": 217,
+      "Drama": 360,
       "Music": 49,
-      "Drama": 359,
       "Horror": 128,
       "Mystery": 79,
       "Science Fiction": 113,
@@ -28,7 +29,6 @@
       "Action": 114,
       "Adventure": 84,
       "Family": 20,
-      "Thriller": 216,
       "Romance": 88,
       "Crime": 99,
       "Documentary": 59,
@@ -39,9 +39,9 @@
     },
     "decadeDistribution": {
       "2020s": 573,
+      "2010s": 124,
       "1990s": 16,
       "1980s": 16,
-      "2010s": 123,
       "1960s": 1,
       "1970s": 4,
       "2000s": 31
@@ -87,6 +87,50 @@
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kjR56Yv17pbjTVBTMjqepvcus4f.jpg",
       "ratingSet": [
         1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-303858",
+      "letterboxdSlug": "money-monster",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/money-monster/",
+      "title": "Money Monster",
+      "releaseYear": 2016,
+      "firstWatchedDate": "2026-05-31",
+      "latestWatchedDate": "2026-05-31",
+      "firstReviewDate": "2026-06-01",
+      "latestReviewDate": "2026-06-01",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1337829941",
+          "watchedDate": "2026-05-31",
+          "reviewDate": "2026-06-01",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "We have better versions of this narrative niche. Sorry, Jodie—I love you!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 303858,
+        "posterPath": "/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+        "backdropPath": "/ct5kjqyBwzH6OSxuOIluChs3FFN.jpg",
+        "genres": [
+          "Thriller",
+          "Drama"
+        ],
+        "runtime": 99,
+        "director": "Jodie Foster"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+      "ratingSet": [
+        2
       ],
       "watchedYearSet": [
         2026
@@ -33279,6 +33323,50 @@
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kjR56Yv17pbjTVBTMjqepvcus4f.jpg",
       "ratingSet": [
         1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-303858": {
+      "id": "tmdb-303858",
+      "letterboxdSlug": "money-monster",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/money-monster/",
+      "title": "Money Monster",
+      "releaseYear": 2016,
+      "firstWatchedDate": "2026-05-31",
+      "latestWatchedDate": "2026-05-31",
+      "firstReviewDate": "2026-06-01",
+      "latestReviewDate": "2026-06-01",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1337829941",
+          "watchedDate": "2026-05-31",
+          "reviewDate": "2026-06-01",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "We have better versions of this narrative niche. Sorry, Jodie—I love you!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 303858,
+        "posterPath": "/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+        "backdropPath": "/ct5kjqyBwzH6OSxuOIluChs3FFN.jpg",
+        "genres": [
+          "Thriller",
+          "Drama"
+        ],
+        "runtime": 99,
+        "director": "Jodie Foster"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+      "ratingSet": [
+        2
       ],
       "watchedYearSet": [
         2026
