@@ -1,11 +1,11 @@
 {
-  "capturedAt": "2026-05-31T08:01:12.392Z",
+  "capturedAt": "2026-06-01T05:00:40.637Z",
   "summary": {
-    "totalFilms": 763,
-    "totalReviews": 763,
-    "thisYearCount": 122,
+    "totalFilms": 764,
+    "totalReviews": 764,
+    "thisYearCount": 123,
     "ratingDistribution": {
-      "1": 36,
+      "1": 37,
       "2": 121,
       "3": 144,
       "4": 103,
@@ -17,7 +17,8 @@
       "0.5": 9
     },
     "genreDistribution": {
-      "Comedy": 219,
+      "Comedy": 220,
+      "Fantasy": 59,
       "Music": 49,
       "Drama": 359,
       "Horror": 128,
@@ -30,7 +31,6 @@
       "Thriller": 216,
       "Romance": 88,
       "Crime": 99,
-      "Fantasy": 58,
       "Documentary": 59,
       "Animation": 43,
       "TV Movie": 5,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 572,
+      "2020s": 573,
       "1990s": 16,
       "1980s": 16,
       "2010s": 123,
@@ -48,6 +48,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1368881",
+      "letterboxdSlug": "ladies-first",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/ladies-first-2026/",
+      "title": "Ladies First",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-31",
+      "latestWatchedDate": "2026-05-31",
+      "firstReviewDate": "2026-06-01",
+      "latestReviewDate": "2026-06-01",
+      "primaryRating": 1,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1337740660",
+          "watchedDate": "2026-05-31",
+          "reviewDate": "2026-06-01",
+          "rating": 1,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "A mess of a Guinness ad…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1368881,
+        "posterPath": "/kjR56Yv17pbjTVBTMjqepvcus4f.jpg",
+        "backdropPath": "/bOy625BjpCskOWnx3tD09MsKVCb.jpg",
+        "genres": [
+          "Comedy",
+          "Fantasy"
+        ],
+        "runtime": 94,
+        "director": "Thea Sharrock"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kjR56Yv17pbjTVBTMjqepvcus4f.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kjR56Yv17pbjTVBTMjqepvcus4f.jpg",
+      "ratingSet": [
+        1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1284016",
       "letterboxdSlug": "power-ballad",
@@ -33196,6 +33240,50 @@
     }
   ],
   "filmById": {
+    "tmdb-1368881": {
+      "id": "tmdb-1368881",
+      "letterboxdSlug": "ladies-first",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/ladies-first-2026/",
+      "title": "Ladies First",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-05-31",
+      "latestWatchedDate": "2026-05-31",
+      "firstReviewDate": "2026-06-01",
+      "latestReviewDate": "2026-06-01",
+      "primaryRating": 1,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1337740660",
+          "watchedDate": "2026-05-31",
+          "reviewDate": "2026-06-01",
+          "rating": 1,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "A mess of a Guinness ad…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1368881,
+        "posterPath": "/kjR56Yv17pbjTVBTMjqepvcus4f.jpg",
+        "backdropPath": "/bOy625BjpCskOWnx3tD09MsKVCb.jpg",
+        "genres": [
+          "Comedy",
+          "Fantasy"
+        ],
+        "runtime": 94,
+        "director": "Thea Sharrock"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kjR56Yv17pbjTVBTMjqepvcus4f.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kjR56Yv17pbjTVBTMjqepvcus4f.jpg",
+      "ratingSet": [
+        1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1284016": {
       "id": "tmdb-1284016",
       "letterboxdSlug": "power-ballad",
