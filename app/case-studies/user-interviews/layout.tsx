@@ -7,6 +7,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SITE_URL } from "@/lib/site-config";
+import { BUILD_TIMESTAMP } from "@/lib/build-meta";
 import { getCaseStudyAccent } from "@/app/resume/resume-data";
 import "@/components/case-study/case-glass.css";
 
@@ -50,7 +51,9 @@ const ROLE_END = "2022-02";
 // deployed that afternoon); the earlier "2026-05-14" was a draft-time
 // placeholder set while authoring locally.
 const PUBLISHED = "2026-05-16T22:00:00-07:00";
-const MODIFIED = "2026-05-16T22:00:00-07:00";
+// MODIFIED is the build timestamp — frozen at module load, refreshed
+// every deploy. See lib/build-meta.ts for the rationale.
+const MODIFIED = BUILD_TIMESTAMP;
 
 const ARTICLE_URL = `${SITE_URL}/case-studies/${SLUG}`;
 const ARTICLE_HEADLINE = `${TITLE}—Case Study`;
@@ -64,7 +67,11 @@ const ARTICLE_HEADLINE = `${TITLE}—Case Study`;
 // and is the right schema for Perplexity / ChatGPT search citation.
 
 export const metadata: Metadata = {
-  title: `${TITLE}—Case Study`,
+  // metadata.title drops the `—Case Study` suffix so the root layout's
+  // `—Malcolm Xavier` template append doesn't push the SERP title past
+  // Google's ~60 char ceiling. The JSON-LD `headline` field below keeps
+  // the full `${TITLE}—Case Study` form (no length constraint there).
+  title: TITLE,
   description: DESCRIPTION,
   alternates: {
     canonical: `/case-studies/${SLUG}`,
@@ -134,6 +141,7 @@ const ARTICLE_SCHEMA = {
       author: {
         "@type": "Person",
         "@id": `${SITE_URL}/#person`,
+        name: "Malcolm Xavier",
         affiliation: {
           "@type": "OrganizationRole",
           roleName: ROLE_TITLE,
@@ -146,7 +154,13 @@ const ARTICLE_SCHEMA = {
           },
         },
       },
-      publisher: { "@id": `${SITE_URL}/#person` },
+      // Publisher is the person, without role context — affiliation
+      // belongs on the author entity (the byline), not the publisher.
+      publisher: {
+        "@type": "Person",
+        "@id": `${SITE_URL}/#person`,
+        name: "Malcolm Xavier",
+      },
       mainEntityOfPage: ARTICLE_URL,
     },
     {

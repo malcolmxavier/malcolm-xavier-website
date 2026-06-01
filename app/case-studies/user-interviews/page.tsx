@@ -16,6 +16,7 @@ import type { TocItem } from "@/components/chrome/TableOfContents";
 import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
+import { CaseStudyNav } from "@/components/case-study/CaseStudyNav";
 import {
   Beat,
   BeatSeparator,
@@ -59,14 +60,17 @@ const TOC_ITEMS: TocItem[] = [
   // building-this-site. The earlier #top anchor on the <article>
   // wrapper landed scroll-spy on the article container rather than
   // the hero section itself.
+  // Labels are value claims, not method nouns — see
+  // pi-c-toc-method-nouns in the 2026-05-30 /full-review tracker.
+  // Section anchors unchanged so deep links still resolve.
   { href: "#intro", label: "↑ Top" },
-  { href: "#context", prefix: "01", label: "Context" },
-  { href: "#opportunity", prefix: "02", label: "Opportunity" },
-  { href: "#discovery", prefix: "03", label: "Discovery" },
-  { href: "#strategy", prefix: "04", label: "Strategy" },
-  { href: "#execution", prefix: "05", label: "Execution" },
-  { href: "#outcomes", prefix: "06", label: "Outcomes" },
-  { href: "#reflection", prefix: "07", label: "Reflection" },
+  { href: "#context", prefix: "01", label: "Early marketplace" },
+  { href: "#opportunity", prefix: "02", label: "EQR as the lever" },
+  { href: "#discovery", prefix: "03", label: "Two-sided demand" },
+  { href: "#strategy", prefix: "04", label: "Pre-qualify the funnel" },
+  { href: "#execution", prefix: "05", label: "Shipping cadence" },
+  { href: "#outcomes", prefix: "06", label: "+15% / +135%" },
+  { href: "#reflection", prefix: "07", label: "Engineer the indicator" },
 ];
 
 // ─── Page ─────────────────────────────────────────────────────────
@@ -105,6 +109,7 @@ export default function UserInterviewsCaseStudy() {
           <BeatOutcomes />
           <BeatSeparator />
           <BeatReflection />
+          <CaseStudyNav currentSlug={SLUG} />
         </article>
       </div>
     </>
@@ -137,7 +142,7 @@ function Hero() {
       <span style={{ display: "block", marginBottom: "var(--scale-300)", fontSize: "var(--p-xs-font-size)", color: "var(--text-caption)", fontFamily: "var(--font-mono)" }}>
         <TrackOnClick
           event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
-          eventData={{ surface: "case-study-user-interviews-hero-kicker", direction: "to-resume" }}
+          eventData={{ surface: "case-study-user-interviews-hero-kicker", destination: "resume" }}
         >
           <Link href={ROLE_BACKLINK_HREF} quiet>{ROLE_BACKLINK_LABEL}</Link>
         </TrackOnClick>
@@ -539,20 +544,31 @@ function BeatReflection() {
           side was loudest in a given week. Picking the right metric
           is product work, not analytics work, and an embedded
           data-science function is the easiest way to make that
-          judgment accurately. The re-recruitment side story is the
+          judgment accurately. At{" "}
+          <TrackOnClick
+            event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
+            eventData={{ surface: "case-study-user-interviews-body", destination: "case-study:people-inc" }}
+          >
+            <Link href="/case-studies/people-inc">People Inc.</Link>
+          </TrackOnClick>
+          , the same instinct meant stewarding a multi-year identity
+          roadmap one program launch at a time, each launch a proof
+          point for the bet and a vehicle for the next increment of
+          executive buy-in. The re-recruitment side story is the
           same lesson at smaller scale&mdash;a fragile hypothesis,
           a few discovery sessions, and a month of work outperformed
           several quarters of people not prioritizing investigation
           of a solution on the assumption that it would be complex.
         </p>
         {/* Case-study close — exit ramp for the highest-intent reader.
-            Hands off to the recruiter funnel directly: resume +
-            Calendly. Work-case-study reframe ("PM work you're
-            hiring for") instead of basecamp/building-this-site's
-            generic "if this resonated" — the audience here is
-            recruiters evaluating fit, not readers evaluating a
-            piece of writing. Closes ui-c-exit-ramp and
-            ui-c-activation from the 2026-05-16 /full-review. */}
+            Resume primary, Calendly secondary (caption register).
+            Work-case-study reframe ("PM work you're hiring for")
+            instead of basecamp/building-this-site's generic "if
+            this resonated" — the audience here is recruiters
+            evaluating fit, not readers evaluating a piece of
+            writing. A recruiter reading just this case study
+            doesn't yet have enough context to commit to a call; the
+            resume is the next logical step in the funnel. */}
         <p>
           Two next steps, if this is the kind of PM work
           you&apos;re hiring for:{" "}
@@ -560,14 +576,18 @@ function BeatReflection() {
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{ surface: "case-study-user-interviews-close", destination: "resume" }}
           >
-            <Link href="/resume">Review my resume <span aria-hidden="true">&rarr;</span></Link>
-          </TrackOnClick>{" "}or{" "}
+            <Link href="/resume">review my resume <span aria-hidden="true">&rarr;</span></Link>
+          </TrackOnClick>
+          .
+        </p>
+        <p className="text-[15px] text-[var(--text-caption)]">
+          Or, if you&apos;re ready to talk,{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-user-interviews-close" }}
           >
             <Link href={CONTACT.calendly}>
-              Book a 30-min product chat <span aria-hidden="true">&#8599;</span>
+              book a 30-min product chat <span aria-hidden="true">&#8599;</span>
             </Link>
           </TrackOnClick>
           .

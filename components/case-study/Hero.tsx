@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────
 // CaseStudyHero — the article opener. Mono kicker + dateline row,
-// editorial display H1, body H2, italic intro lede.
+// editorial display H1, subtitle paragraph, italic intro lede.
 //
 // Usage:
 //
@@ -103,9 +103,15 @@ export function CaseStudyHero({
       <h1 className="m-0 mb-3 md:mb-4 text-[54px] md:text-[72px] lg:text-[84px] leading-none tracking-[-0.035em] text-[var(--text-heading)]">
         {title}
       </h1>
-      <h2 className="m-0 mb-6 md:mb-8 text-[24px] md:text-[32px] lg:text-[36px] leading-[1.15] tracking-[-0.015em] text-[var(--text-caption)]">
+      {/* The subtitle is editorial chrome — visually a subheading, but
+          semantically a tagline beneath the title, NOT a section
+          heading. Rendering it as a <p> keeps the document outline
+          clean: one <h1> per page (the title), and the case-study
+          beats below own all the <h2>s. The visual treatment is
+          unchanged. */}
+      <p className="m-0 mb-6 md:mb-8 text-[24px] md:text-[32px] lg:text-[36px] leading-[1.15] tracking-[-0.015em] text-[var(--text-caption)]">
         {subtitle}
-      </h2>
+      </p>
       {/* div, not p — case studies (e.g. muck-rack) embed block-level
           elements like the resume-backlink kicker inside this lede.
           A <p> wrapper would split the accessibility tree at any

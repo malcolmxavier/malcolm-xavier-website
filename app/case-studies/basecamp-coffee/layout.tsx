@@ -18,6 +18,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SITE_URL } from "@/lib/site-config";
+import { BUILD_TIMESTAMP } from "@/lib/build-meta";
 // Glass-card chrome lives in a shared location now (see
 // components/case-study/case-glass.css). The previous local
 // case-study.css had been deleted; this layout opts into the glass
@@ -51,7 +52,7 @@ export const metadata: Metadata = {
     siteName: "Malcolm Xavier",
     locale: "en_US",
     publishedTime: "2026-04-26",
-    modifiedTime: "2026-04-29",
+    modifiedTime: BUILD_TIMESTAMP,
     authors: ["Malcolm Xavier"],
     images: [
       {
@@ -98,11 +99,22 @@ const ARTICLE_SCHEMA = {
       },
       url: ARTICLE_URL,
       datePublished: "2026-04-26T12:00:00-07:00",
-      dateModified: "2026-05-16T12:00:00-07:00",
+      dateModified: BUILD_TIMESTAMP,
       inLanguage: "en-US",
       articleSection: "Case Study",
-      author: { "@id": `${SITE_URL}/#person` },
-      publisher: { "@id": `${SITE_URL}/#person` },
+      // `"@type": "Person"` and `name` are re-asserted inline so Rich
+      // Results validators resolve the entity even when they don't
+      // follow `@id` across separate <script> blocks.
+      author: {
+        "@type": "Person",
+        "@id": `${SITE_URL}/#person`,
+        name: "Malcolm Xavier",
+      },
+      publisher: {
+        "@type": "Person",
+        "@id": `${SITE_URL}/#person`,
+        name: "Malcolm Xavier",
+      },
       mainEntityOfPage: ARTICLE_URL,
     },
     {

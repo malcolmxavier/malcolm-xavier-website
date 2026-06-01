@@ -74,14 +74,20 @@ export function CaseStudyTocRail({
           below; pointer-events-auto on the sticky child restores
           clicks where the actual TOC content lives.
 
-          aria-label on the <aside> is defensive: in practice CSS
-          `hidden` removes one of the two asides from the a11y tree
-          at any given viewport, so AT only ever sees one landmark.
-          But if a user stylesheet or future CSS change exposes both,
-          the label disambiguates the duplicate landmarks. */}
+          No aria-label on the <aside> wrappers. The inner
+          <TableOfContents> renders a <nav aria-label={ariaLabel}>
+          that carries the landmark name. Previously the asides
+          also passed aria-label as a defensive fallback against
+          both asides being simultaneously exposed by a stylesheet
+          override, but the cost was duplicate landmarks with
+          identical labels showing up in JAWS/NVDA landmark lists
+          ("Article sections (complementary)" + "Article sections
+          (navigation)" back-to-back, which reads as confusing
+          rather than disambiguating). The complementary role on
+          <aside> is self-describing when it wraps a labelled
+          <nav>; the label only needs to live on the nav itself. */}
       <aside
         className="hidden xl:block absolute top-0 bottom-8 left-0 w-[180px] 2xl:w-[220px] z-30 pointer-events-none"
-        aria-label={ariaLabel}
       >
         <div className="sticky top-32 ml-4 2xl:ml-8 pointer-events-auto">
           <TableOfContents items={items} ariaLabel={ariaLabel} activeId={activeId} />
@@ -92,7 +98,7 @@ export function CaseStudyTocRail({
           the parent grid column is naturally bounded by the column's
           height = the article's height. No special handling needed —
           this variant already clamped correctly before. */}
-      <aside className="hidden lg:block xl:hidden" aria-label={ariaLabel}>
+      <aside className="hidden lg:block xl:hidden">
         <div className="sticky top-24 pl-4">
           <TableOfContents items={items} ariaLabel={ariaLabel} activeId={activeId} />
         </div>

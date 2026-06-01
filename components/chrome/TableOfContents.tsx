@@ -121,7 +121,7 @@ export function TableOfContents({
                 onClick={(e) => handleClick(e, item.href)}
                 className="toc-item"
                 data-active={isActive ? "true" : undefined}
-                aria-current={isActive ? "true" : undefined}
+                aria-current={isActive ? "location" : undefined}
                 aria-label={
                   item.ariaLabel ??
                   (item.label.startsWith("↑") ? "Back to top" : undefined)

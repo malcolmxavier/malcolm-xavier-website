@@ -41,6 +41,7 @@ import type { TocItem } from "@/components/chrome/TableOfContents";
 import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
+import { CaseStudyNav } from "@/components/case-study/CaseStudyNav";
 import {
   Beat,
   BeatSeparator,
@@ -114,6 +115,7 @@ export default function BuildingThisSiteCaseStudy() {
           <BeatReview />
           <BeatSeparator />
           <BeatLive />
+          <CaseStudyNav currentSlug="building-this-site" />
         </article>
       </div>
     </>
@@ -579,10 +581,15 @@ function BeatButton() {
         </p>
         <p>
           As I duplicated{" "}
-          <Link href="/case-studies/basecamp-coffee">
-            the Basecamp Coffee case study
-          </Link>{" "}
-          onto this site, the same class of bug returned. A
+          <TrackOnClick
+            event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
+            eventData={{ surface: "case-study-building-this-site-body", destination: "case-study:basecamp-coffee" }}
+          >
+            <Link href="/case-studies/basecamp-coffee">
+              the Basecamp Coffee case study
+            </Link>
+          </TrackOnClick>
+          {" "}onto this site, the same class of bug returned. A
           scroll-progress
           bar—conceptually a 50-line change—took{" "}
           <Emph>15 commits and an evening</Emph>. Same shape: a value
@@ -1237,20 +1244,29 @@ function BeatLive() {
           </TrackOnClick>
           .
         </p>
+        {/* Resume primary, Calendly secondary (caption register).
+            A reader of just this case study doesn't yet have enough
+            context to commit to a call; resume is the next logical
+            step in the funnel. Same shape across all 5 work- and
+            project-case-study closes. */}
         <p>
           Two next steps, if this resonated:{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{ surface: "case-study-meta-close", destination: "resume" }}
           >
-            <Link href="/resume">Review my resume <span aria-hidden="true">&rarr;</span></Link>
-          </TrackOnClick>{" "}or{" "}
+            <Link href="/resume">review my resume <span aria-hidden="true">&rarr;</span></Link>
+          </TrackOnClick>
+          .
+        </p>
+        <p className="text-[15px] text-[var(--text-caption)]">
+          Or, if you&apos;re ready to talk,{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-meta-close" }}
           >
             <Link href={CONTACT.calendly}>
-              Book a 30-min product chat <span aria-hidden="true">&#8599;</span>
+              book a 30-min product chat <span aria-hidden="true">&#8599;</span>
             </Link>
           </TrackOnClick>
           .

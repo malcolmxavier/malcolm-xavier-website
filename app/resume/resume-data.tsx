@@ -114,6 +114,16 @@ export type ResumeCaseStudy = {
    * "From my time at <Employer>" backlink under the hero.
    */
   employer?: string;
+  /**
+   * Optional short preview line used by CaseStudyNav (the bottom-of-
+   * article newer/older cards). The main `description` is sized for
+   * the /case-studies index and /resume carousel; the nav card sits
+   * in a half-width column where the longer descriptions truncate
+   * with an ellipsis. Keep navPreview to ~80–95 chars so it fits on
+   * two lines without clipping. Falls back to `description` when
+   * omitted, so this stays optional and per-study.
+   */
+  navPreview?: string;
 };
 
 // ─── Header / contact ──────────────────────────────────────────────
@@ -172,6 +182,7 @@ export const ROLES: ResumeRole[] = [
       <>Enabled onsite transactions to <strong>increase print subscription revenue 115% YoY</strong></>,
       "Concurrently developed LLM prompt engineering and RAG workflow expertise (see freelance Prompt Engineer role, below)",
     ],
+    relatedCaseStudies: ["people-inc"],
   },
   {
     company: "Freelance",
@@ -341,6 +352,8 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     title: "Basecamp Coffee—Find your ritual",
     description:
       "An interactive coffee-personality quiz exploring product discovery, conversational UX, and lightweight personalization for a fictional specialty roaster. Built end-to-end with Claude Code, Next.js, and Vercel.",
+    navPreview:
+      "Growth PM artifact: coffee-personality quiz built end-to-end with Claude Code.",
     href: "/case-studies/basecamp-coffee",
     publishedAt: "2026-04-26",
     liveHref: "https://quiz-project-flax-beta.vercel.app/",
@@ -355,6 +368,8 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     // l-resume-meta-no-livehref from the 2026-04-29 /full-review.
     description:
       "A meta case study on shipping this portfolio with Claude Code as build partner. Architecture bets, production incidents, and what AI-native PM work looks like when the human stays in the loop. The live artifact is this site.",
+    navPreview:
+      "The meta case study: shipping this portfolio in seven days with Claude Code.",
     href: "/case-studies/building-this-site",
     publishedAt: "2026-04-29",
   },
@@ -366,6 +381,8 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     // changes elsewhere.
     description:
       "One architectural rule that keeps three integrations online when their upstreams break. Polite-client posture for the one with no API, TMDB enrichment for two. Sequel to Building this site.",
+    navPreview:
+      "One rendering contract, three completely different upstreams. Stay online when they break.",
     href: "/case-studies/architecture-under-contract",
     publishedAt: "2026-05-12",
   },
@@ -374,6 +391,8 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     title: "Steering leading indicators",
     description:
       "How occupational targeting lifted Early Qualification Rate 15% at User Interviews—a leading-indicator bet on a two-sided UXR marketplace.",
+    navPreview:
+      "EQR +15%, re-recruitment +135%. A leading-indicator bet on a two-sided UXR marketplace.",
     href: "/case-studies/user-interviews",
     publishedAt: "2026-05-14",
     employer: "User Interviews",
@@ -383,9 +402,22 @@ export const CASE_STUDIES: ResumeCaseStudy[] = [
     title: "Data platforms: quality over quantity",
     description:
       "Quality was the lever; quantity was the language. Reframing timeliness, accuracy, and connectivity into the volume metric a sales-led org renewed on lifted average daily ingestion 350% YoY at Muck Rack.",
+    navPreview:
+      "Quality was the lever; quantity was the language. 350% YoY ingestion at Muck Rack.",
     href: "/case-studies/muck-rack",
     publishedAt: "2026-05-18",
     employer: "Muck Rack",
+  },
+  {
+    slug: "people-inc",
+    title: "Infrastructure enables personalization",
+    description:
+      "Personalization was the strategy; identity was the missing layer. Reshaping a newsletter-migration mandate into a multi-year identity, registration, and onboarding roadmap drove 33% YoY email revenue across People Inc.'s 40+ brand network.",
+    navPreview:
+      "Multi-year identity roadmap at People Inc.'s 40+ brand network. 33% YoY email revenue.",
+    href: "/case-studies/people-inc",
+    publishedAt: "2026-05-23",
+    employer: "People Inc.",
   },
 ];
 

@@ -898,11 +898,16 @@ a.link-accent-pink,
    up because the Code primitive applies the class directly; future
    surfaces (MDX blog, etc.) can use the same class. */
 
-code.code-chip {
+/* Generic selector (was `code.code-chip`) so pre blocks and other
+   code-styled surfaces can pick up the same calibration. Previously
+   the inline `color-mix(..., 5%, transparent)` on the Beat 04 tier
+   pre blocks was near-invisible in dark mode; this class bumps to
+   14% / 26% so pre blocks read as actual code surfaces. */
+.code-chip {
   background: color-mix(in oklab, var(--text-body) 14%, transparent);
 }
 
-[data-theme="dark"] code.code-chip {
+[data-theme="dark"] .code-chip {
   background: color-mix(in oklab, var(--text-body) 26%, transparent);
 }
 
