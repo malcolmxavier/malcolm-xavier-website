@@ -20,6 +20,7 @@ import type { TocItem } from "@/components/chrome/TableOfContents";
 import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
+import { CaseStudyNav } from "@/components/case-study/CaseStudyNav";
 import {
   Beat,
   BeatSeparator,
@@ -99,6 +100,7 @@ export default function FeedTrilogyCaseStudy() {
           <BeatAutomatedEditorial />
           <BeatSeparator />
           <BeatLive />
+          <CaseStudyNav currentSlug="architecture-under-contract" />
         </article>
       </div>
     </>

@@ -22,6 +22,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SITE_URL } from "@/lib/site-config";
+import { BUILD_TIMESTAMP } from "@/lib/build-meta";
 
 const ARTICLE_URL = `${SITE_URL}/case-studies/architecture-under-contract`;
 const ARTICLE_HEADLINE = "Architecture under contract—Case Study";
@@ -42,7 +43,7 @@ export const metadata: Metadata = {
     siteName: "Malcolm Xavier",
     locale: "en_US",
     publishedTime: "2026-05-12",
-    modifiedTime: "2026-05-12",
+    modifiedTime: BUILD_TIMESTAMP,
     authors: ["Malcolm Xavier"],
     // No explicit `images` array — the App Router file convention
     // resolves `opengraph-image.tsx` at this route segment to the
@@ -88,11 +89,22 @@ const ARTICLE_SCHEMA = {
       },
       url: ARTICLE_URL,
       datePublished: "2026-05-12T12:00:00-07:00",
-      dateModified: "2026-05-16T12:00:00-07:00",
+      dateModified: BUILD_TIMESTAMP,
       inLanguage: "en-US",
       articleSection: "Case Study",
-      author: { "@id": `${SITE_URL}/#person` },
-      publisher: { "@id": `${SITE_URL}/#person` },
+      // `"@type": "Person"` and `name` are re-asserted inline so Rich
+      // Results validators resolve the entity even when they don't
+      // follow `@id` across separate <script> blocks.
+      author: {
+        "@type": "Person",
+        "@id": `${SITE_URL}/#person`,
+        name: "Malcolm Xavier",
+      },
+      publisher: {
+        "@type": "Person",
+        "@id": `${SITE_URL}/#person`,
+        name: "Malcolm Xavier",
+      },
       mainEntityOfPage: ARTICLE_URL,
     },
     {

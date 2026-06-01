@@ -26,6 +26,7 @@ import type { TocItem } from "@/components/chrome/TableOfContents";
 import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
+import { CaseStudyNav } from "@/components/case-study/CaseStudyNav";
 import {
   Beat,
   BeatSeparator,
@@ -122,6 +123,7 @@ export default function BasecampCoffeeCaseStudy() {
         <BeatArtifact />
         <BeatSeparator />
         <BeatHowBuilt />
+        <CaseStudyNav currentSlug="basecamp-coffee" />
       </article>
       </div>
     </>
@@ -579,25 +581,39 @@ function BeatHowBuilt() {
         <p>
           For a deeper dive into how this case study ended up on this
           site, check out{" "}
-          <Link href="/case-studies/building-this-site">
-            Building this site &rarr;
-          </Link>
+          <TrackOnClick
+            event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
+            eventData={{ surface: "case-study-basecamp-coffee-body", destination: "case-study:building-this-site" }}
+          >
+            <Link href="/case-studies/building-this-site">
+              Building this site &rarr;
+            </Link>
+          </TrackOnClick>
           .
         </p>
+        {/* Resume primary, Calendly secondary (caption register).
+            A reader of just this case study doesn't yet have enough
+            context to commit to a call; resume is the next logical
+            step in the funnel. Same shape across all 5 work- and
+            project-case-study closes. */}
         <p>
           Two next steps, if this resonated:{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{ surface: "case-study-basecamp-close", destination: "resume" }}
           >
-            <Link href="/resume">Review my resume <span aria-hidden="true">&rarr;</span></Link>
-          </TrackOnClick>{" "}or{" "}
+            <Link href="/resume">review my resume <span aria-hidden="true">&rarr;</span></Link>
+          </TrackOnClick>
+          .
+        </p>
+        <p className="text-[15px] text-[var(--text-caption)]">
+          Or, if you&apos;re ready to talk,{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-basecamp-close" }}
           >
             <Link href={CONTACT.calendly}>
-              Book a 30-min product chat <span aria-hidden="true">&#8599;</span>
+              book a 30-min product chat <span aria-hidden="true">&#8599;</span>
             </Link>
           </TrackOnClick>
           .

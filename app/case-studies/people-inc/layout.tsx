@@ -1,4 +1,4 @@
-// /case-studies/muck-rack — work-experience case-study layout.
+// /case-studies/people-inc — work-experience case-study layout.
 // Metadata + JSON-LD (Article + BreadcrumbList). The recruiter-cluster
 // brand (Instrument Serif + DM Sans + Roboto Mono, semantic tokens)
 // comes from the root layout, so this layout is metadata-only except
@@ -12,43 +12,43 @@ import { BUILD_TIMESTAMP } from "@/lib/build-meta";
 import { getCaseStudyAccent } from "@/app/resume/resume-data";
 import "@/components/case-study/case-glass.css";
 
-const SLUG = "muck-rack";
-// Resolved at module load. Muck Rack's role carries `accent: "blue"`,
-// so this resolves to "blue" and the layout wrapper below tints the
+const SLUG = "people-inc";
+// Resolved at module load. People Inc.'s role carries `accent: "yellow"`,
+// so this resolves to "yellow" and the layout wrapper below tints the
 // chrome (TOC active rail, progress bar, Hero accent, in-body links)
-// to Muck Rack's brand color. See app/components.css for the
+// to People Inc.'s brand color. See app/components.css for the
 // --cs-accent-* tokens this attribute hooks into.
 const ACCENT = getCaseStudyAccent(SLUG);
-const TITLE = "Data platforms: quality over quantity";
+const TITLE = "Infrastructure enables personalization";
 // Social-card title is intentionally different from the on-page H1
 // and SERP title. The editorial title wins on the page where the
 // reader has context; the social card needs to win in a feed where
 // the recipient has none — so the unfurl leads with a searchable
 // phrase + employer rather than the conceptual title alone. Mirrors
-// the User Interviews study's split approach (editorial title in
-// SERP, searchable phrase in social card).
+// the User Interviews and Muck Rack studies' split approach.
 const SOCIAL_TITLE =
-  "Decomposing the ingestion monolith at Muck Rack";
+  "Operationalizing personalization at People Inc.";
 const DESCRIPTION =
-  "How decomposing a content ingestion ETL monolith into microservices lifted daily ingestion 350% YoY at Muck Rack—a platform PM quality-over-quantity bet.";
-const EMPLOYER = "Muck Rack";
-const EMPLOYER_URL = "https://muckrack.com";
+  "How a newsletter-migration mandate became a multi-year identity and onboarding roadmap—driving 33% YoY email revenue growth across People Inc.'s 40+ brands.";
+const EMPLOYER = "People Inc.";
+const EMPLOYER_URL = "https://people.inc";
 // Role period covered by the case study. These dates are the
 // startDate/endDate on the OrganizationRole below — they tell
 // Schema.org parsers that the author was affiliated with the
 // EMPLOYER during this window, not currently. Mirrors the
-// `dates: "Sep 2022 – Feb 2024"` on the matching role in
+// `dates: "Feb 2024 – Oct 2025"` on the matching role in
 // app/resume/resume-data.tsx; keep in sync if either side moves.
-const ROLE_TITLE = "Technical Product Manager, Content and Data Ingestion";
-const ROLE_START = "2022-09";
-const ROLE_END = "2024-02";
+const ROLE_TITLE = "Senior Product Manager, Audience Relationships";
+const ROLE_START = "2024-02";
+const ROLE_END = "2025-10";
 // ISO 8601 with timezone. Google's Rich Results validator flags
 // date-only values on Article datePublished/dateModified as "missing
 // a timezone" — append T<time>-07:00 (Pacific) or +00:00 (UTC).
-// Real publish date is 2026-05-18 (case study authored today).
-const PUBLISHED = "2026-05-18T12:00:00-07:00";
+// Real publish date is 2026-05-23.
+const PUBLISHED = "2026-05-23T12:00:00-07:00";
 // MODIFIED is the build timestamp — frozen at module load, refreshed
-// every deploy. See lib/build-meta.ts for the rationale.
+// every deploy. Signals "re-crawl me" to Google after any edit. See
+// lib/build-meta.ts for the rationale.
 const MODIFIED = BUILD_TIMESTAMP;
 
 const ARTICLE_URL = `${SITE_URL}/case-studies/${SLUG}`;
@@ -87,7 +87,7 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+        alt: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
       },
     ],
   },
@@ -125,7 +125,7 @@ const ARTICLE_SCHEMA = {
         "@type": "ImageObject",
         url: `${SITE_URL}/opengraph-image`,
         contentUrl: `${SITE_URL}/opengraph-image`,
-        caption: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+        caption: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
         width: 1200,
         height: 630,
       },
@@ -203,15 +203,7 @@ export default function WorkCaseStudyLayout({
           in app/components.css. Falls through to a fragment when
           ACCENT is null (defensive — wouldn't happen for a properly
           configured work case study, but keeps the layout safe if
-          the lookup ever returns null).
-
-          INVARIANT: <ScrollProgress /> in this route's page.tsx MUST
-          render as a DOM descendant of this wrapper. The progress-
-          bar fill gradient resolves var(--cs-accent-strong) at the
-          .progress-bar-fill element, so a lift outside the scope
-          (e.g. into a shared chrome above the layout) would silently
-          retint the bar to the recruiter-green :root default. See
-          scroll-progress.css for the var-resolution rationale. */}
+          the lookup ever returns null). */}
       {ACCENT ? <div data-cs-accent={ACCENT}>{children}</div> : children}
     </>
   );

@@ -74,6 +74,7 @@ export function CaseStudyKicker({
   children,
   className,
   as,
+  id,
 }: {
   children: ReactNode;
   className?: string;
@@ -86,10 +87,16 @@ export function CaseStudyKicker({
    *  reach it via the H key. Forwarded directly to the underlying
    *  Kicker primitive. */
   as?: "p" | "h2" | "h3" | "h4";
+  /** Forwarded to the underlying element. Use when the kicker is
+   *  the target of an `aria-labelledby` on a parent section
+   *  landmark — e.g. people-inc's "The teams I worked with" and
+   *  "The three-tier enablement pattern" sub-section eyebrows. */
+  id?: string;
 }) {
   return (
     <Kicker
       as={as}
+      id={id}
       className={`m-0 ${className ?? ""}`}
       style={{
         // 11px is one step below --p-xs-font-size (12px) — an
@@ -156,7 +163,12 @@ export interface BeatProps {
   id: string;
   number: string;
   title: string;
-  headline: string;
+  // ReactNode (not string) so a headline can carry inline JSX —
+  // a <var> for mathematical notation, a <Code> for a vendor name,
+  // an <Emph> for a phrase that needs the case study's italic
+  // serif voice. Existing string headlines remain valid because
+  // string is a ReactNode.
+  headline: ReactNode;
   claudeTag?: string;
   /** When true, render claudeTag verbatim without the `claude · ` prefix. */
   claudeTagLiteral?: boolean;
@@ -213,13 +225,25 @@ export function Beat({
 
 export function Body({ children }: { children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-body)] [&>p]:m-0">
+    <div className="flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-body)] [&>p]:m-0 [&>ul]:m-0 [&>ol]:m-0">
       {children}
     </div>
   );
 }
 
-export function Emph({ children }: { children: ReactNode }) {
+export function Emph({
+  children,
+  roman,
+}: {
+  children: ReactNode;
+  /** When `true`, render in roman (non-italic) Instrument Serif. Use
+   *  inside an already-italic context — e.g. the Hero lede, which
+   *  wraps its children in italic Instrument Serif — where the
+   *  default italic <Emph> would create italic-in-italic with no
+   *  visual delta. Roman-in-italic is the conventional typographic
+   *  move for emphasis inside an italic run. */
+  roman?: boolean;
+}) {
   // Pin to Instrument Serif rather than var(--font-primary) so this
   // emphasis style stays a serif italic regardless of cluster. On a
   // sub-brand case study (Music → Roboto Mono primary), italicizing
@@ -233,7 +257,18 @@ export function Emph({ children }: { children: ReactNode }) {
   // word, and turns kerning + ligature features on explicitly.
   // The class is shared with the resume headline italic suffixes
   // and the Basecamp drink-archetype span — every site where
-  // serif italic runs inline beside roman body.
+  // serif italic runs inline beside roman body. Only applied in
+  // the default (italic) variant; the roman variant skips it.
+  //
+  // Color treatment is intentional: Emph uses --text-heading rather
+  // than a saturated accent, which means the visual delta against
+  // surrounding --text-body relies entirely on the italic serif
+  // face (or, in the roman variant, the serif face + the color
+  // shift). If Instrument Serif fails to load, emphasis collapses
+  // visually — this is accepted as voice intent rather than papered
+  // over with a font-weight fallback, because a font-weight bump
+  // would compete with headings and break the editorial register
+  // the case studies are tuned for.
   return (
     // <em> instead of <span> so screen readers convey semantic
     // emphasis (announced with stress / contrastive intonation by
@@ -242,10 +277,14 @@ export function Emph({ children }: { children: ReactNode }) {
     // explicit so a CSS reset that strips the UA default doesn't
     // also strip the visual emphasis.
     <em
-      className="italic-inline text-[var(--text-heading)]"
+      className={
+        roman
+          ? "text-[var(--text-heading)]"
+          : "italic-inline text-[var(--text-heading)]"
+      }
       style={{
         fontFamily: "var(--font-instrument-serif)",
-        fontStyle: "italic",
+        fontStyle: roman ? "normal" : "italic",
       }}
     >
       {children}
@@ -280,6 +319,20 @@ export function Code({ children }: { children: ReactNode }) {
 // this beat. Mono kicker reads "How I used Claude". Repurpose the
 // component for other agent stories by passing a custom kicker via
 // the optional `kicker` prop (defaults to "How I used Claude").
+//
+// Two variants:
+//   - `default` — left-rule aside, caption-color body, used for the
+//     routine claude-as-collaborator notes throughout a case study.
+//   - `callout` — elevated card surface, body-color text, slightly
+//     larger type, reserved for the once-per-case-study thesis
+//     moment where the note IS the beat's argument (e.g. people-inc
+//     Beat 04's "bet under the bet"). The visual treatment lifts
+//     the moment to pullquote-level weight while keeping Claude's
+//     attribution intact — the meta-narrative is the point.
+//
+// Both variants get role="note" on the wrapper so assistive tech
+// announces the block as supplementary commentary rather than as
+// an unmarked run of prose.
 // ────────────────────────────────────────────────────────────────
 
 export function Pullquote({
@@ -324,9 +377,19 @@ export function Pullquote({
 export function ClaudeNote({
   children,
   kicker = "How I used Claude",
+  variant = "default",
 }: {
   children: ReactNode;
   kicker?: string;
+  /** Visual treatment.
+   *  - `"default"` (the everyday left-rule aside) for routine
+   *    "here's what Claude did at this beat" commentary.
+   *  - `"callout"` for the once-per-case-study thesis moment where
+   *    the meta-commentary IS the beat's argument — case-glass
+   *    card surface, body-color body, slightly larger type. Use
+   *    sparingly; if every ClaudeNote is a callout, none of them
+   *    are. */
+  variant?: "default" | "callout";
 }) {
   // Body wrapper is a <div>, not a <p>, so callers can pass block
   // content (lists, multiple paragraphs) without producing invalid
@@ -334,8 +397,47 @@ export function ClaudeNote({
   // drive the typography and color, and existing inline-span
   // patterns (e.g. <span className="block mt-3">) keep working
   // because spans nest fine inside a div.
+  //
+  // role="note" is added to both variants so screen readers announce
+  // the block as supplementary commentary — the visual "set apart"
+  // treatment of the left-rule and the card surface should have a
+  // semantic counterpart so non-sighted readers get the same beat-
+  // shift sighted readers get.
+
+  if (variant === "callout") {
+    // Card surface matches the case-glass treatment used by Stat,
+    // EvidenceCard, IterationCard, and the CaseStudyNav neighbor
+    // cards — same rounded-[22px] feature-card radius — so the
+    // elevation is visually consistent with the rest of the
+    // article's surface vocabulary. Kicker steps up from 10px →
+    // 11px to match CaseStudyKicker (a deliberate "this is a major
+    // editorial beat" signal rather than a parenthetical micro-
+    // label). Body type matches Body's 17/19px and uses
+    // --text-body instead of --text-caption so the words carry
+    // thesis-level weight.
+    return (
+      <div
+        role="note"
+        className="case-glass my-10 md:my-12 p-6 md:p-7 rounded-[22px] border border-[var(--border-default)]"
+      >
+        <p
+          className="m-0 mb-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          {kicker}
+        </p>
+        <div className="m-0 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-body)]">
+          {children}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="my-8 md:my-10 pl-4 md:pl-5 border-l-[2px] border-[var(--border-default)]">
+    <div
+      role="note"
+      className="my-8 md:my-10 pl-4 md:pl-5 border-l-[2px] border-[var(--border-default)]"
+    >
       <p
         className="m-0 mb-2 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
         style={{ fontFamily: "var(--font-mono)" }}
@@ -428,6 +530,15 @@ export function Stat({
 //
 // 2-col grid of cards with eyebrow / title / body. For evidence
 // dumps, supporting facets, secondary findings, etc.
+//
+// EvidenceCard's `children` are rendered inside a <p> element, so
+// pass INLINE content only (text, <Emph>, <Code>, <Link>). Passing
+// a block-level child (<ul>, <div>, etc.) produces invalid
+// <p><block/></p> markup that browsers silently close, severing the
+// card's layout. TypeScript types `children` as ReactNode and won't
+// catch this — it's the caller's contract to enforce inline-only.
+// Same caveat applies to IterationCard, HarnessFeature, and Stat
+// below — anything whose body is wrapped in <p>.
 // ────────────────────────────────────────────────────────────────
 
 export function EvidenceGrid({ children }: { children: ReactNode }) {
@@ -515,9 +626,20 @@ export function GateCard({
 // problem cards.
 // ────────────────────────────────────────────────────────────────
 
-export function IterationGrid({ children }: { children: ReactNode }) {
+export function IterationGrid({
+  children,
+  cols = 3,
+}: {
+  children: ReactNode;
+  // Column count at md+ breakpoint. Default 3 keeps the original
+  // 1 → 2 → 3 responsive ramp other case studies expect. Set to 2
+  // for a 2×2 matrix layout when there are exactly four cards.
+  cols?: 2 | 3;
+}) {
+  const mdLg =
+    cols === 2 ? "md:grid-cols-2" : "md:grid-cols-2 lg:grid-cols-3";
   return (
-    <div className="my-8 md:my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className={`my-8 md:my-10 grid grid-cols-1 ${mdLg} gap-4`}>
       {children}
     </div>
   );
@@ -528,18 +650,26 @@ export function IterationCard({
   title,
   children,
 }: {
-  lens: string;
+  // Optional mono eyebrow above the title — used in the muck-rack
+  // and user-interviews studies to mark a numbered phase, and in the
+  // people-inc Beat 05 grid to mark the narrative chronology of a
+  // setup → misstep → pivot → unlock arc. Omit for cards in non-
+  // sequenced groupings (e.g. basecamp-coffee's category-themed
+  // lenses) where a numeric eyebrow would falsely imply order.
+  lens?: string;
   title: string;
   children: ReactNode;
 }) {
   return (
     <div className="case-glass flex flex-col gap-2 p-5 rounded-[22px] border border-[var(--border-default)]">
-      <p
-        className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
-        {lens}
-      </p>
+      {lens && (
+        <p
+          className="m-0 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          {lens}
+        </p>
+      )}
       <h3 className="m-0 text-[20px] font-semibold leading-[1.1] tracking-[-0.01em] text-[var(--text-heading)]">
         {title}
       </h3>

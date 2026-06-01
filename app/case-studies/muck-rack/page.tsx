@@ -26,6 +26,7 @@ import type { TocItem } from "@/components/chrome/TableOfContents";
 import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
+import { CaseStudyNav } from "@/components/case-study/CaseStudyNav";
 import {
   Beat,
   BeatSeparator,
@@ -78,14 +79,18 @@ const DATA_QUALITY_ARTICLE_URL =
 // convention used by the other case studies on the site.
 
 const TOC_ITEMS: TocItem[] = [
+  // Labels are value claims, not method nouns — see
+  // pi-c-toc-method-nouns in the 2026-05-30 /full-review tracker.
+  // Section anchors (#context, #opportunity, etc.) unchanged so deep
+  // links still resolve.
   { href: "#intro", label: "↑ Top" },
-  { href: "#context", prefix: "01", label: "Context" },
-  { href: "#opportunity", prefix: "02", label: "Opportunity" },
-  { href: "#discovery", prefix: "03", label: "Discovery" },
-  { href: "#strategy", prefix: "04", label: "Strategy" },
-  { href: "#execution", prefix: "05", label: "Execution" },
-  { href: "#outcomes", prefix: "06", label: "Outcomes" },
-  { href: "#reflection", prefix: "07", label: "Reflection" },
+  { href: "#context", prefix: "01", label: "Quantity Over Quality" },
+  { href: "#opportunity", prefix: "02", label: "Timeliness vs volume" },
+  { href: "#discovery", prefix: "03", label: "Observability" },
+  { href: "#strategy", prefix: "04", label: "Decompose by type" },
+  { href: "#execution", prefix: "05", label: "Three workstreams" },
+  { href: "#outcomes", prefix: "06", label: "Quality lifts volume" },
+  { href: "#reflection", prefix: "07", label: "Quality, not quantity" },
 ];
 
 // ─── Page ─────────────────────────────────────────────────────────
@@ -127,6 +132,7 @@ export default function MuckRackCaseStudy() {
           <BeatOutcomes />
           <BeatSeparator />
           <BeatReflection />
+          <CaseStudyNav currentSlug={SLUG} />
         </article>
       </div>
     </>
@@ -160,7 +166,7 @@ function Hero() {
       <span style={{ display: "block", marginBottom: "var(--scale-300)", fontSize: "var(--p-xs-font-size)", color: "var(--text-caption)", fontFamily: "var(--font-mono)" }}>
         <TrackOnClick
           event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
-          eventData={{ surface: "case-study-muck-rack-hero-kicker", direction: "to-resume" }}
+          eventData={{ surface: "case-study-muck-rack-hero-kicker", destination: "resume" }}
         >
           <Link href={ROLE_BACKLINK_HREF} quiet>{ROLE_BACKLINK_LABEL}</Link>
         </TrackOnClick>
@@ -715,7 +721,16 @@ function BeatReflection() {
           rather than as their own stories. Translation went all the
           way down&mdash;and so did the work of absorbing shifting
           priorities into structured technical investment, a
-          discipline my EM and I built together.
+          discipline my EM and I built together&mdash;and one I&apos;d
+          carry into a network-scale role at{" "}
+          <TrackOnClick
+            event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
+            eventData={{ surface: "case-study-muck-rack-body", destination: "case-study:people-inc" }}
+          >
+            <Link href="/case-studies/people-inc">People Inc.</Link>
+          </TrackOnClick>
+          , where translation across 40+ brands and their stakeholders
+          was critical to success.
         </p>
         <p>
           The third thread is the connection to the framework I
@@ -740,10 +755,11 @@ function BeatReflection() {
           study is the practice underneath the theory.
         </p>
         {/* Case-study close — exit ramp for the highest-intent
-            reader. Same recruiter-funnel handoff the User
-            Interviews study uses: resume + Calendly, framed
-            specifically for hiring-manager evaluation rather than
-            generic "if this resonated." */}
+            reader. Same recruiter-funnel handoff across all 5 work-
+            and project-case studies: resume primary, Calendly
+            secondary (caption register). A recruiter reading just a
+            case study doesn't yet have enough context to commit to a
+            call; the resume is the next logical step in the funnel. */}
         <p>
           Two next steps, if this is the kind of PM work
           you&apos;re hiring for:{" "}
@@ -751,14 +767,18 @@ function BeatReflection() {
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{ surface: "case-study-muck-rack-close", destination: "resume" }}
           >
-            <Link href="/resume">Review my resume <span aria-hidden="true">&rarr;</span></Link>
-          </TrackOnClick>{" "}or{" "}
+            <Link href="/resume">review my resume <span aria-hidden="true">&rarr;</span></Link>
+          </TrackOnClick>
+          .
+        </p>
+        <p className="text-[15px] text-[var(--text-caption)]">
+          Or, if you&apos;re ready to talk,{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-muck-rack-close" }}
           >
             <Link href={CONTACT.calendly}>
-              Book a 30-min product chat <span aria-hidden="true">&#8599;</span>
+              book a 30-min product chat <span aria-hidden="true">&#8599;</span>
             </Link>
           </TrackOnClick>
           .
