@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-06-01T06:31:19.857Z",
+  "capturedAt": "2026-06-01T09:30:46.669Z",
   "summary": {
     "totalShows": 156,
-    "totalShowReviews": 39,
+    "totalShowReviews": 40,
     "totalSeasonReviews": 237,
     "totalEpisodeReviews": 577,
     "ratingDistribution": {
@@ -11,7 +11,7 @@
       "3": 206,
       "4": 163,
       "5": 17,
-      "3.5": 243,
+      "3.5": 244,
       "2.5": 86,
       "4.5": 46,
       "1.5": 11,
@@ -24,9 +24,9 @@
         "3": 9,
         "4": 4,
         "5": 1,
+        "3.5": 12,
         "4.5": 1,
-        "2.5": 4,
-        "3.5": 11
+        "2.5": 4
       },
       "season": {
         "1": 3,
@@ -140,6 +140,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 67705758,
+          "level": "show",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I’ve never seen a show get so hot and then so cold over so much time but so few seasons. So many careers were catapulted but the most memorable thing about this show will be all the surrounding drama—if that. Many parts of season 1 are seared into my memory and I so wish we spent more time in that particular time in this world.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-01T06:30:47Z",
+          "reviewDate": "2026-06-01T06:34:47Z",
+          "seasonId": null,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
         {
           "id": 67705514,
           "level": "season",
@@ -303,10 +319,10 @@
         1,
         2
       ],
-      "hasShowReview": false,
+      "hasShowReview": true,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-01T06:30:18Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-06-01T06:34:47Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -25205,6 +25221,22 @@
       ],
       "reviews": [
         {
+          "id": 67705758,
+          "level": "show",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I’ve never seen a show get so hot and then so cold over so much time but so few seasons. So many careers were catapulted but the most memorable thing about this show will be all the surrounding drama—if that. Many parts of season 1 are seared into my memory and I so wish we spent more time in that particular time in this world.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-01T06:30:47Z",
+          "reviewDate": "2026-06-01T06:34:47Z",
+          "seasonId": null,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
           "id": 67705514,
           "level": "season",
           "rating": 3,
@@ -25367,10 +25399,10 @@
         1,
         2
       ],
-      "hasShowReview": false,
+      "hasShowReview": true,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-01T06:30:18Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-06-01T06:34:47Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-237748": {
