@@ -1,34 +1,34 @@
 {
-  "capturedAt": "2026-06-01T07:00:49.140Z",
+  "capturedAt": "2026-06-02T06:00:10.889Z",
   "summary": {
-    "totalFilms": 765,
-    "totalReviews": 765,
-    "thisYearCount": 124,
+    "totalFilms": 766,
+    "totalReviews": 766,
+    "thisYearCount": 125,
     "ratingDistribution": {
       "1": 37,
       "2": 122,
       "3": 144,
       "4": 103,
       "5": 16,
-      "3.5": 151,
+      "3.5": 152,
       "1.5": 33,
       "2.5": 101,
       "4.5": 49,
       "0.5": 9
     },
     "genreDistribution": {
-      "Comedy": 220,
+      "Comedy": 221,
+      "Family": 21,
+      "Mystery": 80,
       "Fantasy": 59,
       "Thriller": 217,
       "Drama": 360,
       "Music": 49,
       "Horror": 128,
-      "Mystery": 79,
       "Science Fiction": 113,
       "History": 41,
       "Action": 114,
       "Adventure": 84,
-      "Family": 20,
       "Romance": 88,
       "Crime": 99,
       "Documentary": 59,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 573,
+      "2020s": 574,
       "2010s": 124,
       "1990s": 16,
       "1980s": 16,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1301421",
+      "letterboxdSlug": "the-sheep-detectives",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-sheep-detectives/",
+      "title": "The Sheep Detectives",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-01",
+      "latestWatchedDate": "2026-06-01",
+      "firstReviewDate": "2026-06-02",
+      "latestReviewDate": "2026-06-02",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1339063030",
+          "watchedDate": "2026-06-01",
+          "reviewDate": "2026-06-02",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Not sheep putting me in an existential crisis.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1301421,
+        "posterPath": "/hTirV44jiLh6NqdiB6jtxPsDIoG.jpg",
+        "backdropPath": "/t6O6XWelu27BD0OmIDCCufZZT6d.jpg",
+        "genres": [
+          "Comedy",
+          "Family",
+          "Mystery"
+        ],
+        "runtime": 109,
+        "director": "Kyle Balda"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/hTirV44jiLh6NqdiB6jtxPsDIoG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/hTirV44jiLh6NqdiB6jtxPsDIoG.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1368881",
       "letterboxdSlug": "ladies-first",
@@ -33284,6 +33329,51 @@
     }
   ],
   "filmById": {
+    "tmdb-1301421": {
+      "id": "tmdb-1301421",
+      "letterboxdSlug": "the-sheep-detectives",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-sheep-detectives/",
+      "title": "The Sheep Detectives",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-01",
+      "latestWatchedDate": "2026-06-01",
+      "firstReviewDate": "2026-06-02",
+      "latestReviewDate": "2026-06-02",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1339063030",
+          "watchedDate": "2026-06-01",
+          "reviewDate": "2026-06-02",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Not sheep putting me in an existential crisis.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1301421,
+        "posterPath": "/hTirV44jiLh6NqdiB6jtxPsDIoG.jpg",
+        "backdropPath": "/t6O6XWelu27BD0OmIDCCufZZT6d.jpg",
+        "genres": [
+          "Comedy",
+          "Family",
+          "Mystery"
+        ],
+        "runtime": 109,
+        "director": "Kyle Balda"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/hTirV44jiLh6NqdiB6jtxPsDIoG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/hTirV44jiLh6NqdiB6jtxPsDIoG.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1368881": {
       "id": "tmdb-1368881",
       "letterboxdSlug": "ladies-first",
