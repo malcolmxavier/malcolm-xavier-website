@@ -27,10 +27,12 @@
     "spotify:snapshot": "curl --fail -sS http://127.0.0.1:3001/api/spotify/snapshot -o lib/feeds/_fixtures/spotify-snapshot.json && echo 'Snapshot captured to lib/feeds/_fixtures/spotify-snapshot.json'",
     "films:refresh": "node --env-file=.env.local scripts/refresh-films-snapshot.mjs",
     "films:rss-refresh": "node --env-file=.env.local scripts/incremental-rss-refresh.mjs",
+    "films:lists-refresh": "node --env-file=.env.local scripts/refresh-films-lists.mjs",
     "films:health": "curl -s http://127.0.0.1:3001/api/letterboxd/health | python3 -m json.tool",
     "films:snapshot": "curl --fail -sS http://127.0.0.1:3001/api/letterboxd/snapshot -o lib/feeds/_fixtures/letterboxd-snapshot.json && echo 'Snapshot captured to lib/feeds/_fixtures/letterboxd-snapshot.json'",
     "television:bootstrap": "node --env-file=.env.local scripts/bootstrap-serializd-snapshot.mjs",
     "television:refresh": "node --env-file=.env.local scripts/refresh-serializd-incremental.mjs",
+    "television:lists-refresh": "node --env-file=.env.local scripts/refresh-tv-lists.mjs",
     "prebuild": "npm run tokens:build"
   },
   "dependencies": {

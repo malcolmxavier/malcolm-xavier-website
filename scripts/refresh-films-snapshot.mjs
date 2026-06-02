@@ -142,17 +142,28 @@ function aggregateSummary(films) {
  * Build the LetterboxdSnapshot envelope from the enriched films.
  * filmById is keyed by Film.id (TMDB id once enriched, slug+year
  * for unmatched holdouts) for O(1) detail-page lookups.
+ *
+ * `lists` and `favorites` are authored by the separate slow-cadence
+ * scrape (scripts/refresh-films-lists.mjs), not here. We carry them
+ * over verbatim from the previous snapshot so a CSV/RSS refresh
+ * doesn't silently drop the editorial-landing data between list
+ * scrapes. They go stale only in the sense that a film newly added
+ * to a list won't appear until the next lists scrape — acceptable
+ * given the cadence split.
  */
-function buildSnapshot(films) {
+function buildSnapshot(films, prev) {
   const summary = aggregateSummary(films);
   const filmById = {};
   for (const f of films) filmById[f.id] = f;
-  return {
+  const snapshot = {
     capturedAt: new Date().toISOString(),
     summary,
     films,
     filmById,
   };
+  if (prev?.lists) snapshot.lists = prev.lists;
+  if (prev?.favorites) snapshot.favorites = prev.favorites;
+  return snapshot;
 }
 
 /** Read the previous snapshot for diffing, or null if none. */
@@ -287,7 +298,7 @@ async function main() {
   }
 
   console.log("\n[3/3] Building snapshot…");
-  const snapshot = buildSnapshot(films);
+  const snapshot = buildSnapshot(films, prev);
   printDiff(prev, snapshot);
 
   writeFileSync(SNAPSHOT_PATH, JSON.stringify(snapshot, null, 2) + "\n");

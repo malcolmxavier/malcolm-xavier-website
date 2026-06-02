@@ -1162,7 +1162,11 @@ function findContextualNeighbors(
       sort,
     );
     orderedShows = uniqueShowsInOrder(filteredCards.map((c: CompletedCard) => c.show));
-  } else if (pathname === "/television") {
+  } else if (pathname === "/television/reviews" || pathname === "/television") {
+    // The corpus grid lives at /television/reviews now; the bare
+    // "/television" arm is kept so any detail link shared before the
+    // move (carrying ?from=/television) still resolves filter-aware
+    // neighbors instead of silently falling back to default ordering.
     const allCards = buildCompletedCards(shows);
     const filteredCards = applyCompletedCardFilters(allCards, filters, sort);
     orderedShows = uniqueShowsInOrder(filteredCards.map((c: CompletedCard) => c.show));

@@ -295,7 +295,11 @@ export function FilmsShell({
     // set lands at the canonical query-string surface. On the main
     // listing, stay at the current pathname (preserves e.g. /films
     // → /films behavior).
-    const targetBase = routeGenre ? "/films" : pathname;
+    // Multi-filter combos from a genre route land on the corpus grid,
+    // which now lives at /films/reviews (the cluster root /films is the
+    // editorial landing). The non-genre branch uses pathname, which is
+    // already /films/reviews when mounted there.
+    const targetBase = routeGenre ? "/films/reviews" : pathname;
     const qs = params.toString();
     router.replace(qs ? `${targetBase}?${qs}` : targetBase, {
       scroll: false,

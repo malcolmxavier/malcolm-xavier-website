@@ -956,6 +956,14 @@ export async function bootstrapSnapshot(options = {}) {
   snapshot.summary.totalWatchedShows = shows.length + watchedOnlyShows.length;
   snapshot.summary.totalWatchedOnlyShows = watchedOnlyShows.length;
 
+  // Carry over editorial-landing data (lists + favorites) verbatim
+  // from the previous snapshot. These are authored by the separate
+  // slow-cadence scripts/refresh-tv-lists.mjs pass, not here, so the
+  // hourly bootstrap must preserve them or it would silently drop
+  // them between list scrapes. Mirrors the films pipeline's carryover.
+  if (prev?.lists) snapshot.lists = prev.lists;
+  if (prev?.favorites) snapshot.favorites = prev.favorites;
+
   const { hasBlockingIssues } = runCleanupPass(snapshot, overrides, {
     writeReports: writeToDisk,
   });

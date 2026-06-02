@@ -2,7 +2,7 @@
 // AllOrWatchingToggle — sits above the /television grid and the
 // /television/watching grid. Two-state navigation control:
 //
-//   • All     → /television (the completed-review listing,
+//   • All     → /television/reviews (the completed-review corpus,
 //                inheriting any current query string filters)
 //   • Watching → /television/watching (the in-progress offshoot)
 //
@@ -60,11 +60,12 @@ export function AllOrWatchingToggle({
    * When mounted from a route that should preserve query-string
    * filters on the "All" link (e.g. clicking "All" from a
    * filtered /television view should keep the filter context),
-   * pass the relative URL here. Falls back to plain "/television"
-   * — appropriate from /television/watching where there are no
-   * filters to carry forward.
+   * pass the relative URL here. Falls back to the corpus grid at
+   * "/television/reviews" — appropriate from /television/watching
+   * where there are no filters to carry forward (the cluster root
+   * /television is now the editorial landing, not the grid).
    */
-  allHref = "/television",
+  allHref = "/television/reviews",
   /**
    * Surface label for WATCHING_TAB_CLICK analytics. Names the
    * page the toggle is mounted on so the dashboard can read which

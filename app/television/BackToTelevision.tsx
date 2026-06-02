@@ -92,7 +92,7 @@ export function BackToTelevision() {
     // they navigated from rather than the page hero. The grid
     // wrapper carries `id="grid"` + scroll-margin-top so the
     // landing point clears the sticky site nav.
-    const dest = arrivedFromHref.current ?? "/television";
+    const dest = arrivedFromHref.current ?? "/television/reviews";
     router.push(withGridAnchor(dest));
   };
 
@@ -101,7 +101,7 @@ export function BackToTelevision() {
   // listing too; otherwise the cluster root. Both carry #grid
   // so non-JS navigation lands at the grid as well.
   const fallbackHref = withGridAnchor(
-    arrivedFromHref.current ?? "/television",
+    arrivedFromHref.current ?? "/television/reviews",
   );
 
   return (

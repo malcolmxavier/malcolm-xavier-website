@@ -17,7 +17,13 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
-import type { Show, TvSummary, WatchedOnlyShow } from "./serializd-utils";
+import type {
+  Show,
+  ShowFavorite,
+  ShowList,
+  TvSummary,
+  WatchedOnlyShow,
+} from "./serializd-utils";
 
 // Re-export public types so consumers can import everything from
 // either module — same convention as letterboxd.ts.
@@ -27,7 +33,9 @@ export type {
   ReviewLevel,
   Season,
   Show,
+  ShowFavorite,
   ShowFilters,
+  ShowList,
   ShowSort,
   TmdbTvMeta,
   TvSummary,
@@ -50,6 +58,15 @@ type SerializdSnapshot = {
    *  never reviewed. Not surfaced in current UI; available for
    *  future iterations via getWatchedOnlyShows. */
   watchedOnlyShows: WatchedOnlyShow[];
+  /**
+   * Editorial-landing data, attached by the slow-cadence
+   * scripts/refresh-tv-lists.mjs pass (NOT the hourly refresh).
+   * Optional so a snapshot captured before that pass — or by the
+   * bootstrap, which preserves but doesn't author these — still
+   * validates. Read via getShowLists() / getShowFavorites().
+   */
+  lists?: ShowList[];
+  favorites?: ShowFavorite[];
 };
 
 /**
@@ -102,6 +119,11 @@ const SNAPSHOT_PATH = path.resolve(
 type SnapshotCache = {
   snapshot: SerializdSnapshot;
   slugMap: Map<string, Show>;
+  /** serializdShowId (= TMDB tv id) → Show. The join key for
+   *  favorites and list entries, which reference shows by their
+   *  numeric Serializd/TMDB id. Shares the snapshot's cache
+   *  lifetime so it can't drift. */
+  bySerializdId: Map<number, Show>;
   positionByShowId: Map<string, number>;
 };
 
@@ -113,6 +135,14 @@ function buildSlugMap(shows: Show[]): Map<string, Show> {
     slugMap.set(show.slug, show);
   }
   return slugMap;
+}
+
+function buildSerializdIdMap(shows: Show[]): Map<number, Show> {
+  const bySerializdId = new Map<number, Show>();
+  for (const show of shows) {
+    bySerializdId.set(show.serializdShowId, show);
+  }
+  return bySerializdId;
 }
 
 function buildPositionMap(shows: Show[]): Map<string, number> {
@@ -159,6 +189,7 @@ function loadCache(): SnapshotCache {
   cachedState = {
     snapshot: parsed,
     slugMap: buildSlugMap(parsed.shows),
+    bySerializdId: buildSerializdIdMap(parsed.shows),
     positionByShowId: buildPositionMap(parsed.shows),
   };
   return cachedState;
@@ -233,6 +264,42 @@ export function getShowNeighbors(showId: string): {
     newer: idx > 0 ? shows[idx - 1] : null,
     older: idx + 1 < shows.length ? shows[idx + 1] : null,
   };
+}
+
+/**
+ * O(1) lookup by Serializd show id (= TMDB tv id) — the join key
+ * carried by favorites and list entries. Returns null when the show
+ * isn't in the reviewed corpus, in which case the favorite/list
+ * entry renders from its own captured name fallback.
+ */
+export function getShowBySerializdId(serializdShowId: number): Show | null {
+  return loadCache().bySerializdId.get(serializdShowId) ?? null;
+}
+
+// ─── Editorial-landing read API (lists + favorites) ───────────────
+//
+// All three tolerate a snapshot captured before the lists/favorites
+// scrape pass ran — they return [] / null rather than throwing. The
+// landing maps each entry's serializdShowId to a corpus Show via
+// getShowBySerializdId() for the rich card. The TV Lists module
+// stays dormant while getShowLists() is empty (no Serializd lists
+// created yet) per the no-placeholder rule.
+
+/** Malcolm's public Serializd lists, in profile order (empty today). */
+export function getShowLists(): ShowList[] {
+  return loadSnapshot().lists ?? [];
+}
+
+/** O(n) lookup of one list by slug (n = list count, tiny). Returns
+ *  null when absent — caller should notFound(). */
+export function getShowListBySlug(slug: string): ShowList | null {
+  const lists = loadSnapshot().lists ?? [];
+  return lists.find((l) => l.slug === slug) ?? null;
+}
+
+/** Serializd profile favorites, in the order Malcolm arranged them. */
+export function getShowFavorites(): ShowFavorite[] {
+  return loadSnapshot().favorites ?? [];
 }
 
 // ─── Editorial overrides reader ──────────────────────────────────
