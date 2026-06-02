@@ -247,7 +247,11 @@ export function TelevisionShell({
         track(ANALYTICS_EVENTS.SHOW_FILTER_APPLIED, { dimension });
       }
     }
-    const targetBase = routeGenre ? "/television" : pathname;
+    // Multi-filter combos from a genre route land on the corpus grid
+    // at /television/reviews (the cluster root /television is now the
+    // editorial landing). The non-genre branch uses pathname, already
+    // /television/reviews when mounted there.
+    const targetBase = routeGenre ? "/television/reviews" : pathname;
     const qs = params.toString();
     router.replace(qs ? `${targetBase}?${qs}` : targetBase, {
       scroll: false,
@@ -493,7 +497,7 @@ export function TelevisionShell({
               active="all"
               watchingCount={watchingCount}
               allCount={allCount}
-              allHref={originHref ?? "/television"}
+              allHref={originHref ?? "/television/reviews"}
               from={routeGenre ? "genre" : "listing"}
             />
           </div>

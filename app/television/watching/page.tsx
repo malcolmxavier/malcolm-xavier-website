@@ -278,7 +278,7 @@ export default function WatchingPage() {
                   padding: "4px 0",
                 }}
               >
-                <Link href="/television#grid">
+                <Link href="/television/reviews#grid">
                   Browse the rest of the catalog →
                 </Link>
               </p>
