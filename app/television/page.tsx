@@ -25,9 +25,6 @@ import { Link } from "@/components/primitives/Link";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
 import { PosterTile } from "@/components/feeds/PosterTile";
 import { ListCard } from "@/components/feeds/ListCard";
-import { HeroCtaInView } from "@/components/analytics/HeroCtaInView";
-import { ReviewsCtaTracker } from "@/components/analytics/ReviewsCtaTracker";
-import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 import {
   getShows,
@@ -80,7 +77,7 @@ function listCoverPosters(list: ShowList): string[] {
 }
 
 export default function TelevisionLandingPage() {
-  const { shows, summary } = getShows();
+  const { shows } = getShows();
   const favorites = getShowFavorites();
   const lists = getShowLists();
 
@@ -98,9 +95,6 @@ export default function TelevisionLandingPage() {
     );
   const nowCards = inProgress.slice(0, NOW_COUNT);
 
-  // Lifetime "shows" count for the hero CTA copy.
-  const showCount = summary.totalShows.toLocaleString();
-
   return (
     <div data-subbrand="tv">
       {/* ─── Hero ─────────────────────────────────────────────── */}
@@ -109,9 +103,9 @@ export default function TelevisionLandingPage() {
           <Stack gap="500">
             <Kicker accent>Television</Kicker>
             <Display>The shows I stay up for.</Display>
-            {/* Wider measure than the default 60ch so the blurb reads
-                in fewer lines and the modules sit higher on load. */}
-            <Lede style={{ maxWidth: "48rem" }}>
+            {/* Full-width lede (the 60ch cap is dropped) so the blurb
+                reads in fewer lines and the modules sit higher on load. */}
+            <Lede style={{ maxWidth: "none" }}>
               I review television at the show, season, and episode level—the
               prestige dramas, the comfort rewatches, the reality I am not
               embarrassed about. This is the front door: what I am mid-watch on
@@ -119,28 +113,21 @@ export default function TelevisionLandingPage() {
               is one click away.
             </Lede>
             <p style={{ margin: 0 }}>
-              <HeroCtaInView event={ANALYTICS_EVENTS.HERO_CTA_INVIEW}>
-                <ReviewsCtaTracker surface="tv_landing">
-                  <Link href="/television/reviews">
-                    Browse all {showCount} shows reviewed →
-                  </Link>
-                </ReviewsCtaTracker>
-              </HeroCtaInView>
-            </p>
-            <p style={{ margin: 0 }}>
               <Link href={SERIALIZD_PROFILE_URL}>Follow on Serializd ↗</Link>
             </p>
+            {/* Cluster sub-nav, inline in the hero. Overview is the current
+                page; Reviews links to the corpus — the button that replaces
+                the old standalone "Browse all shows reviewed" link. */}
+            <ClusterRail
+              base="/television"
+              active="overview"
+              subbrand="tv"
+              label="Television sections"
+              className="mt-2"
+            />
           </Stack>
         </Section>
       </Container>
-
-      {/* ─── Cluster rail (sticky) ────────────────────────────── */}
-      <ClusterRail
-        base="/television"
-        active="overview"
-        subbrand="tv"
-        label="Television sections"
-      />
 
       <Container size="lg">
         {/* ─── Now ────────────────────────────────────────────── */}

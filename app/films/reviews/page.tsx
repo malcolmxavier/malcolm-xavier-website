@@ -321,11 +321,12 @@ export default async function FilmsPage({
             stats sidebar — the chart still reads cleanly at the
             narrower 2-fr column width. */}
         <Section padding="lg">
-          {/* No items-start: with default grid stretch alignment,
-              both columns share the row's height (= the taller
-              column's intrinsic height). The panel uses lg:h-full
-              to fill that height; its chart flex-grows to claim
-              whatever vertical space the hero column dictates. */}
+          {/* Default grid stretch: both columns share the row height,
+              set by the taller LEFT column (kicker + display + lede +
+              follow + the cluster nav). The right column's chart then
+              flex-grows to fill that height (see SummaryPanel), so the
+              chart's size tracks the left column's content — films and TV
+              end up with different chart heights, which is intended. */}
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
             <Stack gap="500">
               <Kicker accent>Films</Kicker>
@@ -349,6 +350,18 @@ export default async function FilmsPage({
                   </Link>
                 </TrackOnClick>
               </p>
+              {/* Cluster sub-nav, inline in the hero's left column. Its
+                  height is part of what makes this column the taller of
+                  the two, which the stats chart on the right stretches to
+                  match. "Reviews" is the active tab; "Overview" links back
+                  to the editorial landing. */}
+              <ClusterRail
+                base="/films"
+                active="reviews"
+                subbrand="film"
+                label="Films sections"
+                className="mt-2"
+              />
             </Stack>
             {/* SummaryPanel renders alongside the hero only on lg+
                 so the desktop hero+panel side-by-side stays intact.
@@ -361,28 +374,16 @@ export default async function FilmsPage({
                 inactive variant gets display:none which removes
                 the underlying <aside> landmark from the AT tree
                 so SR users only ever encounter one. */}
-            {/* lg:h-full gives the panel (and its flex-1 chart) a
-                definite height to resolve against — the grid stretches
-                this cell to the hero column's height, and h-full
-                propagates that down so the chart fills the column. */}
-            <div className="hidden lg:block lg:h-full">
+            {/* Hidden below lg (the panel relocates to a footer). On lg+
+                a flex column so the SummaryPanel's chart can flex-grow to
+                fill this cell's height — which the grid has stretched to
+                match the taller left (hero) column. */}
+            <div className="hidden lg:flex lg:flex-col">
               <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
             </div>
           </div>
         </Section>
       </Container>
-
-      {/* Cluster sub-nav. "Reviews" is the active tab here; "Overview"
-          links back to the editorial landing — the counterpart that
-          was missing, which made the reviews page a dead-end relative
-          to the landing. Full-bleed, so it lives between the hero
-          Container and the grid Container. */}
-      <ClusterRail
-        base="/films"
-        active="reviews"
-        subbrand="film"
-        label="Films sections"
-      />
 
       <Container size="lg">
         {/* ─── Filter rail + Grid + Pagination (client) ─────── */}
