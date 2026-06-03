@@ -27,9 +27,6 @@ import { Link } from "@/components/primitives/Link";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
 import { PosterTile } from "@/components/feeds/PosterTile";
 import { ListCard } from "@/components/feeds/ListCard";
-import { HeroCtaInView } from "@/components/analytics/HeroCtaInView";
-import { ReviewsCtaTracker } from "@/components/analytics/ReviewsCtaTracker";
-import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 import { SITE_URL } from "@/lib/site-config";
 import {
@@ -89,7 +86,7 @@ function listCoverPosters(list: FilmList): string[] {
 }
 
 export default function FilmsLandingPage() {
-  const { films, summary } = getFilms();
+  const { films } = getFilms();
   const favorites = getFilmFavorites();
   const lists = getFilmLists();
   const recent = films.slice(0, NOW_COUNT);
@@ -102,41 +99,32 @@ export default function FilmsLandingPage() {
           <Stack gap="500">
             <Kicker accent>Films</Kicker>
             <Display>A taste, not a catalogue.</Display>
-            {/* Wider measure than the default 60ch so the hero blurb
-                reads in fewer lines and the modules below sit higher
-                on the initial viewport. */}
-            <Lede style={{ maxWidth: "48rem" }}>
+            {/* Full-width lede (the 60ch cap is dropped) so the blurb
+                reads in ~2 lines and the modules below sit higher on the
+                initial viewport. */}
+            <Lede style={{ maxWidth: "none" }}>
               I watch north of 300 films a year and write up nearly all of
               them. This is the front door: what I am watching right now, the
               handful I would save in a fire, and the lists I rebuild every
               year. The full reviewed backlog is one click away.
             </Lede>
-            {/* Primary CTA — the thin gate to the corpus. HeroCtaInView
-                logs that it was seen; TrackOnClick logs the click +
-                stamps the dwell timer. Internal arrow per convention. */}
-            <p style={{ margin: 0 }}>
-              <HeroCtaInView event={ANALYTICS_EVENTS.HERO_CTA_INVIEW}>
-                <ReviewsCtaTracker surface="films_landing">
-                  <Link href="/films/reviews">
-                    Browse all {summary.totalFilms.toLocaleString()} reviews →
-                  </Link>
-                </ReviewsCtaTracker>
-              </HeroCtaInView>
-            </p>
             <p style={{ margin: 0 }}>
               <Link href={LETTERBOXD_PROFILE_URL}>Follow on Letterboxd ↗</Link>
             </p>
+            {/* Cluster sub-nav, inline in the hero. Overview is the
+                current page; Reviews links to the corpus — this is the
+                button that replaces the old standalone "Browse all
+                reviews" link. */}
+            <ClusterRail
+              base="/films"
+              active="overview"
+              subbrand="film"
+              label="Films sections"
+              className="mt-2"
+            />
           </Stack>
         </Section>
       </Container>
-
-      {/* ─── Cluster rail (sticky) ────────────────────────────── */}
-      <ClusterRail
-        base="/films"
-        active="overview"
-        subbrand="film"
-        label="Films sections"
-      />
 
       <Container size="lg">
         {/* ─── Now ────────────────────────────────────────────── */}

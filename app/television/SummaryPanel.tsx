@@ -107,8 +107,18 @@ export function SummaryPanel({
   const watchedYear = new Date().getUTCFullYear();
 
   return (
-    <aside aria-label="Lifetime stats" className="lg:h-full">
-      <Stack gap="400" className="lg:h-full">
+    // Fills the grid cell's height on lg+. The parent grid stretches both
+    // columns to the row height — set by the taller LEFT (hero) column,
+    // which includes the cluster nav. This aside flex-grows to fill the
+    // cell, the Stack fills the aside, the chart block fills the Stack, so
+    // the rating chart stretches to match the hero column. Below lg the
+    // flex classes are inert (footer render) and the chart falls back to a
+    // fixed height. Matches /films.
+    <aside
+      aria-label="Lifetime stats"
+      className="lg:flex lg:flex-col lg:flex-1 lg:min-h-0"
+    >
+      <Stack gap="400" className="lg:flex-1 lg:min-h-0">
         {/* ─── Mode toggle row ──────────────────────────────────── */}
         {/* aria-label (not aria-labelledby) — SummaryPanel renders
             twice in the same document on /television (desktop hidden
@@ -212,14 +222,18 @@ export function SummaryPanel({
         </div>
 
         {/* ─── Rating distribution (column chart) ───────────────── */}
-        <div className="flex flex-col lg:flex-1" style={{ gap: 8 }}>
+        <div className="flex flex-col lg:flex-1 lg:min-h-0" style={{ gap: 8 }}>
           <Kicker>Rating distribution</Kicker>
           <ol
             role="list"
-            // star-rating-fill on the parent so each bar's
-            // currentColor inherits the sitewide green pair (light
-            // green-800 / dark green-400). Same treatment as /films.
-            className="star-rating-fill lg:flex-1"
+            // star-rating-fill on the parent so each bar's currentColor
+            // inherits the sitewide green pair. On lg+, lg:flex-1 stretches
+            // the chart to fill whatever height the hero column dictates
+            // (each LI stretches to OL height; each bar is a % of that), so
+            // it matches the left column. Below lg there's no flex parent,
+            // so min-h-[200px] gives it a fixed footer height; lg:min-h-[140px]
+            // is just a floor. Matches /films.
+            className="star-rating-fill min-h-[200px] lg:min-h-[140px] lg:flex-1"
             style={{
               listStyle: "none",
               padding: 0,
@@ -228,7 +242,6 @@ export function SummaryPanel({
               alignItems: "stretch",
               gap: 4,
               borderBottom: "1px solid var(--border-default)",
-              minHeight: 140,
             }}
           >
             {RATING_KEYS.map((key) => {

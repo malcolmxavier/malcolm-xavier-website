@@ -331,6 +331,11 @@ export default async function TelevisionPage({
       <Container size="lg">
         {/* ─── Hero + Summary ─────────────────────────────────── */}
         <Section padding="lg">
+          {/* Default grid stretch: both columns share the row height, set
+              by the taller LEFT column (kicker + display + lede + follow +
+              cluster nav). The right column's chart flex-grows to fill that
+              height (see SummaryPanel), so it matches the left column. TV's
+              chart ends up shorter than films' — that's expected. */}
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
             <Stack gap="500">
               <Kicker accent>Television</Kicker>
@@ -375,11 +380,23 @@ export default async function TelevisionPage({
                   </Link>
                 </TrackOnClick>
               </p>
+              {/* Cluster sub-nav, inline in the hero's left column — part of
+                  what makes this column the taller of the two, which the
+                  stats chart on the right stretches to match. "Reviews" is
+                  active; "Overview" links back to the editorial landing. */}
+              <ClusterRail
+                base="/television"
+                active="reviews"
+                subbrand="tv"
+                label="Television sections"
+                className="mt-2"
+              />
             </Stack>
-            {/* lg:h-full gives the panel (and its flex-1 chart) a
-                definite height to resolve against, so the chart fills
-                the hero column. */}
-            <div className="hidden lg:block lg:h-full">
+            {/* Hidden below lg (panel relocates to a footer). On lg+ a flex
+                column so the SummaryPanel's chart can flex-grow to fill this
+                cell's height — which the grid stretched to match the taller
+                left (hero) column. Matches /films/reviews. */}
+            <div className="hidden lg:flex lg:flex-col">
               <SummaryPanel
                 summary={summary}
                 currentYearByLevel={cybl}
@@ -389,16 +406,6 @@ export default async function TelevisionPage({
           </div>
         </Section>
       </Container>
-
-      {/* Cluster sub-nav. "Reviews" active here; "Overview" links back
-          to the editorial landing — the missing counterpart. Full-
-          bleed, between the hero Container and the grid Container. */}
-      <ClusterRail
-        base="/television"
-        active="reviews"
-        subbrand="tv"
-        label="Television sections"
-      />
 
       <Container size="lg">
         {/* ─── Catalog stat-bar + Filter rail + Grid + Pagination ─ */}
