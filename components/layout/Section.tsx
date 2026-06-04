@@ -40,10 +40,17 @@ type SectionProps = HTMLAttributes<HTMLElement> & {
 // Net result: divider rhythm is symmetric sitewide regardless of
 // what padding sizes the adjacent sections chose. Tightened from
 // the original (sm: 12/16, md: 16/24, lg: 24/32) on 2026-04-25.
+//
+// `lg` is the hero opener on every page (the only place padding="lg"
+// is used). Its top pad was cut again 2026-06-04 from pt-14 sm:pt-20
+// (56/80px) to pt-8 sm:pt-12 (32/48px) — the 80px void below the
+// global header read as a "sizable gap" between the nav and the hero
+// content, and pulling it up gets the lede + first module higher on
+// the initial viewport.
 const PADDING_TOP_BY_SIZE: Record<SectionPadding, string> = {
   sm: "pt-8 sm:pt-10",
   md: "pt-10 sm:pt-14",
-  lg: "pt-14 sm:pt-20",
+  lg: "pt-8 sm:pt-12",
 };
 // Single "divider rhythm" value used for every section's pb and
 // for any bordered section's pt. Matches md's standard padding so
