@@ -28,16 +28,17 @@ export function Lede({ className = "", style, children, ...rest }: LedeProps) {
           // top is trimmed — the generous 1.5 inter-line spacing is left
           // intact for body readability. Progressive enhancement; older
           // browsers keep the prior leading.
+          //
+          // No negative top margin: the trim above already removes the
+          // invisible font leading, so the parent Stack's natural gap is
+          // the true visual gap. The earlier -8px nudge double-corrected
+          // for leading the trim had already handled — it left the lede
+          // hugging the heading (12px, tighter than the 20px kicker→heading
+          // gap above it, and worse when the heading ends in a descender
+          // that drops into the gap). Letting the Stack gap stand keeps the
+          // whole hero rhythm uniform.
           textBoxTrim: "trim-start",
           textBoxEdge: "cap alphabetic",
-          // Pull the lede up toward its heading. The trim above removed the
-          // invisible font leading; this trims the remaining flex-gap
-          // rhythm for the heading→lede pairing specifically, which read
-          // loose at ~20px. A negative top margin combines with the parent
-          // Stack's gap (gap + (-8px)), so a 20px gap becomes ~12px. It's
-          // surgical — only the lede's top tightens, not the kicker→heading
-          // gap or the CTA spacing below.
-          marginTop: "calc(var(--scale-200) * -1)",
           ...style,
         } as CSSProperties
       }
