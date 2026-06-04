@@ -131,8 +131,11 @@ export default function TelevisionLandingPage() {
 
       <Container size="lg">
         {/* ─── Now ────────────────────────────────────────────── */}
+        {/* paddingTop:0 on the first module so the gap to it is the hero
+            section's bottom rhythm alone, not that PLUS this section's top
+            rhythm (the doubling read as a big void under the hero). */}
         {nowCards.length > 0 ? (
-          <Section padding="md">
+          <Section padding="md" style={{ paddingTop: 0 }}>
             <Stack gap="400">
               <Kicker accent>Now</Kicker>
               <Headline level={2}>Mid-watch right now</Headline>
