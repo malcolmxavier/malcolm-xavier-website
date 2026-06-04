@@ -10,9 +10,11 @@
 //
 // Link target is internal (NextLink → a detail page) or external
 // (a real <a> → the source platform, marked with the ↗ convention)
-// depending on `external`. Favorites are often prose-less films/shows
-// absent from the reviewed corpus, so they link out to Letterboxd /
-// Serializd; corpus entries link to their on-site detail page.
+// depending on `external`. Corpus entries link to their on-site detail
+// page. When `href` is omitted the tile renders display-only (a plain
+// non-interactive block) — used on the landings for out-of-corpus
+// favorites, which have no on-site page and (per the no-off-site-leak
+// rule) no longer link out to Letterboxd / Serializd either.
 //
 // Poster + aspect handling mirrors FilmCard exactly so tiles read as
 // siblings of the grid cards. No "use client" — pure presentational.
@@ -37,8 +39,11 @@ export function PosterTile({
   // if the consuming grid uses a different column count.
   sizes = "(max-width: 640px) 45vw, (max-width: 1024px) 28vw, 18vw",
 }: {
-  href: string;
-  /** External (platform) link vs internal detail route. */
+  /** On-site detail route. Omit to render a non-interactive,
+   *  display-only tile (out-of-corpus favorites with no on-site page). */
+  href?: string;
+  /** External (platform) link vs internal detail route. Ignored when
+   *  `href` is omitted. */
   external?: boolean;
   posterUrl: string | null;
   title: string;
@@ -111,9 +116,13 @@ export function PosterTile({
     outlineColor: "var(--border-focus)",
   };
 
-  // External links open in a new tab with the usual security rel; the
-  // ↗ in the subtitle is the visible cue. Internal links use NextLink
-  // for prefetch + client nav.
+  // No href → display-only tile: a plain block with no link semantics,
+  // no focus ring (nothing to focus). External links open in a new tab
+  // with the usual security rel; the ↗ in the subtitle is the visible
+  // cue. Internal links use NextLink for prefetch + client nav.
+  if (!href) {
+    return <div className="block h-full">{inner}</div>;
+  }
   return external ? (
     <a
       href={href}

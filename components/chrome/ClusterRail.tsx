@@ -79,7 +79,17 @@ export function ClusterRail({
                 href={tab.href}
                 aria-current={isActive ? "page" : undefined}
                 style={isActive ? activeTabStyle : tabStyle}
-                className="transition-colors motion-reduce:transition-none hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
+                // The active pill needs white label text on its filled
+                // accent. The sub-brand link cascade in components.css
+                // (`[data-subbrand] a { color … !important }`) would
+                // otherwise force the cluster link color onto it
+                // (orange-on-orange, invisible), so the active tab carries
+                // a marker class that a matching-!important rule in
+                // components.css uses to pin the label white. Inactive
+                // tabs keep the cascade's cluster color (AA on the page).
+                className={`transition-colors motion-reduce:transition-none hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2${
+                  isActive ? " cluster-rail-tab--active" : ""
+                }`}
               >
                 {tab.label}
               </NextLink>
@@ -130,14 +140,25 @@ const tabStyle: CSSProperties = {
   border: "1px solid var(--border-interactive)",
 };
 
-// Active tab: filled in the cluster's contrast-safe action color.
-// --text-action resolves to the cluster's AA-safe orange-700 / blue-700
-// (white-on-fill clears SC 1.4.3), the same token DismissableChip uses
-// for its fill — NOT --primary-default, which would drop contrast and
-// fork the cluster's accent in light mode.
+// Active tab: a filled accent pill, AA-safe in BOTH themes.
+//
+// Deliberately theme-INDEPENDENT. The earlier approach paired a
+// theme-flipping fill with `color: var(--surface-page)` text — but
+// --surface-page doesn't resolve inside this nav's re-asserted
+// [data-subbrand] scope (it chains through --neutral-white, which isn't
+// defined here), so the text color collapsed onto the fill: orange-on-
+// orange, ~1:1, invisible. (Same footgun as the --text-action alias bug
+// in sub-brand inline styles.)
+//
+// Fix: anchor to tokens that ALWAYS resolve. --primary-700 is the
+// cluster's -700 ramp step (orange-700 #8f5912 / blue-700), dark in
+// both themes; --foundation-white is a root constant (#fff). White-on-
+// orange-700 = 5.82:1, white-on-blue-700 higher — both clear SC 1.4.3,
+// identically in light and dark. The pill reads the same in both modes
+// (a standard filled-accent control) rather than flipping.
 const activeTabStyle: CSSProperties = {
   ...tabBaseStyle,
-  background: "var(--text-action)",
-  color: "var(--surface-page)",
-  border: "1px solid var(--text-action)",
+  background: "var(--primary-700)",
+  color: "var(--foundation-white)",
+  border: "1px solid var(--primary-700)",
 };

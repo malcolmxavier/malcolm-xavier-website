@@ -24,8 +24,9 @@ import { Headline } from "@/components/typography/Headline";
 import { Link } from "@/components/primitives/Link";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
 import { PosterTile } from "@/components/feeds/PosterTile";
+import { FeaturedPick } from "@/components/feeds/FeaturedPick";
 import { ListCard } from "@/components/feeds/ListCard";
-import { ELSEWHERE } from "@/lib/elsewhere";
+import { SITE_URL } from "@/lib/site-config";
 import {
   getShows,
   getShowFavorites,
@@ -33,20 +34,17 @@ import {
   getShowBySerializdId,
   getWatchingExclusions,
 } from "@/lib/feeds/serializd";
+import { getShowFeaturedPick } from "@/lib/feeds/featured-pick";
 import { buildInProgressCards } from "@/lib/feeds/serializd-utils";
 import type { ShowList } from "@/lib/feeds/serializd";
 import { InProgressCard } from "./InProgressCard";
-
-const SERIALIZD_PROFILE_URL =
-  ELSEWHERE.find((e) => e.label === "Serializd")?.href ??
-  "https://www.serializd.com/user/malxavi/profile";
 
 const NOW_COUNT = 5;
 
 export const metadata: Metadata = {
   title: "Television",
   description:
-    "Television as taste, not a catalogue—what Malcolm Xavier is mid-watch on now, the favorite series, and the full reviewed corpus across show, season, and episode.",
+    "Television as taste, not a catalogue—what Malcolm Xavier is mid-watch on now, the favorite series, and the full reviewed corpus.",
   alternates: { canonical: "/television" },
   openGraph: {
     title: "Television—Malcolm Xavier",
@@ -94,9 +92,66 @@ export default function TelevisionLandingPage() {
       ),
     );
   const nowCards = inProgress.slice(0, NOW_COUNT);
+  const featured = getShowFeaturedPick();
+
+  // Page-level JSON-LD — see the /films landing for the rationale. The
+  // landing carries its own CollectionPage (mirroring /television/reviews),
+  // and the featured pick's hand-written take rides along as a schema.org
+  // Review of a TVSeries (a real critic review of a third-party work, real
+  // rating, no faked aggregateRating).
+  const pageUrl = `${SITE_URL}/television`;
+  const person = {
+    "@type": "Person",
+    name: "Malcolm Xavier",
+    "@id": `${SITE_URL}/#person`,
+  };
+  const landingJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: "Television",
+        description:
+          "Television as taste, not a catalogue—what Malcolm Xavier is mid-watch on now, the favorite series, the curated lists, and a standing recommendation.",
+        url: pageUrl,
+        inLanguage: "en-US",
+        author: person,
+      },
+      ...(featured
+        ? [
+            {
+              "@type": "Review",
+              name: `Currently recommending: ${featured.title}`,
+              url: `${SITE_URL}${featured.href}`,
+              author: person,
+              reviewBody: featured.take,
+              itemReviewed: {
+                "@type": featured.kind,
+                name: featured.title,
+                ...(featured.posterUrl ? { image: featured.posterUrl } : {}),
+              },
+              ...(featured.rating !== null
+                ? {
+                    reviewRating: {
+                      "@type": "Rating",
+                      ratingValue: featured.rating,
+                      bestRating: 5,
+                      worstRating: 0.5,
+                    },
+                  }
+                : {}),
+            },
+          ]
+        : []),
+    ],
+  };
 
   return (
     <div data-subbrand="tv">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(landingJsonLd) }}
+      />
       {/* ─── Hero ─────────────────────────────────────────────── */}
       <Container size="lg">
         <Section padding="lg">
@@ -112,12 +167,11 @@ export default function TelevisionLandingPage() {
               right now and the series I hold sacred. The full reviewed corpus
               is one click away.
             </Lede>
-            <p style={{ margin: 0 }}>
-              <Link href={SERIALIZD_PROFILE_URL}>Follow on Serializd ↗</Link>
-            </p>
             {/* Cluster sub-nav, inline in the hero. Overview is the current
-                page; Reviews links to the corpus — the button that replaces
-                the old standalone "Browse all shows reviewed" link. */}
+                page; Reviews links to the corpus — the on-site action that
+                replaces the old standalone "Browse all shows reviewed" link.
+                (The Serializd follow link lives on the Reviews page now, not
+                here — the landing keeps recruiters on-site.) */}
             <ClusterRail
               base="/television"
               active="overview"
@@ -130,6 +184,16 @@ export default function TelevisionLandingPage() {
       </Container>
 
       <Container size="lg">
+        {/* ─── Featured pick ──────────────────────────────────── */}
+        {/* The one editorial, hand-curated module — leads the modules as
+            the payoff to the hero's taste thesis. paddingTop:0 so the gap
+            is the hero's bottom rhythm alone. Hidden when no pick set. */}
+        {featured ? (
+          <Section padding="md" style={{ paddingTop: 0 }}>
+            <FeaturedPick pick={featured} />
+          </Section>
+        ) : null}
+
         {/* ─── Now ────────────────────────────────────────────── */}
         {/* paddingTop:0 on the first module so the gap to it is the hero
             section's bottom rhythm alone, not that PLUS this section's top
@@ -166,16 +230,16 @@ export default function TelevisionLandingPage() {
               <Grid cols={5} gap="500">
                 {favorites.map((fav) => {
                   // In-corpus favorites link to their on-site detail;
-                  // the rest link out to the Serializd show page.
+                  // out-of-corpus favorites (no review yet) render
+                  // display-only — the landing no longer leaks to
+                  // Serializd (that follow link lives on the Reviews page).
                   const corpusShow = getShowBySerializdId(fav.serializdShowId);
-                  const href = corpusShow
-                    ? `/television/${corpusShow.slug}`
-                    : `https://www.serializd.com/show/${fav.serializdShowId}`;
                   return (
                     <PosterTile
                       key={fav.serializdShowId}
-                      href={href}
-                      external={!corpusShow}
+                      href={
+                        corpusShow ? `/television/${corpusShow.slug}` : undefined
+                      }
                       posterUrl={fav.posterUrl}
                       title={fav.name}
                       subtitle={

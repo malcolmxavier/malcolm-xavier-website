@@ -23,11 +23,10 @@ import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Headline } from "@/components/typography/Headline";
-import { Link } from "@/components/primitives/Link";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
 import { PosterTile } from "@/components/feeds/PosterTile";
+import { FeaturedPick } from "@/components/feeds/FeaturedPick";
 import { ListCard } from "@/components/feeds/ListCard";
-import { ELSEWHERE } from "@/lib/elsewhere";
 import { SITE_URL } from "@/lib/site-config";
 import {
   getFilms,
@@ -35,11 +34,8 @@ import {
   getFilmLists,
   getFilmByLetterboxdSlug,
 } from "@/lib/feeds/letterboxd";
+import { getFilmFeaturedPick } from "@/lib/feeds/featured-pick";
 import type { Film, FilmList } from "@/lib/feeds/letterboxd";
-
-const LETTERBOXD_PROFILE_URL =
-  ELSEWHERE.find((e) => e.label === "Letterboxd")?.href ??
-  "https://letterboxd.com/malxavi/";
 
 // How many recent watches to surface in the "Now" module — one clean
 // 5-up row on desktop (matches the denser poster grid below).
@@ -90,9 +86,68 @@ export default function FilmsLandingPage() {
   const favorites = getFilmFavorites();
   const lists = getFilmLists();
   const recent = films.slice(0, NOW_COUNT);
+  const featured = getFilmFeaturedPick();
+
+  // Page-level JSON-LD. The landing is now a first-class editorial page
+  // (not just a grid precursor), so it carries its own CollectionPage —
+  // mirroring /films/reviews, which already had one. When a featured
+  // pick is set, its hand-written take is emitted as a schema.org Review
+  // in the SAME @graph: legitimate critic-reviews-a-creative-work markup
+  // (itemReviewed is a third-party Movie, not a self-review), with a
+  // real rating and NO faked aggregateRating.
+  const pageUrl = `${SITE_URL}/films`;
+  const person = {
+    "@type": "Person",
+    name: "Malcolm Xavier",
+    "@id": `${SITE_URL}/#person`,
+  };
+  const landingJsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: "Films",
+        description:
+          "Film as taste, not a catalogue—what Malcolm Xavier is watching now, the all-time favorites, the curated lists, and a standing recommendation.",
+        url: pageUrl,
+        inLanguage: "en-US",
+        author: person,
+      },
+      ...(featured
+        ? [
+            {
+              "@type": "Review",
+              name: `Currently recommending: ${featured.title}`,
+              url: `${SITE_URL}${featured.href}`,
+              author: person,
+              reviewBody: featured.take,
+              itemReviewed: {
+                "@type": featured.kind,
+                name: featured.title,
+                ...(featured.posterUrl ? { image: featured.posterUrl } : {}),
+              },
+              ...(featured.rating !== null
+                ? {
+                    reviewRating: {
+                      "@type": "Rating",
+                      ratingValue: featured.rating,
+                      bestRating: 5,
+                      worstRating: 0.5,
+                    },
+                  }
+                : {}),
+            },
+          ]
+        : []),
+    ],
+  };
 
   return (
     <div data-subbrand="film">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(landingJsonLd) }}
+      />
       {/* ─── Hero ─────────────────────────────────────────────── */}
       <Container size="lg">
         <Section padding="lg">
@@ -108,13 +163,12 @@ export default function FilmsLandingPage() {
               handful I would save in a fire, and the lists I rebuild every
               year. The full reviewed backlog is one click away.
             </Lede>
-            <p style={{ margin: 0 }}>
-              <Link href={LETTERBOXD_PROFILE_URL}>Follow on Letterboxd ↗</Link>
-            </p>
             {/* Cluster sub-nav, inline in the hero. Overview is the
-                current page; Reviews links to the corpus — this is the
-                button that replaces the old standalone "Browse all
-                reviews" link. */}
+                current page; Reviews links to the corpus — the on-site
+                action that replaces the old standalone "Browse all
+                reviews" link. (The Letterboxd follow link lives on the
+                Reviews page now, not here — the landing keeps recruiters
+                on-site.) */}
             <ClusterRail
               base="/films"
               active="overview"
@@ -127,6 +181,18 @@ export default function FilmsLandingPage() {
       </Container>
 
       <Container size="lg">
+        {/* ─── Featured pick ──────────────────────────────────── */}
+        {/* The one editorial, hand-curated module — leads the modules so
+            it's the payoff to the hero's taste thesis before any
+            feed-derived content. paddingTop:0 so the gap to it is the
+            hero's bottom rhythm alone (no doubled padding). Hidden
+            entirely when no pick is set / resolvable. */}
+        {featured ? (
+          <Section padding="md" style={{ paddingTop: 0 }}>
+            <FeaturedPick pick={featured} />
+          </Section>
+        ) : null}
+
         {/* ─── Now ────────────────────────────────────────────── */}
         {/* paddingTop:0 on the first module so the gap to it is the hero
             section's bottom rhythm alone, not that PLUS this section's top
@@ -158,19 +224,19 @@ export default function FilmsLandingPage() {
             <Stack gap="400">
               <Kicker accent>Favorites</Kicker>
               <Headline level={2}>The all-timers</Headline>
-              <Grid cols={5} gap="500">
+              {/* 4-up: Letterboxd caps favorites at four ("Top 4"), so a
+                  4-column grid fills exactly with no empty trailing slot. */}
+              <Grid cols={4} gap="500">
                 {favorites.map((fav) => {
                   // In-corpus favorites link to their on-site review;
-                  // the rest (prose-less films) link out to Letterboxd.
+                  // out-of-corpus favorites (no review yet) render
+                  // display-only — the landing no longer leaks to
+                  // Letterboxd (those links live on the Reviews page).
                   const corpusFilm = getFilmByLetterboxdSlug(fav.slug);
-                  const href = corpusFilm
-                    ? filmDetailHref(corpusFilm)
-                    : fav.letterboxdUrl;
                   return (
                     <PosterTile
                       key={fav.slug}
-                      href={href}
-                      external={!corpusFilm}
+                      href={corpusFilm ? filmDetailHref(corpusFilm) : undefined}
                       posterUrl={fav.posterUrl}
                       title={fav.title}
                       subtitle={
