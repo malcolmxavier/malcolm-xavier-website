@@ -38,6 +38,7 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 import { SITE_URL } from "@/lib/site-config";
 import { getFilms } from "@/lib/feeds/letterboxd";
+import { hybridMatchIds, combineMatchSets } from "@/lib/feeds/fuzzy-search";
 import {
   applyFilters,
   asString,
@@ -113,6 +114,8 @@ export async function generateMetadata({
       )) ||
     Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
     filters.watchedWindow !== undefined ||
+    Boolean(filters.titleQuery) ||
+    Boolean(filters.directorQuery) ||
     filters.releaseYearMin !== undefined ||
     filters.releaseYearMax !== undefined;
 
@@ -206,7 +209,23 @@ export default async function FilmGenrePage({
     f.watchedYearSet.includes(currentYear),
   ).length;
 
-  const applied = applyFilters(films, filters, sort);
+  // Search (?title= / ?director=) composes with the pinned genre —
+  // match per field (hybrid), intersect, then applyFilters drops the
+  // rest.
+  const titleMatch = hybridMatchIds(
+    films,
+    filters.titleQuery,
+    ["title"],
+    (f) => f.id,
+  );
+  const directorMatch = hybridMatchIds(
+    films,
+    filters.directorQuery,
+    ["tmdb.director"],
+    (f) => f.id,
+  );
+  const matchIds = combineMatchSets(titleMatch, directorMatch);
+  const applied = applyFilters(films, filters, sort, matchIds);
   const {
     current: pageFilms,
     totalPages,
