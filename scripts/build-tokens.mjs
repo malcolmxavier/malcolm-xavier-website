@@ -309,24 +309,27 @@ out.push("  --border-action-hover: var(--primary-700);");
 out.push("}");
 out.push("");
 // Light-mode film cluster: --primary-default for film resolves to
-// --orange-500 (#ef941e), which renders at 2.35:1 on white surfaces
-// and fails SC 1.4.11 Non-Text Contrast (3:1 floor for UI graphics
-// like StarRating's filled stars, pagination numbers, focus rings,
-// and accent borders). Bump the action chain one stop to
-// --primary-600 (--orange-600 = 4.6:1 on white) for film-cluster
-// pages in light mode. The brand orange (--orange-500) stays
-// canonical for large surfaces (hero accents, chip backgrounds);
-// only the action chain shifts. Dark mode is unaffected — the
-// rule below already maps action tokens to --primary-300, which
-// resolves to --orange-300 (#f5bf78 = 12.6:1 on black). Caught by
-// the a11y review of the StarRating primitive on commit 7fef8ea.
+// --orange-500 (#ef941e), which renders at 2.35:1 on white and fails
+// SC 1.4.11 Non-Text Contrast (3:1). The original fix bumped one stop
+// to --primary-600 — but --orange-600 (#bf7618) is only 3.61:1 on
+// white, NOT the 4.6:1 the old comment claimed. That clears the 3:1
+// non-text floor but FAILS SC 1.4.3 (4.5:1) for the action chain's
+// TEXT uses: the accent <Kicker>s and the filled filter chips (white
+// text on an --text-action fill). So bump TWO stops to --primary-700
+// (--orange-700 #8f5912 = 5.82:1 on white), which clears both 1.4.11
+// and 1.4.3. The brand orange (--orange-500) stays canonical for large
+// surfaces (hero accents); only the action chain shifts, slightly
+// darker. Hover goes to --primary-800 to keep a perceivable rest→hover
+// delta now that rest is already 700. Dark mode is unaffected — the
+// rule below maps action tokens to --primary-300 (--orange-300 #f5bf78
+// = 12.6:1 on black). Re-fix 2026-06-04 (orange-600 text contrast).
 out.push("[data-subbrand=\"film\"] {");
-out.push("  --text-action: var(--primary-600);");
-out.push("  --text-action-hover: var(--primary-700);");
-out.push("  --icon-action: var(--primary-600);");
-out.push("  --icon-action-hover: var(--primary-700);");
-out.push("  --border-action: var(--primary-600);");
-out.push("  --border-action-hover: var(--primary-700);");
+out.push("  --text-action: var(--primary-700);");
+out.push("  --text-action-hover: var(--primary-800);");
+out.push("  --icon-action: var(--primary-700);");
+out.push("  --icon-action-hover: var(--primary-800);");
+out.push("  --border-action: var(--primary-700);");
+out.push("  --border-action-hover: var(--primary-800);");
 out.push("}");
 out.push("");
 // Dark-mode counterpart for sub-brand pages. --primary-default is

@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-05-09T21:47:01.869Z
+   Built:        2026-06-05T01:10:35.697Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -793,12 +793,12 @@
 }
 
 [data-subbrand="film"] {
-  --text-action: var(--primary-600);
-  --text-action-hover: var(--primary-700);
-  --icon-action: var(--primary-600);
-  --icon-action-hover: var(--primary-700);
-  --border-action: var(--primary-600);
-  --border-action-hover: var(--primary-700);
+  --text-action: var(--primary-700);
+  --text-action-hover: var(--primary-800);
+  --icon-action: var(--primary-700);
+  --icon-action-hover: var(--primary-800);
+  --border-action: var(--primary-700);
+  --border-action-hover: var(--primary-800);
 }
 
 [data-theme="dark"] [data-subbrand] {
