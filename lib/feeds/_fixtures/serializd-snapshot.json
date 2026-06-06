@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-06-06T01:30:57.606Z",
+  "capturedAt": "2026-06-06T02:31:13.253Z",
   "summary": {
     "totalShows": 156,
     "totalShowReviews": 40,
     "totalSeasonReviews": 237,
-    "totalEpisodeReviews": 590,
+    "totalEpisodeReviews": 591,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 212,
       "4": 166,
       "5": 17,
-      "3.5": 247,
+      "3.5": 248,
       "2.5": 86,
       "4.5": 47,
       "1.5": 11,
@@ -45,7 +45,7 @@
         "3": 152,
         "4": 120,
         "5": 7,
-        "3.5": 185,
+        "3.5": 186,
         "2.5": 61,
         "4.5": 38,
         "1.5": 5
@@ -252,6 +252,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 68259125,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-06T01:53:17Z",
+          "reviewDate": "2026-06-06T01:53:22Z",
+          "seasonId": 246407,
+          "episodeNumber": 10,
+          "episodeName": "Guess Who's Coming to Blue Ridge",
+          "tags": []
+        },
         {
           "id": 68255832,
           "level": "episode",
@@ -3006,8 +3022,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-06T01:03:55Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-06-06T01:53:22Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -25542,6 +25558,22 @@
       ],
       "reviews": [
         {
+          "id": 68259125,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-06T01:53:17Z",
+          "reviewDate": "2026-06-06T01:53:22Z",
+          "seasonId": 246407,
+          "episodeNumber": 10,
+          "episodeName": "Guess Who's Coming to Blue Ridge",
+          "tags": []
+        },
+        {
           "id": 68255832,
           "level": "episode",
           "rating": 3,
@@ -28295,8 +28327,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-06T01:03:55Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-06-06T01:53:22Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-22980": {
