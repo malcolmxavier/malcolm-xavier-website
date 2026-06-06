@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-06-06T02:31:13.253Z",
+  "capturedAt": "2026-06-06T04:31:17.680Z",
   "summary": {
     "totalShows": 156,
     "totalShowReviews": 40,
     "totalSeasonReviews": 237,
-    "totalEpisodeReviews": 591,
+    "totalEpisodeReviews": 592,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 212,
-      "4": 166,
+      "4": 167,
       "5": 17,
       "3.5": 248,
       "2.5": 86,
@@ -43,7 +43,7 @@
       "episode": {
         "2": 21,
         "3": 152,
-        "4": 120,
+        "4": 121,
         "5": 7,
         "3.5": 186,
         "2.5": 61,
@@ -252,6 +252,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 68267409,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Today drained me in context.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-06T03:51:56Z",
+          "reviewDate": "2026-06-06T03:51:56Z",
+          "seasonId": 246407,
+          "episodeNumber": 11,
+          "episodeName": "Cabin Fever",
+          "tags": []
+        },
         {
           "id": 68259125,
           "level": "episode",
@@ -3022,8 +3038,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-06T01:53:22Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-06-06T03:51:56Z",
+      "primaryRating": 4,
       "liked": false
     },
     {
@@ -25558,6 +25574,22 @@
       ],
       "reviews": [
         {
+          "id": 68267409,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Today drained me in context.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-06T03:51:56Z",
+          "reviewDate": "2026-06-06T03:51:56Z",
+          "seasonId": 246407,
+          "episodeNumber": 11,
+          "episodeName": "Cabin Fever",
+          "tags": []
+        },
+        {
           "id": 68259125,
           "level": "episode",
           "rating": 3.5,
@@ -28327,8 +28359,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-06T01:53:22Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-06-06T03:51:56Z",
+      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-22980": {
