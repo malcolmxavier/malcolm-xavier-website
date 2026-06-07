@@ -1,14 +1,14 @@
 {
-  "capturedAt": "2026-06-02T06:00:10.889Z",
+  "capturedAt": "2026-06-07T03:00:46.020Z",
   "summary": {
-    "totalFilms": 766,
-    "totalReviews": 766,
-    "thisYearCount": 125,
+    "totalFilms": 767,
+    "totalReviews": 767,
+    "thisYearCount": 126,
     "ratingDistribution": {
       "1": 37,
       "2": 122,
       "3": 144,
-      "4": 103,
+      "4": 104,
       "5": 16,
       "3.5": 152,
       "1.5": 33,
@@ -17,17 +17,17 @@
       "0.5": 9
     },
     "genreDistribution": {
+      "Action": 115,
+      "Fantasy": 60,
+      "Science Fiction": 114,
       "Comedy": 221,
       "Family": 21,
       "Mystery": 80,
-      "Fantasy": 59,
       "Thriller": 217,
       "Drama": 360,
       "Music": 49,
       "Horror": 128,
-      "Science Fiction": 113,
       "History": 41,
-      "Action": 114,
       "Adventure": 84,
       "Romance": 88,
       "Crime": 99,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 574,
+      "2020s": 575,
       "2010s": 124,
       "1990s": 16,
       "1980s": 16,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-454639",
+      "letterboxdSlug": "masters-of-the-universe",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/masters-of-the-universe-2026/",
+      "title": "Masters of the Universe",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-03",
+      "latestWatchedDate": "2026-06-03",
+      "firstReviewDate": "2026-06-07",
+      "latestReviewDate": "2026-06-07",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1345382142",
+          "watchedDate": "2026-06-03",
+          "reviewDate": "2026-06-07",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "A perfect, campy blockbuster until I realized during the credits that [redacted] was playing Skeletor. But boy did I have so much fun enjoying the unbridled comic book comedy. They leaned surprisingly hard into a certain joke, but I wasn’t mad at that? Alison Brie lowkey not the one to play with! And of course, my sweet prince Nicholas looking very my boyfriend throughout.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 454639,
+        "posterPath": "/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+        "backdropPath": "/eQySd26OW7UmCuaeBOL7qy6foMn.jpg",
+        "genres": [
+          "Action",
+          "Fantasy",
+          "Science Fiction"
+        ],
+        "runtime": 141,
+        "director": "Travis Knight"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1301421",
       "letterboxdSlug": "the-sheep-detectives",
@@ -33329,6 +33374,51 @@
     }
   ],
   "filmById": {
+    "tmdb-454639": {
+      "id": "tmdb-454639",
+      "letterboxdSlug": "masters-of-the-universe",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/masters-of-the-universe-2026/",
+      "title": "Masters of the Universe",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-03",
+      "latestWatchedDate": "2026-06-03",
+      "firstReviewDate": "2026-06-07",
+      "latestReviewDate": "2026-06-07",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1345382142",
+          "watchedDate": "2026-06-03",
+          "reviewDate": "2026-06-07",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "A perfect, campy blockbuster until I realized during the credits that [redacted] was playing Skeletor. But boy did I have so much fun enjoying the unbridled comic book comedy. They leaned surprisingly hard into a certain joke, but I wasn’t mad at that? Alison Brie lowkey not the one to play with! And of course, my sweet prince Nicholas looking very my boyfriend throughout.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 454639,
+        "posterPath": "/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+        "backdropPath": "/eQySd26OW7UmCuaeBOL7qy6foMn.jpg",
+        "genres": [
+          "Action",
+          "Fantasy",
+          "Science Fiction"
+        ],
+        "runtime": 141,
+        "director": "Travis Knight"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1301421": {
       "id": "tmdb-1301421",
       "letterboxdSlug": "the-sheep-detectives",
