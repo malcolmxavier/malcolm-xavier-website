@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-06-07T01:31:42.379Z",
+  "capturedAt": "2026-06-07T02:30:50.371Z",
   "summary": {
     "totalShows": 156,
     "totalShowReviews": 40,
     "totalSeasonReviews": 237,
-    "totalEpisodeReviews": 597,
+    "totalEpisodeReviews": 599,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 212,
-      "4": 169,
+      "4": 170,
       "5": 17,
-      "3.5": 251,
+      "3.5": 252,
       "2.5": 86,
       "4.5": 47,
       "1.5": 11,
@@ -43,9 +43,9 @@
       "episode": {
         "2": 21,
         "3": 152,
-        "4": 123,
+        "4": 124,
         "5": 7,
-        "3.5": 189,
+        "3.5": 190,
         "2.5": 61,
         "4.5": 38,
         "1.5": 5
@@ -252,6 +252,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 68373154,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Drew is to RHOA as Brynn is to RHONY…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-07T02:25:53Z",
+          "reviewDate": "2026-06-07T02:26:31Z",
+          "seasonId": 246407,
+          "episodeNumber": 18,
+          "episodeName": "Reunion Part 1",
+          "tags": []
+        },
+        {
+          "id": 68369642,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Editors clocked in on this one!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-07T01:34:44Z",
+          "reviewDate": "2026-06-07T01:34:57Z",
+          "seasonId": 246407,
+          "episodeNumber": 17,
+          "episodeName": "A Fashion Show With Fashions",
+          "tags": []
+        },
         {
           "id": 68365578,
           "level": "episode",
@@ -3118,7 +3150,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-07T00:36:15Z",
+      "latestActivityDate": "2026-06-07T02:26:31Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -25654,6 +25686,38 @@
       ],
       "reviews": [
         {
+          "id": 68373154,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Drew is to RHOA as Brynn is to RHONY…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-07T02:25:53Z",
+          "reviewDate": "2026-06-07T02:26:31Z",
+          "seasonId": 246407,
+          "episodeNumber": 18,
+          "episodeName": "Reunion Part 1",
+          "tags": []
+        },
+        {
+          "id": 68369642,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Editors clocked in on this one!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-07T01:34:44Z",
+          "reviewDate": "2026-06-07T01:34:57Z",
+          "seasonId": 246407,
+          "episodeNumber": 17,
+          "episodeName": "A Fashion Show With Fashions",
+          "tags": []
+        },
+        {
           "id": 68365578,
           "level": "episode",
           "rating": 3.5,
@@ -28519,7 +28583,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-07T00:36:15Z",
+      "latestActivityDate": "2026-06-07T02:26:31Z",
       "primaryRating": 3.5,
       "liked": false
     },
