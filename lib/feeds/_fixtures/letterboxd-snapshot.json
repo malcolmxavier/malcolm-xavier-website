@@ -1,23 +1,24 @@
 {
-  "capturedAt": "2026-06-07T21:00:03.666Z",
+  "capturedAt": "2026-06-07T23:00:18.592Z",
   "summary": {
-    "totalFilms": 768,
-    "totalReviews": 768,
-    "thisYearCount": 127,
+    "totalFilms": 769,
+    "totalReviews": 769,
+    "thisYearCount": 128,
     "ratingDistribution": {
       "1": 38,
       "2": 122,
       "3": 144,
       "4": 104,
       "5": 16,
+      "1.5": 34,
       "3.5": 152,
-      "1.5": 33,
       "2.5": 101,
       "4.5": 49,
       "0.5": 9
     },
     "genreDistribution": {
-      "Drama": 361,
+      "Drama": 362,
+      "Crime": 100,
       "Thriller": 218,
       "Action": 115,
       "Fantasy": 60,
@@ -30,7 +31,6 @@
       "History": 41,
       "Adventure": 84,
       "Romance": 88,
-      "Crime": 99,
       "Documentary": 59,
       "Animation": 43,
       "TV Movie": 5,
@@ -38,9 +38,9 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "2010s": 125,
       "2000s": 32,
       "2020s": 575,
-      "2010s": 124,
       "1990s": 16,
       "1980s": 16,
       "1960s": 1,
@@ -48,6 +48,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-347866",
+      "letterboxdSlug": "hot-summer-nights",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/hot-summer-nights/",
+      "title": "Hot Summer Nights",
+      "releaseYear": 2017,
+      "firstWatchedDate": "2026-06-07",
+      "latestWatchedDate": "2026-06-07",
+      "firstReviewDate": "2026-06-07",
+      "latestReviewDate": "2026-06-07",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1346669830",
+          "watchedDate": "2026-06-07",
+          "reviewDate": "2026-06-07",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I wish I cared about this at any point…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 347866,
+        "posterPath": "/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+        "backdropPath": "/cUp74WEOfyiJS2Q8oZs8wP5IzSr.jpg",
+        "genres": [
+          "Drama",
+          "Crime"
+        ],
+        "runtime": 107,
+        "director": "Elijah Bynum"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-13825",
       "letterboxdSlug": "the-lazarus-project",
@@ -33418,6 +33462,50 @@
     }
   ],
   "filmById": {
+    "tmdb-347866": {
+      "id": "tmdb-347866",
+      "letterboxdSlug": "hot-summer-nights",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/hot-summer-nights/",
+      "title": "Hot Summer Nights",
+      "releaseYear": 2017,
+      "firstWatchedDate": "2026-06-07",
+      "latestWatchedDate": "2026-06-07",
+      "firstReviewDate": "2026-06-07",
+      "latestReviewDate": "2026-06-07",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1346669830",
+          "watchedDate": "2026-06-07",
+          "reviewDate": "2026-06-07",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I wish I cared about this at any point…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 347866,
+        "posterPath": "/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+        "backdropPath": "/cUp74WEOfyiJS2Q8oZs8wP5IzSr.jpg",
+        "genres": [
+          "Drama",
+          "Crime"
+        ],
+        "runtime": 107,
+        "director": "Elijah Bynum"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-13825": {
       "id": "tmdb-13825",
       "letterboxdSlug": "the-lazarus-project",
