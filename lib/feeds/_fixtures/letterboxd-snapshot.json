@@ -1,13 +1,13 @@
 {
-  "capturedAt": "2026-06-07T23:00:18.592Z",
+  "capturedAt": "2026-06-08T02:00:03.987Z",
   "summary": {
-    "totalFilms": 769,
-    "totalReviews": 769,
-    "thisYearCount": 128,
+    "totalFilms": 770,
+    "totalReviews": 770,
+    "thisYearCount": 129,
     "ratingDistribution": {
       "1": 38,
       "2": 122,
-      "3": 144,
+      "3": 145,
       "4": 104,
       "5": 16,
       "1.5": 34,
@@ -17,8 +17,8 @@
       "0.5": 9
     },
     "genreDistribution": {
-      "Drama": 362,
-      "Crime": 100,
+      "Drama": 363,
+      "Crime": 101,
       "Thriller": 218,
       "Action": 115,
       "Fantasy": 60,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2010s": 125,
+      "2010s": 126,
       "2000s": 32,
       "2020s": 575,
       "1990s": 16,
@@ -48,6 +48,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-168672",
+      "letterboxdSlug": "american-hustle",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/american-hustle/",
+      "title": "American Hustle",
+      "releaseYear": 2013,
+      "firstWatchedDate": "2026-06-07",
+      "latestWatchedDate": "2026-06-07",
+      "firstReviewDate": "2026-06-08",
+      "latestReviewDate": "2026-06-08",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1346915703",
+          "watchedDate": "2026-06-07",
+          "reviewDate": "2026-06-08",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I, obviously, was never in any rush to watch this, and I feel so justified. It’s a fine movie, but there's really nothing meaty to bite into or hold onto after you're done watching. Shoutout my hometown as a significant shooting location, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 168672,
+        "posterPath": "/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+        "backdropPath": "/bof71DUdBb5FwTylar4rnIVd8z.jpg",
+        "genres": [
+          "Drama",
+          "Crime"
+        ],
+        "runtime": 138,
+        "director": "David O. Russell"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-347866",
       "letterboxdSlug": "hot-summer-nights",
@@ -33462,6 +33506,50 @@
     }
   ],
   "filmById": {
+    "tmdb-168672": {
+      "id": "tmdb-168672",
+      "letterboxdSlug": "american-hustle",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/american-hustle/",
+      "title": "American Hustle",
+      "releaseYear": 2013,
+      "firstWatchedDate": "2026-06-07",
+      "latestWatchedDate": "2026-06-07",
+      "firstReviewDate": "2026-06-08",
+      "latestReviewDate": "2026-06-08",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1346915703",
+          "watchedDate": "2026-06-07",
+          "reviewDate": "2026-06-08",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I, obviously, was never in any rush to watch this, and I feel so justified. It’s a fine movie, but there's really nothing meaty to bite into or hold onto after you're done watching. Shoutout my hometown as a significant shooting location, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 168672,
+        "posterPath": "/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+        "backdropPath": "/bof71DUdBb5FwTylar4rnIVd8z.jpg",
+        "genres": [
+          "Drama",
+          "Crime"
+        ],
+        "runtime": 138,
+        "director": "David O. Russell"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-347866": {
       "id": "tmdb-347866",
       "letterboxdSlug": "hot-summer-nights",
