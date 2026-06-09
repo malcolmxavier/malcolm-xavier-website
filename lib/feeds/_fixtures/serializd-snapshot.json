@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-06-09T19:31:36.849Z",
+  "capturedAt": "2026-06-09T21:31:45.881Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 239,
-    "totalEpisodeReviews": 613,
+    "totalEpisodeReviews": 615,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
-      "3": 214,
+      "3": 215,
       "4": 173,
       "5": 17,
-      "3.5": 261,
+      "3.5": 262,
       "2.5": 86,
       "4.5": 49,
       "1.5": 11,
@@ -42,10 +42,10 @@
       },
       "episode": {
         "2": 21,
-        "3": 154,
+        "3": 155,
         "4": 127,
         "5": 7,
-        "3.5": 197,
+        "3.5": 198,
         "2.5": 61,
         "4.5": 40,
         "1.5": 5
@@ -252,6 +252,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 68685523,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T20:51:27Z",
+          "reviewDate": "2026-06-09T20:51:31Z",
+          "seasonId": 334953,
+          "episodeNumber": 9,
+          "episodeName": "Better Late Than Ugly",
+          "tags": []
+        },
+        {
+          "id": 68679633,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T20:03:38Z",
+          "reviewDate": "2026-06-09T20:03:44Z",
+          "seasonId": 334953,
+          "episodeNumber": 8,
+          "episodeName": "Rollerstakes and Blind Dates",
+          "tags": []
+        },
         {
           "id": 68674449,
           "level": "episode",
@@ -3311,8 +3343,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-09T19:14:15Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-06-09T20:51:31Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -26000,6 +26032,38 @@
       ],
       "reviews": [
         {
+          "id": 68685523,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T20:51:27Z",
+          "reviewDate": "2026-06-09T20:51:31Z",
+          "seasonId": 334953,
+          "episodeNumber": 9,
+          "episodeName": "Better Late Than Ugly",
+          "tags": []
+        },
+        {
+          "id": 68679633,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T20:03:38Z",
+          "reviewDate": "2026-06-09T20:03:44Z",
+          "seasonId": 334953,
+          "episodeNumber": 8,
+          "episodeName": "Rollerstakes and Blind Dates",
+          "tags": []
+        },
+        {
           "id": 68674449,
           "level": "episode",
           "rating": 3,
@@ -29058,8 +29122,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-09T19:14:15Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-06-09T20:51:31Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-245318": {
