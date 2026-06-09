@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-06-09T21:31:45.881Z",
+  "capturedAt": "2026-06-09T22:31:27.457Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 239,
-    "totalEpisodeReviews": 615,
+    "totalEpisodeReviews": 616,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 215,
       "4": 173,
       "5": 17,
-      "3.5": 262,
+      "3.5": 263,
       "2.5": 86,
       "4.5": 49,
       "1.5": 11,
@@ -45,7 +45,7 @@
         "3": 155,
         "4": 127,
         "5": 7,
-        "3.5": 198,
+        "3.5": 199,
         "2.5": 61,
         "4.5": 40,
         "1.5": 5
@@ -252,6 +252,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 68691454,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Shereé is pushing it!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T21:42:02Z",
+          "reviewDate": "2026-06-09T21:42:25Z",
+          "seasonId": 334953,
+          "episodeNumber": 10,
+          "episodeName": "Healing by Sheree",
+          "tags": []
+        },
         {
           "id": 68685523,
           "level": "episode",
@@ -3343,7 +3359,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-09T20:51:31Z",
+      "latestActivityDate": "2026-06-09T21:42:25Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -26032,6 +26048,22 @@
       ],
       "reviews": [
         {
+          "id": 68691454,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Shereé is pushing it!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T21:42:02Z",
+          "reviewDate": "2026-06-09T21:42:25Z",
+          "seasonId": 334953,
+          "episodeNumber": 10,
+          "episodeName": "Healing by Sheree",
+          "tags": []
+        },
+        {
           "id": 68685523,
           "level": "episode",
           "rating": 3.5,
@@ -29122,7 +29154,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-09T20:51:31Z",
+      "latestActivityDate": "2026-06-09T21:42:25Z",
       "primaryRating": 3.5,
       "liked": false
     },
