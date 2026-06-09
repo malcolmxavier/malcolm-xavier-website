@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-06-09T03:30:46.322Z",
+  "capturedAt": "2026-06-09T16:31:51.195Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 239,
-    "totalEpisodeReviews": 611,
+    "totalEpisodeReviews": 612,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 213,
       "4": 173,
       "5": 17,
-      "3.5": 260,
-      "4.5": 49,
+      "3.5": 261,
       "2.5": 86,
+      "4.5": 49,
       "1.5": 11,
       "0.5": 1
     },
@@ -45,16 +45,16 @@
         "3": 153,
         "4": 127,
         "5": 7,
-        "4.5": 40,
-        "3.5": 196,
+        "3.5": 197,
         "2.5": 61,
+        "4.5": 40,
         "1.5": 5
       }
     },
     "genreDistribution": {
+      "Reality": 27,
       "Drama": 97,
       "Comedy": 57,
-      "Reality": 27,
       "Sci-Fi & Fantasy": 24,
       "Talk": 1,
       "Mystery": 32,
@@ -67,8 +67,8 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
-      "2020s": 128,
       "2000s": 6,
+      "2020s": 128,
       "2010s": 21,
       "1970s": 1,
       "1990s": 1
@@ -79,209 +79,6 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
-    {
-      "id": "tmdb-tv-245318",
-      "serializdShowId": 245318,
-      "slug": "margos-got-money-troubles-2026",
-      "name": "Margo's Got Money Troubles",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-14",
-      "serializdUrl": "https://serializd.com/show/245318",
-      "tmdb": {
-        "id": 245318,
-        "name": "Margo's Got Money Troubles",
-        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
-        "genres": [
-          "Drama",
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Apple TV"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "seasons": [
-        {
-          "serializdId": 377231,
-          "showId": 245318,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 68606059,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "This really did give privilege down. Felt a bit choppy in parts, but was never what I would call bad as much as difficult to watch in parts. I’m hoping they deal more directly with privilege and demographics in the follow-up. Shoutout Rico Nasty!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-09T02:38:22Z",
-          "reviewDate": "2026-06-09T02:40:04Z",
-          "seasonId": 377231,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 68605906,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "Bonus points because I love a cunty little judge—he was the only one talking sense and I absolutely loved his theatrics.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-09T02:37:37Z",
-          "reviewDate": "2026-06-09T02:38:15Z",
-          "seasonId": 377231,
-          "episodeNumber": 8,
-          "episodeName": "Lock and Load",
-          "tags": []
-        },
-        {
-          "id": 68602762,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Getting more upsetting by the minute while also still feeling very hwhite.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-09T01:56:06Z",
-          "reviewDate": "2026-06-09T01:56:47Z",
-          "seasonId": 377231,
-          "episodeNumber": 7,
-          "episodeName": "Lariat Takedown",
-          "tags": []
-        },
-        {
-          "id": 68598628,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Not me about to do the Hungry Ghost dance, honey!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-09T00:58:34Z",
-          "reviewDate": "2026-06-09T00:58:53Z",
-          "seasonId": 377231,
-          "episodeNumber": 6,
-          "episodeName": "Grudge Match",
-          "tags": []
-        },
-        {
-          "id": 67508906,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T19:55:00Z",
-          "reviewDate": "2026-05-30T19:56:06Z",
-          "seasonId": 377231,
-          "episodeNumber": 5,
-          "episodeName": "Flamingoes",
-          "tags": []
-        },
-        {
-          "id": 67198534,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Nicole Kidman really does any role—I love that for us. Nick Offerman putting in work on multiple levels.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-28T01:14:51Z",
-          "reviewDate": "2026-05-28T01:15:53Z",
-          "seasonId": 377231,
-          "episodeNumber": 4,
-          "episodeName": "Buddies",
-          "tags": []
-        },
-        {
-          "id": 67100224,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T04:48:46Z",
-          "reviewDate": "2026-05-27T04:48:46Z",
-          "seasonId": 377231,
-          "episodeNumber": 3,
-          "episodeName": "Jinxed",
-          "tags": []
-        },
-        {
-          "id": 67086459,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T01:21:34Z",
-          "reviewDate": "2026-05-27T01:23:11Z",
-          "seasonId": 377231,
-          "episodeNumber": 2,
-          "episodeName": "Homecoming",
-          "tags": []
-        },
-        {
-          "id": 67083702,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T00:41:40Z",
-          "reviewDate": "2026-05-27T00:42:20Z",
-          "seasonId": 377231,
-          "episodeNumber": 1,
-          "episodeName": "The Hungry Ghost",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-06-09T02:40:04Z",
-      "primaryRating": 3.5,
-      "liked": false
-    },
     {
       "id": "tmdb-tv-17380",
       "serializdShowId": 17380,
@@ -455,6 +252,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 68658394,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Everyone take a breath!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T16:11:09Z",
+          "reviewDate": "2026-06-09T16:11:21Z",
+          "seasonId": 334953,
+          "episodeNumber": 6,
+          "episodeName": "Rap Sheets and Old Beefs",
+          "tags": []
+        },
         {
           "id": 68589640,
           "level": "episode",
@@ -3482,7 +3295,210 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-08T23:04:26Z",
+      "latestActivityDate": "2026-06-09T16:11:21Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-245318",
+      "serializdShowId": 245318,
+      "slug": "margos-got-money-troubles-2026",
+      "name": "Margo's Got Money Troubles",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-14",
+      "serializdUrl": "https://serializd.com/show/245318",
+      "tmdb": {
+        "id": 245318,
+        "name": "Margo's Got Money Troubles",
+        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "seasons": [
+        {
+          "serializdId": 377231,
+          "showId": 245318,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 68606059,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "This really did give privilege down. Felt a bit choppy in parts, but was never what I would call bad as much as difficult to watch in parts. I’m hoping they deal more directly with privilege and demographics in the follow-up. Shoutout Rico Nasty!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T02:38:22Z",
+          "reviewDate": "2026-06-09T02:40:04Z",
+          "seasonId": 377231,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 68605906,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Bonus points because I love a cunty little judge—he was the only one talking sense and I absolutely loved his theatrics.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T02:37:37Z",
+          "reviewDate": "2026-06-09T02:38:15Z",
+          "seasonId": 377231,
+          "episodeNumber": 8,
+          "episodeName": "Lock and Load",
+          "tags": []
+        },
+        {
+          "id": 68602762,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Getting more upsetting by the minute while also still feeling very hwhite.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T01:56:06Z",
+          "reviewDate": "2026-06-09T01:56:47Z",
+          "seasonId": 377231,
+          "episodeNumber": 7,
+          "episodeName": "Lariat Takedown",
+          "tags": []
+        },
+        {
+          "id": 68598628,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Not me about to do the Hungry Ghost dance, honey!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T00:58:34Z",
+          "reviewDate": "2026-06-09T00:58:53Z",
+          "seasonId": 377231,
+          "episodeNumber": 6,
+          "episodeName": "Grudge Match",
+          "tags": []
+        },
+        {
+          "id": 67508906,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T19:55:00Z",
+          "reviewDate": "2026-05-30T19:56:06Z",
+          "seasonId": 377231,
+          "episodeNumber": 5,
+          "episodeName": "Flamingoes",
+          "tags": []
+        },
+        {
+          "id": 67198534,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Nicole Kidman really does any role—I love that for us. Nick Offerman putting in work on multiple levels.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T01:14:51Z",
+          "reviewDate": "2026-05-28T01:15:53Z",
+          "seasonId": 377231,
+          "episodeNumber": 4,
+          "episodeName": "Buddies",
+          "tags": []
+        },
+        {
+          "id": 67100224,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:48:46Z",
+          "reviewDate": "2026-05-27T04:48:46Z",
+          "seasonId": 377231,
+          "episodeNumber": 3,
+          "episodeName": "Jinxed",
+          "tags": []
+        },
+        {
+          "id": 67086459,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T01:21:34Z",
+          "reviewDate": "2026-05-27T01:23:11Z",
+          "seasonId": 377231,
+          "episodeNumber": 2,
+          "episodeName": "Homecoming",
+          "tags": []
+        },
+        {
+          "id": 67083702,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T00:41:40Z",
+          "reviewDate": "2026-05-27T00:42:20Z",
+          "seasonId": 377231,
+          "episodeNumber": 1,
+          "episodeName": "The Hungry Ghost",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-06-09T02:40:04Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -25794,209 +25810,6 @@
     }
   ],
   "showById": {
-    "tmdb-tv-245318": {
-      "id": "tmdb-tv-245318",
-      "serializdShowId": 245318,
-      "slug": "margos-got-money-troubles-2026",
-      "name": "Margo's Got Money Troubles",
-      "premiereYear": 2026,
-      "premiereDate": "2026-04-14",
-      "serializdUrl": "https://serializd.com/show/245318",
-      "tmdb": {
-        "id": 245318,
-        "name": "Margo's Got Money Troubles",
-        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
-        "genres": [
-          "Drama",
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Apple TV"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
-      "seasons": [
-        {
-          "serializdId": 377231,
-          "showId": 245318,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 68606059,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "This really did give privilege down. Felt a bit choppy in parts, but was never what I would call bad as much as difficult to watch in parts. I’m hoping they deal more directly with privilege and demographics in the follow-up. Shoutout Rico Nasty!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-09T02:38:22Z",
-          "reviewDate": "2026-06-09T02:40:04Z",
-          "seasonId": 377231,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 68605906,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "Bonus points because I love a cunty little judge—he was the only one talking sense and I absolutely loved his theatrics.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-09T02:37:37Z",
-          "reviewDate": "2026-06-09T02:38:15Z",
-          "seasonId": 377231,
-          "episodeNumber": 8,
-          "episodeName": "Lock and Load",
-          "tags": []
-        },
-        {
-          "id": 68602762,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Getting more upsetting by the minute while also still feeling very hwhite.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-09T01:56:06Z",
-          "reviewDate": "2026-06-09T01:56:47Z",
-          "seasonId": 377231,
-          "episodeNumber": 7,
-          "episodeName": "Lariat Takedown",
-          "tags": []
-        },
-        {
-          "id": 68598628,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Not me about to do the Hungry Ghost dance, honey!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-09T00:58:34Z",
-          "reviewDate": "2026-06-09T00:58:53Z",
-          "seasonId": 377231,
-          "episodeNumber": 6,
-          "episodeName": "Grudge Match",
-          "tags": []
-        },
-        {
-          "id": 67508906,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T19:55:00Z",
-          "reviewDate": "2026-05-30T19:56:06Z",
-          "seasonId": 377231,
-          "episodeNumber": 5,
-          "episodeName": "Flamingoes",
-          "tags": []
-        },
-        {
-          "id": 67198534,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Nicole Kidman really does any role—I love that for us. Nick Offerman putting in work on multiple levels.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-28T01:14:51Z",
-          "reviewDate": "2026-05-28T01:15:53Z",
-          "seasonId": 377231,
-          "episodeNumber": 4,
-          "episodeName": "Buddies",
-          "tags": []
-        },
-        {
-          "id": 67100224,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T04:48:46Z",
-          "reviewDate": "2026-05-27T04:48:46Z",
-          "seasonId": 377231,
-          "episodeNumber": 3,
-          "episodeName": "Jinxed",
-          "tags": []
-        },
-        {
-          "id": 67086459,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T01:21:34Z",
-          "reviewDate": "2026-05-27T01:23:11Z",
-          "seasonId": 377231,
-          "episodeNumber": 2,
-          "episodeName": "Homecoming",
-          "tags": []
-        },
-        {
-          "id": 67083702,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-27T00:41:40Z",
-          "reviewDate": "2026-05-27T00:42:20Z",
-          "seasonId": 377231,
-          "episodeNumber": 1,
-          "episodeName": "The Hungry Ghost",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-06-09T02:40:04Z",
-      "primaryRating": 3.5,
-      "liked": false
-    },
     "tmdb-tv-17380": {
       "id": "tmdb-tv-17380",
       "serializdShowId": 17380,
@@ -26170,6 +25983,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 68658394,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Everyone take a breath!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T16:11:09Z",
+          "reviewDate": "2026-06-09T16:11:21Z",
+          "seasonId": 334953,
+          "episodeNumber": 6,
+          "episodeName": "Rap Sheets and Old Beefs",
+          "tags": []
+        },
         {
           "id": 68589640,
           "level": "episode",
@@ -29197,7 +29026,210 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-08T23:04:26Z",
+      "latestActivityDate": "2026-06-09T16:11:21Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
+    "tmdb-tv-245318": {
+      "id": "tmdb-tv-245318",
+      "serializdShowId": 245318,
+      "slug": "margos-got-money-troubles-2026",
+      "name": "Margo's Got Money Troubles",
+      "premiereYear": 2026,
+      "premiereDate": "2026-04-14",
+      "serializdUrl": "https://serializd.com/show/245318",
+      "tmdb": {
+        "id": 245318,
+        "name": "Margo's Got Money Troubles",
+        "posterPath": "/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+        "backdropPath": "/r1lGjwTRF0RGYFHzvt3SupArmRy.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fRR0Ho2c1nFJQiXWg4LNIgRPbg0.jpg",
+      "seasons": [
+        {
+          "serializdId": 377231,
+          "showId": 245318,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/4gGA20HCyXn8X06LwpV1zIYuUFh.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 68606059,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "This really did give privilege down. Felt a bit choppy in parts, but was never what I would call bad as much as difficult to watch in parts. I’m hoping they deal more directly with privilege and demographics in the follow-up. Shoutout Rico Nasty!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T02:38:22Z",
+          "reviewDate": "2026-06-09T02:40:04Z",
+          "seasonId": 377231,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 68605906,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Bonus points because I love a cunty little judge—he was the only one talking sense and I absolutely loved his theatrics.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T02:37:37Z",
+          "reviewDate": "2026-06-09T02:38:15Z",
+          "seasonId": 377231,
+          "episodeNumber": 8,
+          "episodeName": "Lock and Load",
+          "tags": []
+        },
+        {
+          "id": 68602762,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Getting more upsetting by the minute while also still feeling very hwhite.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T01:56:06Z",
+          "reviewDate": "2026-06-09T01:56:47Z",
+          "seasonId": 377231,
+          "episodeNumber": 7,
+          "episodeName": "Lariat Takedown",
+          "tags": []
+        },
+        {
+          "id": 68598628,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Not me about to do the Hungry Ghost dance, honey!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-09T00:58:34Z",
+          "reviewDate": "2026-06-09T00:58:53Z",
+          "seasonId": 377231,
+          "episodeNumber": 6,
+          "episodeName": "Grudge Match",
+          "tags": []
+        },
+        {
+          "id": 67508906,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T19:55:00Z",
+          "reviewDate": "2026-05-30T19:56:06Z",
+          "seasonId": 377231,
+          "episodeNumber": 5,
+          "episodeName": "Flamingoes",
+          "tags": []
+        },
+        {
+          "id": 67198534,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Nicole Kidman really does any role—I love that for us. Nick Offerman putting in work on multiple levels.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-28T01:14:51Z",
+          "reviewDate": "2026-05-28T01:15:53Z",
+          "seasonId": 377231,
+          "episodeNumber": 4,
+          "episodeName": "Buddies",
+          "tags": []
+        },
+        {
+          "id": 67100224,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T04:48:46Z",
+          "reviewDate": "2026-05-27T04:48:46Z",
+          "seasonId": 377231,
+          "episodeNumber": 3,
+          "episodeName": "Jinxed",
+          "tags": []
+        },
+        {
+          "id": 67086459,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T01:21:34Z",
+          "reviewDate": "2026-05-27T01:23:11Z",
+          "seasonId": 377231,
+          "episodeNumber": 2,
+          "episodeName": "Homecoming",
+          "tags": []
+        },
+        {
+          "id": 67083702,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Okay, I liked that! Condensed, yet clear and concise.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-27T00:41:40Z",
+          "reviewDate": "2026-05-27T00:42:20Z",
+          "seasonId": 377231,
+          "episodeNumber": 1,
+          "episodeName": "The Hungry Ghost",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-06-09T02:40:04Z",
       "primaryRating": 3.5,
       "liked": false
     },
