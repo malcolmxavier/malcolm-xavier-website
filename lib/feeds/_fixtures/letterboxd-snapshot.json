@@ -1,13 +1,13 @@
 {
-  "capturedAt": "2026-06-08T02:00:03.987Z",
+  "capturedAt": "2026-06-09T06:01:33.336Z",
   "summary": {
-    "totalFilms": 770,
-    "totalReviews": 770,
-    "thisYearCount": 129,
+    "totalFilms": 771,
+    "totalReviews": 771,
+    "thisYearCount": 130,
     "ratingDistribution": {
       "1": 38,
       "2": 122,
-      "3": 145,
+      "3": 146,
       "4": 104,
       "5": 16,
       "1.5": 34,
@@ -17,9 +17,9 @@
       "0.5": 9
     },
     "genreDistribution": {
-      "Drama": 363,
-      "Crime": 101,
-      "Thriller": 218,
+      "Crime": 102,
+      "Drama": 364,
+      "Thriller": 219,
       "Action": 115,
       "Fantasy": 60,
       "Science Fiction": 114,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2010s": 126,
+      "2010s": 127,
       "2000s": 32,
       "2020s": 575,
       "1990s": 16,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-241239",
+      "letterboxdSlug": "a-most-violent-year",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/a-most-violent-year/",
+      "title": "A Most Violent Year",
+      "releaseYear": 2014,
+      "firstWatchedDate": "2026-06-08",
+      "latestWatchedDate": "2026-06-08",
+      "firstReviewDate": "2026-06-09",
+      "latestReviewDate": "2026-06-09",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1348460695",
+          "watchedDate": "2026-06-08",
+          "reviewDate": "2026-06-09",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Mostly a bunch of great scene studies smashed together without much cohesion or payoff. That chase scene onto the subway had me awake, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 241239,
+        "posterPath": "/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+        "backdropPath": "/wjfJy0jXpbtUuSkFxUeF8W4RrEo.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 125,
+        "director": "J.C. Chandor"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-168672",
       "letterboxdSlug": "american-hustle",
@@ -33506,6 +33551,51 @@
     }
   ],
   "filmById": {
+    "tmdb-241239": {
+      "id": "tmdb-241239",
+      "letterboxdSlug": "a-most-violent-year",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/a-most-violent-year/",
+      "title": "A Most Violent Year",
+      "releaseYear": 2014,
+      "firstWatchedDate": "2026-06-08",
+      "latestWatchedDate": "2026-06-08",
+      "firstReviewDate": "2026-06-09",
+      "latestReviewDate": "2026-06-09",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1348460695",
+          "watchedDate": "2026-06-08",
+          "reviewDate": "2026-06-09",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Mostly a bunch of great scene studies smashed together without much cohesion or payoff. That chase scene onto the subway had me awake, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 241239,
+        "posterPath": "/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+        "backdropPath": "/wjfJy0jXpbtUuSkFxUeF8W4RrEo.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 125,
+        "director": "J.C. Chandor"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-168672": {
       "id": "tmdb-168672",
       "letterboxdSlug": "american-hustle",
