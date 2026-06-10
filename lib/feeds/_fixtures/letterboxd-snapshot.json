@@ -1,13 +1,13 @@
 {
-  "capturedAt": "2026-06-09T06:01:33.336Z",
+  "capturedAt": "2026-06-10T02:01:42.254Z",
   "summary": {
-    "totalFilms": 771,
-    "totalReviews": 771,
-    "thisYearCount": 130,
+    "totalFilms": 772,
+    "totalReviews": 772,
+    "thisYearCount": 131,
     "ratingDistribution": {
       "1": 38,
       "2": 122,
-      "3": 146,
+      "3": 147,
       "4": 104,
       "5": 16,
       "1.5": 34,
@@ -17,9 +17,11 @@
       "0.5": 9
     },
     "genreDistribution": {
+      "Thriller": 220,
+      "History": 42,
+      "War": 17,
       "Crime": 102,
       "Drama": 364,
-      "Thriller": 219,
       "Action": 115,
       "Fantasy": 60,
       "Science Fiction": 114,
@@ -28,19 +30,17 @@
       "Mystery": 80,
       "Music": 49,
       "Horror": 128,
-      "History": 41,
       "Adventure": 84,
       "Romance": 88,
       "Documentary": 59,
       "Animation": 43,
       "TV Movie": 5,
-      "War": 16,
       "Western": 3
     },
     "decadeDistribution": {
+      "2020s": 576,
       "2010s": 127,
       "2000s": 32,
-      "2020s": 575,
       "1990s": 16,
       "1980s": 16,
       "1960s": 1,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1318413",
+      "letterboxdSlug": "pressure",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/pressure-2026/",
+      "title": "Pressure",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-09",
+      "latestWatchedDate": "2026-06-09",
+      "firstReviewDate": "2026-06-10",
+      "latestReviewDate": "2026-06-10",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1349442125",
+          "watchedDate": "2026-06-09",
+          "reviewDate": "2026-06-10",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Well, I was feeling the pressure, yes. I don’t know that there are really what I would call good war movies, but the subject itself is so heavy that there’s sort of an automatic gravitas. Needed more Kerry Condon and Chris Messina.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1318413,
+        "posterPath": "/9RkDrI8V8QJBjhtyRX7y6Qow3aq.jpg",
+        "backdropPath": "/q7ZgPZIqSYm3UlrdCldkYzjGOCI.jpg",
+        "genres": [
+          "Thriller",
+          "History",
+          "War"
+        ],
+        "runtime": 100,
+        "director": "Anthony Maras"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/9RkDrI8V8QJBjhtyRX7y6Qow3aq.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/9RkDrI8V8QJBjhtyRX7y6Qow3aq.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-241239",
       "letterboxdSlug": "a-most-violent-year",
@@ -33551,6 +33596,51 @@
     }
   ],
   "filmById": {
+    "tmdb-1318413": {
+      "id": "tmdb-1318413",
+      "letterboxdSlug": "pressure",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/pressure-2026/",
+      "title": "Pressure",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-09",
+      "latestWatchedDate": "2026-06-09",
+      "firstReviewDate": "2026-06-10",
+      "latestReviewDate": "2026-06-10",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1349442125",
+          "watchedDate": "2026-06-09",
+          "reviewDate": "2026-06-10",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Well, I was feeling the pressure, yes. I don’t know that there are really what I would call good war movies, but the subject itself is so heavy that there’s sort of an automatic gravitas. Needed more Kerry Condon and Chris Messina.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1318413,
+        "posterPath": "/9RkDrI8V8QJBjhtyRX7y6Qow3aq.jpg",
+        "backdropPath": "/q7ZgPZIqSYm3UlrdCldkYzjGOCI.jpg",
+        "genres": [
+          "Thriller",
+          "History",
+          "War"
+        ],
+        "runtime": 100,
+        "director": "Anthony Maras"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/9RkDrI8V8QJBjhtyRX7y6Qow3aq.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/9RkDrI8V8QJBjhtyRX7y6Qow3aq.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-241239": {
       "id": "tmdb-241239",
       "letterboxdSlug": "a-most-violent-year",
