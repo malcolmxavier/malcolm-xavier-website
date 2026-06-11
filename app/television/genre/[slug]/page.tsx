@@ -27,6 +27,7 @@ import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
+import { hybridMatchIds } from "@/lib/feeds/fuzzy-search";
 import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
   applyCompletedCardFilters,
@@ -93,6 +94,7 @@ export async function generateMetadata({
       )) ||
     Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
     filters.watchedWindow !== undefined ||
+    Boolean(filters.titleQuery) ||
     filters.premiereYearMin !== undefined ||
     filters.premiereYearMax !== undefined ||
     filters.cardKind !== undefined;
@@ -206,7 +208,10 @@ export default async function TvGenrePage({
       s.inProgressSeasonNumbers.length > 0,
   ).length;
 
-  const applied = applyCompletedCardFilters(allCards, filters, sort);
+  // Title search (?title=) composes with the pinned genre — match SHOW
+  // ids by name (hybrid), then drop non-matching cards.
+  const matchIds = hybridMatchIds(shows, filters.titleQuery, ["name"], (s) => s.id);
+  const applied = applyCompletedCardFilters(allCards, filters, sort, matchIds);
   const {
     current: pageCards,
     totalPages,

@@ -383,6 +383,16 @@ export function FilmsShell({
     });
   }
 
+  // Search. Values arrive already trimmed from SearchInput; "" clears
+  // the param. navigate() handles empty→delete + page reset + analytics
+  // ("search" dimension via pickFilterDimension).
+  function handleTitleChange(value: string) {
+    navigate({ title: value || undefined });
+  }
+  function handleDirectorChange(value: string) {
+    navigate({ director: value || undefined });
+  }
+
   function resetSort() {
     handleSortChange("latest-watched-desc");
   }
@@ -426,6 +436,8 @@ export function FilmsShell({
     onSetWatched12Mo: setWatched12Mo,
     onClearWatchedDate: clearWatchedDate,
     onSortChange: handleSortChange,
+    onTitleChange: handleTitleChange,
+    onDirectorChange: handleDirectorChange,
     onClearAll: clearAll,
   };
   const sidebarFilterContent = (
@@ -601,6 +613,8 @@ export function FilmsShell({
                 onRemoveGenre={toggleGenre}
                 onRemoveWatchedYear={toggleWatchedYear}
                 onClearWatchedWindow={clearWatchedDate}
+                onRemoveTitle={() => handleTitleChange("")}
+                onRemoveDirector={() => handleDirectorChange("")}
                 onResetSort={resetSort}
                 onClearAll={clearAll}
               />
@@ -663,6 +677,8 @@ function FilterContent({
   onSetWatched12Mo,
   onClearWatchedDate,
   onSortChange,
+  onTitleChange,
+  onDirectorChange,
   onClearAll,
   announceResultCount,
   showClearAll = true,
@@ -679,6 +695,9 @@ function FilterContent({
   onSetWatched12Mo: () => void;
   onClearWatchedDate: () => void;
   onSortChange: (v: FilmSort) => void;
+  /** Push a new title / director query (already trimmed; "" clears). */
+  onTitleChange: (v: string) => void;
+  onDirectorChange: (v: string) => void;
   onClearAll: () => void;
   /** Hide the inline "Clear all" button. The desktop sidebar sets
    *  this `false` because the active-filter chip rail above the
@@ -706,11 +725,28 @@ function FilterContent({
   const past12moActive = filters.watchedWindow === "12mo";
   return (
     <Stack gap="500">
-      {/* Sort + clear-all live at the top of the rail so the most
-          common control is the easiest to reach. The result count
-          sits next to "Clear all" — same line as the Sort label
-          would feel cramped, so each gets its own row inside the
-          Stack. */}
+      {/* Search leads the rail — title + director (separate fields, AND
+          across them), above the narrowing filters. Debounced, each
+          writes its own param (?title= / ?director=). */}
+      <SearchInput
+        value={filters.titleQuery ?? ""}
+        onSearch={onTitleChange}
+        label="Title"
+        placeholder="Search titles"
+        ariaLabel="Search films by title"
+      />
+      <SearchInput
+        value={filters.directorQuery ?? ""}
+        onSearch={onDirectorChange}
+        label="Director"
+        placeholder="Search directors"
+        ariaLabel="Search films by director"
+      />
+
+      {/* Sort + clear-all live near the top of the rail so the most
+          common control is easy to reach. The result count sits next
+          to "Clear all" — same line as the Sort label would feel
+          cramped, so each gets its own row inside the Stack. */}
       <div>
         <Kicker>Sort</Kicker>
         <select
@@ -940,6 +976,8 @@ function ActiveFilterChips({
   onRemoveGenre,
   onRemoveWatchedYear,
   onClearWatchedWindow,
+  onRemoveTitle,
+  onRemoveDirector,
   onResetSort,
   onClearAll,
 }: {
@@ -949,6 +987,8 @@ function ActiveFilterChips({
   onRemoveGenre: (g: string) => void;
   onRemoveWatchedYear: (y: number) => void;
   onClearWatchedWindow: () => void;
+  onRemoveTitle: () => void;
+  onRemoveDirector: () => void;
   onResetSort: () => void;
   onClearAll: () => void;
 }) {
@@ -966,6 +1006,8 @@ function ActiveFilterChips({
     genres.length +
     watchedYears.length +
     (filters.watchedWindow !== undefined ? 1 : 0) +
+    (filters.titleQuery ? 1 : 0) +
+    (filters.directorQuery ? 1 : 0) +
     (sortIsDefault ? 0 : 1);
 
   if (dismissableCount === 0) return null;
@@ -984,6 +1026,20 @@ function ActiveFilterChips({
         gap: 8,
       }}
     >
+      {filters.titleQuery ? (
+        <DismissableChip
+          label={`Title: “${filters.titleQuery}”`}
+          ariaLabel={`Clear title search for ${filters.titleQuery}`}
+          onDismiss={onRemoveTitle}
+        />
+      ) : null}
+      {filters.directorQuery ? (
+        <DismissableChip
+          label={`Director: “${filters.directorQuery}”`}
+          ariaLabel={`Clear director search for ${filters.directorQuery}`}
+          onDismiss={onRemoveDirector}
+        />
+      ) : null}
       {ratings.map((r) => (
         <DismissableChip
           key={`rating-${r}`}
@@ -1034,6 +1090,80 @@ function ActiveFilterChips({
         </button>
       ) : null}
     </nav>
+  );
+}
+
+/** Debounced search box for the reviews grid. Owns local input state
+ *  for responsive typing and pushes the trimmed value to the URL ~300ms
+ *  after the last keystroke (matching the instant-filter model without a
+ *  navigation per character). Re-syncs from `value` when it changes
+ *  externally — a chip dismiss or Clear all. Rendered in both the
+ *  desktop sidebar and the mobile drawer. */
+function SearchInput({
+  value,
+  onSearch,
+  label,
+  placeholder,
+  ariaLabel,
+}: {
+  value: string;
+  onSearch: (v: string) => void;
+  /** Visible mono eyebrow above the input (e.g. "Title", "Director"). */
+  label: string;
+  placeholder: string;
+  /** Self-contained accessible name (the box renders twice — sidebar +
+   *  drawer — so a shared <label> id would duplicate). */
+  ariaLabel: string;
+}) {
+  const [local, setLocal] = useState(value);
+  // The last value we pushed to the URL. Lets the sync effect below
+  // distinguish an EXTERNAL change (chip ×, Clear all) from the echo of
+  // our own debounced push, so it never resets the box mid-type.
+  const lastPushed = useRef(value);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (value !== lastPushed.current) {
+      lastPushed.current = value;
+      setLocal(value);
+    }
+  }, [value]);
+
+  // Clear any pending debounce on unmount.
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
+
+  function handleChange(next: string) {
+    setLocal(next);
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      const trimmed = next.trim();
+      lastPushed.current = trimmed;
+      onSearch(trimmed);
+    }, 300);
+  }
+
+  return (
+    <div>
+      <Kicker>{label}</Kicker>
+      <input
+        type="search"
+        value={local}
+        onChange={(e) => handleChange(e.target.value)}
+        placeholder={placeholder}
+        // <Kicker> renders as <p>, not <label>, and this box renders
+        // twice (sidebar + drawer) so a shared id would duplicate —
+        // aria-label is the self-contained accessible name. type=search
+        // carries the implicit searchbox role.
+        aria-label={ariaLabel}
+        className="reviews-search-input focus-visible:outline-2 focus-visible:outline-offset-2"
+        style={{ ...searchInputStyle, marginTop: 8 }}
+      />
+    </div>
   );
 }
 
@@ -1144,6 +1274,7 @@ function pickFilterDimension(keys: string[]): string | null {
   if (keys.includes("genre")) return "genre";
   if (keys.includes("watchedYear") || keys.includes("watchedWindow"))
     return "watched";
+  if (keys.includes("title") || keys.includes("director")) return "search";
   if (keys.includes("sort")) return "sort";
   return null;
 }
@@ -1152,6 +1283,8 @@ function countActiveFilters(filters: FilmFilters): number {
   let n = 0;
   if (filters.ratings && filters.ratings.length > 0) n++;
   if (filters.genres && filters.genres.length > 0) n++;
+  if (filters.titleQuery) n++;
+  if (filters.directorQuery) n++;
   // releaseYearMin / releaseYearMax intentionally NOT counted here
   // — they're parsed from the URL and respected by applyFilters,
   // but no chip in ActiveFilterChips and no input in FilterContent
@@ -1193,6 +1326,23 @@ const chipBaseStyle: CSSProperties = {
   border: "1px solid var(--border-interactive)",
   cursor: "pointer",
   whiteSpace: "nowrap",
+  outlineColor: "var(--border-focus)",
+};
+
+// Search box — same control vocabulary as the sort <select> (mono,
+// --border-interactive boundary, page surface) but text-entry padding
+// and a default text cursor. Placeholder color is set via the
+// .reviews-search-input rule in components.css (::placeholder can't be
+// expressed inline).
+const searchInputStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 12,
+  padding: "8px 12px",
+  border: "1px solid var(--border-interactive)",
+  borderRadius: "var(--border-radius-sm)",
+  background: "var(--surface-page)",
+  color: "var(--text-body)",
+  width: "100%",
   outlineColor: "var(--border-focus)",
 };
 

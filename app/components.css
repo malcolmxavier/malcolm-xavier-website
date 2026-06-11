@@ -472,6 +472,15 @@ a[data-subbrand="film"] {
   }
 }
 
+/* Reviews-grid search box (FilmsShell / TelevisionShell). ::placeholder
+   can't be set via React inline styles, so the muted placeholder color
+   is pinned here to match the caption token (and the sort control's
+   visual weight). */
+.reviews-search-input::placeholder {
+  color: var(--text-caption);
+  opacity: 1; /* Firefox dims placeholders by default; undo it. */
+}
+
 /* /television filter-rail + dismiss chips. Same posture as
    .film-filter-chip — moved into the cascade so prefers-reduced-
    motion can disable the transition (Tailwind's
