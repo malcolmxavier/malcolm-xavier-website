@@ -1,400 +1,277 @@
 // ─────────────────────────────────────────────────────────────────
-// /films — server component.
+// /films — editorial landing (cluster front).
 //
-// Reads URL params, runs applyFilters + paginate, and hands the
-// result to FilmsShell (client) for filter UI + grid + pagination
-// rendering. All filtering is server-side — each control change in
-// FilmsShell calls router.replace, which re-runs this page with new
-// params. Page-size detection mirrors /music: 30 desktop+tablet, 6
-// Save-Data; the visual mobile-density split is handled by the
-// responsive grid at ~160px min column width.
+// Phase 1 of the film/TV editorial-cluster initiative: /films is no
+// longer the review grid (that moved to /films/reviews). This is the
+// point-of-interest landing — a taste statement, what's on rotation
+// now, the hand-picked canon, and the curated lists — with the corpus
+// one click away via the in-hero CTA + the sticky ClusterRail.
 //
-// Snapshot-only at request time: getFilms() reads
-// lib/feeds/_fixtures/letterboxd-snapshot.json directly. No live
-// API path. Free of rate limits, deterministic latency.
+// Server component: reads the snapshot via getFilms / getFilmFavorites
+// / getFilmLists. No searchParams, so this prerenders static.
+//
+// Copy (Display / Lede / section intros) ships as working placeholders
+// for Malcolm to refine in his voice.
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
+import { Grid } from "@/components/layout/Grid";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
-import { Link } from "@/components/primitives/Link";
-import { TrackOnClick } from "@/components/analytics/TrackOnClick";
-import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import { ELSEWHERE } from "@/lib/elsewhere";
+import { Headline } from "@/components/typography/Headline";
+import { ClusterRail } from "@/components/chrome/ClusterRail";
+import { PosterTile } from "@/components/feeds/PosterTile";
+import { FeaturedPick } from "@/components/feeds/FeaturedPick";
+import { ListCard } from "@/components/feeds/ListCard";
 import { SITE_URL } from "@/lib/site-config";
-import { getFilms } from "@/lib/feeds/letterboxd";
 import {
-  applyFilters,
-  asString,
-  paginate,
-  parseFilmFilters,
-  parseFilmSort,
-  slugifyGenre,
-} from "@/lib/feeds/letterboxd-utils";
-import { FilmsShell } from "./FilmsShell";
-import { SummaryPanel } from "./SummaryPanel";
+  getFilms,
+  getFilmFavorites,
+  getFilmLists,
+  getFilmByLetterboxdSlug,
+} from "@/lib/feeds/letterboxd";
+import { getFilmFeaturedPick } from "@/lib/feeds/featured-pick";
+import type { Film, FilmList } from "@/lib/feeds/letterboxd";
 
-// Pulled from the central registry so a URL change in Footer or
-// Contact (the other two surfaces that link out to Letterboxd) is
-// a single edit. Falls back to the canonical profile URL if the
-// entry is somehow missing — keeps the page from rendering a
-// broken CTA in that edge case.
-const LETTERBOXD_PROFILE_URL =
-  ELSEWHERE.find((e) => e.label === "Letterboxd")?.href ??
-  "https://letterboxd.com/malxavi/";
+// How many recent watches to surface in the "Now" module — one clean
+// 5-up row on desktop (matches the denser poster grid below).
+const NOW_COUNT = 5;
 
-/**
- * Build the listing meta description from the live snapshot total
- * so the count never goes stale across snapshot refreshes. The
- * function is called from both `generateMetadata` and the
- * CollectionPage JSON-LD so they stay in lockstep — refresh the
- * snapshot, both update; no hardcoded literal to forget.
- */
-function buildListingDescription(totalFilms: number): string {
-  return `${totalFilms.toLocaleString()} films and counting, logged, rated, and reviewed. Every Letterboxd entry preserved—horror, arthouse, blockbusters. Filter by rating, genre, or year.`;
+export const metadata: Metadata = {
+  title: "Films",
+  description:
+    "Film as taste, not a catalogue—what Malcolm Xavier is watching now, the all-time favorites, the ranked and themed lists, and the full reviewed corpus.",
+  alternates: { canonical: "/films" },
+  openGraph: {
+    title: "Films—Malcolm Xavier",
+    description:
+      "What I'm watching now, my all-time favorites, my ranked lists, and every review.",
+    url: "/films",
+    type: "website",
+    images: ["/opengraph-image"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Films—Malcolm Xavier",
+    description:
+      "What I'm watching now, my all-time favorites, my ranked lists, and every review.",
+    images: ["/opengraph-image"],
+  },
+};
+
+/** Canonical on-site detail href for a corpus film. */
+function filmDetailHref(film: Film): string {
+  return `/films/${film.letterboxdSlug}-${film.releaseYear}`;
 }
 
-/**
- * Per-request metadata. Three crawl directives compose here:
- *
- *   1. /films (no params) — canonical to itself, indexable. The
- *      base listing is the canonical entity for the corpus.
- *
- *   2. /films?genre=Single (one genre, nothing else) — canonical
- *      to /films/genre/<slug>, the dedicated SEO entry point for
- *      that genre. Consolidates crawl signal; we don't want two
- *      indexable URLs for the same content.
- *
- *   3. /films?<anything-else> or ?page=N>1 — noindex,follow.
- *      Filter combinations and pagination are crawlable for
- *      discovery (follow keeps the link graph alive) but kept
- *      out of the index to avoid thin / duplicate content.
- */
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}): Promise<Metadata> {
-  const sp = await searchParams;
-  const filters = parseFilmFilters(sp);
-  const page = Number.parseInt(asString(sp.page) ?? "1", 10);
-  const isPagedBeyondFirst = Number.isFinite(page) && page > 1;
-
-  // Detect "single genre, nothing else" — the case where canonical
-  // should hand off to the dedicated /films/genre/<slug> route.
-  const onlyGenreFilter =
-    filters.genres &&
-    filters.genres.length === 1 &&
-    !filters.ratings &&
-    !filters.watchedYears &&
-    !filters.watchedWindow &&
-    filters.releaseYearMin === undefined &&
-    filters.releaseYearMax === undefined &&
-    !isPagedBeyondFirst;
-
-  const filterCombinationActive =
-    !onlyGenreFilter &&
-    (Boolean(filters.ratings && filters.ratings.length > 0) ||
-      Boolean(filters.genres && filters.genres.length > 0) ||
-      Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
-      filters.watchedWindow !== undefined ||
-      filters.releaseYearMin !== undefined ||
-      filters.releaseYearMax !== undefined);
-
-  const noindex = filterCombinationActive || isPagedBeyondFirst;
-
-  const canonical = onlyGenreFilter
-    ? `/films/genre/${slugifyGenre(filters.genres![0])}`
-    : "/films";
-
-  // Read the snapshot total here (cheap — module-cached after the
-  // first request) so the description's count tracks the live
-  // snapshot rather than a baked-in literal that goes stale every
-  // refresh.
-  const description = buildListingDescription(getFilms().summary.totalFilms);
-
-  return {
-    title: "Film Reviews",
-    description,
-    alternates: { canonical },
-    robots: noindex ? { index: false, follow: true } : undefined,
-    openGraph: {
-      title: "Film Reviews—Malcolm Xavier",
-      description,
-      // Track the canonical so unfurlers and crawlers receive the
-      // same "true URL" signal: /films on the listing,
-      // /films/genre/<slug> when ?genre=Single hands off. Class-
-      // audit fix from tv-og-url-genre-redirect-mismatch.
-      url: canonical,
-      type: "website",
-      // Next.js metadata `openGraph` replaces (not merges) the
-      // parent's, so without explicit images here /films would
-      // inherit nothing — the LinkedIn / iMessage / Slack unfurl
-      // would show title + URL only, no card art. Point at the
-      // sitewide programmatic OG card (Satori-rendered at
-      // /opengraph-image) so the cluster reads as part of the
-      // brand identity rather than a bare URL.
-      images: ["/opengraph-image"],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: "Film Reviews—Malcolm Xavier",
-      description,
-      images: ["/opengraph-image"],
-    },
-  };
-}
-
-// 24 is the unified page size across mobile, tablet, and desktop.
-// It divides cleanly into 1/2/3/4/6 columns — every column count
-// the responsive grid produces inside the films container — so no
-// row ever ends incomplete. /music's mobile-vs-desktop split isn't
-// needed here: film cards are lighter (poster-only, no track meta)
-// so the same density reads comfortably across viewports.
-const PAGE_SIZE_DEFAULT = 24;
-// Save-Data is an opt-in user signal — when present, we serve half
-// the cards so the bandwidth-conscious user gets a smaller page.
-// 12 keeps row math clean (1/2/3/4/6 cols all divide evenly).
-const PAGE_SIZE_SAVE_DATA = 12;
-
-type SearchParams = Promise<Record<string, string | string[] | undefined>>;
-
-export default async function FilmsPage({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-  const headersList = await headers();
-  const saveData = headersList.get("save-data") === "on";
-  const params = await searchParams;
-
-  // Filter + sort + page state all live in the URL — single source
-  // of truth across server renders and client navigations.
-  const filters = parseFilmFilters(params);
-  const sort = parseFilmSort(params);
-  const rawPage = Number.parseInt(asString(params.page) ?? "1", 10);
-  const requestedPage =
-    Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
-
-  // Save-Data shrinks the page size; the responsive grid handles
-  // the visual mobile-vs-desktop split via auto-fill, so we don't
-  // need separate viewport-based variants.
-  const pageSize = saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DEFAULT;
-
-  // capturedAt is intentionally not surfaced here — the snapshot's
-  // freshness signal lives on /api/letterboxd/health, not on the
-  // listing page itself. Destructured-and-ignored is cleaner than
-  // omitting it from the destructure (which would still pull the
-  // string into memory but lose the named reference for diffing).
-  const { films, summary } = getFilms();
-
-  // Genres available in the dataset, sorted by usage descending so
-  // the chip rail leads with the most-common ones. Pulled from the
-  // pre-aggregated summary so this is O(genres) not O(films).
-  const availableGenres = Object.entries(summary.genreDistribution)
-    .sort((a, b) => b[1] - a[1])
-    .map(([g]) => g);
-
-  // Watched years available in the dataset. Derived from each film's
-  // pre-computed watchedYearSet (built at snapshot-write time from
-  // each review's watchedDate) so this is O(films) but iterates a
-  // tiny set per film. Sorted desc so the chip rail leads with the
-  // newest year. Going dynamic here closes
-  // films-review-date-options-hardcoded-years — when 2027 ships,
-  // the chip rail won't silently drop 2027 watches from filterability.
-  const watchedYearSetGlobal = new Set<number>();
-  for (const film of films) {
-    for (const y of film.watchedYearSet) watchedYearSetGlobal.add(y);
+/** Resolve up to three corpus poster URLs for a list's cover montage,
+ *  walking the list's films in order and skipping any not in the
+ *  reviewed corpus (or lacking a poster). */
+function listCoverPosters(list: FilmList): string[] {
+  const urls: string[] = [];
+  for (const slug of list.filmSlugs) {
+    const film = getFilmByLetterboxdSlug(slug);
+    if (film?.posterUrl) urls.push(film.posterUrl);
+    if (urls.length >= 3) break;
   }
-  const availableWatchedYears = Array.from(watchedYearSetGlobal).sort(
-    (a, b) => b - a,
-  );
+  return urls;
+}
 
-  // Re-derive "watched this year" at request time so the count
-  // matches the displayed year label (which is itself derived from
-  // `new Date()`). The snapshot's pre-aggregated `summary.thisYearCount`
-  // is frozen at refresh time and goes stale across the year
-  // boundary — Jan 1 would otherwise display "{lastYear's count} in
-  // {newYear}" until the next snapshot refresh.
-  const currentYear = new Date().getUTCFullYear();
-  const currentYearCount = films.filter((f) =>
-    f.watchedYearSet.includes(currentYear),
-  ).length;
+export default function FilmsLandingPage() {
+  const { films } = getFilms();
+  const favorites = getFilmFavorites();
+  const lists = getFilmLists();
+  const recent = films.slice(0, NOW_COUNT);
+  const featured = getFilmFeaturedPick();
 
-  const applied = applyFilters(films, filters, sort);
-  const {
-    current: pageFilms,
-    totalPages,
-    totalResults,
-    page,
-  } = paginate(applied, requestedPage, pageSize);
-
-  // CollectionPage + BreadcrumbList JSON-LD. CollectionPage names
-  // the listing as a curated review corpus so AI-search retrievers
-  // (Perplexity, ChatGPT search) understand /films's role.
-  // BreadcrumbList is a single-level trail ("Films") since the
-  // listing is the cluster root. Closes
-  // films-listing-no-collectionpage-jsonld.
-  //
-  // The previous `about: { "@type": "Movie" }` field was removed
-  // because Google's Rich Results validator parses bare Movie
-  // entities as standalone rich-result items and flags them
-  // invalid (they lack required Movie fields like image, dateCreated).
-  // CollectionPage already conveys the listing's subject through
-  // its name + description; the bare `about` was redundant.
-  const listingUrl = `${SITE_URL}/films`;
-  const listingJsonLd = {
+  // Page-level JSON-LD. The landing is now a first-class editorial page
+  // (not just a grid precursor), so it carries its own CollectionPage —
+  // mirroring /films/reviews, which already had one. When a featured
+  // pick is set, its hand-written take is emitted as a schema.org Review
+  // in the SAME @graph: legitimate critic-reviews-a-creative-work markup
+  // (itemReviewed is a third-party Movie, not a self-review), with a
+  // real rating and NO faked aggregateRating.
+  const pageUrl = `${SITE_URL}/films`;
+  const person = {
+    "@type": "Person",
+    name: "Malcolm Xavier",
+    "@id": `${SITE_URL}/#person`,
+  };
+  const landingJsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "CollectionPage",
-        name: "Film Reviews",
-        description: `Every film Malcolm Xavier has logged, rated, and reviewed on Letterboxd—${summary.totalFilms.toLocaleString()} entries spanning horror, arthouse, and blockbusters.`,
-        url: listingUrl,
+        name: "Films",
+        description:
+          "Film as taste, not a catalogue—what Malcolm Xavier is watching now, the all-time favorites, the curated lists, and a standing recommendation.",
+        url: pageUrl,
         inLanguage: "en-US",
-        author: {
-          "@type": "Person",
-          name: "Malcolm Xavier",
-          "@id": `${SITE_URL}/#person`,
-        },
+        author: person,
       },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Films",
-            item: listingUrl,
-          },
-        ],
-      },
+      ...(featured
+        ? [
+            {
+              "@type": "Review",
+              name: `Currently recommending: ${featured.title}`,
+              url: `${SITE_URL}${featured.href}`,
+              author: person,
+              reviewBody: featured.take,
+              itemReviewed: {
+                "@type": featured.kind,
+                name: featured.title,
+                ...(featured.posterUrl ? { image: featured.posterUrl } : {}),
+              },
+              ...(featured.rating !== null
+                ? {
+                    reviewRating: {
+                      "@type": "Rating",
+                      ratingValue: featured.rating,
+                      bestRating: 5,
+                      worstRating: 0.5,
+                    },
+                  }
+                : {}),
+            },
+          ]
+        : []),
     ],
   };
-
-  // rel=prev/next link tags for pagination. Google deprecated these
-  // in 2019 but Bing still uses them, and they're a low-cost crawl
-  // signal. React 19 hoists <link> elements rendered in components
-  // to <head> automatically. Closes films-rel-prev-next-pagination-head.
-  const prevHref = page > 1 ? buildPageHref(params, page - 1) : null;
-  const nextHref = page < totalPages ? buildPageHref(params, page + 1) : null;
 
   return (
     <div data-subbrand="film">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(listingJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(landingJsonLd) }}
       />
-      {prevHref ? <link rel="prev" href={prevHref} /> : null}
-      {nextHref ? <link rel="next" href={nextHref} /> : null}
+      {/* ─── Hero ─────────────────────────────────────────────── */}
       <Container size="lg">
-        {/* ─── Hero + Summary (side-by-side on lg+, stacked below) ─
-            On lg+ the hero and panel share one row; on smaller
-            viewports the panel drops below the hero copy in natural
-            reading order. The 3:2 column ratio gives the editorial
-            voice (Display + Lede) more horizontal room than the
-            stats sidebar — the chart still reads cleanly at the
-            narrower 2-fr column width. */}
         <Section padding="lg">
-          {/* No items-start: with default grid stretch alignment,
-              both columns share the row's height (= the taller
-              column's intrinsic height). The panel uses lg:h-full
-              to fill that height; its chart flex-grows to claim
-              whatever vertical space the hero column dictates. */}
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
-            <Stack gap="500">
-              <Kicker accent>Films</Kicker>
-              <Display>Every film, every rating, every reaction.</Display>
-              <Lede>
-                I watch 300+ films a year and log my reviews on Letterboxd. This is the
-                full backlog. Open any card for the full review. And if you want a
-                recommendation, the filters are there for you.
-              </Lede>
-              {/* Follow CTA — sits inside the Stack so it picks up the
-                  Lede's gap rhythm. ↗ marks it external per the
-                  CTA-arrow convention. URL pulled from the ELSEWHERE
-                  registry so it stays in sync with Footer + Contact. */}
-              <p style={{ margin: 0 }}>
-                <TrackOnClick
-                  event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
-                  eventData={{ kind: "profile-follow", surface: "films-hero" }}
-                >
-                  <Link href={LETTERBOXD_PROFILE_URL}>
-                    Follow along on Letterboxd ↗
-                  </Link>
-                </TrackOnClick>
-              </p>
+          <Stack gap="500">
+            <Kicker accent>Films</Kicker>
+            <Display>A taste, not a catalogue.</Display>
+            {/* Full-width lede (the 60ch cap is dropped) so the blurb
+                reads in ~2 lines and the modules below sit higher on the
+                initial viewport. */}
+            <Lede style={{ maxWidth: "none" }}>
+              I watch north of 300 films a year and write up nearly all of
+              them. This is the front door: what I am watching right now, the
+              handful I would save in a fire, and the lists I rebuild every
+              year. The full reviewed backlog is one click away.
+            </Lede>
+            {/* Cluster sub-nav, inline in the hero. Overview is the
+                current page; Reviews links to the corpus — the on-site
+                action that replaces the old standalone "Browse all
+                reviews" link. (The Letterboxd follow link lives on the
+                Reviews page now, not here — the landing keeps recruiters
+                on-site.) */}
+            <ClusterRail
+              base="/films"
+              active="overview"
+              subbrand="film"
+              label="Films sections"
+              className="mt-2"
+            />
+          </Stack>
+        </Section>
+      </Container>
+
+      <Container size="lg">
+        {/* ─── Featured pick ──────────────────────────────────── */}
+        {/* The one editorial, hand-curated module — leads the modules so
+            it's the payoff to the hero's taste thesis before any
+            feed-derived content. paddingTop:0 so the gap to it is the
+            hero's bottom rhythm alone (no doubled padding). Hidden
+            entirely when no pick is set / resolvable. */}
+        {featured ? (
+          <Section padding="md" style={{ paddingTop: 0 }}>
+            <FeaturedPick pick={featured} />
+          </Section>
+        ) : null}
+
+        {/* ─── Now ────────────────────────────────────────────── */}
+        {/* paddingTop:0 on the first module so the gap to it is the hero
+            section's bottom rhythm alone, not that PLUS this section's top
+            rhythm (the doubling read as a big void under the hero). */}
+        {recent.length > 0 ? (
+          <Section padding="md" style={{ paddingTop: 0 }}>
+            <Stack gap="400">
+              <Kicker accent>Now</Kicker>
+              <Headline level={2}>Recently watched</Headline>
+              <Grid cols={5} gap="500">
+                {recent.map((film) => (
+                  <PosterTile
+                    key={film.id}
+                    href={filmDetailHref(film)}
+                    posterUrl={film.posterUrl}
+                    title={film.title}
+                    subtitle={String(film.releaseYear)}
+                    rating={film.primaryRating}
+                  />
+                ))}
+              </Grid>
             </Stack>
-            {/* SummaryPanel renders alongside the hero only on lg+
-                so the desktop hero+panel side-by-side stays intact.
-                Below lg the panel relocates to a "lifetime stats"
-                footer below the grid (see the second instance after
-                FilmsShell) — keeps ~300px of vertical chrome out of
-                the way at narrow widths so the card grid lands
-                closer to the fold on mobile and tablet. The
-                duplicate render is server-only and cheap; the
-                inactive variant gets display:none which removes
-                the underlying <aside> landmark from the AT tree
-                so SR users only ever encounter one. */}
-            <div className="hidden lg:block">
-              <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
-            </div>
-          </div>
-        </Section>
+          </Section>
+        ) : null}
 
-        {/* ─── Filter rail + Grid + Pagination (client) ─────── */}
-        <Section padding="md" bordered>
-          <FilmsShell
-            films={pageFilms}
-            totalPages={totalPages}
-            currentPage={page}
-            totalResults={totalResults}
-            filters={filters}
-            sort={sort}
-            availableGenres={availableGenres}
-            availableWatchedYears={availableWatchedYears}
-          />
-        </Section>
+        {/* ─── Favorites ──────────────────────────────────────── */}
+        {favorites.length > 0 ? (
+          <Section padding="md" bordered>
+            <Stack gap="400">
+              <Kicker accent>Favorites</Kicker>
+              <Headline level={2}>The all-timers</Headline>
+              {/* 4-up: Letterboxd caps favorites at four ("Top 4"), so a
+                  4-column grid fills exactly with no empty trailing slot. */}
+              <Grid cols={4} gap="500">
+                {favorites.map((fav) => {
+                  // In-corpus favorites link to their on-site review;
+                  // out-of-corpus favorites (no review yet) render
+                  // display-only — the landing no longer leaks to
+                  // Letterboxd (those links live on the Reviews page).
+                  const corpusFilm = getFilmByLetterboxdSlug(fav.slug);
+                  return (
+                    <PosterTile
+                      key={fav.slug}
+                      href={corpusFilm ? filmDetailHref(corpusFilm) : undefined}
+                      posterUrl={fav.posterUrl}
+                      title={fav.title}
+                      subtitle={
+                        fav.releaseYear ? String(fav.releaseYear) : undefined
+                      }
+                    />
+                  );
+                })}
+              </Grid>
+            </Stack>
+          </Section>
+        ) : null}
 
-        {/* Mobile/tablet panel — sits as a "lifetime stats" footer
-            below the grid. lg:hidden hides it on desktop (where
-            the hero-aligned instance above takes over). */}
-        <Section padding="md" bordered className="lg:hidden">
-          <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
-        </Section>
+        {/* ─── Lists ──────────────────────────────────────────── */}
+        {lists.length > 0 ? (
+          <Section padding="md" bordered>
+            <Stack gap="400">
+              <Kicker accent>Lists</Kicker>
+              <Headline level={2}>Ranked and themed</Headline>
+              <Grid cols={3} gap="600">
+                {lists.map((list) => (
+                  <ListCard
+                    key={list.slug}
+                    href={`/films/lists/${list.slug}`}
+                    title={list.title}
+                    count={list.filmSlugs.length}
+                    description={list.description}
+                    coverPosterUrls={listCoverPosters(list)}
+                  />
+                ))}
+              </Grid>
+            </Stack>
+          </Section>
+        ) : null}
       </Container>
     </div>
   );
-}
-
-// ─── Helpers ──────────────────────────────────────────────────────
-
-/**
- * Build a relative href for /films at a specific page, preserving
- * any other query-string filters from the current request. Used by
- * the rel=prev/next link tags so paginated crawls follow the same
- * filter scope (e.g. /films?genre=Horror,Comedy&page=3).
- */
-function buildPageHref(
-  params: Record<string, string | string[] | undefined>,
-  page: number,
-): string {
-  const sp = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) {
-    if (k === "page") continue;
-    if (v === undefined) continue;
-    if (Array.isArray(v)) {
-      if (v[0] !== undefined) sp.set(k, v[0]);
-    } else {
-      sp.set(k, v);
-    }
-  }
-  if (page > 1) sp.set("page", String(page));
-  const qs = sp.toString();
-  return qs ? `/films?${qs}` : "/films";
 }

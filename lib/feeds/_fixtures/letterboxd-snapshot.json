@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-06-02T06:00:10.889Z",
+  "capturedAt": "2026-06-02T15:54:05.780Z",
   "summary": {
     "totalFilms": 766,
     "totalReviews": 766,
@@ -20,13 +20,13 @@
       "Comedy": 221,
       "Family": 21,
       "Mystery": 80,
-      "Fantasy": 59,
       "Thriller": 217,
       "Drama": 360,
+      "Fantasy": 59,
+      "History": 41,
       "Music": 49,
       "Horror": 128,
       "Science Fiction": 113,
-      "History": 41,
       "Action": 114,
       "Adventure": 84,
       "Romance": 88,
@@ -94,6 +94,50 @@
       ]
     },
     {
+      "id": "tmdb-303858",
+      "letterboxdSlug": "money-monster",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/money-monster/",
+      "title": "Money Monster",
+      "releaseYear": 2016,
+      "firstWatchedDate": "2026-05-31",
+      "latestWatchedDate": "2026-05-31",
+      "firstReviewDate": "2026-06-01",
+      "latestReviewDate": "2026-06-01",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1337829941",
+          "watchedDate": "2026-05-31",
+          "reviewDate": "2026-06-01",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "We have better versions of this narrative niche. Sorry, Jodie—I love you!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 303858,
+        "posterPath": "/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+        "backdropPath": "/ct5kjqyBwzH6OSxuOIluChs3FFN.jpg",
+        "genres": [
+          "Thriller",
+          "Drama"
+        ],
+        "runtime": 99,
+        "director": "Jodie Foster"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
       "id": "tmdb-1368881",
       "letterboxdSlug": "ladies-first",
       "letterboxdUrl": "https://letterboxd.com/malxavi/film/ladies-first-2026/",
@@ -138,44 +182,45 @@
       ]
     },
     {
-      "id": "tmdb-303858",
-      "letterboxdSlug": "money-monster",
-      "letterboxdUrl": "https://letterboxd.com/malxavi/film/money-monster/",
-      "title": "Money Monster",
-      "releaseYear": 2016,
-      "firstWatchedDate": "2026-05-31",
-      "latestWatchedDate": "2026-05-31",
-      "firstReviewDate": "2026-06-01",
-      "latestReviewDate": "2026-06-01",
-      "primaryRating": 2,
+      "id": "tmdb-1016084",
+      "letterboxdSlug": "blackberry",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/blackberry-2023/",
+      "title": "BlackBerry",
+      "releaseYear": 2023,
+      "firstWatchedDate": "2026-05-30",
+      "latestWatchedDate": "2026-05-30",
+      "firstReviewDate": "2026-05-31",
+      "latestReviewDate": "2026-05-31",
+      "primaryRating": 3,
       "liked": false,
       "reviews": [
         {
-          "guid": "letterboxd-review-1337829941",
-          "watchedDate": "2026-05-31",
-          "reviewDate": "2026-06-01",
-          "rating": 2,
+          "guid": "letterboxd-review-1336241652",
+          "watchedDate": "2026-05-30",
+          "reviewDate": "2026-05-31",
+          "rating": 3,
           "rewatch": false,
           "containsSpoilers": false,
-          "reviewText": "We have better versions of this narrative niche. Sorry, Jodie—I love you!",
+          "reviewText": "I lowkey miss my study abroad Fall 2011 BlackBerry era.",
           "tags": []
         }
       ],
       "tmdb": {
-        "id": 303858,
-        "posterPath": "/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
-        "backdropPath": "/ct5kjqyBwzH6OSxuOIluChs3FFN.jpg",
+        "id": 1016084,
+        "posterPath": "/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
+        "backdropPath": "/cUHxmWfkp6se0Rt10Kr86bMCYDE.jpg",
         "genres": [
-          "Thriller",
-          "Drama"
+          "Comedy",
+          "Drama",
+          "History"
         ],
-        "runtime": 99,
-        "director": "Jodie Foster"
+        "runtime": 120,
+        "director": "Matt Johnson"
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
       "ratingSet": [
-        2
+        3
       ],
       "watchedYearSet": [
         2026
@@ -266,51 +311,6 @@
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vpkNMkbisv5cTaIfCzUduYzXnjb.jpg",
       "ratingSet": [
         3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ]
-    },
-    {
-      "id": "tmdb-1016084",
-      "letterboxdSlug": "blackberry",
-      "letterboxdUrl": "https://letterboxd.com/malxavi/film/blackberry-2023/",
-      "title": "BlackBerry",
-      "releaseYear": 2023,
-      "firstWatchedDate": "2026-05-30",
-      "latestWatchedDate": "2026-05-30",
-      "firstReviewDate": "2026-05-31",
-      "latestReviewDate": "2026-05-31",
-      "primaryRating": 3,
-      "liked": false,
-      "reviews": [
-        {
-          "guid": "letterboxd-review-1336241652",
-          "watchedDate": "2026-05-30",
-          "reviewDate": "2026-05-31",
-          "rating": 3,
-          "rewatch": false,
-          "containsSpoilers": false,
-          "reviewText": "I lowkey miss my study abroad Fall 2011 BlackBerry era.",
-          "tags": []
-        }
-      ],
-      "tmdb": {
-        "id": 1016084,
-        "posterPath": "/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
-        "backdropPath": "/cUHxmWfkp6se0Rt10Kr86bMCYDE.jpg",
-        "genres": [
-          "Comedy",
-          "Drama",
-          "History"
-        ],
-        "runtime": 120,
-        "director": "Matt Johnson"
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
-      "ratingSet": [
-        3
       ],
       "watchedYearSet": [
         2026
@@ -33374,6 +33374,50 @@
         2026
       ]
     },
+    "tmdb-303858": {
+      "id": "tmdb-303858",
+      "letterboxdSlug": "money-monster",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/money-monster/",
+      "title": "Money Monster",
+      "releaseYear": 2016,
+      "firstWatchedDate": "2026-05-31",
+      "latestWatchedDate": "2026-05-31",
+      "firstReviewDate": "2026-06-01",
+      "latestReviewDate": "2026-06-01",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1337829941",
+          "watchedDate": "2026-05-31",
+          "reviewDate": "2026-06-01",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "We have better versions of this narrative niche. Sorry, Jodie—I love you!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 303858,
+        "posterPath": "/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+        "backdropPath": "/ct5kjqyBwzH6OSxuOIluChs3FFN.jpg",
+        "genres": [
+          "Thriller",
+          "Drama"
+        ],
+        "runtime": 99,
+        "director": "Jodie Foster"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1368881": {
       "id": "tmdb-1368881",
       "letterboxdSlug": "ladies-first",
@@ -33418,45 +33462,46 @@
         2026
       ]
     },
-    "tmdb-303858": {
-      "id": "tmdb-303858",
-      "letterboxdSlug": "money-monster",
-      "letterboxdUrl": "https://letterboxd.com/malxavi/film/money-monster/",
-      "title": "Money Monster",
-      "releaseYear": 2016,
-      "firstWatchedDate": "2026-05-31",
-      "latestWatchedDate": "2026-05-31",
-      "firstReviewDate": "2026-06-01",
-      "latestReviewDate": "2026-06-01",
-      "primaryRating": 2,
+    "tmdb-1016084": {
+      "id": "tmdb-1016084",
+      "letterboxdSlug": "blackberry",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/blackberry-2023/",
+      "title": "BlackBerry",
+      "releaseYear": 2023,
+      "firstWatchedDate": "2026-05-30",
+      "latestWatchedDate": "2026-05-30",
+      "firstReviewDate": "2026-05-31",
+      "latestReviewDate": "2026-05-31",
+      "primaryRating": 3,
       "liked": false,
       "reviews": [
         {
-          "guid": "letterboxd-review-1337829941",
-          "watchedDate": "2026-05-31",
-          "reviewDate": "2026-06-01",
-          "rating": 2,
+          "guid": "letterboxd-review-1336241652",
+          "watchedDate": "2026-05-30",
+          "reviewDate": "2026-05-31",
+          "rating": 3,
           "rewatch": false,
           "containsSpoilers": false,
-          "reviewText": "We have better versions of this narrative niche. Sorry, Jodie—I love you!",
+          "reviewText": "I lowkey miss my study abroad Fall 2011 BlackBerry era.",
           "tags": []
         }
       ],
       "tmdb": {
-        "id": 303858,
-        "posterPath": "/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
-        "backdropPath": "/ct5kjqyBwzH6OSxuOIluChs3FFN.jpg",
+        "id": 1016084,
+        "posterPath": "/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
+        "backdropPath": "/cUHxmWfkp6se0Rt10Kr86bMCYDE.jpg",
         "genres": [
-          "Thriller",
-          "Drama"
+          "Comedy",
+          "Drama",
+          "History"
         ],
-        "runtime": 99,
-        "director": "Jodie Foster"
+        "runtime": 120,
+        "director": "Matt Johnson"
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/DlgdAkAKirD01R1mBejhFjS6nQ.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
       "ratingSet": [
-        2
+        3
       ],
       "watchedYearSet": [
         2026
@@ -33547,51 +33592,6 @@
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vpkNMkbisv5cTaIfCzUduYzXnjb.jpg",
       "ratingSet": [
         3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ]
-    },
-    "tmdb-1016084": {
-      "id": "tmdb-1016084",
-      "letterboxdSlug": "blackberry",
-      "letterboxdUrl": "https://letterboxd.com/malxavi/film/blackberry-2023/",
-      "title": "BlackBerry",
-      "releaseYear": 2023,
-      "firstWatchedDate": "2026-05-30",
-      "latestWatchedDate": "2026-05-30",
-      "firstReviewDate": "2026-05-31",
-      "latestReviewDate": "2026-05-31",
-      "primaryRating": 3,
-      "liked": false,
-      "reviews": [
-        {
-          "guid": "letterboxd-review-1336241652",
-          "watchedDate": "2026-05-30",
-          "reviewDate": "2026-05-31",
-          "rating": 3,
-          "rewatch": false,
-          "containsSpoilers": false,
-          "reviewText": "I lowkey miss my study abroad Fall 2011 BlackBerry era.",
-          "tags": []
-        }
-      ],
-      "tmdb": {
-        "id": 1016084,
-        "posterPath": "/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
-        "backdropPath": "/cUHxmWfkp6se0Rt10Kr86bMCYDE.jpg",
-        "genres": [
-          "Comedy",
-          "Drama",
-          "History"
-        ],
-        "runtime": 120,
-        "director": "Matt Johnson"
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ePWKQzOnwabMcJsWYWIiy5p1Ofr.jpg",
-      "ratingSet": [
-        3
       ],
       "watchedYearSet": [
         2026
@@ -66521,5 +66521,297 @@
         2023
       ]
     }
-  }
+  },
+  "lists": [
+    {
+      "slug": "2026-best-picture-nominees-ranked",
+      "title": "2026 Best Picture Nominees Ranked",
+      "description": "Cinema!",
+      "filmSlugs": [
+        "one-battle-after-another",
+        "marty-supreme",
+        "sinners-2025",
+        "sentimental-value-2025",
+        "hamnet",
+        "train-dreams",
+        "bugonia",
+        "frankenstein-2025",
+        "the-secret-agent-2025",
+        "f1"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/2026-best-picture-nominees-ranked/"
+    },
+    {
+      "slug": "unbiased-2025-top-20-fully-editorialized",
+      "title": "Unbiased 2025 Top 20 — Fully Editorialized",
+      "description": "The best of films that I watched in 2025 and that didn’t premiere in 2025 — recency bias be damned. Methodology: star rating disregarded and fully editorialized.",
+      "filmSlugs": [
+        "hundreds-of-beavers",
+        "nickel-boys",
+        "the-brutalist",
+        "im-still-here-2024",
+        "no-other-land",
+        "purple-rain",
+        "grand-theft-hamlet",
+        "jaws",
+        "incident-2023",
+        "the-life-of-chuck",
+        "the-assessment-2024",
+        "julie-keeps-quiet",
+        "presence-2024",
+        "better-man-2024",
+        "anima-2019",
+        "flow-2024",
+        "strange-harvest-2024",
+        "friendship-2024",
+        "architecton-2024",
+        "misericordia-2024"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/unbiased-2025-top-20-fully-editorialized/"
+    },
+    {
+      "slug": "unbiased-2025-top-20",
+      "title": "Unbiased 2025 Top 20",
+      "description": "The best of films that I watched in 2025 and that didn’t premiere in 2025 — recency bias be damned. Methodology: by star rating and editorialized within.",
+      "filmSlugs": [
+        "hundreds-of-beavers",
+        "im-still-here-2024",
+        "nickel-boys",
+        "incident-2023",
+        "purple-rain",
+        "jaws",
+        "the-thing",
+        "no-other-land",
+        "the-brutalist",
+        "princess-mononoke",
+        "anima-2019",
+        "flow-2024",
+        "im-not-a-robot-2023",
+        "kill-bill-the-whole-bloody-affair",
+        "ghost",
+        "hard-truths-2024",
+        "presence-2024",
+        "better-man-2024",
+        "back-to-the-future",
+        "strange-harvest-2024"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/unbiased-2025-top-20/"
+    },
+    {
+      "slug": "2025-top-20-fully-editorialized",
+      "title": "2025 Top 20 — Fully Editorialized",
+      "description": "The best of films that premiered in 2025. Methodology: star rating disregarded and fully editorialized.",
+      "filmSlugs": [
+        "marty-supreme",
+        "one-battle-after-another",
+        "the-phoenician-scheme",
+        "eddington",
+        "him-2025",
+        "weapons-2025",
+        "the-plague-2025",
+        "splitsville",
+        "wake-up-dead-man",
+        "hamnet",
+        "train-dreams",
+        "frankenstein-2025",
+        "is-this-thing-on-2025",
+        "no-other-choice-2025",
+        "lurker-2025",
+        "the-testament-of-ann-lee",
+        "dangerous-animals",
+        "dead-mans-wire",
+        "eternity-2025-1",
+        "the-smashing-machine-2025"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/2025-top-20-fully-editorialized/"
+    },
+    {
+      "slug": "2025-top-20",
+      "title": "2025 Top 20",
+      "description": "The best of films that premiered in 2025. Methodology: by star rating and editorialized within.",
+      "filmSlugs": [
+        "marty-supreme",
+        "one-battle-after-another",
+        "the-plague-2025",
+        "the-testament-of-ann-lee",
+        "eddington",
+        "the-phoenician-scheme",
+        "dead-mans-wire",
+        "weapons-2025",
+        "him-2025",
+        "hamnet",
+        "sentimental-value-2025",
+        "shadow-force-2025",
+        "mission-impossible-the-final-reckoning",
+        "no-other-choice-2025",
+        "frankenstein-2025",
+        "if-i-had-legs-id-kick-you",
+        "lurker-2025",
+        "wake-up-dead-man",
+        "28-years-later",
+        "sorry-baby-2025"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/2025-top-20/"
+    },
+    {
+      "slug": "2024-top-20-fully-editorialized",
+      "title": "2024 Top 20 — Fully Editorialized",
+      "description": "The best of films that premiered in 2024. Methodology: star rating disregarded and fully editorialized.",
+      "filmSlugs": [
+        "gladiator-ii",
+        "challengers",
+        "arcadian",
+        "dune-part-two",
+        "beyonce-bowl",
+        "the-substance",
+        "blink-twice",
+        "september-5",
+        "queer-2024",
+        "babygirl-2024",
+        "trap-2024",
+        "martha-2024",
+        "in-a-violent-nature",
+        "longlegs",
+        "national-theatre-live-vanya",
+        "anora",
+        "monkey-man",
+        "wicked-2024",
+        "i-saw-the-tv-glow",
+        "caddo-lake"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/2024-top-20-fully-editorialized/"
+    },
+    {
+      "slug": "unbiased-2024-top-20-fully-editorialized",
+      "title": "Unbiased 2024 Top 20 — Fully Editorialized",
+      "description": "The best of films that I watched in 2024 and that didn’t premiere in 2024 — recency bias be damned. Methodology: star rating disregarded and fully editorialized.",
+      "filmSlugs": [
+        "velvet-buzzsaw",
+        "society-of-the-snow",
+        "problemista",
+        "all-of-us-strangers",
+        "strange-darling",
+        "mars-express",
+        "tangerine",
+        "the-hunt-2012",
+        "dark-waters-2019",
+        "howls-moving-castle",
+        "la-chimera",
+        "the-contestant-2023",
+        "promising-young-woman",
+        "prometheus",
+        "judy-2019",
+        "the-zone-of-interest",
+        "origin-2023-1",
+        "the-platform",
+        "barb-star-go-to-vista-del-mar",
+        "memento"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/unbiased-2024-top-20-fully-editorialized/"
+    },
+    {
+      "slug": "unbiased-2024-top-20",
+      "title": "Unbiased 2024 Top 20",
+      "description": "The best of films that I watched in 2024 and that didn’t premiere in 2024 — recency bias be damned. Methodology: by star rating and editorialized within.",
+      "filmSlugs": [
+        "problemista",
+        "perfect-days-2023",
+        "society-of-the-snow",
+        "velvet-buzzsaw",
+        "barb-star-go-to-vista-del-mar",
+        "origin-2023-1",
+        "predator",
+        "nyad",
+        "robot-dreams",
+        "the-wonderful-story-of-henry-sugar",
+        "million-dollar-baby",
+        "strange-darling",
+        "all-of-us-strangers",
+        "the-square-2017",
+        "prometheus",
+        "mars-express",
+        "el-conde",
+        "promising-young-woman",
+        "the-feeling-that-the-time-for-doing-something-has-passed",
+        "summer-of-85"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/unbiased-2024-top-20/"
+    },
+    {
+      "slug": "2024-top-20",
+      "title": "2024 Top 20",
+      "description": "The best of films that premiered in 2024.  Methodology: by star rating and editorialized within.",
+      "filmSlugs": [
+        "blink-twice",
+        "arcadian",
+        "beyonce-bowl",
+        "gladiator-ii",
+        "monkey-man",
+        "national-theatre-live-vanya",
+        "love-lies-bleeding-2024",
+        "the-substance",
+        "challengers",
+        "in-a-violent-nature",
+        "queer-2024",
+        "y2k-2024",
+        "i-am-celine-dion",
+        "martha-2024",
+        "megan-thee-stallion-in-her-words",
+        "dune-part-two",
+        "babygirl-2024",
+        "caddo-lake",
+        "september-5",
+        "wicked-2024"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/2024-top-20/"
+    },
+    {
+      "slug": "2023-top-10",
+      "title": "2023 Top 10",
+      "description": "The best of films that premiered in 2023.",
+      "filmSlugs": [
+        "the-boy-and-the-heron",
+        "anatomy-of-a-fall",
+        "renaissance-a-film-by-beyonce",
+        "barbie",
+        "perfect-days-2023",
+        "society-of-the-snow",
+        "origin-2023-1",
+        "nyad",
+        "leave-the-world-behind-2023",
+        "robot-dreams"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/2023-top-10/"
+    }
+  ],
+  "favorites": [
+    {
+      "slug": "jurassic-park",
+      "title": "Jurassic Park",
+      "releaseYear": 1993,
+      "posterUrl": "https://image.tmdb.org/t/p/w342/maFjKnJ62hDQ9E66dKqDZgbUy0H.jpg",
+      "letterboxdUrl": "https://letterboxd.com/film/jurassic-park/"
+    },
+    {
+      "slug": "fantastic-mr-fox",
+      "title": "Fantastic Mr. Fox",
+      "releaseYear": 2009,
+      "posterUrl": "https://image.tmdb.org/t/p/w342/euZyZb6iGreujYKrGyZHRddhUYh.jpg",
+      "letterboxdUrl": "https://letterboxd.com/film/fantastic-mr-fox/"
+    },
+    {
+      "slug": "jumanji",
+      "title": "Jumanji",
+      "releaseYear": 1995,
+      "posterUrl": "https://image.tmdb.org/t/p/w342/iWV47r6kFneCiApgrMII5HSkfHw.jpg",
+      "letterboxdUrl": "https://letterboxd.com/film/jumanji/"
+    },
+    {
+      "slug": "anastasia-1997",
+      "title": "Anastasia",
+      "releaseYear": 1997,
+      "posterUrl": "https://image.tmdb.org/t/p/w342/bppGWGA8zq1sRvTdDJnUzVW9GcH.jpg",
+      "letterboxdUrl": "https://letterboxd.com/film/anastasia-1997/"
+    }
+  ]
 }

@@ -17,7 +17,12 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
-import type { Film, FilmsSummary } from "./letterboxd-utils";
+import type {
+  Film,
+  FilmFavorite,
+  FilmList,
+  FilmsSummary,
+} from "./letterboxd-utils";
 import { getTmdbApiKey, isTmdbConfigured } from "./tmdb";
 
 // Re-export the public types so consumers can import everything from
@@ -26,7 +31,9 @@ import { getTmdbApiKey, isTmdbConfigured } from "./tmdb";
 export type {
   AppliedFilm,
   Film,
+  FilmFavorite,
   FilmFilters,
+  FilmList,
   FilmSort,
   FilmsSummary,
   Review,
@@ -44,6 +51,15 @@ type LetterboxdSnapshot = {
   summary: FilmsSummary;
   films: Film[];
   filmById: Record<string, Film>;
+  /**
+   * Editorial-landing data, attached by the slow-cadence
+   * scripts/refresh-films-lists.mjs pass (NOT the daily RSS refresh).
+   * Optional so a snapshot captured before that pass — or by the
+   * CSV/RSS refresh, which preserves but doesn't author these — still
+   * validates. Read via getFilmLists() / getFilmFavorites().
+   */
+  lists?: FilmList[];
+  favorites?: FilmFavorite[];
 };
 
 // Minimal runtime guard for the snapshot file. We only check the
@@ -87,8 +103,35 @@ const SNAPSHOT_PATH = path.resolve(
 type SnapshotCache = {
   snapshot: LetterboxdSnapshot;
   slugMap: Map<string, Film>;
+  /** letterboxdSlug → Film (no year). The join key for favorites and
+   *  list entries, whose captured slug is the bare Letterboxd film
+   *  slug. Shares the snapshot's cache lifetime so it can't drift. */
+  bareSlugMap: Map<string, Film>;
+  /** normalized-slug → Film[]. Letterboxd emits a film's slug in two
+   *  forms: the canonical film URL (and thus the diary CSV/RSS the
+   *  corpus is built from) vs. list/profile `data-item-slug` markup.
+   *  They diverge two ways — a trailing year ("weapons" vs
+   *  "weapons-2025") and apostrophe handling ("dead-man-s-wire" vs
+   *  "dead-mans-wire"). Normalizing (strip trailing year, then remove
+   *  all hyphens) collapses both forms to one key. Stored as an array
+   *  so the resolver can detect + guard against collisions. */
+  normalizedSlugMap: Map<string, Film[]>;
   positionByFilmId: Map<string, number>;
 };
+
+/**
+ * Normalize a Letterboxd slug to a form stable across its canonical-
+ * URL and list-markup variants: strip a trailing `-YYYY` (plus any
+ * `-N` disambiguator), then remove all hyphens. Returns the key and
+ * the stripped year (null when the slug carried none) so a caller can
+ * year-verify an ambiguous match. See normalizedSlugMap above.
+ */
+function normalizeFilmSlug(slug: string): { key: string; year: number | null } {
+  const m = slug.match(/^(.+?)-(\d{4})(?:-\d+)?$/);
+  const base = m ? m[1] : slug;
+  const year = m ? Number(m[2]) : null;
+  return { key: base.replace(/-/g, ""), year };
+}
 
 let cachedState: SnapshotCache | null = null;
 
@@ -98,6 +141,30 @@ function buildSlugMap(films: Film[]): Map<string, Film> {
     slugMap.set(`${film.letterboxdSlug}-${film.releaseYear}`, film);
   }
   return slugMap;
+}
+
+function buildBareSlugMap(films: Film[]): Map<string, Film> {
+  const bareSlugMap = new Map<string, Film>();
+  for (const film of films) {
+    // First write wins on the rare duplicate-slug collision — the
+    // films array is sorted newest-watch-first, so the more recent
+    // entry is the one a favorite/list link most likely refers to.
+    if (!bareSlugMap.has(film.letterboxdSlug)) {
+      bareSlugMap.set(film.letterboxdSlug, film);
+    }
+  }
+  return bareSlugMap;
+}
+
+function buildNormalizedSlugMap(films: Film[]): Map<string, Film[]> {
+  const map = new Map<string, Film[]>();
+  for (const film of films) {
+    const { key } = normalizeFilmSlug(film.letterboxdSlug);
+    const bucket = map.get(key);
+    if (bucket) bucket.push(film);
+    else map.set(key, [film]);
+  }
+  return map;
 }
 
 function buildPositionMap(films: Film[]): Map<string, number> {
@@ -144,6 +211,8 @@ function loadCache(): SnapshotCache {
   cachedState = {
     snapshot: parsed,
     slugMap: buildSlugMap(parsed.films),
+    bareSlugMap: buildBareSlugMap(parsed.films),
+    normalizedSlugMap: buildNormalizedSlugMap(parsed.films),
     positionByFilmId: buildPositionMap(parsed.films),
   };
   return cachedState;
@@ -216,6 +285,59 @@ export function getFilmNeighbors(filmId: string): {
  */
 export function getFilmBySlug(slug: string): Film | null {
   return loadCache().slugMap.get(slug) ?? getFilmById(slug);
+}
+
+/**
+ * O(1) lookup by bare Letterboxd film slug (no release year) — the
+ * join key carried by favorites and list entries. Returns null when
+ * the slug isn't in the reviewed corpus, in which case the favorite/
+ * list renders from its own captured title + poster fallback.
+ */
+export function getFilmByLetterboxdSlug(slug: string): Film | null {
+  const cache = loadCache();
+  // Exact match first — the common case, and it can never mis-resolve.
+  const exact = cache.bareSlugMap.get(slug);
+  if (exact) return exact;
+  // Fallback for the two ways Letterboxd's list/profile slug diverges
+  // from the canonical (corpus) slug — a trailing year ("weapons-2025"
+  // vs "weapons") and apostrophe handling ("dead-mans-wire" vs
+  // "dead-man-s-wire"). Normalizing collapses both. Guard against a
+  // wrong match: when the requested slug carries a year, require the
+  // candidate's releaseYear to match; otherwise only resolve when the
+  // normalized key maps to a single corpus film (no ambiguity).
+  const { key, year } = normalizeFilmSlug(slug);
+  const candidates = cache.normalizedSlugMap.get(key);
+  if (!candidates || candidates.length === 0) return null;
+  if (year !== null) {
+    const byYear = candidates.filter((f) => f.releaseYear === year);
+    return byYear.length === 1 ? byYear[0] : null;
+  }
+  return candidates.length === 1 ? candidates[0] : null;
+}
+
+// ─── Editorial-landing read API (lists + favorites) ───────────────
+//
+// All three tolerate a snapshot captured before the lists/favorites
+// scrape pass ran — they return [] / null rather than throwing, so
+// the landing degrades to "no lists yet" instead of erroring. The
+// landing maps each entry's slug to a corpus Film via
+// getFilmByLetterboxdSlug() for the rich card.
+
+/** Malcolm's public Letterboxd lists, in profile order. */
+export function getFilmLists(): FilmList[] {
+  return loadSnapshot().lists ?? [];
+}
+
+/** O(n) lookup of one list by its URL slug (n = list count, tiny).
+ *  Returns null when absent — caller should notFound(). */
+export function getFilmListBySlug(slug: string): FilmList | null {
+  const lists = loadSnapshot().lists ?? [];
+  return lists.find((l) => l.slug === slug) ?? null;
+}
+
+/** Letterboxd profile favorites, in the order Malcolm arranged them. */
+export function getFilmFavorites(): FilmFavorite[] {
+  return loadSnapshot().favorites ?? [];
 }
 
 // ─── Diagnostic ──────────────────────────────────────────────────

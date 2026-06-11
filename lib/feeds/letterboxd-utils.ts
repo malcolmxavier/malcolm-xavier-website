@@ -120,6 +120,63 @@ export type FilmsSummary = {
   decadeDistribution: Record<string, number>;
 };
 
+// ─── Lists + favorites (editorial landing) ───────────────────────
+//
+// These are pulled from Letterboxd (the platform is the curation
+// surface — Malcolm arranges his lists and favorites there, the
+// site reflects them) by a separate slow-cadence scrape pass, NOT
+// the daily RSS-incremental path. See scripts/refresh-films-lists.mjs.
+// Both reference the review corpus by `letterboxdSlug` so the landing
+// can render rich FilmCards; the captured title/poster fields are a
+// standalone fallback for any entry not in the reviewed corpus (you
+// can favorite or list a film you haven't written up).
+
+/**
+ * One of Malcolm's public Letterboxd lists. `filmSlugs` is the
+ * list's running order (Letterboxd preserves manual / ranked order
+ * in the page markup), so the landing and the list-detail page
+ * render films in the order he arranged them. `description` carries
+ * the list's prose — for the ranked lists that's the methodology
+ * note ("star rating disregarded and fully editorialized"), which is
+ * the editorial voice we surface rather than per-film blurbs.
+ */
+export type FilmList = {
+  /** URL slug from letterboxd.com/<user>/list/<slug>/. */
+  slug: string;
+  /** Human title from the list page's og:title. */
+  title: string;
+  /** List prose / ranking methodology from og:description. May be "". */
+  description: string;
+  /** Ordered Letterboxd film slugs (list running order preserved). */
+  filmSlugs: string[];
+  /** Canonical Letterboxd list URL. */
+  url: string;
+};
+
+/**
+ * A single Letterboxd profile favorite. `slug` is the Letterboxd
+ * film slug (matches `Film.letterboxdSlug` for a corpus join); the
+ * remaining fields are captured straight off the profile so a
+ * favorite that isn't in the reviewed corpus still renders a poster
+ * card. Stored in profile order (Letterboxd lets you arrange them).
+ */
+export type FilmFavorite = {
+  slug: string;
+  title: string;
+  releaseYear: number | null;
+  /**
+   * w342 TMDB poster, resolved at scrape time via the corpus
+   * enricher (title+year search). Favorites are often rating-only
+   * films absent from the prose-only corpus, so the poster can't be
+   * borrowed from a corpus Film — but a TMDB poster keeps the
+   * favourite tile's 2:3 aspect consistent with every other poster
+   * on the site (the Letterboxd og:image is a 16:9 social crop, the
+   * wrong shape here). Null if TMDB had no match.
+   */
+  posterUrl: string | null;
+  letterboxdUrl: string;
+};
+
 // ─── Genre slug helpers ──────────────────────────────────────────
 
 /**

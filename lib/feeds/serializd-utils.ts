@@ -343,6 +343,54 @@ export type WatchedOnlyShow = {
   dateAdded: string | null;
 };
 
+// ─── Lists + favorites (editorial landing) ───────────────────────
+//
+// Pulled from Serializd's JSON API by the slow-cadence
+// scripts/refresh-tv-lists.mjs pass (NOT the hourly review refresh).
+// The platform is the curation surface — Malcolm arranges his
+// favorites/lists on Serializd, the site reflects them. Both
+// reference the reviewed corpus by `serializdShowId` (= TMDB tv id)
+// so the landing can render rich ShowCards via getShowBySerializdId().
+
+/**
+ * One of Malcolm's public Serializd lists. `showIds` is the list's
+ * running order. Mirrors FilmList in the /films cluster. The lists
+ * endpoint returns empty today (no Serializd lists created yet), so
+ * this type ships ahead of content — the TV Lists module stays
+ * dormant until the array is non-empty.
+ */
+export type ShowList = {
+  /** List slug / id from the Serializd list URL, if exposed. */
+  slug: string;
+  name: string;
+  /** List prose, if any. May be "". */
+  description: string;
+  /** Ordered Serializd show ids (= TMDB tv ids), list running order. */
+  showIds: number[];
+  /** Canonical Serializd list URL, if derivable. */
+  url: string;
+};
+
+/**
+ * A Serializd profile favorite show, in the order Malcolm arranged
+ * them. Thin reference — `serializdShowId` joins to the reviewed
+ * corpus for the rich card (poster, rating, review link); `name` is
+ * the standalone fallback label for the rare favorite that isn't in
+ * the corpus.
+ */
+export type ShowFavorite = {
+  serializdShowId: number;
+  name: string;
+  /**
+   * w342 TMDB poster. Resolved at scrape time — from the reviewed
+   * corpus when the show is in it, else a direct TMDB /tv/{id}
+   * lookup (serializdShowId IS the TMDB id), since favorites are
+   * often shows Malcolm loves but hasn't written prose reviews for
+   * and so can't borrow a corpus poster. Null only if TMDB had none.
+   */
+  posterUrl: string | null;
+};
+
 // ─── Genre slug helpers ──────────────────────────────────────────
 
 /**

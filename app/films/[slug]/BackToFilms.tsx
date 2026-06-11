@@ -9,10 +9,10 @@
 //     page, this restores the exact slice of the grid the user was
 //     looking at.
 //   - Click without an internal-ref marker (direct entry, shared
-//     or bookmarked URL, deep link): push to /films with a clean
-//     URL.
-//   - Default <a href="/films"> means middle-click + JS-disabled
-//     users still get a working "back to grid" link.
+//     or bookmarked URL, deep link): push to /films/reviews (the
+//     corpus grid) with a clean URL.
+//   - Default <a href="/films/reviews"> means middle-click + JS-
+//     disabled users still get a working "back to grid" link.
 //
 // We also strip the marker from the URL via router.replace on mount
 // so any link the user shares from the detail page comes out clean
@@ -70,13 +70,13 @@ export function BackToFilms() {
     if (arrivedInternal.current) {
       router.back();
     } else {
-      router.push("/films");
+      router.push("/films/reviews");
     }
   };
 
   return (
     <a
-      href="/films"
+      href="/films/reviews"
       onClick={handleClick}
       style={{
         fontFamily: "var(--font-mono)",
