@@ -100,6 +100,7 @@ export async function generateMetadata({
     filters.genres &&
     filters.genres.length === 1 &&
     !filters.ratings &&
+    !filters.runtimeBuckets &&
     !filters.watchedYears &&
     !filters.watchedWindow &&
     !filters.titleQuery &&
@@ -112,6 +113,7 @@ export async function generateMetadata({
     !onlyGenreFilter &&
     (Boolean(filters.ratings && filters.ratings.length > 0) ||
       Boolean(filters.genres && filters.genres.length > 0) ||
+      Boolean(filters.runtimeBuckets && filters.runtimeBuckets.length > 0) ||
       Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
       filters.watchedWindow !== undefined ||
       Boolean(filters.titleQuery) ||

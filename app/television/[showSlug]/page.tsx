@@ -67,6 +67,7 @@ import {
   type Season,
   type Show,
 } from "@/lib/feeds/serializd-utils";
+import { primaryNetwork } from "@/lib/feeds/stats/network-canon";
 import { BackToTelevision } from "../BackToTelevision";
 
 type Params = { showSlug: string };
@@ -337,7 +338,7 @@ export default async function TelevisionDetailPage({
                 {show.tmdb?.type ? ` · ${show.tmdb.type}` : ""}
                 {show.tmdb?.status ? ` · ${show.tmdb.status}` : ""}
                 {show.tmdb?.networks && show.tmdb.networks.length > 0
-                  ? ` · ${show.tmdb.networks[0]}`
+                  ? ` · ${primaryNetwork(show.tmdb.networks)}`
                   : ""}
               </p>
               {/* Hero rating shows ONLY when there's a Show-level

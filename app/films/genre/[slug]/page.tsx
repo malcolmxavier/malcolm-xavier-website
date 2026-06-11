@@ -112,6 +112,7 @@ export async function generateMetadata({
         filters.genres!.length === 1 &&
         slugifyGenre(filters.genres![0]) === slug
       )) ||
+    Boolean(filters.runtimeBuckets && filters.runtimeBuckets.length > 0) ||
     Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
     filters.watchedWindow !== undefined ||
     Boolean(filters.titleQuery) ||
