@@ -102,6 +102,18 @@ export const ANALYTICS_EVENTS = {
    *             user clicked from)
    *   - `to`:   "all" | "watching" (which option they clicked) */
   WATCHING_TAB_CLICK: "watching_tab_click",
+  /** Click on a sub-brand landing's primary "Browse all N reviews"
+   *  CTA (hero or cluster-rail Reviews tab). Pair with `surface`:
+   *  "films_landing" | "tv_landing". This is the numerator for the
+   *  "thin gate" validation — how many landing visitors push through
+   *  to the corpus, and from where. */
+  LANDING_REVIEWS_CTA_CLICK: "landing_reviews_cta_click",
+  /** Fired once, on the first CTA interaction on a sub-brand landing,
+   *  carrying `timeMs` (ms from page mount to that first click) and
+   *  `surface`. Measures pre-click dwell — whether the editorial
+   *  landing earns attention before the user heads to the corpus, or
+   *  is just a tax on the way there. */
+  LANDING_DWELL_TO_CTA: "landing_dwell_to_cta",
 } as const;
 
 export type AnalyticsEvent =

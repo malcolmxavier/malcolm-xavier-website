@@ -8,6 +8,10 @@
     {
       "path": "/api/cron/films-refresh",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/cron/lists-refresh",
+      "schedule": "0 6 * * 0"
     }
   ]
 }

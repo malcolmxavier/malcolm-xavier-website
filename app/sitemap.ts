@@ -24,7 +24,7 @@
 
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-config";
-import { getFilms } from "@/lib/feeds/letterboxd";
+import { getFilms, getFilmLists } from "@/lib/feeds/letterboxd";
 import { slugifyGenre as slugifyFilmGenre } from "@/lib/feeds/letterboxd-utils";
 import { getShows } from "@/lib/feeds/serializd";
 import { slugifyGenre as slugifyTvGenre } from "@/lib/feeds/serializd-utils";
@@ -42,12 +42,34 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const filmEntries: MetadataRoute.Sitemap = [];
   try {
     const { films, summary } = getFilms();
+    // /films is the editorial landing (cluster front); /films/reviews
+    // is the corpus CollectionPage (canonical for the review set).
+    // Both indexable — the landing is a point of interest in its own
+    // right, the corpus is the deep content.
     filmEntries.push({
       url: `${SITE_URL}/films`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.6,
     });
+    filmEntries.push({
+      url: `${SITE_URL}/films/reviews`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    // Curated list-detail pages — one per public Letterboxd list,
+    // pulled from the snapshot's lists[] (the weekly scrape pass).
+    // Empty/absent until that pass has run, so the optional chain
+    // keeps a pre-scrape snapshot from throwing here.
+    for (const list of getFilmLists()) {
+      filmEntries.push({
+        url: `${SITE_URL}/films/lists/${list.slug}`,
+        lastModified,
+        changeFrequency: "monthly",
+        priority: 0.55,
+      });
+    }
     // Genre routes — one per active genre. Priority sits between
     // the listing and the individual detail pages: these are the
     // long-tail entry surfaces for "malcolm xavier {genre} reviews"
@@ -84,8 +106,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const tvEntries: MetadataRoute.Sitemap = [];
   try {
     const { shows, summary } = getShows();
+    // /television is the editorial landing; /television/reviews is the
+    // corpus CollectionPage. Both indexable (see the films block).
     tvEntries.push({
       url: `${SITE_URL}/television`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    tvEntries.push({
+      url: `${SITE_URL}/television/reviews`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.6,

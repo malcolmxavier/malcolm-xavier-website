@@ -420,22 +420,45 @@ function recomputeFilmAggregates(film) {
 }
 
 /**
+ * Largest Letterboxd diary-entry id across a film's reviews, parsed
+ * from the review guid ("letterboxd-review-<id>"). The id is
+ * monotonic with log time, so a higher id = a more recently-logged
+ * diary entry — the exact within-day order Letterboxd's diary shows.
+ * Returns null when no review carries a guid (CSV-bootstrapped
+ * reviews that haven't been backfilled from RSS yet).
+ */
+function latestDiaryId(film) {
+  let max = null;
+  for (const r of film.reviews) {
+    const m = r?.guid?.match(/(\d+)\s*$/);
+    if (!m) continue;
+    const id = Number(m[1]);
+    if (max === null || id > max) max = id;
+  }
+  return max;
+}
+
+/**
  * After every review-merge pass, re-sort the films array by
  * latestWatchedDate desc — same primary sort the snapshot writer
- * uses. For films watched the same day, fall back to
- * latestReviewDate desc so the more-recently-reviewed film
- * surfaces first. The CSV bootstrap path uses csvRowIdx desc as
- * its tiebreaker (chronological order within the day's diary),
- * but that index isn't carried on the RSS path; latestReviewDate
- * is the closest-available proxy for "logged later" and produced
- * the right order for the 2026-05-08 Billie Eilish double-bill
- * (concert film reviewed 05-09 ranking above documentary
- * reviewed 05-08).
+ * uses. For films watched the SAME day, break the tie by diary-entry
+ * id desc (the precise diary order) when both films carry a guid,
+ * falling back to latestReviewDate desc otherwise.
+ *
+ * The earlier latestReviewDate-only tiebreaker left same-day,
+ * same-review-date films (two watches logged on one day) in arbitrary
+ * RSS-feed order — visibly wrong on /films's "Recently watched" and
+ * the grid's default sort. The diary id is the truth Letterboxd
+ * itself orders by; csvRowIdx (the CSV bootstrap's tiebreaker) is the
+ * same signal from the export, but isn't carried on the RSS path.
  */
 function resortFilms(snapshot) {
   snapshot.films.sort((a, b) => {
     const dateCmp = b.latestWatchedDate.localeCompare(a.latestWatchedDate);
     if (dateCmp !== 0) return dateCmp;
+    const aId = latestDiaryId(a);
+    const bId = latestDiaryId(b);
+    if (aId !== null && bId !== null && aId !== bId) return bId - aId;
     return b.latestReviewDate.localeCompare(a.latestReviewDate);
   });
 }

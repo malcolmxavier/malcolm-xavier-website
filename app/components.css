@@ -399,6 +399,27 @@ a.link-loud:hover,
   color: var(--primary-100) !important;
 }
 
+/* ─── ClusterRail active tab — opt out of the link cascade ─────
+   The rules above force the cluster link color onto EVERY sub-brand
+   anchor (with !important). That's right for body links, but the
+   ClusterRail's active tab is a FILLED nav pill: forcing the cluster
+   color onto its label rendered it orange-on-orange / blue-on-blue —
+   invisible (~1:1). It's a nav control, not a body link, so pin its
+   label white here. The label sits on the inline --primary-700 fill
+   (orange-700 / blue-700, dark in both themes), so white clears AA
+   (5.82:1 / higher) identically in light and dark. Listed with
+   :hover/:focus-visible and a dark-theme tier so it out-specifies and
+   out-orders every rest/hover link rule above. Inactive tabs keep the
+   cascade's cluster color, which already clears AA on the page bg. */
+[data-subbrand] a.cluster-rail-tab--active,
+[data-subbrand] a.cluster-rail-tab--active:hover,
+[data-subbrand] a.cluster-rail-tab--active:focus-visible,
+[data-theme="dark"] [data-subbrand] a.cluster-rail-tab--active,
+[data-theme="dark"] [data-subbrand] a.cluster-rail-tab--active:hover,
+[data-theme="dark"] [data-subbrand] a.cluster-rail-tab--active:focus-visible {
+  color: #fff !important;
+}
+
 [data-subbrand="music"] a,
 a[data-subbrand="music"] {
   color: var(--purple-700) !important;

@@ -32,6 +32,16 @@ const nextConfig: NextConfig = {
       "./lib/feeds/_fixtures/letterboxd-snapshot.json",
       "./data/films/overrides.json",
     ],
+    // Weekly lists/favorites scrape — touches BOTH snapshots (films
+    // HTML scrape + TV JSON API) and reads BOTH overrides files for
+    // the favorite-poster enrichment's tmdbId/posterPath pins (films
+    // favourites resolve TMDB posters via the corpus enricher).
+    "/api/cron/lists-refresh": [
+      "./lib/feeds/_fixtures/letterboxd-snapshot.json",
+      "./lib/feeds/_fixtures/serializd-snapshot.json",
+      "./data/films/overrides.json",
+      "./data/television/overrides.json",
+    ],
   },
   // Legacy-slug 301s for film detail pages whose `letterboxdSlug`
   // changed after the source-of-truth title was corrected. Each
