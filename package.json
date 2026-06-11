@@ -33,6 +33,7 @@
     "television:bootstrap": "node --env-file=.env.local scripts/bootstrap-serializd-snapshot.mjs",
     "television:refresh": "node --env-file=.env.local scripts/refresh-serializd-incremental.mjs",
     "television:lists-refresh": "node --env-file=.env.local scripts/refresh-tv-lists.mjs",
+    "enrich:refresh": "node --env-file=.env.local scripts/enrich-refresh.mjs",
     "prebuild": "npm run tokens:build"
   },
   "dependencies": {
