@@ -39,6 +39,7 @@ import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
+import { hybridMatchIds } from "@/lib/feeds/fuzzy-search";
 import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
   applyCompletedCardFilters,
@@ -93,6 +94,7 @@ export async function generateMetadata({
     !filters.ratings &&
     !filters.watchedYears &&
     !filters.watchedWindow &&
+    !filters.titleQuery &&
     filters.premiereYearMin === undefined &&
     filters.premiereYearMax === undefined &&
     !isPagedBeyondFirst;
@@ -103,6 +105,7 @@ export async function generateMetadata({
       Boolean(filters.genres && filters.genres.length > 0) ||
       Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
       filters.watchedWindow !== undefined ||
+      Boolean(filters.titleQuery) ||
       filters.premiereYearMin !== undefined ||
       filters.premiereYearMax !== undefined);
 
@@ -255,7 +258,12 @@ export default async function TelevisionPage({
       s.inProgressSeasonNumbers.length > 0,
   ).length;
 
-  const applied = applyCompletedCardFilters(allCards, filters, sort);
+  // Title search (?title=) — match SHOW ids by name server-side (hybrid
+  // substring→fuzzy, over the unique shows so no duplicate-name skew),
+  // then drop non-matching cards. null when no/short query. TV has no
+  // director field, so title is the only search dimension.
+  const matchIds = hybridMatchIds(shows, filters.titleQuery, ["name"], (s) => s.id);
+  const applied = applyCompletedCardFilters(allCards, filters, sort, matchIds);
   const {
     current: pageCards,
     totalPages,

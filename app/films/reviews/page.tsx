@@ -36,6 +36,7 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 import { SITE_URL } from "@/lib/site-config";
 import { getFilms } from "@/lib/feeds/letterboxd";
+import { hybridMatchIds, combineMatchSets } from "@/lib/feeds/fuzzy-search";
 import {
   applyFilters,
   asString,
@@ -101,6 +102,8 @@ export async function generateMetadata({
     !filters.ratings &&
     !filters.watchedYears &&
     !filters.watchedWindow &&
+    !filters.titleQuery &&
+    !filters.directorQuery &&
     filters.releaseYearMin === undefined &&
     filters.releaseYearMax === undefined &&
     !isPagedBeyondFirst;
@@ -111,6 +114,8 @@ export async function generateMetadata({
       Boolean(filters.genres && filters.genres.length > 0) ||
       Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
       filters.watchedWindow !== undefined ||
+      Boolean(filters.titleQuery) ||
+      Boolean(filters.directorQuery) ||
       filters.releaseYearMin !== undefined ||
       filters.releaseYearMax !== undefined);
 
@@ -234,7 +239,24 @@ export default async function FilmsPage({
     f.watchedYearSet.includes(currentYear),
   ).length;
 
-  const applied = applyFilters(films, filters, sort);
+  // Search (?title= / ?director=) — match film ids per field server-side
+  // (hybrid substring→fuzzy; Fuse stays off the client bundle), then
+  // intersect (Title AND Director) and let applyFilters drop the rest.
+  // null when neither query is active → no search filter.
+  const titleMatch = hybridMatchIds(
+    films,
+    filters.titleQuery,
+    ["title"],
+    (f) => f.id,
+  );
+  const directorMatch = hybridMatchIds(
+    films,
+    filters.directorQuery,
+    ["tmdb.director"],
+    (f) => f.id,
+  );
+  const matchIds = combineMatchSets(titleMatch, directorMatch);
+  const applied = applyFilters(films, filters, sort, matchIds);
   const {
     current: pageFilms,
     totalPages,

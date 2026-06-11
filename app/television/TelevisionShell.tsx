@@ -339,6 +339,13 @@ export function TelevisionShell({
     });
   }
 
+  // Title search (?title=). Value arrives already trimmed from
+  // SearchInput; "" clears the param. navigate() handles empty→delete +
+  // page reset + analytics ("search" dimension via pickFilterDimension).
+  function handleTitleChange(value: string) {
+    navigate({ title: value || undefined });
+  }
+
   function clearAll() {
     router.replace(pathname, { scroll: false });
   }
@@ -361,6 +368,7 @@ export function TelevisionShell({
     onSetWatched12Mo: setWatched12Mo,
     onClearWatchedDate: clearWatchedDate,
     onSortChange: handleSortChange,
+    onTitleChange: handleTitleChange,
     onSetCardKind: setCardKind,
     onClearAll: clearAll,
   };
@@ -511,6 +519,7 @@ export function TelevisionShell({
                 onRemoveWatchedYear={toggleWatchedYear}
                 onClearWatchedWindow={clearWatchedDate}
                 onResetCardKind={() => setCardKind("both")}
+                onRemoveTitle={() => handleTitleChange("")}
                 onResetSort={() => handleSortChange("latest-activity-desc")}
                 onClearAll={clearAll}
               />
@@ -580,6 +589,7 @@ function FilterContent({
   onSetWatched12Mo,
   onClearWatchedDate,
   onSortChange,
+  onTitleChange,
   onSetCardKind,
   onClearAll,
   showClearAll = true,
@@ -601,6 +611,8 @@ function FilterContent({
    *  reads as "all time." */
   onClearWatchedDate: () => void;
   onSortChange: (v: ShowSort) => void;
+  /** Push a new title query (already trimmed; "" clears it). */
+  onTitleChange: (v: string) => void;
   /** Set the card-kind scope. "both" clears the filter; "show" /
    *  "season" narrows the grid. Three-state segmented control
    *  rather than two checkboxes so the mutually-exclusive nature
@@ -614,6 +626,16 @@ function FilterContent({
   const cardKind = filters.cardKind ?? "both";
   return (
     <Stack gap="500">
+      {/* Search leads the rail — title only (TV has no director field).
+          Debounced, writes ?title=. */}
+      <SearchInput
+        value={filters.titleQuery ?? ""}
+        onSearch={onTitleChange}
+        label="Title"
+        placeholder="Search titles"
+        ariaLabel="Search shows by title"
+      />
+
       <div>
         <Kicker>Sort</Kicker>
         <select
@@ -843,6 +865,7 @@ function ActiveFilterChips({
   onRemoveWatchedYear,
   onClearWatchedWindow,
   onResetCardKind,
+  onRemoveTitle,
   onResetSort,
   onClearAll,
 }: {
@@ -853,6 +876,7 @@ function ActiveFilterChips({
   onRemoveWatchedYear: (y: number) => void;
   onClearWatchedWindow: () => void;
   onResetCardKind: () => void;
+  onRemoveTitle: () => void;
   onResetSort: () => void;
   onClearAll: () => void;
 }) {
@@ -869,6 +893,7 @@ function ActiveFilterChips({
     watchedYears.length +
     (cardKindActive ? 1 : 0) +
     (watchedWindowActive ? 1 : 0) +
+    (filters.titleQuery ? 1 : 0) +
     (sortIsDefault ? 0 : 1);
 
   if (dismissableCount === 0) return null;
@@ -884,6 +909,13 @@ function ActiveFilterChips({
         gap: 8,
       }}
     >
+      {filters.titleQuery ? (
+        <DismissableChip
+          label={`Title: “${filters.titleQuery}”`}
+          ariaLabel={`Clear title search for ${filters.titleQuery}`}
+          onDismiss={onRemoveTitle}
+        />
+      ) : null}
       {ratings.map((r) => (
         <DismissableChip
           key={`rating-${r}`}
@@ -942,6 +974,69 @@ function ActiveFilterChips({
           Clear all
         </button>
       ) : null}
+    </div>
+  );
+}
+
+/** Debounced search box for the reviews grid. Owns local input state
+ *  for responsive typing and pushes the trimmed value to the URL ~300ms
+ *  after the last keystroke. Re-syncs from `value` on external changes
+ *  (chip dismiss, Clear all). Rendered in both the sidebar and the
+ *  drawer. Mirrors FilmsShell's SearchInput (TV searches title only —
+ *  the Serializd snapshot has no director field). */
+function SearchInput({
+  value,
+  onSearch,
+  label,
+  placeholder,
+  ariaLabel,
+}: {
+  value: string;
+  onSearch: (v: string) => void;
+  label: string;
+  placeholder: string;
+  ariaLabel: string;
+}) {
+  const [local, setLocal] = useState(value);
+  const lastPushed = useRef(value);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (value !== lastPushed.current) {
+      lastPushed.current = value;
+      setLocal(value);
+    }
+  }, [value]);
+
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
+
+  function handleChange(next: string) {
+    setLocal(next);
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      const trimmed = next.trim();
+      lastPushed.current = trimmed;
+      onSearch(trimmed);
+    }, 300);
+  }
+
+  return (
+    <div>
+      <Kicker>{label}</Kicker>
+      <input
+        type="search"
+        value={local}
+        onChange={(e) => handleChange(e.target.value)}
+        placeholder={placeholder}
+        aria-label={ariaLabel}
+        className="reviews-search-input focus-visible:outline-2 focus-visible:outline-offset-2"
+        style={{ ...searchInputStyle, marginTop: 8 }}
+      />
     </div>
   );
 }
@@ -1028,6 +1123,7 @@ function countActiveFilters(filters: ShowFilters): number {
     n++;
   }
   if (filters.cardKind !== undefined) n++;
+  if (filters.titleQuery) n++;
   return n;
 }
 
@@ -1087,6 +1183,7 @@ function pickFilterDimension(keys: string[]): string | null {
   if (keys.includes("watchedYear") || keys.includes("watchedWindow"))
     return "watched";
   if (keys.includes("cardKind")) return "cardKind";
+  if (keys.includes("title")) return "search";
   if (keys.includes("sort")) return "sort";
   return null;
 }
@@ -1102,6 +1199,20 @@ const chipBaseStyle: CSSProperties = {
   border: "1px solid var(--border-interactive)",
   cursor: "pointer",
   whiteSpace: "nowrap",
+  outlineColor: "var(--border-focus)",
+};
+
+// Search box — matches the sort <select> vocabulary with text-entry
+// padding. Placeholder color via .reviews-search-input in components.css.
+const searchInputStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 12,
+  padding: "8px 12px",
+  border: "1px solid var(--border-interactive)",
+  borderRadius: "var(--border-radius-sm)",
+  background: "var(--surface-page)",
+  color: "var(--text-body)",
+  width: "100%",
   outlineColor: "var(--border-focus)",
 };
 

@@ -250,6 +250,15 @@ export type FilmFilters = {
   releaseYearMax?: number;
   /** Empty/undefined = no filter. Otherwise: keep film if film's genres intersect this set. */
   genres?: string[];
+  /** Title search (?title=), length ≥ 2. */
+  titleQuery?: string;
+  /** Director search (?director=), length ≥ 2. Separate field from
+   *  title so "everything by X" is its own lens. */
+  directorQuery?: string;
+  // Both queries are carried here so generateMetadata can noindex the
+  // search state; the actual hybrid matching is precomputed server-side
+  // (per field, then intersected) and passed to applyFilters as
+  // `matchIds` — keeps this client-safe module free of the Fuse dep.
 } & WatchedDateFilter;
 
 /**
@@ -356,6 +365,11 @@ export function applyFilters(
   films: Film[],
   filters: FilmFilters,
   sort: FilmSort = DEFAULT_FILM_SORT,
+  // Precomputed fuzzy-search match set (film ids) for the ?q= filter.
+  // null/undefined = no search active (keep all). The matching is done
+  // by the caller via the server-only fuzzy-search helper so this
+  // module stays free of the Fuse dep and client-bundle-safe.
+  matchIds?: Set<string> | null,
 ): AppliedFilm[] {
   const hasPerReviewFilter =
     (filters.ratings && filters.ratings.length > 0) ||
@@ -380,6 +394,11 @@ export function applyFilters(
 
   for (const film of films) {
     // ── Per-film filters ────────────────────────────────────
+    // Search (?q=): drop films whose id isn't in the fuzzy-match set.
+    // Composes (AND) with every other filter below.
+    if (matchIds && !matchIds.has(film.id)) {
+      continue;
+    }
     if (
       filters.releaseYearMin !== undefined &&
       film.releaseYear < filters.releaseYearMin
@@ -593,14 +612,29 @@ export function parseFilmFilters(
     .filter((y) => Number.isInteger(y) && y > 0);
   const watchedWindowRaw = asString(params.watchedWindow);
 
+  // Title / director search (?title=, ?director=). Each active only at
+  // length ≥ 2 so a single typed character is a no-op (no jarring
+  // filter, no premature noindex). Mirrors MIN_QUERY_LENGTH.
+  const titleQuery = asString(params.title)?.trim();
+  const directorQuery = asString(params.director)?.trim();
+
   const base: Pick<
     FilmFilters,
-    "ratings" | "genres" | "releaseYearMin" | "releaseYearMax"
+    | "ratings"
+    | "genres"
+    | "releaseYearMin"
+    | "releaseYearMax"
+    | "titleQuery"
+    | "directorQuery"
   > = {};
   if (ratings.length > 0) base.ratings = ratings;
   if (genres.length > 0) base.genres = genres;
   if (releaseYearMin !== undefined) base.releaseYearMin = releaseYearMin;
   if (releaseYearMax !== undefined) base.releaseYearMax = releaseYearMax;
+  if (titleQuery && titleQuery.length >= 2) base.titleQuery = titleQuery;
+  if (directorQuery && directorQuery.length >= 2) {
+    base.directorQuery = directorQuery;
+  }
 
   if (watchedYearsRaw.length > 0) {
     return { ...base, watchedYears: watchedYearsRaw };

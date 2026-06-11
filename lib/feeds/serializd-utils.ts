@@ -566,6 +566,12 @@ export type ShowFilters = {
    * the other stable.
    */
   cardKind?: "show" | "season";
+  /** Title search (?title=), length ≥ 2. TV has no director field, so
+   *  title is the only search dimension here. Carried so generateMetadata
+   *  can noindex the search state; the hybrid matching is precomputed
+   *  server-side and passed to the card filter as `matchIds` (keeps this
+   *  client-safe module free of the Fuse dep). */
+  titleQuery?: string;
 } & WatchedDateFilter;
 
 /**
@@ -755,11 +761,19 @@ export function applyCompletedCardFilters(
   cards: CompletedCard[],
   filters: ShowFilters,
   sort: ShowSort = DEFAULT_SHOW_SORT,
+  // Precomputed fuzzy-search match set (SHOW ids) for the ?q= filter.
+  // null/undefined = no search active. Matching is done by the caller
+  // via the server-only fuzzy-search helper (over the unique shows, by
+  // title) so this client-safe module stays free of the Fuse dep.
+  matchIds?: Set<string> | null,
 ): CompletedCard[] {
   const twelveMoCutoffMs =
     filters.watchedWindow === "12mo" ? computeTwelveMoCutoffMs() : null;
   const result: CompletedCard[] = [];
   for (const card of cards) {
+    // Search (?q=): drop cards whose parent show isn't in the
+    // fuzzy-match set. Composes (AND) with every predicate below.
+    if (matchIds && !matchIds.has(card.show.id)) continue;
     // Card-kind scope (cheapest predicate first — discriminator
     // check on a 4-byte string vs the per-show numeric / array
     // predicates below).
@@ -1040,15 +1054,25 @@ export function parseShowFilters(
   );
   const watchedWindowRaw = asString(params.watchedWindow);
 
+  // Title search (?title=); active only at length ≥ 2 (single char is a
+  // no-op). Mirrors parseFilmFilters + MIN_QUERY_LENGTH.
+  const titleQuery = asString(params.title)?.trim();
+
   const base: Pick<
     ShowFilters,
-    "ratings" | "genres" | "premiereYearMin" | "premiereYearMax" | "cardKind"
+    | "ratings"
+    | "genres"
+    | "premiereYearMin"
+    | "premiereYearMax"
+    | "cardKind"
+    | "titleQuery"
   > = {};
   if (ratings.length > 0) base.ratings = ratings;
   if (genres.length > 0) base.genres = genres;
   if (premiereYearMin !== undefined) base.premiereYearMin = premiereYearMin;
   if (premiereYearMax !== undefined) base.premiereYearMax = premiereYearMax;
   if (cardKind !== undefined) base.cardKind = cardKind;
+  if (titleQuery && titleQuery.length >= 2) base.titleQuery = titleQuery;
 
   if (watchedYearsRaw.length > 0) {
     return { ...base, watchedYears: watchedYearsRaw };

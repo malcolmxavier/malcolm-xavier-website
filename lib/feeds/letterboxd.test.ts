@@ -206,6 +206,89 @@ describe("parseFilmSort", () => {
   });
 });
 
+// ─── search query (?q=) ──────────────────────────────────────────
+// The fuzzy matching itself (Fuse) is exercised server-side via the
+// fuzzy-search helper; these cover the two pieces that live in this
+// client-safe module: parsing the ?q= param, and applyFilters honoring
+// a precomputed matchIds set (so the corpus-vs-Fuse split is verifiable
+// without importing the server-only helper here).
+
+describe("parseFilmFilters — search queries (title + director)", () => {
+  it("sets titleQuery / directorQuery when length >= 2, trimmed", () => {
+    expect(parseFilmFilters({ title: "park" })).toMatchObject({
+      titleQuery: "park",
+    });
+    expect(parseFilmFilters({ director: "  gerwig  " })).toMatchObject({
+      directorQuery: "gerwig",
+    });
+  });
+
+  it("ignores a query shorter than 2 chars (no-op — no premature noindex)", () => {
+    expect(parseFilmFilters({ title: "a" })).toEqual({});
+    expect(parseFilmFilters({ director: " " })).toEqual({});
+    expect(parseFilmFilters({ title: "" })).toEqual({});
+  });
+
+  it("parses title and director independently and alongside filters", () => {
+    expect(
+      parseFilmFilters({ title: "black", director: "gerwig", rating: "5" }),
+    ).toMatchObject({
+      titleQuery: "black",
+      directorQuery: "gerwig",
+      ratings: [5],
+    });
+  });
+});
+
+describe("applyFilters — search matchIds", () => {
+  const films = [
+    makeFilm({ id: "a", title: "A" }),
+    makeFilm({ id: "b", title: "B" }),
+    makeFilm({ id: "c", title: "C" }),
+  ];
+
+  it("keeps only films whose id is in the match set", () => {
+    const out = applyFilters(
+      films,
+      { titleQuery: "x" },
+      undefined,
+      new Set(["b"]),
+    );
+    expect(out.map((f) => f.film.id)).toEqual(["b"]);
+  });
+
+  it("returns all films when matchIds is null/undefined (no search active)", () => {
+    expect(applyFilters(films, {}).map((f) => f.film.id)).toEqual([
+      "a",
+      "b",
+      "c",
+    ]);
+    expect(
+      applyFilters(films, {}, undefined, null).map((f) => f.film.id),
+    ).toEqual(["a", "b", "c"]);
+  });
+
+  it("composes (AND) with per-film filters", () => {
+    const tmdb = makeFilm().tmdb!;
+    const horror = makeFilm({ id: "h", tmdb: { ...tmdb, genres: ["Horror"] } });
+    const drama = makeFilm({ id: "d", tmdb: { ...tmdb, genres: ["Drama"] } });
+    // Match set allows both; the genre filter narrows to Horror → only h.
+    const out = applyFilters(
+      [horror, drama],
+      { genres: ["Horror"], titleQuery: "x" },
+      undefined,
+      new Set(["h", "d"]),
+    );
+    expect(out.map((f) => f.film.id)).toEqual(["h"]);
+  });
+
+  it("drops everything when the match set is empty", () => {
+    expect(
+      applyFilters(films, { titleQuery: "zzz" }, undefined, new Set()),
+    ).toHaveLength(0);
+  });
+});
+
 // ─── applyFilters ────────────────────────────────────────────────
 
 describe("applyFilters — per-film filters", () => {
