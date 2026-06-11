@@ -33,6 +33,8 @@ import {
   applyCompletedCardFilters,
   asString,
   buildCompletedCards,
+  deriveAvailableNetworks,
+  deriveAvailableTypes,
   findGenreBySlug,
   genreInProse,
   paginate,
@@ -92,6 +94,8 @@ export async function generateMetadata({
         filters.genres!.length === 1 &&
         slugifyGenre(filters.genres![0]) === slug
       )) ||
+    Boolean(filters.networks && filters.networks.length > 0) ||
+    Boolean(filters.types && filters.types.length > 0) ||
     Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
     filters.watchedWindow !== undefined ||
     Boolean(filters.titleQuery) ||
@@ -160,6 +164,8 @@ export default async function TvGenrePage({
   const availableGenres = Object.entries(summary.genreDistribution)
     .sort((a, b) => b[1] - a[1])
     .map(([g]) => g);
+  const availableNetworks = deriveAvailableNetworks(shows);
+  const availableTypes = deriveAvailableTypes(shows);
   const watchedYearSetGlobal = new Set<number>();
   for (const show of shows) {
     for (const y of show.watchedYearSet) watchedYearSetGlobal.add(y);
@@ -315,6 +321,8 @@ export default async function TvGenrePage({
             filters={filters}
             sort={sort}
             availableGenres={availableGenres}
+            availableNetworks={availableNetworks}
+            availableTypes={availableTypes}
             availableWatchedYears={availableWatchedYears}
             routeGenre={genre}
             originHref={buildOriginHref(`/television/genre/${slug}`, sp)}

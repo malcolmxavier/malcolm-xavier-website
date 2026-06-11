@@ -49,6 +49,8 @@ import {
   parseShowFilters,
   parseShowSort,
   slugifyGenre,
+  deriveAvailableNetworks,
+  deriveAvailableTypes,
 } from "@/lib/feeds/serializd-utils";
 import { TelevisionShell } from "../TelevisionShell";
 import { SummaryPanel } from "../SummaryPanel";
@@ -92,6 +94,8 @@ export async function generateMetadata({
     filters.genres &&
     filters.genres.length === 1 &&
     !filters.ratings &&
+    !filters.networks &&
+    !filters.types &&
     !filters.watchedYears &&
     !filters.watchedWindow &&
     !filters.titleQuery &&
@@ -103,6 +107,8 @@ export async function generateMetadata({
     !onlyGenreFilter &&
     (Boolean(filters.ratings && filters.ratings.length > 0) ||
       Boolean(filters.genres && filters.genres.length > 0) ||
+      Boolean(filters.networks && filters.networks.length > 0) ||
+      Boolean(filters.types && filters.types.length > 0) ||
       Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
       filters.watchedWindow !== undefined ||
       Boolean(filters.titleQuery) ||
@@ -188,6 +194,11 @@ export default async function TelevisionPage({
   const availableGenres = Object.entries(summary.genreDistribution)
     .sort((a, b) => b[1] - a[1])
     .map(([g]) => g);
+
+  // Networks (canonical primary) and TMDB types present in the
+  // dataset, frequency-sorted — drive the new filter chip rails.
+  const availableNetworks = deriveAvailableNetworks(shows);
+  const availableTypes = deriveAvailableTypes(shows);
 
   // Watched years across the dataset, derived from each show's
   // pre-computed watchedYearSet so the chip rail expands as
@@ -431,6 +442,8 @@ export default async function TelevisionPage({
             filters={filters}
             sort={sort}
             availableGenres={availableGenres}
+            availableNetworks={availableNetworks}
+            availableTypes={availableTypes}
             availableWatchedYears={availableWatchedYears}
             originHref={buildOriginHref("/television/reviews", params)}
             watchingCount={watchingCount}

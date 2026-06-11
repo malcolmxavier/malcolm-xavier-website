@@ -16,6 +16,8 @@
 // them gets a feature the other should adopt.
 // ─────────────────────────────────────────────────────────────────
 
+import { primaryNetwork } from "./stats/network-canon";
+
 // ─── Public types ────────────────────────────────────────────────
 
 /**
@@ -553,6 +555,22 @@ export type ShowFilters = {
   /** Empty/undefined = no filter. Otherwise: keep show if show's genres intersect this set. */
   genres?: string[];
   /**
+   * Empty/undefined = no filter. Otherwise: keep show if its
+   * canonical PRIMARY network (canonNet of networks[0]) ∈ this set.
+   * Matching on the primary network — consistent with the stats
+   * primary-network counting rule — means a show appears under
+   * exactly one network filter, never several. Carries canonical
+   * names ("HBO / Max"), so the filter chip and the detail-page
+   * network label agree.
+   */
+  networks?: string[];
+  /**
+   * Empty/undefined = no filter. Otherwise: keep show if its TMDB
+   * series type (Scripted / Miniseries / Reality / Documentary /
+   * etc.) ∈ this set. Low-cardinality facet, so a plain chip rail.
+   */
+  types?: string[];
+  /**
    * Card-kind scope. Undefined = both Show and Season cards
    * surface together (default). "show" / "season" narrows the
    * grid to that level only. Lives as `?cardKind=show|season`
@@ -743,6 +761,39 @@ export function seasonNumberForReview(show: Show, review: Review): number | null
   return season ? season.seasonNumber : null;
 }
 
+// ─── Available-facet derivation ──────────────────────────────────
+
+/**
+ * Distinct canonical primary networks across a show set, sorted by
+ * frequency descending so the filter chip rail leads with the
+ * most-common destinations. Routes through primaryNetwork so the chip
+ * vocabulary matches the network filter predicate (and the stats
+ * counts). Shared by /television/reviews and /television/genre/[slug]
+ * so both render the identical rail.
+ */
+export function deriveAvailableNetworks(shows: Show[]): string[] {
+  const counts = new Map<string, number>();
+  for (const show of shows) {
+    const primary = primaryNetwork(show.tmdb?.networks ?? []);
+    if (primary) counts.set(primary, (counts.get(primary) ?? 0) + 1);
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([n]) => n);
+}
+
+/**
+ * Distinct TMDB series types across a show set, frequency-sorted.
+ * Low cardinality (Scripted / Miniseries / Reality / Documentary / …),
+ * so the UI renders a plain chip rail rather than a typeahead.
+ */
+export function deriveAvailableTypes(shows: Show[]): string[] {
+  const counts = new Map<string, number>();
+  for (const show of shows) {
+    const t = show.tmdb?.type;
+    if (t) counts.set(t, (counts.get(t) ?? 0) + 1);
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([t]) => t);
+}
+
 // ─── Card-level filter + sort ────────────────────────────────────
 
 /**
@@ -795,6 +846,16 @@ export function applyCompletedCardFilters(
       const showGenres = card.show.tmdb?.genres;
       if (!showGenres) continue;
       if (!filters.genres.some((g) => showGenres.includes(g))) continue;
+    }
+    if (filters.networks && filters.networks.length > 0) {
+      // Match on the canonical PRIMARY network so a show lands under
+      // exactly one network filter (same rule the stats counts use).
+      const primary = primaryNetwork(card.show.tmdb?.networks ?? []);
+      if (!primary || !filters.networks.includes(primary)) continue;
+    }
+    if (filters.types && filters.types.length > 0) {
+      const showType = card.show.tmdb?.type;
+      if (!showType || !filters.types.includes(showType)) continue;
     }
     // Per-review predicates apply to the card's surfaced review
     if (filters.ratings && filters.ratings.length > 0) {
@@ -1039,6 +1100,11 @@ export function parseShowFilters(
     VALID_RATINGS.includes(r),
   );
   const genres = parseCsvStrings(asString(params.genre));
+  // Networks carry canonical names ("HBO / Max") and types are TMDB
+  // labels ("Scripted"); both are CSV like genre. No allowlist — a
+  // tampered value just matches nothing (same posture as genre).
+  const networks = parseCsvStrings(asString(params.network));
+  const types = parseCsvStrings(asString(params.type));
   const premiereYearMin = parsePremiereYear(asString(params.premiereYearMin));
   const premiereYearMax = parsePremiereYear(asString(params.premiereYearMax));
   // Tolerate any other value silently (URL tampering returns to
@@ -1062,6 +1128,8 @@ export function parseShowFilters(
     ShowFilters,
     | "ratings"
     | "genres"
+    | "networks"
+    | "types"
     | "premiereYearMin"
     | "premiereYearMax"
     | "cardKind"
@@ -1069,6 +1137,8 @@ export function parseShowFilters(
   > = {};
   if (ratings.length > 0) base.ratings = ratings;
   if (genres.length > 0) base.genres = genres;
+  if (networks.length > 0) base.networks = networks;
+  if (types.length > 0) base.types = types;
   if (premiereYearMin !== undefined) base.premiereYearMin = premiereYearMin;
   if (premiereYearMax !== undefined) base.premiereYearMax = premiereYearMax;
   if (cardKind !== undefined) base.cardKind = cardKind;

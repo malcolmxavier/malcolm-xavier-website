@@ -75,6 +75,10 @@ type Props = {
   sort: ShowSort;
   /** Genres in the snapshot, sorted by usage descending. */
   availableGenres: string[];
+  /** Canonical primary networks in the snapshot, sorted by usage desc. */
+  availableNetworks: string[];
+  /** TMDB series types in the snapshot, sorted by usage desc. */
+  availableTypes: string[];
   /** Watched years in the snapshot, sorted desc. */
   availableWatchedYears: number[];
   /** Genre pinned by the route (when mounted from /television/
@@ -114,6 +118,8 @@ export function TelevisionShell({
   filters,
   sort,
   availableGenres,
+  availableNetworks,
+  availableTypes,
   availableWatchedYears,
   routeGenre,
   originHref,
@@ -274,6 +280,22 @@ export function TelevisionShell({
     navigate({ genre: next.length > 0 ? next.join(",") : undefined });
   }
 
+  function toggleNetwork(network: string) {
+    const current = filters.networks ?? [];
+    const next = current.includes(network)
+      ? current.filter((n) => n !== network)
+      : [...current, network];
+    navigate({ network: next.length > 0 ? next.join(",") : undefined });
+  }
+
+  function toggleType(type: string) {
+    const current = filters.types ?? [];
+    const next = current.includes(type)
+      ? current.filter((t) => t !== type)
+      : [...current, type];
+    navigate({ type: next.length > 0 ? next.join(",") : undefined });
+  }
+
   function toggleWatchedYear(year: number) {
     // Mode-switch handling: when the user is currently in
     // rolling-window mode and clicks a year chip, the year click
@@ -359,11 +381,15 @@ export function TelevisionShell({
     filters,
     sort,
     availableGenres,
+    availableNetworks,
+    availableTypes,
     availableWatchedYears,
     anyControlChangedFromDefault,
     totalResults,
     onToggleRating: toggleRating,
     onToggleGenre: toggleGenre,
+    onToggleNetwork: toggleNetwork,
+    onToggleType: toggleType,
     onToggleWatchedYear: toggleWatchedYear,
     onSetWatched12Mo: setWatched12Mo,
     onClearWatchedDate: clearWatchedDate,
@@ -516,6 +542,8 @@ export function TelevisionShell({
                 sort={sort}
                 onRemoveRating={toggleRating}
                 onRemoveGenre={toggleGenre}
+                onRemoveNetwork={toggleNetwork}
+                onRemoveType={toggleType}
                 onRemoveWatchedYear={toggleWatchedYear}
                 onClearWatchedWindow={clearWatchedDate}
                 onResetCardKind={() => setCardKind("both")}
@@ -580,11 +608,15 @@ function FilterContent({
   filters,
   sort,
   availableGenres,
+  availableNetworks,
+  availableTypes,
   availableWatchedYears,
   anyControlChangedFromDefault,
   totalResults,
   onToggleRating,
   onToggleGenre,
+  onToggleNetwork,
+  onToggleType,
   onToggleWatchedYear,
   onSetWatched12Mo,
   onClearWatchedDate,
@@ -597,11 +629,15 @@ function FilterContent({
   filters: ShowFilters;
   sort: ShowSort;
   availableGenres: string[];
+  availableNetworks: string[];
+  availableTypes: string[];
   availableWatchedYears: number[];
   anyControlChangedFromDefault: boolean;
   totalResults: number;
   onToggleRating: (r: number) => void;
   onToggleGenre: (g: string) => void;
+  onToggleNetwork: (n: string) => void;
+  onToggleType: (t: string) => void;
   onToggleWatchedYear: (y: number) => void;
   /** Set the rolling 12-month window mode. Mutually exclusive
    *  with watchedYears — see the toggleWatchedYear /
@@ -765,6 +801,36 @@ function FilterContent({
         </FilterRow>
       ) : null}
 
+      {availableNetworks.length > 0 ? (
+        <FilterRow label="Network">
+          {availableNetworks.map((n) => (
+            <Chip
+              key={n}
+              isActive={(filters.networks ?? []).includes(n)}
+              onClick={() => onToggleNetwork(n)}
+              ariaLabel={`Filter to ${n}`}
+            >
+              {n}
+            </Chip>
+          ))}
+        </FilterRow>
+      ) : null}
+
+      {availableTypes.length > 0 ? (
+        <FilterRow label="Type">
+          {availableTypes.map((t) => (
+            <Chip
+              key={t}
+              isActive={(filters.types ?? []).includes(t)}
+              onClick={() => onToggleType(t)}
+              ariaLabel={`Filter to ${t}`}
+            >
+              {t}
+            </Chip>
+          ))}
+        </FilterRow>
+      ) : null}
+
       <div
         style={{
           display: "flex",
@@ -862,6 +928,8 @@ function ActiveFilterChips({
   sort,
   onRemoveRating,
   onRemoveGenre,
+  onRemoveNetwork,
+  onRemoveType,
   onRemoveWatchedYear,
   onClearWatchedWindow,
   onResetCardKind,
@@ -873,6 +941,8 @@ function ActiveFilterChips({
   sort: ShowSort;
   onRemoveRating: (r: number) => void;
   onRemoveGenre: (g: string) => void;
+  onRemoveNetwork: (n: string) => void;
+  onRemoveType: (t: string) => void;
   onRemoveWatchedYear: (y: number) => void;
   onClearWatchedWindow: () => void;
   onResetCardKind: () => void;
@@ -882,6 +952,8 @@ function ActiveFilterChips({
 }) {
   const ratings = filters.ratings ?? [];
   const genres = filters.genres ?? [];
+  const networks = filters.networks ?? [];
+  const types = filters.types ?? [];
   const watchedYears = filters.watchedYears ?? [];
   const sortIsDefault = sort === "latest-activity-desc";
   const cardKindActive = filters.cardKind !== undefined;
@@ -890,6 +962,8 @@ function ActiveFilterChips({
   const dismissableCount =
     ratings.length +
     genres.length +
+    networks.length +
+    types.length +
     watchedYears.length +
     (cardKindActive ? 1 : 0) +
     (watchedWindowActive ? 1 : 0) +
@@ -930,6 +1004,22 @@ function ActiveFilterChips({
           label={g}
           ariaLabel={`Remove ${g} filter`}
           onDismiss={() => onRemoveGenre(g)}
+        />
+      ))}
+      {networks.map((n) => (
+        <DismissableChip
+          key={`network-${n}`}
+          label={n}
+          ariaLabel={`Remove ${n} network filter`}
+          onDismiss={() => onRemoveNetwork(n)}
+        />
+      ))}
+      {types.map((t) => (
+        <DismissableChip
+          key={`type-${t}`}
+          label={t}
+          ariaLabel={`Remove ${t} type filter`}
+          onDismiss={() => onRemoveType(t)}
         />
       ))}
       {watchedYears.map((y) => (
@@ -1116,6 +1206,8 @@ function countActiveFilters(filters: ShowFilters): number {
   let n = 0;
   if (filters.ratings && filters.ratings.length > 0) n++;
   if (filters.genres && filters.genres.length > 0) n++;
+  if (filters.networks && filters.networks.length > 0) n++;
+  if (filters.types && filters.types.length > 0) n++;
   if (
     (filters.watchedYears && filters.watchedYears.length > 0) ||
     filters.watchedWindow !== undefined
@@ -1180,6 +1272,8 @@ function resultNoun(
 function pickFilterDimension(keys: string[]): string | null {
   if (keys.includes("rating")) return "rating";
   if (keys.includes("genre")) return "genre";
+  if (keys.includes("network")) return "network";
+  if (keys.includes("type")) return "type";
   if (keys.includes("watchedYear") || keys.includes("watchedWindow"))
     return "watched";
   if (keys.includes("cardKind")) return "cardKind";
