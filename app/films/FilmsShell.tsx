@@ -61,10 +61,11 @@ import { Kicker } from "@/components/typography/Kicker";
 import { InfoToast } from "@/components/primitives/InfoToast";
 import { Pagination } from "@/components/primitives/Pagination";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import type {
-  AppliedFilm,
-  FilmFilters,
-  FilmSort,
+import {
+  RUNTIME_BUCKETS,
+  type AppliedFilm,
+  type FilmFilters,
+  type FilmSort,
 } from "@/lib/feeds/letterboxd-utils";
 import { FilmCard } from "./FilmCard";
 
@@ -326,6 +327,16 @@ export function FilmsShell({
     });
   }
 
+  function toggleRuntimeBucket(bucketId: string) {
+    const current = filters.runtimeBuckets ?? [];
+    const next = current.includes(bucketId)
+      ? current.filter((b) => b !== bucketId)
+      : [...current, bucketId];
+    navigate({
+      runtime: next.length > 0 ? next.join(",") : undefined,
+    });
+  }
+
   // Watched-date handlers. Year multi-select + two singletons
   // ("All time" clears, "Past 12 months" sets the rolling window).
   // The singleton chips are mutually exclusive with the year set
@@ -432,6 +443,7 @@ export function FilmsShell({
     totalResults,
     onToggleRating: toggleRating,
     onToggleGenre: toggleGenre,
+    onToggleRuntimeBucket: toggleRuntimeBucket,
     onToggleWatchedYear: toggleWatchedYear,
     onSetWatched12Mo: setWatched12Mo,
     onClearWatchedDate: clearWatchedDate,
@@ -611,6 +623,7 @@ export function FilmsShell({
                 sort={sort}
                 onRemoveRating={toggleRating}
                 onRemoveGenre={toggleGenre}
+                onRemoveRuntimeBucket={toggleRuntimeBucket}
                 onRemoveWatchedYear={toggleWatchedYear}
                 onClearWatchedWindow={clearWatchedDate}
                 onRemoveTitle={() => handleTitleChange("")}
@@ -673,6 +686,7 @@ function FilterContent({
   totalResults,
   onToggleRating,
   onToggleGenre,
+  onToggleRuntimeBucket,
   onToggleWatchedYear,
   onSetWatched12Mo,
   onClearWatchedDate,
@@ -691,6 +705,7 @@ function FilterContent({
   totalResults: number;
   onToggleRating: (r: number) => void;
   onToggleGenre: (g: string) => void;
+  onToggleRuntimeBucket: (b: string) => void;
   onToggleWatchedYear: (y: number) => void;
   onSetWatched12Mo: () => void;
   onClearWatchedDate: () => void;
@@ -845,6 +860,22 @@ function FilterContent({
         </FilterRow>
       ) : null}
 
+      {/* Length — static runtime buckets (the options don't grow with
+          the corpus, so no availableX prop). Multi-select OR within
+          the facet. */}
+      <FilterRow label="Length">
+        {RUNTIME_BUCKETS.map((b) => (
+          <Chip
+            key={b.id}
+            isActive={(filters.runtimeBuckets ?? []).includes(b.id)}
+            onClick={() => onToggleRuntimeBucket(b.id)}
+            ariaLabel={`Filter to runtime ${b.label}`}
+          >
+            {b.label}
+          </Chip>
+        ))}
+      </FilterRow>
+
       <div
         style={{
           display: "flex",
@@ -974,6 +1005,7 @@ function ActiveFilterChips({
   sort,
   onRemoveRating,
   onRemoveGenre,
+  onRemoveRuntimeBucket,
   onRemoveWatchedYear,
   onClearWatchedWindow,
   onRemoveTitle,
@@ -985,6 +1017,7 @@ function ActiveFilterChips({
   sort: FilmSort;
   onRemoveRating: (r: number) => void;
   onRemoveGenre: (g: string) => void;
+  onRemoveRuntimeBucket: (b: string) => void;
   onRemoveWatchedYear: (y: number) => void;
   onClearWatchedWindow: () => void;
   onRemoveTitle: () => void;
@@ -994,6 +1027,7 @@ function ActiveFilterChips({
 }) {
   const ratings = filters.ratings ?? [];
   const genres = filters.genres ?? [];
+  const runtimeBuckets = filters.runtimeBuckets ?? [];
   const watchedYears = filters.watchedYears ?? [];
   const sortIsDefault = sort === "latest-watched-desc";
 
@@ -1004,6 +1038,7 @@ function ActiveFilterChips({
   const dismissableCount =
     ratings.length +
     genres.length +
+    runtimeBuckets.length +
     watchedYears.length +
     (filters.watchedWindow !== undefined ? 1 : 0) +
     (filters.titleQuery ? 1 : 0) +
@@ -1054,6 +1089,14 @@ function ActiveFilterChips({
           label={g}
           ariaLabel={`Remove ${g} filter`}
           onDismiss={() => onRemoveGenre(g)}
+        />
+      ))}
+      {runtimeBuckets.map((b) => (
+        <DismissableChip
+          key={`runtime-${b}`}
+          label={labelForRuntimeBucket(b)}
+          ariaLabel={`Remove ${labelForRuntimeBucket(b)} length filter`}
+          onDismiss={() => onRemoveRuntimeBucket(b)}
         />
       ))}
       {watchedYears.map((y) => (
@@ -1221,6 +1264,13 @@ function labelForSort(sort: FilmSort): string {
   return opt?.label ?? sort;
 }
 
+/** Display label for a runtime bucket id (e.g. "120-150" → "120–150m").
+ *  Falls back to the raw id if an unknown value somehow reaches the
+ *  rail. */
+function labelForRuntimeBucket(bucketId: string): string {
+  return RUNTIME_BUCKETS.find((b) => b.id === bucketId)?.label ?? bucketId;
+}
+
 function EmptyState({ onClearAll }: { onClearAll: () => void }) {
   return (
     <div
@@ -1272,6 +1322,7 @@ function EmptyState({ onClearAll }: { onClearAll: () => void }) {
 function pickFilterDimension(keys: string[]): string | null {
   if (keys.includes("rating")) return "rating";
   if (keys.includes("genre")) return "genre";
+  if (keys.includes("runtime")) return "runtime";
   if (keys.includes("watchedYear") || keys.includes("watchedWindow"))
     return "watched";
   if (keys.includes("title") || keys.includes("director")) return "search";
@@ -1283,6 +1334,7 @@ function countActiveFilters(filters: FilmFilters): number {
   let n = 0;
   if (filters.ratings && filters.ratings.length > 0) n++;
   if (filters.genres && filters.genres.length > 0) n++;
+  if (filters.runtimeBuckets && filters.runtimeBuckets.length > 0) n++;
   if (filters.titleQuery) n++;
   if (filters.directorQuery) n++;
   // releaseYearMin / releaseYearMax intentionally NOT counted here

@@ -255,11 +255,57 @@ export type FilmFilters = {
   /** Director search (?director=), length ≥ 2. Separate field from
    *  title so "everything by X" is its own lens. */
   directorQuery?: string;
+  /**
+   * Runtime (length) buckets — empty/undefined = no filter.
+   * Otherwise keep the film if its tmdb.runtime falls in ANY selected
+   * bucket (OR within the facet). Values are RUNTIME_BUCKETS ids
+   * ("lt90", "90-120", "120-150", "gt150"). A film with null runtime
+   * is dropped when this filter is active (nothing to bucket).
+   */
+  runtimeBuckets?: string[];
   // Both queries are carried here so generateMetadata can noindex the
   // search state; the actual hybrid matching is precomputed server-side
   // (per field, then intersected) and passed to applyFilters as
   // `matchIds` — keeps this client-safe module free of the Fuse dep.
 } & WatchedDateFilter;
+
+/**
+ * Runtime (length) filter buckets. Static set — unlike genre/year,
+ * the options don't grow with the corpus, so no per-request
+ * derivation. Boundaries are non-overlapping: a 90m film lands in
+ * "90–120m", a 120m film in "90–120m", a 150m film in "120–150m".
+ * Exported so FilmsShell renders the chip rail from the same source
+ * the predicate reads.
+ */
+export const RUNTIME_BUCKETS = [
+  { id: "lt90", label: "Under 90m" },
+  { id: "90-120", label: "90–120m" },
+  { id: "120-150", label: "120–150m" },
+  { id: "gt150", label: "Over 150m" },
+] as const;
+
+export type RuntimeBucketId = (typeof RUNTIME_BUCKETS)[number]["id"];
+
+/**
+ * True if a runtime (minutes) falls in the given bucket. Half-open
+ * boundaries keep the buckets non-overlapping: [_,90) / [90,120] /
+ * (120,150] / (150,_). Unknown bucket ids return false so a tampered
+ * ?runtime= value matches nothing rather than throwing.
+ */
+export function runtimeInBucket(runtime: number, bucketId: string): boolean {
+  switch (bucketId) {
+    case "lt90":
+      return runtime < 90;
+    case "90-120":
+      return runtime >= 90 && runtime <= 120;
+    case "120-150":
+      return runtime > 120 && runtime <= 150;
+    case "gt150":
+      return runtime > 150;
+    default:
+      return false;
+  }
+}
 
 /**
  * Single source of truth for valid sort dimensions. The runtime
@@ -416,6 +462,15 @@ export function applyFilters(
       if (!filmGenres) continue;
       const intersects = filters.genres.some((g) => filmGenres.includes(g));
       if (!intersects) continue;
+    }
+    if (filters.runtimeBuckets && filters.runtimeBuckets.length > 0) {
+      const runtime = film.tmdb?.runtime;
+      // Null/unknown runtime can't be bucketed — drop it when the
+      // length filter is active.
+      if (runtime === null || runtime === undefined) continue;
+      if (!filters.runtimeBuckets.some((b) => runtimeInBucket(runtime, b))) {
+        continue;
+      }
     }
 
     // ── Per-review filters ──────────────────────────────────
@@ -587,6 +642,12 @@ const VALID_SORTS: readonly FilmSort[] = FILM_SORTS;
 
 const VALID_RATINGS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 
+// Runtime bucket ids, derived from RUNTIME_BUCKETS so the parse
+// allowlist can't drift from the rendered chip set.
+const VALID_RUNTIME_BUCKETS: readonly string[] = RUNTIME_BUCKETS.map(
+  (b) => b.id,
+);
+
 /**
  * Parse a Next.js searchParams record into FilmFilters. Tolerates
  * malformed input — a bad ?rating=foo just becomes "no rating
@@ -600,6 +661,11 @@ export function parseFilmFilters(
     VALID_RATINGS.includes(r),
   );
   const genres = parseCsvStrings(asString(params.genre));
+  // Runtime buckets — CSV of RUNTIME_BUCKETS ids, validated against
+  // the known set so a tampered ?runtime=foo drops to "no filter."
+  const runtimeBuckets = parseCsvStrings(asString(params.runtime)).filter((b) =>
+    VALID_RUNTIME_BUCKETS.includes(b),
+  );
   const releaseYearMin = parseReleaseYear(asString(params.releaseYearMin));
   const releaseYearMax = parseReleaseYear(asString(params.releaseYearMax));
 
@@ -622,6 +688,7 @@ export function parseFilmFilters(
     FilmFilters,
     | "ratings"
     | "genres"
+    | "runtimeBuckets"
     | "releaseYearMin"
     | "releaseYearMax"
     | "titleQuery"
@@ -629,6 +696,7 @@ export function parseFilmFilters(
   > = {};
   if (ratings.length > 0) base.ratings = ratings;
   if (genres.length > 0) base.genres = genres;
+  if (runtimeBuckets.length > 0) base.runtimeBuckets = runtimeBuckets;
   if (releaseYearMin !== undefined) base.releaseYearMin = releaseYearMin;
   if (releaseYearMax !== undefined) base.releaseYearMax = releaseYearMax;
   if (titleQuery && titleQuery.length >= 2) base.titleQuery = titleQuery;
