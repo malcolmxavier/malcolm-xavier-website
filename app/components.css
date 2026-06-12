@@ -1258,8 +1258,12 @@ a.link-accent-pink,
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
-  min-width: max-content;
+  /* Cap the width and let it wrap. Critically NOT `min-width: max-content`
+     — that overrode max-width and blew long chips out to ~490px, which (as
+     absolutely-positioned boxes) extended the page's scroll width and made
+     the whole dashboard scroll horizontally. */
   max-width: 220px;
+  width: max-content;
   padding: 6px 9px;
   background: var(--text-body);
   color: var(--surface-default);
@@ -1272,9 +1276,10 @@ a.link-accent-pink,
   text-align: center;
   white-space: normal;
   pointer-events: none; /* the chip never eats the hover it's reacting to */
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 120ms ease, transform 120ms ease;
+  /* `display: none` at rest (not `visibility: hidden`) so a hidden chip
+     contributes nothing to layout/scroll width — the fix for the stray
+     horizontal scroll. Shown chips toggle to block below. */
+  display: none;
 }
 /* A small pointer tail anchored to the trigger's center. */
 .stats-tip__pop::after {
@@ -1291,11 +1296,5 @@ a.link-accent-pink,
 .stats-tip:hover > .stats-tip__pop,
 .stats-tip:focus-within > .stats-tip__pop,
 .stats-tip--open > .stats-tip__pop {
-  opacity: 1;
-  visibility: visible;
-}
-@media (prefers-reduced-motion: reduce) {
-  .stats-tip__pop {
-    transition: none;
-  }
+  display: block;
 }

@@ -64,6 +64,11 @@ export function RatingByLevelTabs({
               ariaLabelFor={(rating, count) =>
                 `${LABELS[lvl]}, ${rating} stars: ${count} reviews`
               }
+              tipFor={(rating, count) =>
+                `${rating}★ — ${count} ${count === 1 ? "review" : "reviews"}${
+                  d.n ? ` · ${Math.round((count / d.n) * 100)}% of ${LABELS[lvl].toLowerCase()}` : ""
+                }`
+              }
             />
             <p style={noteStyle}>
               {LABELS[lvl]}: avg{" "}
@@ -111,9 +116,11 @@ const activeBtnStyle: CSSProperties = {
   border: "1px solid var(--primary-700)",
 };
 
+// Reading prose, so it follows the dashboard's mono→slab note treatment
+// (the value stays mono via the inline <strong>).
 const noteStyle: CSSProperties = {
-  fontFamily: "var(--font-mono)",
-  fontSize: 11,
+  fontFamily: "var(--font-secondary)",
+  fontSize: 12,
   lineHeight: 1.5,
   color: "var(--text-caption)",
   margin: "8px 0 0",
