@@ -436,5 +436,16 @@
       "$type": "color",
       "$value": "{primary.400}"
     }
+  },
+  "chart": {
+    "c1": { "$type": "color", "$value": "#4ecb86" },
+    "c2": { "$type": "color", "$value": "#e0b34a" },
+    "c3": { "$type": "color", "$value": "#7d8cf0" },
+    "c4": { "$type": "color", "$value": "#e06aa0" },
+    "c5": { "$type": "color", "$value": "#6fc9bb" },
+    "c6": { "$type": "color", "$value": "#f0915a" },
+    "accent": { "$type": "color", "$value": "#f08a6f" },
+    "positive": { "$type": "color", "$value": "#4ecb86" },
+    "grid": { "$type": "color", "$value": "#525452" }
   }
 }

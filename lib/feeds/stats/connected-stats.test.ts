@@ -47,3 +47,39 @@ describe("connected world-cinema lean (pooled)", () => {
     expect(s.worldLean.pctInternational).toBeGreaterThan(15);
   });
 });
+
+describe("connected overlap + conglomerate", () => {
+  it("ranks combined language·country pairs, English·US leading", () => {
+    expect(s.overlap.topPairs[0][0]).toBe("English · United States");
+  });
+  it("stacks Film vs TV per conglomerate, low→high, ≤8 columns", () => {
+    expect(s.conglomerate.segments).toEqual(["Film", "TV"]);
+    expect(s.conglomerate.cats.length).toBeLessThanOrEqual(8);
+    const totals = s.conglomerate.matrix.map((r) => r[0] + r[1]);
+    // Displayed ascending, so totals are non-decreasing left→right.
+    for (let i = 1; i < totals.length; i++)
+      expect(totals[i]).toBeGreaterThanOrEqual(totals[i - 1]);
+    // Each column is a [film, TV] pair.
+    for (const row of s.conglomerate.matrix) expect(row).toHaveLength(2);
+  });
+});
+
+describe("connected cadence (film vs season)", () => {
+  it("pace carries two named cumulative series from [1,0]", () => {
+    expect(s.temporal.pace.map((x) => x.label)).toEqual(["Films", "Seasons"]);
+    for (const series of s.temporal.pace) {
+      expect(series.points[0]).toEqual([1, 0]);
+      // Cumulative — the last point is the highest.
+      expect(series.points.at(-1)![1]).toBeGreaterThanOrEqual(0);
+    }
+    // More films than seasons logged → the film curve ends higher.
+    expect(s.temporal.pace[0].points.at(-1)![1]).toBeGreaterThan(
+      s.temporal.pace[1].points.at(-1)![1],
+    );
+  });
+  it("weekday/month matrices stack Films vs Seasons", () => {
+    expect(s.temporal.weekdayMatrix.cats).toHaveLength(7);
+    expect(s.temporal.monthMatrix.cats).toHaveLength(12);
+    expect(s.temporal.weekdayMatrix.segments).toEqual(["Films", "Seasons"]);
+  });
+});

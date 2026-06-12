@@ -1,0 +1,175 @@
+// ─────────────────────────────────────────────────────────────────
+// Heatmap — a rating grid (e.g. budget tier × release era).
+//
+// Rendered as a real <table>: rows and columns are genuinely tabular
+// data, so <th scope> headers give screen readers row/column context for
+// free, and the value in each cell is always high-contrast text — the
+// color tint only reinforces the pattern, it never carries it alone.
+//
+// Direction A: the tint is the cluster BRAND hue (currentColor via
+// `.stats-brand-fill`), mixed into the card surface in proportion to the
+// (shrunk) rating. The mix is CAPPED below full strength so cell text
+// (--text-body) clears AA against the tint in both themes — a saturated
+// brand block would flip the needed text polarity by theme. Empty cells
+// render as an em dash.
+// ─────────────────────────────────────────────────────────────────
+
+import type { CSSProperties } from "react";
+import type { HeatGrid } from "@/lib/feeds/stats/chart-data";
+import { Tip } from "./Tip";
+
+export function Heatmap({
+  grid,
+  caption,
+}: {
+  grid: HeatGrid;
+  /** Visually-hidden table caption naming what the grid shows. */
+  caption: string;
+}) {
+  // Normalize the tint against the present min/max so the pattern fills
+  // the available range.
+  const present = grid.cells.flat().filter((c): c is { v: number; n: number } => c !== null);
+  const lo = Math.min(...present.map((c) => c.v));
+  const hi = Math.max(...present.map((c) => c.v));
+  // The strongest cell goes to nearly pure --stats-heat so it reads as a
+  // vivid orange rather than a washed tan (mixing a light orange into the
+  // surface at a low cap desaturates it). 0.16 floor keeps the weakest
+  // cell a visible tint. The cell text (--text-body) clears AA at full
+  // strength in both themes: black on orange-500 ≈ 8.9:1 light, white on
+  // orange-700 ≈ 5.8:1 dark (the dark --stats-heat is the -700 step for
+  // exactly this reason — see app/components.css).
+  const mix = (v: number) => 0.16 + 0.84 * ((v - lo) / (hi - lo || 1));
+
+  return (
+    <table className="stats-brand-fill" style={tableStyle}>
+      <caption style={srOnly}>{caption}</caption>
+      <thead>
+        <tr>
+          <td style={cornerStyle} />
+          {grid.cols.map((col) => (
+            <th key={col} scope="col" style={colHeadStyle}>
+              {col}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {grid.rows.map((row, ri) => (
+          <tr key={row}>
+            <th scope="row" style={rowHeadStyle}>
+              {row}
+            </th>
+            {grid.cols.map((col, ci) => {
+              const cell = grid.cells[ri][ci];
+              if (!cell) {
+                return (
+                  <td key={col} style={emptyCellStyle} aria-label="no data">
+                    —
+                  </td>
+                );
+              }
+              const m = mix(cell.v);
+              return (
+                <td
+                  key={col}
+                  className="stats-tip"
+                  style={{
+                    ...cellStyle,
+                    // --stats-heat (a brighter brand step than the bars)
+                    // rather than currentColor: the cell's own text color
+                    // is --text-body, so currentColor here would be the
+                    // text, not the brand. See app/components.css.
+                    background: `color-mix(in srgb, var(--stats-heat) ${(m * 100).toFixed(0)}%, var(--surface-default))`,
+                  }}
+                >
+                  <span style={cellValueStyle}>{cell.v.toFixed(2)}</span>
+                  {/* Thin samples flagged so a low-n cell isn't over-read. */}
+                  <span style={cellNStyle}>
+                    n{cell.n}
+                    {cell.n < 5 ? " *" : ""}
+                  </span>
+                  {/* The cell shows its number; the chip names both axes so
+                      the value reads in full context on hover. */}
+                  <Tip>{`${row} × ${col} — ${cell.v.toFixed(2)}★ avg (n ${cell.n}${cell.n < 5 ? ", thin" : ""})`}</Tip>
+                </td>
+              );
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+const tableStyle: CSSProperties = {
+  borderCollapse: "separate",
+  borderSpacing: 4,
+  width: "100%",
+  tableLayout: "fixed",
+};
+
+const cornerStyle: CSSProperties = { width: "22%" };
+
+const colHeadStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 10,
+  textTransform: "uppercase",
+  letterSpacing: "0.06em",
+  color: "var(--text-caption)",
+  fontWeight: 600,
+  textAlign: "center",
+  padding: 2,
+};
+
+const rowHeadStyle: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 11,
+  color: "var(--text-caption)",
+  textAlign: "left",
+  fontWeight: 400,
+  paddingRight: 6,
+};
+
+const cellStyle: CSSProperties = {
+  borderRadius: "var(--border-radius-sm)",
+  textAlign: "center",
+  padding: "8px 4px",
+  color: "var(--text-body)",
+  fontVariantNumeric: "tabular-nums",
+  lineHeight: 1.2,
+};
+
+const cellValueStyle: CSSProperties = {
+  display: "block",
+  fontFamily: "var(--font-mono)",
+  fontSize: 13,
+};
+
+// The sample-size line is de-emphasised by SIZE (9px vs the 13px value),
+// not by a muted colour: a low-contrast grey can't clear AA over the
+// saturated tint, so it stays at the high-contrast --text-body.
+const cellNStyle: CSSProperties = {
+  display: "block",
+  fontFamily: "var(--font-mono)",
+  fontSize: 9,
+  color: "var(--text-body)",
+};
+
+const emptyCellStyle: CSSProperties = {
+  ...cellStyle,
+  background: "var(--surface-muted)",
+  color: "var(--text-caption)",
+};
+
+// Visually-hidden but available to assistive tech (the caption).
+const srOnly: CSSProperties = {
+  position: "absolute",
+  width: 1,
+  height: 1,
+  padding: 0,
+  margin: -1,
+  overflow: "hidden",
+  clip: "rect(0 0 0 0)",
+  whiteSpace: "nowrap",
+  border: 0,
+};
