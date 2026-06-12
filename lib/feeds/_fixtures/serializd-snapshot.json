@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-06-12T02:31:14.865Z",
+  "capturedAt": "2026-06-12T03:31:04.851Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 240,
-    "totalEpisodeReviews": 630,
+    "totalEpisodeReviews": 631,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 221,
       "4": 174,
       "5": 17,
-      "3.5": 269,
+      "3.5": 270,
       "2.5": 88,
       "4.5": 49,
       "1.5": 11,
@@ -45,7 +45,7 @@
         "3": 160,
         "4": 128,
         "5": 7,
-        "3.5": 205,
+        "3.5": 206,
         "2.5": 63,
         "4.5": 40,
         "1.5": 5
@@ -252,6 +252,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 68949099,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-12T03:27:02Z",
+          "reviewDate": "2026-06-12T03:27:06Z",
+          "seasonId": 440451,
+          "episodeNumber": 4,
+          "episodeName": "The Vault",
+          "tags": []
+        },
         {
           "id": 68945592,
           "level": "episode",
@@ -3552,7 +3568,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-12T02:27:37Z",
+      "latestActivityDate": "2026-06-12T03:27:06Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -26289,6 +26305,22 @@
       ],
       "reviews": [
         {
+          "id": 68949099,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-12T03:27:02Z",
+          "reviewDate": "2026-06-12T03:27:06Z",
+          "seasonId": 440451,
+          "episodeNumber": 4,
+          "episodeName": "The Vault",
+          "tags": []
+        },
+        {
           "id": 68945592,
           "level": "episode",
           "rating": 3.5,
@@ -29588,7 +29620,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-12T02:27:37Z",
+      "latestActivityDate": "2026-06-12T03:27:06Z",
       "primaryRating": 3.5,
       "liked": false
     },
