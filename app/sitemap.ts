@@ -58,6 +58,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.6,
     });
+    // /films/stats — the dashboard ("The numbers"). An indexable
+    // portfolio artifact in its own right (see PLAN.md indexation rule).
+    filmEntries.push({
+      url: `${SITE_URL}/films/stats`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
     // Curated list-detail pages — one per public Letterboxd list,
     // pulled from the snapshot's lists[] (the weekly scrape pass).
     // Empty/absent until that pass has run, so the optional chain
@@ -116,6 +124,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
     tvEntries.push({
       url: `${SITE_URL}/television/reviews`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    // /television/stats — the TV dashboard ("The numbers"), indexable
+    // (see the films block + PLAN.md indexation rule).
+    tvEntries.push({
+      url: `${SITE_URL}/television/stats`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.6,

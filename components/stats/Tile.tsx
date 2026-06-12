@@ -77,11 +77,12 @@ const titleStyle: CSSProperties = {
 // the sub-brand's reading font (Roboto Slab via --font-secondary) with a
 // capped measure — the single biggest fix for the "wall of mono" the
 // stacked tiles created.
+// The note spans the full tile width (no measure cap) — capping it forced
+// extra wrapped lines and stretched tile height for no reason.
 const noteStyle: CSSProperties = {
   fontFamily: "var(--font-secondary)",
   fontSize: 12,
   lineHeight: 1.6,
   color: "var(--text-caption)",
   margin: 0,
-  maxWidth: "62ch",
 };

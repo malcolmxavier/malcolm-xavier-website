@@ -18,6 +18,7 @@ import type { EnrichedFilm, EnrichedShow } from "../enrichment";
 import { getFilms } from "../letterboxd";
 import { getShows } from "../serializd";
 import { avgFromDist, contrastE, meanOf, type Contrast } from "./shrinkage";
+import { seasonRating } from "./tv-stats";
 import { filmActorNames, tvActorNames } from "./people";
 import {
   countryName,
@@ -244,7 +245,11 @@ export type ConnectedStats = {
 /** Compute every connected dashboard number from the live fixtures. */
 export function computeConnectedStats(): ConnectedStats {
   const films = getEnrichedFilms();
-  const shows = getEnrichedShows();
+  // TV ratings use the season signal (see seasonRating), matching the
+  // television dashboard — so crossover actors, the genre dumbbell's TV
+  // side, the conglomerate split, and the pooled world lean rank on
+  // seasons, not the most-recent-review proxy. Films are unchanged.
+  const shows = getEnrichedShows().map((s) => ({ ...s, mine: seasonRating(s) }));
   const { summary } = getShows();
   const pooled: Titled[] = [...films, ...shows];
   const cm = meanOf(pooled.map(mineOf));

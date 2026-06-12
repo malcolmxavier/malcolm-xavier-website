@@ -56,6 +56,27 @@ import {
 } from "./distributions";
 import type { StackedMatrix } from "./chart-data";
 
+/**
+ * A show's canonical rating for the analytics: the mean of its rated
+ * SEASONS. Season ratings are the dense signal (231 ratings across 139
+ * shows); a deliberate show-level rating is rare (~13 shows), and `mine`
+ * (the most-recent review's rating) is a noisy, last-touched proxy. Falls
+ * back to a show-level review rating, then `mine`, then null. Remapping
+ * each show's `mine` to this value (in computeTvStats / connected-stats)
+ * moves every tile that ranks on a rating onto the season signal at once.
+ */
+export function seasonRating(s: EnrichedShow): number | null {
+  const seasonRatings = (s.reviews || [])
+    .filter((r) => r.level === "season" && r.rating != null)
+    .map((r) => r.rating as number);
+  if (seasonRatings.length) {
+    return seasonRatings.reduce((a, b) => a + b, 0) / seasonRatings.length;
+  }
+  const showLevel = (s.reviews || []).find((r) => r.level === "show" && r.rating != null);
+  if (showLevel) return showLevel.rating as number;
+  return s.mine ?? null;
+}
+
 const mineOf = (s: EnrichedShow) => s.mine ?? 0;
 
 /** Network rollup: each show under its canonical primary network. */
@@ -160,6 +181,10 @@ export type TvStats = {
     seasonReviews: number;
     episodeReviews: number;
     thisYear: number;
+    /** The reconciled headline rating — the season-review average (equals
+        the distribution chart's Seasons mean). The page's "avg season
+        rating" and the genre-diverging baseline, both on the season grain. */
+    avgRating: number;
     avgShow: number;
     avgSeason: number;
     avgEpisode: number;
@@ -192,9 +217,16 @@ export type TvStats = {
 /** Compute every TV dashboard number from the live fixtures. */
 export function computeTvStats(): TvStats {
   const { summary } = getShows();
-  const shows = getEnrichedShows();
+  // Canonical rating = the season signal. Remapping `mine` to seasonRating
+  // here moves every analytical tile (genres, people, networks, provenance,
+  // world lean, diverging) AND the baseline onto season ratings at once,
+  // since they all read `mine`. The rating-distribution-by-level tile is
+  // unaffected — it reads the snapshot's per-level histograms, not `mine`.
+  const shows = getEnrichedShows().map((s) => ({ ...s, mine: seasonRating(s) }));
 
-  // Per-show prior = the mean of non-null show ratings (one per title).
+  // Corpus baseline = the mean canonical (season-derived) show rating, over
+  // the ~139 rated shows. This is the diverging/contrast prior and the
+  // reconciled "average rating" the page displays.
   const tAvg = meanOf(shows.map((s) => s.mine).filter((r): r is number => r != null));
 
   const acting = shows.filter(isActingShow);
@@ -214,11 +246,24 @@ export function computeTvStats(): TvStats {
 
   const byLevel = summary.ratingDistributionByLevel;
 
-  // Recent years drive the season stacked-by-year tiles. Genre rows
-  // (genres + rating) feed the diverging-genre tile, over every show.
+  // Recent years drive the season stacked-by-year tiles.
   const seasonYears = recentYears(seasonDates);
   const seasonYearLabels = seasonYears.map(String);
-  const genreRows = shows.map((s) => ({ genres: s.genres ?? [], rating: s.mine }));
+
+  // The displayed corpus average AND the genre-diverging are on the SEASON
+  // grain: each rated season is one observation, inheriting its show's
+  // genres. So the headline average and the diverging baseline read the
+  // same number as the rating-distribution chart's Seasons view (≈3.23) —
+  // no per-title-vs-per-review discrepancy. (The per-show `tAvg` above
+  // stays the shrinkage prior for the people/network/etc. tiles, which gate
+  // on distinct titles and never display a baseline, so the grains don't
+  // collide on screen.)
+  const seasonMean = avgFromDist(byLevel.season);
+  const genreRows = shows.flatMap((s) =>
+    (s.reviews ?? [])
+      .filter((r) => r.level === "season" && r.rating != null)
+      .map((r) => ({ genres: s.genres ?? [], rating: r.rating as number })),
+  );
 
   return {
     lifetime: {
@@ -226,13 +271,17 @@ export function computeTvStats(): TvStats {
       seasonReviews: summary.totalSeasonReviews,
       episodeReviews: summary.totalEpisodeReviews,
       thisYear: summary.thisYearCount,
+      // The reconciled headline = the season-review average (same number
+      // the distribution chart's Seasons view shows), not the per-title
+      // mean — so the two never read as a discrepancy.
+      avgRating: seasonMean,
       avgShow: avgFromDist(byLevel.show),
       avgSeason: avgFromDist(byLevel.season),
       avgEpisode: avgFromDist(byLevel.episode),
     },
     ratingByLevel: ratingByLevel(byLevel),
     genres: genreRanking(shows),
-    divergingGenre: divergingGenre(genreRows, tAvg, 8),
+    divergingGenre: divergingGenre(genreRows, seasonMean, 8),
     networks: networkRollup(shows),
     conglomerate: contrastE(
       shows,

@@ -47,7 +47,6 @@ const listStyle: CSSProperties = {
   display: "flex",
   flexDirection: "column",
   gap: 8,
-  maxWidth: "70ch",
 };
 
 // Reading prose, so it follows the same mono→slab move as the tile
