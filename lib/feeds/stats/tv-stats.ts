@@ -36,7 +36,25 @@ import {
   normalizeCountry,
   normalizeLanguage,
 } from "./provenance";
-import { doySeries, monthTally, weekdayTally } from "./temporal";
+import {
+  doySeries,
+  monthByYearMatrix,
+  monthTally,
+  MONTHS,
+  recentYears,
+  weekdayByYearMatrix,
+  weekdayTally,
+  WEEKDAYS,
+} from "./temporal";
+import {
+  divergingGenre,
+  overlapCounts,
+  worldLean,
+  type DivergingGenre,
+  type OverlapCounts,
+  type WorldLean,
+} from "./distributions";
+import type { StackedMatrix } from "./chart-data";
 
 const mineOf = (s: EnrichedShow) => s.mine ?? 0;
 
@@ -101,21 +119,38 @@ function genreRanking(shows: EnrichedShow[]): GenreRanking {
   return { most: rank(cnt, 5), topRated };
 }
 
-/** Distinct-count summary for the language × country overlap tile. */
-export type OverlapCounts = { pairs: number; languages: number; countries: number };
+/** One review-level's rating distribution: the bars + its average + n. */
+export type LevelDistribution = {
+  /** [ratingKey, count][] in ascending 0.5–5★ order. */
+  bars: [string, number][];
+  avg: number;
+  n: number;
+};
 
-function overlapCounts(shows: EnrichedShow[]): OverlapCounts {
-  const langs = new Set<string>();
-  const countries = new Set<string>();
-  const pairs = new Set<string>();
-  for (const s of shows) {
-    const l = normalizeLanguage(s.language);
-    const c = normalizeCountry(s.country);
-    if (l) langs.add(l);
-    if (c) countries.add(c);
-    if (l && c) pairs.add(l + "·" + c);
-  }
-  return { pairs: pairs.size, languages: langs.size, countries: countries.size };
+/** Ascending 0.5–5★ keys — the column-chart x-axis for each level. */
+const RATING_KEYS = [
+  "0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5",
+] as const;
+
+/**
+ * The three per-level rating distributions (show / season / episode),
+ * read straight from the snapshot's `ratingDistributionByLevel` — which
+ * the bootstrap already built with the miniseries double-count rule. We
+ * never re-bucket here (sketch tvRatingByLevelTile, ~330).
+ */
+export function ratingByLevel(
+  byLevel: Record<"show" | "season" | "episode", Record<string, number>>,
+): Record<"show" | "season" | "episode", LevelDistribution> {
+  const build = (dist: Record<string, number>): LevelDistribution => ({
+    bars: RATING_KEYS.map((k): [string, number] => [k, dist[k] ?? 0]),
+    avg: avgFromDist(dist),
+    n: Object.values(dist).reduce((a, b) => a + b, 0),
+  });
+  return {
+    show: build(byLevel.show),
+    season: build(byLevel.season),
+    episode: build(byLevel.episode),
+  };
 }
 
 /** The full /television/stats view-model. */
@@ -129,7 +164,9 @@ export type TvStats = {
     avgSeason: number;
     avgEpisode: number;
   };
+  ratingByLevel: Record<"show" | "season" | "episode", LevelDistribution>;
   genres: GenreRanking;
+  divergingGenre: DivergingGenre;
   networks: NetworkRollup;
   conglomerate: Contrast;
   multiNetwork: MultiNetwork[];
@@ -137,6 +174,7 @@ export type TvStats = {
   creators: Contrast;
   languages: Contrast;
   countries: Contrast;
+  worldLean: WorldLean;
   overlap: OverlapCounts;
   types: [string, number][];
   temporal: {
@@ -144,6 +182,10 @@ export type TvStats = {
     seasonsByWeekday: [string, number][];
     seasonsByMonth: [string, number][];
     episodesByMonth: [string, number][];
+    /** Season completions, weekday × recent-year stack. */
+    seasonWeekdayMatrix: StackedMatrix;
+    /** Season completions, month × recent-year stack. */
+    seasonMonthMatrix: StackedMatrix;
   };
 };
 
@@ -172,6 +214,12 @@ export function computeTvStats(): TvStats {
 
   const byLevel = summary.ratingDistributionByLevel;
 
+  // Recent years drive the season stacked-by-year tiles. Genre rows
+  // (genres + rating) feed the diverging-genre tile, over every show.
+  const seasonYears = recentYears(seasonDates);
+  const seasonYearLabels = seasonYears.map(String);
+  const genreRows = shows.map((s) => ({ genres: s.genres ?? [], rating: s.mine }));
+
   return {
     lifetime: {
       shows: summary.totalShows,
@@ -182,7 +230,9 @@ export function computeTvStats(): TvStats {
       avgSeason: avgFromDist(byLevel.season),
       avgEpisode: avgFromDist(byLevel.episode),
     },
+    ratingByLevel: ratingByLevel(byLevel),
     genres: genreRanking(shows),
+    divergingGenre: divergingGenre(genreRows, tAvg, 8),
     networks: networkRollup(shows),
     conglomerate: contrastE(
       shows,
@@ -216,6 +266,7 @@ export function computeTvStats(): TvStats {
       tAvg,
       countryName,
     ),
+    worldLean: worldLean(shows),
     overlap: overlapCounts(shows),
     types: rank(
       shows.reduce<Record<string, number>>((acc, s) => {
@@ -228,6 +279,16 @@ export function computeTvStats(): TvStats {
       seasonsByWeekday: weekdayTally(seasonDates),
       seasonsByMonth: monthTally(seasonDates),
       episodesByMonth: monthTally(episodeDates),
+      seasonWeekdayMatrix: {
+        cats: [...WEEKDAYS],
+        segments: seasonYearLabels,
+        matrix: weekdayByYearMatrix(seasonDates, seasonYears),
+      },
+      seasonMonthMatrix: {
+        cats: [...MONTHS],
+        segments: seasonYearLabels,
+        matrix: monthByYearMatrix(seasonDates, seasonYears),
+      },
     },
   };
 }

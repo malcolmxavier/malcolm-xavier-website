@@ -77,3 +77,86 @@ describe("film world lean + theatrical premium", () => {
     expect(s.theatrical.premium).toBeGreaterThan(0);
   });
 });
+
+// Finite-number guard reused across the new chart-data fields — the
+// rendered HTML must never carry NaN/Infinity (the WS5 verification gate).
+const finite = (n: number) => Number.isFinite(n);
+
+describe("film you-vs-world", () => {
+  it("compares against the critics and surfaces both extremes", () => {
+    expect(s.youVsWorld.filmsVsCritics).toBeGreaterThan(50);
+    expect(s.youVsWorld.coveragePct).toBeGreaterThan(0);
+    expect(s.youVsWorld.coveragePct).toBeLessThanOrEqual(100);
+    expect(finite(s.youVsWorld.avgVsMetascore)).toBe(true);
+    expect(finite(s.youVsWorld.avgVsLetterboxd)).toBe(true);
+    expect(s.youVsWorld.hotTakes.length).toBeLessThanOrEqual(6);
+    expect(s.youVsWorld.darlings.length).toBeLessThanOrEqual(6);
+    // Hot takes are your biggest over-the-critics calls → positive deltas
+    // lead; darlings are the inverse.
+    if (s.youVsWorld.hotTakes.length && s.youVsWorld.darlings.length) {
+      expect(s.youVsWorld.hotTakes[0].delta).toBeGreaterThan(
+        s.youVsWorld.darlings[0].delta,
+      );
+    }
+  });
+});
+
+describe("film diverging genre", () => {
+  it("ranks most-logged genres first with finite deltas", () => {
+    expect(s.divergingGenre.length).toBeLessThanOrEqual(12);
+    expect(s.divergingGenre.length).toBeGreaterThan(5);
+    for (let i = 1; i < s.divergingGenre.length; i++) {
+      expect(s.divergingGenre[i - 1].count).toBeGreaterThanOrEqual(
+        s.divergingGenre[i].count,
+      );
+    }
+    for (const g of s.divergingGenre) expect(finite(g.delta)).toBe(true);
+  });
+});
+
+describe("film overlap pairs", () => {
+  it("ranks language·country pairs, English·US leading", () => {
+    expect(s.overlap.topPairs.length).toBeLessThanOrEqual(8);
+    expect(s.overlap.topPairs[0][0]).toBe("English · United States");
+    expect(s.overlap.pairs).toBeGreaterThanOrEqual(s.overlap.topPairs.length);
+  });
+});
+
+describe("film stacked-matrix tiles", () => {
+  it("release-type and budget-tier by year share the ≤2011 + per-year shape", () => {
+    for (const sm of [s.releaseTypeByYear, s.budgetTierByYear]) {
+      expect(sm.cats[0]).toBe("≤2011");
+      // Each column row has exactly one count per stack segment, all finite.
+      for (const row of sm.matrix) {
+        expect(row).toHaveLength(sm.segments.length);
+        for (const v of row) expect(finite(v)).toBe(true);
+      }
+    }
+    expect(s.releaseTypeByYear.segments).toEqual([
+      "Theatrical",
+      "Limited",
+      "Streaming",
+    ]);
+  });
+  it("temporal weekday/month matrices are 7×years and 12×years", () => {
+    expect(s.temporal.weekdayMatrix.cats).toHaveLength(7);
+    expect(s.temporal.monthMatrix.cats).toHaveLength(12);
+    const years = s.temporal.weekdayMatrix.segments;
+    for (const row of s.temporal.weekdayMatrix.matrix)
+      expect(row).toHaveLength(years.length);
+  });
+});
+
+describe("film rating heatmaps", () => {
+  it("budget×era and type×era cells are null or finite {v,n}", () => {
+    for (const h of [s.budgetEraHeat, s.releaseTypeEraHeat]) {
+      expect(h.cols).toEqual(["<2010", "2010s", "2020s"]);
+      for (const row of h.cells)
+        for (const cell of row) {
+          if (cell === null) continue;
+          expect(finite(cell.v)).toBe(true);
+          expect(cell.n).toBeGreaterThan(0);
+        }
+    }
+  });
+});

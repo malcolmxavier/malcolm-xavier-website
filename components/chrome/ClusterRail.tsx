@@ -19,9 +19,9 @@
 // /television/reviews — where both appear — they read as two clearly
 // different levels of navigation rather than one confusing double row.
 //
-// Phase 1 tabs are Overview + Reviews. "The numbers" (stats) joins in
-// Phase 2 — omitted here, NOT rendered disabled, per the project's
-// no-placeholder rule.
+// Tabs are Overview + Reviews + "The numbers" (the stats dashboard,
+// added in WS5 once the page became real — it was held back under the
+// no-placeholder rule until then).
 //
 // (Earlier this was a sticky frosted bar that measured the global nav
 // height. It was moved into the hero column on 2026-06-03 — a short
@@ -35,7 +35,7 @@ import NextLink from "next/link";
 
 type SubBrand = "film" | "tv" | "music";
 
-type ClusterTab = "overview" | "reviews";
+type ClusterTab = "overview" | "reviews" | "numbers";
 
 export function ClusterRail({
   base,
@@ -66,6 +66,9 @@ export function ClusterRail({
   const tabs: { key: ClusterTab; label: string; href: string }[] = [
     { key: "overview", label: "Overview", href: base },
     { key: "reviews", label: "Reviews", href: `${base}/reviews` },
+    // "The numbers" joins in WS5 now that the stats dashboard is real
+    // (was omitted under the no-placeholder rule).
+    { key: "numbers", label: "The numbers", href: `${base}/stats` },
   ];
 
   return (
