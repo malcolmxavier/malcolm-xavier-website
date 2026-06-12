@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-06-11T23:31:19.617Z",
+  "capturedAt": "2026-06-12T01:30:53.062Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 240,
-    "totalEpisodeReviews": 627,
+    "totalEpisodeReviews": 628,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 221,
       "4": 174,
       "5": 17,
-      "4.5": 49,
+      "2.5": 88,
       "3.5": 267,
-      "2.5": 87,
+      "4.5": 49,
       "1.5": 11,
       "0.5": 1
     },
@@ -45,15 +45,15 @@
         "3": 160,
         "4": 128,
         "5": 7,
-        "4.5": 40,
+        "2.5": 63,
         "3.5": 203,
-        "2.5": 62,
+        "4.5": 40,
         "1.5": 5
       }
     },
     "genreDistribution": {
-      "Reality": 27,
       "Drama": 97,
+      "Reality": 27,
       "Mystery": 32,
       "Comedy": 57,
       "Sci-Fi & Fantasy": 24,
@@ -79,6 +79,203 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-237748",
+      "serializdShowId": 237748,
+      "slug": "brilliant-minds-2024",
+      "name": "Brilliant Minds",
+      "premiereYear": 2024,
+      "premiereDate": "2024-09-23",
+      "serializdUrl": "https://serializd.com/show/237748",
+      "tmdb": {
+        "id": 237748,
+        "name": "Brilliant Minds",
+        "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+        "backdropPath": "/qV6tQhqNyb3NXCx8MWELOf9glTu.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Canceled",
+        "networks": [
+          "NBC"
+        ],
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 33
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+      "seasons": [
+        {
+          "serializdId": 361920,
+          "showId": 237748,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/bcRmIcc1Sw2LnZ1qYK6XFcQqacB.jpg",
+          "episodeCount": 13
+        },
+        {
+          "serializdId": 467366,
+          "showId": 237748,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+          "episodeCount": 20
+        }
+      ],
+      "reviews": [
+        {
+          "id": 68936091,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Oh, so now they want to bring back the Nichols we knew? Keep him!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-12T00:29:05Z",
+          "reviewDate": "2026-06-12T00:30:13Z",
+          "seasonId": 467366,
+          "episodeNumber": 17,
+          "episodeName": "Doctor, Interrupted",
+          "tags": []
+        },
+        {
+          "id": 68241803,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "We really needed to be here earlier in the season…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-04T22:09:00Z",
+          "reviewDate": "2026-06-05T22:09:39Z",
+          "seasonId": 467366,
+          "episodeNumber": 16,
+          "episodeName": "Senses",
+          "tags": []
+        },
+        {
+          "id": 67511085,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I’m leaning into the comedy of how this show was handled. I really think if they had gotten to this part of the narrative sooner we might have a forthcoming season.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-29T20:11:00Z",
+          "reviewDate": "2026-05-30T20:12:26Z",
+          "seasonId": 467366,
+          "episodeNumber": 15,
+          "episodeName": "The Missing Person",
+          "tags": []
+        },
+        {
+          "id": 55052331,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-02-05T03:57:06Z",
+          "reviewDate": "2026-02-05T03:57:12Z",
+          "seasonId": 467366,
+          "episodeNumber": 14,
+          "episodeName": "The Invisible Man",
+          "tags": []
+        },
+        {
+          "id": 54094418,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-27T22:00:16Z",
+          "reviewDate": "2026-01-27T22:00:25Z",
+          "seasonId": 467366,
+          "episodeNumber": 13,
+          "episodeName": "The Rabbit Hole",
+          "tags": []
+        },
+        {
+          "id": 52592359,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-15T01:48:55Z",
+          "reviewDate": "2026-01-15T01:48:56Z",
+          "seasonId": 467366,
+          "episodeNumber": 12,
+          "episodeName": "The Rider",
+          "tags": []
+        },
+        {
+          "id": 51640509,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "No shade — we don’t know these characters well enough for all this.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-06T23:11:13Z",
+          "reviewDate": "2026-01-06T23:11:38Z",
+          "seasonId": 467366,
+          "episodeNumber": 11,
+          "episodeName": "The Boy Who Feels Everything",
+          "tags": []
+        },
+        {
+          "id": 27218407,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I am gobsmacked at how locked in this show is. They break away from the procedural model really quickly while establishing an ensemble cast, referencing other classic hospital shows, and carving out their own path. The most curious part for me is how conservative the shows aesthetics are; the content is so left-leaning that this feels contradictory, but I think that is probably because the show is really center left, more than anything else. Zachary Quinto is still so nice to look at.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-02-01T15:27:16Z",
+          "reviewDate": "2025-02-01T15:29:39Z",
+          "seasonId": 361920,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [
+        2
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-06-12T00:30:13Z",
+      "primaryRating": 2.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-247758",
       "serializdShowId": 247758,
@@ -5335,187 +5532,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-06-05T22:10:30Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-237748",
-      "serializdShowId": 237748,
-      "slug": "brilliant-minds-2024",
-      "name": "Brilliant Minds",
-      "premiereYear": 2024,
-      "premiereDate": "2024-09-23",
-      "serializdUrl": "https://serializd.com/show/237748",
-      "tmdb": {
-        "id": 237748,
-        "name": "Brilliant Minds",
-        "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-        "backdropPath": "/qV6tQhqNyb3NXCx8MWELOf9glTu.jpg",
-        "genres": [
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Canceled",
-        "networks": [
-          "NBC"
-        ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 33
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-      "seasons": [
-        {
-          "serializdId": 361920,
-          "showId": 237748,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/bcRmIcc1Sw2LnZ1qYK6XFcQqacB.jpg",
-          "episodeCount": 13
-        },
-        {
-          "serializdId": 467366,
-          "showId": 237748,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-          "episodeCount": 20
-        }
-      ],
-      "reviews": [
-        {
-          "id": 68241803,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "We really needed to be here earlier in the season…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-04T22:09:00Z",
-          "reviewDate": "2026-06-05T22:09:39Z",
-          "seasonId": 467366,
-          "episodeNumber": 16,
-          "episodeName": "Senses",
-          "tags": []
-        },
-        {
-          "id": 67511085,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I’m leaning into the comedy of how this show was handled. I really think if they had gotten to this part of the narrative sooner we might have a forthcoming season.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-29T20:11:00Z",
-          "reviewDate": "2026-05-30T20:12:26Z",
-          "seasonId": 467366,
-          "episodeNumber": 15,
-          "episodeName": "The Missing Person",
-          "tags": []
-        },
-        {
-          "id": 55052331,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-02-05T03:57:06Z",
-          "reviewDate": "2026-02-05T03:57:12Z",
-          "seasonId": 467366,
-          "episodeNumber": 14,
-          "episodeName": "The Invisible Man",
-          "tags": []
-        },
-        {
-          "id": 54094418,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-27T22:00:16Z",
-          "reviewDate": "2026-01-27T22:00:25Z",
-          "seasonId": 467366,
-          "episodeNumber": 13,
-          "episodeName": "The Rabbit Hole",
-          "tags": []
-        },
-        {
-          "id": 52592359,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-15T01:48:55Z",
-          "reviewDate": "2026-01-15T01:48:56Z",
-          "seasonId": 467366,
-          "episodeNumber": 12,
-          "episodeName": "The Rider",
-          "tags": []
-        },
-        {
-          "id": 51640509,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "No shade — we don’t know these characters well enough for all this.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-06T23:11:13Z",
-          "reviewDate": "2026-01-06T23:11:38Z",
-          "seasonId": 467366,
-          "episodeNumber": 11,
-          "episodeName": "The Boy Who Feels Everything",
-          "tags": []
-        },
-        {
-          "id": 27218407,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I am gobsmacked at how locked in this show is. They break away from the procedural model really quickly while establishing an ensemble cast, referencing other classic hospital shows, and carving out their own path. The most curious part for me is how conservative the shows aesthetics are; the content is so left-leaning that this feels contradictory, but I think that is probably because the show is really center left, more than anything else. Zachary Quinto is still so nice to look at.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-02-01T15:27:16Z",
-          "reviewDate": "2025-02-01T15:29:39Z",
-          "seasonId": 361920,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [
-        2
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-06-05T22:09:39Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -26067,6 +26083,203 @@
     }
   ],
   "showById": {
+    "tmdb-tv-237748": {
+      "id": "tmdb-tv-237748",
+      "serializdShowId": 237748,
+      "slug": "brilliant-minds-2024",
+      "name": "Brilliant Minds",
+      "premiereYear": 2024,
+      "premiereDate": "2024-09-23",
+      "serializdUrl": "https://serializd.com/show/237748",
+      "tmdb": {
+        "id": 237748,
+        "name": "Brilliant Minds",
+        "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+        "backdropPath": "/qV6tQhqNyb3NXCx8MWELOf9glTu.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Canceled",
+        "networks": [
+          "NBC"
+        ],
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 33
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+      "seasons": [
+        {
+          "serializdId": 361920,
+          "showId": 237748,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/bcRmIcc1Sw2LnZ1qYK6XFcQqacB.jpg",
+          "episodeCount": 13
+        },
+        {
+          "serializdId": 467366,
+          "showId": 237748,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
+          "episodeCount": 20
+        }
+      ],
+      "reviews": [
+        {
+          "id": 68936091,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Oh, so now they want to bring back the Nichols we knew? Keep him!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-12T00:29:05Z",
+          "reviewDate": "2026-06-12T00:30:13Z",
+          "seasonId": 467366,
+          "episodeNumber": 17,
+          "episodeName": "Doctor, Interrupted",
+          "tags": []
+        },
+        {
+          "id": 68241803,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "We really needed to be here earlier in the season…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-04T22:09:00Z",
+          "reviewDate": "2026-06-05T22:09:39Z",
+          "seasonId": 467366,
+          "episodeNumber": 16,
+          "episodeName": "Senses",
+          "tags": []
+        },
+        {
+          "id": 67511085,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I’m leaning into the comedy of how this show was handled. I really think if they had gotten to this part of the narrative sooner we might have a forthcoming season.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-29T20:11:00Z",
+          "reviewDate": "2026-05-30T20:12:26Z",
+          "seasonId": 467366,
+          "episodeNumber": 15,
+          "episodeName": "The Missing Person",
+          "tags": []
+        },
+        {
+          "id": 55052331,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-02-05T03:57:06Z",
+          "reviewDate": "2026-02-05T03:57:12Z",
+          "seasonId": 467366,
+          "episodeNumber": 14,
+          "episodeName": "The Invisible Man",
+          "tags": []
+        },
+        {
+          "id": 54094418,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-27T22:00:16Z",
+          "reviewDate": "2026-01-27T22:00:25Z",
+          "seasonId": 467366,
+          "episodeNumber": 13,
+          "episodeName": "The Rabbit Hole",
+          "tags": []
+        },
+        {
+          "id": 52592359,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-15T01:48:55Z",
+          "reviewDate": "2026-01-15T01:48:56Z",
+          "seasonId": 467366,
+          "episodeNumber": 12,
+          "episodeName": "The Rider",
+          "tags": []
+        },
+        {
+          "id": 51640509,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "No shade — we don’t know these characters well enough for all this.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-06T23:11:13Z",
+          "reviewDate": "2026-01-06T23:11:38Z",
+          "seasonId": 467366,
+          "episodeNumber": 11,
+          "episodeName": "The Boy Who Feels Everything",
+          "tags": []
+        },
+        {
+          "id": 27218407,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I am gobsmacked at how locked in this show is. They break away from the procedural model really quickly while establishing an ensemble cast, referencing other classic hospital shows, and carving out their own path. The most curious part for me is how conservative the shows aesthetics are; the content is so left-leaning that this feels contradictory, but I think that is probably because the show is really center left, more than anything else. Zachary Quinto is still so nice to look at.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-02-01T15:27:16Z",
+          "reviewDate": "2025-02-01T15:29:39Z",
+          "seasonId": 361920,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [
+        2
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-06-12T00:30:13Z",
+      "primaryRating": 2.5,
+      "liked": false
+    },
     "tmdb-tv-247758": {
       "id": "tmdb-tv-247758",
       "serializdShowId": 247758,
@@ -31323,187 +31536,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-06-05T22:10:30Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    "tmdb-tv-237748": {
-      "id": "tmdb-tv-237748",
-      "serializdShowId": 237748,
-      "slug": "brilliant-minds-2024",
-      "name": "Brilliant Minds",
-      "premiereYear": 2024,
-      "premiereDate": "2024-09-23",
-      "serializdUrl": "https://serializd.com/show/237748",
-      "tmdb": {
-        "id": 237748,
-        "name": "Brilliant Minds",
-        "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-        "backdropPath": "/qV6tQhqNyb3NXCx8MWELOf9glTu.jpg",
-        "genres": [
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Canceled",
-        "networks": [
-          "NBC"
-        ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 33
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-      "seasons": [
-        {
-          "serializdId": 361920,
-          "showId": 237748,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/bcRmIcc1Sw2LnZ1qYK6XFcQqacB.jpg",
-          "episodeCount": 13
-        },
-        {
-          "serializdId": 467366,
-          "showId": 237748,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/vG6Bw2IwDf1DVkPd7nZwMExp0U5.jpg",
-          "episodeCount": 20
-        }
-      ],
-      "reviews": [
-        {
-          "id": 68241803,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "We really needed to be here earlier in the season…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-04T22:09:00Z",
-          "reviewDate": "2026-06-05T22:09:39Z",
-          "seasonId": 467366,
-          "episodeNumber": 16,
-          "episodeName": "Senses",
-          "tags": []
-        },
-        {
-          "id": 67511085,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I’m leaning into the comedy of how this show was handled. I really think if they had gotten to this part of the narrative sooner we might have a forthcoming season.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-29T20:11:00Z",
-          "reviewDate": "2026-05-30T20:12:26Z",
-          "seasonId": 467366,
-          "episodeNumber": 15,
-          "episodeName": "The Missing Person",
-          "tags": []
-        },
-        {
-          "id": 55052331,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-02-05T03:57:06Z",
-          "reviewDate": "2026-02-05T03:57:12Z",
-          "seasonId": 467366,
-          "episodeNumber": 14,
-          "episodeName": "The Invisible Man",
-          "tags": []
-        },
-        {
-          "id": 54094418,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-27T22:00:16Z",
-          "reviewDate": "2026-01-27T22:00:25Z",
-          "seasonId": 467366,
-          "episodeNumber": 13,
-          "episodeName": "The Rabbit Hole",
-          "tags": []
-        },
-        {
-          "id": 52592359,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-15T01:48:55Z",
-          "reviewDate": "2026-01-15T01:48:56Z",
-          "seasonId": 467366,
-          "episodeNumber": 12,
-          "episodeName": "The Rider",
-          "tags": []
-        },
-        {
-          "id": 51640509,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "No shade — we don’t know these characters well enough for all this.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-06T23:11:13Z",
-          "reviewDate": "2026-01-06T23:11:38Z",
-          "seasonId": 467366,
-          "episodeNumber": 11,
-          "episodeName": "The Boy Who Feels Everything",
-          "tags": []
-        },
-        {
-          "id": 27218407,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I am gobsmacked at how locked in this show is. They break away from the procedural model really quickly while establishing an ensemble cast, referencing other classic hospital shows, and carving out their own path. The most curious part for me is how conservative the shows aesthetics are; the content is so left-leaning that this feels contradictory, but I think that is probably because the show is really center left, more than anything else. Zachary Quinto is still so nice to look at.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-02-01T15:27:16Z",
-          "reviewDate": "2025-02-01T15:29:39Z",
-          "seasonId": 361920,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [
-        2
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-06-05T22:09:39Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-85552": {
