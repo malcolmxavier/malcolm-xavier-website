@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-06-12T03:31:04.851Z",
+  "capturedAt": "2026-06-12T04:31:37.479Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 240,
-    "totalEpisodeReviews": 631,
+    "totalEpisodeReviews": 632,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 221,
       "4": 174,
       "5": 17,
+      "4.5": 50,
       "3.5": 270,
       "2.5": 88,
-      "4.5": 49,
       "1.5": 11,
       "0.5": 1
     },
@@ -45,9 +45,9 @@
         "3": 160,
         "4": 128,
         "5": 7,
+        "4.5": 41,
         "3.5": 206,
         "2.5": 63,
-        "4.5": 40,
         "1.5": 5
       }
     },
@@ -252,6 +252,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 68951551,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "The ending of a Greek tragedy. Kenya’s bag could only ever be stopped by herself.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-12T04:11:44Z",
+          "reviewDate": "2026-06-12T04:11:44Z",
+          "seasonId": 440451,
+          "episodeNumber": 5,
+          "episodeName": "About Last Night",
+          "tags": []
+        },
         {
           "id": 68949099,
           "level": "episode",
@@ -3568,8 +3584,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-12T03:27:06Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-06-12T04:11:44Z",
+      "primaryRating": 4.5,
       "liked": false
     },
     {
@@ -26305,6 +26321,22 @@
       ],
       "reviews": [
         {
+          "id": 68951551,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "The ending of a Greek tragedy. Kenya’s bag could only ever be stopped by herself.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-12T04:11:44Z",
+          "reviewDate": "2026-06-12T04:11:44Z",
+          "seasonId": 440451,
+          "episodeNumber": 5,
+          "episodeName": "About Last Night",
+          "tags": []
+        },
+        {
           "id": 68949099,
           "level": "episode",
           "rating": 3.5,
@@ -29620,8 +29652,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-12T03:27:06Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-06-12T04:11:44Z",
+      "primaryRating": 4.5,
       "liked": false
     },
     "tmdb-tv-237748": {
