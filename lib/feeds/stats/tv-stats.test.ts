@@ -55,3 +55,44 @@ describe("tv languages + countries", () => {
     expect(s.countries.most[0][0]).toBe("United States");
   });
 });
+
+const finite = (n: number) => Number.isFinite(n);
+
+describe("tv rating-by-level", () => {
+  it("carries a full 0.5–5★ distribution per level, agreeing with lifetime", () => {
+    for (const lvl of ["show", "season", "episode"] as const) {
+      const d = s.ratingByLevel[lvl];
+      expect(d.bars).toHaveLength(10); // 0.5 … 5
+      expect(d.n).toBeGreaterThan(0);
+      expect(finite(d.avg)).toBe(true);
+    }
+    // The per-level averages must match the lifetime headline numbers
+    // (same source, no re-bucketing).
+    expect(s.ratingByLevel.show.avg).toBeCloseTo(s.lifetime.avgShow, 6);
+    expect(s.ratingByLevel.episode.avg).toBeCloseTo(s.lifetime.avgEpisode, 6);
+  });
+});
+
+describe("tv diverging genre + world lean + overlap", () => {
+  it("diverging genre ranks most-logged first with finite deltas", () => {
+    expect(s.divergingGenre.length).toBeLessThanOrEqual(12);
+    for (let i = 1; i < s.divergingGenre.length; i++)
+      expect(s.divergingGenre[i - 1].count).toBeGreaterThanOrEqual(
+        s.divergingGenre[i].count,
+      );
+  });
+  it("holds the world-cinema lean and ranks English·US overlap first", () => {
+    expect(finite(s.worldLean.nonEnglishVsEnglish)).toBe(true);
+    expect(s.overlap.topPairs[0][0]).toBe("English · United States");
+  });
+});
+
+describe("tv season temporal matrices", () => {
+  it("are 7×years and 12×years", () => {
+    expect(s.temporal.seasonWeekdayMatrix.cats).toHaveLength(7);
+    expect(s.temporal.seasonMonthMatrix.cats).toHaveLength(12);
+    const years = s.temporal.seasonWeekdayMatrix.segments;
+    for (const row of s.temporal.seasonWeekdayMatrix.matrix)
+      expect(row).toHaveLength(years.length);
+  });
+});
