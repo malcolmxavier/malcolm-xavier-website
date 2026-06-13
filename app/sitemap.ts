@@ -198,6 +198,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.5,
     },
+    {
+      // /stats/connected — the cross-brand film × TV dashboard. Indexable
+      // portfolio artifact (see PLAN.md); not under a cluster, so it lives
+      // with the static routes rather than the film/TV blocks above.
+      url: `${SITE_URL}/stats/connected`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    },
     // Case studies — long-form artifacts of past work. Higher
     // priority than Music since recruiters explicitly hunt for
     // these, but lower than the core funnel pages. The index page

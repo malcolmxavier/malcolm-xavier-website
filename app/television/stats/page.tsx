@@ -20,6 +20,7 @@ import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
+import { Link } from "@/components/primitives/Link";
 import { StatsSection } from "@/components/stats/StatsSection";
 import { StatsTips } from "@/components/stats/StatsTips";
 import { Tile } from "@/components/stats/Tile";
@@ -123,12 +124,15 @@ export default function TelevisionStatsPage() {
               show. What I reach for, how I rate it, who makes it, where it comes from,
               and the rhythm of a watching year.
             </Lede>
+            {/* The cross-brand dashboard rides inline with the rail as a
+                fourth, sibling pill; a quieter link repeats at the foot. */}
             <ClusterRail
               base="/television"
               active="numbers"
               subbrand="tv"
               label="Television sections"
               className="mt-2"
+              extra={{ label: "Connected", href: "/stats/connected" }}
             />
           </Stack>
         </Section>
@@ -367,6 +371,13 @@ export default function TelevisionStatsPage() {
               />
             </Tile>
           </StatsSection>
+        </Section>
+
+        {/* ─── Cross-brand handoff ──────────────────────────────── */}
+        <Section padding="md" style={{ paddingTop: 0 }}>
+          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 14 }}>
+            <Link href="/stats/connected">See how film and television connect →</Link>
+          </p>
         </Section>
 
         {/* ─── Methodology ──────────────────────────────────────── */}

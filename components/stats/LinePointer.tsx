@@ -53,6 +53,7 @@ export function LinePointer({
   mt,
   mb,
   maxY,
+  valueSuffix = "",
 }: {
   series: PointerSeries[];
   W: number;
@@ -62,6 +63,7 @@ export function LinePointer({
   mt: number;
   mb: number;
   maxY: number;
+  valueSuffix?: string;
 }) {
   const iw = W - ml - mr;
   const ih = H - mt - mb;
@@ -132,7 +134,10 @@ export function LinePointer({
               <div key={s.label} style={tipRowStyle}>
                 <span style={{ ...swatchStyle, background: s.color }} />
                 <span style={tipLabelStyle}>{s.label}</span>
-                <span style={tipValStyle}>{valueAt(s.points, day)}</span>
+                <span style={tipValStyle}>
+                  {Math.round(valueAt(s.points, day))}
+                  {valueSuffix}
+                </span>
               </div>
             ))}
           </div>

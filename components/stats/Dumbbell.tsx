@@ -20,11 +20,12 @@ import type { GenreDumbbell } from "@/lib/feeds/stats/connected-stats";
 import { LegendSwatches } from "./Legend";
 import { Tip } from "./Tip";
 
-// The two brand hues, referenced directly (the Connected page has no
-// sub-brand wrapper to resolve --primary-* through). Film = orange-600 /
-// TV = blue-500 in light; the page's dark overrides lift them.
-const FILM_DOT = "var(--orange-600)";
-const TV_DOT = "var(--blue-500)";
+// The Connected page's film/TV hues — the same orange and blue the film
+// and television dashboards paint their bars with, resolved through the
+// [data-connected] --film-hue/--tv-hue vars (which flip light↔dark). The
+// fallbacks keep the component sane if ever rendered outside that wrapper.
+const FILM_DOT = "var(--film-hue, var(--orange-700))";
+const TV_DOT = "var(--tv-hue, var(--blue-700))";
 
 export function Dumbbell({ rows }: { rows: GenreDumbbell[] }) {
   // Pad the rating range slightly so dots aren't pinned to the edges.

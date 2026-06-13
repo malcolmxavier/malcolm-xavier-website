@@ -35,12 +35,12 @@ import {
 import { conglomerateOfStudio } from "./studio-canon";
 import { conglomerateOfNet } from "./network-canon";
 import {
-  dayOfYear,
   MONTHS,
+  recentYears,
   WEEKDAY_INDEX,
   WEEKDAYS,
 } from "./temporal";
-import type { StackedMatrix } from "./chart-data";
+import type { GroupedStackedMatrix, StackedMatrix } from "./chart-data";
 
 /** Anything with a language, country, and personal rating (film or show). */
 type Titled = { language: string | null; country: string | null; mine: number | null };
@@ -145,29 +145,15 @@ function conglomerateBoth(
   };
 }
 
-/** One cumulative-by-day curve, all years pooled onto a single calendar. */
-function pooledCumulative(dates: string[]): [number, number][] {
-  const days = dates.map(dayOfYear).sort((a, b) => a - b);
-  let c = 0;
-  const points: [number, number][] = [[1, 0]];
-  for (const d of days) {
-    c++;
-    points.push([d, c]);
-  }
-  return points;
-}
-
-/** A named line series for the cadence line chart (Films vs Seasons). */
-export type LineSeries = { label: string; points: [number, number][] };
-
 /** Logging cadence: films (Letterboxd) vs seasons (Serializd). */
 export type ConnectedTemporal = {
-  /** Cumulative films vs seasons, all years pooled onto one calendar. */
-  pace: LineSeries[];
+  /** Films vs television by month, the headline cadence view: each month
+      carries two bars (film, television), and each bar is stacked by
+      year — so you read both the medium split AND the year-over-year mix
+      in one chart. Indexed [month][medium][year]. */
+  monthMediumYear: GroupedStackedMatrix;
   /** Films vs seasons by weekday (segments = Films, Seasons). */
   weekdayMatrix: StackedMatrix;
-  /** Films vs seasons by month. */
-  monthMatrix: StackedMatrix;
 };
 
 function connectedTemporal(
@@ -176,27 +162,38 @@ function connectedTemporal(
 ): ConnectedTemporal {
   const byWeekday = (dates: string[], idx: number) =>
     dates.filter((d) => new Date(d).getUTCDay() === idx).length;
-  const byMonth = (dates: string[], mi: number) =>
-    dates.filter((d) => new Date(d).getUTCMonth() === mi).length;
+
+  // One shared year set across both libraries (recent six, ascending) so
+  // film and TV bars stack on the SAME colours and the legend reads once
+  // for the whole chart. Capped at six to keep the stacks legible and to
+  // fit the six-hue categorical palette without wrapping.
+  const years = recentYears([...filmDates, ...seasonDates], 6);
+  // Count one medium's logs in a given month + year.
+  const cell = (dates: string[], mi: number, yr: number) =>
+    dates.filter((d) => {
+      const dt = new Date(d);
+      return dt.getUTCMonth() === mi && dt.getUTCFullYear() === yr;
+    }).length;
+  // A medium's [month][year] grid.
+  const grid = (dates: string[]) =>
+    MONTHS.map((_m, mi) => years.map((yr) => cell(dates, mi, yr)));
+  const filmGrid = grid(filmDates);
+  const tvGrid = grid(seasonDates);
+
   return {
-    pace: [
-      { label: "Films", points: pooledCumulative(filmDates) },
-      { label: "Seasons", points: pooledCumulative(seasonDates) },
-    ],
+    // [month] → [ [film by year], [television by year] ].
+    monthMediumYear: {
+      cats: [...MONTHS],
+      groups: ["Film", "Television"],
+      segments: years.map(String),
+      matrix: MONTHS.map((_m, mi) => [filmGrid[mi], tvGrid[mi]]),
+    },
     weekdayMatrix: {
       cats: [...WEEKDAYS],
       segments: ["Films", "Seasons"],
       matrix: WEEKDAY_INDEX.map((idx) => [
         byWeekday(filmDates, idx),
         byWeekday(seasonDates, idx),
-      ]),
-    },
-    monthMatrix: {
-      cats: [...MONTHS],
-      segments: ["Films", "Seasons"],
-      matrix: MONTHS.map((_m, mi) => [
-        byMonth(filmDates, mi),
-        byMonth(seasonDates, mi),
       ]),
     },
   };
