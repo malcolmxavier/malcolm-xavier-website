@@ -38,10 +38,12 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 import { SITE_URL } from "@/lib/site-config";
 import { getFilms } from "@/lib/feeds/letterboxd";
+import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { hybridMatchIds, combineMatchSets } from "@/lib/feeds/fuzzy-search";
 import {
   applyFilters,
   asString,
+  filmEntityFacets,
   findGenreBySlug,
   paginate,
   parseFilmFilters,
@@ -174,9 +176,13 @@ export default async function FilmGenrePage({
   const saveData = headersList.get("save-data") === "on";
   const sp = await searchParams;
 
-  const { films, summary } = getFilms();
+  // Enriched corpus so Wave B facets compose on a genre route too (e.g.
+  // /films/genre/horror?studio=a24). Enrichment is stripped from the
+  // page slice before it reaches the shell.
+  const { films, summary } = getFilmsWithEnrichment();
   const genre = findGenreBySlug(summary.genreDistribution, slug);
   if (!genre) notFound();
+  const entityFacets = filmEntityFacets(films);
 
   // Parse filters from the URL, then force-set the genre filter to
   // the route's genre so the page is always scoped. Other URL params
@@ -233,6 +239,13 @@ export default async function FilmGenrePage({
     totalResults,
     page,
   } = paginate(applied, requestedPage, pageSize);
+
+  // Strip the server-only enrichment delta before the slice crosses to
+  // the client shell (the grid renders none of it).
+  const clientFilms = pageFilms.map((a) => ({
+    ...a,
+    film: { ...a.film, enrichment: undefined },
+  }));
 
   // rel=prev/next link tags for crawlers that still consume them
   // (Bing). React 19 hoists <link> rendered in components to <head>.
@@ -348,7 +361,7 @@ export default async function FilmGenrePage({
 
         <Section padding="md" bordered>
           <FilmsShell
-            films={pageFilms}
+            films={clientFilms}
             totalPages={totalPages}
             currentPage={page}
             totalResults={totalResults}
@@ -356,6 +369,7 @@ export default async function FilmGenrePage({
             sort={sort}
             availableGenres={availableGenres}
             availableWatchedYears={availableWatchedYears}
+            entityFacets={entityFacets}
             routeGenre={genre}
           />
         </Section>

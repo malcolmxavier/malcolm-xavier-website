@@ -16,7 +16,15 @@
 // them gets a feature the other should adopt.
 // ─────────────────────────────────────────────────────────────────
 
-import { primaryNetwork } from "./stats/network-canon";
+import { facetHit, type FacetGroup } from "./slug";
+import { conglomerateOfNet, primaryNetwork } from "./stats/network-canon";
+import { creatorNames, isActingShow, tvActorNames } from "./stats/people";
+import {
+  countryName,
+  languageName,
+  normalizeCountry,
+  normalizeLanguage,
+} from "./stats/provenance";
 
 // ─── Public types ────────────────────────────────────────────────
 
@@ -199,6 +207,15 @@ export type Show = {
   // than O(showCount × reviewCount).
   ratingSet: number[];
   watchedYearSet: number[];
+  /**
+   * Enrichment delta (cast, creators, country, language) joined by TMDB
+   * id in lib/feeds/review-corpus.ts. Present only on the corpus the
+   * reviews page filters with; absent on snapshot-only getShows(). Server-
+   * side filtering reads it; strip before serializing cards to the client.
+   * Type-only import (erased at build) so this client-safe module never
+   * pulls in the fixture reader.
+   */
+  enrichment?: import("./enrichment").EnrichedShow;
   /**
    * Per-season classification (the load-bearing rule from the
    * plan). A season number lands in exactly one of these arrays
@@ -590,6 +607,24 @@ export type ShowFilters = {
    *  server-side and passed to the card filter as `matchIds` (keeps this
    *  client-safe module free of the Fuse dep). */
   titleQuery?: string;
+  // ── Wave B entity facets (WS6) ──────────────────────────────────
+  // Selected entity SLUGS (slugifyEntity of the canonical display name).
+  // OR within a facet, AND across. Read from `card.show.enrichment` +
+  // the shared canonicalizers, so the vocabulary matches the stats
+  // tiles. network + type (above) are the WS3-era TV facets; these add
+  // the enrichment-backed ones. (TV has no director/writer/studio.)
+  /** Top-billed actor (≥3 eps, acting shows only) name slugs. */
+  actors?: string[];
+  /** Creator name slugs (source authors demoted, matching the stats). */
+  creators?: string[];
+  /** Owning conglomerate (conglomerateOfNet) name slugs. */
+  conglomerates?: string[];
+  /** Original-language display-name slugs (e.g. "japanese"). */
+  languages?: string[];
+  /** Country-of-origin display-name slugs. */
+  countries?: string[];
+  /** Premiere-decade slugs ("2010s", …) — derived from premiereYear. */
+  decades?: string[];
 } & WatchedDateFilter;
 
 /**
@@ -808,6 +843,109 @@ export function deriveAvailableTypes(shows: Show[]): string[] {
  * watchedYears, watchedWindow) drop the card when its surfaced
  * review doesn't match.
  */
+/** Premiere-decade label for a year, e.g. 2018 → "2010s". */
+export function showDecadeLabel(year: number): string {
+  return `${Math.floor(year / 10) * 10}s`;
+}
+
+/** The Wave B facet keys a show exposes. */
+export type ShowFacet =
+  | "actors"
+  | "creators"
+  | "conglomerates"
+  | "languages"
+  | "countries"
+  | "decades";
+
+/**
+ * Canonical Wave B facet values for a show — DISPLAY names (pre-slug),
+ * via the same canonicalizers the stats use. The SINGLE source both the
+ * card filter predicate and the available-value derivation read, so the
+ * two vocabularies can't drift. Actor names honour the acting-show gate
+ * the stats apply (reality/talk/doc cast don't count as actors); the
+ * conglomerate comes from the snapshot networks (same as the stats).
+ */
+export function showFacetValues(show: Show): Record<ShowFacet, string[]> {
+  const e = show.enrichment;
+  const acting = isActingShow({
+    type: show.tmdb?.type ?? null,
+    genres: show.tmdb?.genres ?? [],
+  });
+  return {
+    actors: e && acting ? tvActorNames({ cast: e.cast }) : [],
+    creators: e ? creatorNames({ creators: e.creators }) : [],
+    conglomerates: [conglomerateOfNet(show.tmdb?.networks ?? [])],
+    languages: e?.language ? [languageName(normalizeLanguage(e.language))] : [],
+    countries: e?.country ? [countryName(normalizeCountry(e.country))] : [],
+    decades: [showDecadeLabel(show.premiereYear)],
+  };
+}
+
+/**
+ * Per-facet value→count distributions across a show corpus, each sorted
+ * count desc then name asc. One pass via showFacetValues (shared
+ * vocabulary with the filter). `count` is the number of logged shows
+ * carrying that value. Feeds the sidebar chip rails + 6c typeahead.
+ */
+export function showFacetDistributions(
+  shows: Show[],
+): Record<ShowFacet, [string, number][]> {
+  const facets: ShowFacet[] = [
+    "actors",
+    "creators",
+    "conglomerates",
+    "languages",
+    "countries",
+    "decades",
+  ];
+  const maps = new Map<ShowFacet, Map<string, number>>(
+    facets.map((f) => [f, new Map<string, number>()]),
+  );
+  for (const show of shows) {
+    const fv = showFacetValues(show);
+    for (const facet of facets) {
+      const m = maps.get(facet)!;
+      for (const name of fv[facet]) m.set(name, (m.get(name) ?? 0) + 1);
+    }
+  }
+  const out = {} as Record<ShowFacet, [string, number][]>;
+  for (const facet of facets) {
+    out[facet] = [...maps.get(facet)!.entries()].sort(
+      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+    );
+  }
+  return out;
+}
+
+/**
+ * The low-cardinality facet groups for the TV reviews sidebar, built
+ * from the corpus (shared by the reviews page and the genre route).
+ * Network + type already have their own WS3 controls; actors/creators
+ * are high-cardinality (deep-links now, typeahead in 6c), so the rails
+ * here are language, country, network group (conglomerate), and decade.
+ */
+export function showEntityFacets(shows: Show[]): FacetGroup[] {
+  const d = showFacetDistributions(shows);
+  return [
+    { key: "languages", param: "language", label: "Language", options: d.languages },
+    { key: "countries", param: "country", label: "Country", options: d.countries },
+    { key: "conglomerates", param: "conglomerate", label: "Network group", options: d.conglomerates },
+    { key: "decades", param: "decade", label: "Decade", options: d.decades },
+  ];
+}
+
+/** True if any Wave B facet filter is active (gates the per-card work). */
+function anyShowFacetActive(f: ShowFilters): boolean {
+  return Boolean(
+    f.actors?.length ||
+      f.creators?.length ||
+      f.conglomerates?.length ||
+      f.languages?.length ||
+      f.countries?.length ||
+      f.decades?.length,
+  );
+}
+
 export function applyCompletedCardFilters(
   cards: CompletedCard[],
   filters: ShowFilters,
@@ -820,6 +958,8 @@ export function applyCompletedCardFilters(
 ): CompletedCard[] {
   const twelveMoCutoffMs =
     filters.watchedWindow === "12mo" ? computeTwelveMoCutoffMs() : null;
+  // Skip the per-card enrichment work entirely on the default listing.
+  const waveBActive = anyShowFacetActive(filters);
   const result: CompletedCard[] = [];
   for (const card of cards) {
     // Search (?q=): drop cards whose parent show isn't in the
@@ -856,6 +996,20 @@ export function applyCompletedCardFilters(
     if (filters.types && filters.types.length > 0) {
       const showType = card.show.tmdb?.type;
       if (!showType || !filters.types.includes(showType)) continue;
+    }
+    // ── Wave B entity facets (enrichment-backed) ────────────
+    // OR within each facet; AND across them. Values come from the shared
+    // showFacetValues (same vocabulary as the stats + the available
+    // lists). A card whose show has no enrichment can't confirm a match
+    // and is dropped when that facet is active. Skipped unless active.
+    if (waveBActive) {
+      const fv = showFacetValues(card.show);
+      if (filters.actors?.length && !facetHit(filters.actors, fv.actors)) continue;
+      if (filters.creators?.length && !facetHit(filters.creators, fv.creators)) continue;
+      if (filters.conglomerates?.length && !facetHit(filters.conglomerates, fv.conglomerates)) continue;
+      if (filters.languages?.length && !facetHit(filters.languages, fv.languages)) continue;
+      if (filters.countries?.length && !facetHit(filters.countries, fv.countries)) continue;
+      if (filters.decades?.length && !facetHit(filters.decades, fv.decades)) continue;
     }
     // Per-review predicates apply to the card's surfaced review
     if (filters.ratings && filters.ratings.length > 0) {
@@ -1124,17 +1278,16 @@ export function parseShowFilters(
   // no-op). Mirrors parseFilmFilters + MIN_QUERY_LENGTH.
   const titleQuery = asString(params.title)?.trim();
 
-  const base: Pick<
-    ShowFilters,
-    | "ratings"
-    | "genres"
-    | "networks"
-    | "types"
-    | "premiereYearMin"
-    | "premiereYearMax"
-    | "cardKind"
-    | "titleQuery"
-  > = {};
+  // Wave B entity facets — CSV of entity slugs. No allowlist: an unknown
+  // slug matches nothing in applyCompletedCardFilters (corpus constraint).
+  const actors = parseCsvStrings(asString(params.actor));
+  const creators = parseCsvStrings(asString(params.creator));
+  const conglomerates = parseCsvStrings(asString(params.conglomerate));
+  const languages = parseCsvStrings(asString(params.language));
+  const countries = parseCsvStrings(asString(params.country));
+  const decades = parseCsvStrings(asString(params.decade));
+
+  const base: Omit<ShowFilters, "watchedYears" | "watchedWindow"> = {};
   if (ratings.length > 0) base.ratings = ratings;
   if (genres.length > 0) base.genres = genres;
   if (networks.length > 0) base.networks = networks;
@@ -1143,6 +1296,12 @@ export function parseShowFilters(
   if (premiereYearMax !== undefined) base.premiereYearMax = premiereYearMax;
   if (cardKind !== undefined) base.cardKind = cardKind;
   if (titleQuery && titleQuery.length >= 2) base.titleQuery = titleQuery;
+  if (actors.length > 0) base.actors = actors;
+  if (creators.length > 0) base.creators = creators;
+  if (conglomerates.length > 0) base.conglomerates = conglomerates;
+  if (languages.length > 0) base.languages = languages;
+  if (countries.length > 0) base.countries = countries;
+  if (decades.length > 0) base.decades = decades;
 
   if (watchedYearsRaw.length > 0) {
     return { ...base, watchedYears: watchedYearsRaw };

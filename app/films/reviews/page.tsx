@@ -36,10 +36,12 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 import { SITE_URL } from "@/lib/site-config";
 import { getFilms } from "@/lib/feeds/letterboxd";
+import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { hybridMatchIds, combineMatchSets } from "@/lib/feeds/fuzzy-search";
 import {
   applyFilters,
   asString,
+  filmEntityFacets,
   paginate,
   parseFilmFilters,
   parseFilmSort,
@@ -206,7 +208,22 @@ export default async function FilmsPage({
   // listing page itself. Destructured-and-ignored is cleaner than
   // omitting it from the destructure (which would still pull the
   // string into memory but lose the named reference for diffing).
-  const { films, summary } = getFilms();
+  // Enrichment-joined corpus: each film carries `.enrichment` (cast,
+  // writers, studios, language, country, budget, release, collection) so
+  // the Wave B facet predicates in applyFilters can run. The per-card
+  // enrichment is stripped before the page slice crosses to the client
+  // (the grid doesn't render it). getFilms() stays the snapshot-only path
+  // for everything else (e.g. generateMetadata's count).
+  const { films, summary } = getFilmsWithEnrichment();
+
+  // Wave B available-value distributions (name → count), shared
+  // vocabulary with the filter predicate. Low-cardinality facets feed the
+  // sidebar chip rails below; high-cardinality ones are computed for 6c's
+  // typeahead but not surfaced yet.
+  // Low-cardinality Wave B facet groups for the sidebar chip rails
+  // (shared with the genre route). High-card facets are reached via stats
+  // deep-links now and a constrained typeahead in 6c.
+  const entityFacets = filmEntityFacets(films);
 
   // Genres available in the dataset, sorted by usage descending so
   // the chip rail leads with the most-common ones. Pulled from the
@@ -265,6 +282,14 @@ export default async function FilmsPage({
     totalResults,
     page,
   } = paginate(applied, requestedPage, pageSize);
+
+  // Drop the server-only enrichment delta before the slice crosses to
+  // the client shell — the grid renders none of it, and the cast/writer
+  // arrays would bloat the RSC payload. Filtering already ran above.
+  const clientFilms = pageFilms.map((a) => ({
+    ...a,
+    film: { ...a.film, enrichment: undefined },
+  }));
 
   // CollectionPage + BreadcrumbList JSON-LD. CollectionPage names
   // the listing as a curated review corpus so AI-search retrievers
@@ -413,7 +438,7 @@ export default async function FilmsPage({
         {/* ─── Filter rail + Grid + Pagination (client) ─────── */}
         <Section padding="md" bordered>
           <FilmsShell
-            films={pageFilms}
+            films={clientFilms}
             totalPages={totalPages}
             currentPage={page}
             totalResults={totalResults}
@@ -421,6 +446,7 @@ export default async function FilmsPage({
             sort={sort}
             availableGenres={availableGenres}
             availableWatchedYears={availableWatchedYears}
+            entityFacets={entityFacets}
           />
         </Section>
 

@@ -27,6 +27,7 @@ import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
+import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { hybridMatchIds } from "@/lib/feeds/fuzzy-search";
 import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
@@ -40,6 +41,7 @@ import {
   paginate,
   parseShowFilters,
   parseShowSort,
+  showEntityFacets,
   slugifyGenre,
 } from "@/lib/feeds/serializd-utils";
 import { TelevisionShell } from "../../TelevisionShell";
@@ -142,9 +144,11 @@ export default async function TvGenrePage({
   const saveData = headersList.get("save-data") === "on";
   const sp = await searchParams;
 
-  const { shows, summary } = getShows();
+  // Enriched corpus so Wave B facets compose on a genre route too.
+  const { shows, summary } = getShowsWithEnrichment();
   const genre = findGenreBySlug(summary.genreDistribution, slug);
   if (!genre) notFound();
+  const entityFacets = showEntityFacets(shows);
 
   const baseFilters = parseShowFilters(sp);
   // Force-set the genre filter to the route's pinned genre. Other
@@ -224,6 +228,13 @@ export default async function TvGenrePage({
     totalResults,
     page,
   } = paginate(applied, requestedPage, pageSize);
+
+  // Strip the server-only enrichment delta before the slice reaches the
+  // client shell (the grid renders none of it).
+  const clientCards = pageCards.map((c) => ({
+    ...c,
+    show: { ...c.show, enrichment: undefined },
+  }));
 
   // CollectionPage + BreadcrumbList JSON-LD scoped to the genre.
   const detailUrl = `${SITE_URL}/television/genre/${slug}`;
@@ -313,7 +324,7 @@ export default async function TvGenrePage({
 
         <Section padding="md" bordered>
           <TelevisionShell
-            cards={pageCards}
+            cards={clientCards}
             allCount={allCards.length}
             totalPages={totalPages}
             currentPage={page}
@@ -324,6 +335,7 @@ export default async function TvGenrePage({
             availableNetworks={availableNetworks}
             availableTypes={availableTypes}
             availableWatchedYears={availableWatchedYears}
+            entityFacets={entityFacets}
             routeGenre={genre}
             originHref={buildOriginHref(`/television/genre/${slug}`, sp)}
             watchingCount={watchingCount}
