@@ -18,6 +18,7 @@ import type { EnrichedFilm, EnrichedShow } from "../enrichment";
 import { getFilms } from "../letterboxd";
 import { getShows } from "../serializd";
 import { avgFromDist, contrastE, meanOf, type Contrast } from "./shrinkage";
+import { seasonRating } from "./tv-stats";
 import { filmActorNames, tvActorNames } from "./people";
 import {
   countryName,
@@ -25,6 +26,21 @@ import {
   normalizeCountry,
   normalizeLanguage,
 } from "./provenance";
+import {
+  overlapCounts,
+  worldLean,
+  type OverlapCounts,
+  type WorldLean,
+} from "./distributions";
+import { conglomerateOfStudio } from "./studio-canon";
+import { conglomerateOfNet } from "./network-canon";
+import {
+  MONTHS,
+  recentYears,
+  WEEKDAY_INDEX,
+  WEEKDAYS,
+} from "./temporal";
+import type { GroupedStackedMatrix, StackedMatrix } from "./chart-data";
 
 /** Anything with a language, country, and personal rating (film or show). */
 type Titled = { language: string | null; country: string | null; mine: number | null };
@@ -89,24 +105,97 @@ export function crossoverActors(
   return { most, major, total: cross.length };
 }
 
-/** Mean-rating lean (non-English / non-US) pooled across both libraries. */
-export type WorldLean = {
-  nonEnglishVsEnglish: number;
-  nonUsVsUs: number;
-  pctInternational: number;
+/**
+ * Who owns what you watch, film + TV. Each film rolls up via its studio,
+ * each show via its network, to the parent conglomerate (else
+ * independent). Top-8 parents by combined total, displayed low→high so
+ * the tallest (independent) sits on the right. Stacked Film vs TV (sketch
+ * connConglomerateBoth, ~925).
+ */
+function conglomerateBoth(
+  films: EnrichedFilm[],
+  shows: EnrichedShow[],
+): StackedMatrix {
+  // Short labels keep the dense two-stack columns legible.
+  const ABBR: Record<string, string> = {
+    "Warner Bros. Discovery": "WBD",
+    NBCUniversal: "NBCU",
+    "Independent / other": "Indie+",
+    "Amazon MGM": "Amazon",
+  };
+  const fc: Record<string, number> = {};
+  const tc: Record<string, number> = {};
+  for (const f of films) {
+    const c = conglomerateOfStudio(f.studios);
+    fc[c] = (fc[c] || 0) + 1;
+  }
+  for (const s of shows) {
+    const c = conglomerateOfNet(s.networks);
+    tc[c] = (tc[c] || 0) + 1;
+  }
+  const all = [...new Set([...Object.keys(fc), ...Object.keys(tc)])]
+    .map((c) => ({ c, f: fc[c] || 0, t: tc[c] || 0, tot: (fc[c] || 0) + (tc[c] || 0) }))
+    .sort((a, b) => b.tot - a.tot)
+    .slice(0, 8)
+    .sort((a, b) => a.tot - b.tot);
+  return {
+    cats: all.map((x) => ABBR[x.c] || x.c),
+    segments: ["Film", "TV"],
+    matrix: all.map((x) => [x.f, x.t]),
+  };
+}
+
+/** Logging cadence: films (Letterboxd) vs seasons (Serializd). */
+export type ConnectedTemporal = {
+  /** Films vs television by month, the headline cadence view: each month
+      carries two bars (film, television), and each bar is stacked by
+      year — so you read both the medium split AND the year-over-year mix
+      in one chart. Indexed [month][medium][year]. */
+  monthMediumYear: GroupedStackedMatrix;
+  /** Films vs seasons by weekday (segments = Films, Seasons). */
+  weekdayMatrix: StackedMatrix;
 };
 
-function worldLeanCombined(items: Titled[]): WorldLean {
-  const lang = (x: Titled) => normalizeLanguage(x.language);
-  const ctry = (x: Titled) => normalizeCountry(x.country);
-  const en = items.filter((x) => lang(x) === "en");
-  const nonen = items.filter((x) => x.language && lang(x) !== "en");
-  const us = items.filter((x) => ctry(x) === "US");
-  const nonus = items.filter((x) => x.country && ctry(x) !== "US");
+function connectedTemporal(
+  filmDates: string[],
+  seasonDates: string[],
+): ConnectedTemporal {
+  const byWeekday = (dates: string[], idx: number) =>
+    dates.filter((d) => new Date(d).getUTCDay() === idx).length;
+
+  // One shared year set across both libraries (recent six, ascending) so
+  // film and TV bars stack on the SAME colours and the legend reads once
+  // for the whole chart. Capped at six to keep the stacks legible and to
+  // fit the six-hue categorical palette without wrapping.
+  const years = recentYears([...filmDates, ...seasonDates], 6);
+  // Count one medium's logs in a given month + year.
+  const cell = (dates: string[], mi: number, yr: number) =>
+    dates.filter((d) => {
+      const dt = new Date(d);
+      return dt.getUTCMonth() === mi && dt.getUTCFullYear() === yr;
+    }).length;
+  // A medium's [month][year] grid.
+  const grid = (dates: string[]) =>
+    MONTHS.map((_m, mi) => years.map((yr) => cell(dates, mi, yr)));
+  const filmGrid = grid(filmDates);
+  const tvGrid = grid(seasonDates);
+
   return {
-    nonEnglishVsEnglish: meanOf(nonen.map(mineOf)) - meanOf(en.map(mineOf)),
-    nonUsVsUs: meanOf(nonus.map(mineOf)) - meanOf(us.map(mineOf)),
-    pctInternational: Math.round((nonus.length / (us.length + nonus.length)) * 100),
+    // [month] → [ [film by year], [television by year] ].
+    monthMediumYear: {
+      cats: [...MONTHS],
+      groups: ["Film", "Television"],
+      segments: years.map(String),
+      matrix: MONTHS.map((_m, mi) => [filmGrid[mi], tvGrid[mi]]),
+    },
+    weekdayMatrix: {
+      cats: [...WEEKDAYS],
+      segments: ["Films", "Seasons"],
+      matrix: WEEKDAY_INDEX.map((idx) => [
+        byWeekday(filmDates, idx),
+        byWeekday(seasonDates, idx),
+      ]),
+    },
   };
 }
 
@@ -144,13 +233,20 @@ export type ConnectedStats = {
   genreFilmVsTv: GenreDumbbell[];
   languages: Contrast;
   countries: Contrast;
+  overlap: OverlapCounts;
+  conglomerate: StackedMatrix;
   worldLean: WorldLean;
+  temporal: ConnectedTemporal;
 };
 
 /** Compute every connected dashboard number from the live fixtures. */
 export function computeConnectedStats(): ConnectedStats {
   const films = getEnrichedFilms();
-  const shows = getEnrichedShows();
+  // TV ratings use the season signal (see seasonRating), matching the
+  // television dashboard — so crossover actors, the genre dumbbell's TV
+  // side, the conglomerate split, and the pooled world lean rank on
+  // seasons, not the most-recent-review proxy. Films are unchanged.
+  const shows = getEnrichedShows().map((s) => ({ ...s, mine: seasonRating(s) }));
   const { summary } = getShows();
   const pooled: Titled[] = [...films, ...shows];
   const cm = meanOf(pooled.map(mineOf));
@@ -165,6 +261,16 @@ export function computeConnectedStats(): ConnectedStats {
   const seasonDist = summary.ratingDistributionByLevel.season;
   const seasonsLogged = Object.values(seasonDist).reduce((a, b) => a + b, 0);
   const seasonAvg = avgFromDist(seasonDist);
+
+  // Cadence dates: film watch dates (full corpus) vs season completions.
+  const filmDates = snapFilms.flatMap((f) =>
+    (f.reviews || []).map((r) => r.watchedDate).filter(Boolean),
+  );
+  const seasonDates = getShows().shows.flatMap((s) =>
+    (s.reviews || [])
+      .filter((r) => r.level === "season" && r.watchedDate)
+      .map((r) => r.watchedDate),
+  );
 
   return {
     headToHead: {
@@ -196,6 +302,9 @@ export function computeConnectedStats(): ConnectedStats {
       cm,
       countryName,
     ),
-    worldLean: worldLeanCombined(pooled),
+    overlap: overlapCounts(pooled),
+    conglomerate: conglomerateBoth(films, shows),
+    worldLean: worldLean(pooled),
+    temporal: connectedTemporal(filmDates, seasonDates),
   };
 }

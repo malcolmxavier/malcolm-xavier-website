@@ -1081,3 +1081,234 @@ a.link-accent-pink,
 .no-scrollbar::-webkit-scrollbar {
   display: none;                    /* Safari/Chrome */
 }
+
+/* ─── Stats dashboard chart fills (WS5) ────────────────────────────
+   Direction A: single-series chart fills (bars, columns, diverging
+   positives, heatmap intensity) take the cluster's BRAND hue; the page
+   provides it through `currentColor` so HTML backgrounds and SVG
+   fill/stroke share one source. We drive it with a class rather than an
+   inline var() because the fill must be theme-aware (light vs dark) and
+   inline styles can't carry a media/attribute condition.
+
+   Light uses --primary-700 / dark uses --primary-300 — the same brand
+   steps the sub-brand --icon-action chain uses, both comfortably AA as a
+   fill against the card surface in their theme (orange-700 ≈ 4.7:1 on
+   white; orange-300 ≈ 11:1 on near-black; blue equivalents higher).
+
+   On the Connected page there is no [data-subbrand] wrapper (it's the
+   cross-brand neutral surface), so the base rule falls back to a
+   categorical chart hue — its film-vs-TV charts carry the two brand
+   hues explicitly instead. We reference --primary-700/-300 directly
+   (a one-hop alias to an --orange/--blue primitive) to avoid the
+   multi-hop alias chains that have resolved to empty in some contexts
+   (see the Button hardcode note above). */
+/* `color` drives currentColor fills (bars/columns/diverging, whose fill
+   element carries no color of its own). `--stats-fill` carries the same
+   brand hue as a named property for cases where the element ALSO needs a
+   distinct text color — the Heatmap, where each cell sets its own
+   --text-body for the number, so currentColor there is the text color,
+   not the brand. Both stay in lockstep across theme + sub-brand. */
+.stats-brand-fill {
+  color: var(--chart-c3);
+  --stats-fill: var(--chart-c3);
+  --stats-heat: var(--chart-c2);
+}
+[data-subbrand] .stats-brand-fill {
+  color: var(--primary-700);
+  --stats-fill: var(--primary-700);
+  /* The heatmap tint uses a brighter brand step than the bars so it
+     reads orange, not the brown-ish -700. In light mode the vivid
+     -default (orange-500) over white stays orange across the intensity
+     range; in dark mode a darker -600 keeps every cell dark enough for
+     white text. NB: there is no --primary-500 token — the ramp's 500
+     step is --primary-default. */
+  --stats-heat: var(--primary-default);
+}
+[data-theme="dark"] [data-subbrand] .stats-brand-fill {
+  color: var(--primary-300);
+  --stats-fill: var(--primary-300);
+  /* Heatmap tint uses the -700 step in dark (not -600): at full strength
+     -600 (#bf7618) is a mid-orange where white cell text is only 3.6:1,
+     below AA. -700 (#8f5912) keeps the strongest cell dark enough that
+     white text clears (~5.8:1) while still reading as a deep orange. */
+  --stats-heat: var(--primary-700);
+}
+
+/* Connected page film/TV hues — the EXACT orange and blue the cluster
+   dashboards paint their single-series bars with (the sub-brand
+   --primary-700 in light, --primary-300 in dark = orange/blue 700/300).
+   Connected carries no [data-subbrand], so these are scoped to its
+   wrapper and consumed by the dumbbell + the Film-vs-TV stacks/line. */
+[data-connected] {
+  --film-hue: var(--orange-700);
+  --tv-hue: var(--blue-700);
+}
+[data-theme="dark"] [data-connected] {
+  --film-hue: var(--orange-300);
+  --tv-hue: var(--blue-300);
+}
+
+/* ─── Stats dashboard responsive tile grid (WS5) ───────────────────
+   A 12-column grid on desktop; each tile declares a span via
+   data-span (4 = third, 8 = two-thirds, 12 = full). Tablet drops to a
+   6-column grid (wide/full tiles go full, default tiles go half) and
+   mobile is a single stacked column. The span lives in CSS (not inline)
+   so it can collapse responsively — an inline `grid-column: span 8`
+   would overflow the 1-column mobile grid. */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--scale-200, 16px);
+}
+.stats-grid > * {
+  grid-column: 1 / -1; /* mobile: every tile full width */
+  min-width: 0; /* let chart SVGs shrink instead of forcing overflow */
+}
+/* Tablet: a 6-column grid. The desktop spans collapse so the row
+   pairings Malcolm designed survive — a 4 or 6 becomes a half (3/6), an
+   8 or 12 becomes full (6/6). So a 6+6 row stays side-by-side, a 4+4+4
+   triple wraps 3+3 / 3, and full-width tiles stay full. */
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .stats-tile[data-span="4"],
+  .stats-tile[data-span="6"] {
+    grid-column: span 3;
+  }
+  .stats-tile[data-span="8"],
+  .stats-tile[data-span="12"] {
+    grid-column: span 6;
+  }
+}
+/* Desktop: the full 12-column grid the saved layout is authored against
+   (spans of 4 / 6 / 8 / 12). */
+@media (min-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .stats-tile[data-span="4"] {
+    grid-column: span 4;
+  }
+  .stats-tile[data-span="6"] {
+    grid-column: span 6;
+  }
+  .stats-tile[data-span="8"] {
+    grid-column: span 8;
+  }
+  .stats-tile[data-span="12"] {
+    grid-column: span 12;
+  }
+}
+
+/* ─── Stats dashboard sections (WS5 — readability pass) ─────────────
+   The dashboard is grouped into a handful of named bands (The corpus,
+   Taste, People, …) so ~23 tiles don't read as one undifferentiated
+   wall. Each band is a small mono kicker heading over a hairline rule,
+   then the band's own tile grid. The heading is the data/label register
+   (Roboto Mono in the sub-brand); the rule gives the eye a rest point
+   between groups without adding prose. */
+.stats-section + .stats-section {
+  margin-top: var(--scale-500, 32px);
+}
+.stats-section__head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 var(--scale-200, 16px);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-default);
+}
+.stats-section__label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-body);
+  margin: 0;
+}
+
+/* Brand-colour the mono labels (section bands + tile titles) so the eye
+   can scan the dashboard's structure at a glance. The colour follows the
+   same contrast-safe ramp the chart bars use — the darker -700 step on
+   light, the lighter -300 on dark — so it clears AA over the tile/page
+   surface in both themes. Outside a sub-brand (e.g. the Connected page)
+   it falls back to the body colour. NB: there is no --primary-500 token;
+   the ramp's mid step is --primary-default. */
+.stats-tile__title {
+  color: var(--text-body);
+}
+[data-subbrand] .stats-section__label,
+[data-subbrand] .stats-tile__title {
+  color: var(--primary-700);
+}
+[data-theme="dark"] [data-subbrand] .stats-section__label,
+[data-theme="dark"] [data-subbrand] .stats-tile__title {
+  color: var(--primary-300);
+}
+
+/* ─── Chart hover tooltips (WS5 — holistic hover) ──────────────────
+   A designed, server-rendered chip that surfaces a chart datum's
+   underlying number on hover (and on focus where the trigger opts in).
+   Replaces the native title= tooltips. The chip is an inverted surface
+   (--text-body fill / --surface-default text) so it stays high-contrast
+   over any tile in either theme; it's a contrast pair by construction.
+   The same number lives in the trigger's aria-label, so the chip is
+   aria-hidden and purely visual. See components/stats/Tip.tsx. */
+.stats-tip {
+  position: relative;
+}
+/* Focusable triggers (e.g. the rating columns) get a visible focus ring
+   so keyboard users see what they've landed on. */
+.stats-tip[tabindex]:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: var(--border-radius-sm);
+}
+.stats-tip__pop {
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  /* Cap the width and let it wrap. Critically NOT `min-width: max-content`
+     — that overrode max-width and blew long chips out to ~490px, which (as
+     absolutely-positioned boxes) extended the page's scroll width and made
+     the whole dashboard scroll horizontally. */
+  max-width: 220px;
+  width: max-content;
+  padding: 6px 9px;
+  background: var(--text-body);
+  color: var(--surface-default);
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  text-align: center;
+  white-space: normal;
+  pointer-events: none; /* the chip never eats the hover it's reacting to */
+  /* `display: none` at rest (not `visibility: hidden`) so a hidden chip
+     contributes nothing to layout/scroll width — the fix for the stray
+     horizontal scroll. Shown chips toggle to block below. */
+  display: none;
+}
+/* A small pointer tail anchored to the trigger's center. */
+.stats-tip__pop::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--text-body);
+}
+/* Hover + keyboard focus reveal the chip; `.stats-tip--open` is the
+   touch path, toggled by the StatsTips controller on tap. */
+.stats-tip:hover > .stats-tip__pop,
+.stats-tip:focus-within > .stats-tip__pop,
+.stats-tip--open > .stats-tip__pop {
+  display: block;
+}

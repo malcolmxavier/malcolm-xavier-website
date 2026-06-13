@@ -58,6 +58,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.6,
     });
+    // /films/stats — the dashboard ("The numbers"). An indexable
+    // portfolio artifact in its own right (see PLAN.md indexation rule).
+    filmEntries.push({
+      url: `${SITE_URL}/films/stats`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
     // Curated list-detail pages — one per public Letterboxd list,
     // pulled from the snapshot's lists[] (the weekly scrape pass).
     // Empty/absent until that pass has run, so the optional chain
@@ -116,6 +124,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
     tvEntries.push({
       url: `${SITE_URL}/television/reviews`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    // /television/stats — the TV dashboard ("The numbers"), indexable
+    // (see the films block + PLAN.md indexation rule).
+    tvEntries.push({
+      url: `${SITE_URL}/television/stats`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.6,
@@ -181,6 +197,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       // doesn't restructure, but the underlying playlists shift.
       changeFrequency: "weekly",
       priority: 0.5,
+    },
+    {
+      // /stats/connected — the cross-brand film × TV dashboard. Indexable
+      // portfolio artifact (see PLAN.md); not under a cluster, so it lives
+      // with the static routes rather than the film/TV blocks above.
+      url: `${SITE_URL}/stats/connected`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
     },
     // Case studies — long-form artifacts of past work. Higher
     // priority than Music since recruiters explicitly hunt for

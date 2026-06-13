@@ -139,6 +139,45 @@ export function IconDownload({ size = 16, ...props }: IconProps) {
   );
 }
 
+// ─── Cluster-rail glyphs (Heroicons outline) ──────────────────────
+// Small leading icons for the cluster sub-nav tabs, so the pills read
+// as navigation at a glance and the labels can carry less weight.
+// Overview = home (the cluster landing), Reviews = star (rated work),
+// The numbers = bar chart (stats), Connected = link (cross-brand).
+// Decorative — the tab's own text is the accessible label.
+
+export function IconHome({ size = 16, ...props }: IconProps) {
+  return (
+    <svg {...strokeIconProps(size)} {...props}>
+      <path d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75" />
+    </svg>
+  );
+}
+
+export function IconStar({ size = 16, ...props }: IconProps) {
+  return (
+    <svg {...strokeIconProps(size)} {...props}>
+      <path d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+    </svg>
+  );
+}
+
+export function IconChartBar({ size = 16, ...props }: IconProps) {
+  return (
+    <svg {...strokeIconProps(size)} {...props}>
+      <path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+    </svg>
+  );
+}
+
+export function IconLink({ size = 16, ...props }: IconProps) {
+  return (
+    <svg {...strokeIconProps(size)} {...props}>
+      <path d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+    </svg>
+  );
+}
+
 // ─── Theme-toggle glyphs ───────────────────────────────────────────
 // Replace the prior Unicode trio (◐ ☀ ☾) which came from three
 // different blocks and rendered with mismatched stroke weights at
