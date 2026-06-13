@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-06-12T23:31:36.713Z",
+  "capturedAt": "2026-06-13T00:31:12.223Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 240,
-    "totalEpisodeReviews": 635,
+    "totalEpisodeReviews": 636,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 222,
       "4": 175,
       "5": 17,
-      "3.5": 271,
+      "3.5": 272,
       "4.5": 50,
       "2.5": 88,
       "1.5": 11,
@@ -45,7 +45,7 @@
         "3": 161,
         "4": 129,
         "5": 7,
-        "3.5": 207,
+        "3.5": 208,
         "4.5": 41,
         "2.5": 63,
         "1.5": 5
@@ -252,6 +252,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 69054652,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-13T00:12:44Z",
+          "reviewDate": "2026-06-13T00:12:52Z",
+          "seasonId": 440451,
+          "episodeNumber": 9,
+          "episodeName": "Blame It on the Henny",
+          "tags": []
+        },
         {
           "id": 69050721,
           "level": "episode",
@@ -3632,8 +3648,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-12T23:25:50Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-06-13T00:12:52Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -26369,6 +26385,22 @@
       ],
       "reviews": [
         {
+          "id": 69054652,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-13T00:12:44Z",
+          "reviewDate": "2026-06-13T00:12:52Z",
+          "seasonId": 440451,
+          "episodeNumber": 9,
+          "episodeName": "Blame It on the Henny",
+          "tags": []
+        },
+        {
           "id": 69050721,
           "level": "episode",
           "rating": 4,
@@ -29748,8 +29780,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-12T23:25:50Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-06-13T00:12:52Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-237748": {
