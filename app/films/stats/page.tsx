@@ -38,6 +38,8 @@ import { SITE_URL } from "@/lib/site-config";
 import { computeFilmStats } from "@/lib/feeds/stats/film-stats";
 import type { Contrast } from "@/lib/feeds/stats/shrinkage";
 import type { DeskewContrast } from "@/lib/feeds/stats/franchise";
+import { slugifyEntity } from "@/lib/feeds/slug";
+import { slugifyGenre } from "@/lib/feeds/letterboxd-utils";
 
 export const metadata: Metadata = {
   title: "Film stats",
@@ -107,6 +109,18 @@ export default function FilmStatsPage() {
   const writers = versusRows(s.writers);
   const languages = versusRows(s.languages);
   const countries = versusRows(s.countries);
+
+  // Deep-link builders: a stats-tile row links to its SUBJECT under that
+  // entity filter (vocabulary matches the filter — same canonicalizers +
+  // slugifyEntity). Genre links to its dedicated indexed route; director
+  // rides the existing fuzzy ?director= search (exact director facet +
+  // route land in 6b). Franchises are NOT linked here (the tile's curated
+  // families don't share vocabulary with the raw-collection filter — WS7).
+  const facetHref = (param: string) => (label: string) =>
+    `/films/reviews?${param}=${slugifyEntity(label)}`;
+  const genreHref = (g: string) => `/films/genre/${slugifyGenre(g)}`;
+  const directorHref = (name: string) =>
+    `/films/reviews?director=${encodeURIComponent(name)}`;
 
   return (
     <div data-subbrand="film">
@@ -183,6 +197,7 @@ export default function FilmStatsPage() {
             <Tile title="Genres" span={4}>
               <Bars
                 rows={s.genreDistribution}
+                hrefFor={genreHref}
                 tipFor={(genre, count) =>
                   `${genre} — ${count} ${count === 1 ? "film" : "films"}${
                     s.lifetime.films
@@ -198,7 +213,11 @@ export default function FilmStatsPage() {
               span={8}
               note={`Baseline = your ${s.lifetime.avgRating.toFixed(2)}★ average; most-logged genres first. Bars right of center rate above your norm, accent bars (left) below. Shrunk.`}
             >
-              <Diverging rows={s.divergingGenre} baseline={s.lifetime.avgRating} />
+              <Diverging
+                rows={s.divergingGenre}
+                baseline={s.lifetime.avgRating}
+                hrefFor={genreHref}
+              />
             </Tile>
 
           </StatsSection>
@@ -214,6 +233,7 @@ export default function FilmStatsPage() {
                 left={actors.left}
                 rightTitle="Highest rated"
                 right={actors.right}
+                hrefFor={facetHref("actor")}
               />
             </Tile>
 
@@ -227,6 +247,7 @@ export default function FilmStatsPage() {
                 left={writers.left}
                 rightTitle="Highest rated"
                 right={writers.right}
+                hrefFor={facetHref("writer")}
               />
             </Tile>
 
@@ -240,6 +261,7 @@ export default function FilmStatsPage() {
                 left={directors.left}
                 rightTitle="Highest rated"
                 right={directors.right}
+                hrefFor={directorHref}
               />
             </Tile>
 
@@ -323,6 +345,7 @@ export default function FilmStatsPage() {
                 left={languages.left}
                 rightTitle="Highest rated"
                 right={languages.right}
+                hrefFor={facetHref("language")}
               />
             </Tile>
 
@@ -332,6 +355,7 @@ export default function FilmStatsPage() {
                 left={countries.left}
                 rightTitle="Highest rated"
                 right={countries.right}
+                hrefFor={facetHref("country")}
               />
             </Tile>
 
@@ -363,6 +387,7 @@ export default function FilmStatsPage() {
                 left={studios.left}
                 rightTitle="Highest rated"
                 right={studios.right}
+                hrefFor={facetHref("studio")}
               />
             </Tile>
 
@@ -376,6 +401,7 @@ export default function FilmStatsPage() {
                 left={conglomerate.left}
                 rightTitle="Highest rated"
                 right={conglomerate.right}
+                hrefFor={facetHref("conglomerate")}
               />
             </Tile>
 

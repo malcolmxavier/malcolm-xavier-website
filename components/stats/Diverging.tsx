@@ -15,6 +15,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import type { DivergingGenre } from "@/lib/feeds/stats/distributions";
 import { Tip } from "./Tip";
 
@@ -23,9 +24,12 @@ export function Diverging({
   /** The corpus average the deltas are measured against — lets the chip
       show each genre's absolute average, not just its gap. */
   baseline,
+  /** Per-row deep-link for the genre; undefined = no link. */
+  hrefFor,
 }: {
   rows: DivergingGenre;
   baseline?: number;
+  hrefFor?: (genre: string) => string | undefined;
 }) {
   // Scale every bar against the largest absolute delta so the widest bar
   // fills half the track (the center is the baseline).
@@ -48,13 +52,9 @@ export function Diverging({
                 2,
               )}★ baseline · logged ${r.count}`
             : readout;
-        return (
-          <li
-            key={r.genre}
-            className="stats-tip"
-            style={rowStyle}
-            aria-label={readout}
-          >
+        const href = hrefFor?.(r.genre);
+        const inner = (
+          <>
             <span aria-hidden="true" style={labelStyle}>
               {r.genre}
               <span style={countStyle}>{r.count}</span>
@@ -83,6 +83,27 @@ export function Diverging({
               {sign}
               {Math.abs(r.delta).toFixed(2)}★
             </span>
+          </>
+        );
+        return (
+          <li
+            key={r.genre}
+            className="stats-tip"
+            style={href ? undefined : rowStyle}
+            aria-label={href ? undefined : readout}
+          >
+            {href ? (
+              <Link
+                href={href}
+                aria-label={readout}
+                style={rowLinkStyle}
+                className="hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2"
+              >
+                {inner}
+              </Link>
+            ) : (
+              inner
+            )}
             <Tip>{tip}</Tip>
           </li>
         );
@@ -106,6 +127,12 @@ const rowStyle: CSSProperties = {
   gap: 9,
   alignItems: "center",
   fontSize: 12,
+};
+
+const rowLinkStyle: CSSProperties = {
+  ...rowStyle,
+  color: "inherit",
+  textDecoration: "none",
 };
 
 const labelStyle: CSSProperties = {

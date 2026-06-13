@@ -67,6 +67,7 @@ import {
   type FilmFilters,
   type FilmSort,
 } from "@/lib/feeds/letterboxd-utils";
+import { slugifyEntity, type FacetGroup } from "@/lib/feeds/slug";
 import { FilmCard } from "./FilmCard";
 
 const RATING_VALUES = [
@@ -117,6 +118,11 @@ type Props = {
    *  and the displayed year always matches what the watchedYear
    *  filter actually compares against. */
   availableWatchedYears: number[];
+  /** Wave B low-cardinality facet groups (language, country, studio
+   *  group, release, budget, decade) — each a labelled chip rail whose
+   *  chip values are entity slugs. Built by the page from the enriched
+   *  corpus; the same vocabulary the stats tiles deep-link with. */
+  entityFacets: FacetGroup[];
   /** When the shell is mounted from a /films/genre/<slug> route,
    *  this is the genre name pinned by that route. The shell uses
    *  it to seed query-string params on every nav so the genre
@@ -137,6 +143,7 @@ export function FilmsShell({
   sort,
   availableGenres,
   availableWatchedYears,
+  entityFacets,
   routeGenre,
 }: Props) {
   const router = useRouter();
@@ -337,6 +344,19 @@ export function FilmsShell({
     });
   }
 
+  // Generic toggle for every Wave B entity facet (studio, language,
+  // country, …). The chip value is an entity slug; `key` is the
+  // FilmFilters array it lives in, `param` the URL param it writes.
+  // OR within a facet, like genre.
+  function toggleEntityFacet(param: string, key: string, slug: string) {
+    const current =
+      ((filters as Record<string, unknown>)[key] as string[] | undefined) ?? [];
+    const next = current.includes(slug)
+      ? current.filter((s) => s !== slug)
+      : [...current, slug];
+    navigate({ [param]: next.length > 0 ? next.join(",") : undefined });
+  }
+
   // Watched-date handlers. Year multi-select + two singletons
   // ("All time" clears, "Past 12 months" sets the rolling window).
   // The singleton chips are mutually exclusive with the year set
@@ -439,6 +459,7 @@ export function FilmsShell({
     sort,
     availableGenres,
     availableWatchedYears,
+    entityFacets,
     anyControlChangedFromDefault,
     totalResults,
     onToggleRating: toggleRating,
@@ -447,6 +468,7 @@ export function FilmsShell({
     onToggleWatchedYear: toggleWatchedYear,
     onSetWatched12Mo: setWatched12Mo,
     onClearWatchedDate: clearWatchedDate,
+    onToggleEntityFacet: toggleEntityFacet,
     onSortChange: handleSortChange,
     onTitleChange: handleTitleChange,
     onDirectorChange: handleDirectorChange,
@@ -621,6 +643,7 @@ export function FilmsShell({
               <ActiveFilterChips
                 filters={filters}
                 sort={sort}
+                entityFacets={entityFacets}
                 onRemoveRating={toggleRating}
                 onRemoveGenre={toggleGenre}
                 onRemoveRuntimeBucket={toggleRuntimeBucket}
@@ -628,6 +651,7 @@ export function FilmsShell({
                 onClearWatchedWindow={clearWatchedDate}
                 onRemoveTitle={() => handleTitleChange("")}
                 onRemoveDirector={() => handleDirectorChange("")}
+                onRemoveEntityFacet={toggleEntityFacet}
                 onResetSort={resetSort}
                 onClearAll={clearAll}
               />
@@ -682,6 +706,7 @@ function FilterContent({
   sort,
   availableGenres,
   availableWatchedYears,
+  entityFacets,
   anyControlChangedFromDefault,
   totalResults,
   onToggleRating,
@@ -690,6 +715,7 @@ function FilterContent({
   onToggleWatchedYear,
   onSetWatched12Mo,
   onClearWatchedDate,
+  onToggleEntityFacet,
   onSortChange,
   onTitleChange,
   onDirectorChange,
@@ -701,6 +727,7 @@ function FilterContent({
   sort: FilmSort;
   availableGenres: string[];
   availableWatchedYears: number[];
+  entityFacets: FacetGroup[];
   anyControlChangedFromDefault: boolean;
   totalResults: number;
   onToggleRating: (r: number) => void;
@@ -709,6 +736,7 @@ function FilterContent({
   onToggleWatchedYear: (y: number) => void;
   onSetWatched12Mo: () => void;
   onClearWatchedDate: () => void;
+  onToggleEntityFacet: (param: string, key: string, slug: string) => void;
   onSortChange: (v: FilmSort) => void;
   /** Push a new title / director query (already trimmed; "" clears). */
   onTitleChange: (v: string) => void;
@@ -876,6 +904,35 @@ function FilterContent({
         ))}
       </FilterRow>
 
+      {/* Wave B low-cardinality facets — one always-visible chip rail per
+          group (language, country, studio group, release, budget, decade).
+          Each chip's value is an entity slug; OR within a facet. The
+          vocabulary matches the stats tiles, so a tile deep-link selects
+          the same chip here. */}
+      {entityFacets.map((fg) => {
+        if (fg.options.length === 0) return null;
+        const active =
+          ((filters as Record<string, unknown>)[fg.key] as string[] | undefined) ??
+          [];
+        return (
+          <FilterRow key={fg.param} label={fg.label}>
+            {fg.options.map(([name]) => {
+              const slug = slugifyEntity(name);
+              return (
+                <Chip
+                  key={slug}
+                  isActive={active.includes(slug)}
+                  onClick={() => onToggleEntityFacet(fg.param, fg.key, slug)}
+                  ariaLabel={`Filter to ${name}`}
+                >
+                  {name}
+                </Chip>
+              );
+            })}
+          </FilterRow>
+        );
+      })}
+
       <div
         style={{
           display: "flex",
@@ -1003,6 +1060,7 @@ function Chip({
 function ActiveFilterChips({
   filters,
   sort,
+  entityFacets,
   onRemoveRating,
   onRemoveGenre,
   onRemoveRuntimeBucket,
@@ -1010,11 +1068,13 @@ function ActiveFilterChips({
   onClearWatchedWindow,
   onRemoveTitle,
   onRemoveDirector,
+  onRemoveEntityFacet,
   onResetSort,
   onClearAll,
 }: {
   filters: FilmFilters;
   sort: FilmSort;
+  entityFacets: FacetGroup[];
   onRemoveRating: (r: number) => void;
   onRemoveGenre: (g: string) => void;
   onRemoveRuntimeBucket: (b: string) => void;
@@ -1022,6 +1082,7 @@ function ActiveFilterChips({
   onClearWatchedWindow: () => void;
   onRemoveTitle: () => void;
   onRemoveDirector: () => void;
+  onRemoveEntityFacet: (param: string, key: string, slug: string) => void;
   onResetSort: () => void;
   onClearAll: () => void;
 }) {
@@ -1030,6 +1091,22 @@ function ActiveFilterChips({
   const runtimeBuckets = filters.runtimeBuckets ?? [];
   const watchedYears = filters.watchedYears ?? [];
   const sortIsDefault = sort === "latest-watched-desc";
+
+  // Active Wave B entity-facet selections, flattened to dismissable
+  // descriptors. The display name is resolved from the facet's full
+  // option list (so a deep-linked value below the chip-rail fold still
+  // shows its name, not its slug); falls back to the slug if unknown.
+  const entityActive = entityFacets.flatMap((fg) => {
+    const selected =
+      ((filters as Record<string, unknown>)[fg.key] as string[] | undefined) ?? [];
+    return selected.map((slug) => ({
+      param: fg.param,
+      key: fg.key,
+      label: fg.label,
+      slug,
+      name: fg.options.find(([n]) => slugifyEntity(n) === slug)?.[0] ?? slug,
+    }));
+  });
 
   // Total count of dismissable items — used to decide whether a
   // "Clear all" affordance is worth surfacing here. With one item
@@ -1040,6 +1117,7 @@ function ActiveFilterChips({
     genres.length +
     runtimeBuckets.length +
     watchedYears.length +
+    entityActive.length +
     (filters.watchedWindow !== undefined ? 1 : 0) +
     (filters.titleQuery ? 1 : 0) +
     (filters.directorQuery ? 1 : 0) +
@@ -1114,6 +1192,14 @@ function ActiveFilterChips({
           onDismiss={onClearWatchedWindow}
         />
       ) : null}
+      {entityActive.map((e) => (
+        <DismissableChip
+          key={`${e.param}-${e.slug}`}
+          label={`${e.label}: ${e.name}`}
+          ariaLabel={`Remove ${e.name} ${e.label} filter`}
+          onDismiss={() => onRemoveEntityFacet(e.param, e.key, e.slug)}
+        />
+      ))}
       {!sortIsDefault ? (
         <DismissableChip
           label={`Sort: ${labelForSort(sort)}`}
@@ -1327,6 +1413,22 @@ function pickFilterDimension(keys: string[]): string | null {
     return "watched";
   if (keys.includes("title") || keys.includes("director")) return "search";
   if (keys.includes("sort")) return "sort";
+  // Wave B entity facets — report the param name as the dimension so the
+  // dashboard can see which entity facets earn their UI.
+  for (const k of [
+    "actor",
+    "writer",
+    "studio",
+    "conglomerate",
+    "language",
+    "country",
+    "releaseType",
+    "budgetTier",
+    "decade",
+    "collection",
+  ]) {
+    if (keys.includes(k)) return k;
+  }
   return null;
 }
 
@@ -1351,6 +1453,23 @@ function countActiveFilters(filters: FilmFilters): number {
     filters.watchedWindow !== undefined
   ) {
     n++;
+  }
+  // Each active Wave B facet counts as one slot (like genre), so the
+  // badge reflects every dimension the user has narrowed by.
+  for (const key of [
+    "actors",
+    "writers",
+    "studios",
+    "conglomerates",
+    "languages",
+    "countries",
+    "releaseTypes",
+    "budgetTiers",
+    "decades",
+    "collections",
+  ] as const) {
+    const v = filters[key];
+    if (v && v.length > 0) n++;
   }
   return n;
 }
