@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-06-13T05:31:11.654Z",
+  "capturedAt": "2026-06-13T06:31:01.508Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 240,
-    "totalEpisodeReviews": 637,
+    "totalEpisodeReviews": 638,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 222,
-      "4": 175,
+      "4": 176,
       "5": 17,
       "3.5": 273,
       "4.5": 50,
@@ -43,7 +43,7 @@
       "episode": {
         "2": 21,
         "3": 161,
-        "4": 129,
+        "4": 130,
         "5": 7,
         "3.5": 209,
         "4.5": 41,
@@ -252,6 +252,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 69075314,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Shames let Porsha off easy as far as I’m concerned.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-13T05:36:34Z",
+          "reviewDate": "2026-06-13T05:36:53Z",
+          "seasonId": 440451,
+          "episodeNumber": 11,
+          "episodeName": "Let’s Be Honest",
+          "tags": []
+        },
         {
           "id": 69073347,
           "level": "episode",
@@ -3664,8 +3680,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-13T05:05:47Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-06-13T05:36:53Z",
+      "primaryRating": 4,
       "liked": false
     },
     {
@@ -26401,6 +26417,22 @@
       ],
       "reviews": [
         {
+          "id": 69075314,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Shames let Porsha off easy as far as I’m concerned.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-13T05:36:34Z",
+          "reviewDate": "2026-06-13T05:36:53Z",
+          "seasonId": 440451,
+          "episodeNumber": 11,
+          "episodeName": "Let’s Be Honest",
+          "tags": []
+        },
+        {
           "id": 69073347,
           "level": "episode",
           "rating": 3.5,
@@ -29812,8 +29844,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-13T05:05:47Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-06-13T05:36:53Z",
+      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-237748": {
