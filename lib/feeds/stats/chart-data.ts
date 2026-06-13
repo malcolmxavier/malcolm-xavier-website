@@ -26,6 +26,23 @@ export type StackedMatrix = {
   matrix: number[][];
 };
 
+/**
+ * A grouped-and-stacked column chart's data. Each `cats` entry is one
+ * x-axis slot (e.g. a month); within a slot sits one bar per `groups`
+ * entry (e.g. Film, Television), and each bar is itself stacked by
+ * `segments` (e.g. years). The matrix is indexed
+ * `[categoryIndex][groupIndex][segmentIndex]`.
+ *
+ * Used by the connected dashboard's film-vs-television-by-month tile:
+ * one column per medium inside each month, each stacked by year.
+ */
+export type GroupedStackedMatrix = {
+  cats: string[];
+  groups: string[];
+  segments: string[];
+  matrix: number[][][];
+};
+
 /** One heatmap cell: a (shrunk) value + its sample size, or null when empty. */
 export type HeatCell = { v: number; n: number } | null;
 

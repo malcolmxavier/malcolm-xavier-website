@@ -64,22 +64,26 @@ describe("connected overlap + conglomerate", () => {
   });
 });
 
-describe("connected cadence (film vs season)", () => {
-  it("pace carries two named cumulative series from [1,0]", () => {
-    expect(s.temporal.pace.map((x) => x.label)).toEqual(["Films", "Seasons"]);
-    for (const series of s.temporal.pace) {
-      expect(series.points[0]).toEqual([1, 0]);
-      // Cumulative — the last point is the highest.
-      expect(series.points.at(-1)![1]).toBeGreaterThanOrEqual(0);
+describe("connected cadence (film vs television by month)", () => {
+  it("groups twelve months into film/TV bars, each stacked by year", () => {
+    const m = s.temporal.monthMediumYear;
+    expect(m.cats).toHaveLength(12);
+    expect(m.groups).toEqual(["Film", "Television"]);
+    expect(m.segments.length).toBeGreaterThan(0);
+    for (const seg of m.segments) expect(seg).toMatch(/^\d{4}$/); // year labels
+    // matrix is [month][medium][year].
+    expect(m.matrix).toHaveLength(12);
+    for (const month of m.matrix) {
+      expect(month).toHaveLength(2); // film + television
+      for (const stack of month) expect(stack).toHaveLength(m.segments.length);
     }
-    // More films than seasons logged → the film curve ends higher.
-    expect(s.temporal.pace[0].points.at(-1)![1]).toBeGreaterThan(
-      s.temporal.pace[1].points.at(-1)![1],
-    );
+    // Films outnumber rated seasons overall, so the film bars dominate.
+    const sum = (mi: number) =>
+      m.matrix.reduce((a, mo) => a + mo[mi].reduce((x, y) => x + y, 0), 0);
+    expect(sum(0)).toBeGreaterThan(sum(1));
   });
-  it("weekday/month matrices stack Films vs Seasons", () => {
+  it("weekday matrix stacks Films vs Seasons", () => {
     expect(s.temporal.weekdayMatrix.cats).toHaveLength(7);
-    expect(s.temporal.monthMatrix.cats).toHaveLength(12);
     expect(s.temporal.weekdayMatrix.segments).toEqual(["Films", "Seasons"]);
   });
 });

@@ -23,10 +23,18 @@ const MONTH_INITIALS = "JFMAMJJASOND".split("");
 export function LineChart({
   series,
   ariaLabel,
+  /** Per-series colours; defaults to the categorical palette. The
+      Connected page passes the film/TV brand hues. */
+  colors,
+  /** Suffix on the scrubber's per-series value (e.g. "%" for share). */
+  valueSuffix,
 }: {
   series: LineSeries[];
   ariaLabel: string;
+  colors?: string[];
+  valueSuffix?: string;
 }) {
+  const colorAt = (i: number) => colors?.[i] ?? paletteColor(i);
   const W = 560;
   const H = 210;
   const ml = 30;
@@ -90,7 +98,7 @@ export function LineChart({
             key={s.label}
             points={s.points.map((p) => `${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join(" ")}
             fill="none"
-            stroke={paletteColor(i)}
+            stroke={colorAt(i)}
             strokeWidth={1.5}
             strokeLinejoin="round"
             strokeLinecap="round"
@@ -101,7 +109,7 @@ export function LineChart({
           series={series.map((s, i) => ({
             label: s.label,
             points: s.points,
-            color: paletteColor(i),
+            color: colorAt(i),
           }))}
           W={W}
           H={H}
@@ -110,9 +118,10 @@ export function LineChart({
           mt={mt}
           mb={mb}
           maxY={maxY}
+          valueSuffix={valueSuffix}
         />
       </div>
-      <LegendSwatches items={series.map((s, i) => ({ label: s.label, color: paletteColor(i) }))} />
+      <LegendSwatches items={series.map((s, i) => ({ label: s.label, color: colorAt(i) }))} />
     </div>
   );
 }

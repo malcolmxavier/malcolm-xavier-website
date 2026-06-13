@@ -90,11 +90,17 @@ export function StackedBars({
   ariaLabel,
   /** Draw the typical-year reference line (temporal tiles only). */
   averageLine,
+  /** Per-segment colours; defaults to the categorical palette. The
+      Connected page passes the film/TV brand hues so its Film-vs-TV
+      series match the dumbbell rather than reading as arbitrary categories. */
+  colors,
 }: {
   data: StackedMatrix;
   ariaLabel: string;
   averageLine?: "weekday" | "month";
+  colors?: string[];
 }) {
+  const colorAt = (i: number) => colors?.[i] ?? paletteColor(i);
   const { cats, segments, matrix } = data;
   const W = 560;
   const H = 200;
@@ -156,7 +162,7 @@ export function StackedBars({
                     y={rectY}
                     width={barWidth}
                     height={h}
-                    fill={paletteColor(si)}
+                    fill={colorAt(si)}
                   />
                 );
               })}
@@ -241,7 +247,7 @@ export function StackedBars({
       </div>
       <LegendSwatches
         items={[
-          ...segments.map((s, i) => ({ label: s, color: paletteColor(i) })),
+          ...segments.map((s, i) => ({ label: s, color: colorAt(i) })),
           ...(avg
             ? [{ label: "Typical year", color: "var(--chart-accent)", dashed: true }]
             : []),

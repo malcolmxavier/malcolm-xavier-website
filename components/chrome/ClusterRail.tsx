@@ -30,12 +30,29 @@
 // root. The sticky/measurement machinery is gone with it.)
 // ─────────────────────────────────────────────────────────────────
 
-import type { CSSProperties } from "react";
+import type { CSSProperties, ComponentType, SVGProps } from "react";
 import NextLink from "next/link";
+import {
+  IconChartBar,
+  IconHome,
+  IconLink,
+  IconStar,
+} from "@/components/icons";
 
 type SubBrand = "film" | "tv" | "music";
 
 type ClusterTab = "overview" | "reviews" | "numbers";
+
+// Leading glyph per tab, so the rail reads as navigation at a glance and
+// the labels carry less weight. Decorative (aria-hidden via the icon
+// defaults) — each tab's text is the accessible name. The Connected
+// `extra` pill uses the link glyph.
+type Glyph = ComponentType<SVGProps<SVGSVGElement> & { size?: number }>;
+const TAB_ICON: Record<ClusterTab, Glyph> = {
+  overview: IconHome,
+  reviews: IconStar,
+  numbers: IconChartBar,
+};
 
 export function ClusterRail({
   base,
@@ -43,6 +60,7 @@ export function ClusterRail({
   subbrand,
   label,
   className = "",
+  extra,
 }: {
   /** Cluster root path, e.g. "/films" or "/television". Tab hrefs are
    *  built from this (Overview → base, Reviews → `${base}/reviews`). */
@@ -62,6 +80,10 @@ export function ClusterRail({
   /** Optional utility classes merged onto the <nav> (e.g. top spacing
    *  to separate the nav from the editorial copy above it). */
   className?: string;
+  /** An optional extra pill after the three tabs — used by the stats
+   *  pages to surface the cross-brand /stats/connected dashboard inline
+   *  with the rail (it's a sibling destination, never an active tab). */
+  extra?: { label: string; href: string };
 }) {
   const tabs: { key: ClusterTab; label: string; href: string }[] = [
     { key: "overview", label: "Overview", href: base },
@@ -76,6 +98,7 @@ export function ClusterRail({
       <ul style={listStyle}>
         {tabs.map((tab) => {
           const isActive = tab.key === active;
+          const Icon = TAB_ICON[tab.key];
           return (
             <li key={tab.key} style={{ margin: 0, padding: 0 }}>
               <NextLink
@@ -94,11 +117,26 @@ export function ClusterRail({
                   isActive ? " cluster-rail-tab--active" : ""
                 }`}
               >
+                <Icon size={14} style={{ flex: "none" }} />
                 {tab.label}
               </NextLink>
             </li>
           );
         })}
+        {/* Cross-brand sibling (e.g. /stats/connected) — a plain inactive
+            pill inline with the tabs; never carries the active state. */}
+        {extra ? (
+          <li style={{ margin: 0, padding: 0 }}>
+            <NextLink
+              href={extra.href}
+              style={tabStyle}
+              className="transition-colors motion-reduce:transition-none hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              <IconLink size={14} style={{ flex: "none" }} />
+              {extra.label}
+            </NextLink>
+          </li>
+        ) : null}
       </ul>
     </nav>
   );
@@ -122,7 +160,9 @@ const listStyle: CSSProperties = {
 // box) — comfortably clears the WCAG 2.5.8 AA target floor (24px) and
 // approaches the 44px AAA target.
 const tabBaseStyle: CSSProperties = {
-  display: "inline-block",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: 6,
   fontFamily: "var(--font-mono)",
   fontSize: 12,
   letterSpacing: "0.08em",
@@ -142,6 +182,11 @@ const tabStyle: CSSProperties = {
   color: "var(--text-body)",
   border: "1px solid var(--border-interactive)",
 };
+
+// Exported so sibling navs that aren't a cluster rail — notably the
+// connected dashboard's "back to the film / television numbers" pills —
+// match the inactive-pill look exactly instead of re-deriving it.
+export const railPillStyle: CSSProperties = tabStyle;
 
 // Active tab: a filled accent pill, AA-safe in BOTH themes.
 //

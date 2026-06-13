@@ -1134,6 +1134,20 @@ a.link-accent-pink,
   --stats-heat: var(--primary-700);
 }
 
+/* Connected page film/TV hues — the EXACT orange and blue the cluster
+   dashboards paint their single-series bars with (the sub-brand
+   --primary-700 in light, --primary-300 in dark = orange/blue 700/300).
+   Connected carries no [data-subbrand], so these are scoped to its
+   wrapper and consumed by the dumbbell + the Film-vs-TV stacks/line. */
+[data-connected] {
+  --film-hue: var(--orange-700);
+  --tv-hue: var(--blue-700);
+}
+[data-theme="dark"] [data-connected] {
+  --film-hue: var(--orange-300);
+  --tv-hue: var(--blue-300);
+}
+
 /* ─── Stats dashboard responsive tile grid (WS5) ───────────────────
    A 12-column grid on desktop; each tile declares a span via
    data-span (4 = third, 8 = two-thirds, 12 = full). Tablet drops to a
