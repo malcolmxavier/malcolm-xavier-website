@@ -44,6 +44,7 @@ import type {
   ShowFilters,
   ShowSort,
 } from "@/lib/feeds/serializd-utils";
+import { slugifyEntity, type FacetGroup } from "@/lib/feeds/slug";
 import { AllOrWatchingToggle } from "./AllOrWatchingToggle";
 import { ShowCard } from "./ShowCard";
 
@@ -81,6 +82,10 @@ type Props = {
   availableTypes: string[];
   /** Watched years in the snapshot, sorted desc. */
   availableWatchedYears: number[];
+  /** Wave B low-cardinality facet groups (language, country, network
+   *  group, decade) — labelled chip rails whose values are entity slugs.
+   *  Same vocabulary the stats tiles deep-link with. */
+  entityFacets: FacetGroup[];
   /** Genre pinned by the route (when mounted from /television/
    *  genre/<slug>). Drives query-string seeding so multi-filter
    *  combos retarget back to /television. */
@@ -121,6 +126,7 @@ export function TelevisionShell({
   availableNetworks,
   availableTypes,
   availableWatchedYears,
+  entityFacets,
   routeGenre,
   originHref,
   watchingCount,
@@ -296,6 +302,18 @@ export function TelevisionShell({
     navigate({ type: next.length > 0 ? next.join(",") : undefined });
   }
 
+  // Generic toggle for every Wave B entity facet (language, country,
+  // network group, decade). Chip value is an entity slug; `key` is the
+  // ShowFilters array, `param` the URL param. OR within a facet.
+  function toggleEntityFacet(param: string, key: string, slug: string) {
+    const current =
+      ((filters as Record<string, unknown>)[key] as string[] | undefined) ?? [];
+    const next = current.includes(slug)
+      ? current.filter((s) => s !== slug)
+      : [...current, slug];
+    navigate({ [param]: next.length > 0 ? next.join(",") : undefined });
+  }
+
   function toggleWatchedYear(year: number) {
     // Mode-switch handling: when the user is currently in
     // rolling-window mode and clicks a year chip, the year click
@@ -384,6 +402,7 @@ export function TelevisionShell({
     availableNetworks,
     availableTypes,
     availableWatchedYears,
+    entityFacets,
     anyControlChangedFromDefault,
     totalResults,
     onToggleRating: toggleRating,
@@ -393,6 +412,7 @@ export function TelevisionShell({
     onToggleWatchedYear: toggleWatchedYear,
     onSetWatched12Mo: setWatched12Mo,
     onClearWatchedDate: clearWatchedDate,
+    onToggleEntityFacet: toggleEntityFacet,
     onSortChange: handleSortChange,
     onTitleChange: handleTitleChange,
     onSetCardKind: setCardKind,
@@ -540,6 +560,7 @@ export function TelevisionShell({
               <ActiveFilterChips
                 filters={filters}
                 sort={sort}
+                entityFacets={entityFacets}
                 onRemoveRating={toggleRating}
                 onRemoveGenre={toggleGenre}
                 onRemoveNetwork={toggleNetwork}
@@ -548,6 +569,7 @@ export function TelevisionShell({
                 onClearWatchedWindow={clearWatchedDate}
                 onResetCardKind={() => setCardKind("both")}
                 onRemoveTitle={() => handleTitleChange("")}
+                onRemoveEntityFacet={toggleEntityFacet}
                 onResetSort={() => handleSortChange("latest-activity-desc")}
                 onClearAll={clearAll}
               />
@@ -611,6 +633,7 @@ function FilterContent({
   availableNetworks,
   availableTypes,
   availableWatchedYears,
+  entityFacets,
   anyControlChangedFromDefault,
   totalResults,
   onToggleRating,
@@ -620,6 +643,7 @@ function FilterContent({
   onToggleWatchedYear,
   onSetWatched12Mo,
   onClearWatchedDate,
+  onToggleEntityFacet,
   onSortChange,
   onTitleChange,
   onSetCardKind,
@@ -632,6 +656,7 @@ function FilterContent({
   availableNetworks: string[];
   availableTypes: string[];
   availableWatchedYears: number[];
+  entityFacets: FacetGroup[];
   anyControlChangedFromDefault: boolean;
   totalResults: number;
   onToggleRating: (r: number) => void;
@@ -646,6 +671,7 @@ function FilterContent({
   /** Clear both watchedYears and watchedWindow so the dimension
    *  reads as "all time." */
   onClearWatchedDate: () => void;
+  onToggleEntityFacet: (param: string, key: string, slug: string) => void;
   onSortChange: (v: ShowSort) => void;
   /** Push a new title query (already trimmed; "" clears it). */
   onTitleChange: (v: string) => void;
@@ -831,6 +857,34 @@ function FilterContent({
         </FilterRow>
       ) : null}
 
+      {/* Wave B low-cardinality facets — one always-visible chip rail per
+          group (language, country, network group, decade). Chip value is
+          an entity slug; OR within a facet. Same vocabulary as the stats
+          tiles, so a tile deep-link selects the same chip here. */}
+      {entityFacets.map((fg) => {
+        if (fg.options.length === 0) return null;
+        const active =
+          ((filters as Record<string, unknown>)[fg.key] as string[] | undefined) ??
+          [];
+        return (
+          <FilterRow key={fg.param} label={fg.label}>
+            {fg.options.map(([name]) => {
+              const slug = slugifyEntity(name);
+              return (
+                <Chip
+                  key={slug}
+                  isActive={active.includes(slug)}
+                  onClick={() => onToggleEntityFacet(fg.param, fg.key, slug)}
+                  ariaLabel={`Filter to ${name}`}
+                >
+                  {name}
+                </Chip>
+              );
+            })}
+          </FilterRow>
+        );
+      })}
+
       <div
         style={{
           display: "flex",
@@ -926,6 +980,7 @@ function Chip({
 function ActiveFilterChips({
   filters,
   sort,
+  entityFacets,
   onRemoveRating,
   onRemoveGenre,
   onRemoveNetwork,
@@ -934,11 +989,13 @@ function ActiveFilterChips({
   onClearWatchedWindow,
   onResetCardKind,
   onRemoveTitle,
+  onRemoveEntityFacet,
   onResetSort,
   onClearAll,
 }: {
   filters: ShowFilters;
   sort: ShowSort;
+  entityFacets: FacetGroup[];
   onRemoveRating: (r: number) => void;
   onRemoveGenre: (g: string) => void;
   onRemoveNetwork: (n: string) => void;
@@ -947,6 +1004,7 @@ function ActiveFilterChips({
   onClearWatchedWindow: () => void;
   onResetCardKind: () => void;
   onRemoveTitle: () => void;
+  onRemoveEntityFacet: (param: string, key: string, slug: string) => void;
   onResetSort: () => void;
   onClearAll: () => void;
 }) {
@@ -958,6 +1016,20 @@ function ActiveFilterChips({
   const sortIsDefault = sort === "latest-activity-desc";
   const cardKindActive = filters.cardKind !== undefined;
 
+  // Active Wave B entity-facet selections → dismissable descriptors;
+  // display name resolved from the facet's full option list.
+  const entityActive = entityFacets.flatMap((fg) => {
+    const selected =
+      ((filters as Record<string, unknown>)[fg.key] as string[] | undefined) ?? [];
+    return selected.map((slug) => ({
+      param: fg.param,
+      key: fg.key,
+      label: fg.label,
+      slug,
+      name: fg.options.find(([n]) => slugifyEntity(n) === slug)?.[0] ?? slug,
+    }));
+  });
+
   const watchedWindowActive = filters.watchedWindow !== undefined;
   const dismissableCount =
     ratings.length +
@@ -965,6 +1037,7 @@ function ActiveFilterChips({
     networks.length +
     types.length +
     watchedYears.length +
+    entityActive.length +
     (cardKindActive ? 1 : 0) +
     (watchedWindowActive ? 1 : 0) +
     (filters.titleQuery ? 1 : 0) +
@@ -1037,6 +1110,14 @@ function ActiveFilterChips({
           onDismiss={onClearWatchedWindow}
         />
       ) : null}
+      {entityActive.map((e) => (
+        <DismissableChip
+          key={`${e.param}-${e.slug}`}
+          label={`${e.label}: ${e.name}`}
+          ariaLabel={`Remove ${e.name} ${e.label} filter`}
+          onDismiss={() => onRemoveEntityFacet(e.param, e.key, e.slug)}
+        />
+      ))}
       {cardKindActive ? (
         <DismissableChip
           label={
@@ -1216,6 +1297,18 @@ function countActiveFilters(filters: ShowFilters): number {
   }
   if (filters.cardKind !== undefined) n++;
   if (filters.titleQuery) n++;
+  // Each active Wave B facet counts as one slot.
+  for (const key of [
+    "actors",
+    "creators",
+    "conglomerates",
+    "languages",
+    "countries",
+    "decades",
+  ] as const) {
+    const v = filters[key];
+    if (v && v.length > 0) n++;
+  }
   return n;
 }
 
@@ -1279,6 +1372,10 @@ function pickFilterDimension(keys: string[]): string | null {
   if (keys.includes("cardKind")) return "cardKind";
   if (keys.includes("title")) return "search";
   if (keys.includes("sort")) return "sort";
+  // Wave B entity facets — report the param name as the dimension.
+  for (const k of ["actor", "creator", "conglomerate", "language", "country", "decade"]) {
+    if (keys.includes(k)) return k;
+  }
   return null;
 }
 

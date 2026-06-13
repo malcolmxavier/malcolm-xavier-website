@@ -8,7 +8,24 @@
 //
 // Server-only logic (snapshot reading, TMDB enrichment, CSV/RSS
 // parsing) lives in `letterboxd.ts` and re-exports these types.
+//
+// Wave B entity filters (WS6) canonicalize with the SAME pure helpers
+// the stats compute uses (studio/people/provenance canon) so a filter
+// param value and the stats-tile row it deep-links from are identical.
+// Those modules are pure + client-safe, so importing them here keeps
+// this module client-bundle-safe.
 // ─────────────────────────────────────────────────────────────────
+
+import { facetHit, type FacetGroup } from "./slug";
+import { canonStudio, conglomerateOfStudio } from "./stats/studio-canon";
+import { filmActorNames } from "./stats/people";
+import {
+  budgetTierLabel,
+  countryName,
+  languageName,
+  normalizeCountry,
+  normalizeLanguage,
+} from "./stats/provenance";
 
 // ─── Public types ────────────────────────────────────────────────
 
@@ -94,6 +111,15 @@ export type Film = {
   posterUrl: string | null;
   /** TMDB-derived fallback used by the card's onError swap when posterUrl 404s. */
   posterFallbackUrl: string | null;
+  /**
+   * Enrichment delta (cast, writers, studios, country, language, budget,
+   * release, collection) joined by TMDB id in lib/feeds/review-corpus.ts.
+   * Present only on the corpus the reviews pages filter with; absent on
+   * the snapshot-only getFilms() corpus. Server-side filtering reads it;
+   * strip before serializing cards to the client. Type-only import (erased
+   * at build) so this client-safe module never pulls in the fixture reader.
+   */
+  enrichment?: import("./enrichment").EnrichedFilm;
   /** Precomputed at snapshot-write time for O(1) filter membership checks. Unique ratings across reviews. */
   ratingSet: number[];
   /**
@@ -263,6 +289,34 @@ export type FilmFilters = {
    * is dropped when this filter is active (nothing to bucket).
    */
   runtimeBuckets?: string[];
+  // ── Wave B entity facets (WS6) ──────────────────────────────────
+  // Each is a set of selected entity SLUGS (slugifyEntity of the
+  // canonical display name). OR within a facet, AND across facets. A
+  // film matches when any of its canonical values for that facet (read
+  // from `film.enrichment` + the shared canonicalizers) slugifies into
+  // the selected set; a film with no enrichment can't confirm a match
+  // and is dropped when that facet is active. The vocabulary is
+  // identical to the stats tiles, so every tile row deep-links here.
+  /** Top-10-billed actor name slugs. */
+  actors?: string[];
+  /** Writer name slugs. */
+  writers?: string[];
+  /** Canonical studio (canonStudio) name slugs. */
+  studios?: string[];
+  /** Owning conglomerate (conglomerateOfStudio) name slugs. */
+  conglomerates?: string[];
+  /** Original-language display-name slugs (e.g. "french"). */
+  languages?: string[];
+  /** Country-of-origin display-name slugs (e.g. "united-states"). */
+  countries?: string[];
+  /** Release classification slugs ("theatrical" | "limited" | "streaming" | "unknown"). */
+  releaseTypes?: string[];
+  /** Budget-tier label slugs (budgetTierLabel). */
+  budgetTiers?: string[];
+  /** Release-decade slugs ("2010s", "1990s", …) — derived from releaseYear. */
+  decades?: string[];
+  /** TMDB collection (franchise) name slugs. */
+  collections?: string[];
   // Both queries are carried here so generateMetadata can noindex the
   // search state; the actual hybrid matching is precomputed server-side
   // (per field, then intersected) and passed to applyFilters as
@@ -407,6 +461,126 @@ export type AppliedFilm = {
  * (latest-watched-desc) the filter pass preserves snapshot order
  * via JS's stable sort — the within-day tiebreaker survives.
  */
+/** Release-decade label for a year, e.g. 1994 → "1990s". Shared by the
+ *  decade predicate, the decade chip rail, and the deep-link slug. */
+export function filmDecadeLabel(year: number): string {
+  return `${Math.floor(year / 10) * 10}s`;
+}
+
+/** The Wave B facet keys a film exposes. */
+export type FilmFacet =
+  | "actors"
+  | "writers"
+  | "studios"
+  | "conglomerates"
+  | "languages"
+  | "countries"
+  | "releaseTypes"
+  | "budgetTiers"
+  | "decades"
+  | "collections";
+
+/**
+ * Canonical Wave B facet values for a film — DISPLAY names (pre-slug),
+ * via the same canonicalizers the stats use. The SINGLE source both the
+ * filter predicate (applyFilters) and the available-value derivation
+ * (the reviews page) read, so the two vocabularies can't drift — the
+ * contract the stats-tile deep-links depend on. A film with no
+ * enrichment yields empty arrays for the enrichment-backed facets.
+ */
+export function filmFacetValues(film: Film): Record<FilmFacet, string[]> {
+  const e = film.enrichment;
+  return {
+    actors: e ? filmActorNames({ cast: e.cast }) : [],
+    writers: e?.writers?.map((w) => w.name) ?? [],
+    studios: e?.studios?.map(canonStudio) ?? [],
+    conglomerates: e ? [conglomerateOfStudio(e.studios ?? [])] : [],
+    languages: e?.language ? [languageName(normalizeLanguage(e.language))] : [],
+    countries: e?.country ? [countryName(normalizeCountry(e.country))] : [],
+    releaseTypes: e?.release ? [e.release.cls] : [],
+    budgetTiers: e?.budget != null ? [budgetTierLabel(e.budget)] : [],
+    decades: [filmDecadeLabel(film.releaseYear)],
+    collections: e?.collection ? [e.collection.name] : [],
+  };
+}
+
+/**
+ * Per-facet value→count distributions across a film corpus, each sorted
+ * count desc then name asc. One pass over the corpus via filmFacetValues
+ * (so the available lists share the filter's exact vocabulary). Feeds the
+ * sidebar chip rails (low-card facets) and, in 6c, the constrained
+ * typeahead (high-card). `count` is the number of logged films carrying
+ * that value.
+ */
+export function filmFacetDistributions(
+  films: Film[],
+): Record<FilmFacet, [string, number][]> {
+  const facets: FilmFacet[] = [
+    "actors",
+    "writers",
+    "studios",
+    "conglomerates",
+    "languages",
+    "countries",
+    "releaseTypes",
+    "budgetTiers",
+    "decades",
+    "collections",
+  ];
+  const maps = new Map<FilmFacet, Map<string, number>>(
+    facets.map((f) => [f, new Map<string, number>()]),
+  );
+  for (const film of films) {
+    const fv = filmFacetValues(film);
+    for (const facet of facets) {
+      const m = maps.get(facet)!;
+      for (const name of fv[facet]) m.set(name, (m.get(name) ?? 0) + 1);
+    }
+  }
+  const out = {} as Record<FilmFacet, [string, number][]>;
+  for (const facet of facets) {
+    out[facet] = [...maps.get(facet)!.entries()].sort(
+      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+    );
+  }
+  return out;
+}
+
+/**
+ * The low-cardinality facet groups for the film reviews sidebar, built
+ * from the corpus (shared by the reviews page and the genre route so
+ * their rails match). High-cardinality facets — actors, writers,
+ * studios, collections — are intentionally excluded: they're reached via
+ * stats deep-links now and get a constrained typeahead in 6c.
+ */
+export function filmEntityFacets(films: Film[]): FacetGroup[] {
+  const d = filmFacetDistributions(films);
+  return [
+    { key: "languages", param: "language", label: "Language", options: d.languages },
+    { key: "countries", param: "country", label: "Country", options: d.countries },
+    { key: "conglomerates", param: "conglomerate", label: "Studio group", options: d.conglomerates },
+    { key: "releaseTypes", param: "releaseType", label: "Release", options: d.releaseTypes },
+    { key: "budgetTiers", param: "budgetTier", label: "Budget", options: d.budgetTiers },
+    { key: "decades", param: "decade", label: "Decade", options: d.decades },
+  ];
+}
+
+/** True if any Wave B facet filter is active (gates the per-film work). */
+function anyFilmFacetActive(f: FilmFilters): boolean {
+  return Boolean(
+    f.actors?.length ||
+      f.writers?.length ||
+      f.studios?.length ||
+      f.conglomerates?.length ||
+      f.languages?.length ||
+      f.countries?.length ||
+      f.releaseTypes?.length ||
+      f.budgetTiers?.length ||
+      f.decades?.length ||
+      f.collections?.length,
+  );
+}
+
 export function applyFilters(
   films: Film[],
   filters: FilmFilters,
@@ -421,6 +595,9 @@ export function applyFilters(
     (filters.ratings && filters.ratings.length > 0) ||
     (filters.watchedYears && filters.watchedYears.length > 0) ||
     filters.watchedWindow !== undefined;
+
+  // Skip the per-film enrichment work entirely on the default listing.
+  const waveBActive = anyFilmFacetActive(filters);
 
   // Pre-compute the "12mo" cutoff once outside the loop. Using
   // Date.now() at filter time means the rolling window is always
@@ -471,6 +648,26 @@ export function applyFilters(
       if (!filters.runtimeBuckets.some((b) => runtimeInBucket(runtime, b))) {
         continue;
       }
+    }
+
+    // ── Wave B entity facets (enrichment-backed) ────────────
+    // OR within each facet; AND across them (sequential continue). A
+    // film whose enrichment can't confirm a match — or is absent — is
+    // dropped when that facet is active. Values come from the shared
+    // filmFacetValues (same vocabulary as the stats + the available
+    // lists). Skipped entirely unless a Wave B facet is active.
+    if (waveBActive) {
+      const fv = filmFacetValues(film);
+      if (filters.actors?.length && !facetHit(filters.actors, fv.actors)) continue;
+      if (filters.writers?.length && !facetHit(filters.writers, fv.writers)) continue;
+      if (filters.studios?.length && !facetHit(filters.studios, fv.studios)) continue;
+      if (filters.conglomerates?.length && !facetHit(filters.conglomerates, fv.conglomerates)) continue;
+      if (filters.languages?.length && !facetHit(filters.languages, fv.languages)) continue;
+      if (filters.countries?.length && !facetHit(filters.countries, fv.countries)) continue;
+      if (filters.releaseTypes?.length && !facetHit(filters.releaseTypes, fv.releaseTypes)) continue;
+      if (filters.budgetTiers?.length && !facetHit(filters.budgetTiers, fv.budgetTiers)) continue;
+      if (filters.decades?.length && !facetHit(filters.decades, fv.decades)) continue;
+      if (filters.collections?.length && !facetHit(filters.collections, fv.collections)) continue;
     }
 
     // ── Per-review filters ──────────────────────────────────
@@ -684,16 +881,21 @@ export function parseFilmFilters(
   const titleQuery = asString(params.title)?.trim();
   const directorQuery = asString(params.director)?.trim();
 
-  const base: Pick<
-    FilmFilters,
-    | "ratings"
-    | "genres"
-    | "runtimeBuckets"
-    | "releaseYearMin"
-    | "releaseYearMax"
-    | "titleQuery"
-    | "directorQuery"
-  > = {};
+  // Wave B entity facets — CSV of entity slugs. No allowlist validation:
+  // an unknown/tampered slug simply matches nothing in applyFilters (the
+  // corpus constraint), exactly like the genre/network facets today.
+  const actors = parseCsvStrings(asString(params.actor));
+  const writers = parseCsvStrings(asString(params.writer));
+  const studios = parseCsvStrings(asString(params.studio));
+  const conglomerates = parseCsvStrings(asString(params.conglomerate));
+  const languages = parseCsvStrings(asString(params.language));
+  const countries = parseCsvStrings(asString(params.country));
+  const releaseTypes = parseCsvStrings(asString(params.releaseType));
+  const budgetTiers = parseCsvStrings(asString(params.budgetTier));
+  const decades = parseCsvStrings(asString(params.decade));
+  const collections = parseCsvStrings(asString(params.collection));
+
+  const base: Omit<FilmFilters, "watchedYears" | "watchedWindow"> = {};
   if (ratings.length > 0) base.ratings = ratings;
   if (genres.length > 0) base.genres = genres;
   if (runtimeBuckets.length > 0) base.runtimeBuckets = runtimeBuckets;
@@ -703,6 +905,16 @@ export function parseFilmFilters(
   if (directorQuery && directorQuery.length >= 2) {
     base.directorQuery = directorQuery;
   }
+  if (actors.length > 0) base.actors = actors;
+  if (writers.length > 0) base.writers = writers;
+  if (studios.length > 0) base.studios = studios;
+  if (conglomerates.length > 0) base.conglomerates = conglomerates;
+  if (languages.length > 0) base.languages = languages;
+  if (countries.length > 0) base.countries = countries;
+  if (releaseTypes.length > 0) base.releaseTypes = releaseTypes;
+  if (budgetTiers.length > 0) base.budgetTiers = budgetTiers;
+  if (decades.length > 0) base.decades = decades;
+  if (collections.length > 0) base.collections = collections;
 
   if (watchedYearsRaw.length > 0) {
     return { ...base, watchedYears: watchedYearsRaw };

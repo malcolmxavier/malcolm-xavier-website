@@ -39,6 +39,7 @@ import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
+import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { hybridMatchIds } from "@/lib/feeds/fuzzy-search";
 import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
@@ -48,6 +49,7 @@ import {
   paginate,
   parseShowFilters,
   parseShowSort,
+  showEntityFacets,
   slugifyGenre,
   deriveAvailableNetworks,
   deriveAvailableTypes,
@@ -182,7 +184,15 @@ export default async function TelevisionPage({
     Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
   const pageSize = saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DEFAULT;
 
-  const { shows, summary } = getShows();
+  // Enrichment-joined corpus: each show carries `.enrichment` (cast,
+  // creators, language, country) so the Wave B facet predicates can run.
+  // Stripped from the card slice before it crosses to the client shell.
+  const { shows, summary } = getShowsWithEnrichment();
+
+  // Low-cardinality Wave B facet groups for the sidebar chip rails
+  // (language, country, network group, decade), shared with the genre
+  // route. Actors/creators are high-card — deep-links now, typeahead 6c.
+  const entityFacets = showEntityFacets(shows);
 
   // Build the flat card list FIRST, then filter. The level-specific
   // scope filter (Show + Season require prose) is applied inside
@@ -281,6 +291,14 @@ export default async function TelevisionPage({
     totalResults,
     page,
   } = paginate(applied, requestedPage, pageSize);
+
+  // Drop the server-only enrichment delta before the card slice crosses
+  // to the client shell — the grid renders none of it. Filtering already
+  // ran above on the enriched corpus.
+  const clientCards = pageCards.map((c) => ({
+    ...c,
+    show: { ...c.show, enrichment: undefined },
+  }));
 
   // CollectionPage + BreadcrumbList JSON-LD. CollectionPage names
   // the listing as a curated review corpus so AI-search retrievers
@@ -434,7 +452,7 @@ export default async function TelevisionPage({
             </Kicker>
           </div>
           <TelevisionShell
-            cards={pageCards}
+            cards={clientCards}
             allCount={allCards.length}
             totalPages={totalPages}
             currentPage={page}
@@ -445,6 +463,7 @@ export default async function TelevisionPage({
             availableNetworks={availableNetworks}
             availableTypes={availableTypes}
             availableWatchedYears={availableWatchedYears}
+            entityFacets={entityFacets}
             originHref={buildOriginHref("/television/reviews", params)}
             watchingCount={watchingCount}
           />

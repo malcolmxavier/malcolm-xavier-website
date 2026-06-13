@@ -12,6 +12,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { CSSProperties } from "react";
+import Link from "next/link";
 
 export type VersusRow = [label: string, value: number];
 
@@ -22,17 +23,21 @@ export function Versus({
   right,
   /** Suffix on the right column's values (the rating side). */
   rightSuffix = "★",
+  /** Per-row deep-link for the row's entity (both columns share the
+   *  vocabulary); return undefined for rows that shouldn't link. */
+  hrefFor,
 }: {
   leftTitle: string;
   left: VersusRow[];
   rightTitle: string;
   right: VersusRow[];
   rightSuffix?: string;
+  hrefFor?: (label: string) => string | undefined;
 }) {
   return (
     <div style={twoColStyle}>
-      <Column title={leftTitle} rows={left} suffix="" />
-      <Column title={rightTitle} rows={right} suffix={rightSuffix} />
+      <Column title={leftTitle} rows={left} suffix="" hrefFor={hrefFor} />
+      <Column title={rightTitle} rows={right} suffix={rightSuffix} hrefFor={hrefFor} />
     </div>
   );
 }
@@ -41,24 +46,43 @@ function Column({
   title,
   rows,
   suffix,
+  hrefFor,
 }: {
   title: string;
   rows: VersusRow[];
   suffix: string;
+  hrefFor?: (label: string) => string | undefined;
 }) {
   return (
     <div style={{ minWidth: 0 }}>
       <h4 style={miniHeadingStyle}>{title}</h4>
       <ol style={listStyle}>
-        {rows.map(([label, value]) => (
-          <li key={label} style={rowStyle}>
-            <span style={labelStyle}>{label}</span>
-            <span style={valueStyle}>
-              {/* Rating column shows two decimals; count column is an int. */}
-              {suffix ? value.toFixed(2) + suffix : value}
-            </span>
-          </li>
-        ))}
+        {rows.map(([label, value]) => {
+          // Rating column shows two decimals; count column is an int.
+          const valueText = suffix ? value.toFixed(2) + suffix : String(value);
+          const href = hrefFor?.(label);
+          const content = (
+            <>
+              <span style={labelStyle}>{label}</span>
+              <span style={valueStyle}>{valueText}</span>
+            </>
+          );
+          return (
+            <li key={label} style={href ? undefined : rowStyle}>
+              {href ? (
+                <Link
+                  href={href}
+                  style={rowLinkStyle}
+                  className="hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2"
+                >
+                  {content}
+                </Link>
+              ) : (
+                content
+              )}
+            </li>
+          );
+        })}
       </ol>
     </div>
   );
@@ -95,6 +119,14 @@ const rowStyle: CSSProperties = {
   gap: 8,
   fontSize: 12,
   fontFamily: "var(--font-mono)",
+};
+
+// Linked-row variant: same flex row, anchor color/decoration reset so
+// the child spans render identically to the non-linked row.
+const rowLinkStyle: CSSProperties = {
+  ...rowStyle,
+  color: "inherit",
+  textDecoration: "none",
 };
 
 // Labels read in the secondary (non-mono) font so a column of names

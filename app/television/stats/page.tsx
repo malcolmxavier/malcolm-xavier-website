@@ -37,6 +37,8 @@ import { RatingByLevelTabs } from "@/components/stats/RatingByLevelTabs";
 import { SITE_URL } from "@/lib/site-config";
 import { computeTvStats } from "@/lib/feeds/stats/tv-stats";
 import type { Contrast } from "@/lib/feeds/stats/shrinkage";
+import { slugifyEntity } from "@/lib/feeds/slug";
+import { slugifyGenre } from "@/lib/feeds/serializd-utils";
 
 export const metadata: Metadata = {
   title: "Television stats",
@@ -99,6 +101,16 @@ export default function TelevisionStatsPage() {
   const conglomerate = versusRows(s.conglomerate);
   const languages = versusRows(s.languages);
   const countries = versusRows(s.countries);
+
+  // Deep-link builders: each stats-tile row links to its subject under
+  // that entity filter (vocabulary matches the filter). Genre → dedicated
+  // route; network rides the existing name-based ?network= facet (WS3);
+  // the rest use the slug-based Wave B params.
+  const facetHref = (param: string) => (label: string) =>
+    `/television/reviews?${param}=${slugifyEntity(label)}`;
+  const genreHref = (g: string) => `/television/genre/${slugifyGenre(g)}`;
+  const networkHref = (name: string) =>
+    `/television/reviews?network=${encodeURIComponent(name)}`;
 
   return (
     <div data-subbrand="tv">
@@ -188,6 +200,7 @@ export default function TelevisionStatsPage() {
             <Tile title="Genres" span={4}>
               <Bars
                 rows={s.genres.most}
+                hrefFor={genreHref}
                 tipFor={(genre, count) =>
                   `${genre} — ${count} ${count === 1 ? "show" : "shows"}${
                     s.lifetime.shows
@@ -203,7 +216,11 @@ export default function TelevisionStatsPage() {
               span={8}
               note={`Baseline = your ${s.lifetime.avgRating.toFixed(2)}★ avg season rating; most-logged genres first. Bars right of center rate above it, accent bars (left) below. Shrunk.`}
             >
-              <Diverging rows={s.divergingGenre} baseline={s.lifetime.avgRating} />
+              <Diverging
+                rows={s.divergingGenre}
+                baseline={s.lifetime.avgRating}
+                hrefFor={genreHref}
+              />
             </Tile>
           </StatsSection>
 
@@ -218,6 +235,7 @@ export default function TelevisionStatsPage() {
                 left={actors.left}
                 rightTitle="Highest rated"
                 right={actors.right}
+                hrefFor={facetHref("actor")}
               />
             </Tile>
 
@@ -231,6 +249,7 @@ export default function TelevisionStatsPage() {
                 left={creators.left}
                 rightTitle="Highest rated"
                 right={creators.right}
+                hrefFor={facetHref("creator")}
               />
             </Tile>
           </StatsSection>
@@ -277,6 +296,7 @@ export default function TelevisionStatsPage() {
                 left={languages.left}
                 rightTitle="Highest rated"
                 right={languages.right}
+                hrefFor={facetHref("language")}
               />
             </Tile>
 
@@ -286,6 +306,7 @@ export default function TelevisionStatsPage() {
                 left={countries.left}
                 rightTitle="Highest rated"
                 right={countries.right}
+                hrefFor={facetHref("country")}
               />
             </Tile>
           </StatsSection>
@@ -301,6 +322,7 @@ export default function TelevisionStatsPage() {
                 left={s.networks.most}
                 rightTitle="Highest rated"
                 right={s.networks.topRated}
+                hrefFor={networkHref}
               />
             </Tile>
 
@@ -314,6 +336,7 @@ export default function TelevisionStatsPage() {
                 left={conglomerate.left}
                 rightTitle="Highest rated"
                 right={conglomerate.right}
+                hrefFor={facetHref("conglomerate")}
               />
             </Tile>
 
