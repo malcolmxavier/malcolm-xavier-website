@@ -42,6 +42,13 @@ const nextConfig: NextConfig = {
       "./data/films/overrides.json",
       "./data/television/overrides.json",
     ],
+    // Reconciles both snapshots against the enrichment fixture and fills
+    // under-enriched titles, so it reads all three (+ commits the fixture).
+    "/api/cron/enrich-refresh": [
+      "./lib/feeds/_fixtures/letterboxd-snapshot.json",
+      "./lib/feeds/_fixtures/serializd-snapshot.json",
+      "./lib/feeds/_fixtures/enrichment-snapshot.json",
+    ],
   },
   // Legacy-slug 301s for film detail pages whose `letterboxdSlug`
   // changed after the source-of-truth title was corrected. Each
