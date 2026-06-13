@@ -248,30 +248,237 @@ function save(fixture) {
   writeFileSync(FIXTURE_PATH, JSON.stringify(ordered, null, 2) + "\n");
 }
 
-async function mdbRemaining(key) {
+export async function mdbRemaining(key) {
   const u = await getJson("https://api.mdblist.com/user?apikey=" + key);
   return u?.rate_limit_remaining ?? 0;
+}
+
+/**
+ * Build the five per-pass work-lists from the snapshot candidates and
+ * what's already in the fixture. Shared by the CLI dry-run, the in-memory
+ * core, and the cron route (which uses it to find under-enriched titles
+ * and to short-circuit when there's nothing to do).
+ */
+export function workLists(films, shows, fixture, force = false) {
+  const F = fixture.films;
+  const S = fixture.shows;
+  return {
+    mdbFilms: films.filter((f) => force || filmNeedsMdb(F[f.tmdb.id])),
+    credFilms: films.filter((f) => force || filmNeedsCredits(F[f.tmdb.id])),
+    relFilms: films.filter((f) => force || filmNeedsRelease(F[f.tmdb.id])),
+    mdbShows: shows.filter((s) => force || showNeedsMdb(S[s.tmdb.id])),
+    credShows: shows.filter((s) => force || showNeedsCredits(S[s.tmdb.id])),
+  };
+}
+
+/**
+ * Enrich a fixture in memory — the shared core behind both the CLI and
+ * the /api/cron/enrich-refresh route. Runs the six passes against the
+ * given film/show candidates, mutating `fixture` in place and returning
+ * it plus per-pass counts. No disk I/O, no process.exit, no globals:
+ * every input (keys, fetch, budget, the post-batch hook) is injected so
+ * the cron can drive it with a real or mocked fetch and the CLI can keep
+ * its incremental disk-save behaviour.
+ *
+ * @param {object}   o
+ * @param {object[]} o.films      candidate films (each with `.tmdb.id`)
+ * @param {object[]} o.shows      candidate shows (each with `.tmdb.id`)
+ * @param {object}   o.fixture    { films, shows, collectionDetails }, mutated
+ * @param {string}   o.mdbKey     MDBList API key
+ * @param {string}   o.tmdbKey    TMDB API key
+ * @param {Function} [o.fetchImpl] injectable fetch (defaults to global)
+ * @param {number}   [o.mdbBudget] max MDBList calls this run (films + shows)
+ * @param {boolean}  [o.force]    re-pull even already-filled entries
+ * @param {Function} [o.onBatch]  called with (fixture) after each batch —
+ *                                the CLI saves to disk; the cron passes a no-op
+ * @param {Function} [o.log]      progress sink (CLI: console.log; cron: no-op)
+ */
+export async function enrichFixture({
+  films = [],
+  shows = [],
+  fixture,
+  mdbKey,
+  tmdbKey,
+  fetchImpl = fetch,
+  mdbBudget = Infinity,
+  force = false,
+  onBatch = () => {},
+  log = () => {},
+}) {
+  const F = fixture.films;
+  const S = fixture.shows;
+  const { mdbFilms, credFilms, relFilms, mdbShows, credShows } = workLists(
+    films,
+    shows,
+    fixture,
+    force,
+  );
+
+  // MDBList is the only rate-limited resource — one shared budget spent
+  // across the two MDBList passes (films first, shows next), stopping
+  // cleanly when exhausted (resumable on the next run/tick).
+  const budget = { n: mdbBudget };
+  const opts = { onBatch, log, fixture };
+
+  // ── Pass A · films · MDBList ratings/studios/country/language/… ──
+  const filmsMdb = await runBudgeted(mdbFilms, budget, async (f) => {
+    const id = f.tmdb.id;
+    const m = await getJson(`https://api.mdblist.com/tmdb/movie/${id}?apikey=${mdbKey}`, { fetchImpl });
+    if (!m) return false;
+    F[id] = {
+      ...(F[id] || {}),
+      ratings: ratingsOf(m),
+      studios: namesOf(m.production_companies),
+      country: m.country ?? F[id]?.country ?? null,
+      language: m.language ?? F[id]?.language ?? null,
+      certification: m.certification ?? F[id]?.certification ?? null,
+      budget: m.budget ?? F[id]?.budget ?? null,
+      revenue: m.revenue ?? F[id]?.revenue ?? null,
+    };
+    return true;
+  }, "films · MDBList", opts);
+
+  // ── Pass B · films · TMDB credits → cast + writers + collection ──
+  await runUncapped(credFilms, async (f) => {
+    const id = f.tmdb.id;
+    const m = await getJson(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${tmdbKey}&append_to_response=credits`,
+      { fetchImpl },
+    );
+    if (!m) return;
+    F[id] = {
+      ...(F[id] || {}),
+      cast: extractFilmCast(m.credits),
+      writers: extractWriters(m.credits?.crew),
+      collection: extractCollection(m),
+    };
+  }, "films · TMDB credits", opts);
+
+  // ── Pass C · films · TMDB release classification ──
+  await runUncapped(relFilms, async (f) => {
+    const id = f.tmdb.id;
+    const r = await getJson(
+      `https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${tmdbKey}`,
+      { fetchImpl },
+    );
+    F[id] = { ...(F[id] || {}), release: classifyRelease(r) };
+  }, "films · TMDB release", opts);
+
+  // ── Pass D · shows · MDBList ratings/country/language/seasons ──
+  const showsMdb = await runBudgeted(mdbShows, budget, async (s) => {
+    const id = s.tmdb.id;
+    const m = await getJson(`https://api.mdblist.com/tmdb/show/${id}?apikey=${mdbKey}`, { fetchImpl });
+    if (!m) return false;
+    S[id] = {
+      ...(S[id] || {}),
+      ratings: ratingsOf(m),
+      country: m.country ?? S[id]?.country ?? null,
+      language: m.language ?? S[id]?.language ?? null,
+      seasons: seasonsOf(m),
+    };
+    return true;
+  }, "shows · MDBList", opts);
+
+  // ── Pass E · shows · TMDB aggregate_credits → cast + creators ──
+  await runUncapped(credShows, async (s) => {
+    const id = s.tmdb.id;
+    const m = await getJson(
+      `https://api.themoviedb.org/3/tv/${id}?api_key=${tmdbKey}&append_to_response=aggregate_credits`,
+      { fetchImpl },
+    );
+    if (!m) return;
+    S[id] = {
+      ...(S[id] || {}),
+      cast: extractTvCast(m.aggregate_credits),
+      creators: namesOf(m.created_by).map((name, i) => ({
+        id: m.created_by[i].id,
+        name,
+      })),
+    };
+  }, "shows · TMDB credits", opts);
+
+  // ── Pass F · collections · TMDB member lists + annotate total ──
+  const colIds = new Set();
+  for (const f of Object.values(F)) if (f.collection) colIds.add(f.collection.id);
+  const watchedIds = new Set(Object.keys(F).map(Number));
+  const todoCols = [...colIds].filter((id) => force || !fixture.collectionDetails[id]);
+  log(`collections · TMDB details: ${todoCols.length}`);
+  for (const id of todoCols) {
+    const c = await getJson(
+      `https://api.themoviedb.org/3/collection/${id}?api_key=${tmdbKey}`,
+      { fetchImpl },
+    );
+    if (c) {
+      const parts = (c.parts || [])
+        .map((p) => ({
+          id: p.id,
+          title: p.title,
+          year: (p.release_date || "").slice(0, 4),
+          watched: watchedIds.has(p.id),
+        }))
+        .sort((a, b) => (a.year || "9999").localeCompare(b.year || "9999"));
+      fixture.collectionDetails[id] = { name: c.name, total: parts.length, parts };
+    }
+    await sleep(50);
+    onBatch(fixture);
+  }
+  // Annotate each film's collection with the franchise's true size.
+  for (const f of Object.values(F)) {
+    if (f.collection && fixture.collectionDetails[f.collection.id]) {
+      f.collection.total = fixture.collectionDetails[f.collection.id].total;
+    }
+  }
+
+  return {
+    fixture,
+    stats: {
+      filmsMdb,
+      filmsCredits: credFilms.length,
+      filmsRelease: relFilms.length,
+      showsMdb,
+      showsCredits: credShows.length,
+      collections: todoCols.length,
+    },
+  };
+}
+
+/**
+ * Stable serialization matching the committed snapshots — ordered keys
+ * (capturedAt, meta, then the big maps) + trailing newline. Shared by
+ * the CLI's disk save and the cron's GitHub commit so a manual run and a
+ * cron run produce byte-identical files (clean diffs).
+ */
+export function serializeFixture(fixture) {
+  const ordered = {
+    capturedAt: new Date().toISOString(),
+    meta: {
+      films: Object.keys(fixture.films).length,
+      shows: Object.keys(fixture.shows).length,
+      collections: Object.keys(fixture.collectionDetails).length,
+    },
+    films: fixture.films,
+    shows: fixture.shows,
+    collectionDetails: fixture.collectionDetails,
+  };
+  return JSON.stringify(ordered, null, 2) + "\n";
 }
 
 async function main() {
   const lb = JSON.parse(readFileSync(LB_PATH, "utf8"));
   const sz = JSON.parse(readFileSync(SZ_PATH, "utf8"));
   const fixture = loadFixture();
-  const F = fixture.films;
-  const S = fixture.shows;
 
   const films = lb.films.filter((f) => f.tmdb);
   const shows = sz.shows.filter((s) => s.tmdb);
 
-  // Build the per-pass work-lists from the snapshots + current fixture.
-  const mdbFilms = films.filter((f) => filmNeedsMdb(F[f.tmdb.id]));
-  const credFilms = films.filter((f) => filmNeedsCredits(F[f.tmdb.id]));
-  const relFilms = films.filter((f) => filmNeedsRelease(F[f.tmdb.id]));
-  const mdbShows = shows.filter((s) => showNeedsMdb(S[s.tmdb.id]));
-  const credShows = shows.filter((s) => showNeedsCredits(S[s.tmdb.id]));
-
   // Dry run reads only the fixture + snapshots — no keys, no network.
   if (DRY_RUN) {
+    const { mdbFilms, credFilms, relFilms, mdbShows, credShows } = workLists(
+      films,
+      shows,
+      fixture,
+      FORCE,
+    );
     console.log("DRY RUN — no network, no write. Work that a refresh would do:");
     console.log(`  films · MDBList ratings:       ${mdbFilms.length}`);
     console.log(`  films · TMDB cast/writers/col:  ${credFilms.length}`);
@@ -295,118 +502,26 @@ async function main() {
     process.exit(1);
   }
 
-  // MDBList is the only rate-limited resource — read the daily window
-  // and spend it across the two MDBList passes (films first, shows
-  // next), stopping cleanly when exhausted (resumable next run).
   const rem = await mdbRemaining(MDB);
-  const budget = { n: Math.max(0, rem - 8) }; // small safety margin
-  console.log(`MDBList window remaining: ${rem} → spending up to ${budget.n} this pass`);
+  const mdbBudget = Math.max(0, rem - 8); // small safety margin
+  console.log(`MDBList window remaining: ${rem} → spending up to ${mdbBudget} this pass`);
 
-  // ── Pass A · films · MDBList ratings/studios/country/language/… ──
-  await runBudgeted(mdbFilms, budget, async (f) => {
-    const id = f.tmdb.id;
-    const m = await getJson(`https://api.mdblist.com/tmdb/movie/${id}?apikey=${MDB}`);
-    if (!m) return false;
-    F[id] = {
-      ...(F[id] || {}),
-      ratings: ratingsOf(m),
-      studios: namesOf(m.production_companies),
-      country: m.country ?? F[id]?.country ?? null,
-      language: m.language ?? F[id]?.language ?? null,
-      certification: m.certification ?? F[id]?.certification ?? null,
-      budget: m.budget ?? F[id]?.budget ?? null,
-      revenue: m.revenue ?? F[id]?.revenue ?? null,
-    };
-    return true;
-  }, "films · MDBList", fixture);
-
-  // ── Pass B · films · TMDB credits → cast + writers + collection ──
-  await runUncapped(credFilms, async (f) => {
-    const id = f.tmdb.id;
-    const m = await getJson(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=${TMDB}&append_to_response=credits`,
-    );
-    if (!m) return;
-    F[id] = {
-      ...(F[id] || {}),
-      cast: extractFilmCast(m.credits),
-      writers: extractWriters(m.credits?.crew),
-      collection: extractCollection(m),
-    };
-  }, "films · TMDB credits", fixture);
-
-  // ── Pass C · films · TMDB release classification ──
-  await runUncapped(relFilms, async (f) => {
-    const id = f.tmdb.id;
-    const r = await getJson(
-      `https://api.themoviedb.org/3/movie/${id}/release_dates?api_key=${TMDB}`,
-    );
-    F[id] = { ...(F[id] || {}), release: classifyRelease(r) };
-  }, "films · TMDB release", fixture);
-
-  // ── Pass D · shows · MDBList ratings/country/language/seasons ──
-  await runBudgeted(mdbShows, budget, async (s) => {
-    const id = s.tmdb.id;
-    const m = await getJson(`https://api.mdblist.com/tmdb/show/${id}?apikey=${MDB}`);
-    if (!m) return false;
-    S[id] = {
-      ...(S[id] || {}),
-      ratings: ratingsOf(m),
-      country: m.country ?? S[id]?.country ?? null,
-      language: m.language ?? S[id]?.language ?? null,
-      seasons: seasonsOf(m),
-    };
-    return true;
-  }, "shows · MDBList", fixture);
-
-  // ── Pass E · shows · TMDB aggregate_credits → cast + creators ──
-  await runUncapped(credShows, async (s) => {
-    const id = s.tmdb.id;
-    const m = await getJson(
-      `https://api.themoviedb.org/3/tv/${id}?api_key=${TMDB}&append_to_response=aggregate_credits`,
-    );
-    if (!m) return;
-    S[id] = {
-      ...(S[id] || {}),
-      cast: extractTvCast(m.aggregate_credits),
-      creators: namesOf(m.created_by).map((name, i) => ({
-        id: m.created_by[i].id,
-        name,
-      })),
-    };
-  }, "shows · TMDB credits", fixture);
-
-  // ── Pass F · collections · TMDB member lists + annotate total ──
-  const colIds = new Set();
-  for (const f of Object.values(F)) if (f.collection) colIds.add(f.collection.id);
-  const watchedIds = new Set(Object.keys(F).map(Number));
-  const todoCols = [...colIds].filter((id) => FORCE || !fixture.collectionDetails[id]);
-  console.log(`collections · TMDB details: ${todoCols.length}`);
-  for (const id of todoCols) {
-    const c = await getJson(`https://api.themoviedb.org/3/collection/${id}?api_key=${TMDB}`);
-    if (c) {
-      const parts = (c.parts || [])
-        .map((p) => ({
-          id: p.id,
-          title: p.title,
-          year: (p.release_date || "").slice(0, 4),
-          watched: watchedIds.has(p.id),
-        }))
-        .sort((a, b) => (a.year || "9999").localeCompare(b.year || "9999"));
-      fixture.collectionDetails[id] = { name: c.name, total: parts.length, parts };
-    }
-    await sleep(50);
-  }
-  // Annotate each film's collection with the franchise's true size.
-  for (const f of Object.values(F)) {
-    if (f.collection && fixture.collectionDetails[f.collection.id]) {
-      f.collection.total = fixture.collectionDetails[f.collection.id].total;
-    }
-  }
+  // The CLI saves incrementally (resumable) and once more at the end.
+  await enrichFixture({
+    films,
+    shows,
+    fixture,
+    mdbKey: MDB,
+    tmdbKey: TMDB,
+    mdbBudget,
+    force: FORCE,
+    onBatch: save,
+    log: (m) => console.log(m),
+  });
   save(fixture);
 
   console.log(
-    `\nDone. films ${Object.keys(F).length} · shows ${Object.keys(S).length} · ` +
+    `\nDone. films ${Object.keys(fixture.films).length} · shows ${Object.keys(fixture.shows).length} · ` +
       `collections ${Object.keys(fixture.collectionDetails).length}. ` +
       "Review the diff, then commit + push.",
   );
@@ -414,16 +529,17 @@ async function main() {
 
 /**
  * Run a budget-limited (MDBList) pass: batches of 2 with a politeness
- * gap, incremental save after each batch, stop when the shared budget
- * runs out. `handler` returns true on a successful fill.
+ * gap, an `onBatch` hook after each batch (CLI → disk save; cron → no-op),
+ * stop when the shared budget runs out. `handler` returns true on a
+ * successful fill; returns the number filled this pass.
  */
-async function runBudgeted(items, budget, handler, label, fixture) {
-  console.log(`${label}: ${items.length} to do (budget ${budget.n})`);
+async function runBudgeted(items, budget, handler, label, { onBatch = () => {}, log = () => {}, fixture } = {}) {
+  log(`${label}: ${items.length} to do (budget ${budget.n})`);
   let done = 0;
   let miss = 0;
   for (const batch of chunk(items, 2)) {
     if (budget.n <= 0) {
-      console.log("  budget exhausted — stopping (resumable next run)");
+      log("  budget exhausted — stopping (resumable next run)");
       break;
     }
     const take = batch.slice(0, budget.n);
@@ -431,28 +547,28 @@ async function runBudgeted(items, budget, handler, label, fixture) {
     const res = await Promise.all(take.map(handler));
     done += res.filter(Boolean).length;
     miss += res.filter((x) => !x).length;
-    save(fixture);
-    process.stdout.write(`  ${label}: ${done} ok / ${miss} miss (budget ${budget.n})\r`);
+    onBatch(fixture);
     await sleep(150);
   }
-  console.log(`\n${label}: ${done} filled, ${miss} missing this pass`);
+  log(`${label}: ${done} filled, ${miss} missing this pass`);
+  return done;
 }
 
 /**
- * Run an uncapped (TMDB) pass: batches of 8, incremental save, gentle
- * gap. TMDB is free/uncapped so no budget accounting.
+ * Run an uncapped (TMDB) pass: batches of 8, an `onBatch` hook after each
+ * batch, gentle gap. TMDB is free/uncapped so no budget accounting.
+ * Returns the number of items processed.
  */
-async function runUncapped(items, handler, label, fixture) {
-  console.log(`${label}: ${items.length} to do`);
+async function runUncapped(items, handler, label, { onBatch = () => {}, log = () => {}, fixture } = {}) {
+  log(`${label}: ${items.length} to do`);
   let done = 0;
   for (const batch of chunk(items, 8)) {
     await Promise.all(batch.map(handler));
     done += batch.length;
-    save(fixture);
-    process.stdout.write(`  ${label}: ${done}/${items.length}\r`);
+    onBatch(fixture);
     await sleep(60);
   }
-  if (items.length) console.log("");
+  return done;
 }
 
 // Only run when invoked directly (so tests can import the pure helpers).
