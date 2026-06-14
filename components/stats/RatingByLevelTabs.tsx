@@ -5,7 +5,7 @@
 // level (Seasons / Shows / Episodes).
 //
 // The one interactive tile on the dashboards. Models the existing
-// AllOrWatchingToggle / SegmentedButton pattern: a real <button> group
+// ClusterGridNav / SegmentedButton pattern: a real <button> group
 // with aria-pressed, switching which level's column chart shows. Per-
 // level distributions are kept separate on purpose — episode logging
 // only began this year, so a combined average misleads (see the tile
@@ -31,8 +31,15 @@ const LABELS: Record<Level, string> = {
 
 export function RatingByLevelTabs({
   data,
+  /** Per-level rating-bucket key → reviews-filter URL (e.g. show-level
+   *  rating buckets → ?rating=k&cardKind=show). A plain object (not a
+   *  function) because this is a client component — a server-built closure
+   *  can't cross the boundary. A level absent from the map isn't clickable
+   *  (episode reviews aren't grid cards), and its pane shows a note. */
+  ratingHrefs,
 }: {
   data: TvStats["ratingByLevel"];
+  ratingHrefs?: Partial<Record<Level, Record<string, string>>>;
 }) {
   const [active, setActive] = useState<Level>("season");
 
@@ -57,10 +64,17 @@ export function RatingByLevelTabs({
       </div>
       {ORDER.map((lvl) => {
         const d = data[lvl];
+        // Per-level links: a level present in ratingHrefs is clickable
+        // (its columns deep-link to that level's reviews); a level absent
+        // isn't — episodes aren't show/season grid cards, so there's
+        // nothing to filter to.
+        const levelHrefs = ratingHrefs?.[lvl];
+        const hrefFor = levelHrefs ? (rating: string) => levelHrefs[rating] : undefined;
         return (
           <div key={lvl} hidden={lvl !== active}>
             <ColumnChart
               columns={d.bars}
+              hrefFor={hrefFor}
               ariaLabelFor={(rating, count) =>
                 `${LABELS[lvl]}, ${rating} stars: ${count} reviews`
               }
@@ -76,6 +90,13 @@ export function RatingByLevelTabs({
                 {d.avg.toFixed(2)}★
               </strong>{" "}
               across {d.n.toLocaleString()} rated reviews.
+              {ratingHrefs && !levelHrefs ? (
+                <>
+                  {" "}
+                  Episode reviews live inside their show, so they aren&rsquo;t a
+                  separate filter in the reviews grid.
+                </>
+              ) : null}
             </p>
           </div>
         );

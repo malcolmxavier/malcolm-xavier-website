@@ -13,7 +13,7 @@
 // tab is passed in by the page, so the links are crawlable in the
 // server-rendered HTML and there's no client JS.
 //
-// Visual language is intentionally DISTINCT from AllOrWatchingToggle
+// Visual language is intentionally DISTINCT from ClusterGridNav
 // (the grid-scoped All/Watching control), which uses an underline
 // treatment. This rail uses a filled-pill active state so that on
 // /television/reviews — where both appear — they read as two clearly

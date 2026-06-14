@@ -38,7 +38,13 @@ import { SITE_URL } from "@/lib/site-config";
 import { computeTvStats } from "@/lib/feeds/stats/tv-stats";
 import type { Contrast } from "@/lib/feeds/stats/shrinkage";
 import { slugifyEntity } from "@/lib/feeds/slug";
-import { slugifyGenre } from "@/lib/feeds/serializd-utils";
+import { slugifyGenre, buildCompletedCards } from "@/lib/feeds/serializd-utils";
+import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
+import {
+  indexableTvFacetNames,
+  TV_FACET_BASEPATH,
+  type TvRouteFacet,
+} from "@/lib/feeds/facet-index";
 
 export const metadata: Metadata = {
   title: "Television stats",
@@ -102,15 +108,89 @@ export default function TelevisionStatsPage() {
   const languages = versusRows(s.languages);
   const countries = versusRows(s.countries);
 
-  // Deep-link builders: each stats-tile row links to its subject under
-  // that entity filter (vocabulary matches the filter). Genre → dedicated
-  // route; network rides the existing name-based ?network= facet (WS3);
-  // the rest use the slug-based Wave B params.
+  // Deep-link builders: each stats-tile row links to its subject under that
+  // entity filter (vocabulary matches the filter). A row whose entity clears
+  // its indexation floor links to the dedicated route (/television/network/
+  // hbo-max); a sub-floor entity falls back to the noindex ?param= form.
+  // Genre already has its route. Conglomerate has NO route (not in the floors
+  // table), so it always uses ?conglomerate=.
+  const { shows } = getShowsWithEnrichment();
+  // route-iff-indexable, else ?param= fallback (slug-based facets).
+  const tvRouteHref = (facet: TvRouteFacet, param: string) => {
+    const indexable = new Set(indexableTvFacetNames(facet, shows));
+    const base = TV_FACET_BASEPATH[facet];
+    return (label: string) =>
+      indexable.has(label)
+        ? `/television/${base}/${slugifyEntity(label)}`
+        : `/television/reviews?${param}=${slugifyEntity(label)}`;
+  };
+  // Plain ?param= deep-link for facets with no dedicated route (conglomerate).
   const facetHref = (param: string) => (label: string) =>
     `/television/reviews?${param}=${slugifyEntity(label)}`;
   const genreHref = (g: string) => `/television/genre/${slugifyGenre(g)}`;
-  const networkHref = (name: string) =>
-    `/television/reviews?network=${encodeURIComponent(name)}`;
+  // Network is NAME-based (WS3): the route uses the slug, the sub-floor
+  // fallback keeps the existing name-based ?network= param.
+  const networkHref = (() => {
+    const indexable = new Set(indexableTvFacetNames("networks", shows));
+    return (name: string) =>
+      indexable.has(name)
+        ? `/television/network/${slugifyEntity(name)}`
+        : `/television/reviews?network=${encodeURIComponent(name)}`;
+  })();
+  const actorHref = tvRouteHref("actors", "actor");
+  const creatorHref = tvRouteHref("creators", "creator");
+  const languageHref = tvRouteHref("languages", "language");
+  const countryHref = tvRouteHref("countries", "country");
+
+  // Non-entity facet deep-links (WS6b.1). Type is name-based and has a route
+  // (mirrors networkHref); rating / watched-year / the language×country
+  // combination are route-less ?param= filters.
+  //
+  // Type click-through is gated to types that actually appear as show/season
+  // cards in the reviews grid. A type logged only at the episode level (e.g.
+  // Talk Show — WWHL) produces no cards, so filtering to it would land an
+  // empty grid; those slices stay non-links (see the tile note).
+  const cardTypes = new Set(
+    buildCompletedCards(shows)
+      .map((c) => c.show.tmdb?.type)
+      .filter((t): t is string => Boolean(t)),
+  );
+  const typeHref = (() => {
+    const indexable = new Set(indexableTvFacetNames("types", shows));
+    return (name: string) => {
+      if (!cardTypes.has(name)) return undefined; // episode-only type → no cards
+      return indexable.has(name)
+        ? `/television/type/${slugifyEntity(name)}`
+        : `/television/reviews?type=${encodeURIComponent(name)}`;
+    };
+  })();
+  // RatingByLevelTabs is a client component, so it gets a serializable
+  // per-level rating→href map (not a closure). Show and season rating
+  // buckets scope the grid by cardKind; EPISODE is omitted — episode
+  // reviews aren't show/season cards, so there's nothing to filter to (the
+  // tab's pane shows a note). Only buckets with reviews get a link.
+  const ratingHrefsForLevel = (lvl: "show" | "season") =>
+    Object.fromEntries(
+      s.ratingByLevel[lvl].bars
+        .filter(([, n]) => n > 0)
+        .map(([k]) => [k, `/television/reviews?rating=${k}&cardKind=${lvl}`]),
+    );
+  const ratingHrefs = {
+    show: ratingHrefsForLevel("show"),
+    season: ratingHrefsForLevel("season"),
+  };
+  const watchedYearHref = (year: string) =>
+    `/television/reviews?watchedYear=${year}`;
+  const pairHrefByLabel = new Map(
+    s.overlap.topPairs.map(([label], i) => {
+      const k = s.overlap.topPairKeys[i];
+      return [
+        label,
+        `/television/reviews?language=${slugifyEntity(k.language)}&country=${slugifyEntity(k.country)}`,
+      ];
+    }),
+  );
+  const pairHref = (label: string) => pairHrefByLabel.get(label);
 
   return (
     <div data-subbrand="tv">
@@ -184,15 +264,15 @@ export default function TelevisionStatsPage() {
               span={12}
               note="Shows, seasons, and episodes are rated and counted separately. Season ratings are the dense signal—most shows are rated season by season, not with a single overall mark—so the Seasons view is the fullest and the analytics rank on it. Episode logging only began this year. Miniseries are double-counted (show and season) by the same rule the reviews use."
             >
-              <RatingByLevelTabs data={s.ratingByLevel} />
+              <RatingByLevelTabs data={s.ratingByLevel} ratingHrefs={ratingHrefs} />
             </Tile>
 
             <Tile
               title="Type"
               span={6}
-              note="Scripted, reality, documentary, miniseries—the shape of what you log."
+              note="Scripted, reality, documentary, miniseries—the shape of what you log. Types I only ever log at the episode level (talk shows, e.g. WWHL) aren't clickable—there's no show or season card to filter to."
             >
-              <Donut slices={s.types} ariaLabel="Share of shows by type" />
+              <Donut slices={s.types} ariaLabel="Share of shows by type" hrefFor={typeHref} />
             </Tile>
           </StatsSection>
 
@@ -235,7 +315,7 @@ export default function TelevisionStatsPage() {
                 left={actors.left}
                 rightTitle="Highest rated"
                 right={actors.right}
-                hrefFor={facetHref("actor")}
+                hrefFor={actorHref}
               />
             </Tile>
 
@@ -249,7 +329,7 @@ export default function TelevisionStatsPage() {
                 left={creators.left}
                 rightTitle="Highest rated"
                 right={creators.right}
-                hrefFor={facetHref("creator")}
+                hrefFor={creatorHref}
               />
             </Tile>
           </StatsSection>
@@ -287,7 +367,7 @@ export default function TelevisionStatsPage() {
                   { n: s.overlap.countries, label: "countries" },
                 ]}
               />
-              <Bars rows={s.overlap.topPairs} />
+              <Bars rows={s.overlap.topPairs} hrefFor={pairHref} />
             </Tile>
 
             <Tile title="Languages — logged vs. rated" span={6}>
@@ -296,7 +376,7 @@ export default function TelevisionStatsPage() {
                 left={languages.left}
                 rightTitle="Highest rated"
                 right={languages.right}
-                hrefFor={facetHref("language")}
+                hrefFor={languageHref}
               />
             </Tile>
 
@@ -306,7 +386,7 @@ export default function TelevisionStatsPage() {
                 left={countries.left}
                 rightTitle="Highest rated"
                 right={countries.right}
-                hrefFor={facetHref("country")}
+                hrefFor={countryHref}
               />
             </Tile>
           </StatsSection>
@@ -361,6 +441,7 @@ export default function TelevisionStatsPage() {
                   points: c.points,
                 }))}
                 ariaLabel="Cumulative seasons finished by day of year, per year"
+                hrefFor={watchedYearHref}
               />
             </Tile>
 
@@ -369,6 +450,7 @@ export default function TelevisionStatsPage() {
                 data={s.temporal.seasonMonthMatrix}
                 ariaLabel="Seasons finished by month, stacked by year"
                 averageLine="month"
+                segmentHref={watchedYearHref}
               />
             </Tile>
 
@@ -377,6 +459,7 @@ export default function TelevisionStatsPage() {
                 data={s.temporal.seasonWeekdayMatrix}
                 ariaLabel="Seasons finished by weekday, stacked by year"
                 averageLine="weekday"
+                segmentHref={watchedYearHref}
               />
             </Tile>
 

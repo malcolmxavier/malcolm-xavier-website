@@ -60,6 +60,7 @@ import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { InfoToast } from "@/components/primitives/InfoToast";
 import { Pagination } from "@/components/primitives/Pagination";
+import { ClusterGridNav } from "@/components/feeds/ClusterGridNav";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import {
   RUNTIME_BUCKETS,
@@ -132,6 +133,26 @@ type Props = {
    *  query-string mode at /films?...). Undefined when the shell
    *  is mounted from /films directly. */
   routeGenre?: string;
+  /** When the shell is mounted from a Wave B facet route
+   *  (/films/director|actor|writer|studio|language|country|decade/<slug>),
+   *  this is the slug-based query param + value that route pins. Like
+   *  routeGenre, it's seeded into the query string on every nav so the
+   *  facet persists as the user composes additional filters, and the
+   *  target flips to /films/reviews (facet routes are single-value). The
+   *  one facet WITHOUT a param — director — passes undefined and stays on
+   *  its own pathname (the route re-pins it server-side). */
+  routePin?: { param: string; value: string };
+  /** slug → canonical name for the route's pinned facet, so its active
+   *  chip shows the real name even when the facet isn't a sidebar rail
+   *  (studio, actor, writer). */
+  entityNameHints?: Record<string, string>;
+  /** The director route's pin as a chip (director is param-less). */
+  routeFacetChip?: { facetLabel: string; name: string };
+  /** When set, renders the All · Collections grid-nav at the top of the
+   *  grid column (above the chips/grid, NOT above the filter sidebar) — the
+   *  number is the "All (N)" count. Mirrors TelevisionShell's nav. The
+   *  reviews grid passes it; genre/facet routes don't. */
+  gridNavAllCount?: number;
 };
 
 export function FilmsShell({
@@ -145,6 +166,10 @@ export function FilmsShell({
   availableWatchedYears,
   entityFacets,
   routeGenre,
+  routePin,
+  entityNameHints,
+  routeFacetChip,
+  gridNavAllCount,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
@@ -275,6 +300,12 @@ export function FilmsShell({
     if (routeGenre && !params.has("genre")) {
       params.set("genre", routeGenre);
     }
+    // Same seeding for a Wave B facet route (language/studio/…): carry the
+    // route's pinned facet forward as a query param so it survives the
+    // hand-off to /films/reviews, or drops cleanly if toggled off.
+    if (routePin && !params.has(routePin.param)) {
+      params.set(routePin.param, routePin.value);
+    }
     for (const [k, v] of Object.entries(updates)) {
       if (v === undefined || v === "") {
         params.delete(k);
@@ -307,7 +338,7 @@ export function FilmsShell({
     // which now lives at /films/reviews (the cluster root /films is the
     // editorial landing). The non-genre branch uses pathname, which is
     // already /films/reviews when mounted there.
-    const targetBase = routeGenre ? "/films/reviews" : pathname;
+    const targetBase = routeGenre || routePin ? "/films/reviews" : pathname;
     const qs = params.toString();
     router.replace(qs ? `${targetBase}?${qs}` : targetBase, {
       scroll: false,
@@ -434,6 +465,18 @@ export function FilmsShell({
     // surface (those live on detail-page entry URLs only). A clean
     // pathname is the right "cleared" state.
     router.replace(pathname, { scroll: false });
+  }
+
+  // Dismiss a param-less route pin (the director route): drop to the
+  // unfiltered corpus, preserving any other query filters (the pin is the
+  // path, not a query param, so leaving the path clears it).
+  function clearRoutePin() {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("page");
+    const qs = params.toString();
+    router.replace(qs ? `/films/reviews?${qs}` : "/films/reviews", {
+      scroll: false,
+    });
   }
 
   const activeFilterCount = countActiveFilters(filters);
@@ -606,6 +649,21 @@ export function FilmsShell({
           <Headline level={2} className="sr-only">
             Film reviews
           </Headline>
+          {/* Grid-nav (All · Collections) — lives at the top of the GRID
+              column, not above the filter sidebar. id="grid" is the scroll
+              target the nav's "All" link appends (#grid). */}
+          {gridNavAllCount !== undefined ? (
+            <div
+              id="grid"
+              style={{ marginBottom: 16, scrollMarginTop: "5rem" }}
+            >
+              <ClusterGridNav
+                cluster="films"
+                active="all"
+                allCount={gridNavAllCount}
+              />
+            </div>
+          ) : null}
           {/* Active-filter chip rail + inline info toast — both share
               one flex-wrap row above the grid so the user always
               sees what's currently filtered AND any transient
@@ -654,6 +712,9 @@ export function FilmsShell({
                 onRemoveEntityFacet={toggleEntityFacet}
                 onResetSort={resetSort}
                 onClearAll={clearAll}
+                entityNameHints={entityNameHints}
+                routeFacetChip={routeFacetChip}
+                onClearRoutePin={clearRoutePin}
               />
               <InfoToast
                 message={toastMessage}
@@ -690,7 +751,7 @@ export function FilmsShell({
               pageParam="page"
               preserveParams={preserveParams}
               ariaLabel="Film review pages"
-              surface={routeGenre ? "films-genre" : "films"}
+              surface={routeGenre ? "films-genre" : routePin ? "films-facet" : "films"}
             />
           </div>
         </div>
@@ -1071,6 +1132,9 @@ function ActiveFilterChips({
   onRemoveEntityFacet,
   onResetSort,
   onClearAll,
+  entityNameHints,
+  routeFacetChip,
+  onClearRoutePin,
 }: {
   filters: FilmFilters;
   sort: FilmSort;
@@ -1085,6 +1149,13 @@ function ActiveFilterChips({
   onRemoveEntityFacet: (param: string, key: string, slug: string) => void;
   onResetSort: () => void;
   onClearAll: () => void;
+  /** slug → canonical name, for facets reached by deep-link/route that
+   *  aren't in the sidebar rails (so their chip shows the real name). */
+  entityNameHints?: Record<string, string>;
+  /** The director route's pin as a chip (director has no query param, so it
+   *  can't ride the param-based entityActive path). */
+  routeFacetChip?: { facetLabel: string; name: string };
+  onClearRoutePin: () => void;
 }) {
   const ratings = filters.ratings ?? [];
   const genres = filters.genres ?? [];
@@ -1093,18 +1164,23 @@ function ActiveFilterChips({
   const sortIsDefault = sort === "latest-watched-desc";
 
   // Active Wave B entity-facet selections, flattened to dismissable
-  // descriptors. The display name is resolved from the facet's full
-  // option list (so a deep-linked value below the chip-rail fold still
-  // shows its name, not its slug); falls back to the slug if unknown.
-  const entityActive = entityFacets.flatMap((fg) => {
-    const selected =
-      ((filters as Record<string, unknown>)[fg.key] as string[] | undefined) ?? [];
+  // descriptors — across EVERY param-backed facet (not just the sidebar
+  // rails), so a route-pinned or deep-linked high-card facet (studio,
+  // actor, …) shows a chip too. The display name resolves in priority:
+  // the route's exact-name hint → the rail option list → a de-slugified
+  // fallback (for a query-param value with no hint and no rail).
+  const railOptions = new Map(entityFacets.map((fg) => [fg.key, fg.options]));
+  const entityActive = FILM_CHIP_FACETS.flatMap(({ key, param, label }) => {
+    const selected = (filters[key] as string[] | undefined) ?? [];
     return selected.map((slug) => ({
-      param: fg.param,
-      key: fg.key,
-      label: fg.label,
+      param,
+      key,
+      label,
       slug,
-      name: fg.options.find(([n]) => slugifyEntity(n) === slug)?.[0] ?? slug,
+      name:
+        entityNameHints?.[slug] ??
+        railOptions.get(key)?.find(([n]) => slugifyEntity(n) === slug)?.[0] ??
+        deslugify(slug),
     }));
   });
 
@@ -1118,6 +1194,7 @@ function ActiveFilterChips({
     runtimeBuckets.length +
     watchedYears.length +
     entityActive.length +
+    (routeFacetChip ? 1 : 0) +
     (filters.watchedWindow !== undefined ? 1 : 0) +
     (filters.titleQuery ? 1 : 0) +
     (filters.directorQuery ? 1 : 0) +
@@ -1200,6 +1277,15 @@ function ActiveFilterChips({
           onDismiss={() => onRemoveEntityFacet(e.param, e.key, e.slug)}
         />
       ))}
+      {/* Director route pin — param-less, so it can't ride entityActive;
+          dismissing it drops to the unfiltered corpus. */}
+      {routeFacetChip ? (
+        <DismissableChip
+          label={`${routeFacetChip.facetLabel}: ${routeFacetChip.name}`}
+          ariaLabel={`Remove ${routeFacetChip.name} ${routeFacetChip.facetLabel} filter`}
+          onDismiss={onClearRoutePin}
+        />
+      ) : null}
       {!sortIsDefault ? (
         <DismissableChip
           label={`Sort: ${labelForSort(sort)}`}
@@ -1455,8 +1541,11 @@ function countActiveFilters(filters: FilmFilters): number {
     n++;
   }
   // Each active Wave B facet counts as one slot (like genre), so the
-  // badge reflects every dimension the user has narrowed by.
+  // badge reflects every dimension the user has narrowed by. `directors`
+  // is the exact-director facet (set only by the /films/director route);
+  // counting it makes the chip rail render on that route.
   for (const key of [
+    "directors",
     "actors",
     "writers",
     "studios",
@@ -1473,6 +1562,34 @@ function countActiveFilters(filters: FilmFilters): number {
   }
   return n;
 }
+
+/** Title-case a slug for a chip label when no canonical name is available
+ *  (a query-param facet selection without a hint, e.g. a sub-floor stats
+ *  deep-link). The route pin always passes the exact name via a hint. */
+function deslugify(slug: string): string {
+  return slug
+    .split("-")
+    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+    .join(" ");
+}
+
+// Every param-backed Wave B facet that earns a dismissable chip, with the
+// human label + URL param. Drives the comprehensive active-chip rail so a
+// deep-linked or route-pinned facet (studio, actor, …) shows a chip — not
+// just the low-cardinality rail facets. `directors` is excluded (it has no
+// query param; the route surfaces it via routeFacetChip instead).
+const FILM_CHIP_FACETS: { key: keyof FilmFilters; param: string; label: string }[] = [
+  { key: "actors", param: "actor", label: "Actor" },
+  { key: "writers", param: "writer", label: "Writer" },
+  { key: "studios", param: "studio", label: "Studio" },
+  { key: "conglomerates", param: "conglomerate", label: "Studio group" },
+  { key: "languages", param: "language", label: "Language" },
+  { key: "countries", param: "country", label: "Country" },
+  { key: "releaseTypes", param: "releaseType", label: "Release" },
+  { key: "budgetTiers", param: "budgetTier", label: "Budget" },
+  { key: "decades", param: "decade", label: "Decade" },
+  { key: "collections", param: "collection", label: "Collection" },
+];
 
 // ─── Inline styles ────────────────────────────────────────────────
 

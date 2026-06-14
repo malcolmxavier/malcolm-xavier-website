@@ -14,6 +14,7 @@
 
 import type { Metadata } from "next";
 import type { CSSProperties } from "react";
+import NextLink from "next/link";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
@@ -40,6 +41,14 @@ import type { Contrast } from "@/lib/feeds/stats/shrinkage";
 import type { DeskewContrast } from "@/lib/feeds/stats/franchise";
 import { slugifyEntity } from "@/lib/feeds/slug";
 import { slugifyGenre } from "@/lib/feeds/letterboxd-utils";
+import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
+import { getCollectionDetails } from "@/lib/feeds/enrichment";
+import {
+  indexableFilmFacetNames,
+  indexableFilmCollectionNames,
+  FILM_FACET_BASEPATH,
+  type FilmRouteFacet,
+} from "@/lib/feeds/facet-index";
 
 export const metadata: Metadata = {
   title: "Film stats",
@@ -112,15 +121,89 @@ export default function FilmStatsPage() {
 
   // Deep-link builders: a stats-tile row links to its SUBJECT under that
   // entity filter (vocabulary matches the filter — same canonicalizers +
-  // slugifyEntity). Genre links to its dedicated indexed route; director
-  // rides the existing fuzzy ?director= search (exact director facet +
-  // route land in 6b). Franchises are NOT linked here (the tile's curated
-  // families don't share vocabulary with the raw-collection filter — WS7).
+  // slugifyEntity). A row whose entity clears its indexation floor links to
+  // the dedicated route (/films/studio/a24); a sub-floor entity (no route by
+  // the no-thin-page rule) falls back to the noindex ?param= form. Genre
+  // already has its dedicated route. Conglomerate has NO route (not in the
+  // floors table), so it always uses ?conglomerate=. Franchises link to the
+  // curated-family collection routes (built below — WS7).
+  const { films } = getFilmsWithEnrichment();
+  // route-iff-indexable, else the ?param= fallback. Indexable name sets are
+  // built once per facet so the per-row check is O(1).
+  const filmRouteHref = (facet: FilmRouteFacet, param: string) => {
+    const indexable = new Set(indexableFilmFacetNames(facet, films));
+    const base = FILM_FACET_BASEPATH[facet];
+    return (label: string) =>
+      indexable.has(label)
+        ? `/films/${base}/${slugifyEntity(label)}`
+        : `/films/reviews?${param}=${slugifyEntity(label)}`;
+  };
+  // Plain ?param= deep-link for facets with no dedicated route (conglomerate).
   const facetHref = (param: string) => (label: string) =>
     `/films/reviews?${param}=${slugifyEntity(label)}`;
   const genreHref = (g: string) => `/films/genre/${slugifyGenre(g)}`;
-  const directorHref = (name: string) =>
-    `/films/reviews?director=${encodeURIComponent(name)}`;
+  // Director's sub-floor fallback is the FUZZY ?director= search (the exact
+  // facet has no param), not a slug param.
+  const directorHref = (() => {
+    const indexable = new Set(indexableFilmFacetNames("directors", films));
+    return (name: string) =>
+      indexable.has(name)
+        ? `/films/director/${slugifyEntity(name)}`
+        : `/films/reviews?director=${encodeURIComponent(name)}`;
+  })();
+  const actorHref = filmRouteHref("actors", "actor");
+  const writerHref = filmRouteHref("writers", "writer");
+  const studioHref = filmRouteHref("studios", "studio");
+  const languageHref = filmRouteHref("languages", "language");
+  const countryHref = filmRouteHref("countries", "country");
+
+  // Non-entity facet deep-links (WS6b.1): rating, release shape, decade,
+  // watched year, and the language×country combination. None has a dedicated
+  // route, so all use the ?param= form (noindex). Rating buckets with zero
+  // films don't link (an empty filtered view helps no one).
+  const ratingHref = (k: string) =>
+    s.ratingDistribution[k] ? `/films/reviews?rating=${k}` : undefined;
+  const releaseTypeHref = (label: string) =>
+    `/films/reviews?releaseType=${slugifyEntity(label)}`;
+  const budgetTierHref = (label: string) =>
+    `/films/reviews?budgetTier=${slugifyEntity(label)}`;
+  // era → release-year scope: the decade buckets map to ?decade=; the open
+  // "<2010" bucket spans many decades, so it caps the release year instead.
+  const eraSuffix = (era: string) =>
+    era === "<2010" ? "&releaseYearMax=2009" : `&decade=${slugifyEntity(era)}`;
+  const eraHeatHref = (param: string) => (row: string, col: string) =>
+    `/films/reviews?${param}=${slugifyEntity(row)}${eraSuffix(col)}`;
+  const watchedYearHref = (year: string) => `/films/reviews?watchedYear=${year}`;
+  // language×country pairs → the combination filter. Built as a label→href
+  // map from the index-aligned topPairKeys so Bars' hrefFor(label) resolves
+  // each pair to its two slugs without parsing the "·" label.
+  const pairHrefByLabel = new Map(
+    s.overlap.topPairs.map(([label], i) => {
+      const k = s.overlap.topPairKeys[i];
+      return [
+        label,
+        `/films/reviews?language=${slugifyEntity(k.language)}&country=${slugifyEntity(k.country)}`,
+      ];
+    }),
+  );
+  const pairHref = (label: string) => pairHrefByLabel.get(label);
+
+  // Franchises (WS7): the tile ranks on CURATED family names, which is the
+  // /films/collections/[slug] route vocabulary. A family links iff it clears
+  // the route floor (≥3 logged) — the looser stats qualification (≥2) means
+  // a 2-film family shows here but has no thin page, so it stays inert (no
+  // ?param= fallback: the raw-collection filter doesn't speak family).
+  const routableFamilies = new Set(
+    indexableFilmCollectionNames(
+      films,
+      getCollectionDetails(),
+      new Date().getUTCFullYear(),
+    ),
+  );
+  const franchiseHref = (name: string) =>
+    routableFamilies.has(name)
+      ? `/films/collections/${slugifyEntity(name)}`
+      : undefined;
 
   return (
     <div data-subbrand="film">
@@ -182,6 +265,7 @@ export default function FilmStatsPage() {
                   k,
                   s.ratingDistribution[k] ?? 0,
                 ])}
+                hrefFor={ratingHref}
                 ariaLabelFor={(rating, count) => `${rating} stars: ${count} reviews`}
                 tipFor={(rating, count) =>
                   `${rating}★ — ${count} ${count === 1 ? "film" : "films"}${
@@ -233,7 +317,7 @@ export default function FilmStatsPage() {
                 left={actors.left}
                 rightTitle="Highest rated"
                 right={actors.right}
-                hrefFor={facetHref("actor")}
+                hrefFor={actorHref}
               />
             </Tile>
 
@@ -247,7 +331,7 @@ export default function FilmStatsPage() {
                 left={writers.left}
                 rightTitle="Highest rated"
                 right={writers.right}
-                hrefFor={facetHref("writer")}
+                hrefFor={writerHref}
               />
             </Tile>
 
@@ -275,6 +359,7 @@ export default function FilmStatsPage() {
                 left={s.franchises.most}
                 rightTitle="Highest rated"
                 right={s.franchises.major.map((x): [string, number] => [x.k, x.adj])}
+                hrefFor={franchiseHref}
               />
             </Tile>
 
@@ -336,7 +421,7 @@ export default function FilmStatsPage() {
                   { n: s.overlap.countries, label: "countries" },
                 ]}
               />
-              <Bars rows={s.overlap.topPairs} />
+              <Bars rows={s.overlap.topPairs} hrefFor={pairHref} />
             </Tile>
 
             <Tile title="Languages — logged vs. rated" span={6}>
@@ -345,7 +430,7 @@ export default function FilmStatsPage() {
                 left={languages.left}
                 rightTitle="Highest rated"
                 right={languages.right}
-                hrefFor={facetHref("language")}
+                hrefFor={languageHref}
               />
             </Tile>
 
@@ -355,7 +440,7 @@ export default function FilmStatsPage() {
                 left={countries.left}
                 rightTitle="Highest rated"
                 right={countries.right}
-                hrefFor={facetHref("country")}
+                hrefFor={countryHref}
               />
             </Tile>
 
@@ -387,7 +472,7 @@ export default function FilmStatsPage() {
                 left={studios.left}
                 rightTitle="Highest rated"
                 right={studios.right}
-                hrefFor={facetHref("studio")}
+                hrefFor={studioHref}
               />
             </Tile>
 
@@ -410,7 +495,11 @@ export default function FilmStatsPage() {
               span={6}
               note="Films you logged from each release year, split by how they premiered. Streaming and limited only emerge through the 2010s and 2020s."
             >
-              <StackedBars data={s.releaseTypeByYear} ariaLabel="Release type by film release year" />
+              <StackedBars
+                data={s.releaseTypeByYear}
+                ariaLabel="Release type by film release year"
+                segmentHref={releaseTypeHref}
+              />
             </Tile>
 
             <Tile
@@ -418,7 +507,11 @@ export default function FilmStatsPage() {
               span={6}
               note="Wide-theatrical films with a reported budget only—recent indie and streaming work undercounts."
             >
-              <StackedBars data={s.budgetTierByYear} ariaLabel="Budget tier by film release year" />
+              <StackedBars
+                data={s.budgetTierByYear}
+                ariaLabel="Budget tier by film release year"
+                segmentHref={budgetTierHref}
+              />
             </Tile>
 
             <Tile
@@ -426,7 +519,11 @@ export default function FilmStatsPage() {
               span={6}
               note="All classified films, shrunk. Streaming and limited only exist in recent eras (older cells empty by definition)."
             >
-              <Heatmap grid={s.releaseTypeEraHeat} caption="Average rating by release type and release era" />
+              <Heatmap
+                grid={s.releaseTypeEraHeat}
+                caption="Average rating by release type and release era"
+                hrefFor={eraHeatHref("releaseType")}
+              />
             </Tile>
 
             <Tile
@@ -434,7 +531,11 @@ export default function FilmStatsPage() {
               span={6}
               note="Wide-theatrical only, Bayesian-shrunk. * marks a thin sample (n<5). Tint intensity tracks the rating."
             >
-              <Heatmap grid={s.budgetEraHeat} caption="Average rating by budget tier and release era" />
+              <Heatmap
+                grid={s.budgetEraHeat}
+                caption="Average rating by budget tier and release era"
+                hrefFor={eraHeatHref("budgetTier")}
+              />
             </Tile>
 
           </StatsSection>
@@ -451,6 +552,7 @@ export default function FilmStatsPage() {
                   points: c.points,
                 }))}
                 ariaLabel="Cumulative films watched by day of year, per year"
+                hrefFor={watchedYearHref}
               />
             </Tile>
 
@@ -459,6 +561,7 @@ export default function FilmStatsPage() {
                 data={s.temporal.monthMatrix}
                 ariaLabel="Films watched by month, stacked by year"
                 averageLine="month"
+                segmentHref={watchedYearHref}
               />
             </Tile>
 
@@ -467,6 +570,7 @@ export default function FilmStatsPage() {
                 data={s.temporal.weekdayMatrix}
                 ariaLabel="Films watched by weekday, stacked by year"
                 averageLine="weekday"
+                segmentHref={watchedYearHref}
               />
             </Tile>
           </StatsSection>
@@ -512,7 +616,7 @@ function DeltaList({
   rows,
 }: {
   title: string;
-  rows: { title: string; year: number; delta: number }[];
+  rows: { title: string; year: number; slug: string; delta: number }[];
 }) {
   return (
     <div style={{ minWidth: 0 }}>
@@ -520,9 +624,19 @@ function DeltaList({
       <ul style={deltaListStyle}>
         {rows.map((r) => (
           <li key={`${r.title}-${r.year}`} style={deltaRowStyle}>
-            <span style={deltaLabelStyle}>
-              {r.title} <span style={{ color: "var(--text-caption)" }}>({r.year})</span>
-            </span>
+            {/* The title links to the film's detail page. color:inherit keeps
+                the label at --text-body over the sub-brand `a !important`
+                cascade; the inner spans set their own colors. */}
+            <NextLink
+              href={`/films/${r.slug}`}
+              aria-label={`${r.title} (${r.year})`}
+              style={deltaLinkStyle}
+              className="hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2"
+            >
+              <span style={deltaLabelStyle}>
+                {r.title} <span style={{ color: "var(--text-caption)" }}>({r.year})</span>
+              </span>
+            </NextLink>
             <span
               style={{
                 ...deltaValueStyle,
@@ -567,12 +681,29 @@ const deltaListStyle: CSSProperties = {
 const deltaRowStyle: CSSProperties = {
   display: "flex",
   justifyContent: "space-between",
+  alignItems: "center",
   gap: 8,
   fontSize: 12,
   fontFamily: "var(--font-mono)",
 };
 
+// The title link: takes the flexible column (so the value stays pinned
+// right) and clips with the label's ellipsis. minHeight 24 meets the WCAG
+// 2.2 target-size (minimum) floor for the thin list rows. Subtle until
+// hover/focus.
+const deltaLinkStyle: CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  minHeight: 24,
+  minWidth: 0,
+  overflow: "hidden",
+  color: "inherit",
+  textDecoration: "none",
+  borderRadius: "var(--border-radius-sm)",
+};
+
 const deltaLabelStyle: CSSProperties = {
+  display: "block",
   color: "var(--text-body)",
   overflow: "hidden",
   textOverflow: "ellipsis",

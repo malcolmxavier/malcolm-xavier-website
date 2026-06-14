@@ -53,11 +53,102 @@ import {
   slugifyGenre,
   deriveAvailableNetworks,
   deriveAvailableTypes,
+  type ShowFilters,
+  type Show,
 } from "@/lib/feeds/serializd-utils";
+import { slugifyEntity, findEntityBySlug } from "@/lib/feeds/slug";
+import {
+  indexableTvFacetNames,
+  isIndexableTvFacet,
+  TV_FACET_BASEPATH,
+  type TvRouteFacet,
+} from "@/lib/feeds/facet-index";
 import { TelevisionShell } from "../TelevisionShell";
 import { SummaryPanel } from "../SummaryPanel";
 
 const SERIALIZD_PROFILE_URL = "https://serializd.com/user/malxavi";
+
+// ── Canonical handoff (single-facet → dedicated route) ─────────────
+// Mirror of the film reviews handoff. TV adds two NAME-based facets
+// (network, type — the WS3 filters store canonical names, not slugs); the
+// route slug for those is slugifyEntity(name). The rest are slug-based.
+type ActiveDim =
+  | { kind: "genre"; slug: string }
+  | { kind: "facet"; facet: TvRouteFacet; value: string; nameBased: boolean }
+  | { kind: "other" };
+
+// ShowFilters key → route facet → whether the filter value is a NAME
+// (network/type) or a slug.
+const TV_ROUTABLE: [keyof ShowFilters, TvRouteFacet, boolean][] = [
+  ["creators", "creators", false],
+  ["actors", "actors", false],
+  ["networks", "networks", true],
+  ["languages", "languages", false],
+  ["countries", "countries", false],
+  ["types", "types", true],
+  ["decades", "decades", false],
+];
+
+function activeTvDims(filters: ShowFilters): ActiveDim[] {
+  const dims: ActiveDim[] = [];
+  if (filters.genres?.length) {
+    dims.push(
+      filters.genres.length === 1
+        ? { kind: "genre", slug: slugifyGenre(filters.genres[0]) }
+        : { kind: "other" },
+    );
+  }
+  for (const [key, facet, nameBased] of TV_ROUTABLE) {
+    const v = filters[key] as string[] | undefined;
+    if (v?.length) {
+      dims.push(
+        v.length === 1
+          ? { kind: "facet", facet, value: v[0], nameBased }
+          : { kind: "other" },
+      );
+    }
+  }
+  if (filters.ratings?.length) dims.push({ kind: "other" });
+  if (filters.watchedYears?.length) dims.push({ kind: "other" });
+  if (filters.watchedWindow !== undefined) dims.push({ kind: "other" });
+  if (filters.titleQuery) dims.push({ kind: "other" });
+  if (filters.premiereYearMin !== undefined || filters.premiereYearMax !== undefined) dims.push({ kind: "other" });
+  if (filters.cardKind !== undefined) dims.push({ kind: "other" });
+  if (filters.conglomerates?.length) dims.push({ kind: "other" });
+  return dims;
+}
+
+/** Resolve the canonical URL + index directive for a TV filter state. */
+function tvReviewsCanonical(
+  filters: ShowFilters,
+  isPaged: boolean,
+  shows: Show[],
+): { canonical: string; noindex: boolean } {
+  const dims = activeTvDims(filters);
+  if (!isPaged && dims.length === 1) {
+    const d = dims[0];
+    if (d.kind === "genre") {
+      return { canonical: `/television/genre/${d.slug}`, noindex: false };
+    }
+    if (d.kind === "facet") {
+      const base = TV_FACET_BASEPATH[d.facet];
+      if (d.nameBased) {
+        if (isIndexableTvFacet(d.facet, d.value, shows)) {
+          return {
+            canonical: `/television/${base}/${slugifyEntity(d.value)}`,
+            noindex: false,
+          };
+        }
+      } else if (findEntityBySlug(indexableTvFacetNames(d.facet, shows), d.value)) {
+        return { canonical: `/television/${base}/${d.value}`, noindex: false };
+      }
+    }
+  }
+  return {
+    canonical: "/television/reviews",
+    noindex: dims.length > 0 || isPaged,
+  };
+}
 
 /**
  * Build the listing meta description from the live snapshot
@@ -92,35 +183,20 @@ export async function generateMetadata({
   const page = Number.parseInt(asString(sp.page) ?? "1", 10);
   const isPagedBeyondFirst = Number.isFinite(page) && page > 1;
 
+  // Genre still gets a scoped social title (the most common handoff); the
+  // canonical + index directive now generalize to every single routable
+  // facet via tvReviewsCanonical.
   const onlyGenreFilter =
-    filters.genres &&
-    filters.genres.length === 1 &&
-    !filters.ratings &&
-    !filters.networks &&
-    !filters.types &&
-    !filters.watchedYears &&
-    !filters.watchedWindow &&
-    !filters.titleQuery &&
-    filters.premiereYearMin === undefined &&
-    filters.premiereYearMax === undefined &&
+    filters.genres?.length === 1 &&
+    activeTvDims(filters).length === 1 &&
     !isPagedBeyondFirst;
 
-  const filterCombinationActive =
-    !onlyGenreFilter &&
-    (Boolean(filters.ratings && filters.ratings.length > 0) ||
-      Boolean(filters.genres && filters.genres.length > 0) ||
-      Boolean(filters.networks && filters.networks.length > 0) ||
-      Boolean(filters.types && filters.types.length > 0) ||
-      Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
-      filters.watchedWindow !== undefined ||
-      Boolean(filters.titleQuery) ||
-      filters.premiereYearMin !== undefined ||
-      filters.premiereYearMax !== undefined);
-
-  const noindex = filterCombinationActive || isPagedBeyondFirst;
-  const canonical = onlyGenreFilter
-    ? `/television/genre/${slugifyGenre(filters.genres![0])}`
-    : "/television/reviews";
+  const { shows } = getShowsWithEnrichment();
+  const { canonical, noindex } = tvReviewsCanonical(
+    filters,
+    isPagedBeyondFirst,
+    shows,
+  );
 
   const { summary } = getShows();
   const totalReviews =

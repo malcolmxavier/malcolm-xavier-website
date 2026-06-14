@@ -34,7 +34,11 @@ import {
   getFilmLists,
   getFilmByLetterboxdSlug,
 } from "@/lib/feeds/letterboxd";
+import { Link } from "@/components/primitives/Link";
 import { getFilmFeaturedPick } from "@/lib/feeds/featured-pick";
+import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
+import { getCollectionDetails } from "@/lib/feeds/enrichment";
+import { indexableFilmCollections } from "@/lib/feeds/facet-index";
 import type { Film, FilmList } from "@/lib/feeds/letterboxd";
 
 // How many recent watches to surface in the "Now" module — one clean
@@ -87,6 +91,15 @@ export default function FilmsLandingPage() {
   const lists = getFilmLists();
   const recent = films.slice(0, NOW_COUNT);
   const featured = getFilmFeaturedPick();
+  // Routable franchise collections — drives the "Collections" landing teaser
+  // and its link to the core /films/collections page. Reads the enriched
+  // corpus (collection membership lives in the enrichment fixture).
+  const { films: enrichedFilms } = getFilmsWithEnrichment();
+  const collections = indexableFilmCollections(
+    enrichedFilms,
+    getCollectionDetails(),
+    new Date().getUTCFullYear(),
+  );
 
   // Page-level JSON-LD. The landing is now a first-class editorial page
   // (not just a grid precursor), so it carries its own CollectionPage —
@@ -214,6 +227,25 @@ export default function FilmsLandingPage() {
                   />
                 ))}
               </Grid>
+            </Stack>
+          </Section>
+        ) : null}
+
+        {/* ─── Collections ────────────────────────────────────── */}
+        {/* Franchise families (John Wick, Alien, Mission: Impossible, …) —
+            a link into the core /films/collections page. */}
+        {collections.length > 0 ? (
+          <Section padding="md" bordered>
+            <Stack gap="400">
+              <Kicker accent>Collections</Kicker>
+              <Headline level={2}>Franchises and sagas</Headline>
+              <Lede>
+                The series I&rsquo;ve followed across more than a couple of
+                films, each grouped into its own page of reviews.
+              </Lede>
+              <p style={{ margin: 0 }}>
+                <Link href="/films/collections">Browse all collections →</Link>
+              </p>
             </Stack>
           </Section>
         ) : null}

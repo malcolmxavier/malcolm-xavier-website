@@ -15,16 +15,22 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import type { HeatGrid } from "@/lib/feeds/stats/chart-data";
 import { Tip } from "./Tip";
 
 export function Heatmap({
   grid,
   caption,
+  /** Per-cell deep-link: return a URL for the cell's row×col facets (e.g.
+   *  release type × era → ?releaseType=&decade=) or undefined for no link.
+   *  Empty cells are never linked. */
+  hrefFor,
 }: {
   grid: HeatGrid;
   /** Visually-hidden table caption naming what the grid shows. */
   caption: string;
+  hrefFor?: (row: string, col: string) => string | undefined;
 }) {
   // Normalize the tint against the present min/max so the pattern fills
   // the available range.
@@ -69,12 +75,24 @@ export function Heatmap({
                 );
               }
               const m = mix(cell.v);
+              const href = hrefFor?.(row, col);
+              const inner = (
+                <>
+                  <span style={cellValueStyle}>{cell.v.toFixed(2)}</span>
+                  {/* Thin samples flagged so a low-n cell isn't over-read. */}
+                  <span style={cellNStyle}>
+                    n{cell.n}
+                    {cell.n < 5 ? " *" : ""}
+                  </span>
+                </>
+              );
               return (
                 <td
                   key={col}
                   className="stats-tip"
                   style={{
                     ...cellStyle,
+                    padding: href ? 0 : cellStyle.padding,
                     // --stats-heat (a brighter brand step than the bars)
                     // rather than currentColor: the cell's own text color
                     // is --text-body, so currentColor here would be the
@@ -82,12 +100,23 @@ export function Heatmap({
                     background: `color-mix(in srgb, var(--stats-heat) ${(m * 100).toFixed(0)}%, var(--surface-default))`,
                   }}
                 >
-                  <span style={cellValueStyle}>{cell.v.toFixed(2)}</span>
-                  {/* Thin samples flagged so a low-n cell isn't over-read. */}
-                  <span style={cellNStyle}>
-                    n{cell.n}
-                    {cell.n < 5 ? " *" : ""}
-                  </span>
+                  {href ? (
+                    // color:inherit keeps the cell text at --text-body (which
+                    // is AA over the capped tint in both themes) rather than
+                    // the sub-brand link color; opacity carries hover. The
+                    // link fills the cell so the whole tinted block is the
+                    // tap target (≥ the cell's own padding).
+                    <Link
+                      href={href}
+                      aria-label={`${row} × ${col} — ${cell.v.toFixed(2)} star average`}
+                      style={cellLinkStyle}
+                      className="hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2"
+                    >
+                      {inner}
+                    </Link>
+                  ) : (
+                    inner
+                  )}
                   {/* The cell shows its number; the chip names both axes so
                       the value reads in full context on hover. */}
                   <Tip>{`${row} × ${col} — ${cell.v.toFixed(2)}★ avg (n ${cell.n}${cell.n < 5 ? ", thin" : ""})`}</Tip>
@@ -139,10 +168,25 @@ const cellStyle: CSSProperties = {
   lineHeight: 1.2,
 };
 
+// Linked cell: fill the whole <td> (which drops its own padding to 0 when
+// linked) so the tinted block is the tap target; restore the cell padding
+// here. color:inherit so the value stays --text-body (AA over the tint).
+const cellLinkStyle: CSSProperties = {
+  display: "block",
+  padding: "8px 4px",
+  color: "inherit",
+  textDecoration: "none",
+  borderRadius: "var(--border-radius-sm)",
+};
+
 const cellValueStyle: CSSProperties = {
   display: "block",
   fontFamily: "var(--font-mono)",
   fontSize: 13,
+  // Explicit color so that, when the cell is a link, the value stays
+  // --text-body (AA over the capped tint) rather than inheriting the
+  // sub-brand `a !important` link color. Mirrors the n-count span + Bars.
+  color: "var(--text-body)",
 };
 
 // The sample-size line is de-emphasised by SIZE (9px vs the 13px value),

@@ -94,11 +94,17 @@ export function StackedBars({
       Connected page passes the film/TV brand hues so its Film-vs-TV
       series match the dumbbell rather than reading as arbitrary categories. */
   colors,
+  /** Per-segment deep-link: the accessible click-through for this chart lives
+      on the legend (the SVG stacks stay visual + hover). Returns a URL for
+      the segment's facet (e.g. a year → ?watchedYear, a release type →
+      ?releaseType) or undefined for no link. */
+  segmentHref,
 }: {
   data: StackedMatrix;
   ariaLabel: string;
   averageLine?: "weekday" | "month";
   colors?: string[];
+  segmentHref?: (segment: string, index: number) => string | undefined;
 }) {
   const colorAt = (i: number) => colors?.[i] ?? paletteColor(i);
   const { cats, segments, matrix } = data;
@@ -247,7 +253,11 @@ export function StackedBars({
       </div>
       <LegendSwatches
         items={[
-          ...segments.map((s, i) => ({ label: s, color: colorAt(i) })),
+          ...segments.map((s, i) => ({
+            label: s,
+            color: colorAt(i),
+            href: segmentHref?.(s, i),
+          })),
           ...(avg
             ? [{ label: "Typical year", color: "var(--chart-accent)", dashed: true }]
             : []),

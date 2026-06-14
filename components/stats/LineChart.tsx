@@ -28,11 +28,14 @@ export function LineChart({
   colors,
   /** Suffix on the scrubber's per-series value (e.g. "%" for share). */
   valueSuffix,
+  /** Per-series deep-link, surfaced on the legend (the lines stay visual). */
+  hrefFor,
 }: {
   series: LineSeries[];
   ariaLabel: string;
   colors?: string[];
   valueSuffix?: string;
+  hrefFor?: (label: string) => string | undefined;
 }) {
   const colorAt = (i: number) => colors?.[i] ?? paletteColor(i);
   const W = 560;
@@ -121,7 +124,13 @@ export function LineChart({
           valueSuffix={valueSuffix}
         />
       </div>
-      <LegendSwatches items={series.map((s, i) => ({ label: s.label, color: colorAt(i) }))} />
+      <LegendSwatches
+        items={series.map((s, i) => ({
+          label: s.label,
+          color: colorAt(i),
+          href: hrefFor?.(s.label),
+        }))}
+      />
     </div>
   );
 }

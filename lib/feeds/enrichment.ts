@@ -140,6 +140,9 @@ export type EnrichedFilm = {
   mine: number | null;
   title: string;
   year: number;
+  /** Detail-page slug (`${letterboxdSlug}-${releaseYear}`) joined from the
+   *  snapshot, so title-listing stats tiles can deep-link to /films/[slug]. */
+  slug: string;
   director: string | null;
   genres: string[];
   runtime: number | null;
@@ -261,6 +264,7 @@ function build(): Built {
       mine: snap.primaryRating,
       title: snap.title,
       year: snap.releaseYear,
+      slug: `${snap.letterboxdSlug}-${snap.releaseYear}`,
       director: snap.tmdb.director,
       genres: snap.tmdb.genres,
       runtime: snap.tmdb.runtime,
