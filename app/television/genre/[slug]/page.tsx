@@ -28,6 +28,7 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
 import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
+import { buildOriginHref } from "@/lib/feeds/origin-href";
 import { hybridMatchIds } from "@/lib/feeds/fuzzy-search";
 import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
@@ -352,29 +353,4 @@ export default async function TvGenrePage({
       </Container>
     </div>
   );
-}
-
-/**
- * Reconstruct the relative URL (pathname + query string) of the
- * current listing — passed to TelevisionShell as originHref. See
- * /television/page.tsx for the full rationale; duplicated here to
- * keep each route self-contained (the helper is small enough not
- * to warrant a shared module).
- */
-function buildOriginHref(
-  pathname: string,
-  params: Record<string, string | string[] | undefined>,
-): string {
-  const sp = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) {
-    if (k === "ref" || k === "from") continue;
-    if (v === undefined) continue;
-    if (Array.isArray(v)) {
-      if (v[0] !== undefined) sp.set(k, v[0]);
-    } else {
-      sp.set(k, v);
-    }
-  }
-  const qs = sp.toString();
-  return qs ? `${pathname}?${qs}` : pathname;
 }

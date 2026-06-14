@@ -35,6 +35,7 @@ import {
   buildInProgressCards,
 } from "@/lib/feeds/serializd-utils";
 import { ClusterGridNav } from "@/components/feeds/ClusterGridNav";
+import { ScrollRestoration } from "@/components/feeds/useScrollRestoration";
 import { InProgressCard } from "../InProgressCard";
 import { BackToTelevision } from "../BackToTelevision";
 
@@ -145,6 +146,8 @@ export default function WatchingPage() {
 
   return (
     <div data-subbrand="tv">
+      {/* Restore scroll when returning here from a show detail page. */}
+      <ScrollRestoration />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

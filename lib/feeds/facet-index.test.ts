@@ -17,6 +17,16 @@ import {
   indexableTvCollections,
   indexableTvCollectionNames,
   showsInTvFamily,
+  filmFacetForBasePath,
+  tvFacetForBasePath,
+  resolveFilmFacet,
+  resolveTvFacet,
+  filmCollectionMemberSort,
+  tvCollectionMemberSort,
+  FILM_FACET_PIN_KEY,
+  TV_FACET_PIN,
+  FILM_FACET_BASEPATH,
+  TV_FACET_BASEPATH,
 } from "./facet-index";
 import type { Film } from "./letterboxd-utils";
 import type { Show } from "./serializd-utils";
@@ -329,3 +339,100 @@ describe("tv collections — route floor (≥2) excludes thin families", () => {
     expect(indexableTvCollectionNames(shows)).toEqual([]);
   });
 });
+
+// ─── Facet-route → filter-replay resolvers (shared by the facet routes AND
+//     the detail-page neighbour resolvers) ───────────────────────────────
+
+describe("facetForBasePath — URL segment → facet key", () => {
+  it("maps every film basePath back to its facet, round-trip", () => {
+    for (const [facet, bp] of Object.entries(FILM_FACET_BASEPATH)) {
+      expect(filmFacetForBasePath(bp)).toBe(facet);
+    }
+  });
+  it("maps every tv basePath back to its facet, round-trip", () => {
+    for (const [facet, bp] of Object.entries(TV_FACET_BASEPATH)) {
+      expect(tvFacetForBasePath(bp)).toBe(facet);
+    }
+  });
+  it("returns null for non-facet segments (genre, collections, junk)", () => {
+    expect(filmFacetForBasePath("genre")).toBeNull();
+    expect(filmFacetForBasePath("collections")).toBeNull();
+    expect(tvFacetForBasePath("collections")).toBeNull();
+    expect(tvFacetForBasePath("nonsense")).toBeNull();
+  });
+});
+
+describe("film pin key is identity (slug-based pinning)", () => {
+  it("each facet pins its own FilmFilters key", () => {
+    expect(FILM_FACET_PIN_KEY.actors).toBe("actors");
+    expect(FILM_FACET_PIN_KEY.directors).toBe("directors");
+    expect(FILM_FACET_PIN_KEY.studios).toBe("studios");
+  });
+});
+
+describe("tv pin config — name-based vs slug-based", () => {
+  it("network + type pin by canonical name; others by slug", () => {
+    expect(TV_FACET_PIN.networks.nameBased).toBe(true);
+    expect(TV_FACET_PIN.types.nameBased).toBe(true);
+    expect(TV_FACET_PIN.actors.nameBased).toBeUndefined();
+    expect(TV_FACET_PIN.creators.pinKey).toBe("creators");
+  });
+});
+
+describe("resolveFilmFacet / resolveTvFacet — slug → canonical name among indexables", () => {
+  const films = [
+    mkFilm("a", 2010, "Greta Gerwig"),
+    mkFilm("b", 2017, "Greta Gerwig"),
+    mkFilm("c", 2019, "Greta Gerwig"), // count 3 → indexable
+    mkFilm("d", 2020, "One Hit Wonder"), // count 1 → sub-floor
+  ];
+  it("resolves an indexable slug to its name + count", () => {
+    expect(resolveFilmFacet("directors", films, "greta-gerwig")).toEqual({
+      name: "Greta Gerwig",
+      count: 3,
+    });
+  });
+  it("returns null for a sub-floor (non-routable) slug", () => {
+    expect(resolveFilmFacet("directors", films, "one-hit-wonder")).toBeNull();
+  });
+  it("returns null for an unknown slug", () => {
+    expect(resolveFilmFacet("directors", films, "nobody")).toBeNull();
+  });
+  it("tv: resolves a name-based network slug to its canonical name", () => {
+    const shows = Array.from({ length: 5 }, (_, i) =>
+      mkShow(`hbo-${i}`, 2018, { type: "Scripted", networks: ["HBO"] }),
+    );
+    const hbo = primaryNetwork(["HBO"])!;
+    expect(resolveTvFacet("networks", shows, slugify(hbo))?.name).toBe(hbo);
+  });
+});
+
+describe("collection member comparators — release/premiere year asc, then title/name", () => {
+  it("film: orders by release year asc, ties broken by title", () => {
+    const a = { releaseYear: 2014, title: "B" } as unknown as Film;
+    const b = { releaseYear: 2017, title: "A" } as unknown as Film;
+    const c = { releaseYear: 2014, title: "A" } as unknown as Film;
+    expect([a, b, c].sort(filmCollectionMemberSort).map((f) => f.title)).toEqual([
+      "A",
+      "B",
+      "A",
+    ]);
+    expect([b, a].sort(filmCollectionMemberSort)[0].releaseYear).toBe(2014);
+  });
+  it("tv: orders by premiere year asc, ties broken by name", () => {
+    const a = { premiereYear: 2020, name: "Z" } as unknown as Show;
+    const b = { premiereYear: 2012, name: "Q" } as unknown as Show;
+    expect([a, b].sort(tvCollectionMemberSort).map((s) => s.name)).toEqual([
+      "Q",
+      "Z",
+    ]);
+  });
+});
+
+// Local slugify mirroring slugifyEntity for the network test above.
+function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}

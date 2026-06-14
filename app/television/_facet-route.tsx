@@ -44,11 +44,14 @@ import {
   showEntityFacets,
   type ShowFilters,
 } from "@/lib/feeds/serializd-utils";
-import { slugifyEntity, findEntityBySlug } from "@/lib/feeds/slug";
+import { slugifyEntity } from "@/lib/feeds/slug";
+import { buildOriginHref } from "@/lib/feeds/origin-href";
 import {
   indexableTvFacets,
+  resolveTvFacet,
   TV_FACET_BASEPATH,
   TV_FACET_PARAM,
+  TV_FACET_PIN,
   type TvRouteFacet,
 } from "@/lib/feeds/facet-index";
 import { TelevisionShell } from "./TelevisionShell";
@@ -63,23 +66,9 @@ type Params = { slug: string };
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 type RouteArgs = { params: Promise<Params>; searchParams: SearchParams };
 
-// ── Per-facet pin config ──────────────────────────────────────────
-// The ShowFilters key each facet pins + whether it's NAME-based. network +
-// type are name-based (the WS3 filters match canonical names, not slugs),
-// so their pin value is the canonical name; the rest pin by slug (the form
-// showFacetValues' facetHit compares). URL segment + param come from the
-// shared facet-index maps (TV_FACET_BASEPATH / TV_FACET_PARAM).
-type PinConfig = { pinKey: keyof ShowFilters; nameBased?: boolean };
-
-const PIN: Record<TvRouteFacet, PinConfig> = {
-  creators: { pinKey: "creators" },
-  actors: { pinKey: "actors" },
-  networks: { pinKey: "networks", nameBased: true },
-  languages: { pinKey: "languages" },
-  countries: { pinKey: "countries" },
-  types: { pinKey: "types", nameBased: true },
-  decades: { pinKey: "decades" },
-};
+// The per-facet pin config now lives in facet-index.ts (TV_FACET_PIN) so
+// this route and the detail-page neighbour resolver replay the SAME pin.
+const PIN = TV_FACET_PIN;
 
 const TV_FILTER_PARAMS = [
   "rating", "genre", "network", "type", "watchedYear", "watchedWindow",
@@ -211,12 +200,10 @@ function resolveFacet(
   facet: TvRouteFacet,
   slug: string,
 ): { name: string; count: number } | null {
+  // Delegates to the shared resolver so the route + the neighbour resolver
+  // resolve slugs identically.
   const { shows } = getShowsWithEnrichment();
-  const indexable = indexableTvFacets(facet, shows);
-  const name = findEntityBySlug(indexable.map(([n]) => n), slug);
-  if (!name) return null;
-  const count = indexable.find(([n]) => n === name)![1];
-  return { name, count };
+  return resolveTvFacet(facet, shows, slug);
 }
 
 /** generateStaticParams — one page per floor-clearing value. */
@@ -457,25 +444,4 @@ export async function TvFacetPage(
       </Container>
     </div>
   );
-}
-
-/** Reconstruct the relative URL (pathname + query) of the current route —
- *  passed to TelevisionShell as originHref for filter-aware detail-page
- *  neighbours. Mirrors the TV genre route's helper. */
-function buildOriginHref(
-  pathname: string,
-  params: Record<string, string | string[] | undefined>,
-): string {
-  const sp = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) {
-    if (k === "ref" || k === "from") continue;
-    if (v === undefined) continue;
-    if (Array.isArray(v)) {
-      if (v[0] !== undefined) sp.set(k, v[0]);
-    } else {
-      sp.set(k, v);
-    }
-  }
-  const qs = sp.toString();
-  return qs ? `${pathname}?${qs}` : pathname;
 }

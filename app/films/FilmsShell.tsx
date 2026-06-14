@@ -70,6 +70,7 @@ import {
 } from "@/lib/feeds/letterboxd-utils";
 import { slugifyEntity, type FacetGroup } from "@/lib/feeds/slug";
 import { FilmCard } from "./FilmCard";
+import { useScrollRestoration } from "@/components/feeds/useScrollRestoration";
 
 const RATING_VALUES = [
   0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5,
@@ -153,6 +154,12 @@ type Props = {
    *  number is the "All (N)" count. Mirrors TelevisionShell's nav. The
    *  reviews grid passes it; genre/facet routes don't. */
   gridNavAllCount?: number;
+  /** This listing's own relative URL (pathname + active filters), encoded
+   *  onto each card's detail-page link as `?from=` so the detail page can
+   *  replay the user's filter/sort context for adjacent-film nav + the
+   *  back-link. Recomputed server-side on every filter change (filtering
+   *  navigates the URL), so it always reflects the live listing state. */
+  originHref?: string;
 };
 
 export function FilmsShell({
@@ -170,10 +177,15 @@ export function FilmsShell({
   entityNameHints,
   routeFacetChip,
   gridNavAllCount,
+  originHref,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  // Restore the exact scroll position when returning from a detail page
+  // (the back-link push doesn't get native scroll restoration).
+  useScrollRestoration();
 
   // Drawer (mobile fly-in) state.
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -736,7 +748,7 @@ export function FilmsShell({
             >
               {films.map((applied) => (
                 <li key={applied.film.id}>
-                  <FilmCard applied={applied} />
+                  <FilmCard applied={applied} originHref={originHref} />
                 </li>
               ))}
             </ul>

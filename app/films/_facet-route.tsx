@@ -43,11 +43,14 @@ import {
   parseFilmSort,
   type FilmFilters,
 } from "@/lib/feeds/letterboxd-utils";
-import { slugifyEntity, findEntityBySlug } from "@/lib/feeds/slug";
+import { slugifyEntity } from "@/lib/feeds/slug";
+import { buildOriginHref } from "@/lib/feeds/origin-href";
 import {
   indexableFilmFacets,
+  resolveFilmFacet,
   FILM_FACET_BASEPATH,
   FILM_FACET_PARAM,
+  FILM_FACET_PIN_KEY,
   type FilmRouteFacet,
 } from "@/lib/feeds/facet-index";
 import { FilmsShell } from "./FilmsShell";
@@ -65,21 +68,8 @@ type Params = { slug: string };
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 type RouteArgs = { params: Promise<Params>; searchParams: SearchParams };
 
-// ── Per-facet pin config ──────────────────────────────────────────
-// Just the FilmFilters key each facet pins; the URL segment + query param
-// come from the shared facet-index maps (FILM_FACET_BASEPATH /
-// FILM_FACET_PARAM) so the routes, sitemap, stats deep-links, and
-// canonical handoff can't drift. `param` is undefined for director (the
-// ?director= param is the fuzzy search box; the route pins internally).
-const PIN_KEY: Record<FilmRouteFacet, keyof FilmFilters> = {
-  directors: "directors",
-  actors: "actors",
-  writers: "writers",
-  studios: "studios",
-  languages: "languages",
-  countries: "countries",
-  decades: "decades",
-};
+// The per-facet pin key now lives in facet-index.ts (FILM_FACET_PIN_KEY) so
+// this route and the detail-page neighbour resolver replay the SAME pin.
 
 // All recognized film filter query params — used to detect "any filter
 // beyond the route's own pin," which trips noindex (same posture as the
@@ -216,12 +206,10 @@ function resolveFacet(
   facet: FilmRouteFacet,
   slug: string,
 ): { name: string; count: number } | null {
+  // Delegates to the shared resolver so the route + the neighbour resolver
+  // resolve slugs identically.
   const { films } = getFilmsWithEnrichment();
-  const indexable = indexableFilmFacets(facet, films);
-  const name = findEntityBySlug(indexable.map(([n]) => n), slug);
-  if (!name) return null;
-  const count = indexable.find(([n]) => n === name)![1];
-  return { name, count };
+  return resolveFilmFacet(facet, films, slug);
 }
 
 /** generateStaticParams for a facet route — one page per floor-clearing
@@ -290,7 +278,7 @@ export async function FilmFacetPage(
   const { name, count } = resolved;
   const basePath = FILM_FACET_BASEPATH[facet];
   const param = FILM_FACET_PARAM[facet];
-  const pinKey = PIN_KEY[facet];
+  const pinKey = FILM_FACET_PIN_KEY[facet];
   const entityFacets = filmEntityFacets(films);
 
   // Parse the URL filters, then force-set the route's facet (by slug, the
@@ -423,6 +411,7 @@ export async function FilmFacetPage(
             routeFacetChip={
               facet === "directors" ? { facetLabel: "Director", name } : undefined
             }
+            originHref={buildOriginHref(`/films/${basePath}/${slug}`, sp)}
           />
         </Section>
 

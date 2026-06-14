@@ -57,6 +57,7 @@ import {
   type Show,
 } from "@/lib/feeds/serializd-utils";
 import { slugifyEntity, findEntityBySlug } from "@/lib/feeds/slug";
+import { buildOriginHref } from "@/lib/feeds/origin-href";
 import {
   indexableTvFacetNames,
   isIndexableTvFacet,
@@ -560,35 +561,6 @@ export default async function TelevisionPage({
 }
 
 // ─── Helpers ──────────────────────────────────────────────────────
-
-/**
- * Reconstruct the relative URL (pathname + query string) of the
- * current listing — passed to TelevisionShell as originHref so
- * each ShowCard can encode it on its detail-page link. The detail
- * page then knows the user's filter+sort context for
- * adjacent-show navigation.
- *
- * Strips back-nav meta-state markers (`ref`, `from`) so the
- * encoded source URL is always a clean listing URL — never the
- * detail page the user might've arrived from.
- */
-function buildOriginHref(
-  pathname: string,
-  params: Record<string, string | string[] | undefined>,
-): string {
-  const sp = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) {
-    if (k === "ref" || k === "from") continue;
-    if (v === undefined) continue;
-    if (Array.isArray(v)) {
-      if (v[0] !== undefined) sp.set(k, v[0]);
-    } else {
-      sp.set(k, v);
-    }
-  }
-  const qs = sp.toString();
-  return qs ? `${pathname}?${qs}` : pathname;
-}
 
 /**
  * Build a relative href for /television at a specific page,

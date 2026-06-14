@@ -26,11 +26,13 @@
 import {
   filmFacetDistributions,
   type Film,
+  type FilmFilters,
 } from "./letterboxd-utils";
 import {
   showFacetDistributions,
   type Show,
   type ShowFacet,
+  type ShowFilters,
 } from "./serializd-utils";
 import { primaryNetwork } from "./stats/network-canon";
 import { STUDIO_INDEX_ALLOWLIST } from "./stats/studio-canon";
@@ -46,6 +48,7 @@ import {
   TV_FAMILIES,
 } from "./stats/tv-franchise";
 import type { CollectionDetail } from "./enrichment";
+import { findEntityBySlug } from "./slug";
 
 /** Film facet types that earn a dedicated indexed route. */
 export type FilmRouteFacet =
@@ -277,6 +280,101 @@ export function isIndexableTvFacet(
   shows: Show[],
 ): boolean {
   return indexableTvFacetNames(facet, shows).includes(name);
+}
+
+// ── Facet route → filter replay (shared by the facet routes AND the
+//    detail-page neighbour resolvers) ─────────────────────────────────
+//
+// A facet leaf route (e.g. /films/actor/keanu-reeves) scopes its grid by
+// force-pinning one FilmFilters/ShowFilters key. The detail-page neighbour
+// resolver must replay that EXACT pin to walk the same set, so the pin
+// config + the basePath→facet inverse + the slug→entity resolution all live
+// here as the single source. (Previously PIN_KEY/PIN were defined privately
+// inside each _facet-route.tsx.)
+
+/** Inverse of FILM_FACET_BASEPATH: URL segment → facet key (e.g. "actor"
+ *  → "actors"). null for any non-facet segment. */
+export function filmFacetForBasePath(basePath: string): FilmRouteFacet | null {
+  for (const [facet, bp] of Object.entries(FILM_FACET_BASEPATH)) {
+    if (bp === basePath) return facet as FilmRouteFacet;
+  }
+  return null;
+}
+
+/** Inverse of TV_FACET_BASEPATH: URL segment → facet key. */
+export function tvFacetForBasePath(basePath: string): TvRouteFacet | null {
+  for (const [facet, bp] of Object.entries(TV_FACET_BASEPATH)) {
+    if (bp === basePath) return facet as TvRouteFacet;
+  }
+  return null;
+}
+
+/** The FilmFilters key each film facet pins. Film facets all pin BY SLUG
+ *  (applyFilters' facetHit compares the slugified value), so the pin value
+ *  is always the route slug. */
+export const FILM_FACET_PIN_KEY: Record<FilmRouteFacet, keyof FilmFilters> = {
+  directors: "directors",
+  actors: "actors",
+  writers: "writers",
+  studios: "studios",
+  languages: "languages",
+  countries: "countries",
+  decades: "decades",
+};
+
+/** The ShowFilters key each TV facet pins + whether it pins by canonical
+ *  NAME rather than slug. network + type are name-based (the WS3 filters
+ *  match canonical names); the rest pin by slug. */
+export type TvPinConfig = { pinKey: keyof ShowFilters; nameBased?: boolean };
+export const TV_FACET_PIN: Record<TvRouteFacet, TvPinConfig> = {
+  creators: { pinKey: "creators" },
+  actors: { pinKey: "actors" },
+  networks: { pinKey: "networks", nameBased: true },
+  languages: { pinKey: "languages" },
+  countries: { pinKey: "countries" },
+  types: { pinKey: "types", nameBased: true },
+  decades: { pinKey: "decades" },
+};
+
+/**
+ * Resolve a route slug to its canonical entity name + logged count among
+ * the floor-clearing (indexable) values only. Unknown / sub-floor → null.
+ * (The facet routes call this for copy; the neighbour resolvers call it for
+ * the breadcrumb label + the name-based TV pin value.)
+ */
+export function resolveFilmFacet(
+  facet: FilmRouteFacet,
+  films: Film[],
+  slug: string,
+): { name: string; count: number } | null {
+  const indexable = indexableFilmFacets(facet, films);
+  const name = findEntityBySlug(indexable.map(([n]) => n), slug);
+  if (name === null) return null;
+  return { name, count: indexable.find(([n]) => n === name)![1] };
+}
+
+/** TV mirror of resolveFilmFacet. */
+export function resolveTvFacet(
+  facet: TvRouteFacet,
+  shows: Show[],
+  slug: string,
+): { name: string; count: number } | null {
+  const indexable = indexableTvFacets(facet, shows);
+  const name = findEntityBySlug(indexable.map(([n]) => n), slug);
+  if (name === null) return null;
+  return { name, count: indexable.find(([n]) => n === name)![1] };
+}
+
+/** Member ordering for a film collection — release year asc, then title.
+ *  The collection LEAF page and the neighbour resolver share this so their
+ *  prev/next order can't drift. */
+export function filmCollectionMemberSort(a: Film, b: Film): number {
+  return a.releaseYear - b.releaseYear || a.title.localeCompare(b.title);
+}
+
+/** Member ordering for a TV collection — premiere year asc, then name. */
+export function tvCollectionMemberSort(a: Show, b: Show): number {
+  return a.premiereYear - b.premiereYear || a.name.localeCompare(b.name);
 }
 
 // ── Film collections (franchise families → /films/collections/[slug]) ──

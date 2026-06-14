@@ -31,6 +31,7 @@ import { StarRating } from "@/components/primitives/StarRating";
 export function PosterTile({
   href,
   external = false,
+  originHref,
   posterUrl,
   title,
   subtitle,
@@ -45,6 +46,12 @@ export function PosterTile({
   /** External (platform) link vs internal detail route. Ignored when
    *  `href` is omitted. */
   external?: boolean;
+  /** Source-listing URL (e.g. "/films/collections/john-wick"). When set on
+   *  an internal tile, the detail href gains `?ref=internal&from=<encoded>`
+   *  so the detail page replays this listing for adjacent-title nav + the
+   *  back-link. Opt-in (collection leaves); ignored for external/display
+   *  tiles. */
+  originHref?: string;
   posterUrl: string | null;
   title: string;
   /** Secondary line — year, or "year · dir. X". The ↗ external marker
@@ -123,6 +130,13 @@ export function PosterTile({
   if (!href) {
     return <div className="block h-full">{inner}</div>;
   }
+  // Internal tiles with an originHref carry the back-nav marker + the
+  // encoded source listing, so the detail page can replay it (filter-aware
+  // neighbours + the return back-link). External tiles never do.
+  const internalHref =
+    !external && originHref
+      ? `${href}${href.includes("?") ? "&" : "?"}ref=internal&from=${encodeURIComponent(originHref)}`
+      : href;
   return external ? (
     <a
       href={href}
@@ -134,7 +148,7 @@ export function PosterTile({
       {inner}
     </a>
   ) : (
-    <NextLink href={href} className={className} style={style}>
+    <NextLink href={internalHref} className={className} style={style}>
       {inner}
     </NextLink>
   );

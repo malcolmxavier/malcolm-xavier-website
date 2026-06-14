@@ -33,6 +33,7 @@ import { slugifyEntity } from "@/lib/feeds/slug";
 import {
   indexableTvCollections,
   showsInTvFamily,
+  tvCollectionMemberSort,
   type TvCollectionRoute,
 } from "@/lib/feeds/facet-index";
 
@@ -151,9 +152,7 @@ function CollectionHeading({
 
 /** One PosterTile per member show, oldest-first (broadcast order). */
 function CollectionGrid({ shows }: { shows: Show[] }) {
-  const ordered = [...shows].sort(
-    (a, b) => a.premiereYear - b.premiereYear || a.name.localeCompare(b.name),
-  );
+  const ordered = [...shows].sort(tvCollectionMemberSort);
   return (
     <Grid cols={5} gap="500">
       {ordered.map((show) => (
