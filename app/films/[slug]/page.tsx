@@ -62,18 +62,27 @@ import {
   getFilmNeighbors,
 } from "@/lib/feeds/letterboxd";
 import {
+  asString,
   formatRuntime,
   formatWatchedDate,
   slugifyGenre,
   type Film,
   type Review,
 } from "@/lib/feeds/letterboxd-utils";
+import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
+import { getCollectionDetails } from "@/lib/feeds/enrichment";
+import { indexableFilmCollections } from "@/lib/feeds/facet-index";
+import {
+  findFilmContextualNeighbors,
+  describeFilmFilterContext,
+} from "@/lib/feeds/film-neighbors";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { BackToFilms } from "./BackToFilms";
 
 type Params = { slug: string };
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 // ISR cache horizon for detail pages. The snapshot only changes on
 // human-driven `npm run films:refresh`, so a 1-hour revalidation
@@ -175,23 +184,55 @@ export async function generateMetadata({
 
 export default async function FilmDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<Params>;
+  searchParams: SearchParams;
 }) {
   const { slug } = await params;
+  const sp = await searchParams;
   const film = getFilmBySlug(slug);
   if (!film) notFound();
 
-  // Adjacent-review neighbors for the bottom nav — closes the
-  // dead-end finding (films-related-films-internal-links). The
-  // snapshot's films array is pre-sorted by latestWatchedDate desc
-  // (matches the listing default sort), so neighbors are
-  // index ± 1. getFilmNeighbors uses a position map built once at
-  // cache-load time so this is O(1) per render — was findIndex over
-  // the full films array per render before. Each neighbor is null
-  // at the array boundary so the nav gracefully omits the missing
-  // direction.
-  const { newer: newerFilm, older: olderFilm } = getFilmNeighbors(film.id);
+  // Filter-aware adjacent-film nav. When the user arrived via a card
+  // click, the listing threaded its URL as `?from=`; replay it so the
+  // newer/older nav walks the SAME filtered+sorted set the user was
+  // browsing. Without a usable `from`, fall back to getFilmNeighbors —
+  // the chronological (latestWatchedDate desc) prev/next from a position
+  // map built once at cache-load time (O(1)). Each neighbour is null at
+  // the boundary so the nav gracefully omits the missing direction.
+  //
+  // The neighbour resolver needs the ENRICHED corpus (facet predicates +
+  // collection membership read film.enrichment), unlike getFilmBySlug
+  // above which only needs the snapshot.
+  const fromParam = asString(sp.from);
+  const { films, summary } = getFilmsWithEnrichment();
+  const neighborCorpus = {
+    films,
+    genreDistribution: summary.genreDistribution,
+    collections: indexableFilmCollections(
+      films,
+      getCollectionDetails(),
+      new Date().getUTCFullYear(),
+    ),
+  };
+  const contextual = findFilmContextualNeighbors(
+    film.id,
+    fromParam,
+    neighborCorpus,
+  );
+  const { newer: newerFilm, older: olderFilm } =
+    contextual ?? getFilmNeighbors(film.id);
+
+  // A short "you came from …" breadcrumb derived from the same `from`
+  // URL (e.g. "Keanu Reeves", "John Wick", "Drama · 5★"). Null when
+  // there's nothing distinctive to surface.
+  const filterContext = describeFilmFilterContext(fromParam, neighborCorpus);
+
+  // Re-encode `from` so the neighbour links carry it forward — multi-hop
+  // browsing (older → older → older) keeps replaying the original listing
+  // and the back-link keeps returning to it.
+  const neighborFrom = fromParam ? encodeURIComponent(fromParam) : null;
 
   // Hero dateline rule mirrors FilmCard.tsx: when every review on
   // this film is a rewatch, surface "Rewatched" against the earliest
@@ -225,6 +266,15 @@ export default async function FilmDetailPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Container size="lg">
+        {/* "You came from …" breadcrumb — names the listing context the
+            visitor arrived from (mirrors the TV detail page). Caption-grey,
+            above the text-action back link so the two read as distinct
+            ("where you came from" vs "go back"). */}
+        {filterContext ? (
+          <div style={{ marginBottom: "var(--scale-400)" }}>
+            <Kicker>Films · {filterContext}</Kicker>
+          </div>
+        ) : null}
         {/* Back link sits above the hero. Spacing tuned so the
             link clears the nav and never collides with the poster
             below it (no negative-margin tricks now that the
@@ -459,12 +509,20 @@ export default async function FilmDetailPage({
               className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8"
             >
               {newerFilm ? (
-                <NeighborLink film={newerFilm} direction="newer" />
+                <NeighborLink
+                  film={newerFilm}
+                  direction="newer"
+                  fromParam={neighborFrom}
+                />
               ) : (
                 <span aria-hidden="true" />
               )}
               {olderFilm ? (
-                <NeighborLink film={olderFilm} direction="older" />
+                <NeighborLink
+                  film={olderFilm}
+                  direction="older"
+                  fromParam={neighborFrom}
+                />
               ) : (
                 <span aria-hidden="true" />
               )}
@@ -842,9 +900,15 @@ function ReviewToc({ reviews }: { reviews: Review[] }) {
 function NeighborLink({
   film,
   direction,
+  fromParam,
 }: {
   film: Film;
   direction: "older" | "newer";
+  /** The already-encoded source-listing URL, forwarded so multi-hop
+   *  browsing keeps replaying the original listing for neighbours AND the
+   *  back-link. Null → a context-free neighbour link (chronological
+   *  neighbours + cluster-root back-link on the destination). */
+  fromParam?: string | null;
 }) {
   const slug = `${film.letterboxdSlug}-${film.releaseYear}`;
   const kicker =
@@ -853,9 +917,15 @@ function NeighborLink({
   // the date the user sees here is the same date that determines
   // the neighbor's position in the listing order.
   const datelineDate = film.latestWatchedDate;
+  // Carry ?ref=internal (back-nav marker) + ?from (the encoded listing,
+  // when present) + the #review-0 anchor — same shape FilmCard builds, so
+  // hopping neighbour→neighbour preserves the listing context.
+  const href = fromParam
+    ? `/films/${slug}?ref=internal&from=${fromParam}#review-0`
+    : `/films/${slug}?ref=internal#review-0`;
   return (
     <NextLink
-      href={`/films/${slug}`}
+      href={href}
       // Card-shaped affordance — bordered wrapper, padding, hover
       // color-shift on the border so the whole tile reads as a
       // tappable card. Mirrors /television/[showSlug]'s

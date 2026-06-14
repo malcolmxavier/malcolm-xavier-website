@@ -46,6 +46,7 @@ import type {
 } from "@/lib/feeds/serializd-utils";
 import { slugifyEntity, type FacetGroup } from "@/lib/feeds/slug";
 import { ClusterGridNav } from "@/components/feeds/ClusterGridNav";
+import { useScrollRestoration } from "@/components/feeds/useScrollRestoration";
 import { ShowCard } from "./ShowCard";
 
 const RATING_VALUES = [
@@ -145,6 +146,10 @@ export function TelevisionShell({
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  // Restore the exact scroll position when returning from a detail page
+  // (the back-link push doesn't get native scroll restoration).
+  useScrollRestoration();
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);

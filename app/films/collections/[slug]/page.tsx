@@ -27,6 +27,7 @@ import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
 import { PosterTile } from "@/components/feeds/PosterTile";
 import { BackLink } from "@/components/feeds/BackLink";
+import { ScrollRestoration } from "@/components/feeds/useScrollRestoration";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
@@ -37,6 +38,7 @@ import { slugifyEntity, findEntityBySlug } from "@/lib/feeds/slug";
 import {
   indexableFilmCollections,
   filmsInFilmFamily,
+  filmCollectionMemberSort,
 } from "@/lib/feeds/facet-index";
 
 const LETTERBOXD_PROFILE_URL =
@@ -107,9 +109,7 @@ export default async function FilmCollectionPage({ params }: RouteArgs) {
   // Member films, oldest-first so the franchise reads in release order. A
   // film can belong to several families (AVP), so membership is "familiesOf
   // includes this key."
-  const members = filmsInFilmFamily(films, key).sort(
-    (a, b) => a.releaseYear - b.releaseYear || a.title.localeCompare(b.title),
-  );
+  const members = filmsInFilmFamily(films, key).sort(filmCollectionMemberSort);
 
   const detailUrl = `${SITE_URL}/films/collections/${slug}`;
   const jsonLd = {
@@ -136,6 +136,8 @@ export default async function FilmCollectionPage({ params }: RouteArgs) {
 
   return (
     <div data-subbrand="film">
+      {/* Restore scroll when returning here from a film detail page. */}
+      <ScrollRestoration />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -174,6 +176,10 @@ export default async function FilmCollectionPage({ params }: RouteArgs) {
               <PosterTile
                 key={film.id}
                 href={`/films/${film.letterboxdSlug}-${film.releaseYear}`}
+                // Thread this collection as the origin, so the detail page's
+                // adjacent-film nav walks the collection (release order) and
+                // the back-link returns here.
+                originHref={`/films/collections/${slug}`}
                 posterUrl={film.posterUrl}
                 title={film.title}
                 subtitle={String(film.releaseYear)}

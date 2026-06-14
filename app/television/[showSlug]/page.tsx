@@ -46,8 +46,8 @@ import { SITE_URL } from "@/lib/site-config";
 import {
   getShowBySlug,
   getShowNeighbors,
-  getShows,
 } from "@/lib/feeds/serializd";
+import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import {
   applyCompletedCardFilters,
   asString,
@@ -68,6 +68,15 @@ import {
   type Show,
 } from "@/lib/feeds/serializd-utils";
 import { primaryNetwork } from "@/lib/feeds/stats/network-canon";
+import { findEntityBySlug } from "@/lib/feeds/slug";
+import {
+  tvFacetForBasePath,
+  resolveTvFacet,
+  indexableTvCollections,
+  showsInTvFamily,
+  tvCollectionMemberSort,
+  TV_FACET_PIN,
+} from "@/lib/feeds/facet-index";
 import { BackToTelevision } from "../BackToTelevision";
 
 type Params = { showSlug: string };
@@ -187,8 +196,12 @@ export default async function TelevisionDetailPage({
   const fromParam = asString(sp.from);
   // Cache the breadcrumb label once so the JSX doesn't run
   // describeFilterContext twice per render (conditional + value).
-  // Server-side helper, fast — but no reason to call it twice.
-  const filterContext = describeFilterContext(fromParam);
+  // Server-side helper, fast — but no reason to call it twice. The
+  // enriched corpus is needed to resolve facet/collection canonical
+  // names; getShowsWithEnrichment is module-cached so this shares the
+  // same array findContextualNeighbors loads internally.
+  const { shows: contextShows } = getShowsWithEnrichment();
+  const filterContext = describeFilterContext(fromParam, contextShows);
   const contextual = findContextualNeighbors(show.id, fromParam);
   const fallback = getShowNeighbors(show.id);
   const { newer: newerShow, older: olderShow } = contextual ?? fallback;
@@ -1044,7 +1057,10 @@ function NeighborLink({
  * the visitor came from the bare /television listing) so the
  * caller can skip rendering the breadcrumb.
  */
-function describeFilterContext(fromUrl: string | undefined): string | null {
+function describeFilterContext(
+  fromUrl: string | undefined,
+  shows: Show[],
+): string | null {
   if (!fromUrl) return null;
   let parsed: URL;
   try {
@@ -1056,6 +1072,12 @@ function describeFilterContext(fromUrl: string | undefined): string | null {
   }
   const labels: string[] = [];
   const genreMatch = parsed.pathname.match(/^\/television\/genre\/([^/]+)/);
+  // A two-segment /television/<seg>/<slug> path that names a real WS6b
+  // facet (tvFacetForBasePath is null for genre/collections).
+  const facetPathMatch = parsed.pathname.match(/^\/television\/([^/]+)\/([^/]+)$/);
+  const facetFromPath = facetPathMatch
+    ? tvFacetForBasePath(facetPathMatch[1])
+    : null;
   if (genreMatch) {
     // Multi-word genre slugs (sci-fi--fantasy, action--adventure,
     // war--politics) carry double-dashes that the slug-to-titlecase
@@ -1072,6 +1094,16 @@ function describeFilterContext(fromUrl: string | undefined): string | null {
     );
   } else if (parsed.pathname.startsWith("/television/watching")) {
     labels.push("Watching");
+  } else if (parsed.pathname.startsWith("/television/collections/")) {
+    // WS7 collection leaf — name the collection (canonical).
+    const slug = parsed.pathname.slice("/television/collections/".length);
+    const routable = indexableTvCollections(shows);
+    const name = findEntityBySlug(routable.map((c) => c.name), slug);
+    if (name) labels.push(name);
+  } else if (facetFromPath && facetPathMatch) {
+    // WS6b facet route — name the entity (canonical), e.g. "Mark Ruffalo".
+    const resolved = resolveTvFacet(facetFromPath, shows, facetPathMatch[2]);
+    if (resolved) labels.push(resolved.name);
   } else {
     const genre = parsed.searchParams.get("genre");
     if (genre) {
@@ -1142,7 +1174,11 @@ function findContextualNeighbors(
     Object.fromEntries(url.searchParams.entries());
   const filters = parseShowFilters(sp);
   const sort = parseShowSort(sp);
-  const { shows, summary } = getShows();
+  // Enriched corpus: the facet arm's predicates (actor/creator/network/…)
+  // and the collection arm's membership read show.enrichment. The
+  // pre-existing genre/reviews/watching arms don't read enrichment, so the
+  // switch from getShows() is behaviour-neutral for them.
+  const { shows, summary } = getShowsWithEnrichment();
   let orderedShows: Show[];
   if (pathname === "/television/watching") {
     const cards = buildInProgressCards(shows);
@@ -1163,6 +1199,15 @@ function findContextualNeighbors(
       sort,
     );
     orderedShows = uniqueShowsInOrder(filteredCards.map((c: CompletedCard) => c.show));
+  } else if (pathname.startsWith("/television/collections/")) {
+    // WS7 collection leaf: walk the family in premiere order (matches the
+    // leaf page; user filters/sort don't apply on a collection page).
+    const slug = pathname.slice("/television/collections/".length);
+    const routable = indexableTvCollections(shows);
+    const name = findEntityBySlug(routable.map((c) => c.name), slug);
+    const family = name ? routable.find((c) => c.name === name) : undefined;
+    if (!family) return null;
+    orderedShows = showsInTvFamily(shows, family.key).sort(tvCollectionMemberSort);
   } else if (pathname === "/television/reviews" || pathname === "/television") {
     // The corpus grid lives at /television/reviews now; the bare
     // "/television" arm is kept so any detail link shared before the
@@ -1172,7 +1217,25 @@ function findContextualNeighbors(
     const filteredCards = applyCompletedCardFilters(allCards, filters, sort);
     orderedShows = uniqueShowsInOrder(filteredCards.map((c: CompletedCard) => c.show));
   } else {
-    return null;
+    // WS6b facet route: /television/<facet>/<slug>. Pin the facet value
+    // (by name for network/type, else by slug — exactly as the facet route
+    // does) and replay the user's other filters. Any unrecognized
+    // two-segment path → null → chronological fallback.
+    const facetMatch = pathname.match(/^\/television\/([^/]+)\/([^/]+)$/);
+    const facet = facetMatch ? tvFacetForBasePath(facetMatch[1]) : null;
+    if (!facet || !facetMatch) return null;
+    const { pinKey, nameBased } = TV_FACET_PIN[facet];
+    const pinValue = nameBased
+      ? resolveTvFacet(facet, shows, facetMatch[2])?.name ?? null
+      : facetMatch[2];
+    if (pinValue === null) return null;
+    const allCards = buildCompletedCards(shows);
+    const filteredCards = applyCompletedCardFilters(
+      allCards,
+      { ...filters, [pinKey]: [pinValue] },
+      sort,
+    );
+    orderedShows = uniqueShowsInOrder(filteredCards.map((c: CompletedCard) => c.show));
   }
   const idx = orderedShows.findIndex((s) => s.id === currentShowId);
   if (idx === -1) return null;

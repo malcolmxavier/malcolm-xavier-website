@@ -31,6 +31,7 @@ import { slugifyEntity } from "@/lib/feeds/slug";
 import {
   indexableFilmCollections,
   filmsInFilmFamily,
+  filmCollectionMemberSort,
   type FilmCollectionRoute,
 } from "@/lib/feeds/facet-index";
 
@@ -113,9 +114,7 @@ function CollectionHeading({ collection }: { collection: FilmCollectionRoute }) 
 
 /** One PosterTile per member film, oldest-first (release order). */
 function CollectionGrid({ films }: { films: Film[] }) {
-  const ordered = [...films].sort(
-    (a, b) => a.releaseYear - b.releaseYear || a.title.localeCompare(b.title),
-  );
+  const ordered = [...films].sort(filmCollectionMemberSort);
   return (
     <Grid cols={5} gap="500">
       {ordered.map((film) => (

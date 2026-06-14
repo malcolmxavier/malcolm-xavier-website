@@ -50,6 +50,7 @@ import {
   parseFilmSort,
   slugifyGenre,
 } from "@/lib/feeds/letterboxd-utils";
+import { buildOriginHref } from "@/lib/feeds/origin-href";
 import { FilmsShell } from "../../FilmsShell";
 import { SummaryPanel } from "../../SummaryPanel";
 
@@ -371,6 +372,7 @@ export default async function FilmGenrePage({
             availableWatchedYears={availableWatchedYears}
             entityFacets={entityFacets}
             routeGenre={genre}
+            originHref={buildOriginHref(`/films/genre/${slug}`, sp)}
           />
         </Section>
 

@@ -28,12 +28,17 @@ import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
 import { PosterTile } from "@/components/feeds/PosterTile";
 import { BackLink } from "@/components/feeds/BackLink";
+import { ScrollRestoration } from "@/components/feeds/useScrollRestoration";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { slugifyEntity, findEntityBySlug } from "@/lib/feeds/slug";
-import { indexableTvCollections, showsInTvFamily } from "@/lib/feeds/facet-index";
+import {
+  indexableTvCollections,
+  showsInTvFamily,
+  tvCollectionMemberSort,
+} from "@/lib/feeds/facet-index";
 import { tvFamilyName, tvSubfamilies } from "@/lib/feeds/stats/tv-franchise";
 
 const SERIALIZD_PROFILE_URL = "https://serializd.com/user/malxavi";
@@ -104,9 +109,7 @@ export default async function TvCollectionPage({ params }: RouteArgs) {
   // Member shows, oldest-first so the franchise reads in broadcast order.
   // familiesOfShow walks parents, so a parent collection (Bravo) returns
   // the union of its subcollections' shows.
-  const members = showsInTvFamily(shows, key).sort(
-    (a, b) => a.premiereYear - b.premiereYear || a.name.localeCompare(b.name),
-  );
+  const members = showsInTvFamily(shows, key).sort(tvCollectionMemberSort);
 
   // Hierarchy context: a subcollection links up to its parent; a parent
   // lists the routable subcollections nested inside it.
@@ -152,6 +155,8 @@ export default async function TvCollectionPage({ params }: RouteArgs) {
 
   return (
     <div data-subbrand="tv">
+      {/* Restore scroll when returning here from a show detail page. */}
+      <ScrollRestoration />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -214,6 +219,10 @@ export default async function TvCollectionPage({ params }: RouteArgs) {
               <PosterTile
                 key={show.id}
                 href={`/television/${show.slug}`}
+                // Thread this collection as the origin, so the detail page's
+                // adjacent-show nav walks the collection (premiere order) and
+                // the back-link returns here.
+                originHref={`/television/collections/${slug}`}
                 posterUrl={show.posterUrl}
                 title={show.name}
                 subtitle={String(show.premiereYear)}

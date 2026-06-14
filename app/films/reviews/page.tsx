@@ -49,6 +49,7 @@ import {
   type FilmFilters,
 } from "@/lib/feeds/letterboxd-utils";
 import { findEntityBySlug } from "@/lib/feeds/slug";
+import { buildOriginHref } from "@/lib/feeds/origin-href";
 import {
   indexableFilmFacetNames,
   FILM_FACET_BASEPATH,
@@ -522,6 +523,7 @@ export default async function FilmsPage({
             availableWatchedYears={availableWatchedYears}
             entityFacets={entityFacets}
             gridNavAllCount={summary.totalFilms}
+            originHref={buildOriginHref("/films/reviews", params)}
           />
         </Section>
 
