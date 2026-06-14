@@ -19,9 +19,12 @@ export type DonutSlice = [label: string, value: number];
 export function Donut({
   slices,
   ariaLabel = "Share by category",
+  /** Per-slice deep-link, surfaced on the legend (the ring stays visual). */
+  hrefFor,
 }: {
   slices: DonutSlice[];
   ariaLabel?: string;
+  hrefFor?: (label: string) => string | undefined;
 }) {
   const total = slices.reduce((s, x) => s + x[1], 0) || 1;
   const r = 42;
@@ -64,6 +67,10 @@ export function Donut({
         items={slices.map(([label, n], i) => ({
           label: `${label} · ${n}`,
           color: paletteColor(i),
+          href: hrefFor?.(label),
+          // The visible label carries the count too; the link's name is just
+          // the category so the destination reads cleanly to assistive tech.
+          ariaLabel: label,
         }))}
       />
     </div>

@@ -12,6 +12,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { CSSProperties } from "react";
+import Link from "next/link";
 import { Tip, tipTrigger } from "./Tip";
 
 export type Column = [label: string, value: number];
@@ -24,11 +25,16 @@ export function ColumnChart({
   tipFor,
   /** Min chart height in px (mobile floor; flex-grows on tall tiles). */
   minHeight = 160,
+  /** Per-column deep-link: return a URL for the column's facet (e.g. a
+   *  rating bucket → ?rating=) or undefined for no link. When present the
+   *  whole column becomes the link (and the focus target). */
+  hrefFor,
 }: {
   columns: Column[];
   ariaLabelFor?: (label: string, value: number) => string;
   tipFor?: (label: string, value: number) => string;
   minHeight?: number;
+  hrefFor?: (label: string) => string | undefined;
 }) {
   const max = Math.max(...columns.map((c) => c[1]), 1);
   const label = ariaLabelFor ?? ((l: string, v: number) => `${l}: ${v}`);
@@ -41,25 +47,41 @@ export function ColumnChart({
       >
         {columns.map(([l, value]) => {
           const pct = (value / max) * 100;
+          const aria = label(l, value);
+          const href = hrefFor?.(l);
+          const bar = (
+            <span
+              aria-hidden="true"
+              style={{
+                ...barStyle,
+                height: value > 0 ? `max(${pct.toFixed(1)}%, 2px)` : 0,
+              }}
+            />
+          );
           return (
             // The whole column is the hover/focus target (full-height, so
-            // hovering anywhere over it works, not just the bar); the
-            // count is otherwise invisible here, so the column opts into
-            // focusability — keyboard users can reveal it too. aria-label
-            // carries the same fact to assistive tech.
+            // hovering anywhere over it works, not just the bar). When a
+            // deep-link is present the column is a full-height link (the
+            // focus target); otherwise it opts into focusability via
+            // tipTrigger so keyboard users can still reveal the count.
             <li
               key={l}
-              {...tipTrigger(true)}
+              {...(href ? {} : tipTrigger(true))}
               style={colStyle}
-              aria-label={label(l, value)}
+              aria-label={href ? undefined : aria}
             >
-              <span
-                aria-hidden="true"
-                style={{
-                  ...barStyle,
-                  height: value > 0 ? `max(${pct.toFixed(1)}%, 2px)` : 0,
-                }}
-              />
+              {href ? (
+                <Link
+                  href={href}
+                  aria-label={aria}
+                  style={colLinkStyle}
+                  className="hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2"
+                >
+                  {bar}
+                </Link>
+              ) : (
+                bar
+              )}
               <Tip>{tip(l, value)}</Tip>
             </li>
           );
@@ -93,6 +115,18 @@ const colStyle: CSSProperties = {
   flex: 1,
   display: "flex",
   alignItems: "flex-end",
+};
+
+// Linked column: a full-height anchor so the whole column (not just the bar)
+// is the click + focus target, with the bar anchored to the baseline.
+const colLinkStyle: CSSProperties = {
+  flex: 1,
+  display: "flex",
+  alignItems: "flex-end",
+  alignSelf: "stretch",
+  color: "inherit",
+  textDecoration: "none",
+  borderRadius: "var(--border-radius-sm)",
 };
 
 const barStyle: CSSProperties = {

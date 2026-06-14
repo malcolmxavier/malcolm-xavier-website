@@ -46,9 +46,102 @@ import {
   parseFilmFilters,
   parseFilmSort,
   slugifyGenre,
+  type FilmFilters,
 } from "@/lib/feeds/letterboxd-utils";
+import { findEntityBySlug } from "@/lib/feeds/slug";
+import {
+  indexableFilmFacetNames,
+  FILM_FACET_BASEPATH,
+  type FilmRouteFacet,
+} from "@/lib/feeds/facet-index";
+import type { Film } from "@/lib/feeds/letterboxd-utils";
 import { FilmsShell } from "../FilmsShell";
 import { SummaryPanel } from "../SummaryPanel";
+
+// ── Canonical handoff (single-facet → dedicated route) ─────────────
+// The reviews corpus is only indexable bare. A clean single-facet state
+// hands its canonical off to the dedicated route (the indexed twin): genre
+// always (every genre has a route); a Wave B routable facet only when its
+// value clears the floor (sub-floor values have no route, so they stay a
+// noindex self-canonical filter state). Anything else — combos, pagination,
+// non-routable facets (conglomerate/releaseType/budgetTier) — is
+// noindex,follow self-canonical. Mirrors the genre handoff, generalized.
+type ActiveDim =
+  | { kind: "genre"; slug: string }
+  | { kind: "facet"; facet: FilmRouteFacet; slug: string }
+  | { kind: "other" };
+
+// The slug-based routable Wave B facets (FilmFilters key → route facet).
+// director is excluded — its exact facet has no clean ?param= state.
+const FILM_ROUTABLE: [keyof FilmFilters, FilmRouteFacet][] = [
+  ["languages", "languages"],
+  ["countries", "countries"],
+  ["decades", "decades"],
+  ["actors", "actors"],
+  ["writers", "writers"],
+  ["studios", "studios"],
+];
+
+/** Every active filter dimension, tagged so we can tell a single routable
+ *  facet from a combo. A multi-value facet counts as "other" (combos don't
+ *  hand off). */
+function activeFilmDims(filters: FilmFilters): ActiveDim[] {
+  const dims: ActiveDim[] = [];
+  if (filters.genres?.length) {
+    dims.push(
+      filters.genres.length === 1
+        ? { kind: "genre", slug: slugifyGenre(filters.genres[0]) }
+        : { kind: "other" },
+    );
+  }
+  for (const [key, facet] of FILM_ROUTABLE) {
+    const v = filters[key] as string[] | undefined;
+    if (v?.length) {
+      dims.push(v.length === 1 ? { kind: "facet", facet, slug: v[0] } : { kind: "other" });
+    }
+  }
+  if (filters.ratings?.length) dims.push({ kind: "other" });
+  if (filters.runtimeBuckets?.length) dims.push({ kind: "other" });
+  if (filters.watchedYears?.length) dims.push({ kind: "other" });
+  if (filters.watchedWindow !== undefined) dims.push({ kind: "other" });
+  if (filters.titleQuery) dims.push({ kind: "other" });
+  if (filters.directorQuery) dims.push({ kind: "other" });
+  if (filters.releaseYearMin !== undefined || filters.releaseYearMax !== undefined) dims.push({ kind: "other" });
+  if (filters.conglomerates?.length) dims.push({ kind: "other" });
+  if (filters.releaseTypes?.length) dims.push({ kind: "other" });
+  if (filters.budgetTiers?.length) dims.push({ kind: "other" });
+  if (filters.collections?.length) dims.push({ kind: "other" });
+  if (filters.directors?.length) dims.push({ kind: "other" });
+  return dims;
+}
+
+/** Resolve the canonical URL + index directive for a filter state. */
+function filmReviewsCanonical(
+  filters: FilmFilters,
+  isPaged: boolean,
+  films: Film[],
+): { canonical: string; noindex: boolean } {
+  const dims = activeFilmDims(filters);
+  if (!isPaged && dims.length === 1) {
+    const d = dims[0];
+    if (d.kind === "genre") {
+      return { canonical: `/films/genre/${d.slug}`, noindex: false };
+    }
+    if (d.kind === "facet") {
+      const names = indexableFilmFacetNames(d.facet, films);
+      if (findEntityBySlug(names, d.slug)) {
+        return {
+          canonical: `/films/${FILM_FACET_BASEPATH[d.facet]}/${d.slug}`,
+          noindex: false,
+        };
+      }
+    }
+  }
+  return {
+    canonical: "/films/reviews",
+    noindex: dims.length > 0 || isPaged,
+  };
+}
 
 // Pulled from the central registry so a URL change in Footer or
 // Contact (the other two surfaces that link out to Letterboxd) is
@@ -96,38 +189,16 @@ export async function generateMetadata({
   const page = Number.parseInt(asString(sp.page) ?? "1", 10);
   const isPagedBeyondFirst = Number.isFinite(page) && page > 1;
 
-  // Detect "single genre, nothing else" — the case where canonical
-  // should hand off to the dedicated /films/genre/<slug> route.
-  const onlyGenreFilter =
-    filters.genres &&
-    filters.genres.length === 1 &&
-    !filters.ratings &&
-    !filters.runtimeBuckets &&
-    !filters.watchedYears &&
-    !filters.watchedWindow &&
-    !filters.titleQuery &&
-    !filters.directorQuery &&
-    filters.releaseYearMin === undefined &&
-    filters.releaseYearMax === undefined &&
-    !isPagedBeyondFirst;
-
-  const filterCombinationActive =
-    !onlyGenreFilter &&
-    (Boolean(filters.ratings && filters.ratings.length > 0) ||
-      Boolean(filters.genres && filters.genres.length > 0) ||
-      Boolean(filters.runtimeBuckets && filters.runtimeBuckets.length > 0) ||
-      Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
-      filters.watchedWindow !== undefined ||
-      Boolean(filters.titleQuery) ||
-      Boolean(filters.directorQuery) ||
-      filters.releaseYearMin !== undefined ||
-      filters.releaseYearMax !== undefined);
-
-  const noindex = filterCombinationActive || isPagedBeyondFirst;
-
-  const canonical = onlyGenreFilter
-    ? `/films/genre/${slugifyGenre(filters.genres![0])}`
-    : "/films/reviews";
+  // Canonical + index directive: a clean single-facet state hands its
+  // canonical to the dedicated route (genre always; a Wave B facet when its
+  // value clears the floor); everything else is noindex,follow self-
+  // canonical. See filmReviewsCanonical above.
+  const { films } = getFilmsWithEnrichment();
+  const { canonical, noindex } = filmReviewsCanonical(
+    filters,
+    isPagedBeyondFirst,
+    films,
+  );
 
   // Read the snapshot total here (cheap — module-cached after the
   // first request) so the description's count tracks the live
@@ -437,6 +508,9 @@ export default async function FilmsPage({
       <Container size="lg">
         {/* ─── Filter rail + Grid + Pagination (client) ─────── */}
         <Section padding="md" bordered>
+          {/* The All · Collections grid-nav renders INSIDE FilmsShell, at the
+              top of the grid column (above the grid, not above the filter
+              sidebar) — see gridNavAllCount. */}
           <FilmsShell
             films={clientFilms}
             totalPages={totalPages}
@@ -447,6 +521,7 @@ export default async function FilmsPage({
             availableGenres={availableGenres}
             availableWatchedYears={availableWatchedYears}
             entityFacets={entityFacets}
+            gridNavAllCount={summary.totalFilms}
           />
         </Section>
 

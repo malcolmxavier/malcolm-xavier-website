@@ -34,7 +34,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 /**
  * Append `#grid` to a URL, splicing in front of any existing
- * hash. Mirrors the helper in AllOrWatchingToggle so all
+ * hash. Mirrors the helper in ClusterGridNav so all
  * "All Television" affordances (the back-link here + the
  * toggle on the listings) share one anchor convention. Inlined
  * rather than imported because the helper is small and a
@@ -87,7 +87,7 @@ export function BackToTelevision() {
     // rather than to the original listing.
     //
     // #grid anchor: tells the destination listing to scroll to
-    // its grid row (matches the AllOrWatchingToggle's anchor
+    // its grid row (matches the ClusterGridNav's anchor
     // pattern), so the user lands at the same context level
     // they navigated from rather than the page hero. The grid
     // wrapper carries `id="grid"` + scroll-margin-top so the

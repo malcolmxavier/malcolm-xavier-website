@@ -45,7 +45,7 @@ import type {
   ShowSort,
 } from "@/lib/feeds/serializd-utils";
 import { slugifyEntity, type FacetGroup } from "@/lib/feeds/slug";
-import { AllOrWatchingToggle } from "./AllOrWatchingToggle";
+import { ClusterGridNav } from "@/components/feeds/ClusterGridNav";
 import { ShowCard } from "./ShowCard";
 
 const RATING_VALUES = [
@@ -90,6 +90,15 @@ type Props = {
    *  genre/<slug>). Drives query-string seeding so multi-filter
    *  combos retarget back to /television. */
   routeGenre?: string;
+  /** Wave B facet route pin (network/type are name-based; creator, actor,
+   *  language, country, decade are slug-based) — seeded into the query on
+   *  every nav so the facet survives the hand-off to /television/reviews.
+   *  network and type carry canonical names as their value; the rest carry
+   *  slugs. (TV has no param-less facet, unlike film's director.) */
+  routePin?: { param: string; value: string };
+  /** slug → canonical name for the route's pinned facet (actor, creator),
+   *  so its active chip shows the real name even off the sidebar rails. */
+  entityNameHints?: Record<string, string>;
   /**
    * Source listing URL (relative, including any active query
    * params) — passed down to each ShowCard so the detail page
@@ -128,6 +137,8 @@ export function TelevisionShell({
   availableWatchedYears,
   entityFacets,
   routeGenre,
+  routePin,
+  entityNameHints,
   originHref,
   watchingCount,
 }: Props) {
@@ -236,6 +247,10 @@ export function TelevisionShell({
     if (routeGenre && !params.has("genre")) {
       params.set("genre", routeGenre);
     }
+    // Carry a Wave B facet route's pin forward (see routePin prop docs).
+    if (routePin && !params.has(routePin.param)) {
+      params.set(routePin.param, routePin.value);
+    }
     for (const [k, v] of Object.entries(updates)) {
       if (v === undefined || v === "") {
         params.delete(k);
@@ -263,7 +278,7 @@ export function TelevisionShell({
     // at /television/reviews (the cluster root /television is now the
     // editorial landing). The non-genre branch uses pathname, already
     // /television/reviews when mounted there.
-    const targetBase = routeGenre ? "/television/reviews" : pathname;
+    const targetBase = routeGenre || routePin ? "/television/reviews" : pathname;
     const qs = params.toString();
     router.replace(qs ? `${targetBase}?${qs}` : targetBase, {
       scroll: false,
@@ -547,7 +562,8 @@ export function TelevisionShell({
             id="grid"
             style={{ marginBottom: 16, scrollMarginTop: "5rem" }}
           >
-            <AllOrWatchingToggle
+            <ClusterGridNav
+              cluster="television"
               active="all"
               watchingCount={watchingCount}
               allCount={allCount}
@@ -572,6 +588,7 @@ export function TelevisionShell({
                 onRemoveEntityFacet={toggleEntityFacet}
                 onResetSort={() => handleSortChange("latest-activity-desc")}
                 onClearAll={clearAll}
+                entityNameHints={entityNameHints}
               />
               {/* Inline mode-switch toast — sits below the chip
                   rail on md+ so a destructive transition stays
@@ -615,7 +632,7 @@ export function TelevisionShell({
               pageParam="page"
               preserveParams={preserveParams}
               ariaLabel="Television review pages"
-              surface={routeGenre ? "television-genre" : "television"}
+              surface={routeGenre ? "television-genre" : routePin ? "television-facet" : "television"}
             />
           </div>
         </div>
@@ -992,6 +1009,7 @@ function ActiveFilterChips({
   onRemoveEntityFacet,
   onResetSort,
   onClearAll,
+  entityNameHints,
 }: {
   filters: ShowFilters;
   sort: ShowSort;
@@ -1007,6 +1025,9 @@ function ActiveFilterChips({
   onRemoveEntityFacet: (param: string, key: string, slug: string) => void;
   onResetSort: () => void;
   onClearAll: () => void;
+  /** slug → canonical name for route/deep-link facets not in the rails
+   *  (actor, creator), so their chip shows the real name. */
+  entityNameHints?: Record<string, string>;
 }) {
   const ratings = filters.ratings ?? [];
   const genres = filters.genres ?? [];
@@ -1016,17 +1037,23 @@ function ActiveFilterChips({
   const sortIsDefault = sort === "latest-activity-desc";
   const cardKindActive = filters.cardKind !== undefined;
 
-  // Active Wave B entity-facet selections → dismissable descriptors;
-  // display name resolved from the facet's full option list.
-  const entityActive = entityFacets.flatMap((fg) => {
-    const selected =
-      ((filters as Record<string, unknown>)[fg.key] as string[] | undefined) ?? [];
+  // Active Wave B entity-facet selections → dismissable descriptors,
+  // across EVERY slug-based facet (not just the sidebar rails), so a
+  // route-pinned or deep-linked actor/creator shows a chip too. Name
+  // resolves: route hint → rail option list → de-slugified fallback.
+  // (network + type are name-based and chipped separately below.)
+  const railOptions = new Map(entityFacets.map((fg) => [fg.key, fg.options]));
+  const entityActive = TV_CHIP_FACETS.flatMap(({ key, param, label }) => {
+    const selected = (filters[key] as string[] | undefined) ?? [];
     return selected.map((slug) => ({
-      param: fg.param,
-      key: fg.key,
-      label: fg.label,
+      param,
+      key,
+      label,
       slug,
-      name: fg.options.find(([n]) => slugifyEntity(n) === slug)?.[0] ?? slug,
+      name:
+        entityNameHints?.[slug] ??
+        railOptions.get(key)?.find(([n]) => slugifyEntity(n) === slug)?.[0] ??
+        deslugify(slug),
     }));
   });
 
@@ -1311,6 +1338,28 @@ function countActiveFilters(filters: ShowFilters): number {
   }
   return n;
 }
+
+/** Title-case a slug for a chip label when no canonical name is available
+ *  (a deep-linked facet value without a hint). The route pin passes the
+ *  exact name via a hint. */
+function deslugify(slug: string): string {
+  return slug
+    .split("-")
+    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+    .join(" ");
+}
+
+// Slug-based Wave B facets that earn a dismissable chip. network + type are
+// name-based and chipped separately (their WS3 handlers); these are the
+// rest, so a route-pinned actor/creator shows a chip like the rail facets.
+const TV_CHIP_FACETS: { key: keyof ShowFilters; param: string; label: string }[] = [
+  { key: "actors", param: "actor", label: "Actor" },
+  { key: "creators", param: "creator", label: "Creator" },
+  { key: "conglomerates", param: "conglomerate", label: "Network group" },
+  { key: "languages", param: "language", label: "Language" },
+  { key: "countries", param: "country", label: "Country" },
+  { key: "decades", param: "decade", label: "Decade" },
+];
 
 /**
  * Singular/plural noun for the result count, scoped to the active

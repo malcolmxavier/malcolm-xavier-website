@@ -34,6 +34,11 @@ export type OverlapCounts = {
   countries: number;
   /** Top-8 language·country pairs by count, labelled "Language · Country". */
   topPairs: [string, number][];
+  /** The same pairs' component display names, index-aligned to topPairs, so a
+   *  consumer can deep-link `?language=&country=` without parsing the "·"
+   *  label. Same vocabulary (languageName/countryName) as the entity
+   *  filters, so slugifyEntity of these matches the filter params. */
+  topPairKeys: { language: string; country: string }[];
 };
 
 /**
@@ -54,18 +59,26 @@ export function overlapCounts(
     if (c) countries.add(c);
     if (l && c) pairCount[l + "|" + c] = (pairCount[l + "|" + c] || 0) + 1;
   }
-  const topPairs: [string, number][] = Object.entries(pairCount)
+  const ranked = Object.entries(pairCount)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 8)
-    .map(([k, n]): [string, number] => {
+    .map(([k, n]) => {
       const [l, c] = k.split("|");
-      return [`${languageName(l)} · ${countryName(c)}`, n];
+      return { language: languageName(l), country: countryName(c), n };
     });
+  const topPairs: [string, number][] = ranked.map(
+    (p): [string, number] => [`${p.language} · ${p.country}`, p.n],
+  );
+  const topPairKeys = ranked.map((p) => ({
+    language: p.language,
+    country: p.country,
+  }));
   return {
     pairs: Object.keys(pairCount).length,
     languages: langs.size,
     countries: countries.size,
     topPairs,
+    topPairKeys,
   };
 }
 

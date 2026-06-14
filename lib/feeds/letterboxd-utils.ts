@@ -297,6 +297,15 @@ export type FilmFilters = {
   // the selected set; a film with no enrichment can't confirm a match
   // and is dropped when that facet is active. The vocabulary is
   // identical to the stats tiles, so every tile row deep-links here.
+  /**
+   * EXACT director name slugs. Distinct from `directorQuery` (the fuzzy
+   * ?director= search box): this is set only by the /films/director/[slug]
+   * route (and resolves from a tile deep-link), never from a query param,
+   * so the route's exact-director scope can't collide with the fuzzy
+   * search. Read from the thin snapshot (tmdb.director), so it works
+   * without enrichment.
+   */
+  directors?: string[];
   /** Top-10-billed actor name slugs. */
   actors?: string[];
   /** Writer name slugs. */
@@ -469,6 +478,7 @@ export function filmDecadeLabel(year: number): string {
 
 /** The Wave B facet keys a film exposes. */
 export type FilmFacet =
+  | "directors"
   | "actors"
   | "writers"
   | "studios"
@@ -491,6 +501,12 @@ export type FilmFacet =
 export function filmFacetValues(film: Film): Record<FilmFacet, string[]> {
   const e = film.enrichment;
   return {
+    // Director rides the THIN snapshot (tmdb.director), so it's available
+    // without enrichment — unlike the other Wave B facets below. It's an
+    // EXACT facet (one director per film) reached only via the dedicated
+    // route + stats deep-link; there's no ?director= facet param (that
+    // param is the fuzzy title-search box, kept separate).
+    directors: film.tmdb?.director ? [film.tmdb.director] : [],
     actors: e ? filmActorNames({ cast: e.cast }) : [],
     writers: e?.writers?.map((w) => w.name) ?? [],
     studios: e?.studios?.map(canonStudio) ?? [],
@@ -516,6 +532,7 @@ export function filmFacetDistributions(
   films: Film[],
 ): Record<FilmFacet, [string, number][]> {
   const facets: FilmFacet[] = [
+    "directors",
     "actors",
     "writers",
     "studios",
@@ -568,7 +585,8 @@ export function filmEntityFacets(films: Film[]): FacetGroup[] {
 /** True if any Wave B facet filter is active (gates the per-film work). */
 function anyFilmFacetActive(f: FilmFilters): boolean {
   return Boolean(
-    f.actors?.length ||
+    f.directors?.length ||
+      f.actors?.length ||
       f.writers?.length ||
       f.studios?.length ||
       f.conglomerates?.length ||
@@ -658,6 +676,7 @@ export function applyFilters(
     // lists). Skipped entirely unless a Wave B facet is active.
     if (waveBActive) {
       const fv = filmFacetValues(film);
+      if (filters.directors?.length && !facetHit(filters.directors, fv.directors)) continue;
       if (filters.actors?.length && !facetHit(filters.actors, fv.actors)) continue;
       if (filters.writers?.length && !facetHit(filters.writers, fv.writers)) continue;
       if (filters.studios?.length && !facetHit(filters.studios, fv.studios)) continue;

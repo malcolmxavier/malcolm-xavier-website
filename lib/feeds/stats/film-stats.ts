@@ -138,9 +138,9 @@ export type YouVsWorld = {
   /** % of the enriched set covered by a Metascore (the comparison base). */
   coveragePct: number;
   /** Your biggest over-the-critics calls (top by positive delta). */
-  hotTakes: { title: string; year: number; delta: number }[];
+  hotTakes: { title: string; year: number; slug: string; delta: number }[];
   /** Critics' darlings you rated below them (top by negative delta). */
-  darlings: { title: string; year: number; delta: number }[];
+  darlings: { title: string; year: number; slug: string; delta: number }[];
 };
 
 /**
@@ -155,6 +155,7 @@ export function youVsWorld(films: EnrichedFilm[]): YouVsWorld {
     .map((f) => ({
       title: f.title,
       year: f.year,
+      slug: f.slug,
       delta: (f.mine as number) - (f.ratings!.metacritic as number) / 20,
     }));
   const lb = films

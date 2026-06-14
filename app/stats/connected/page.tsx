@@ -155,6 +155,17 @@ export default function ConnectedStatsPage() {
                 The television numbers
               </NextLink>
             </nav>
+            {/* Why the tiles here aren't clickable: every figure on this page
+                blends film AND television, so there's no single reviews list
+                to filter into the way the per-cluster dashboards do. The
+                click-through lives on those (linked above). */}
+            <p style={connectedNoteStyle}>
+              The tiles on the cluster dashboards click through to filtered
+              reviews; these don&rsquo;t. Each number here blends both
+              libraries, so there&rsquo;s no single list to open—head to the
+              film or television numbers above to filter into the reviews behind
+              a figure.
+            </p>
           </Stack>
         </Section>
       </Container>
@@ -333,4 +344,15 @@ const backNavStyle: CSSProperties = {
   alignItems: "center",
   gap: 8,
   marginTop: 8,
+};
+
+// Reading-register note (slab, caption color) explaining the deep-link
+// asymmetry — matches the dashboard's mono→slab prose treatment.
+const connectedNoteStyle: CSSProperties = {
+  fontFamily: "var(--font-secondary)",
+  fontSize: 13,
+  lineHeight: 1.5,
+  color: "var(--text-caption)",
+  margin: "4px 0 0",
+  maxWidth: "60ch",
 };

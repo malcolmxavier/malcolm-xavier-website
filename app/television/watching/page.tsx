@@ -34,7 +34,7 @@ import {
   buildCompletedCards,
   buildInProgressCards,
 } from "@/lib/feeds/serializd-utils";
-import { AllOrWatchingToggle } from "../AllOrWatchingToggle";
+import { ClusterGridNav } from "@/components/feeds/ClusterGridNav";
 import { InProgressCard } from "../InProgressCard";
 import { BackToTelevision } from "../BackToTelevision";
 
@@ -188,7 +188,7 @@ export default function WatchingPage() {
               this, axe flags the h1→h3 outline skip (regression caught
               in the 2026-05-07 re-review after Batch B's Low pass had
               removed it on the wrong rationale). Hidden visually
-              because AllOrWatchingToggle below already names the
+              because ClusterGridNav below already names the
               section for sighted users. */}
           <Headline level={2} className="sr-only">
             In-progress seasons
@@ -204,7 +204,8 @@ export default function WatchingPage() {
             id="grid"
             style={{ marginBottom: 16, scrollMarginTop: "5rem" }}
           >
-            <AllOrWatchingToggle
+            <ClusterGridNav
+              cluster="television"
               active="watching"
               watchingCount={cards.length}
               allCount={buildCompletedCards(shows).length}

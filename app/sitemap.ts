@@ -28,7 +28,34 @@ import { getFilms, getFilmLists } from "@/lib/feeds/letterboxd";
 import { slugifyGenre as slugifyFilmGenre } from "@/lib/feeds/letterboxd-utils";
 import { getShows } from "@/lib/feeds/serializd";
 import { slugifyGenre as slugifyTvGenre } from "@/lib/feeds/serializd-utils";
+import {
+  getFilmsWithEnrichment,
+  getShowsWithEnrichment,
+} from "@/lib/feeds/review-corpus";
+import {
+  indexableFilmFacetNames,
+  indexableTvFacetNames,
+  indexableFilmCollections,
+  indexableTvCollections,
+  FILM_FACET_BASEPATH,
+  TV_FACET_BASEPATH,
+  type FilmRouteFacet,
+  type TvRouteFacet,
+} from "@/lib/feeds/facet-index";
+import { getCollectionDetails } from "@/lib/feeds/enrichment";
+import { slugifyEntity } from "@/lib/feeds/slug";
 import { CASE_STUDIES } from "@/app/resume/resume-data";
+
+// The WS6b entity-facet route types, in the order their pages list. Each
+// produces one indexed page per floor-clearing value (the same gate
+// generateStaticParams uses — see lib/feeds/facet-index.ts — so the
+// sitemap and the pre-render can't diverge).
+const FILM_FACETS: FilmRouteFacet[] = [
+  "directors", "actors", "writers", "studios", "languages", "countries", "decades",
+];
+const TV_FACETS: TvRouteFacet[] = [
+  "creators", "actors", "networks", "languages", "countries", "types", "decades",
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -90,6 +117,48 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.55,
       });
     }
+    // Entity-facet routes (WS6b) — one indexed page per floor-clearing
+    // value, across director / actor / writer / studio / language /
+    // country / decade. Enrichment-backed facets need the joined corpus
+    // (the thin snapshot lacks cast/writers/studios/language/country), so
+    // these read getFilmsWithEnrichment rather than the thin getFilms above.
+    const { films: enrichedFilms } = getFilmsWithEnrichment();
+    for (const facet of FILM_FACETS) {
+      const base = FILM_FACET_BASEPATH[facet];
+      for (const name of indexableFilmFacetNames(facet, enrichedFilms)) {
+        filmEntries.push({
+          url: `${SITE_URL}/films/${base}/${slugifyEntity(name)}`,
+          lastModified,
+          changeFrequency: "weekly",
+          priority: 0.55,
+        });
+      }
+    }
+    // Collections core page (WS7) — a curated, indexed landing (the
+    // /television/watching posture), so it earns a sitemap entry alongside
+    // the per-collection leaves below.
+    filmEntries.push({
+      url: `${SITE_URL}/films/collections`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.55,
+    });
+    // Collection (franchise-family) leaf routes (WS7) — one indexed page per
+    // routable family, gated by the same indexableFilmCollections call the
+    // routes use.
+    const filmCurrentYear = new Date().getUTCFullYear();
+    for (const c of indexableFilmCollections(
+      enrichedFilms,
+      getCollectionDetails(),
+      filmCurrentYear,
+    )) {
+      filmEntries.push({
+        url: `${SITE_URL}/films/collections/${slugifyEntity(c.name)}`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.55,
+      });
+    }
     for (const film of films) {
       filmEntries.push({
         url: `${SITE_URL}/films/${film.letterboxdSlug}-${film.releaseYear}`,
@@ -145,6 +214,39 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const genre of Object.keys(summary.genreDistribution)) {
       tvEntries.push({
         url: `${SITE_URL}/television/genre/${slugifyTvGenre(genre)}`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.55,
+      });
+    }
+    // Entity-facet routes (WS6b) — creator / actor / network / language /
+    // country / type / decade, one indexed page per floor-clearing value.
+    const { shows: enrichedShows } = getShowsWithEnrichment();
+    for (const facet of TV_FACETS) {
+      const base = TV_FACET_BASEPATH[facet];
+      for (const name of indexableTvFacetNames(facet, enrichedShows)) {
+        tvEntries.push({
+          url: `${SITE_URL}/television/${base}/${slugifyEntity(name)}`,
+          lastModified,
+          changeFrequency: "weekly",
+          priority: 0.55,
+        });
+      }
+    }
+    // Collections core page (WS7) — curated indexed landing (watching
+    // posture), so it's listed alongside the leaves.
+    tvEntries.push({
+      url: `${SITE_URL}/television/collections`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.55,
+    });
+    // Collection (curated franchise-family) leaf routes (WS7) — one indexed
+    // page per routable family, including the nested Bravo-verse parent + its
+    // subcollections. Same gate as the routes (indexableTvCollections).
+    for (const c of indexableTvCollections(enrichedShows)) {
+      tvEntries.push({
+        url: `${SITE_URL}/television/collections/${slugifyEntity(c.name)}`,
         lastModified,
         changeFrequency: "weekly",
         priority: 0.55,

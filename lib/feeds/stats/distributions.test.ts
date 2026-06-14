@@ -22,6 +22,13 @@ describe("overlapCounts", () => {
       ["English · United States", 2],
       ["Japanese · Japan", 1],
     ]);
+    // topPairKeys is index-aligned to topPairs and carries the component
+    // display names (so a deep-link consumer can slugify each side) — the
+    // contract the language×country tile's ?language=&country= relies on.
+    expect(out.topPairKeys).toEqual([
+      { language: "English", country: "United States" },
+      { language: "Japanese", country: "Japan" },
+    ]);
   });
 });
 

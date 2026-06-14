@@ -36,6 +36,7 @@ import {
 } from "@/lib/feeds/serializd";
 import { getShowFeaturedPick } from "@/lib/feeds/featured-pick";
 import { buildInProgressCards } from "@/lib/feeds/serializd-utils";
+import { indexableTvCollections } from "@/lib/feeds/facet-index";
 import type { ShowList } from "@/lib/feeds/serializd";
 import { InProgressCard } from "./InProgressCard";
 
@@ -78,6 +79,9 @@ export default function TelevisionLandingPage() {
   const { shows } = getShows();
   const favorites = getShowFavorites();
   const lists = getShowLists();
+  // Routable franchise collections — drives the "Collections" landing
+  // teaser + its link to the core /television/collections page.
+  const collections = indexableTvCollections(shows);
 
   // "Now" — in-progress seasons, same data + exclusions as
   // /television/watching, newest-episode-review first. Reuses the
@@ -215,6 +219,28 @@ export default function TelevisionLandingPage() {
               <p style={{ margin: 0 }}>
                 <Link href="/television/watching">
                   See everything in progress →
+                </Link>
+              </p>
+            </Stack>
+          </Section>
+        ) : null}
+
+        {/* ─── Collections ────────────────────────────────────── */}
+        {/* Franchise families (the Bravo-verse, 9-1-1, Grey's, …) — a
+            link into the core /television/collections page, mirroring how
+            "Now" links into /television/watching. */}
+        {collections.length > 0 ? (
+          <Section padding="md" bordered>
+            <Stack gap="400">
+              <Kicker accent>Collections</Kicker>
+              <Headline level={2}>Franchises and universes</Headline>
+              <Lede>
+                The shows I&rsquo;ve followed across a franchise or universe,
+                grouped into their own pages—from the Bravo-verse to 9-1-1.
+              </Lede>
+              <p style={{ margin: 0 }}>
+                <Link href="/television/collections">
+                  Browse all collections →
                 </Link>
               </p>
             </Stack>

@@ -90,6 +90,40 @@ describe("film Wave B predicates", () => {
   });
 });
 
+describe("film exact director facet (WS6b)", () => {
+  // Director rides the thin snapshot tmdb.director (not enrichment), and is
+  // EXACT — slug-equality, not the fuzzy substring match the ?director=
+  // search box uses. A film carrying tmdb.director:
+  function mkDirFilm(id: string, director: string): Film {
+    return {
+      id,
+      releaseYear: 2014,
+      latestWatchedDate: "2024-01-01",
+      primaryRating: null,
+      reviews: [],
+      tmdb: { id: 1, genres: [], runtime: null, director },
+      ratingSet: [],
+      watchedYearSet: [],
+    } as unknown as Film;
+  }
+  const corpus = [
+    mkDirFilm("f1", "Christopher Nolan"),
+    mkDirFilm("f2", "Greta Gerwig"),
+  ];
+
+  it("matches the film whose director slugifies to the selected slug", () => {
+    expect(ids(applyFilters(corpus, { directors: ["christopher-nolan"] }))).toEqual(["f1"]);
+  });
+  it("is exact, not fuzzy — a partial slug matches nothing", () => {
+    // The fuzzy ?director= box would match "nolan"; the exact facet must not.
+    expect(applyFilters(corpus, { directors: ["nolan"] })).toHaveLength(0);
+  });
+  it("AND-composes with another facet", () => {
+    const fv = filmFacetValues(corpus[0]);
+    expect(fv.directors).toEqual(["Christopher Nolan"]);
+  });
+});
+
 describe("film deep-link contract (tile label → slug → predicate)", () => {
   it("a slugified facet value is exactly what the predicate accepts", () => {
     const film = mkFilm("f1", 1994, {
