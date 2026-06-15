@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-06-15T06:31:50.471Z",
+  "capturedAt": "2026-06-15T20:31:17.114Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 240,
-    "totalEpisodeReviews": 643,
+    "totalEpisodeReviews": 644,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 223,
       "4": 176,
       "5": 17,
-      "3.5": 276,
-      "2.5": 88,
+      "3.5": 277,
       "4.5": 51,
+      "2.5": 88,
       "1.5": 11,
       "0.5": 1
     },
@@ -45,19 +45,19 @@
         "3": 162,
         "4": 130,
         "5": 7,
-        "3.5": 212,
-        "2.5": 63,
+        "3.5": 213,
         "4.5": 42,
+        "2.5": 63,
         "1.5": 5
       }
     },
     "genreDistribution": {
+      "Drama": 97,
+      "Sci-Fi & Fantasy": 24,
       "Talk": 1,
       "Comedy": 57,
       "Reality": 27,
-      "Drama": 97,
       "Mystery": 32,
-      "Sci-Fi & Fantasy": 24,
       "Action & Adventure": 17,
       "Crime": 28,
       "Documentary": 12,
@@ -67,8 +67,8 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
-      "2000s": 6,
       "2020s": 128,
+      "2000s": 6,
       "2010s": 21,
       "1970s": 1,
       "1990s": 1
@@ -79,6 +79,95 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-323411",
+      "serializdShowId": 323411,
+      "slug": "the-vampire-lestat-2026",
+      "name": "The Vampire Lestat",
+      "premiereYear": 2026,
+      "premiereDate": "2026-06-07",
+      "serializdUrl": "https://serializd.com/show/323411",
+      "tmdb": {
+        "id": 323411,
+        "name": "The Vampire Lestat",
+        "posterPath": "/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
+        "backdropPath": "/iw1knpC8Jg5davMn2MPxNVxBF8N.jpg",
+        "genres": [
+          "Drama",
+          "Sci-Fi & Fantasy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "AMC"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 7
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
+      "seasons": [
+        {
+          "serializdId": 518147,
+          "showId": 323411,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 69352689,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The family that slays together. And Moses Sumney.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-15T19:48:51Z",
+          "reviewDate": "2026-06-15T19:51:28Z",
+          "seasonId": 518147,
+          "episodeNumber": 2,
+          "episodeName": "Toledo",
+          "tags": []
+        },
+        {
+          "id": 68495872,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "We are so back! There’s so much richness in here that I wish I could binge this entire season already. The energy and breakneck pace (no pun intended) is so seductive that it becomes easy to disregard the fact that it’s maybe moving a bit too quickly. Absolutely living for Lestat pushing that child—and we’re gonna need to talk about the tour bus setup.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-08T02:53:44Z",
+          "reviewDate": "2026-06-08T02:56:07Z",
+          "seasonId": 518147,
+          "episodeNumber": 1,
+          "episodeName": "Detroit",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-06-15T19:51:28Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-22980",
       "serializdShowId": 22980,
@@ -5700,78 +5789,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-06-09T02:40:04Z",
       "primaryRating": 3.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-323411",
-      "serializdShowId": 323411,
-      "slug": "the-vampire-lestat-2026",
-      "name": "The Vampire Lestat",
-      "premiereYear": 2026,
-      "premiereDate": "2026-06-07",
-      "serializdUrl": "https://serializd.com/show/323411",
-      "tmdb": {
-        "id": 323411,
-        "name": "The Vampire Lestat",
-        "posterPath": "/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
-        "backdropPath": "/iw1knpC8Jg5davMn2MPxNVxBF8N.jpg",
-        "genres": [
-          "Drama",
-          "Sci-Fi & Fantasy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "AMC"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 7
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
-      "seasons": [
-        {
-          "serializdId": 518147,
-          "showId": 323411,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
-          "episodeCount": 7
-        }
-      ],
-      "reviews": [
-        {
-          "id": 68495872,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "We are so back! There’s so much richness in here that I wish I could binge this entire season already. The energy and breakneck pace (no pun intended) is so seductive that it becomes easy to disregard the fact that it’s maybe moving a bit too quickly. Absolutely living for Lestat pushing that child—and we’re gonna need to talk about the tour bus setup.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-08T02:53:44Z",
-          "reviewDate": "2026-06-08T02:56:07Z",
-          "seasonId": 518147,
-          "episodeNumber": 1,
-          "episodeName": "Detroit",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-06-08T02:56:07Z",
-      "primaryRating": 4.5,
       "liked": false
     },
     {
@@ -26323,6 +26340,95 @@
     }
   ],
   "showById": {
+    "tmdb-tv-323411": {
+      "id": "tmdb-tv-323411",
+      "serializdShowId": 323411,
+      "slug": "the-vampire-lestat-2026",
+      "name": "The Vampire Lestat",
+      "premiereYear": 2026,
+      "premiereDate": "2026-06-07",
+      "serializdUrl": "https://serializd.com/show/323411",
+      "tmdb": {
+        "id": 323411,
+        "name": "The Vampire Lestat",
+        "posterPath": "/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
+        "backdropPath": "/iw1knpC8Jg5davMn2MPxNVxBF8N.jpg",
+        "genres": [
+          "Drama",
+          "Sci-Fi & Fantasy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "AMC"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 7
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
+      "seasons": [
+        {
+          "serializdId": 518147,
+          "showId": 323411,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 69352689,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The family that slays together. And Moses Sumney.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-15T19:48:51Z",
+          "reviewDate": "2026-06-15T19:51:28Z",
+          "seasonId": 518147,
+          "episodeNumber": 2,
+          "episodeName": "Toledo",
+          "tags": []
+        },
+        {
+          "id": 68495872,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "We are so back! There’s so much richness in here that I wish I could binge this entire season already. The energy and breakneck pace (no pun intended) is so seductive that it becomes easy to disregard the fact that it’s maybe moving a bit too quickly. Absolutely living for Lestat pushing that child—and we’re gonna need to talk about the tour bus setup.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-08T02:53:44Z",
+          "reviewDate": "2026-06-08T02:56:07Z",
+          "seasonId": 518147,
+          "episodeNumber": 1,
+          "episodeName": "Detroit",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-06-15T19:51:28Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     "tmdb-tv-22980": {
       "id": "tmdb-tv-22980",
       "serializdShowId": 22980,
@@ -31944,78 +32050,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-06-09T02:40:04Z",
       "primaryRating": 3.5,
-      "liked": false
-    },
-    "tmdb-tv-323411": {
-      "id": "tmdb-tv-323411",
-      "serializdShowId": 323411,
-      "slug": "the-vampire-lestat-2026",
-      "name": "The Vampire Lestat",
-      "premiereYear": 2026,
-      "premiereDate": "2026-06-07",
-      "serializdUrl": "https://serializd.com/show/323411",
-      "tmdb": {
-        "id": 323411,
-        "name": "The Vampire Lestat",
-        "posterPath": "/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
-        "backdropPath": "/iw1knpC8Jg5davMn2MPxNVxBF8N.jpg",
-        "genres": [
-          "Drama",
-          "Sci-Fi & Fantasy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "AMC"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 7
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
-      "seasons": [
-        {
-          "serializdId": 518147,
-          "showId": 323411,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/eZe79cdGBxiNXG6k4UyScu2XSDr.jpg",
-          "episodeCount": 7
-        }
-      ],
-      "reviews": [
-        {
-          "id": 68495872,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "We are so back! There’s so much richness in here that I wish I could binge this entire season already. The energy and breakneck pace (no pun intended) is so seductive that it becomes easy to disregard the fact that it’s maybe moving a bit too quickly. Absolutely living for Lestat pushing that child—and we’re gonna need to talk about the tour bus setup.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-08T02:53:44Z",
-          "reviewDate": "2026-06-08T02:56:07Z",
-          "seasonId": 518147,
-          "episodeNumber": 1,
-          "episodeName": "Detroit",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-06-08T02:56:07Z",
-      "primaryRating": 4.5,
       "liked": false
     },
     "tmdb-tv-85552": {
