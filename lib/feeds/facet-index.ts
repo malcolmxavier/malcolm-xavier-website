@@ -25,15 +25,19 @@
 
 import {
   filmFacetDistributions,
+  filmEntityFacets,
   type Film,
   type FilmFilters,
 } from "./letterboxd-utils";
 import {
   showFacetDistributions,
+  showEntityFacets,
+  deriveAvailableNetworks,
   type Show,
   type ShowFacet,
   type ShowFilters,
 } from "./serializd-utils";
+import type { FacetGroup } from "./slug";
 import { primaryNetwork } from "./stats/network-canon";
 import { STUDIO_INDEX_ALLOWLIST } from "./stats/studio-canon";
 import {
@@ -99,6 +103,56 @@ export const TV_FACET_FLOORS: Record<TvRouteFacet, number> = {
   decades: 2,
 };
 
+// ── Curated sidebar rails ────────────────────────────────────────
+//
+// The sidebar chip rails show only values that clear their indexation
+// floor; the long tail (count-of-1 languages, countries, …) is reachable
+// via the omnibox search instead. We reuse the LOCKED per-facet floors —
+// no new thresholds — and apply curation ONLY to the facets Malcolm
+// named: language + country (both clusters) and network (TV). Studio /
+// network group (conglomerates) have no floor and we don't create one, so
+// they render in full (small fixed sets with no long tail); every other
+// rail (genre, type, decade, release, budget) is also left untouched.
+//
+// These live here, not in *EntityFacets, because facet-index owns the
+// floors and already depends on the utils (one-way) — applying the floor
+// in the utils would invert that into a cycle.
+
+/** Drop a FacetGroup's options below `floor`. */
+function floorFacetGroup(group: FacetGroup, floor: number): FacetGroup {
+  return { ...group, options: group.options.filter(([, c]) => c >= floor) };
+}
+
+/** Film sidebar rails with language + country floored (the rest in full). */
+export function curatedFilmEntityFacets(films: Film[]): FacetGroup[] {
+  return filmEntityFacets(films).map((g) => {
+    if (g.key === "languages")
+      return floorFacetGroup(g, FILM_FACET_FLOORS.languages);
+    if (g.key === "countries")
+      return floorFacetGroup(g, FILM_FACET_FLOORS.countries);
+    return g;
+  });
+}
+
+/** TV sidebar rails with language + country floored (the rest in full). */
+export function curatedShowEntityFacets(shows: Show[]): FacetGroup[] {
+  return showEntityFacets(shows).map((g) => {
+    if (g.key === "languages")
+      return floorFacetGroup(g, TV_FACET_FLOORS.languages);
+    if (g.key === "countries")
+      return floorFacetGroup(g, TV_FACET_FLOORS.countries);
+    return g;
+  });
+}
+
+/** The TV network rail, floored. (deriveAvailableNetworks stays full for
+ *  the omnibox — only the rail is curated.) */
+export function curatedTvRailNetworks(shows: Show[]): [string, number][] {
+  return deriveAvailableNetworks(shows).filter(
+    ([, c]) => c >= TV_FACET_FLOORS.networks,
+  );
+}
+
 // ── Route URL vocabulary (shared by the renderers, the sitemap, the stats
 //    deep-links, and the reviews canonical handoff) ─────────────────────
 /** Facet key → URL segment, e.g. directors → /films/director/[slug]. */
@@ -160,7 +214,10 @@ type ShowDistFacet = Extract<TvRouteFacet, ShowFacet>;
 // over the corpus, so cache the per-facet result keyed by the corpus array
 // identity (getFilmsWithEnrichment / getShowsWithEnrichment return a stable
 // module-cached array, so this hits across all consumers in one build).
-const filmCache = new WeakMap<Film[], Map<FilmRouteFacet, [string, number][]>>();
+const filmCache = new WeakMap<
+  Film[],
+  Map<FilmRouteFacet, [string, number][]>
+>();
 const showCache = new WeakMap<Show[], Map<TvRouteFacet, [string, number][]>>();
 
 /** [name, count] for primary network across the corpus. The network filter
@@ -348,7 +405,10 @@ export function resolveFilmFacet(
   slug: string,
 ): { name: string; count: number } | null {
   const indexable = indexableFilmFacets(facet, films);
-  const name = findEntityBySlug(indexable.map(([n]) => n), slug);
+  const name = findEntityBySlug(
+    indexable.map(([n]) => n),
+    slug,
+  );
   if (name === null) return null;
   return { name, count: indexable.find(([n]) => n === name)![1] };
 }
@@ -360,7 +420,10 @@ export function resolveTvFacet(
   slug: string,
 ): { name: string; count: number } | null {
   const indexable = indexableTvFacets(facet, shows);
-  const name = findEntityBySlug(indexable.map(([n]) => n), slug);
+  const name = findEntityBySlug(
+    indexable.map(([n]) => n),
+    slug,
+  );
   if (name === null) return null;
   return { name, count: indexable.find(([n]) => n === name)![1] };
 }

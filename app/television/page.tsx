@@ -36,9 +36,11 @@ import {
 } from "@/lib/feeds/serializd";
 import { getShowFeaturedPick } from "@/lib/feeds/featured-pick";
 import { buildInProgressCards } from "@/lib/feeds/serializd-utils";
+import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import { indexableTvCollections } from "@/lib/feeds/facet-index";
 import type { ShowList } from "@/lib/feeds/serializd";
 import { InProgressCard } from "./InProgressCard";
+import { StatsBand } from "./StatsBand";
 
 const NOW_COUNT = 5;
 
@@ -76,9 +78,54 @@ function listCoverPosters(list: ShowList): string[] {
 }
 
 export default function TelevisionLandingPage() {
-  const { shows } = getShows();
+  const { shows, summary } = getShows();
   const favorites = getShowFavorites();
   const lists = getShowLists();
+
+  // Per-mode "this year" counts + averages for the StatsBand's lead
+  // numbers. Derived at request time so they track `new Date()` and stay
+  // correct across the year boundary, and routed through modesForReview
+  // so the miniseries double-count rule matches the lifetime totals shown
+  // alongside (a Show review on a miniseries-pinned show counts in both
+  // Shows and Seasons modes). This mirrors the derivation that used to
+  // live on /television/reviews when the panel rendered there. Don't
+  // increment cybl[r.level] directly — that bypasses the double-count
+  // rule. See lib/feeds/serializd-mode-counts.mjs.
+  const currentYear = new Date().getUTCFullYear();
+  const cybl = { show: 0, season: 0, episode: 0 };
+  const cyblRatingSums = { show: 0, season: 0, episode: 0 };
+  const cyblRatingCounts = { show: 0, season: 0, episode: 0 };
+  for (const show of shows) {
+    for (const r of show.reviews) {
+      const yr = Number.parseInt(r.watchedDate.slice(0, 4), 10);
+      if (yr !== currentYear) continue;
+      for (const mode of modesForReview(r.level, show.isMiniseries)) {
+        cybl[mode]++;
+        if (r.rating !== null) {
+          cyblRatingSums[mode] += r.rating;
+          cyblRatingCounts[mode]++;
+        }
+      }
+    }
+  }
+  const currentYearAvgByLevel: {
+    show: number | null;
+    season: number | null;
+    episode: number | null;
+  } = {
+    show:
+      cyblRatingCounts.show > 0
+        ? cyblRatingSums.show / cyblRatingCounts.show
+        : null,
+    season:
+      cyblRatingCounts.season > 0
+        ? cyblRatingSums.season / cyblRatingCounts.season
+        : null,
+    episode:
+      cyblRatingCounts.episode > 0
+        ? cyblRatingSums.episode / cyblRatingCounts.episode
+        : null,
+  };
   // Routable franchise collections — drives the "Collections" landing
   // teaser + its link to the core /television/collections page.
   const collections = indexableTvCollections(shows);
@@ -198,12 +245,29 @@ export default function TelevisionLandingPage() {
           </Section>
         ) : null}
 
+        {/* ─── By the numbers ─────────────────────────────────── */}
+        {/* Lifetime stats, relocated here from the old listing-hero
+            panel. With a featured pick above it, a bordered divider sets
+            it off; with no pick it's the first module and sits tight to
+            the hero (paddingTop:0), matching the first-module rhythm. */}
+        <Section
+          padding="md"
+          bordered={Boolean(featured)}
+          style={featured ? undefined : { paddingTop: 0 }}
+        >
+          <StatsBand
+            summary={summary}
+            currentYearByLevel={cybl}
+            currentYearAvgByLevel={currentYearAvgByLevel}
+          />
+        </Section>
+
         {/* ─── Now ────────────────────────────────────────────── */}
-        {/* paddingTop:0 on the first module so the gap to it is the hero
-            section's bottom rhythm alone, not that PLUS this section's top
-            rhythm (the doubling read as a big void under the hero). */}
+        {/* The StatsBand always precedes Now, so Now is never the first
+            module — a bordered divider separates the two (it no longer
+            needs the paddingTop:0 first-module treatment). */}
         {nowCards.length > 0 ? (
-          <Section padding="md" style={{ paddingTop: 0 }}>
+          <Section padding="md" bordered>
             <Stack gap="400">
               <Kicker accent>Now</Kicker>
               <Headline level={2}>Mid-watch right now</Headline>
@@ -264,7 +328,9 @@ export default function TelevisionLandingPage() {
                     <PosterTile
                       key={fav.serializdShowId}
                       href={
-                        corpusShow ? `/television/${corpusShow.slug}` : undefined
+                        corpusShow
+                          ? `/television/${corpusShow.slug}`
+                          : undefined
                       }
                       posterUrl={fav.posterUrl}
                       title={fav.name}

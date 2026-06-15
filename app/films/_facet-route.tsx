@@ -37,7 +37,6 @@ import { hybridMatchIds, combineMatchSets } from "@/lib/feeds/fuzzy-search";
 import {
   applyFilters,
   asString,
-  filmEntityFacets,
   paginate,
   parseFilmFilters,
   parseFilmSort,
@@ -46,6 +45,7 @@ import {
 import { slugifyEntity } from "@/lib/feeds/slug";
 import { buildOriginHref } from "@/lib/feeds/origin-href";
 import {
+  curatedFilmEntityFacets,
   indexableFilmFacets,
   resolveFilmFacet,
   FILM_FACET_BASEPATH,
@@ -54,7 +54,6 @@ import {
   type FilmRouteFacet,
 } from "@/lib/feeds/facet-index";
 import { FilmsShell } from "./FilmsShell";
-import { SummaryPanel } from "./SummaryPanel";
 
 const LETTERBOXD_PROFILE_URL =
   ELSEWHERE.find((e) => e.label === "Letterboxd")?.href ??
@@ -76,9 +75,24 @@ type RouteArgs = { params: Promise<Params>; searchParams: SearchParams };
 // genre route: the bare facet URL is the indexable canonical; composed
 // filter states are noindex,follow).
 const FILM_FILTER_PARAMS = [
-  "rating", "genre", "runtime", "watchedYear", "watchedWindow", "title",
-  "director", "releaseYearMin", "releaseYearMax", "actor", "writer", "studio",
-  "conglomerate", "language", "country", "releaseType", "budgetTier", "decade",
+  "rating",
+  "genre",
+  "runtime",
+  "watchedYear",
+  "watchedWindow",
+  "title",
+  "director",
+  "releaseYearMin",
+  "releaseYearMax",
+  "actor",
+  "writer",
+  "studio",
+  "conglomerate",
+  "language",
+  "country",
+  "releaseType",
+  "budgetTier",
+  "decade",
   "collection",
 ];
 
@@ -235,8 +249,7 @@ export async function filmFacetMetadata(
   const param = FILM_FACET_PARAM[facet];
   const page = Number.parseInt(asString(sp.page) ?? "1", 10);
   const isPagedBeyondFirst = Number.isFinite(page) && page > 1;
-  const noindex =
-    hasAdditionalFilters(sp, param, slug) || isPagedBeyondFirst;
+  const noindex = hasAdditionalFilters(sp, param, slug) || isPagedBeyondFirst;
 
   const copy = buildCopy(facet, resolved.name, resolved.count);
   const canonical = `/films/${basePath}/${slug}`;
@@ -279,7 +292,7 @@ export async function FilmFacetPage(
   const basePath = FILM_FACET_BASEPATH[facet];
   const param = FILM_FACET_PARAM[facet];
   const pinKey = FILM_FACET_PIN_KEY[facet];
-  const entityFacets = filmEntityFacets(films);
+  const entityFacets = curatedFilmEntityFacets(films);
 
   // Parse the URL filters, then force-set the route's facet (by slug, the
   // form applyFilters' facetHit compares) so the page is always scoped to
@@ -291,9 +304,9 @@ export async function FilmFacetPage(
   const requestedPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
   const pageSize = saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DEFAULT;
 
-  const availableGenres = Object.entries(summary.genreDistribution)
-    .sort((a, b) => b[1] - a[1])
-    .map(([g]) => g);
+  const availableGenres: [string, number][] = Object.entries(
+    summary.genreDistribution,
+  ).sort((a, b) => a[0].localeCompare(b[0]));
   const watchedYearSetGlobal = new Set<number>();
   for (const film of films) {
     for (const y of film.watchedYearSet) watchedYearSetGlobal.add(y);
@@ -302,14 +315,19 @@ export async function FilmFacetPage(
     (a, b) => b - a,
   );
 
-  const currentYear = new Date().getUTCFullYear();
-  const currentYearCount = films.filter((f) =>
-    f.watchedYearSet.includes(currentYear),
-  ).length;
-
   // Search (?title= / ?director=) composes with the pinned facet.
-  const titleMatch = hybridMatchIds(films, filters.titleQuery, ["title"], (f) => f.id);
-  const directorMatch = hybridMatchIds(films, filters.directorQuery, ["tmdb.director"], (f) => f.id);
+  const titleMatch = hybridMatchIds(
+    films,
+    filters.titleQuery,
+    ["title"],
+    (f) => f.id,
+  );
+  const directorMatch = hybridMatchIds(
+    films,
+    filters.directorQuery,
+    ["tmdb.director"],
+    (f) => f.id,
+  );
   const matchIds = combineMatchSets(titleMatch, directorMatch);
   const applied = applyFilters(films, filters, sort, matchIds);
   const {
@@ -326,8 +344,10 @@ export async function FilmFacetPage(
     film: { ...a.film, enrichment: undefined },
   }));
 
-  const prevHref = page > 1 ? buildPageHref(basePath, slug, sp, page - 1) : null;
-  const nextHref = page < totalPages ? buildPageHref(basePath, slug, sp, page + 1) : null;
+  const prevHref =
+    page > 1 ? buildPageHref(basePath, slug, sp, page - 1) : null;
+  const nextHref =
+    page < totalPages ? buildPageHref(basePath, slug, sp, page + 1) : null;
 
   const copy = buildCopy(facet, name, count);
   const detailUrl = `${SITE_URL}/films/${basePath}/${slug}`;
@@ -349,8 +369,18 @@ export async function FilmFacetPage(
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Films", item: `${SITE_URL}/films` },
-          { "@type": "ListItem", position: 2, name: copy.breadcrumb, item: detailUrl },
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Films",
+            item: `${SITE_URL}/films`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: copy.breadcrumb,
+            item: detailUrl,
+          },
         ],
       },
     ],
@@ -365,27 +395,27 @@ export async function FilmFacetPage(
       {prevHref ? <link rel="prev" href={prevHref} /> : null}
       {nextHref ? <link rel="next" href={nextHref} /> : null}
       <Container size="lg">
+        {/* Single-column hero — the lifetime-stats panel moved to the
+            /films landing's "By the numbers" band. */}
         <Section padding="lg">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
-            <Stack gap="500">
-              <Kicker accent>{copy.kicker}</Kicker>
-              <Display>{copy.display}</Display>
-              <Lede>{copy.lede}</Lede>
-              <p style={{ margin: 0 }}>
-                <TrackOnClick
-                  event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
-                  eventData={{ kind: "profile-follow", surface: "films-facet-hero" }}
-                >
-                  <Link href={LETTERBOXD_PROFILE_URL}>
-                    Follow along on Letterboxd ↗
-                  </Link>
-                </TrackOnClick>
-              </p>
-            </Stack>
-            <div className="hidden lg:block">
-              <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
-            </div>
-          </div>
+          <Stack gap="500">
+            <Kicker accent>{copy.kicker}</Kicker>
+            <Display>{copy.display}</Display>
+            <Lede>{copy.lede}</Lede>
+            <p style={{ margin: 0 }}>
+              <TrackOnClick
+                event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
+                eventData={{
+                  kind: "profile-follow",
+                  surface: "films-facet-hero",
+                }}
+              >
+                <Link href={LETTERBOXD_PROFILE_URL}>
+                  Follow along on Letterboxd ↗
+                </Link>
+              </TrackOnClick>
+            </p>
+          </Stack>
         </Section>
 
         <Section padding="md" bordered>
@@ -409,14 +439,12 @@ export async function FilmFacetPage(
             // slugs); director — param-less — rides routeFacetChip instead.
             entityNameHints={{ [slug]: name }}
             routeFacetChip={
-              facet === "directors" ? { facetLabel: "Director", name } : undefined
+              facet === "directors"
+                ? { facetLabel: "Director", name }
+                : undefined
             }
             originHref={buildOriginHref(`/films/${basePath}/${slug}`, sp)}
           />
-        </Section>
-
-        <Section padding="md" bordered className="lg:hidden">
-          <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
         </Section>
       </Container>
     </div>

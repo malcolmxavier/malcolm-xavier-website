@@ -87,8 +87,8 @@ export default function WatchingPage() {
   // Reading from data/television/overrides.json#excludeFromWatching
   // so the list lives next to the other editorial pins (miniseries,
   // poster overrides, watchedSeasons). Filtered AFTER buildInProgress-
-  // Cards so the SummaryPanel and any other consumer of the snapshot
-  // still sees the un-edited data.
+  // Cards so any other consumer of the snapshot still sees the
+  // un-edited data.
   const exclusions = getWatchingExclusions();
   const cards = buildInProgressCards(shows).filter(
     (c) => !exclusions.has(c.show.serializdShowId),
@@ -178,9 +178,9 @@ export default function WatchingPage() {
             <Display>What&apos;s on my television right now.</Display>
             <Lede>
               Each card is a season I&apos;ve started but haven&apos;t finished.
-              The progress line shows how many episodes I&apos;ve
-              logged so far. Open any card to see episode ratings and reviews,
-              or explore prior ratings and reviews from prior seasons.
+              The progress line shows how many episodes I&apos;ve logged so far.
+              Open any card to see episode ratings and reviews, or explore prior
+              ratings and reviews from prior seasons.
             </Lede>
           </Stack>
         </Section>
@@ -203,10 +203,7 @@ export default function WatchingPage() {
               id="grid" + scroll-margin-top is the anchor target
               the toggle's hrefs append (#grid) so view switches
               land at the grid row rather than the page hero. */}
-          <div
-            id="grid"
-            style={{ marginBottom: 16, scrollMarginTop: "5rem" }}
-          >
+          <div id="grid" style={{ marginBottom: 16, scrollMarginTop: "5rem" }}>
             <ClusterGridNav
               cluster="television"
               active="watching"
@@ -220,8 +217,7 @@ export default function WatchingPage() {
               role="list"
               className="grid gap-4 sm:gap-6"
               style={{
-                gridTemplateColumns:
-                  "repeat(auto-fill, minmax(160px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
                 listStyle: "none",
                 padding: 0,
                 margin: 0,

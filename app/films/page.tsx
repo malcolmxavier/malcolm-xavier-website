@@ -37,6 +37,7 @@ import {
 import { Link } from "@/components/primitives/Link";
 import { getFilmFeaturedPick } from "@/lib/feeds/featured-pick";
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
+import { StatsBand } from "./StatsBand";
 import { getCollectionDetails } from "@/lib/feeds/enrichment";
 import { indexableFilmCollections } from "@/lib/feeds/facet-index";
 import type { Film, FilmList } from "@/lib/feeds/letterboxd";
@@ -86,11 +87,20 @@ function listCoverPosters(list: FilmList): string[] {
 }
 
 export default function FilmsLandingPage() {
-  const { films } = getFilms();
+  const { films, summary } = getFilms();
   const favorites = getFilmFavorites();
   const lists = getFilmLists();
   const recent = films.slice(0, NOW_COUNT);
   const featured = getFilmFeaturedPick();
+
+  // Films watched this calendar year — for the StatsBand's lead line.
+  // Derived at request time (not from summary's snapshot-frozen count)
+  // so the "{n} in {year}" figure tracks `new Date()` and can't go stale
+  // across the Jan 1 boundary before the next snapshot refresh.
+  const currentYear = new Date().getUTCFullYear();
+  const currentYearCount = films.filter((f) =>
+    f.watchedYearSet.includes(currentYear),
+  ).length;
   // Routable franchise collections — drives the "Collections" landing teaser
   // and its link to the core /films/collections page. Reads the enriched
   // corpus (collection membership lives in the enrichment fixture).
@@ -171,10 +181,10 @@ export default function FilmsLandingPage() {
                 reads in ~2 lines and the modules below sit higher on the
                 initial viewport. */}
             <Lede style={{ maxWidth: "none" }}>
-              I watch north of 300 films a year and write up nearly all of
-              them. This is the front door: what I am watching right now, the
-              handful I would save in a fire, and the lists I rebuild every
-              year. The full reviewed backlog is one click away.
+              I watch north of 300 films a year and write up nearly all of them.
+              This is the front door: what I am watching right now, the handful
+              I would save in a fire, and the lists I rebuild every year. The
+              full reviewed backlog is one click away.
             </Lede>
             {/* Cluster sub-nav, inline in the hero. Overview is the
                 current page; Reviews links to the corpus — the on-site
@@ -206,12 +216,26 @@ export default function FilmsLandingPage() {
           </Section>
         ) : null}
 
+        {/* ─── By the numbers ─────────────────────────────────── */}
+        {/* Lifetime stats, relocated here from the old listing-hero
+            panel. With a featured pick above it, a bordered divider sets
+            it off; with no pick it's the first module and sits tight to
+            the hero (paddingTop:0), matching the first-module rhythm the
+            Featured/Now sections use. */}
+        <Section
+          padding="md"
+          bordered={Boolean(featured)}
+          style={featured ? undefined : { paddingTop: 0 }}
+        >
+          <StatsBand summary={summary} currentYearCount={currentYearCount} />
+        </Section>
+
         {/* ─── Now ────────────────────────────────────────────── */}
-        {/* paddingTop:0 on the first module so the gap to it is the hero
-            section's bottom rhythm alone, not that PLUS this section's top
-            rhythm (the doubling read as a big void under the hero). */}
+        {/* The StatsBand always precedes Now, so Now is never the first
+            module — a bordered divider separates the two (it no longer
+            needs the paddingTop:0 first-module treatment). */}
         {recent.length > 0 ? (
-          <Section padding="md" style={{ paddingTop: 0 }}>
+          <Section padding="md" bordered>
             <Stack gap="400">
               <Kicker accent>Now</Kicker>
               <Headline level={2}>Recently watched</Headline>

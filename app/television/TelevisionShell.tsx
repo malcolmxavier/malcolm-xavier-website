@@ -24,11 +24,7 @@
 
 "use client";
 
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { track } from "@vercel/analytics";
@@ -48,10 +44,28 @@ import { slugifyEntity, type FacetGroup } from "@/lib/feeds/slug";
 import { ClusterGridNav } from "@/components/feeds/ClusterGridNav";
 import { useScrollRestoration } from "@/components/feeds/useScrollRestoration";
 import { ShowCard } from "./ShowCard";
+// Shared filter primitives (extracted from the verbatim copies that used
+// to live in both shells). The local Chip/FilterRow/DismissableChip
+// wrappers below bind this cluster's chip class + id prefix so the many
+// call sites stay unchanged. SearchInput + deslugify carry no
+// cluster-specific prop, so they're used directly.
+import { Chip as SharedChip, type ChipProps } from "@/components/filters/Chip";
+import {
+  DismissableChip as SharedDismissableChip,
+  type DismissableChipProps,
+} from "@/components/filters/DismissableChip";
+import {
+  FilterRow as SharedFilterRow,
+  type FilterRowProps,
+} from "@/components/filters/FilterRow";
+import { deslugify } from "@/components/filters/deslugify";
+import { FacetAccordion } from "@/components/filters/FacetAccordion";
+import { SearchOmnibox } from "@/components/filters/SearchOmnibox";
+import type { Suggestion } from "@/components/filters/omnibox-types";
+import { ReviewLensStrip } from "@/components/filters/ReviewLensStrip";
+import { reviewLenses, type ReviewLens } from "@/lib/feeds/review-lenses";
 
-const RATING_VALUES = [
-  0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5,
-] as const;
+const RATING_VALUES = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5] as const;
 
 // Most-recent-activity (default) → year/rating/name dimensions.
 // Past tense throughout so vocabulary matches the filter chips
@@ -75,12 +89,15 @@ type Props = {
   totalResults: number;
   filters: ShowFilters;
   sort: ShowSort;
-  /** Genres in the snapshot, sorted by usage descending. */
-  availableGenres: string[];
-  /** Canonical primary networks in the snapshot, sorted by usage desc. */
-  availableNetworks: string[];
-  /** TMDB series types in the snapshot, sorted by usage desc. */
-  availableTypes: string[];
+  /** Genres in the snapshot as [name, count] tuples, alphabetical. The
+   *  chip shows the name only; counts ride along for rail curation +
+   *  omnibox search, not for display. */
+  availableGenres: [string, number][];
+  /** Canonical primary networks as [name, count] tuples, alphabetical
+   *  (floored to the rail via curatedTvRailNetworks). */
+  availableNetworks: [string, number][];
+  /** TMDB series types as [name, count] tuples, alphabetical. */
+  availableTypes: [string, number][];
   /** Watched years in the snapshot, sorted desc. */
   availableWatchedYears: number[];
   /** Wave B low-cardinality facet groups (language, country, network
@@ -151,6 +168,11 @@ export function TelevisionShell({
   // (the back-link push doesn't get native scroll restoration).
   useScrollRestoration();
 
+  // slug → canonical name for facets picked via the omnibox this session,
+  // so the active-filter chip shows the real name after router.replace
+  // re-renders from the URL slug (see FilmsShell for the full rationale).
+  const [pickerHints, setPickerHints] = useState<Record<string, string>>({});
+
   const [drawerOpen, setDrawerOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -178,7 +200,7 @@ export function TelevisionShell({
   // inert={drawerOpen} on the desktop layout wrapper covers the
   // filter sidebar / grid subtree, and the navEl.setAttribute
   // covers the global Nav, but the listing hero / catalog Kicker
-  // / mobile SummaryPanel siblings of TelevisionShell stay
+  // siblings of TelevisionShell stay
   // focusable — without the Tab trap, Tab from the last drawer
   // focusable (the "Show results" button) escapes there.
   // Cleanup restores tab order. Same convention applied to
@@ -283,7 +305,8 @@ export function TelevisionShell({
     // at /television/reviews (the cluster root /television is now the
     // editorial landing). The non-genre branch uses pathname, already
     // /television/reviews when mounted there.
-    const targetBase = routeGenre || routePin ? "/television/reviews" : pathname;
+    const targetBase =
+      routeGenre || routePin ? "/television/reviews" : pathname;
     const qs = params.toString();
     router.replace(qs ? `${targetBase}?${qs}` : targetBase, {
       scroll: false,
@@ -384,10 +407,10 @@ export function TelevisionShell({
   /**
    * Set the card-kind scope. "both" clears the filter so the URL
    * stays shareable without a redundant `?cardKind=both` param;
-   * "show" / "season" narrow the grid to that level. The
-   * SummaryPanel's mode toggle is intentionally NOT synced — the
-   * grid-vs-chart split is preserved per the ShowFilters.cardKind
-   * comment in serializd-utils.
+   * "show" / "season" narrow the grid to that level. The landing's
+   * StatsBand chart has its own scope toggle, which is intentionally
+   * NOT synced to this grid filter — the grid-vs-chart split is
+   * preserved per the ShowFilters.cardKind comment in serializd-utils.
    */
   function setCardKind(value: "both" | "show" | "season") {
     navigate({ cardKind: value === "both" ? undefined : value });
@@ -406,14 +429,64 @@ export function TelevisionShell({
     navigate({ title: value || undefined });
   }
 
+  // Route an omnibox selection: a Title jumps to its detail page; an
+  // actor / creator slug facet is added to its filter array (add-only).
+  function handleOmniboxSelect(s: Suggestion) {
+    if (s.href) {
+      router.push(s.href);
+      return;
+    }
+    if (s.param && s.facetKey && s.value) {
+      const current =
+        ((filters as Record<string, unknown>)[s.facetKey] as
+          | string[]
+          | undefined) ?? [];
+      if (!current.includes(s.value)) {
+        toggleEntityFacet(s.param, s.facetKey, s.value);
+      }
+      setPickerHints((h) => ({ ...h, [s.value as string]: s.label }));
+    }
+  }
+
   function clearAll() {
     router.replace(pathname, { scroll: false });
   }
 
   const activeFilterCount = countActiveFilters(filters);
   const sortIsDefault = sort === "latest-activity-desc";
-  const anyControlChangedFromDefault =
-    activeFilterCount > 0 || !sortIsDefault;
+  const anyControlChangedFromDefault = activeFilterCount > 0 || !sortIsDefault;
+
+  // Curated lenses ("Start here") — see FilmsShell for the model. A lens
+  // is active when the URL's filter params exactly match its bundle;
+  // re-tapping the active lens clears back to the default view.
+  const reviewLensList = reviewLenses(
+    "television",
+    new Date().getUTCFullYear(),
+  );
+  const lensSignature = (params: Record<string, string>) =>
+    Object.entries(params)
+      .map(([k, v]) => `${k}=${v}`)
+      .sort()
+      .join("&");
+  const currentLensSignature = (() => {
+    const cur = new URLSearchParams(searchParams.toString());
+    for (const k of ["page", "ref", "from"]) cur.delete(k);
+    return [...cur.entries()]
+      .map(([k, v]) => `${k}=${v}`)
+      .sort()
+      .join("&");
+  })();
+  const activeLensId =
+    reviewLensList.find((l) => lensSignature(l.params) === currentLensSignature)
+      ?.id ?? null;
+  function applyLens(lens: ReviewLens) {
+    if (activeLensId === lens.id) {
+      router.replace(pathname, { scroll: false });
+      return;
+    }
+    const p = new URLSearchParams(lens.params);
+    router.replace(`${pathname}?${p.toString()}`, { scroll: false });
+  }
 
   const sharedFilterContentProps = {
     filters,
@@ -434,15 +507,20 @@ export function TelevisionShell({
     onClearWatchedDate: clearWatchedDate,
     onToggleEntityFacet: toggleEntityFacet,
     onSortChange: handleSortChange,
-    onTitleChange: handleTitleChange,
+    onOmniboxSelect: handleOmniboxSelect,
     onSetCardKind: setCardKind,
     onClearAll: clearAll,
   };
   const sidebarFilterContent = (
-    <FilterContent {...sharedFilterContentProps} showClearAll={false} />
+    <FilterContent
+      {...sharedFilterContentProps}
+      showClearAll={false}
+      // Desktop sidebar stays fully expanded (sticky, own scroll).
+      collapsibleSecondary={false}
+    />
   );
   const drawerFilterContent = (
-    <FilterContent {...sharedFilterContentProps} />
+    <FilterContent {...sharedFilterContentProps} collapsibleSecondary={true} />
   );
 
   return (
@@ -563,10 +641,7 @@ export function TelevisionShell({
               the toggle's hrefs append (#grid) — so switching
               views lands the user at this row, not at the page
               hero, even after a long-page scroll. */}
-          <div
-            id="grid"
-            style={{ marginBottom: 16, scrollMarginTop: "5rem" }}
-          >
+          <div id="grid" style={{ marginBottom: 16, scrollMarginTop: "5rem" }}>
             <ClusterGridNav
               cluster="television"
               active="all"
@@ -576,7 +651,19 @@ export function TelevisionShell({
               from={routeGenre ? "genre" : "listing"}
             />
           </div>
-          {(anyControlChangedFromDefault || toastMessage) ? (
+          {/* Curated lenses — main reviews page only (genre/facet routes
+              are already a filtered view). */}
+          {!routeGenre && !routePin ? (
+            <div style={{ marginBottom: 16 }}>
+              <ReviewLensStrip
+                lenses={reviewLensList}
+                activeId={activeLensId}
+                onSelect={applyLens}
+                chipClassName="show-filter-chip"
+              />
+            </div>
+          ) : null}
+          {anyControlChangedFromDefault || toastMessage ? (
             <div style={{ marginBottom: 16 }}>
               <ActiveFilterChips
                 filters={filters}
@@ -593,7 +680,7 @@ export function TelevisionShell({
                 onRemoveEntityFacet={toggleEntityFacet}
                 onResetSort={() => handleSortChange("latest-activity-desc")}
                 onClearAll={clearAll}
-                entityNameHints={entityNameHints}
+                entityNameHints={{ ...entityNameHints, ...pickerHints }}
               />
               {/* Inline mode-switch toast — sits below the chip
                   rail on md+ so a destructive transition stays
@@ -611,17 +698,14 @@ export function TelevisionShell({
               role="list"
               className="grid gap-4 sm:gap-6"
               style={{
-                gridTemplateColumns:
-                  "repeat(auto-fill, minmax(160px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
                 listStyle: "none",
                 padding: 0,
                 margin: 0,
               }}
             >
               {cards.map((card) => (
-                <li
-                  key={`${card.show.id}#${card.review.id}`}
-                >
+                <li key={`${card.show.id}#${card.review.id}`}>
                   <ShowCard card={card} originHref={originHref} />
                 </li>
               ))}
@@ -637,7 +721,13 @@ export function TelevisionShell({
               pageParam="page"
               preserveParams={preserveParams}
               ariaLabel="Television review pages"
-              surface={routeGenre ? "television-genre" : routePin ? "television-facet" : "television"}
+              surface={
+                routeGenre
+                  ? "television-genre"
+                  : routePin
+                    ? "television-facet"
+                    : "television"
+              }
             />
           </div>
         </div>
@@ -667,16 +757,17 @@ function FilterContent({
   onClearWatchedDate,
   onToggleEntityFacet,
   onSortChange,
-  onTitleChange,
+  onOmniboxSelect,
   onSetCardKind,
   onClearAll,
   showClearAll = true,
+  collapsibleSecondary,
 }: {
   filters: ShowFilters;
   sort: ShowSort;
-  availableGenres: string[];
-  availableNetworks: string[];
-  availableTypes: string[];
+  availableGenres: [string, number][];
+  availableNetworks: [string, number][];
+  availableTypes: [string, number][];
   availableWatchedYears: number[];
   entityFacets: FacetGroup[];
   anyControlChangedFromDefault: boolean;
@@ -695,8 +786,8 @@ function FilterContent({
   onClearWatchedDate: () => void;
   onToggleEntityFacet: (param: string, key: string, slug: string) => void;
   onSortChange: (v: ShowSort) => void;
-  /** Push a new title query (already trimmed; "" clears it). */
-  onTitleChange: (v: string) => void;
+  /** Route an omnibox suggestion (title jump / actor or creator facet). */
+  onOmniboxSelect: (s: Suggestion) => void;
   /** Set the card-kind scope. "both" clears the filter; "show" /
    *  "season" narrows the grid. Three-state segmented control
    *  rather than two checkboxes so the mutually-exclusive nature
@@ -706,18 +797,23 @@ function FilterContent({
   /** Hide inline "Clear all" button when the chip rail above the
    *  grid carries the bulk-clear affordance. */
   showClearAll?: boolean;
+  /** When true (mobile drawer), the Wave-B facet rails collapse behind
+   *  a "More filters" disclosure; false (desktop sidebar) renders them
+   *  inline. */
+  collapsibleSecondary: boolean;
 }) {
   const cardKind = filters.cardKind ?? "both";
   return (
     <Stack gap="500">
-      {/* Search leads the rail — title only (TV has no director field).
-          Debounced, writes ?title=. */}
-      <SearchInput
-        value={filters.titleQuery ?? ""}
-        onSearch={onTitleChange}
-        label="Title"
-        placeholder="Search titles"
-        ariaLabel="Search shows by title"
+      {/* Search leads the rail — one omnibox suggesting titles (jump to
+          the review) and the high-cardinality facets (actor, creator →
+          apply a filter) the rails don't surface. */}
+      <SearchOmnibox
+        endpoint="/television/reviews/facet-search"
+        label="Search"
+        placeholder="Titles, actors, creators…"
+        ariaLabel="Search television by title, actor, or creator"
+        onSelect={onOmniboxSelect}
       />
 
       <div>
@@ -725,9 +821,7 @@ function FilterContent({
         <select
           value={sort}
           onChange={(e) => {
-            const match = SORT_OPTIONS.find(
-              (o) => o.value === e.target.value,
-            );
+            const match = SORT_OPTIONS.find((o) => o.value === e.target.value);
             if (match) onSortChange(match.value);
           }}
           aria-label="Sort television by"
@@ -747,7 +841,7 @@ function FilterContent({
           internal cardKind value stays "both" — only the user-
           facing label is "All", so existing shared URLs with
           ?cardKind=both still resolve. Same visual language as
-          the SummaryPanel's mode toggle so the two read as
+          the landing StatsBand's mode toggle so the two read as
           siblings even though they're independent (grid scope vs.
           chart scope; see ShowFilters.cardKind comment in
           serializd-utils). */}
@@ -836,7 +930,7 @@ function FilterContent({
 
       {availableGenres.length > 0 ? (
         <FilterRow label="Genre">
-          {availableGenres.map((g) => (
+          {availableGenres.map(([g]) => (
             <Chip
               key={g}
               isActive={(filters.genres ?? []).includes(g)}
@@ -851,7 +945,7 @@ function FilterContent({
 
       {availableNetworks.length > 0 ? (
         <FilterRow label="Network">
-          {availableNetworks.map((n) => (
+          {availableNetworks.map(([n]) => (
             <Chip
               key={n}
               isActive={(filters.networks ?? []).includes(n)}
@@ -866,7 +960,7 @@ function FilterContent({
 
       {availableTypes.length > 0 ? (
         <FilterRow label="Type">
-          {availableTypes.map((t) => (
+          {availableTypes.map(([t]) => (
             <Chip
               key={t}
               isActive={(filters.types ?? []).includes(t)}
@@ -879,33 +973,38 @@ function FilterContent({
         </FilterRow>
       ) : null}
 
-      {/* Wave B low-cardinality facets — one always-visible chip rail per
-          group (language, country, network group, decade). Chip value is
-          an entity slug; OR within a facet. Same vocabulary as the stats
-          tiles, so a tile deep-link selects the same chip here. */}
-      {entityFacets.map((fg) => {
-        if (fg.options.length === 0) return null;
-        const active =
-          ((filters as Record<string, unknown>)[fg.key] as string[] | undefined) ??
-          [];
-        return (
-          <FilterRow key={fg.param} label={fg.label}>
-            {fg.options.map(([name]) => {
-              const slug = slugifyEntity(name);
-              return (
-                <Chip
-                  key={slug}
-                  isActive={active.includes(slug)}
-                  onClick={() => onToggleEntityFacet(fg.param, fg.key, slug)}
-                  ariaLabel={`Filter to ${name}`}
-                >
-                  {name}
-                </Chip>
-              );
-            })}
-          </FilterRow>
-        );
-      })}
+      {/* Wave B low-cardinality facets — one chip rail per group
+          (language, country, network group, decade). Chip value is an
+          entity slug; OR within a facet. Same vocabulary as the stats
+          tiles, so a tile deep-link selects the same chip here. On mobile
+          (collapsibleSecondary) they tuck behind a "More filters"
+          disclosure; on desktop the accordion renders them inline. */}
+      <FacetAccordion label="More filters" collapsible={collapsibleSecondary}>
+        {entityFacets.map((fg) => {
+          if (fg.options.length === 0) return null;
+          const active =
+            ((filters as Record<string, unknown>)[fg.key] as
+              | string[]
+              | undefined) ?? [];
+          return (
+            <FilterRow key={fg.param} label={fg.label}>
+              {fg.options.map(([name]) => {
+                const slug = slugifyEntity(name);
+                return (
+                  <Chip
+                    key={slug}
+                    isActive={active.includes(slug)}
+                    onClick={() => onToggleEntityFacet(fg.param, fg.key, slug)}
+                    ariaLabel={`Filter to ${name}`}
+                  >
+                    {name}
+                  </Chip>
+                );
+              })}
+            </FilterRow>
+          );
+        })}
+      </FacetAccordion>
 
       <div
         style={{
@@ -937,66 +1036,15 @@ function FilterContent({
   );
 }
 
-function FilterRow({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
-  const labelId = `television-filter-row-${label
-    .toLowerCase()
-    .replace(/\s+/g, "-")}`;
-  return (
-    <div role="group" aria-labelledby={labelId}>
-      <Kicker id={labelId}>{label}</Kicker>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 6,
-          marginTop: 8,
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
+// Television cluster bindings for the shared filter leaves — inject the
+// "television" id namespace and the show-filter-chip transition class so
+// the call sites below stay unchanged.
+function FilterRow(props: Omit<FilterRowProps, "idPrefix">) {
+  return <SharedFilterRow {...props} idPrefix="television" />;
 }
 
-function Chip({
-  isActive,
-  onClick,
-  children,
-  ariaLabel,
-}: {
-  isActive: boolean;
-  onClick: () => void;
-  children: ReactNode;
-  ariaLabel?: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={isActive}
-      aria-label={ariaLabel}
-      style={{
-        ...chipBaseStyle,
-        background: isActive ? "var(--text-action)" : "transparent",
-        color: isActive ? "var(--surface-page)" : "var(--text-body)",
-        borderColor: isActive
-          ? "var(--text-action)"
-          : "var(--border-interactive)",
-      }}
-      // .show-filter-chip class carries the transition + paired
-      // prefers-reduced-motion override (added in components.css
-      // alongside .film-filter-chip).
-      className="show-filter-chip hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
-    >
-      {children}
-    </button>
-  );
+function Chip(props: Omit<ChipProps, "chipClassName">) {
+  return <SharedChip {...props} chipClassName="show-filter-chip" />;
 }
 
 function ActiveFilterChips({
@@ -1152,9 +1200,7 @@ function ActiveFilterChips({
       ))}
       {cardKindActive ? (
         <DismissableChip
-          label={
-            filters.cardKind === "show" ? "Shows only" : "Seasons only"
-          }
+          label={filters.cardKind === "show" ? "Shows only" : "Seasons only"}
           ariaLabel="Reset scope to both shows and seasons"
           onDismiss={onResetCardKind}
         />
@@ -1187,94 +1233,8 @@ function ActiveFilterChips({
  *  (chip dismiss, Clear all). Rendered in both the sidebar and the
  *  drawer. Mirrors FilmsShell's SearchInput (TV searches title only —
  *  the Serializd snapshot has no director field). */
-function SearchInput({
-  value,
-  onSearch,
-  label,
-  placeholder,
-  ariaLabel,
-}: {
-  value: string;
-  onSearch: (v: string) => void;
-  label: string;
-  placeholder: string;
-  ariaLabel: string;
-}) {
-  const [local, setLocal] = useState(value);
-  const lastPushed = useRef(value);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    if (value !== lastPushed.current) {
-      lastPushed.current = value;
-      setLocal(value);
-    }
-  }, [value]);
-
-  useEffect(
-    () => () => {
-      if (timer.current) clearTimeout(timer.current);
-    },
-    [],
-  );
-
-  function handleChange(next: string) {
-    setLocal(next);
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => {
-      const trimmed = next.trim();
-      lastPushed.current = trimmed;
-      onSearch(trimmed);
-    }, 300);
-  }
-
-  return (
-    <div>
-      <Kicker>{label}</Kicker>
-      <input
-        type="search"
-        value={local}
-        onChange={(e) => handleChange(e.target.value)}
-        placeholder={placeholder}
-        aria-label={ariaLabel}
-        className="reviews-search-input focus-visible:outline-2 focus-visible:outline-offset-2"
-        style={{ ...searchInputStyle, marginTop: 8 }}
-      />
-    </div>
-  );
-}
-
-function DismissableChip({
-  label,
-  ariaLabel,
-  onDismiss,
-}: {
-  label: string;
-  ariaLabel: string;
-  onDismiss: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onDismiss}
-      aria-label={ariaLabel}
-      style={{
-        ...chipBaseStyle,
-        background: "var(--text-action)",
-        color: "var(--surface-page)",
-        borderColor: "var(--text-action)",
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-      }}
-      className="show-filter-chip hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
-    >
-      <span>{label}</span>
-      <span aria-hidden="true" style={{ fontSize: 14, lineHeight: 1 }}>
-        ✕
-      </span>
-    </button>
-  );
+function DismissableChip(props: Omit<DismissableChipProps, "chipClassName">) {
+  return <SharedDismissableChip {...props} chipClassName="show-filter-chip" />;
 }
 
 function labelForSort(sort: ShowSort): string {
@@ -1344,20 +1304,14 @@ function countActiveFilters(filters: ShowFilters): number {
   return n;
 }
 
-/** Title-case a slug for a chip label when no canonical name is available
- *  (a deep-linked facet value without a hint). The route pin passes the
- *  exact name via a hint. */
-function deslugify(slug: string): string {
-  return slug
-    .split("-")
-    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
-    .join(" ");
-}
-
 // Slug-based Wave B facets that earn a dismissable chip. network + type are
 // name-based and chipped separately (their WS3 handlers); these are the
 // rest, so a route-pinned actor/creator shows a chip like the rail facets.
-const TV_CHIP_FACETS: { key: keyof ShowFilters; param: string; label: string }[] = [
+const TV_CHIP_FACETS: {
+  key: keyof ShowFilters;
+  param: string;
+  label: string;
+}[] = [
   { key: "actors", param: "actor", label: "Actor" },
   { key: "creators", param: "creator", label: "Creator" },
   { key: "conglomerates", param: "conglomerate", label: "Network group" },
@@ -1377,10 +1331,7 @@ const TV_CHIP_FACETS: { key: keyof ShowFilters; param: string; label: string }[]
  * conversation — "I have 11 show reviews" reads more naturally
  * than "I have 11 cards."
  */
-function resultNoun(
-  cardKind: ShowFilters["cardKind"],
-  count: number,
-): string {
+function resultNoun(cardKind: ShowFilters["cardKind"], count: number): string {
   const singular =
     cardKind === "show"
       ? "show review"
@@ -1427,39 +1378,20 @@ function pickFilterDimension(keys: string[]): string | null {
   if (keys.includes("title")) return "search";
   if (keys.includes("sort")) return "sort";
   // Wave B entity facets — report the param name as the dimension.
-  for (const k of ["actor", "creator", "conglomerate", "language", "country", "decade"]) {
+  for (const k of [
+    "actor",
+    "creator",
+    "conglomerate",
+    "language",
+    "country",
+    "decade",
+  ]) {
     if (keys.includes(k)) return k;
   }
   return null;
 }
 
 // ─── Inline styles ────────────────────────────────────────────────
-
-const chipBaseStyle: CSSProperties = {
-  fontFamily: "var(--font-mono)",
-  fontSize: 12,
-  letterSpacing: "0.04em",
-  padding: "6px 12px",
-  borderRadius: 999,
-  border: "1px solid var(--border-interactive)",
-  cursor: "pointer",
-  whiteSpace: "nowrap",
-  outlineColor: "var(--border-focus)",
-};
-
-// Search box — matches the sort <select> vocabulary with text-entry
-// padding. Placeholder color via .reviews-search-input in components.css.
-const searchInputStyle: CSSProperties = {
-  fontFamily: "var(--font-mono)",
-  fontSize: 12,
-  padding: "8px 12px",
-  border: "1px solid var(--border-interactive)",
-  borderRadius: "var(--border-radius-sm)",
-  background: "var(--surface-page)",
-  color: "var(--text-body)",
-  width: "100%",
-  outlineColor: "var(--border-focus)",
-};
 
 const sortSelectStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
@@ -1579,4 +1511,3 @@ const drawerShowResultsButtonStyle: CSSProperties = {
   cursor: "pointer",
   outlineColor: "var(--border-focus)",
 };
-

@@ -41,7 +41,6 @@ import { SITE_URL } from "@/lib/site-config";
 import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
 import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { hybridMatchIds } from "@/lib/feeds/fuzzy-search";
-import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
   applyCompletedCardFilters,
   asString,
@@ -49,9 +48,7 @@ import {
   paginate,
   parseShowFilters,
   parseShowSort,
-  showEntityFacets,
   slugifyGenre,
-  deriveAvailableNetworks,
   deriveAvailableTypes,
   type ShowFilters,
   type Show,
@@ -59,13 +56,14 @@ import {
 import { slugifyEntity, findEntityBySlug } from "@/lib/feeds/slug";
 import { buildOriginHref } from "@/lib/feeds/origin-href";
 import {
+  curatedShowEntityFacets,
+  curatedTvRailNetworks,
   indexableTvFacetNames,
   isIndexableTvFacet,
   TV_FACET_BASEPATH,
   type TvRouteFacet,
 } from "@/lib/feeds/facet-index";
 import { TelevisionShell } from "../TelevisionShell";
-import { SummaryPanel } from "../SummaryPanel";
 
 const SERIALIZD_PROFILE_URL = "https://serializd.com/user/malxavi";
 
@@ -113,7 +111,11 @@ function activeTvDims(filters: ShowFilters): ActiveDim[] {
   if (filters.watchedYears?.length) dims.push({ kind: "other" });
   if (filters.watchedWindow !== undefined) dims.push({ kind: "other" });
   if (filters.titleQuery) dims.push({ kind: "other" });
-  if (filters.premiereYearMin !== undefined || filters.premiereYearMax !== undefined) dims.push({ kind: "other" });
+  if (
+    filters.premiereYearMin !== undefined ||
+    filters.premiereYearMax !== undefined
+  )
+    dims.push({ kind: "other" });
   if (filters.cardKind !== undefined) dims.push({ kind: "other" });
   if (filters.conglomerates?.length) dims.push({ kind: "other" });
   return dims;
@@ -140,7 +142,9 @@ function tvReviewsCanonical(
             noindex: false,
           };
         }
-      } else if (findEntityBySlug(indexableTvFacetNames(d.facet, shows), d.value)) {
+      } else if (
+        findEntityBySlug(indexableTvFacetNames(d.facet, shows), d.value)
+      ) {
         return { canonical: `/television/${base}/${d.value}`, noindex: false };
       }
     }
@@ -257,8 +261,7 @@ export default async function TelevisionPage({
   const filters = parseShowFilters(params);
   const sort = parseShowSort(params);
   const rawPage = Number.parseInt(asString(params.page) ?? "1", 10);
-  const requestedPage =
-    Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
+  const requestedPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
   const pageSize = saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DEFAULT;
 
   // Enrichment-joined corpus: each show carries `.enrichment` (cast,
@@ -269,7 +272,7 @@ export default async function TelevisionPage({
   // Low-cardinality Wave B facet groups for the sidebar chip rails
   // (language, country, network group, decade), shared with the genre
   // route. Actors/creators are high-card — deep-links now, typeahead 6c.
-  const entityFacets = showEntityFacets(shows);
+  const entityFacets = curatedShowEntityFacets(shows);
 
   // Build the flat card list FIRST, then filter. The level-specific
   // scope filter (Show + Season require prose) is applied inside
@@ -278,13 +281,13 @@ export default async function TelevisionPage({
   // parent Season.
   const allCards = buildCompletedCards(shows);
 
-  const availableGenres = Object.entries(summary.genreDistribution)
-    .sort((a, b) => b[1] - a[1])
-    .map(([g]) => g);
+  const availableGenres: [string, number][] = Object.entries(
+    summary.genreDistribution,
+  ).sort((a, b) => a[0].localeCompare(b[0]));
 
   // Networks (canonical primary) and TMDB types present in the
   // dataset, frequency-sorted — drive the new filter chip rails.
-  const availableNetworks = deriveAvailableNetworks(shows);
+  const availableNetworks = curatedTvRailNetworks(shows);
   const availableTypes = deriveAvailableTypes(shows);
 
   // Watched years across the dataset, derived from each show's
@@ -298,51 +301,6 @@ export default async function TelevisionPage({
   const availableWatchedYears = Array.from(watchedYearSetGlobal).sort(
     (a, b) => b - a,
   );
-
-  // Per-mode "this year" counts, derived at request time so the
-  // numbers track `new Date()` and stay correct across the year
-  // boundary (snapshot-frozen counts would silently mismatch
-  // `currentYear` between Jan 1 and the next refresh tick).
-  //
-  // Per-mode bucketing routes through modesForReview — the same
-  // helper that drives lifetime totals in aggregateSummary. This
-  // keeps the miniseries double-count rule consistent across both
-  // surfaces (a Show review on a miniseries-pinned show counts in
-  // both Shows and Seasons modes, etc.). Don't increment cybl[r.level]
-  // directly — that path bypasses the double-count rule and produces
-  // in-year totals that under-report relative to the lifetime totals
-  // displayed alongside them. The rule is the editorial source of
-  // truth for /television's per-mode arithmetic; see
-  // lib/feeds/serializd-mode-counts.mjs.
-  const currentYear = new Date().getUTCFullYear();
-  const cybl = { show: 0, season: 0, episode: 0 };
-  // Parallel sum + count per mode so the SummaryPanel can render
-  // an in-year average next to the lifetime one. Same modesForReview
-  // routing as the count loop below so the in-year avg honors the
-  // miniseries double-count rule (a miniseries Season's rating
-  // contributes to the Shows-mode average too). Null when a mode
-  // has zero rated reviews this year — SummaryPanel suppresses the
-  // parenthetical in that case rather than displaying NaN★.
-  const cyblRatingSums = { show: 0, season: 0, episode: 0 };
-  const cyblRatingCounts = { show: 0, season: 0, episode: 0 };
-  for (const show of shows) {
-    for (const r of show.reviews) {
-      const yr = Number.parseInt(r.watchedDate.slice(0, 4), 10);
-      if (yr !== currentYear) continue;
-      for (const mode of modesForReview(r.level, show.isMiniseries)) {
-        cybl[mode]++;
-        if (r.rating !== null) {
-          cyblRatingSums[mode] += r.rating;
-          cyblRatingCounts[mode]++;
-        }
-      }
-    }
-  }
-  const currentYearAvgByLevel: { show: number | null; season: number | null; episode: number | null } = {
-    show: cyblRatingCounts.show > 0 ? cyblRatingSums.show / cyblRatingCounts.show : null,
-    season: cyblRatingCounts.season > 0 ? cyblRatingSums.season / cyblRatingCounts.season : null,
-    episode: cyblRatingCounts.episode > 0 ? cyblRatingSums.episode / cyblRatingCounts.episode : null,
-  };
 
   // Watching count for the All/Watching toggle badge — must match
   // what /television/watching renders post-exclusion (perpetual
@@ -360,7 +318,12 @@ export default async function TelevisionPage({
   // substring→fuzzy, over the unique shows so no duplicate-name skew),
   // then drop non-matching cards. null when no/short query. TV has no
   // director field, so title is the only search dimension.
-  const matchIds = hybridMatchIds(shows, filters.titleQuery, ["name"], (s) => s.id);
+  const matchIds = hybridMatchIds(
+    shows,
+    filters.titleQuery,
+    ["name"],
+    (s) => s.id,
+  );
   const applied = applyCompletedCardFilters(allCards, filters, sort, matchIds);
   const {
     current: pageCards,
@@ -443,66 +406,50 @@ export default async function TelevisionPage({
       {prevHref ? <link rel="prev" href={prevHref} /> : null}
       {nextHref ? <link rel="next" href={nextHref} /> : null}
       <Container size="lg">
-        {/* ─── Hero + Summary ─────────────────────────────────── */}
+        {/* ─── Hero ───────────────────────────────────────────────
+            Single-column editorial hero. The lifetime-stats panel moved
+            to the /television landing's "By the numbers" band, so the
+            reviews page leads straight into the grid below. */}
         <Section padding="lg">
-          {/* Default grid stretch: both columns share the row height, set
-              by the taller LEFT column (kicker + display + lede + follow +
-              cluster nav). The right column's chart flex-grows to fill that
-              height (see SummaryPanel), so it matches the left column. TV's
-              chart ends up shorter than films' — that's expected. */}
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
-            <Stack gap="500">
-              <Kicker accent>Television</Kicker>
-              <Display>Don&apos;t change the channel.</Display>
-              <Lede>
-                I watch 100+ seasons of television a year and log my
-                reviews on Serializd. Open any card for the full review
-                hierarchy. And if you want a recommendation, the
-                filters are there for you.
-              </Lede>
-              {/* Hero CTA — single external link to the Serializd
+          <Stack gap="500">
+            <Kicker accent>Television</Kicker>
+            <Display>Don&apos;t change the channel.</Display>
+            <Lede>
+              I watch 100+ seasons of television a year and log my reviews on
+              Serializd. Open any card for the full review hierarchy. And if you
+              want a recommendation, the filters are there for you.
+            </Lede>
+            {/* Hero CTA — single external link to the Serializd
                   profile. The "Watching" affordance lives on the
                   All/Watching toggle above the grid (mirrors
                   /music's All/Collections display toggle), not in
                   the hero, so the hero stays clean editorial
                   copy + one outbound link. */}
-              <p style={{ margin: 0 }}>
-                <TrackOnClick
-                  event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
-                  eventData={{
-                    kind: "profile-follow",
-                    surface: "listing-hero",
-                  }}
-                >
-                  <Link href={SERIALIZD_PROFILE_URL}>
-                    Follow along on Serializd ↗
-                  </Link>
-                </TrackOnClick>
-              </p>
-              {/* Cluster sub-nav, inline in the hero's left column — part of
+            <p style={{ margin: 0 }}>
+              <TrackOnClick
+                event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
+                eventData={{
+                  kind: "profile-follow",
+                  surface: "listing-hero",
+                }}
+              >
+                <Link href={SERIALIZD_PROFILE_URL}>
+                  Follow along on Serializd ↗
+                </Link>
+              </TrackOnClick>
+            </p>
+            {/* Cluster sub-nav, inline in the hero's left column — part of
                   what makes this column the taller of the two, which the
                   stats chart on the right stretches to match. "Reviews" is
                   active; "Overview" links back to the editorial landing. */}
-              <ClusterRail
-                base="/television"
-                active="reviews"
-                subbrand="tv"
-                label="Television sections"
-                className="mt-2"
-              />
-            </Stack>
-            {/* Hidden below lg (panel relocates to a footer). On lg+ a flex
-                column so the SummaryPanel's chart can flex-grow to fill this
-                cell's height — which the grid stretched to match the taller
-                left (hero) column. Matches /films/reviews. */}
-            <div className="hidden lg:flex lg:flex-col">
-              <SummaryPanel
-                summary={summary}
-                currentYearByLevel={cybl}
-                currentYearAvgByLevel={currentYearAvgByLevel}
-              />
-            </div>
-          </div>
+            <ClusterRail
+              base="/television"
+              active="reviews"
+              subbrand="tv"
+              label="Television sections"
+              className="mt-2"
+            />
+          </Stack>
         </Section>
       </Container>
 
@@ -511,20 +458,18 @@ export default async function TelevisionPage({
         <Section padding="md" bordered>
           {/* The catalog kicker surfaces the three-level review
               system as concrete numbers above the grid. Order
-              (Seasons / Shows / Episodes) matches the SummaryPanel
-              mode toggle's default mode so the cluster's vocabulary
-              stays consistent across surfaces. Renders Kicker-styled
-              (mono uppercase, --text-caption color) so the line
-              reads as an editorial label, not a SaaS stat-bar.
-              Source is titlecase to match the SummaryPanel toggle's
-              source register; CSS textTransform:uppercase renders
-              both surfaces identically at runtime. Source-level
-              alignment from the 2026-05-07 re-review. */}
+              (Seasons / Shows / Episodes) matches the landing
+              StatsBand mode toggle's default mode so the cluster's
+              vocabulary stays consistent across surfaces. Renders
+              Kicker-styled (mono uppercase, --text-caption color) so
+              the line reads as an editorial label, not a SaaS
+              stat-bar. Source is titlecase to match the StatsBand
+              toggle's source register; CSS textTransform:uppercase
+              renders both surfaces identically at runtime. */}
           <div style={{ marginBottom: "var(--scale-500)" }}>
             <Kicker>
-              The catalog:{" "}
-              {summary.totalSeasonReviews.toLocaleString()} Seasons ·{" "}
-              {summary.totalShowReviews.toLocaleString()} Shows ·{" "}
+              The catalog: {summary.totalSeasonReviews.toLocaleString()} Seasons
+              · {summary.totalShowReviews.toLocaleString()} Shows ·{" "}
               {summary.totalEpisodeReviews.toLocaleString()} Episodes
             </Kicker>
           </div>
@@ -543,16 +488,6 @@ export default async function TelevisionPage({
             entityFacets={entityFacets}
             originHref={buildOriginHref("/television/reviews", params)}
             watchingCount={watchingCount}
-          />
-        </Section>
-
-        {/* Mobile/tablet panel — sits as a "lifetime stats" footer
-            below the grid. lg:hidden hides it on desktop. */}
-        <Section padding="md" bordered className="lg:hidden">
-          <SummaryPanel
-            summary={summary}
-            currentYearByLevel={cybl}
-            currentYearAvgByLevel={currentYearAvgByLevel}
           />
         </Section>
       </Container>
