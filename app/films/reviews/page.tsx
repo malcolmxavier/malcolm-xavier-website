@@ -41,7 +41,6 @@ import { hybridMatchIds, combineMatchSets } from "@/lib/feeds/fuzzy-search";
 import {
   applyFilters,
   asString,
-  filmEntityFacets,
   paginate,
   parseFilmFilters,
   parseFilmSort,
@@ -51,13 +50,13 @@ import {
 import { findEntityBySlug } from "@/lib/feeds/slug";
 import { buildOriginHref } from "@/lib/feeds/origin-href";
 import {
+  curatedFilmEntityFacets,
   indexableFilmFacetNames,
   FILM_FACET_BASEPATH,
   type FilmRouteFacet,
 } from "@/lib/feeds/facet-index";
 import type { Film } from "@/lib/feeds/letterboxd-utils";
 import { FilmsShell } from "../FilmsShell";
-import { SummaryPanel } from "../SummaryPanel";
 
 // ── Canonical handoff (single-facet → dedicated route) ─────────────
 // The reviews corpus is only indexable bare. A clean single-facet state
@@ -98,7 +97,11 @@ function activeFilmDims(filters: FilmFilters): ActiveDim[] {
   for (const [key, facet] of FILM_ROUTABLE) {
     const v = filters[key] as string[] | undefined;
     if (v?.length) {
-      dims.push(v.length === 1 ? { kind: "facet", facet, slug: v[0] } : { kind: "other" });
+      dims.push(
+        v.length === 1
+          ? { kind: "facet", facet, slug: v[0] }
+          : { kind: "other" },
+      );
     }
   }
   if (filters.ratings?.length) dims.push({ kind: "other" });
@@ -107,7 +110,11 @@ function activeFilmDims(filters: FilmFilters): ActiveDim[] {
   if (filters.watchedWindow !== undefined) dims.push({ kind: "other" });
   if (filters.titleQuery) dims.push({ kind: "other" });
   if (filters.directorQuery) dims.push({ kind: "other" });
-  if (filters.releaseYearMin !== undefined || filters.releaseYearMax !== undefined) dims.push({ kind: "other" });
+  if (
+    filters.releaseYearMin !== undefined ||
+    filters.releaseYearMax !== undefined
+  )
+    dims.push({ kind: "other" });
   if (filters.conglomerates?.length) dims.push({ kind: "other" });
   if (filters.releaseTypes?.length) dims.push({ kind: "other" });
   if (filters.budgetTiers?.length) dims.push({ kind: "other" });
@@ -267,8 +274,7 @@ export default async function FilmsPage({
   const filters = parseFilmFilters(params);
   const sort = parseFilmSort(params);
   const rawPage = Number.parseInt(asString(params.page) ?? "1", 10);
-  const requestedPage =
-    Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
+  const requestedPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
 
   // Save-Data shrinks the page size; the responsive grid handles
   // the visual mobile-vs-desktop split via auto-fill, so we don't
@@ -295,14 +301,15 @@ export default async function FilmsPage({
   // Low-cardinality Wave B facet groups for the sidebar chip rails
   // (shared with the genre route). High-card facets are reached via stats
   // deep-links now and a constrained typeahead in 6c.
-  const entityFacets = filmEntityFacets(films);
+  const entityFacets = curatedFilmEntityFacets(films);
 
-  // Genres available in the dataset, sorted by usage descending so
-  // the chip rail leads with the most-common ones. Pulled from the
+  // Genres available in the dataset as [name, count] tuples, sorted
+  // alphabetically (the rail is scanned by name). Counts ride along for
+  // rail curation + omnibox search, not for chip display. Pulled from the
   // pre-aggregated summary so this is O(genres) not O(films).
-  const availableGenres = Object.entries(summary.genreDistribution)
-    .sort((a, b) => b[1] - a[1])
-    .map(([g]) => g);
+  const availableGenres: [string, number][] = Object.entries(
+    summary.genreDistribution,
+  ).sort((a, b) => a[0].localeCompare(b[0]));
 
   // Watched years available in the dataset. Derived from each film's
   // pre-computed watchedYearSet (built at snapshot-write time from
@@ -318,17 +325,6 @@ export default async function FilmsPage({
   const availableWatchedYears = Array.from(watchedYearSetGlobal).sort(
     (a, b) => b - a,
   );
-
-  // Re-derive "watched this year" at request time so the count
-  // matches the displayed year label (which is itself derived from
-  // `new Date()`). The snapshot's pre-aggregated `summary.thisYearCount`
-  // is frozen at refresh time and goes stale across the year
-  // boundary — Jan 1 would otherwise display "{lastYear's count} in
-  // {newYear}" until the next snapshot refresh.
-  const currentYear = new Date().getUTCFullYear();
-  const currentYearCount = films.filter((f) =>
-    f.watchedYearSet.includes(currentYear),
-  ).length;
 
   // Search (?title= / ?director=) — match film ids per field server-side
   // (hybrid substring→fuzzy; Fuse stays off the client bundle), then
@@ -434,75 +430,47 @@ export default async function FilmsPage({
       {prevHref ? <link rel="prev" href={prevHref} /> : null}
       {nextHref ? <link rel="next" href={nextHref} /> : null}
       <Container size="lg">
-        {/* ─── Hero + Summary (side-by-side on lg+, stacked below) ─
-            On lg+ the hero and panel share one row; on smaller
-            viewports the panel drops below the hero copy in natural
-            reading order. The 3:2 column ratio gives the editorial
-            voice (Display + Lede) more horizontal room than the
-            stats sidebar — the chart still reads cleanly at the
-            narrower 2-fr column width. */}
+        {/* ─── Hero ───────────────────────────────────────────────
+            Single-column editorial hero. The lifetime-stats panel that
+            used to ride the right rail moved to the /films landing (the
+            "By the numbers" band), so the reviews page leads straight
+            into the grid below. */}
         <Section padding="lg">
-          {/* Default grid stretch: both columns share the row height,
-              set by the taller LEFT column (kicker + display + lede +
-              follow + the cluster nav). The right column's chart then
-              flex-grows to fill that height (see SummaryPanel), so the
-              chart's size tracks the left column's content — films and TV
-              end up with different chart heights, which is intended. */}
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
-            <Stack gap="500">
-              <Kicker accent>Films</Kicker>
-              <Display>Every film, every rating, every reaction.</Display>
-              <Lede>
-                I watch 300+ films a year and log my reviews on Letterboxd. This is the
-                full backlog. Open any card for the full review. And if you want a
-                recommendation, the filters are there for you.
-              </Lede>
-              {/* Follow CTA — sits inside the Stack so it picks up the
+          <Stack gap="500">
+            <Kicker accent>Films</Kicker>
+            <Display>Every film, every rating, every reaction.</Display>
+            <Lede>
+              I watch 300+ films a year and log my reviews on Letterboxd. This
+              is the full backlog. Open any card for the full review. And if you
+              want a recommendation, the filters are there for you.
+            </Lede>
+            {/* Follow CTA — sits inside the Stack so it picks up the
                   Lede's gap rhythm. ↗ marks it external per the
                   CTA-arrow convention. URL pulled from the ELSEWHERE
                   registry so it stays in sync with Footer + Contact. */}
-              <p style={{ margin: 0 }}>
-                <TrackOnClick
-                  event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
-                  eventData={{ kind: "profile-follow", surface: "films-hero" }}
-                >
-                  <Link href={LETTERBOXD_PROFILE_URL}>
-                    Follow along on Letterboxd ↗
-                  </Link>
-                </TrackOnClick>
-              </p>
-              {/* Cluster sub-nav, inline in the hero's left column. Its
+            <p style={{ margin: 0 }}>
+              <TrackOnClick
+                event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
+                eventData={{ kind: "profile-follow", surface: "films-hero" }}
+              >
+                <Link href={LETTERBOXD_PROFILE_URL}>
+                  Follow along on Letterboxd ↗
+                </Link>
+              </TrackOnClick>
+            </p>
+            {/* Cluster sub-nav, inline in the hero's left column. Its
                   height is part of what makes this column the taller of
                   the two, which the stats chart on the right stretches to
                   match. "Reviews" is the active tab; "Overview" links back
                   to the editorial landing. */}
-              <ClusterRail
-                base="/films"
-                active="reviews"
-                subbrand="film"
-                label="Films sections"
-                className="mt-2"
-              />
-            </Stack>
-            {/* SummaryPanel renders alongside the hero only on lg+
-                so the desktop hero+panel side-by-side stays intact.
-                Below lg the panel relocates to a "lifetime stats"
-                footer below the grid (see the second instance after
-                FilmsShell) — keeps ~300px of vertical chrome out of
-                the way at narrow widths so the card grid lands
-                closer to the fold on mobile and tablet. The
-                duplicate render is server-only and cheap; the
-                inactive variant gets display:none which removes
-                the underlying <aside> landmark from the AT tree
-                so SR users only ever encounter one. */}
-            {/* Hidden below lg (the panel relocates to a footer). On lg+
-                a flex column so the SummaryPanel's chart can flex-grow to
-                fill this cell's height — which the grid has stretched to
-                match the taller left (hero) column. */}
-            <div className="hidden lg:flex lg:flex-col">
-              <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
-            </div>
-          </div>
+            <ClusterRail
+              base="/films"
+              active="reviews"
+              subbrand="film"
+              label="Films sections"
+              className="mt-2"
+            />
+          </Stack>
         </Section>
       </Container>
 
@@ -525,13 +493,6 @@ export default async function FilmsPage({
             gridNavAllCount={summary.totalFilms}
             originHref={buildOriginHref("/films/reviews", params)}
           />
-        </Section>
-
-        {/* Mobile/tablet panel — sits as a "lifetime stats" footer
-            below the grid. lg:hidden hides it on desktop (where
-            the hero-aligned instance above takes over). */}
-        <Section padding="md" bordered className="lg:hidden">
-          <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
         </Section>
       </Container>
     </div>

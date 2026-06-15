@@ -31,22 +31,21 @@ import { SITE_URL } from "@/lib/site-config";
 import { getWatchingExclusions } from "@/lib/feeds/serializd";
 import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { hybridMatchIds } from "@/lib/feeds/fuzzy-search";
-import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
   applyCompletedCardFilters,
   asString,
   buildCompletedCards,
-  deriveAvailableNetworks,
   deriveAvailableTypes,
   paginate,
   parseShowFilters,
   parseShowSort,
-  showEntityFacets,
   type ShowFilters,
 } from "@/lib/feeds/serializd-utils";
 import { slugifyEntity } from "@/lib/feeds/slug";
 import { buildOriginHref } from "@/lib/feeds/origin-href";
 import {
+  curatedShowEntityFacets,
+  curatedTvRailNetworks,
   indexableTvFacets,
   resolveTvFacet,
   TV_FACET_BASEPATH,
@@ -55,7 +54,6 @@ import {
   type TvRouteFacet,
 } from "@/lib/feeds/facet-index";
 import { TelevisionShell } from "./TelevisionShell";
-import { SummaryPanel } from "./SummaryPanel";
 
 const SERIALIZD_PROFILE_URL = "https://serializd.com/user/malxavi";
 
@@ -71,9 +69,22 @@ type RouteArgs = { params: Promise<Params>; searchParams: SearchParams };
 const PIN = TV_FACET_PIN;
 
 const TV_FILTER_PARAMS = [
-  "rating", "genre", "network", "type", "watchedYear", "watchedWindow",
-  "title", "premiereYearMin", "premiereYearMax", "cardKind", "actor",
-  "creator", "conglomerate", "language", "country", "decade",
+  "rating",
+  "genre",
+  "network",
+  "type",
+  "watchedYear",
+  "watchedWindow",
+  "title",
+  "premiereYearMin",
+  "premiereYearMax",
+  "cardKind",
+  "actor",
+  "creator",
+  "conglomerate",
+  "language",
+  "country",
+  "decade",
 ];
 
 /** True if any filter param is active beyond the route's own pin (the pin
@@ -275,7 +286,7 @@ export async function TvFacetPage(
   const param = TV_FACET_PARAM[facet];
   const { pinKey, nameBased } = PIN[facet];
   const pinValue = nameBased ? name : slug;
-  const entityFacets = showEntityFacets(shows);
+  const entityFacets = curatedShowEntityFacets(shows);
 
   const baseFilters = parseShowFilters(sp);
   const filters: ShowFilters = { ...baseFilters, [pinKey]: [pinValue] };
@@ -286,10 +297,10 @@ export async function TvFacetPage(
 
   const allCards = buildCompletedCards(shows);
 
-  const availableGenres = Object.entries(summary.genreDistribution)
-    .sort((a, b) => b[1] - a[1])
-    .map(([g]) => g);
-  const availableNetworks = deriveAvailableNetworks(shows);
+  const availableGenres: [string, number][] = Object.entries(
+    summary.genreDistribution,
+  ).sort((a, b) => a[0].localeCompare(b[0]));
+  const availableNetworks = curatedTvRailNetworks(shows);
   const availableTypes = deriveAvailableTypes(shows);
   const watchedYearSetGlobal = new Set<number>();
   for (const show of shows) {
@@ -299,34 +310,6 @@ export async function TvFacetPage(
     (a, b) => b - a,
   );
 
-  // Per-mode current-year counts + averages (miniseries double-count rule
-  // honoured via modesForReview) — same posture as the TV genre route.
-  const currentYear = new Date().getUTCFullYear();
-  const cybl = { show: 0, season: 0, episode: 0 };
-  const cyblRatingSums = { show: 0, season: 0, episode: 0 };
-  const cyblRatingCounts = { show: 0, season: 0, episode: 0 };
-  for (const show of shows) {
-    for (const r of show.reviews) {
-      const yr = Number.parseInt(r.watchedDate.slice(0, 4), 10);
-      if (yr !== currentYear) continue;
-      for (const mode of modesForReview(r.level, show.isMiniseries)) {
-        cybl[mode]++;
-        if (r.rating !== null) {
-          cyblRatingSums[mode] += r.rating;
-          cyblRatingCounts[mode]++;
-        }
-      }
-    }
-  }
-  const currentYearAvgByLevel: {
-    show: number | null;
-    season: number | null;
-    episode: number | null;
-  } = {
-    show: cyblRatingCounts.show > 0 ? cyblRatingSums.show / cyblRatingCounts.show : null,
-    season: cyblRatingCounts.season > 0 ? cyblRatingSums.season / cyblRatingCounts.season : null,
-    episode: cyblRatingCounts.episode > 0 ? cyblRatingSums.episode / cyblRatingCounts.episode : null,
-  };
   const watchingExclusions = getWatchingExclusions();
   const watchingCount = shows.filter(
     (s) =>
@@ -335,7 +318,12 @@ export async function TvFacetPage(
   ).length;
 
   // Title search (?title=) composes with the pinned facet.
-  const matchIds = hybridMatchIds(shows, filters.titleQuery, ["name"], (s) => s.id);
+  const matchIds = hybridMatchIds(
+    shows,
+    filters.titleQuery,
+    ["name"],
+    (s) => s.id,
+  );
   const applied = applyCompletedCardFilters(allCards, filters, sort, matchIds);
   const {
     current: pageCards,
@@ -369,8 +357,18 @@ export async function TvFacetPage(
       {
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Television", item: `${SITE_URL}/television` },
-          { "@type": "ListItem", position: 2, name: copy.breadcrumb, item: detailUrl },
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Television",
+            item: `${SITE_URL}/television`,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: copy.breadcrumb,
+            item: detailUrl,
+          },
         ],
       },
     ],
@@ -383,31 +381,24 @@ export async function TvFacetPage(
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Container size="lg">
+        {/* Single-column hero — the lifetime-stats panel moved to the
+            /television landing's "By the numbers" band. */}
         <Section padding="lg">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
-            <Stack gap="500">
-              <Kicker accent>{copy.kicker}</Kicker>
-              <Display>{copy.display}</Display>
-              <Lede>{copy.lede}</Lede>
-              <p style={{ margin: 0 }}>
-                <TrackOnClick
-                  event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
-                  eventData={{ kind: "profile-follow", surface: "tv-facet-hero" }}
-                >
-                  <Link href={SERIALIZD_PROFILE_URL}>
-                    Follow along on Serializd ↗
-                  </Link>
-                </TrackOnClick>
-              </p>
-            </Stack>
-            <div className="hidden lg:block">
-              <SummaryPanel
-                summary={summary}
-                currentYearByLevel={cybl}
-                currentYearAvgByLevel={currentYearAvgByLevel}
-              />
-            </div>
-          </div>
+          <Stack gap="500">
+            <Kicker accent>{copy.kicker}</Kicker>
+            <Display>{copy.display}</Display>
+            <Lede>{copy.lede}</Lede>
+            <p style={{ margin: 0 }}>
+              <TrackOnClick
+                event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
+                eventData={{ kind: "profile-follow", surface: "tv-facet-hero" }}
+              >
+                <Link href={SERIALIZD_PROFILE_URL}>
+                  Follow along on Serializd ↗
+                </Link>
+              </TrackOnClick>
+            </p>
+          </Stack>
         </Section>
 
         <Section padding="md" bordered>
@@ -431,14 +422,6 @@ export async function TvFacetPage(
             entityNameHints={{ [pinValue]: name }}
             originHref={buildOriginHref(`/television/${basePath}/${slug}`, sp)}
             watchingCount={watchingCount}
-          />
-        </Section>
-
-        <Section padding="md" bordered className="lg:hidden">
-          <SummaryPanel
-            summary={summary}
-            currentYearByLevel={cybl}
-            currentYearAvgByLevel={currentYearAvgByLevel}
           />
         </Section>
       </Container>

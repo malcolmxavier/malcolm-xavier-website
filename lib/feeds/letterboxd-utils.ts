@@ -572,13 +572,49 @@ export function filmFacetDistributions(
  */
 export function filmEntityFacets(films: Film[]): FacetGroup[] {
   const d = filmFacetDistributions(films);
+  // Sidebar rails are scanned by name, so each group sorts alphabetically
+  // — the count-desc ranking in filmFacetDistributions stays untouched
+  // (stats + sitemap depend on it). Decade labels are "YYYYs", so an
+  // alpha sort reads as chronological.
+  const byName = (opts: [string, number][]): [string, number][] =>
+    [...opts].sort((a, b) => a[0].localeCompare(b[0]));
   return [
-    { key: "languages", param: "language", label: "Language", options: d.languages },
-    { key: "countries", param: "country", label: "Country", options: d.countries },
-    { key: "conglomerates", param: "conglomerate", label: "Studio group", options: d.conglomerates },
-    { key: "releaseTypes", param: "releaseType", label: "Release", options: d.releaseTypes },
-    { key: "budgetTiers", param: "budgetTier", label: "Budget", options: d.budgetTiers },
-    { key: "decades", param: "decade", label: "Decade", options: d.decades },
+    {
+      key: "languages",
+      param: "language",
+      label: "Language",
+      options: byName(d.languages),
+    },
+    {
+      key: "countries",
+      param: "country",
+      label: "Country",
+      options: byName(d.countries),
+    },
+    {
+      key: "conglomerates",
+      param: "conglomerate",
+      label: "Studio group",
+      options: byName(d.conglomerates),
+    },
+    {
+      key: "releaseTypes",
+      param: "releaseType",
+      label: "Release",
+      options: byName(d.releaseTypes),
+    },
+    {
+      key: "budgetTiers",
+      param: "budgetTier",
+      label: "Budget",
+      options: byName(d.budgetTiers),
+    },
+    {
+      key: "decades",
+      param: "decade",
+      label: "Decade",
+      options: byName(d.decades),
+    },
   ];
 }
 
@@ -586,16 +622,16 @@ export function filmEntityFacets(films: Film[]): FacetGroup[] {
 function anyFilmFacetActive(f: FilmFilters): boolean {
   return Boolean(
     f.directors?.length ||
-      f.actors?.length ||
-      f.writers?.length ||
-      f.studios?.length ||
-      f.conglomerates?.length ||
-      f.languages?.length ||
-      f.countries?.length ||
-      f.releaseTypes?.length ||
-      f.budgetTiers?.length ||
-      f.decades?.length ||
-      f.collections?.length,
+    f.actors?.length ||
+    f.writers?.length ||
+    f.studios?.length ||
+    f.conglomerates?.length ||
+    f.languages?.length ||
+    f.countries?.length ||
+    f.releaseTypes?.length ||
+    f.budgetTiers?.length ||
+    f.decades?.length ||
+    f.collections?.length,
   );
 }
 
@@ -676,26 +712,54 @@ export function applyFilters(
     // lists). Skipped entirely unless a Wave B facet is active.
     if (waveBActive) {
       const fv = filmFacetValues(film);
-      if (filters.directors?.length && !facetHit(filters.directors, fv.directors)) continue;
-      if (filters.actors?.length && !facetHit(filters.actors, fv.actors)) continue;
-      if (filters.writers?.length && !facetHit(filters.writers, fv.writers)) continue;
-      if (filters.studios?.length && !facetHit(filters.studios, fv.studios)) continue;
-      if (filters.conglomerates?.length && !facetHit(filters.conglomerates, fv.conglomerates)) continue;
-      if (filters.languages?.length && !facetHit(filters.languages, fv.languages)) continue;
-      if (filters.countries?.length && !facetHit(filters.countries, fv.countries)) continue;
-      if (filters.releaseTypes?.length && !facetHit(filters.releaseTypes, fv.releaseTypes)) continue;
-      if (filters.budgetTiers?.length && !facetHit(filters.budgetTiers, fv.budgetTiers)) continue;
-      if (filters.decades?.length && !facetHit(filters.decades, fv.decades)) continue;
-      if (filters.collections?.length && !facetHit(filters.collections, fv.collections)) continue;
+      if (
+        filters.directors?.length &&
+        !facetHit(filters.directors, fv.directors)
+      )
+        continue;
+      if (filters.actors?.length && !facetHit(filters.actors, fv.actors))
+        continue;
+      if (filters.writers?.length && !facetHit(filters.writers, fv.writers))
+        continue;
+      if (filters.studios?.length && !facetHit(filters.studios, fv.studios))
+        continue;
+      if (
+        filters.conglomerates?.length &&
+        !facetHit(filters.conglomerates, fv.conglomerates)
+      )
+        continue;
+      if (
+        filters.languages?.length &&
+        !facetHit(filters.languages, fv.languages)
+      )
+        continue;
+      if (
+        filters.countries?.length &&
+        !facetHit(filters.countries, fv.countries)
+      )
+        continue;
+      if (
+        filters.releaseTypes?.length &&
+        !facetHit(filters.releaseTypes, fv.releaseTypes)
+      )
+        continue;
+      if (
+        filters.budgetTiers?.length &&
+        !facetHit(filters.budgetTiers, fv.budgetTiers)
+      )
+        continue;
+      if (filters.decades?.length && !facetHit(filters.decades, fv.decades))
+        continue;
+      if (
+        filters.collections?.length &&
+        !facetHit(filters.collections, fv.collections)
+      )
+        continue;
     }
 
     // ── Per-review filters ──────────────────────────────────
     if (hasPerReviewFilter) {
-      const qualifying = findQualifyingReview(
-        film,
-        filters,
-        twelveMoCutoffMs,
-      );
+      const qualifying = findQualifyingReview(film, filters, twelveMoCutoffMs);
       if (!qualifying) continue;
       result.push({
         film,
@@ -800,10 +864,7 @@ function positionDateForSort(film: Film, sort: FilmSort): string {
  * csvRowIdx tiebreaker even though the index isn't on the
  * public Film type.
  */
-function sortApplied(
-  arr: AppliedFilm[],
-  sort: FilmSort,
-): AppliedFilm[] {
+function sortApplied(arr: AppliedFilm[], sort: FilmSort): AppliedFilm[] {
   // Spread so the input array stays untouched (the snapshot's
   // films array shouldn't be mutated by a filter pass).
   return [...arr].sort((a, b) => {
@@ -890,8 +951,9 @@ export function parseFilmFilters(
   // wins (more specific signal). watchedYear URL param is CSV like
   // `rating` and `genre` (`?watchedYear=2026,2024`); name stays
   // singular for symmetry with those param names.
-  const watchedYearsRaw = parseCsvNumbers(asString(params.watchedYear))
-    .filter((y) => Number.isInteger(y) && y > 0);
+  const watchedYearsRaw = parseCsvNumbers(asString(params.watchedYear)).filter(
+    (y) => Number.isInteger(y) && y > 0,
+  );
   const watchedWindowRaw = asString(params.watchedWindow);
 
   // Title / director search (?title=, ?director=). Each active only at

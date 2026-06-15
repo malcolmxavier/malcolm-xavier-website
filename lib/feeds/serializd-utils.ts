@@ -756,7 +756,9 @@ export function buildCompletedCards(shows: Show[]): CompletedCard[] {
         review,
         cardKind: review.level,
         seasonNumber:
-          review.level === "season" ? seasonNumberForReview(show, review) : null,
+          review.level === "season"
+            ? seasonNumberForReview(show, review)
+            : null,
       });
     }
   }
@@ -790,7 +792,10 @@ export function buildInProgressCards(shows: Show[]): InProgressCard[] {
  *  case where the seasonId isn't in show.seasons. Exported so the
  *  detail-page route can drop its private re-declaration of the
  *  same logic and stay in lockstep with this utils source. */
-export function seasonNumberForReview(show: Show, review: Review): number | null {
+export function seasonNumberForReview(
+  show: Show,
+  review: Review,
+): number | null {
   if (review.seasonId === null) return null;
   const season = show.seasons.find((s) => s.serializdId === review.seasonId);
   return season ? season.seasonNumber : null;
@@ -806,13 +811,15 @@ export function seasonNumberForReview(show: Show, review: Review): number | null
  * counts). Shared by /television/reviews and /television/genre/[slug]
  * so both render the identical rail.
  */
-export function deriveAvailableNetworks(shows: Show[]): string[] {
+export function deriveAvailableNetworks(shows: Show[]): [string, number][] {
   const counts = new Map<string, number>();
   for (const show of shows) {
     const primary = primaryNetwork(show.tmdb?.networks ?? []);
     if (primary) counts.set(primary, (counts.get(primary) ?? 0) + 1);
   }
-  return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([n]) => n);
+  // [name, count] tuples, alphabetical — the rail is scanned by name and
+  // the count is the discovery scent shown on each chip.
+  return [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
 }
 
 /**
@@ -820,13 +827,14 @@ export function deriveAvailableNetworks(shows: Show[]): string[] {
  * Low cardinality (Scripted / Miniseries / Reality / Documentary / …),
  * so the UI renders a plain chip rail rather than a typeahead.
  */
-export function deriveAvailableTypes(shows: Show[]): string[] {
+export function deriveAvailableTypes(shows: Show[]): [string, number][] {
   const counts = new Map<string, number>();
   for (const show of shows) {
     const t = show.tmdb?.type;
     if (t) counts.set(t, (counts.get(t) ?? 0) + 1);
   }
-  return [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([t]) => t);
+  // [name, count] tuples, alphabetical — see deriveAvailableNetworks.
+  return [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
 }
 
 // ─── Card-level filter + sort ────────────────────────────────────
@@ -926,11 +934,36 @@ export function showFacetDistributions(
  */
 export function showEntityFacets(shows: Show[]): FacetGroup[] {
   const d = showFacetDistributions(shows);
+  // Sidebar rails sort alphabetically (scanned by name); the count-desc
+  // ranking in showFacetDistributions stays untouched for stats/sitemap.
+  // Decade labels are "YYYYs", so alpha reads as chronological.
+  const byName = (opts: [string, number][]): [string, number][] =>
+    [...opts].sort((a, b) => a[0].localeCompare(b[0]));
   return [
-    { key: "languages", param: "language", label: "Language", options: d.languages },
-    { key: "countries", param: "country", label: "Country", options: d.countries },
-    { key: "conglomerates", param: "conglomerate", label: "Network group", options: d.conglomerates },
-    { key: "decades", param: "decade", label: "Decade", options: d.decades },
+    {
+      key: "languages",
+      param: "language",
+      label: "Language",
+      options: byName(d.languages),
+    },
+    {
+      key: "countries",
+      param: "country",
+      label: "Country",
+      options: byName(d.countries),
+    },
+    {
+      key: "conglomerates",
+      param: "conglomerate",
+      label: "Network group",
+      options: byName(d.conglomerates),
+    },
+    {
+      key: "decades",
+      param: "decade",
+      label: "Decade",
+      options: byName(d.decades),
+    },
   ];
 }
 
@@ -938,11 +971,11 @@ export function showEntityFacets(shows: Show[]): FacetGroup[] {
 function anyShowFacetActive(f: ShowFilters): boolean {
   return Boolean(
     f.actors?.length ||
-      f.creators?.length ||
-      f.conglomerates?.length ||
-      f.languages?.length ||
-      f.countries?.length ||
-      f.decades?.length,
+    f.creators?.length ||
+    f.conglomerates?.length ||
+    f.languages?.length ||
+    f.countries?.length ||
+    f.decades?.length,
   );
 }
 
@@ -1004,12 +1037,27 @@ export function applyCompletedCardFilters(
     // and is dropped when that facet is active. Skipped unless active.
     if (waveBActive) {
       const fv = showFacetValues(card.show);
-      if (filters.actors?.length && !facetHit(filters.actors, fv.actors)) continue;
-      if (filters.creators?.length && !facetHit(filters.creators, fv.creators)) continue;
-      if (filters.conglomerates?.length && !facetHit(filters.conglomerates, fv.conglomerates)) continue;
-      if (filters.languages?.length && !facetHit(filters.languages, fv.languages)) continue;
-      if (filters.countries?.length && !facetHit(filters.countries, fv.countries)) continue;
-      if (filters.decades?.length && !facetHit(filters.decades, fv.decades)) continue;
+      if (filters.actors?.length && !facetHit(filters.actors, fv.actors))
+        continue;
+      if (filters.creators?.length && !facetHit(filters.creators, fv.creators))
+        continue;
+      if (
+        filters.conglomerates?.length &&
+        !facetHit(filters.conglomerates, fv.conglomerates)
+      )
+        continue;
+      if (
+        filters.languages?.length &&
+        !facetHit(filters.languages, fv.languages)
+      )
+        continue;
+      if (
+        filters.countries?.length &&
+        !facetHit(filters.countries, fv.countries)
+      )
+        continue;
+      if (filters.decades?.length && !facetHit(filters.decades, fv.decades))
+        continue;
     }
     // Per-review predicates apply to the card's surfaced review
     if (filters.ratings && filters.ratings.length > 0) {
@@ -1033,7 +1081,10 @@ export function applyCompletedCardFilters(
   return sortCompletedCards(result, sort);
 }
 
-function sortCompletedCards(arr: CompletedCard[], sort: ShowSort): CompletedCard[] {
+function sortCompletedCards(
+  arr: CompletedCard[],
+  sort: ShowSort,
+): CompletedCard[] {
   return [...arr].sort((a, b) => {
     switch (sort) {
       case "latest-activity-desc":
@@ -1120,11 +1171,7 @@ export function applyShowFilters(
 
     // ── Per-review filters ──────────────────────────────────
     if (hasPerReviewFilter) {
-      const qualifying = findQualifyingReview(
-        show,
-        filters,
-        twelveMoCutoffMs,
-      );
+      const qualifying = findQualifyingReview(show, filters, twelveMoCutoffMs);
       if (!qualifying) continue;
       result.push({
         show,
@@ -1194,9 +1241,13 @@ function sortApplied(arr: AppliedShow[], sort: ShowSort): AppliedShow[] {
   return [...arr].sort((a, b) => {
     switch (sort) {
       case "latest-activity-desc":
-        return b.show.latestActivityDate.localeCompare(a.show.latestActivityDate);
+        return b.show.latestActivityDate.localeCompare(
+          a.show.latestActivityDate,
+        );
       case "latest-activity-asc":
-        return a.show.latestActivityDate.localeCompare(b.show.latestActivityDate);
+        return a.show.latestActivityDate.localeCompare(
+          b.show.latestActivityDate,
+        );
       case "premiere-year-desc":
         return b.show.premiereYear - a.show.premiereYear;
       case "premiere-year-asc":
@@ -1209,13 +1260,17 @@ function sortApplied(arr: AppliedShow[], sort: ShowSort): AppliedShow[] {
         const ratingCmp =
           (b.cardRating ?? -Infinity) - (a.cardRating ?? -Infinity);
         if (ratingCmp !== 0) return ratingCmp;
-        return b.show.latestActivityDate.localeCompare(a.show.latestActivityDate);
+        return b.show.latestActivityDate.localeCompare(
+          a.show.latestActivityDate,
+        );
       }
       case "rating-asc": {
         const ratingCmp =
           (a.cardRating ?? Infinity) - (b.cardRating ?? Infinity);
         if (ratingCmp !== 0) return ratingCmp;
-        return b.show.latestActivityDate.localeCompare(a.show.latestActivityDate);
+        return b.show.latestActivityDate.localeCompare(
+          a.show.latestActivityDate,
+        );
       }
       case "show-name-asc":
         // Locale-aware alphabetical, with "The"/"A" stripped from
@@ -1452,7 +1507,10 @@ export function resolveSeasonPosterUrl(
 }
 
 /** "Season 1, Episode 2" / "Season 1" / "" — used in card datelines and detail headers. */
-export function formatLevelLabel(review: Review, seasonNumber: number | null): string {
+export function formatLevelLabel(
+  review: Review,
+  seasonNumber: number | null,
+): string {
   switch (review.level) {
     case "show":
       return "";
