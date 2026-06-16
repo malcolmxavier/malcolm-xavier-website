@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-06-15T21:32:03.968Z",
+  "capturedAt": "2026-06-16T21:30:42.771Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 240,
-    "totalEpisodeReviews": 645,
+    "totalEpisodeReviews": 646,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 223,
       "4": 176,
       "5": 17,
+      "4.5": 52,
       "3.5": 278,
-      "4.5": 51,
       "2.5": 88,
       "1.5": 11,
       "0.5": 1
@@ -45,8 +45,8 @@
         "3": 162,
         "4": 130,
         "5": 7,
+        "4.5": 43,
         "3.5": 214,
-        "4.5": 42,
         "2.5": 63,
         "1.5": 5
       }
@@ -252,6 +252,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 69469634,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Brit really does stay looking for a moment. Beautiful mess of an episode.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-16T21:20:51Z",
+          "reviewDate": "2026-06-16T21:21:26Z",
+          "seasonId": 440451,
+          "episodeNumber": 16,
+          "episodeName": "Chicken and Waffles",
+          "tags": []
+        },
         {
           "id": 69361293,
           "level": "episode",
@@ -3744,8 +3760,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-15T21:15:06Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-06-16T21:21:26Z",
+      "primaryRating": 4.5,
       "liked": false
     },
     {
@@ -4072,7 +4088,7 @@
           "reviewDate": "2026-06-15T05:32:05Z",
           "seasonId": 492037,
           "episodeNumber": 98,
-          "episodeName": "Episode 98",
+          "episodeName": "Alicia Carmody & Cynthia Bailey",
           "tags": []
         },
         {
@@ -26530,6 +26546,22 @@
       ],
       "reviews": [
         {
+          "id": 69469634,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Brit really does stay looking for a moment. Beautiful mess of an episode.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-16T21:20:51Z",
+          "reviewDate": "2026-06-16T21:21:26Z",
+          "seasonId": 440451,
+          "episodeNumber": 16,
+          "episodeName": "Chicken and Waffles",
+          "tags": []
+        },
+        {
           "id": 69361293,
           "level": "episode",
           "rating": 3.5,
@@ -30021,8 +30053,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-15T21:15:06Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-06-16T21:21:26Z",
+      "primaryRating": 4.5,
       "liked": false
     },
     "tmdb-tv-323411": {
@@ -30349,7 +30381,7 @@
           "reviewDate": "2026-06-15T05:32:05Z",
           "seasonId": 492037,
           "episodeNumber": 98,
-          "episodeName": "Episode 98",
+          "episodeName": "Alicia Carmody & Cynthia Bailey",
           "tags": []
         },
         {
