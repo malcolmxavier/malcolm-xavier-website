@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-06-16T21:30:42.771Z",
+  "capturedAt": "2026-06-17T20:32:07.761Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 240,
-    "totalEpisodeReviews": 646,
+    "totalEpisodeReviews": 648,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 223,
-      "4": 176,
+      "4": 177,
       "5": 17,
+      "3.5": 279,
       "4.5": 52,
-      "3.5": 278,
       "2.5": 88,
       "1.5": 11,
       "0.5": 1
@@ -43,10 +43,10 @@
       "episode": {
         "2": 21,
         "3": 162,
-        "4": 130,
+        "4": 131,
         "5": 7,
+        "3.5": 215,
         "4.5": 43,
-        "3.5": 214,
         "2.5": 63,
         "1.5": 5
       }
@@ -252,6 +252,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 69567021,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Brit ditching the reunion? I don’t know about that!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-17T20:24:59Z",
+          "reviewDate": "2026-06-17T20:25:24Z",
+          "seasonId": 440451,
+          "episodeNumber": 18,
+          "episodeName": "Reunion (1)",
+          "tags": []
+        },
+        {
+          "id": 69566965,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Now Angela is unfortunately losing me because this don’t add up…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-16T20:24:00Z",
+          "reviewDate": "2026-06-17T20:24:50Z",
+          "seasonId": 440451,
+          "episodeNumber": 17,
+          "episodeName": "Game Over",
+          "tags": []
+        },
         {
           "id": 69469634,
           "level": "episode",
@@ -3760,8 +3792,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-16T21:21:26Z",
-      "primaryRating": 4.5,
+      "latestActivityDate": "2026-06-17T20:25:24Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -26546,6 +26578,38 @@
       ],
       "reviews": [
         {
+          "id": 69567021,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Brit ditching the reunion? I don’t know about that!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-17T20:24:59Z",
+          "reviewDate": "2026-06-17T20:25:24Z",
+          "seasonId": 440451,
+          "episodeNumber": 18,
+          "episodeName": "Reunion (1)",
+          "tags": []
+        },
+        {
+          "id": 69566965,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Now Angela is unfortunately losing me because this don’t add up…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-16T20:24:00Z",
+          "reviewDate": "2026-06-17T20:24:50Z",
+          "seasonId": 440451,
+          "episodeNumber": 17,
+          "episodeName": "Game Over",
+          "tags": []
+        },
+        {
           "id": 69469634,
           "level": "episode",
           "rating": 4.5,
@@ -30053,8 +30117,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-16T21:21:26Z",
-      "primaryRating": 4.5,
+      "latestActivityDate": "2026-06-17T20:25:24Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-323411": {
