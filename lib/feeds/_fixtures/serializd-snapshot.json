@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-06-17T20:32:07.761Z",
+  "capturedAt": "2026-06-17T21:31:25.011Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 240,
-    "totalEpisodeReviews": 648,
+    "totalEpisodeReviews": 649,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 223,
       "4": 177,
       "5": 17,
-      "3.5": 279,
+      "3.5": 280,
       "4.5": 52,
       "2.5": 88,
       "1.5": 11,
@@ -45,7 +45,7 @@
         "3": 162,
         "4": 131,
         "5": 7,
-        "3.5": 215,
+        "3.5": 216,
         "4.5": 43,
         "2.5": 63,
         "1.5": 5
@@ -252,6 +252,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 69572546,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-17T21:18:13Z",
+          "reviewDate": "2026-06-17T21:18:19Z",
+          "seasonId": 440451,
+          "episodeNumber": 19,
+          "episodeName": "Reunion (2)",
+          "tags": []
+        },
         {
           "id": 69567021,
           "level": "episode",
@@ -3792,7 +3808,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-17T20:25:24Z",
+      "latestActivityDate": "2026-06-17T21:18:19Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -26578,6 +26594,22 @@
       ],
       "reviews": [
         {
+          "id": 69572546,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-17T21:18:13Z",
+          "reviewDate": "2026-06-17T21:18:19Z",
+          "seasonId": 440451,
+          "episodeNumber": 19,
+          "episodeName": "Reunion (2)",
+          "tags": []
+        },
+        {
           "id": 69567021,
           "level": "episode",
           "rating": 3.5,
@@ -30117,7 +30149,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-06-17T20:25:24Z",
+      "latestActivityDate": "2026-06-17T21:18:19Z",
       "primaryRating": 3.5,
       "liked": false
     },
