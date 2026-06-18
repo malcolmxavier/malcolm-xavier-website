@@ -36,7 +36,7 @@ const MIN_QUERY_LENGTH = 2;
 const PER_GROUP = 6;
 
 /** Lowercase + strip diacritics so "peñélope" matches "penelope". */
-function norm(s: string): string {
+export function norm(s: string): string {
   return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 }
 
@@ -45,7 +45,7 @@ function norm(s: string): string {
  * hits only, ranked prefix-first then by count (the relevance order a
  * typeahead wants — NOT the rail's alphabetical order). Capped to limit.
  */
-function matchEntities(
+export function matchEntities(
   options: [string, number][],
   needle: string,
   limit: number,
@@ -131,14 +131,16 @@ export function searchFilmSuggestions(query: string): Suggestion[] {
     }));
 
   const d = filmFacetDistributions(films);
+  // matchEntities still ranks by count internally; we just don't surface
+  // the number — a static lifetime count is misleading scent next to a
+  // suggestion (same reason it was dropped from the chips).
   const facets: Suggestion[] = FILM_FACET_SEARCH.flatMap((c) =>
-    matchEntities(d[c.distKey], needle, PER_GROUP).map(([name, count]) => ({
+    matchEntities(d[c.distKey], needle, PER_GROUP).map(([name]) => ({
       kind: c.kind,
       label: name,
       param: c.param,
       facetKey: c.facetKey,
       value: c.valueIsName ? name : slugifyEntity(name),
-      count,
     })),
   );
 
@@ -205,13 +207,12 @@ export function searchShowSuggestions(query: string): Suggestion[] {
     kinds: (typeof SHOW_FACET_SEARCH)[number]["kind"][],
   ): Suggestion[] =>
     SHOW_FACET_SEARCH.filter((c) => kinds.includes(c.kind)).flatMap((c) =>
-      matchEntities(d[c.distKey], needle, PER_GROUP).map(([name, count]) => ({
+      matchEntities(d[c.distKey], needle, PER_GROUP).map(([name]) => ({
         kind: c.kind,
         label: name,
         param: c.param,
         facetKey: c.facetKey,
         value: slugifyEntity(name),
-        count,
       })),
     );
 
@@ -223,13 +224,12 @@ export function searchShowSuggestions(query: string): Suggestion[] {
     deriveAvailableNetworks(shows),
     needle,
     PER_GROUP,
-  ).map(([name, count]) => ({
+  ).map(([name]) => ({
     kind: "Network",
     label: name,
     param: "network",
     facetKey: "networks",
     value: name,
-    count,
   }));
 
   // Group order: people, then distributor/owner, then provenance.

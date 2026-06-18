@@ -22,6 +22,4 @@ export type Suggestion = {
   /** Present on facet suggestions — slug (slug-based facets) or canonical
    *  name (the film director query). */
   value?: string;
-  /** Logged-title count for the facet (the discovery scent). */
-  count?: number;
 };

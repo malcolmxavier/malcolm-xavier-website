@@ -27,7 +27,14 @@ import {
   TV_FACET_PIN,
   FILM_FACET_BASEPATH,
   TV_FACET_BASEPATH,
+  curatedFilmEntityFacets,
+  curatedShowEntityFacets,
+  curatedTvRailNetworks,
+  FILM_FACET_FLOORS,
+  TV_FACET_FLOORS,
 } from "./facet-index";
+import { filmEntityFacets } from "./letterboxd-utils";
+import { showEntityFacets, deriveAvailableNetworks } from "./serializd-utils";
 import type { Film } from "./letterboxd-utils";
 import type { Show } from "./serializd-utils";
 import { primaryNetwork } from "./stats/network-canon";
@@ -436,3 +443,132 @@ function slugify(name: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 }
+
+// ─── Rail curation (floors reused for the sidebar, named facets only) ──
+// The curated rail wrappers reuse the LOCKED indexation floors to trim the
+// long tail off ONLY the facets Malcolm named (language + country both
+// clusters; network TV). Every other rail must pass through untouched. The
+// search omnibox stays full — only the rail is curated.
+
+describe("curatedFilmEntityFacets (floors language + country, rest untouched)", () => {
+  // 7 films: English×3 / French×2 / German×2; US×5 / Germany×2.
+  // Film floors: languages ≥3, countries ≥5.
+  const films = [
+    mkFilm("a", 2015, null, { language: "en", country: "US" }),
+    mkFilm("b", 2016, null, { language: "en", country: "US" }),
+    mkFilm("c", 2017, null, { language: "en", country: "US" }),
+    mkFilm("d", 2018, null, { language: "fr", country: "US" }),
+    mkFilm("e", 2019, null, { language: "fr", country: "US" }),
+    mkFilm("f", 2020, null, { language: "de", country: "DE" }),
+    mkFilm("g", 2021, null, { language: "de", country: "DE" }),
+  ];
+  const full = filmEntityFacets(films);
+  const curated = curatedFilmEntityFacets(films);
+
+  it("keeps only languages at/above the floor", () => {
+    const lang = curated.find((g) => g.key === "languages")!;
+    // English (3) clears the floor of 3; French (2) and German (2) don't.
+    expect(lang.options.every(([, c]) => c >= FILM_FACET_FLOORS.languages)).toBe(
+      true,
+    );
+    expect(lang.options.map(([n]) => n)).toEqual(["English"]);
+  });
+
+  it("keeps only countries at/above the floor", () => {
+    const country = curated.find((g) => g.key === "countries")!;
+    // US (5) clears the floor of 5; Germany (2) doesn't.
+    expect(
+      country.options.every(([, c]) => c >= FILM_FACET_FLOORS.countries),
+    ).toBe(true);
+    expect(country.options.map(([n]) => n)).toEqual(["United States"]);
+  });
+
+  it("leaves every non-floored rail byte-identical to the full set", () => {
+    for (const g of curated) {
+      if (g.key === "languages" || g.key === "countries") continue;
+      const fullGroup = full.find((f) => f.key === g.key)!;
+      expect(g).toEqual(fullGroup);
+    }
+  });
+
+  it("is a subset of the full rail (never invents options)", () => {
+    for (const g of curated) {
+      const fullGroup = full.find((f) => f.key === g.key)!;
+      const fullNames = new Set(fullGroup.options.map(([n]) => n));
+      expect(g.options.every(([n]) => fullNames.has(n))).toBe(true);
+    }
+  });
+});
+
+describe("curatedShowEntityFacets (floors language + country, rest untouched)", () => {
+  // TV floors: languages ≥2, countries ≥3.
+  const shows = [
+    mkShow("a", 2015, { type: "Scripted", networks: ["HBO"] }, {
+      language: "en",
+      country: "US",
+    }),
+    mkShow("b", 2016, { type: "Scripted", networks: ["HBO"] }, {
+      language: "en",
+      country: "US",
+    }),
+    mkShow("c", 2017, { type: "Scripted", networks: ["HBO"] }, {
+      language: "en",
+      country: "US",
+    }),
+    mkShow("d", 2018, { type: "Scripted", networks: ["BBC"] }, {
+      language: "ko",
+      country: "KR",
+    }),
+  ];
+  const full = showEntityFacets(shows);
+  const curated = curatedShowEntityFacets(shows);
+
+  it("floors languages and countries to the TV thresholds", () => {
+    const lang = curated.find((g) => g.key === "languages")!;
+    const country = curated.find((g) => g.key === "countries")!;
+    expect(lang.options.every(([, c]) => c >= TV_FACET_FLOORS.languages)).toBe(
+      true,
+    );
+    expect(
+      country.options.every(([, c]) => c >= TV_FACET_FLOORS.countries),
+    ).toBe(true);
+    // English (3) and US (3) clear; Korean (1) and South Korea (1) don't.
+    expect(lang.options.map(([n]) => n)).toEqual(["English"]);
+    expect(country.options.map(([n]) => n)).toEqual(["United States"]);
+  });
+
+  it("leaves every non-floored rail untouched", () => {
+    for (const g of curated) {
+      if (g.key === "languages" || g.key === "countries") continue;
+      expect(g).toEqual(full.find((f) => f.key === g.key)!);
+    }
+  });
+});
+
+describe("curatedTvRailNetworks (network floor; search stays full)", () => {
+  const shows = [
+    ...Array.from({ length: 5 }, (_, i) =>
+      mkShow(`hbo-${i}`, 2018, { type: "Scripted", networks: ["HBO"] }),
+    ),
+    ...Array.from({ length: 2 }, (_, i) =>
+      mkShow(`nf-${i}`, 2021, { type: "Scripted", networks: ["Netflix"] }),
+    ),
+  ];
+  const full = deriveAvailableNetworks(shows);
+  const railed = curatedTvRailNetworks(shows);
+
+  it("drops networks below the floor of 5", () => {
+    expect(railed.every(([, c]) => c >= TV_FACET_FLOORS.networks)).toBe(true);
+    // HBO (5) survives; Netflix (2) is floored off the rail.
+    const names = railed.map(([n]) => n);
+    expect(names).toContain(primaryNetwork(["HBO"])!);
+    expect(names).not.toContain(primaryNetwork(["Netflix"])!);
+  });
+
+  it("is a subset of the full network derivation (which search uses)", () => {
+    const fullNames = new Set(full.map(([n]) => n));
+    expect(railed.every(([n]) => fullNames.has(n))).toBe(true);
+    // The full list still carries the sub-floor network for the omnibox.
+    expect(fullNames.has(primaryNetwork(["Netflix"])!)).toBe(true);
+  });
+});
