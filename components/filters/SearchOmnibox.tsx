@@ -220,11 +220,6 @@ export function SearchOmnibox({
                     {s.sublabel ? (
                       <span style={optionMetaStyle}>{s.sublabel}</span>
                     ) : null}
-                    {s.count != null ? (
-                      <span style={optionMetaStyle}>
-                        {s.count.toLocaleString()}
-                      </span>
-                    ) : null}
                   </div>
                 </li>
               );
