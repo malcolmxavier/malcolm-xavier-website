@@ -808,6 +808,14 @@ function SeasonBlock({
               <p
                 style={{
                   ...metadataLineStyle,
+                  // Override the muted caption color with high-contrast
+                  // body text. This line only renders on unreviewed
+                  // seasons, which is exactly the `dim` case (the section
+                  // carries opacity 0.65). At that opacity the caption
+                  // grey composites to ~3.2:1 (fails AA); body text holds
+                  // ~5.4:1. We de-emphasize by size/italic, not by a
+                  // muted color the dim would push under the floor.
+                  color: "var(--text-body)",
                   margin: 0,
                   fontStyle: "italic",
                 }}
