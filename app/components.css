@@ -46,6 +46,37 @@ html {
   background: var(--surface-page);
 }
 
+/* ─── Sub-brand Display word-spacing ───────────────────────────
+   The Display role flips to Roboto Mono inside a [data-subbrand]
+   wrapper (films/tv/music). Mono fonts render the space character
+   at a fixed full-character advance, so at Display size the gaps
+   BETWEEN words read noticeably loose — made worse by Display's
+   -0.01em letter-spacing, which tightens WITHIN words and so widens
+   the visual contrast with the inter-word gaps. Pull the word-
+   spacing in so the headline reads as one phrase, not spaced-out
+   tokens. Scoped to sub-brand only: the recruiter Display (Instrument
+   Serif, proportional spacing) is fine as-is and untouched. Lives
+   here, not globals.css, which is regenerated from tokens/. */
+[data-subbrand] .display-role {
+  word-spacing: -0.2em;
+}
+
+/* ─── In-page anchor smoothing ─────────────────────────────────
+   The landing "On this page" jump strips (SectionIndex) and the
+   home page's "explore the rest ↓" anchor scroll to a #section via
+   native hash links. Smooth the jump so the motion reads as
+   intentional wayfinding — but ONLY when the visitor hasn't asked
+   for reduced motion (a no-preference media query, so reduced-
+   motion users get an instant native jump, never an animated one).
+   Targets land below the sticky Nav via each section's
+   scroll-margin-top (Tailwind scroll-mt-28 on the landing modules).
+   Lives here, not globals.css, which is regenerated from tokens/. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* ─── Sub-brand font inheritance ───────────────────────────────
    The [data-subbrand="X"] wrappers in globals.css redefine the
    --font-secondary / --font-primary custom properties for their

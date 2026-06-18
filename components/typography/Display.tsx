@@ -30,7 +30,11 @@ export function Display({
 }: DisplayProps) {
   return (
     <Tag
-      className={`text-balance ${className}`}
+      // display-role is a stable hook for cross-cutting Display tuning that
+      // can't live inline — notably the sub-brand (Roboto Mono) word-
+      // spacing correction in components.css (mono's fixed-width space
+      // glyph reads loose between words at this size).
+      className={`display-role text-balance ${className}`}
       style={
         {
           // Display always uses the primary font (display family).

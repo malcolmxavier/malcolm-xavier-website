@@ -24,9 +24,14 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Headline } from "@/components/typography/Headline";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
+import {
+  SectionIndex,
+  type SectionIndexItem,
+} from "@/components/feeds/SectionIndex";
 import { PosterTile } from "@/components/feeds/PosterTile";
 import { FeaturedPick } from "@/components/feeds/FeaturedPick";
 import { ListCard } from "@/components/feeds/ListCard";
+import { CollectionCard } from "@/components/feeds/CollectionCard";
 import { SITE_URL } from "@/lib/site-config";
 import {
   getFilms,
@@ -39,7 +44,12 @@ import { getFilmFeaturedPick } from "@/lib/feeds/featured-pick";
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { StatsBand } from "./StatsBand";
 import { getCollectionDetails } from "@/lib/feeds/enrichment";
-import { indexableFilmCollections } from "@/lib/feeds/facet-index";
+import {
+  indexableFilmCollections,
+  filmsInFilmFamily,
+  filmCollectionMemberSort,
+} from "@/lib/feeds/facet-index";
+import { slugifyEntity } from "@/lib/feeds/slug";
 import type { Film, FilmList } from "@/lib/feeds/letterboxd";
 
 // How many recent watches to surface in the "Now" module — one clean
@@ -86,6 +96,19 @@ function listCoverPosters(list: FilmList): string[] {
   return urls;
 }
 
+/** Resolve up to three corpus poster URLs for a collection's cover
+ *  montage — the family's member films in the hub's canonical order
+ *  (release year, then title), so the montage leads with the same titles
+ *  the leaf route opens with. Reads the enriched corpus, since family
+ *  membership rides the enrichment delta. */
+function collectionCoverPosters(films: Film[], key: string): string[] {
+  return filmsInFilmFamily(films, key)
+    .sort(filmCollectionMemberSort)
+    .map((film) => film.posterUrl)
+    .filter((url): url is string => Boolean(url))
+    .slice(0, 3);
+}
+
 export default function FilmsLandingPage() {
   const { films, summary } = getFilms();
   const favorites = getFilmFavorites();
@@ -110,6 +133,29 @@ export default function FilmsLandingPage() {
     getCollectionDetails(),
     new Date().getUTCFullYear(),
   );
+  // Teaser cards for the landing — the biggest families first (the list
+  // arrives sorted count desc), capped at three so the module entices
+  // without reproducing the full hub.
+  const collectionTeasers = collections.slice(0, 3);
+
+  // Which optional modules render this request. Computed ONCE and used for
+  // both the section guards below AND the "On this page" index, so the
+  // wayfinding strip can never list a section that isn't on the page (or
+  // omit one that is). The StatsBand is unconditional, so it's always in
+  // the index.
+  const hasFeatured = Boolean(featured);
+  const hasNow = recent.length > 0;
+  const hasCollections = collections.length > 0;
+  const hasFavorites = favorites.length > 0;
+  const hasLists = lists.length > 0;
+  const sectionIndexItems: SectionIndexItem[] = [
+    hasFeatured ? { id: "featured", label: "Featured" } : null,
+    { id: "numbers", label: "Numbers at a glance" },
+    hasNow ? { id: "now", label: "Latest Watches" } : null,
+    hasCollections ? { id: "collections", label: "Collections" } : null,
+    hasFavorites ? { id: "favorites", label: "Favorites" } : null,
+    hasLists ? { id: "lists", label: "Lists" } : null,
+  ].filter((item): item is SectionIndexItem => item !== null);
 
   // Page-level JSON-LD. The landing is now a first-class editorial page
   // (not just a grid precursor), so it carries its own CollectionPage —
@@ -175,17 +221,44 @@ export default function FilmsLandingPage() {
       <Container size="lg">
         <Section padding="lg">
           <Stack gap="500">
-            <Kicker accent>Films</Kicker>
-            <Display>A taste, not a catalogue.</Display>
+            {/* Masthead row: the cluster eyebrow on the left, the "On this
+                page" jump strip right-aligned opposite it. Wraps (strip
+                drops below the eyebrow) when there's no room on one line. */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                flexWrap: "wrap",
+                gap: "8px 24px",
+              }}
+            >
+              <Kicker accent>Films</Kicker>
+              <SectionIndex
+                items={sectionIndexItems}
+                subbrand="film"
+                label="Films sections on this page"
+              />
+            </div>
+            <Display>A catalogue of taste.</Display>
             {/* Full-width lede (the 60ch cap is dropped) so the blurb
                 reads in ~2 lines and the modules below sit higher on the
-                initial viewport. */}
-            <Lede style={{ maxWidth: "none" }}>
-              I watch north of 300 films a year and write up nearly all of them.
-              This is the front door: what I am watching right now, the handful
-              I would save in a fire, and the lists I rebuild every year. The
-              full reviewed backlog is one click away.
-            </Lede>
+                initial viewport. Split into two paragraphs: the
+                scene-setter, then the final sentence on its own line so it
+                reads as the page's CTA. The nested Stack carries a
+                deliberately large gap before that CTA line so it lands as
+                its own beat rather than a tight paragraph break. */}
+            <Stack gap="600">
+              <Lede style={{ maxWidth: "none" }}>
+                I watch north of 300 new-to-me films a year&mdash;dramas, thrillers, documentaries, and
+                everything in between&mdash;and write up nearly all of them.
+              </Lede>
+              <Lede style={{ maxWidth: "none" }}>
+                Explore this page for a quick overview of what I&rsquo;ve watched recently, my
+                recommended picks, and my favorites&mdash;click through to search through all
+                my reviews or explore the data behind my taste.
+              </Lede>
+            </Stack>
             {/* Cluster sub-nav, inline in the hero. Overview is the
                 current page; Reviews links to the corpus — the on-site
                 action that replaces the old standalone "Browse all
@@ -211,7 +284,12 @@ export default function FilmsLandingPage() {
             hero's bottom rhythm alone (no doubled padding). Hidden
             entirely when no pick is set / resolvable. */}
         {featured ? (
-          <Section padding="md" style={{ paddingTop: 0 }}>
+          <Section
+            id="featured"
+            className="scroll-mt-28"
+            padding="md"
+            style={{ paddingTop: 0 }}
+          >
             <FeaturedPick pick={featured} />
           </Section>
         ) : null}
@@ -223,6 +301,8 @@ export default function FilmsLandingPage() {
             the hero (paddingTop:0), matching the first-module rhythm the
             Featured/Now sections use. */}
         <Section
+          id="numbers"
+          className="scroll-mt-28"
           padding="md"
           bordered={Boolean(featured)}
           style={featured ? undefined : { paddingTop: 0 }}
@@ -234,11 +314,10 @@ export default function FilmsLandingPage() {
         {/* The StatsBand always precedes Now, so Now is never the first
             module — a bordered divider separates the two (it no longer
             needs the paddingTop:0 first-module treatment). */}
-        {recent.length > 0 ? (
-          <Section padding="md" bordered>
+        {hasNow ? (
+          <Section id="now" className="scroll-mt-28" padding="md" bordered>
             <Stack gap="400">
-              <Kicker accent>Now</Kicker>
-              <Headline level={2}>Recently watched</Headline>
+              <Kicker accent>Latest Watches</Kicker>
               <Grid cols={5} gap="500">
                 {recent.map((film) => (
                   <PosterTile
@@ -258,28 +337,52 @@ export default function FilmsLandingPage() {
         {/* ─── Collections ────────────────────────────────────── */}
         {/* Franchise families (John Wick, Alien, Mission: Impossible, …) —
             a link into the core /films/collections page. */}
-        {collections.length > 0 ? (
-          <Section padding="md" bordered>
+        {hasCollections ? (
+          <Section
+            id="collections"
+            className="scroll-mt-28"
+            padding="md"
+            bordered
+          >
             <Stack gap="400">
               <Kicker accent>Collections</Kicker>
-              <Headline level={2}>Franchises and sagas</Headline>
               <Lede>
-                The series I&rsquo;ve followed across more than a couple of
-                films, each grouped into its own page of reviews.
+                Check out my thoughts on your favorite franchises and sagas. Sorry to report
+                I haven&rsquo;t watched Star Wars&hellip; yet&hellip;
               </Lede>
+              {/* Teaser cards: the biggest franchise families, each
+                  deep-linking straight to its leaf collection route (not
+                  the hub), so the click lands one step closer to the
+                  reviews. Slug matches the leaf route's
+                  generateStaticParams (slugifyEntity of the family name). */}
+              <Grid cols={3} gap="600">
+                {collectionTeasers.map((collection) => (
+                  <CollectionCard
+                    key={collection.key}
+                    href={`/films/collections/${slugifyEntity(collection.name)}`}
+                    title={collection.name}
+                    count={collection.count}
+                    unit="film"
+                    coverPosterUrls={collectionCoverPosters(
+                      enrichedFilms,
+                      collection.key,
+                    )}
+                  />
+                ))}
+              </Grid>
               <p style={{ margin: 0 }}>
-                <Link href="/films/collections">Browse all collections →</Link>
+                <Link href="/films/collections">Explore collections →</Link>
               </p>
             </Stack>
           </Section>
         ) : null}
 
         {/* ─── Favorites ──────────────────────────────────────── */}
-        {favorites.length > 0 ? (
-          <Section padding="md" bordered>
+        {hasFavorites ? (
+          <Section id="favorites" className="scroll-mt-28" padding="md" bordered>
             <Stack gap="400">
               <Kicker accent>Favorites</Kicker>
-              <Headline level={2}>The all-timers</Headline>
+              <Headline level={2}>My Top 4</Headline>
               {/* 4-up: Letterboxd caps favorites at four ("Top 4"), so a
                   4-column grid fills exactly with no empty trailing slot. */}
               <Grid cols={4} gap="500">
@@ -307,11 +410,11 @@ export default function FilmsLandingPage() {
         ) : null}
 
         {/* ─── Lists ──────────────────────────────────────────── */}
-        {lists.length > 0 ? (
-          <Section padding="md" bordered>
+        {hasLists ? (
+          <Section id="lists" className="scroll-mt-28" padding="md" bordered>
             <Stack gap="400">
               <Kicker accent>Lists</Kicker>
-              <Headline level={2}>Ranked and themed</Headline>
+              <Headline level={2}>Ranked shortlists</Headline>
               <Grid cols={3} gap="600">
                 {lists.map((list) => (
                   <ListCard

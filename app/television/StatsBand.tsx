@@ -25,7 +25,6 @@
 import { Fragment, useState, type CSSProperties, type ReactNode } from "react";
 import { Stack } from "@/components/layout/Stack";
 import { Kicker } from "@/components/typography/Kicker";
-import { Headline } from "@/components/typography/Headline";
 import { Link } from "@/components/primitives/Link";
 import { SegmentedButton } from "@/components/primitives/SegmentedButton";
 import { ColumnChart, type Column } from "@/components/stats/ColumnChart";
@@ -111,8 +110,7 @@ export function StatsBand({
 
   return (
     <Stack gap="400">
-      <Kicker accent>At a glance</Kicker>
-      <Headline level={2}>By the numbers</Headline>
+      <Kicker accent>Numbers at a glance</Kicker>
 
       {/* Scope toggle — swaps the chart + lead numbers across the three
           review levels. role=group + label so AT announces what the
@@ -150,8 +148,12 @@ export function StatsBand({
         </div>
       </div>
 
-      {/* Two-column band on lg+: facts left, chart right. */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[2fr_3fr] lg:items-end lg:gap-12">
+      {/* Two-column band on lg+: facts left, chart right. items-start so
+          the data summary sits at the top, level with the chart's eyebrow
+          (the facts column is shorter than the chart; top-aligning keeps
+          the summary tucked under the section eyebrow instead of floating
+          down to the chart's baseline). Stacks to a single column below lg. */}
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[2fr_3fr] lg:items-start lg:gap-12">
         <Stack gap="300">
           {/* Lead stats — counts line + averages line, sharing the mono
               register. Single noun ("review") because the toggle above
@@ -219,6 +221,13 @@ export function StatsBand({
               </Link>
             </p>
           ) : null}
+
+          {/* Onward link to the full dashboard. Lives inside the summary
+              column (not below the band) so the CTA stays tight under the
+              facts instead of floating ~chart-height below them. */}
+          <p style={{ margin: 0, marginTop: 4 }}>
+            <Link href="/television/stats">See all the numbers →</Link>
+          </p>
         </Stack>
 
         <div>
@@ -243,10 +252,6 @@ export function StatsBand({
           ) : null}
         </div>
       </div>
-
-      <p style={{ margin: 0 }}>
-        <Link href="/television/stats">See all the numbers →</Link>
-      </p>
     </Stack>
   );
 }

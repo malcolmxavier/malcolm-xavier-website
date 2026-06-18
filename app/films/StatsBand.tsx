@@ -16,20 +16,19 @@
 //   • the in-year count → /films/reviews?watchedYear={year}
 // and the whole module links onward to /films/stats ("the numbers").
 //
-// Layout: a titled landing module (Kicker + Headline like its siblings),
+// Layout: a titled landing module (a Kicker eyebrow like its siblings),
 // then a two-column band on lg+ — lead + tail facts on the left, the
 // rating-distribution chart on the right — stacking on smaller screens.
 //
 // Accessibility: the rating chart reuses the dashboard's ColumnChart, so
 // each column carries one aria-label (the bars are aria-hidden) and a
-// screen reader hears one fact per bar. The module is delimited by its
-// <Headline level={2}>, matching the other landing sections.
+// screen reader hears one fact per bar. The module opens with its <Kicker>
+// eyebrow, matching the other landing sections.
 // ─────────────────────────────────────────────────────────────────
 
 import { Fragment, type CSSProperties, type ReactNode } from "react";
 import { Stack } from "@/components/layout/Stack";
 import { Kicker } from "@/components/typography/Kicker";
-import { Headline } from "@/components/typography/Headline";
 import { Link } from "@/components/primitives/Link";
 import { ColumnChart, type Column } from "@/components/stats/ColumnChart";
 import { slugifyEntity } from "@/lib/feeds/slug";
@@ -89,13 +88,14 @@ export function StatsBand({ summary, currentYearCount }: Props) {
 
   return (
     <Stack gap="400">
-      <Kicker accent>At a glance</Kicker>
-      <Headline level={2}>By the numbers</Headline>
+      <Kicker accent>Numbers at a glance</Kicker>
 
-      {/* Two-column band on lg+: facts left, chart right. items-end so the
-          chart's baseline aligns with the bottom of the facts column.
-          Stacks to a single column below lg (facts above chart). */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[2fr_3fr] lg:items-end lg:gap-12">
+      {/* Two-column band on lg+: facts left, chart right. items-start so
+          the data summary sits at the top, level with the chart's eyebrow
+          (the facts column is shorter than the chart; top-aligning keeps
+          the summary tucked under the section eyebrow instead of floating
+          down to the chart's baseline). Stacks to a single column below lg. */}
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[2fr_3fr] lg:items-start lg:gap-12">
         <Stack gap="300">
           {/* Lead stats line — total, this-year (linked to that year's
               filtered reviews), and the lifetime average. */}
@@ -143,6 +143,13 @@ export function StatsBand({ summary, currentYearCount }: Props) {
               </Link>
             </p>
           ) : null}
+
+          {/* Onward link to the full dashboard. Lives inside the summary
+              column (not below the band) so the CTA stays tight under the
+              facts instead of floating ~chart-height below them. */}
+          <p style={{ margin: 0, marginTop: 4 }}>
+            <Link href="/films/stats">See all the numbers →</Link>
+          </p>
         </Stack>
 
         <div>
@@ -158,11 +165,6 @@ export function StatsBand({ summary, currentYearCount }: Props) {
           </div>
         </div>
       </div>
-
-      {/* Onward link to the full dashboard — the band is the appetizer. */}
-      <p style={{ margin: 0 }}>
-        <Link href="/films/stats">See all the numbers →</Link>
-      </p>
     </Stack>
   );
 }
