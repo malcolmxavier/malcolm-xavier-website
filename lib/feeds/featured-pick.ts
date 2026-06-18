@@ -56,13 +56,13 @@ export type FeaturedPick = {
 const FILM_PICK: { slug: string; take: string } | null = {
   slug: "is-god-is",
   take:
-    "A revenge play that moves like a horror film and lands like a Greek tragedy—two sisters, a debt owed in blood, and a director who refuses to look away. I have not stopped thinking about it since. If you want proof that a single point of view can bend a whole genre, start here.",
+    "This one's about Black women getting revenge, so obviously I locked in. This film has stayed top of mind since I saw it a few weeks ago. If you want a fresh modern thriller, start here.",
 };
 
 const TV_PICK: { showId: number; take: string } | null = {
   showId: 124101, // Hacks
   take:
-    "The rare show that gets funnier as it gets sadder. It is a two-hander about ambition, contempt, and the thing underneath both that looks a lot like love—and it never once lets either character off the hook. Watch it for the writing, stay for the most honest portrait of a working partnership on television.",
+    "The rare show that gets better as it continues. It is a two-hander about entertainment, ambition, and relationships. It's a beautiful testament to women, comedy, and our human propensity for growth. Watch it for the writing, stay for the most honest portrait of a working partnership on television.",
 };
 
 // ─── Resolvers ─────────────────────────────────────────────────────

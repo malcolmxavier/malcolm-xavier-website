@@ -23,9 +23,14 @@ import { Lede } from "@/components/typography/Lede";
 import { Headline } from "@/components/typography/Headline";
 import { Link } from "@/components/primitives/Link";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
+import {
+  SectionIndex,
+  type SectionIndexItem,
+} from "@/components/feeds/SectionIndex";
 import { PosterTile } from "@/components/feeds/PosterTile";
 import { FeaturedPick } from "@/components/feeds/FeaturedPick";
 import { ListCard } from "@/components/feeds/ListCard";
+import { CollectionCard } from "@/components/feeds/CollectionCard";
 import { SITE_URL } from "@/lib/site-config";
 import {
   getShows,
@@ -37,7 +42,13 @@ import {
 import { getShowFeaturedPick } from "@/lib/feeds/featured-pick";
 import { buildInProgressCards } from "@/lib/feeds/serializd-utils";
 import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
-import { indexableTvCollections } from "@/lib/feeds/facet-index";
+import {
+  indexableTvCollections,
+  showsInTvFamily,
+  tvCollectionMemberSort,
+} from "@/lib/feeds/facet-index";
+import { slugifyEntity } from "@/lib/feeds/slug";
+import type { Show } from "@/lib/feeds/serializd-utils";
 import type { ShowList } from "@/lib/feeds/serializd";
 import { InProgressCard } from "./InProgressCard";
 import { StatsBand } from "./StatsBand";
@@ -75,6 +86,18 @@ function listCoverPosters(list: ShowList): string[] {
     if (urls.length >= 3) break;
   }
   return urls;
+}
+
+/** Resolve up to three corpus poster URLs for a collection's cover
+ *  montage — the family's member shows in the hub's canonical order
+ *  (premiere year, then name), so the montage leads with the same titles
+ *  the leaf route opens with. */
+function collectionCoverPosters(shows: Show[], key: string): string[] {
+  return showsInTvFamily(shows, key)
+    .sort(tvCollectionMemberSort)
+    .map((show) => show.posterUrl)
+    .filter((url): url is string => Boolean(url))
+    .slice(0, 3);
 }
 
 export default function TelevisionLandingPage() {
@@ -127,8 +150,13 @@ export default function TelevisionLandingPage() {
         : null,
   };
   // Routable franchise collections — drives the "Collections" landing
-  // teaser + its link to the core /television/collections page.
+  // teaser + its link to the core /television/collections page. The teaser
+  // shows the top-level families only (no nested subcollection like Real
+  // Housewives, whose count already rolls up into its Bravo parent),
+  // biggest first, capped at three so the module entices without
+  // duplicating the full hub.
   const collections = indexableTvCollections(shows);
+  const collectionTeasers = collections.filter((c) => !c.parent).slice(0, 3);
 
   // "Now" — in-progress seasons, same data + exclusions as
   // /television/watching, newest-episode-review first. Reuses the
@@ -144,6 +172,24 @@ export default function TelevisionLandingPage() {
     );
   const nowCards = inProgress.slice(0, NOW_COUNT);
   const featured = getShowFeaturedPick();
+
+  // Which optional modules render this request — computed ONCE and used for
+  // both the section guards below AND the "On this page" index, so the
+  // wayfinding strip stays in lockstep with what's actually on the page.
+  // The StatsBand is unconditional, so it's always in the index.
+  const hasFeatured = Boolean(featured);
+  const hasNow = nowCards.length > 0;
+  const hasCollections = collections.length > 0;
+  const hasFavorites = favorites.length > 0;
+  const hasLists = lists.length > 0;
+  const sectionIndexItems: SectionIndexItem[] = [
+    hasFeatured ? { id: "featured", label: "Featured" } : null,
+    { id: "numbers", label: "Numbers at a glance" },
+    hasNow ? { id: "now", label: "Now" } : null,
+    hasCollections ? { id: "collections", label: "Collections" } : null,
+    hasFavorites ? { id: "favorites", label: "Favorites" } : null,
+    hasLists ? { id: "lists", label: "Lists" } : null,
+  ].filter((item): item is SectionIndexItem => item !== null);
 
   // Page-level JSON-LD — see the /films landing for the rationale. The
   // landing carries its own CollectionPage (mirroring /television/reviews),
@@ -207,17 +253,45 @@ export default function TelevisionLandingPage() {
       <Container size="lg">
         <Section padding="lg">
           <Stack gap="500">
-            <Kicker accent>Television</Kicker>
+            {/* Masthead row: the cluster eyebrow on the left, the "On this
+                page" jump strip right-aligned opposite it. Wraps (strip
+                drops below the eyebrow) when there's no room on one line. */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                flexWrap: "wrap",
+                gap: "8px 24px",
+              }}
+            >
+              <Kicker accent>Television</Kicker>
+              <SectionIndex
+                items={sectionIndexItems}
+                subbrand="tv"
+                label="Television sections on this page"
+              />
+            </div>
             <Display>The shows I stay up for.</Display>
             {/* Full-width lede (the 60ch cap is dropped) so the blurb
-                reads in fewer lines and the modules sit higher on load. */}
-            <Lede style={{ maxWidth: "none" }}>
-              I review television at the show, season, and episode level—the
-              prestige dramas, the comfort rewatches, the reality I am not
-              embarrassed about. This is the front door: what I am mid-watch on
-              right now and the series I hold sacred. The full reviewed corpus
-              is one click away.
-            </Lede>
+                reads in fewer lines and the modules sit higher on load.
+                Split into two paragraphs: the scene-setter, then the final
+                sentence on its own line so it reads as the page's CTA. The
+                nested Stack carries a deliberately large gap before that CTA
+                line so it lands as its own beat rather than a tight
+                paragraph break. */}
+            <Stack gap="600">
+              <Lede style={{ maxWidth: "none" }}>
+                I review television at the show, season, and (as of 2026) episode level—the
+                prestige dramas, the comfort comedies, and my fair share of reality. I watch north of 100 new-to-me
+                seasons of television a year and write up nearly all of them.
+              </Lede>
+              <Lede style={{ maxWidth: "none" }}>
+                Explore this page for a quick overview of what I&rsquo;ve watched recently, my
+                recommended picks, and my favorites&mdash;click through to search through all
+                my reviews or explore the data behind my taste.
+              </Lede>
+            </Stack>
             {/* Cluster sub-nav, inline in the hero. Overview is the current
                 page; Reviews links to the corpus — the on-site action that
                 replaces the old standalone "Browse all shows reviewed" link.
@@ -240,7 +314,12 @@ export default function TelevisionLandingPage() {
             the payoff to the hero's taste thesis. paddingTop:0 so the gap
             is the hero's bottom rhythm alone. Hidden when no pick set. */}
         {featured ? (
-          <Section padding="md" style={{ paddingTop: 0 }}>
+          <Section
+            id="featured"
+            className="scroll-mt-28"
+            padding="md"
+            style={{ paddingTop: 0 }}
+          >
             <FeaturedPick pick={featured} />
           </Section>
         ) : null}
@@ -251,6 +330,8 @@ export default function TelevisionLandingPage() {
             it off; with no pick it's the first module and sits tight to
             the hero (paddingTop:0), matching the first-module rhythm. */}
         <Section
+          id="numbers"
+          className="scroll-mt-28"
           padding="md"
           bordered={Boolean(featured)}
           style={featured ? undefined : { paddingTop: 0 }}
@@ -266,8 +347,8 @@ export default function TelevisionLandingPage() {
         {/* The StatsBand always precedes Now, so Now is never the first
             module — a bordered divider separates the two (it no longer
             needs the paddingTop:0 first-module treatment). */}
-        {nowCards.length > 0 ? (
-          <Section padding="md" bordered>
+        {hasNow ? (
+          <Section id="now" className="scroll-mt-28" padding="md" bordered>
             <Stack gap="400">
               <Kicker accent>Now</Kicker>
               <Headline level={2}>Mid-watch right now</Headline>
@@ -293,15 +374,36 @@ export default function TelevisionLandingPage() {
         {/* Franchise families (the Bravo-verse, 9-1-1, Grey's, …) — a
             link into the core /television/collections page, mirroring how
             "Now" links into /television/watching. */}
-        {collections.length > 0 ? (
-          <Section padding="md" bordered>
+        {hasCollections ? (
+          <Section
+            id="collections"
+            className="scroll-mt-28"
+            padding="md"
+            bordered
+          >
             <Stack gap="400">
               <Kicker accent>Collections</Kicker>
-              <Headline level={2}>Franchises and universes</Headline>
               <Lede>
                 The shows I&rsquo;ve followed across a franchise or universe,
                 grouped into their own pages—from the Bravo-verse to 9-1-1.
               </Lede>
+              {/* Teaser cards: the biggest top-level families, each
+                  deep-linking straight to its leaf collection route (not
+                  the hub), so the click lands one step closer to the
+                  reviews. Slug matches the leaf route's
+                  generateStaticParams (slugifyEntity of the family name). */}
+              <Grid cols={3} gap="600">
+                {collectionTeasers.map((collection) => (
+                  <CollectionCard
+                    key={collection.key}
+                    href={`/television/collections/${slugifyEntity(collection.name)}`}
+                    title={collection.name}
+                    count={collection.count}
+                    unit="show"
+                    coverPosterUrls={collectionCoverPosters(shows, collection.key)}
+                  />
+                ))}
+              </Grid>
               <p style={{ margin: 0 }}>
                 <Link href="/television/collections">
                   Browse all collections →
@@ -312,11 +414,11 @@ export default function TelevisionLandingPage() {
         ) : null}
 
         {/* ─── Favorites ──────────────────────────────────────── */}
-        {favorites.length > 0 ? (
-          <Section padding="md" bordered>
+        {hasFavorites ? (
+          <Section id="favorites" className="scroll-mt-28" padding="md" bordered>
             <Stack gap="400">
               <Kicker accent>Favorites</Kicker>
-              <Headline level={2}>The ones I hold sacred</Headline>
+              <Headline level={2}>Some of my sacred texts</Headline>
               <Grid cols={5} gap="500">
                 {favorites.map((fav) => {
                   // In-corpus favorites link to their on-site detail;
@@ -350,8 +452,8 @@ export default function TelevisionLandingPage() {
             empty today) — renders nothing rather than an empty shell,
             per the no-placeholder rule. Lights up automatically once
             Malcolm creates a Serializd list. */}
-        {lists.length > 0 ? (
-          <Section padding="md" bordered>
+        {hasLists ? (
+          <Section id="lists" className="scroll-mt-28" padding="md" bordered>
             <Stack gap="400">
               <Kicker accent>Lists</Kicker>
               <Headline level={2}>Ranked and themed</Headline>

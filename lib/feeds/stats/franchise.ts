@@ -42,6 +42,10 @@ export const FAMILY_BY_COLLECTION: Record<number, string[]> = {
   115762: ["Alien", "Predator"], // AVP — counts under both
   399: ["Predator"],
   404609: ["John Wick"],
+  // Curated purely to override TMDB's "Mission: Impossible Collection"
+  // display name with the clean franchise name. Promoting it to a curated
+  // family also drops the slug's "-collection" suffix (mission-impossible).
+  87359: ["Mission: Impossible"],
 };
 
 /** Curated TMDB-film-id → family-name(s), for films with no TMDB collection. */
