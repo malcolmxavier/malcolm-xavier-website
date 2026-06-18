@@ -1,12 +1,12 @@
 {
-  "capturedAt": "2026-06-10T02:01:42.254Z",
+  "capturedAt": "2026-06-18T21:00:24.912Z",
   "summary": {
-    "totalFilms": 772,
-    "totalReviews": 772,
-    "thisYearCount": 131,
+    "totalFilms": 773,
+    "totalReviews": 773,
+    "thisYearCount": 132,
     "ratingDistribution": {
       "1": 38,
-      "2": 122,
+      "2": 123,
       "3": 147,
       "4": 104,
       "5": 16,
@@ -17,17 +17,17 @@
       "0.5": 9
     },
     "genreDistribution": {
-      "Thriller": 220,
+      "Thriller": 221,
+      "Science Fiction": 115,
+      "Mystery": 81,
       "History": 42,
       "War": 17,
       "Crime": 102,
       "Drama": 364,
       "Action": 115,
       "Fantasy": 60,
-      "Science Fiction": 114,
       "Comedy": 221,
       "Family": 21,
-      "Mystery": 80,
       "Music": 49,
       "Horror": 128,
       "Adventure": 84,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 576,
+      "2020s": 577,
       "2010s": 127,
       "2000s": 32,
       "1990s": 16,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1275779",
+      "letterboxdSlug": "disclosure-day",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/disclosure-day/",
+      "title": "Disclosure Day",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-16",
+      "latestWatchedDate": "2026-06-16",
+      "firstReviewDate": "2026-06-18",
+      "latestReviewDate": "2026-06-18",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1360108313",
+          "watchedDate": "2026-06-16",
+          "reviewDate": "2026-06-18",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Emily Blunt is putting in work, but it doesn’t make up for the general chaos of this film. On the one hand, it’s a very Spielberg film, and I love it for that—it almost gives <i>Jurassic Park</i>, but aliens. That said, I can’t help but feel that it’s actually several films mashed together without any real cohesion. I love that were dropped right into the action, but that never pays off. How did we get so far in with these stakes? Why is Colin Firth playing such a cartoonish character? The news broadcast sequence was the most interesting thing that happened.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1275779,
+        "posterPath": "/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+        "backdropPath": "/s6ly8laenkHWlIBRkLSfIuEMLC6.jpg",
+        "genres": [
+          "Thriller",
+          "Science Fiction",
+          "Mystery"
+        ],
+        "runtime": 145,
+        "director": "Steven Spielberg"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1318413",
       "letterboxdSlug": "pressure",
@@ -33596,6 +33641,51 @@
     }
   ],
   "filmById": {
+    "tmdb-1275779": {
+      "id": "tmdb-1275779",
+      "letterboxdSlug": "disclosure-day",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/disclosure-day/",
+      "title": "Disclosure Day",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-16",
+      "latestWatchedDate": "2026-06-16",
+      "firstReviewDate": "2026-06-18",
+      "latestReviewDate": "2026-06-18",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1360108313",
+          "watchedDate": "2026-06-16",
+          "reviewDate": "2026-06-18",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Emily Blunt is putting in work, but it doesn’t make up for the general chaos of this film. On the one hand, it’s a very Spielberg film, and I love it for that—it almost gives <i>Jurassic Park</i>, but aliens. That said, I can’t help but feel that it’s actually several films mashed together without any real cohesion. I love that were dropped right into the action, but that never pays off. How did we get so far in with these stakes? Why is Colin Firth playing such a cartoonish character? The news broadcast sequence was the most interesting thing that happened.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1275779,
+        "posterPath": "/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+        "backdropPath": "/s6ly8laenkHWlIBRkLSfIuEMLC6.jpg",
+        "genres": [
+          "Thriller",
+          "Science Fiction",
+          "Mystery"
+        ],
+        "runtime": 145,
+        "director": "Steven Spielberg"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1318413": {
       "id": "tmdb-1318413",
       "letterboxdSlug": "pressure",
