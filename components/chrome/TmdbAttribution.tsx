@@ -110,7 +110,7 @@ export function TmdbAttribution() {
 
 function labelFor(pathname: string | null): string {
   if (pathname?.startsWith("/films")) return "Film metadata";
-  if (pathname?.startsWith("/tv")) return "TV metadata";
+  if (pathname?.startsWith("/television")) return "TV metadata";
   return "Metadata";
 }
 
