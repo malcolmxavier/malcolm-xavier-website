@@ -46,18 +46,27 @@ html {
   background: var(--surface-page);
 }
 
-/* ─── Sub-brand Display word-spacing ───────────────────────────
-   The Display role flips to Roboto Mono inside a [data-subbrand]
-   wrapper (films/tv/music). Mono fonts render the space character
-   at a fixed full-character advance, so at Display size the gaps
-   BETWEEN words read noticeably loose — made worse by Display's
-   -0.01em letter-spacing, which tightens WITHIN words and so widens
-   the visual contrast with the inter-word gaps. Pull the word-
-   spacing in so the headline reads as one phrase, not spaced-out
-   tokens. Scoped to sub-brand only: the recruiter Display (Instrument
-   Serif, proportional spacing) is fine as-is and untouched. Lives
-   here, not globals.css, which is regenerated from tokens/. */
-[data-subbrand] .display-role {
+/* ─── Mono heading word-spacing ────────────────────────────────
+   Headings flip to Roboto Mono inside a [data-subbrand] wrapper
+   (films/tv/music) AND on the connected dashboard ([data-connected],
+   which adopts the sub-brand display type). Mono renders the space
+   character at a fixed full-character advance, so at heading sizes
+   the gaps BETWEEN words read noticeably loose — made worse by the
+   -0.01em letter-spacing headings apply, which tightens WITHIN words
+   and so widens the contrast with the inter-word gaps. Pull the word-
+   spacing in so a heading reads as one phrase, not spaced-out tokens.
+
+   Targets heading TAGS directly (mirroring the letter-spacing reset
+   below) rather than the .display-role / .headline-role hooks: the
+   stats-dashboard headings (stats-section__label, stats-tile__title)
+   are raw <h2>/<h3> that don't route through Display/Headline, so a
+   tag-based selector is the only thing that reaches every mono
+   heading — which is why the earlier hook-scoped rule left section
+   and stats headings loose. Recruiter headings (Instrument Serif,
+   proportional) are untouched. Lives here, not globals.css
+   (regenerated from tokens/). */
+[data-subbrand] :is(h1, h2, h3, h4, h5, h6),
+[data-connected] :is(h1, h2, h3, h4, h5, h6) {
   word-spacing: -0.2em;
 }
 
@@ -321,11 +330,14 @@ a.music-action:focus-visible:not(:disabled) {
    swaps to Roboto Mono — and negative tracking on a monospace
    crushes characters in adjacent cells (mono fonts give every glyph
    a fixed advance; subtracting from that breaks the grid).
-   Override to 0 inside the sub-brand subtree so mono headings sit
-   on their own grid. !important to beat the inline style.
+   Override to 0 inside the sub-brand subtree — and on the connected
+   dashboard, which now renders headings in Roboto Mono too — so mono
+   headings sit on their own grid. !important to beat the inline
+   style.
    ───────────────────────────────────────────────────────────── */
 
-[data-subbrand] :is(h1, h2, h3, h4, h5, h6) {
+[data-subbrand] :is(h1, h2, h3, h4, h5, h6),
+[data-connected] :is(h1, h2, h3, h4, h5, h6) {
   letter-spacing: 0 !important;
 }
 
@@ -1173,6 +1185,15 @@ a.link-accent-pink,
 [data-connected] {
   --film-hue: var(--orange-700);
   --tv-hue: var(--blue-700);
+  /* Sub-brand TYPE without sub-brand color. Both cluster dashboards
+     render Roboto Mono (display) + Roboto Slab (body/labels); that type
+     is shared by both sub-brands, so adopting it here — on a page that
+     carries no [data-subbrand] to keep its colors neutral — favors
+     neither cluster and makes all three stats dashboards typographically
+     consistent. Color stays neutral; the Film-vs-TV series keep the two
+     hues above. (--font-mono is already Roboto Mono site-wide.) */
+  --font-primary: var(--font-family-roboto-mono);
+  --font-secondary: var(--font-family-roboto-slab);
 }
 [data-theme="dark"] [data-connected] {
   --film-hue: var(--orange-300);

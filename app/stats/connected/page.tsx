@@ -118,7 +118,7 @@ export default function ConnectedStatsPage() {
           <Stack gap="500">
             <Kicker>Film × Television</Kicker>
             <Display>Where they connect.</Display>
-            <Lede style={{ maxWidth: "none" }}>
+            <Lede wide>
               Two libraries, one taste. This is where the film and television
               logs meet—the head-to-head averages, the actors who cross over, the
               genres I rate differently on screen than in a series, and the

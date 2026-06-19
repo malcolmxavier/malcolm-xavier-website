@@ -249,11 +249,11 @@ export default function FilmsLandingPage() {
                 deliberately large gap before that CTA line so it lands as
                 its own beat rather than a tight paragraph break. */}
             <Stack gap="600">
-              <Lede style={{ maxWidth: "none" }}>
+              <Lede wide>
                 I watch north of 300 new-to-me films a year&mdash;dramas, thrillers, documentaries, and
                 everything in between&mdash;and write up nearly all of them.
               </Lede>
-              <Lede style={{ maxWidth: "none" }}>
+              <Lede wide>
                 Explore this page for a quick overview of what I&rsquo;ve watched recently, my
                 recommended picks, and my favorites&mdash;click through to search through all
                 my reviews or explore the data behind my taste.

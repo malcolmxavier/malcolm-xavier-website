@@ -414,7 +414,7 @@ export default async function TelevisionPage({
           <Stack gap="500">
             <Kicker accent>Television</Kicker>
             <Display>Don&apos;t change the channel.</Display>
-            <Lede>
+            <Lede wide>
               I watch 100+ seasons of television a year and log my reviews on
               Serializd. Open any card for the full review hierarchy. And if you
               want a recommendation, the filters are there for you.

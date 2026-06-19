@@ -5,13 +5,29 @@
 // Renders as <p> at the p-lg scale step in --font-secondary (DM Sans
 // on recruiter pages, Roboto Slab on sub-brand pages). Constrained
 // to a comfortable measure (~60ch) by default; override via style.
+//
+// `wide` drops the measure cap (maxWidth: none) so the lede spans the
+// full container. Use it on listing/grid pages — where the hero is a
+// one-to-two-sentence framing line above a card grid + filtering, and
+// the narrow measure would only hold that grid lower on the page. The
+// 60ch default stays right for prose pages (about, case studies).
 // ─────────────────────────────────────────────────────────────────
 
 import type { CSSProperties, HTMLAttributes } from "react";
 
-type LedeProps = HTMLAttributes<HTMLParagraphElement>;
+type LedeProps = HTMLAttributes<HTMLParagraphElement> & {
+  /** Drop the 60ch reading-measure cap so the lede fills the container.
+   *  For listing/grid heroes; leave off for prose. */
+  wide?: boolean;
+};
 
-export function Lede({ className = "", style, children, ...rest }: LedeProps) {
+export function Lede({
+  className = "",
+  style,
+  wide = false,
+  children,
+  ...rest
+}: LedeProps) {
   return (
     <p
       className={className}
@@ -21,7 +37,9 @@ export function Lede({ className = "", style, children, ...rest }: LedeProps) {
           fontSize: "var(--p-lg-font-size)",
           lineHeight: "var(--p-lg-line-height)",
           // Constrain measure for legibility. 60ch ≈ ideal reading line.
-          maxWidth: "60ch",
+          // `wide` lifts the cap for listing/grid heroes. Placed before
+          // the ...style spread so an explicit style.maxWidth still wins.
+          maxWidth: wide ? "none" : "60ch",
           color: "var(--text-body)",
           // Trim the top leading (the slot above the first line) to the
           // cap-height so the lede sits tight under the headline. Only the

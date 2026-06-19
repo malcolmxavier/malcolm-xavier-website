@@ -72,7 +72,7 @@ export default function TvCollectionsHub() {
           <Stack gap="500">
             <Kicker accent>Television · Collections</Kicker>
             <Display>Franchises and show families I&rsquo;ve logged.</Display>
-            <Lede>
+            <Lede wide>
               The shows I&rsquo;ve followed across a franchise or universe,
               grouped into their own pages of reviews. Some collections
               nest—the Bravo-verse holds the Real Housewives and Vanderpump

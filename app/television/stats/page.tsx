@@ -208,7 +208,7 @@ export default function TelevisionStatsPage() {
           <Stack gap="500">
             <Kicker accent>Television</Kicker>
             <Display>The numbers.</Display>
-            <Lede style={{ maxWidth: "none" }}>
+            <Lede wide>
               {s.lifetime.shows.toLocaleString()} shows in the corpus, rated season
               by season—{s.lifetime.seasonReviews.toLocaleString()} season ratings in
               all, because the season is the unit a series actually lives on. So the

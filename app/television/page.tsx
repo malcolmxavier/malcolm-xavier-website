@@ -281,12 +281,12 @@ export default function TelevisionLandingPage() {
                 line so it lands as its own beat rather than a tight
                 paragraph break. */}
             <Stack gap="600">
-              <Lede style={{ maxWidth: "none" }}>
+              <Lede wide>
                 I review television at the show, season, and (as of 2026) episode level—the
                 prestige dramas, the comfort comedies, and my fair share of reality. I watch north of 100 new-to-me
                 seasons of television a year and write up nearly all of them.
               </Lede>
-              <Lede style={{ maxWidth: "none" }}>
+              <Lede wide>
                 Explore this page for a quick overview of what I&rsquo;ve watched recently, my
                 recommended picks, and my favorites&mdash;click through to search through all
                 my reviews or explore the data behind my taste.

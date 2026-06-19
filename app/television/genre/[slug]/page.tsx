@@ -264,7 +264,7 @@ export default async function TvGenrePage({
             <Display>
               Every {genreInProse(genre)} show, every level, every review.
             </Display>
-            <Lede>
+            <Lede wide>
               I&apos;ve logged {summary.genreDistribution[genre] ?? 0}{" "}
               {genreInProse(genre)}{" "}
               {(summary.genreDistribution[genre] ?? 0) === 1 ? "show" : "shows"}{" "}
