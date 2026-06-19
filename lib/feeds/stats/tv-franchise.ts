@@ -21,13 +21,16 @@
 // small and the hierarchy single-sourced.
 //
 // Ship-and-flag (defaults, easily redlined — they're just this config):
-//   • Bravo = exactly the Real Housewives + Vanderpump Rules shows. It is
-//     NOT "every show that aired on Bravo" — that's already the network
-//     facet (/television/network/bravo). This collection is the curated
-//     connected franchise universe, not the channel's catalogue.
-//   • Real Housewives includes the RHOA "Porsha's Having a Baby" spinoff
-//     special; it excludes "Wife Swap: The Real Housewives Edition" (a
-//     Wife Swap crossover, not a core RH installment).
+//   • Bravo is two-tier (see `network` below + showsAttributedToTvFamily).
+//     The HUB + counts stay the curated connected universe: exactly the
+//     Real Housewives + Vanderpump families. The Bravo LEAF page is the
+//     catch-all — it additionally surfaces every other show that aired on
+//     the Bravo network, so a network-only title (e.g. Watch What Happens
+//     Live) is discoverable there even though it isn't curated.
+//   • Real Housewives = the direct RH franchises only. It EXCLUDES spinoff
+//     specials (the RHOA "Porsha's Having a Baby" special) and crossovers
+//     ("Wife Swap: The Real Housewives Edition") — those still appear on the
+//     network-backed Bravo leaf, just not in the curated RH sub-collection.
 //   • Vanderpump Rules = Vanderpump Rules + The Valley. It excludes
 //     "Vanderpump Villa" (a separate Vanderpump-brand show on Hulu).
 //   • "The Valley: Persian Style" is standalone (no family) per Malcolm.
@@ -36,13 +39,22 @@
 // ─────────────────────────────────────────────────────────────────
 
 /** One curated TV family. `parent` (optional) is the family key of the
- *  collection this one rolls up into (the Bravo-verse hierarchy). */
-export type TvFamily = { name: string; parent?: string };
+ *  collection this one rolls up into (the Bravo-verse hierarchy). `network`
+ *  (optional) opts the family's LEAF page into network attribution: the
+ *  collection page additionally surfaces every logged show that aired on
+ *  that network, even ones outside the curated map (see
+ *  showsAttributedToTvFamily). The hub + counts stay curated regardless. */
+export type TvFamily = { name: string; parent?: string; network?: string };
 
 /** Family key → display name (+ parent). Keys are stable internal handles;
  *  `name` is what the route slug + copy use. */
 export const TV_FAMILIES: Record<string, TvFamily> = {
-  bravo: { name: "Bravo" },
+  // Bravo declares `network: "Bravo"` so its LEAF page is the catch-all for
+  // the Bravo-verse: the curated Real Housewives + Vanderpump families PLUS
+  // any other show that aired on Bravo (e.g. Watch What Happens Live, which
+  // is only reviewed at the episode level and so has no other home). The hub
+  // still renders Bravo as exactly its two curated sub-collections.
+  bravo: { name: "Bravo", network: "Bravo" },
   "real-housewives": { name: "The Real Housewives", parent: "bravo" },
   "vanderpump-rules": { name: "Vanderpump Rules", parent: "bravo" },
   "9-1-1": { name: "9-1-1" },
@@ -64,9 +76,11 @@ export const TV_FAMILY_BY_SHOW: Record<number, string[]> = {
   89393: ["9-1-1"], // 9-1-1: Lone Star
   284838: ["9-1-1"], // 9-1-1: Nashville
 
-  // Bravo › The Real Housewives
+  // Bravo › The Real Housewives — direct franchises only. The RHOA
+  // "Porsha's Having a Baby" spinoff special (104756) is deliberately NOT
+  // here (per Malcolm, editorial: sub-collection = direct franchises, not
+  // spinoffs); it still surfaces on the network-backed Bravo leaf.
   17380: ["real-housewives"], // The Real Housewives of Atlanta
-  104756: ["real-housewives"], // RHOA: Porsha's Having a Baby (spinoff special)
   32390: ["real-housewives"], // The Real Housewives of Beverly Hills
   14808: ["real-housewives"], // The Real Housewives of New York City
   290883: ["real-housewives"], // The Real Housewives of Rhode Island

@@ -36,7 +36,7 @@ import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { slugifyEntity, findEntityBySlug } from "@/lib/feeds/slug";
 import {
   indexableTvCollections,
-  showsInTvFamily,
+  showsAttributedToTvFamily,
   tvCollectionMemberSort,
 } from "@/lib/feeds/facet-index";
 import { tvFamilyName, tvSubfamilies } from "@/lib/feeds/stats/tv-franchise";
@@ -74,7 +74,11 @@ export async function generateMetadata({ params }: RouteArgs): Promise<Metadata>
   const resolved = resolveCollection(slug);
   if (!resolved) return { title: "Not found" };
 
-  const { name, count } = resolved;
+  const { name } = resolved;
+  // Count off the LEAF membership (attributed), not the curated hub count —
+  // for Bravo these diverge (curated 9 vs. 17 with network attribution).
+  const { shows } = getShowsWithEnrichment();
+  const count = showsAttributedToTvFamily(shows, resolved.key).length;
   const canonical = `/television/collections/${slug}`;
   const title = `${name} Shows`;
   const description = `${count} ${inlineName(name)} shows, logged, rated, and reviewed. Every Serializd entry preserved with TMDB metadata.`;
@@ -104,12 +108,18 @@ export default async function TvCollectionPage({ params }: RouteArgs) {
   const { shows } = getShowsWithEnrichment();
   const resolved = resolveCollection(slug);
   if (!resolved) notFound();
-  const { key, name, count, parent } = resolved;
+  const { key, name, parent } = resolved;
 
   // Member shows, oldest-first so the franchise reads in broadcast order.
-  // familiesOfShow walks parents, so a parent collection (Bravo) returns
-  // the union of its subcollections' shows.
-  const members = showsInTvFamily(shows, key).sort(tvCollectionMemberSort);
+  // showsAttributedToTvFamily walks parents (so a parent like Bravo returns
+  // its subcollections' union) AND, for a network-backed family (Bravo),
+  // folds in every other show that aired on that network. count is the
+  // leaf's real shown total — for Bravo that's 17, vs. the curated 9 the hub
+  // shows.
+  const members = showsAttributedToTvFamily(shows, key).sort(
+    tvCollectionMemberSort,
+  );
+  const count = members.length;
 
   // Hierarchy context: a subcollection links up to its parent; a parent
   // lists the routable subcollections nested inside it.
