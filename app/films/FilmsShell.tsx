@@ -742,13 +742,23 @@ export function FilmsShell({
           <Headline level={2} className="sr-only">
             Film reviews
           </Headline>
+          {/* Sticky grid header (md+): wraps the nav, lens chips, and
+              active-filter rail so all three pin below the site nav
+              while results scroll under. id="grid" is the scroll
+              target the nav's "All" link appends (#grid); moved to
+              this wrapper so facet routes (no ClusterGridNav) still
+              get the anchor. Mobile (< 768px): plain block flow,
+              sticky class is suppressed by the @media guard. */}
+          <div
+            id="grid"
+            className="reviews-grid-header"
+            style={{ scrollMarginTop: "5rem" }}
+          >
           {/* Grid-nav (All · Collections) — lives at the top of the GRID
-              column, not above the filter sidebar. id="grid" is the scroll
-              target the nav's "All" link appends (#grid). */}
+              column, not above the filter sidebar. */}
           {gridNavAllCount !== undefined ? (
             <div
-              id="grid"
-              style={{ marginBottom: 16, scrollMarginTop: "5rem" }}
+              style={{ marginBottom: 16 }}
             >
               <ClusterGridNav
                 cluster="films"
@@ -804,7 +814,9 @@ export function FilmsShell({
             // onto the next line. The mobile floating variant of
             // <InfoToast> is position: fixed and ignores this DOM
             // placement entirely.
-            <div style={{ marginBottom: 16 }}>
+            // marginBottom omitted: wrapper's padding-bottom:12px
+            // handles the gap above the border-bottom divider.
+            <div>
               <ActiveFilterChips
                 filters={filters}
                 sort={sort}
@@ -829,6 +841,7 @@ export function FilmsShell({
               />
             </div>
           ) : null}
+          </div>
           {films.length > 0 ? (
             <ul
               role="list"
