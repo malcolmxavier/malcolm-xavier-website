@@ -170,6 +170,10 @@ type Props = {
    *  number is the "All (N)" count. Mirrors TelevisionShell's nav. The
    *  reviews grid passes it; genre/facet routes don't. */
   gridNavAllCount?: number;
+  /** Optional node rendered as the first row INSIDE the sticky grid-header
+   *  band, above the nav/chips — so it pins with them. Used on TV for the
+   *  "catalog" stat-bar; films has no equivalent today (passes nothing). */
+  gridHeaderLead?: ReactNode;
   /** This listing's own relative URL (pathname + active filters), encoded
    *  onto each card's detail-page link as `?from=` so the detail page can
    *  replay the user's filter/sort context for adjacent-film nav + the
@@ -193,6 +197,7 @@ export function FilmsShell({
   entityNameHints,
   routeFacetChip,
   gridNavAllCount,
+  gridHeaderLead,
   originHref,
 }: Props) {
   const router = useRouter();
@@ -754,6 +759,11 @@ export function FilmsShell({
             className="reviews-grid-header"
             style={{ scrollMarginTop: "5rem" }}
           >
+          {/* Optional lead row (e.g. a catalog stat-bar) — pins as the
+              top of the band. Films passes nothing today. */}
+          {gridHeaderLead ? (
+            <div style={{ marginBottom: 16 }}>{gridHeaderLead}</div>
+          ) : null}
           {/* Grid-nav (All · Collections) — lives at the top of the GRID
               column, not above the filter sidebar. */}
           {gridNavAllCount !== undefined ? (

@@ -164,11 +164,14 @@ export function Nav() {
       // this attribute is more durable than `document.querySelector
       // ("header")`, which would silently match any future <header>.
       data-site-nav
-      className="sticky top-0 z-40 backdrop-blur-md border-b"
+      className="sticky top-0 z-40 border-b"
       style={{
-        // Semi-transparent surface so backdrop-blur has something to
-        // work with. Token resolves to white in light, black in dark.
-        background: "color-mix(in srgb, var(--surface-page) 80%, transparent)",
+        // Fully opaque surface (no backdrop-blur): the translucent
+        // treatment let page content show through behind the bar, which
+        // read as visual noise — worst on the reviews pages, where the
+        // card grid scrolled blurrily behind the nav above the sticky
+        // filter header. Token resolves to white in light, black in dark.
+        background: "var(--surface-page)",
         borderColor: "var(--border-default)",
       }}
     >

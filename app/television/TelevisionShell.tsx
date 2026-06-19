@@ -139,6 +139,10 @@ type Props = {
    * (hidden when zero).
    */
   allCount: number;
+  /** Optional node rendered as the first row INSIDE the sticky grid-header
+   *  band, above the nav/chips — so it pins with them. The TV reviews page
+   *  passes its "catalog" stat-bar (Seasons · Shows · Episodes) here. */
+  gridHeaderLead?: ReactNode;
 };
 
 export function TelevisionShell({
@@ -147,6 +151,7 @@ export function TelevisionShell({
   currentPage,
   totalResults,
   allCount,
+  gridHeaderLead,
   filters,
   sort,
   availableGenres,
@@ -642,6 +647,11 @@ export function TelevisionShell({
             className="reviews-grid-header"
             style={{ scrollMarginTop: "5rem" }}
           >
+          {/* Catalog stat-bar (Seasons · Shows · Episodes) — pins as the
+              top row of the band so the three-level counts stay in view. */}
+          {gridHeaderLead ? (
+            <div style={{ marginBottom: 16 }}>{gridHeaderLead}</div>
+          ) : null}
           {/* All / Watching toggle — sits above the grid so the
               user can switch views without leaving the listing
               context. The "All" link inherits originHref so any
