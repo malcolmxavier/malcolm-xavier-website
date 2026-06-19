@@ -59,7 +59,7 @@ export function Footer() {
       style={{ borderColor: "var(--border-default)" }}
     >
       <Container size="lg">
-        <div className="grid grid-cols-1 gap-10 py-12 sm:grid-cols-3 sm:py-16">
+        <div className="grid grid-cols-1 gap-8 py-6 sm:grid-cols-3 sm:py-6">
           {/* col 1: wordmark + sardonic line. Gap is set via inline
               marginTop on the italic <p> (24px), not on this
               wrapper, because both children carry inline margin: 0
@@ -191,7 +191,7 @@ export function Footer() {
               small top spacer (pt-3) and rides on the outer pb-6.
               On non-critic routes TmdbAttribution returns null, so
               the outer padding stays symmetric. */}
-          <div className="py-6">
+          <div className="py-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
               <Dateline>© {COPYRIGHT_YEAR} Malcolm Xavier</Dateline>
               {/* Route-conditional editorial note — renders only on

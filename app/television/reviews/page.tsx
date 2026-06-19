@@ -456,24 +456,26 @@ export default async function TelevisionPage({
       <Container size="lg">
         {/* ─── Catalog stat-bar + Filter rail + Grid + Pagination ─ */}
         <Section padding="md" bordered>
-          {/* The catalog kicker surfaces the three-level review
-              system as concrete numbers above the grid. Order
-              (Seasons / Shows / Episodes) matches the landing
-              StatsBand mode toggle's default mode so the cluster's
-              vocabulary stays consistent across surfaces. Renders
-              Kicker-styled (mono uppercase, --text-caption color) so
-              the line reads as an editorial label, not a SaaS
-              stat-bar. Source is titlecase to match the StatsBand
-              toggle's source register; CSS textTransform:uppercase
-              renders both surfaces identically at runtime. */}
-          <div style={{ marginBottom: "var(--scale-500)" }}>
-            <Kicker>
-              The catalog: {summary.totalSeasonReviews.toLocaleString()} Seasons
-              · {summary.totalShowReviews.toLocaleString()} Shows ·{" "}
-              {summary.totalEpisodeReviews.toLocaleString()} Episodes
-            </Kicker>
-          </div>
+          {/* The catalog kicker surfaces the three-level review system as
+              concrete numbers, passed into the shell as gridHeaderLead so it
+              pins at the top of the sticky grid-header band. Order (Seasons /
+              Shows / Episodes) matches the landing StatsBand mode toggle's
+              default mode so the cluster's vocabulary stays consistent across
+              surfaces. Renders Kicker-styled (mono uppercase, --text-caption)
+              so the line reads as an editorial label, not a SaaS stat-bar.
+              Source is titlecase to match the StatsBand toggle's register;
+              CSS textTransform:uppercase renders both identically. */}
           <TelevisionShell
+            // The catalog stat-bar rides INSIDE the shell's sticky grid-
+            // header band (gridHeaderLead) so the three-level counts pin
+            // with the nav + chips instead of scrolling away above the grid.
+            gridHeaderLead={
+              <Kicker>
+                The catalog: {summary.totalSeasonReviews.toLocaleString()}{" "}
+                Seasons · {summary.totalShowReviews.toLocaleString()} Shows ·{" "}
+                {summary.totalEpisodeReviews.toLocaleString()} Episodes
+              </Kicker>
+            }
             cards={clientCards}
             allCount={allCards.length}
             totalPages={totalPages}

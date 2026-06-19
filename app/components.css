@@ -549,6 +549,21 @@ a[data-subbrand="film"] {
     border-bottom: 1px solid var(--border-default);
     padding-bottom: 12px;
   }
+  /* Cover the gap between the pinned band and the site nav above it.
+     The band pins at top:5rem (80px) but the nav bottom is ~69px, and
+     the nav is translucent (backdrop-blur) — so without this, the sharp
+     card grid flashes through the ~11px seam directly above the chips.
+     An opaque strip the band's own width, riding just above its top
+     edge (and tucking under the z-40 nav), closes the seam. */
+  .reviews-grid-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 1.25rem;
+    background: var(--surface-page);
+  }
 }
 
 /* Pulsing dot used inside the "Watching" badge on
