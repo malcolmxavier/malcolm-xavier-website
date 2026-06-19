@@ -40,7 +40,10 @@ import {
   getWatchingExclusions,
 } from "@/lib/feeds/serializd";
 import { getShowFeaturedPick } from "@/lib/feeds/featured-pick";
-import { buildInProgressCards } from "@/lib/feeds/serializd-utils";
+import {
+  buildInProgressCards,
+  seasonNumberForReview,
+} from "@/lib/feeds/serializd-utils";
 import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
   indexableTvCollections,
@@ -173,6 +176,21 @@ export default function TelevisionLandingPage() {
   const nowCards = inProgress.slice(0, NOW_COUNT);
   const featured = getShowFeaturedPick();
 
+  // "Favorite episodes" — the perfect-score (5.0★) episode-level reviews,
+  // newest-reviewed first. Curation that gives the episode tier real value
+  // on-site NOW, while episode-level STATS need ~a year of history before
+  // they mean anything. Episodes have no detail page of their own, so each
+  // card deep-links to the show's season block (#season-N), where the
+  // episode note lives. Shown in full (no cap) — exclusivity is the point,
+  // and the set grows slowly as more episodes get logged.
+  const favoriteEpisodes = shows
+    .flatMap((show) =>
+      show.reviews
+        .filter((r) => r.level === "episode" && r.rating === 5)
+        .map((review) => ({ show, review })),
+    )
+    .sort((a, b) => b.review.reviewDate.localeCompare(a.review.reviewDate));
+
   // Which optional modules render this request — computed ONCE and used for
   // both the section guards below AND the "On this page" index, so the
   // wayfinding strip stays in lockstep with what's actually on the page.
@@ -181,6 +199,7 @@ export default function TelevisionLandingPage() {
   const hasNow = nowCards.length > 0;
   const hasCollections = collections.length > 0;
   const hasFavorites = favorites.length > 0;
+  const hasFavoriteEpisodes = favoriteEpisodes.length > 0;
   const hasLists = lists.length > 0;
   const sectionIndexItems: SectionIndexItem[] = [
     hasFeatured ? { id: "featured", label: "Featured" } : null,
@@ -188,6 +207,7 @@ export default function TelevisionLandingPage() {
     hasNow ? { id: "now", label: "Now" } : null,
     hasCollections ? { id: "collections", label: "Collections" } : null,
     hasFavorites ? { id: "favorites", label: "Favorites" } : null,
+    hasFavoriteEpisodes ? { id: "episodes", label: "Episodes" } : null,
     hasLists ? { id: "lists", label: "Lists" } : null,
   ].filter((item): item is SectionIndexItem => item !== null);
 
@@ -439,6 +459,54 @@ export default function TelevisionLandingPage() {
                       subtitle={
                         corpusShow ? String(corpusShow.premiereYear) : undefined
                       }
+                    />
+                  );
+                })}
+              </Grid>
+            </Stack>
+          </Section>
+        ) : null}
+
+        {/* ─── Favorite episodes ──────────────────────────────── */}
+        {/* The perfect-score (5.0★) episodes — curated standouts that give
+            the episode tier value on-site now, ahead of episode-level
+            stats. Each tile uses the show's poster (episodes have no art of
+            their own) and deep-links to the show's season block, where the
+            episode note lives. Copy is a working placeholder. */}
+        {hasFavoriteEpisodes ? (
+          <Section id="episodes" className="scroll-mt-28" padding="md" bordered>
+            <Stack gap="400">
+              <Kicker accent>Favorite episodes</Kicker>
+              <Headline level={2}>Five stars, no notes</Headline>
+              <Grid cols={5} gap="500">
+                {favoriteEpisodes.map(({ show, review }) => {
+                  // Episodes have no detail page; the finest anchor is the
+                  // season block on the show's page (#season-N).
+                  const seasonNumber = seasonNumberForReview(show, review);
+                  const href =
+                    seasonNumber !== null
+                      ? `/television/${show.slug}#season-${seasonNumber}`
+                      : `/television/${show.slug}`;
+                  // Secondary line: "Show · S# · E#" (each part omitted when
+                  // unknown — episode-level reviews normally have both).
+                  const seLabel =
+                    (seasonNumber !== null ? ` · S${seasonNumber}` : "") +
+                    (review.episodeNumber !== null
+                      ? ` · E${review.episodeNumber}`
+                      : "");
+                  return (
+                    <PosterTile
+                      key={review.id}
+                      href={href}
+                      posterUrl={show.posterUrl}
+                      title={
+                        review.episodeName ??
+                        (review.episodeNumber !== null
+                          ? `Episode ${review.episodeNumber}`
+                          : "Episode")
+                      }
+                      subtitle={`${show.name}${seLabel}`}
+                      rating={5}
                     />
                   );
                 })}
