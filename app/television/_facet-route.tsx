@@ -387,7 +387,7 @@ export async function TvFacetPage(
           <Stack gap="500">
             <Kicker accent>{copy.kicker}</Kicker>
             <Display>{copy.display}</Display>
-            <Lede>{copy.lede}</Lede>
+            <Lede wide>{copy.lede}</Lede>
             <p style={{ margin: 0 }}>
               <TrackOnClick
                 event={ANALYTICS_EVENTS.SERIALIZD_CLICK}

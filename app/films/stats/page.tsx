@@ -220,7 +220,7 @@ export default function FilmStatsPage() {
           <Stack gap="500">
             <Kicker accent>Films</Kicker>
             <Display>The numbers.</Display>
-            <Lede style={{ maxWidth: "none" }}>
+            <Lede wide>
               {s.lifetime.films.toLocaleString()} films logged and counting—this
               is the shape of them. What I reach for, how I rate it, where in the
               world it comes from, and the rhythm of a watching year. Every figure

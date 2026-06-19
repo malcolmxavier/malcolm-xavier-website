@@ -149,7 +149,7 @@ export default async function FilmCollectionPage({ params }: RouteArgs) {
           <Stack gap="500">
             <Kicker accent>Films · {name}</Kicker>
             <Display>Every {name} film I&rsquo;ve logged.</Display>
-            <Lede>
+            <Lede wide>
               I&rsquo;ve logged {count} films in the {name} collection. Open any
               card for the full review.
             </Lede>

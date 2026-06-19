@@ -116,7 +116,7 @@ export default async function FilmListPage({ params }: { params: Params }) {
               {list.filmSlugs.length === 1 ? "film" : "films"}
             </Kicker>
             <Display>{list.title}</Display>
-            {list.description ? <Lede>{list.description}</Lede> : null}
+            {list.description ? <Lede wide>{list.description}</Lede> : null}
             <p style={{ margin: 0 }}>
               <Link href={list.url}>View the list on Letterboxd ↗</Link>
             </p>

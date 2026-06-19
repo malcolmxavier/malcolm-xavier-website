@@ -176,7 +176,7 @@ export default function WatchingPage() {
           <Stack gap="500">
             <Kicker accent>Television · Watching</Kicker>
             <Display>What&apos;s on my television right now.</Display>
-            <Lede>
+            <Lede wide>
               Each card is a season I&apos;ve started but haven&apos;t finished.
               The progress line shows how many episodes I&apos;ve logged so far.
               Open any card to see episode ratings and reviews, or explore prior

@@ -321,7 +321,7 @@ export default async function FilmGenrePage({
                   films." Count is lifetime via genreDistribution
                   (the genre's whole-corpus total, not the filtered
                   totalResults). */}
-            <Lede>
+            <Lede wide>
               I&rsquo;ve logged {summary.genreDistribution[genre] ?? 0}{" "}
               {genre === "TV Movie"
                 ? "TV movies"

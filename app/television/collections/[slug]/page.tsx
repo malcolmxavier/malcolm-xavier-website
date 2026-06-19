@@ -168,7 +168,7 @@ export default async function TvCollectionPage({ params }: RouteArgs) {
           <Stack gap="500">
             <Kicker accent>Television · {name}</Kicker>
             <Display>Every {inlineName(name)} show I&rsquo;ve logged.</Display>
-            <Lede>
+            <Lede wide>
               I&rsquo;ve logged {count} {inlineName(name)} shows. Open any card
               for the full review history.
             </Lede>

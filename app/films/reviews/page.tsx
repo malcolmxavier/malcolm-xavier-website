@@ -439,7 +439,7 @@ export default async function FilmsPage({
           <Stack gap="500">
             <Kicker accent>Films</Kicker>
             <Display>Every film, every rating, every reaction.</Display>
-            <Lede>
+            <Lede wide>
               I watch 300+ films a year and log my reviews on Letterboxd. This
               is the full backlog. Open any card for the full review. And if you
               want a recommendation, the filters are there for you.
