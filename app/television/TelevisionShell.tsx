@@ -631,17 +631,23 @@ export function TelevisionShell({
           <Headline level={2} className="sr-only">
             Television reviews
           </Headline>
+          {/* Sticky grid header (md+): wraps the nav, lens chips, and
+              active-filter rail so all three pin below the site nav
+              while results scroll under. id="grid" + scroll-margin-top
+              is the anchor target the toggle's hrefs append (#grid) —
+              moved to the wrapper so it's present even on facet routes.
+              Mobile (< 768px): plain block flow, sticky suppressed. */}
+          <div
+            id="grid"
+            className="reviews-grid-header"
+            style={{ scrollMarginTop: "5rem" }}
+          >
           {/* All / Watching toggle — sits above the grid so the
               user can switch views without leaving the listing
               context. The "All" link inherits originHref so any
               active filters carry forward; "Watching" hops to
-              the in-progress route. Placement matches the
-              /music shell's All/Collections toggle.
-              id="grid" + scroll-margin-top is the anchor target
-              the toggle's hrefs append (#grid) — so switching
-              views lands the user at this row, not at the page
-              hero, even after a long-page scroll. */}
-          <div id="grid" style={{ marginBottom: 16, scrollMarginTop: "5rem" }}>
+              the in-progress route. */}
+          <div style={{ marginBottom: 16 }}>
             <ClusterGridNav
               cluster="television"
               active="all"
@@ -664,7 +670,9 @@ export function TelevisionShell({
             </div>
           ) : null}
           {anyControlChangedFromDefault || toastMessage ? (
-            <div style={{ marginBottom: 16 }}>
+            // marginBottom omitted: wrapper's padding-bottom:12px
+            // handles the gap above the border-bottom divider.
+            <div>
               <ActiveFilterChips
                 filters={filters}
                 sort={sort}
@@ -693,6 +701,7 @@ export function TelevisionShell({
               />
             </div>
           ) : null}
+          </div>
           {cards.length > 0 ? (
             <ul
               role="list"

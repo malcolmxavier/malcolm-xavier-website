@@ -540,6 +540,17 @@ a[data-subbrand="film"] {
   }
 }
 
+@media (min-width: 768px) {
+  .reviews-grid-header {
+    position: sticky;
+    top: 5rem;            /* clears the z-40 sticky site nav; matches the sticky sidebar */
+    z-index: 30;          /* above scrolling cards (z-auto), below the nav (z-40) */
+    background: var(--surface-page);
+    border-bottom: 1px solid var(--border-default);
+    padding-bottom: 12px;
+  }
+}
+
 /* Pulsing dot used inside the "Watching" badge on
    /television/watching's InProgressCard. Subtle 2-second cycle
    between the cluster's blue-300 and a desaturated state — the
