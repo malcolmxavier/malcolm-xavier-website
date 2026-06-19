@@ -104,6 +104,10 @@ function CollectionHeading({ collection }: { collection: FilmCollectionRoute }) 
           fontSize: 13,
           fontWeight: 400,
           color: "var(--text-caption)",
+          // Reset the heading's mono word-spacing (-0.2em, computed off the
+          // 48px Headline = ~-9.6px) so it doesn't inherit into this 13px
+          // caption and collapse "9 films" into "9films".
+          wordSpacing: "normal",
         }}
       >
         {collection.count} films
