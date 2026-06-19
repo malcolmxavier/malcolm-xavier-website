@@ -73,7 +73,7 @@ import {
   tvFacetForBasePath,
   resolveTvFacet,
   indexableTvCollections,
-  showsInTvFamily,
+  showsAttributedToTvFamily,
   tvCollectionMemberSort,
   TV_FACET_PIN,
 } from "@/lib/feeds/facet-index";
@@ -1215,7 +1215,12 @@ function findContextualNeighbors(
     const name = findEntityBySlug(routable.map((c) => c.name), slug);
     const family = name ? routable.find((c) => c.name === name) : undefined;
     if (!family) return null;
-    orderedShows = showsInTvFamily(shows, family.key).sort(tvCollectionMemberSort);
+    // Attributed membership (not just curated) so the prev/next walk on a
+    // network-only Bravo title (e.g. Watch What Happens Live) matches the
+    // set the Bravo leaf page actually showed.
+    orderedShows = showsAttributedToTvFamily(shows, family.key).sort(
+      tvCollectionMemberSort,
+    );
   } else if (pathname === "/television/reviews" || pathname === "/television") {
     // The corpus grid lives at /television/reviews now; the bare
     // "/television" arm is kept so any detail link shared before the

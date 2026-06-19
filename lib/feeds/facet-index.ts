@@ -599,3 +599,23 @@ export function indexableTvCollectionNames(shows: Show[]): string[] {
 export function showsInTvFamily(shows: Show[], key: string): Show[] {
   return shows.filter((s) => familiesOfShow(tvShowTmdbId(s)).includes(key));
 }
+
+/**
+ * The shows a collection LEAF page surfaces — a superset of showsInTvFamily
+ * used ONLY by the per-collection page (and the matching detail-page
+ * neighbour walk), never by the hub or the counts. For a family that
+ * declares a `network` (Bravo), the leaf additionally includes every logged
+ * show whose PRIMARY network is that network — so a network-only title like
+ * Watch What Happens Live (reviewed at the episode level, absent from the
+ * curated map) is discoverable on the Bravo page. Curated members always
+ * win, so a cross-network curated pick (Vanderpump Villa, on Hulu) is never
+ * dropped. Families without a `network` behave exactly like showsInTvFamily.
+ */
+export function showsAttributedToTvFamily(shows: Show[], key: string): Show[] {
+  const network = TV_FAMILIES[key]?.network;
+  return shows.filter((s) => {
+    if (familiesOfShow(tvShowTmdbId(s)).includes(key)) return true;
+    if (network && primaryNetwork(s.tmdb?.networks ?? []) === network) return true;
+    return false;
+  });
+}
