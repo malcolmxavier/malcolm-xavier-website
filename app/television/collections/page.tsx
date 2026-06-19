@@ -142,6 +142,10 @@ function CollectionHeading({
           fontSize: 13,
           fontWeight: 400,
           color: "var(--text-caption)",
+          // Reset the heading's mono word-spacing (-0.2em, computed off the
+          // large Headline font = ~-9.6px) so it doesn't inherit into this
+          // 13px caption and collapse "9 shows" into "9shows".
+          wordSpacing: "normal",
         }}
       >
         {collection.count} shows

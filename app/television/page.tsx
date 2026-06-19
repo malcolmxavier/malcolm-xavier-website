@@ -456,9 +456,10 @@ export default function TelevisionLandingPage() {
                       }
                       posterUrl={fav.posterUrl}
                       title={fav.name}
-                      subtitle={
-                        corpusShow ? String(corpusShow.premiereYear) : undefined
-                      }
+                      // No year subtitle here: premiere years don't resolve
+                      // consistently across the favorites (some are
+                      // out-of-corpus picks) and aren't meaningful on a
+                      // "sacred texts" shelf — the title carries the card.
                     />
                   );
                 })}
