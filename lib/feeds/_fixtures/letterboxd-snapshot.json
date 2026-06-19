@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-06-02T15:54:05.780Z",
+  "capturedAt": "2026-06-19T19:58:04.503Z",
   "summary": {
     "totalFilms": 766,
     "totalReviews": 766,
@@ -22,14 +22,14 @@
       "Mystery": 80,
       "Thriller": 217,
       "Drama": 360,
-      "Fantasy": 59,
+      "Fantasy": 58,
       "History": 41,
       "Music": 49,
-      "Horror": 128,
+      "Horror": 129,
       "Science Fiction": 113,
       "Action": 114,
-      "Adventure": 84,
-      "Romance": 88,
+      "Adventure": 83,
+      "Romance": 89,
       "Crime": 99,
       "Documentary": 59,
       "Animation": 43,
@@ -15570,7 +15570,7 @@
       ]
     },
     {
-      "id": "tmdb-83533",
+      "id": "tmdb-931349",
       "letterboxdSlug": "ash",
       "letterboxdUrl": "https://boxd.it/9gioK5",
       "title": "Ash",
@@ -15593,19 +15593,19 @@
       "latestReviewDate": "2025-03-30",
       "primaryRating": 2,
       "tmdb": {
-        "id": 83533,
-        "posterPath": "/aabwWZWx6z1aYP4PX2ADvbDKktd.jpg",
-        "backdropPath": "/iN41Ccw4DctL8npfmYg1j5Tr1eb.jpg",
+        "id": 931349,
+        "posterPath": "/nRa8B3tQCUK6pVwjasIyQehbvpF.jpg",
+        "backdropPath": "/9KSGUPHZpqhqkRXE2eebu701ONU.jpg",
         "genres": [
+          "Horror",
           "Science Fiction",
-          "Adventure",
-          "Fantasy"
+          "Thriller"
         ],
-        "runtime": 198,
-        "director": "James Cameron"
+        "runtime": 95,
+        "director": "Flying Lotus"
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/aabwWZWx6z1aYP4PX2ADvbDKktd.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aabwWZWx6z1aYP4PX2ADvbDKktd.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/nRa8B3tQCUK6pVwjasIyQehbvpF.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/nRa8B3tQCUK6pVwjasIyQehbvpF.jpg",
       "ratingSet": [
         2
       ],
@@ -23176,7 +23176,7 @@
       ]
     },
     {
-      "id": "tmdb-2652",
+      "id": "tmdb-4441",
       "letterboxdSlug": "candy",
       "letterboxdUrl": "https://boxd.it/82cg9T",
       "title": "Candy",
@@ -23199,18 +23199,18 @@
       "latestReviewDate": "2024-12-13",
       "primaryRating": 3.5,
       "tmdb": {
-        "id": 2652,
-        "posterPath": "/uHTmlcivbPeclEdmtuQg3zOQWPS.jpg",
-        "backdropPath": "/9uYq1A9mx4wvQ8J6OF8BXUntciQ.jpg",
+        "id": 4441,
+        "posterPath": "/9DvrEg2p3Hrdr1uGe0t7kRraWjl.jpg",
+        "backdropPath": "/r8J1GUYKfNFQhpg3dMhXwtmr6PL.jpg",
         "genres": [
           "Drama",
-          "Thriller"
+          "Romance"
         ],
-        "runtime": 104,
-        "director": "David Slade"
+        "runtime": 116,
+        "director": "Neil Armfield"
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/uHTmlcivbPeclEdmtuQg3zOQWPS.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uHTmlcivbPeclEdmtuQg3zOQWPS.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/9DvrEg2p3Hrdr1uGe0t7kRraWjl.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/9DvrEg2p3Hrdr1uGe0t7kRraWjl.jpg",
       "ratingSet": [
         3.5
       ],
@@ -39612,27 +39612,27 @@
     },
     "tmdb-83533": {
       "id": "tmdb-83533",
-      "letterboxdSlug": "ash",
-      "letterboxdUrl": "https://boxd.it/9gioK5",
-      "title": "Ash",
+      "letterboxdSlug": "avatar-fire-and-ash",
+      "letterboxdUrl": "https://boxd.it/cfRNHZ",
+      "title": "Avatar: Fire and Ash",
       "releaseYear": 2025,
       "liked": false,
       "reviews": [
         {
-          "watchedDate": "2025-03-25",
-          "reviewDate": "2025-03-30",
-          "rating": 2,
+          "watchedDate": "2025-12-26",
+          "reviewDate": "2025-12-27",
+          "rating": 3,
           "rewatch": false,
           "containsSpoilers": false,
-          "reviewText": "This wanted to be <i>Alien</i> so bad. Aaron Paul’s talent was incredibly wasted and, in the end, I’m not even certain what greater point this was trying to make because the main character was the villain all along to me, still.",
+          "reviewText": "Repeating the plot of earlier entries almost seems to be the point, but we cannot be in the business of making movie series that don’t adequately progress their story with each entry. It almost feels like the first three could’ve been compressed. And if this is the harbinger of the next installments, no amount of IMAX is going to fix this issue as we continue.",
           "tags": []
         }
       ],
-      "firstWatchedDate": "2025-03-25",
-      "latestWatchedDate": "2025-03-25",
-      "firstReviewDate": "2025-03-30",
-      "latestReviewDate": "2025-03-30",
-      "primaryRating": 2,
+      "firstWatchedDate": "2025-12-26",
+      "latestWatchedDate": "2025-12-26",
+      "firstReviewDate": "2025-12-27",
+      "latestReviewDate": "2025-12-27",
+      "primaryRating": 3,
       "tmdb": {
         "id": 83533,
         "posterPath": "/aabwWZWx6z1aYP4PX2ADvbDKktd.jpg",
@@ -39648,7 +39648,7 @@
       "posterUrl": "https://image.tmdb.org/t/p/w342/aabwWZWx6z1aYP4PX2ADvbDKktd.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aabwWZWx6z1aYP4PX2ADvbDKktd.jpg",
       "ratingSet": [
-        2
+        3
       ],
       "watchedYearSet": [
         2025
@@ -48850,6 +48850,50 @@
         2025
       ]
     },
+    "tmdb-931349": {
+      "id": "tmdb-931349",
+      "letterboxdSlug": "ash",
+      "letterboxdUrl": "https://boxd.it/9gioK5",
+      "title": "Ash",
+      "releaseYear": 2025,
+      "liked": false,
+      "reviews": [
+        {
+          "watchedDate": "2025-03-25",
+          "reviewDate": "2025-03-30",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "This wanted to be <i>Alien</i> so bad. Aaron Paul’s talent was incredibly wasted and, in the end, I’m not even certain what greater point this was trying to make because the main character was the villain all along to me, still.",
+          "tags": []
+        }
+      ],
+      "firstWatchedDate": "2025-03-25",
+      "latestWatchedDate": "2025-03-25",
+      "firstReviewDate": "2025-03-30",
+      "latestReviewDate": "2025-03-30",
+      "primaryRating": 2,
+      "tmdb": {
+        "id": 931349,
+        "posterPath": "/nRa8B3tQCUK6pVwjasIyQehbvpF.jpg",
+        "backdropPath": "/9KSGUPHZpqhqkRXE2eebu701ONU.jpg",
+        "genres": [
+          "Horror",
+          "Science Fiction",
+          "Thriller"
+        ],
+        "runtime": 95,
+        "director": "Flying Lotus"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/nRa8B3tQCUK6pVwjasIyQehbvpF.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/nRa8B3tQCUK6pVwjasIyQehbvpF.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2025
+      ]
+    },
     "tmdb-1153714": {
       "id": "tmdb-1153714",
       "letterboxdSlug": "death-of-a-unicorn",
@@ -56412,44 +56456,44 @@
         2024
       ]
     },
-    "tmdb-2652": {
-      "id": "tmdb-2652",
-      "letterboxdSlug": "hard-candy",
-      "letterboxdUrl": "https://boxd.it/7rmLS3",
-      "title": "Hard Candy",
-      "releaseYear": 2005,
+    "tmdb-4441": {
+      "id": "tmdb-4441",
+      "letterboxdSlug": "candy",
+      "letterboxdUrl": "https://boxd.it/82cg9T",
+      "title": "Candy",
+      "releaseYear": 2006,
       "liked": false,
       "reviews": [
         {
-          "watchedDate": "2024-09-29",
-          "reviewDate": "2024-09-30",
-          "rating": 3,
+          "watchedDate": "2024-10-12",
+          "reviewDate": "2024-12-13",
+          "rating": 3.5,
           "rewatch": false,
           "containsSpoilers": false,
-          "reviewText": "I just feel like this didn’t give anything extraordinary. I realize this film exists within s subgenre of child revenge on adult, but did it have to feel so much like that?",
+          "reviewText": "Emotional and harrowing. This film draws the viewer in, but isn’t terribly memorable.",
           "tags": []
         }
       ],
-      "firstWatchedDate": "2024-09-29",
-      "latestWatchedDate": "2024-09-29",
-      "firstReviewDate": "2024-09-30",
-      "latestReviewDate": "2024-09-30",
-      "primaryRating": 3,
+      "firstWatchedDate": "2024-10-12",
+      "latestWatchedDate": "2024-10-12",
+      "firstReviewDate": "2024-12-13",
+      "latestReviewDate": "2024-12-13",
+      "primaryRating": 3.5,
       "tmdb": {
-        "id": 2652,
-        "posterPath": "/uHTmlcivbPeclEdmtuQg3zOQWPS.jpg",
-        "backdropPath": "/9uYq1A9mx4wvQ8J6OF8BXUntciQ.jpg",
+        "id": 4441,
+        "posterPath": "/9DvrEg2p3Hrdr1uGe0t7kRraWjl.jpg",
+        "backdropPath": "/r8J1GUYKfNFQhpg3dMhXwtmr6PL.jpg",
         "genres": [
           "Drama",
-          "Thriller"
+          "Romance"
         ],
-        "runtime": 104,
-        "director": "David Slade"
+        "runtime": 116,
+        "director": "Neil Armfield"
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/uHTmlcivbPeclEdmtuQg3zOQWPS.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uHTmlcivbPeclEdmtuQg3zOQWPS.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/9DvrEg2p3Hrdr1uGe0t7kRraWjl.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/9DvrEg2p3Hrdr1uGe0t7kRraWjl.jpg",
       "ratingSet": [
-        3
+        3.5
       ],
       "watchedYearSet": [
         2024
@@ -57232,6 +57276,49 @@
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/wOPiNYt9V3Cbr9Izeddwj7nU8RT.jpg",
       "ratingSet": [
         1.5
+      ],
+      "watchedYearSet": [
+        2024
+      ]
+    },
+    "tmdb-2652": {
+      "id": "tmdb-2652",
+      "letterboxdSlug": "hard-candy",
+      "letterboxdUrl": "https://boxd.it/7rmLS3",
+      "title": "Hard Candy",
+      "releaseYear": 2005,
+      "liked": false,
+      "reviews": [
+        {
+          "watchedDate": "2024-09-29",
+          "reviewDate": "2024-09-30",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I just feel like this didn’t give anything extraordinary. I realize this film exists within s subgenre of child revenge on adult, but did it have to feel so much like that?",
+          "tags": []
+        }
+      ],
+      "firstWatchedDate": "2024-09-29",
+      "latestWatchedDate": "2024-09-29",
+      "firstReviewDate": "2024-09-30",
+      "latestReviewDate": "2024-09-30",
+      "primaryRating": 3,
+      "tmdb": {
+        "id": 2652,
+        "posterPath": "/uHTmlcivbPeclEdmtuQg3zOQWPS.jpg",
+        "backdropPath": "/9uYq1A9mx4wvQ8J6OF8BXUntciQ.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 104,
+        "director": "David Slade"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uHTmlcivbPeclEdmtuQg3zOQWPS.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uHTmlcivbPeclEdmtuQg3zOQWPS.jpg",
+      "ratingSet": [
+        3
       ],
       "watchedYearSet": [
         2024

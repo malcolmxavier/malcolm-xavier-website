@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-06-11T20:10:36.729Z",
+  "capturedAt": "2026-06-19T19:58:04.530Z",
   "meta": {
     "films": 764,
     "shows": 156,
@@ -4607,6 +4607,127 @@
         {
           "id": 28399,
           "name": "Michael Cooney"
+        }
+      ],
+      "collection": null
+    },
+    "4441": {
+      "ratings": {
+        "imdb": 7.2,
+        "metacritic": 57,
+        "metacriticUser": 7.1,
+        "tomatoes": 47,
+        "rtAudience": 77,
+        "letterboxd": 3.8,
+        "trakt": 71
+      },
+      "studios": [
+        "Paradigm Hyde Films",
+        "Film Finance Group",
+        "New South Wales Film & Television Office",
+        "Renaissance Films"
+      ],
+      "country": "AU",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": 2105096,
+      "cast": [
+        {
+          "id": 37260,
+          "name": "Abbie Cornish"
+        },
+        {
+          "id": 1810,
+          "name": "Heath Ledger"
+        },
+        {
+          "id": 118,
+          "name": "Geoffrey Rush"
+        },
+        {
+          "id": 37289,
+          "name": "Tom Budge"
+        },
+        {
+          "id": 37288,
+          "name": "Roberto Meza-Mont"
+        },
+        {
+          "id": 37286,
+          "name": "Tony Martin"
+        },
+        {
+          "id": 37287,
+          "name": "Noni Hazlehurst"
+        },
+        {
+          "id": 2324213,
+          "name": "Holly Austin"
+        },
+        {
+          "id": 4067597,
+          "name": "Craig Moraghan"
+        },
+        {
+          "id": 4067603,
+          "name": "John Lee"
+        },
+        {
+          "id": 1416923,
+          "name": "Noel Herriman"
+        },
+        {
+          "id": 603930,
+          "name": "Tim McKenzie"
+        },
+        {
+          "id": 65010,
+          "name": "Tara Morice"
+        },
+        {
+          "id": 94872,
+          "name": "Maddi Newling"
+        },
+        {
+          "id": 3237142,
+          "name": "Patricia Lemon"
+        },
+        {
+          "id": 3053286,
+          "name": "Barry Jaggers"
+        },
+        {
+          "id": 4067607,
+          "name": "Cristian Lavin"
+        },
+        {
+          "id": 4067609,
+          "name": "Leo Cowan"
+        },
+        {
+          "id": 228195,
+          "name": "Jason Chan"
+        },
+        {
+          "id": 37268,
+          "name": "Luke Davies"
+        }
+      ],
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
+      },
+      "writers": [
+        {
+          "id": 37259,
+          "name": "Neil Armfield"
+        },
+        {
+          "id": 37268,
+          "name": "Luke Davies"
         }
       ],
       "collection": null
@@ -44835,6 +44956,68 @@
         "name": "Mortal Kombat (Reboot) Collection",
         "total": 3
       }
+    },
+    "931349": {
+      "ratings": {
+        "imdb": 4.6,
+        "metacritic": 63,
+        "metacriticUser": 4.9,
+        "tomatoes": 71,
+        "rtAudience": 52,
+        "letterboxd": 2.3,
+        "trakt": 50
+      },
+      "studios": [
+        "Echo Lake Entertainment",
+        "XYZ Films",
+        "GFC Productions",
+        "IPR.VC",
+        "Brainfeeder Films"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 1222992,
+          "name": "Eiza González"
+        },
+        {
+          "id": 84497,
+          "name": "Aaron Paul"
+        },
+        {
+          "id": 113732,
+          "name": "Iko Uwais"
+        },
+        {
+          "id": 167025,
+          "name": "Kate Elliott"
+        },
+        {
+          "id": 1397346,
+          "name": "Beulah Koale"
+        },
+        {
+          "id": 1056739,
+          "name": "Flying Lotus"
+        }
+      ],
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": 32
+      },
+      "writers": [
+        {
+          "id": 3390060,
+          "name": "Jonni Remmler"
+        }
+      ],
+      "collection": null
     },
     "931461": {
       "ratings": {
