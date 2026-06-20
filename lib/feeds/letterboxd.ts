@@ -335,6 +335,21 @@ export function getFilmListBySlug(slug: string): FilmList | null {
   return lists.find((l) => l.slug === slug) ?? null;
 }
 
+/** Reverse index: the published lists a given film appears in, with its
+ *  1-based position in each (the rank, for ranked lists). Drives the
+ *  "Ranked #N in …" backlinks on a film's detail page. Lists are tiny, so
+ *  this scans them on call. Snapshot order preserved. */
+export function filmListsContaining(
+  letterboxdSlug: string,
+): { list: FilmList; position: number }[] {
+  const out: { list: FilmList; position: number }[] = [];
+  for (const list of getFilmLists()) {
+    const idx = list.filmSlugs.indexOf(letterboxdSlug);
+    if (idx >= 0) out.push({ list, position: idx + 1 });
+  }
+  return out;
+}
+
 /** Up to three corpus poster URLs for a list's cover montage — walking
  *  the list's films in running order and skipping any not in the
  *  reviewed corpus (or lacking a poster). Shared by the landing teaser

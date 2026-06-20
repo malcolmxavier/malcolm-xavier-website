@@ -78,6 +78,15 @@ export function methodLabel(method: ListMethod): string {
   return method === "editorial" ? "Editor's Cut" : "Ratings Cut";
 }
 
+/** Compact one-line label for a list, for inline references (e.g. the
+ *  "Ranked #N in …" backlinks on a title's detail page). Matrix lists read
+ *  "2025 New Releases · Editor's Cut"; featured one-offs keep their title. */
+export function listShortLabel(title: string): string {
+  const { year, scope, method, kind } = classifyList(title);
+  if (kind !== "matrix" || year === null) return title.trim();
+  return `${year} ${scopeLabel(scope)} · ${methodLabel(method)}`;
+}
+
 /** One scope row's two method cells (either may be absent). */
 export type ListCell<T> = { editorial: T | null; rating: T | null };
 

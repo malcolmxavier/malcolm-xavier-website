@@ -46,7 +46,9 @@ import { SITE_URL } from "@/lib/site-config";
 import {
   getShowBySlug,
   getShowNeighbors,
+  showListPlacements,
 } from "@/lib/feeds/serializd";
+import type { ShowList } from "@/lib/feeds/serializd-utils";
 import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import {
   applyCompletedCardFilters,
@@ -68,15 +70,17 @@ import {
   type Show,
 } from "@/lib/feeds/serializd-utils";
 import { primaryNetwork } from "@/lib/feeds/stats/network-canon";
-import { findEntityBySlug } from "@/lib/feeds/slug";
+import { findEntityBySlug, slugifyEntity } from "@/lib/feeds/slug";
 import {
   tvFacetForBasePath,
   resolveTvFacet,
   indexableTvCollections,
   showsAttributedToTvFamily,
+  tvCollectionsOfShow,
   tvCollectionMemberSort,
   TV_FACET_PIN,
 } from "@/lib/feeds/facet-index";
+import { listShortLabel } from "@/lib/feeds/list-taxonomy";
 import { BackToTelevision } from "../BackToTelevision";
 
 type Params = { showSlug: string };
@@ -270,6 +274,47 @@ export default async function TelevisionDetailPage({
   // desc).
   const showLevelRating = showReviews[0]?.rating ?? null;
 
+  // ── "Appears in" backlinks + miniseries handling ──────────────────
+  // Collection membership is show-scoped, so it stays in the hero.
+  const partOfCollections = tvCollectionsOfShow(
+    contextShows,
+    show.serializdShowId,
+  );
+  // Ranked-list placements render inline with the SEASON the list ranked
+  // (or in "The whole show" for show-level / miniseries entries), not in
+  // the hero — reuses the same gate so each link lands on a real page.
+  const listPlacements = showListPlacements(show.serializdShowId);
+  // Miniseries: a single "season" that IS the whole show. Drop the
+  // redundant "Season by season" block and give the whole-show review
+  // room. Guarded off when episode-level reviews exist (nothing to fold
+  // them into) so we never hide content.
+  const hasEpisodeReviews = show.reviews.some((r) => r.level === "episode");
+  const isMiniseries =
+    show.tmdb?.type === "Miniseries" &&
+    orderedSeasons.length <= 1 &&
+    !hasEpisodeReviews;
+  // For a miniseries logged at the season level (no show-level review),
+  // promote that single season review into the whole-show treatment.
+  const miniSeasonReview =
+    isMiniseries && showReviews.length === 0 && orderedSeasons[0]
+      ? (seasonReviewsByNum.get(orderedSeasons[0].seasonNumber) ?? null)
+      : null;
+  const wholeShowReviews =
+    showReviews.length > 0
+      ? showReviews
+      : miniSeasonReview
+        ? [miniSeasonReview]
+        : [];
+  // Where the non-season placements go:
+  //   • Miniseries — the whole PAGE is the show, so its placements sit in
+  //     the hero (alongside collection membership), the original position.
+  //   • Multi-season show — show-level (no-season) placements live in the
+  //     "The whole show" section; seasoned placements render at their block.
+  const heroPlacements = isMiniseries ? listPlacements : [];
+  const wholeShowPlacements = isMiniseries
+    ? []
+    : listPlacements.filter((p) => p.seasonNumber == null);
+
   const jsonLd = buildPageJsonLd(show);
 
   return (
@@ -422,6 +467,35 @@ export default async function TelevisionDetailPage({
                   ))}
                 </ul>
               ) : null}
+              {/* Collection membership (show-scoped) + — for a miniseries,
+                  whose whole page is the show — its ranked-list placements.
+                  Multi-season shows render placements inline with the season
+                  the list ranked instead. */}
+              {partOfCollections.length > 0 || heroPlacements.length > 0 ? (
+                <Stack gap="100">
+                  {partOfCollections.length > 0 ? (
+                    <p style={{ margin: 0 }}>
+                      Part of{" "}
+                      {partOfCollections.map((c, i) => (
+                        <span key={c.key}>
+                          {i > 0
+                            ? i === partOfCollections.length - 1
+                              ? ", and "
+                              : ", "
+                            : ""}
+                          <Link
+                            href={`/television/collections/${slugifyEntity(c.name)}`}
+                          >
+                            {c.name}
+                          </Link>
+                        </span>
+                      ))}
+                      .
+                    </p>
+                  ) : null}
+                  <ListPlacements placements={heroPlacements} />
+                </Stack>
+              ) : null}
               <p style={{ margin: 0 }}>
                 <TrackOnClick
                   event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
@@ -437,8 +511,12 @@ export default async function TelevisionDetailPage({
           </div>
         </Section>
 
-        {/* ─── Show-level review (if any) ──────────────────────── */}
-        {showReviews.length > 0 ? (
+        {/* ─── Show-level review ───────────────────────────────── */}
+        {/* Renders for a genuine show-level writeup AND for a miniseries
+            (whose single-season review is promoted here so the whole show
+            reads as one piece — no redundant "Season by season" block).
+            Also home to show-level / miniseries ranked-list placements. */}
+        {wholeShowReviews.length > 0 || wholeShowPlacements.length > 0 ? (
           <Section padding="md" bordered>
             <div
               id="show-review"
@@ -451,13 +529,14 @@ export default async function TelevisionDetailPage({
               <div style={{ maxWidth: "65ch" }}>
                 <Stack gap="600">
                   <Headline level={2}>The whole show</Headline>
-                  {showReviews.map((review, i) => (
+                  {wholeShowReviews.map((review, i) => (
                     <ReviewBlock
                       key={`show-${i}`}
                       review={review}
                       anchorId={`show-review-${i}`}
                     />
                   ))}
+                  <ListPlacements placements={wholeShowPlacements} />
                 </Stack>
               </div>
             </div>
@@ -472,7 +551,10 @@ export default async function TelevisionDetailPage({
             so each season can fill the poster column with its
             own poster — distinct visual identity per season,
             aligned with the show's overall column rhythm. */}
-        {orderedSeasons.length > 0 ? (
+        {/* Miniseries collapse the season space (their single season IS the
+            show — rendered above), so this only shows for true multi-season
+            shows. */}
+        {!isMiniseries && orderedSeasons.length > 0 ? (
           <Section padding="md" bordered>
             <Stack gap="800">
               <div className="md:grid md:grid-cols-[200px_1fr] md:gap-8 lg:grid-cols-[240px_1fr] lg:gap-10">
@@ -490,6 +572,10 @@ export default async function TelevisionDetailPage({
                   episodeReviews={
                     episodeReviewsByNum.get(season.seasonNumber) ?? []
                   }
+                  // Ranked-list placements for THIS season, rendered inline.
+                  listPlacements={listPlacements.filter(
+                    (p) => p.seasonNumber === season.seasonNumber,
+                  )}
                   watchedUnreviewed={show.watchedUnreviewedSeasonNumbers.includes(
                     season.seasonNumber,
                   )}
@@ -596,11 +682,38 @@ function ReviewBlock({
   );
 }
 
+/** Inline "Ranked #N in [list]" links — rendered next to the season the
+ *  list actually ranked (or in the whole-show area for show-level /
+ *  miniseries entries). Each lands on a real list page, deepening the path
+ *  back into the lists discovery surface. Renders nothing when empty. */
+function ListPlacements({
+  placements,
+}: {
+  placements: { list: ShowList; position: number }[];
+}) {
+  if (placements.length === 0) return null;
+  return (
+    <p style={{ margin: 0 }}>
+      Ranked{" "}
+      {placements.map(({ list, position }, i) => (
+        <span key={list.slug}>
+          {i > 0 ? (i === placements.length - 1 ? ", and " : ", ") : ""}
+          <Link href={`/television/lists/${list.slug}`}>
+            #{position} in {listShortLabel(list.name)}
+          </Link>
+        </span>
+      ))}
+      .
+    </p>
+  );
+}
+
 function SeasonBlock({
   show,
   season,
   seasonReview,
   episodeReviews,
+  listPlacements,
   watchedUnreviewed,
   inProgress,
 }: {
@@ -611,6 +724,9 @@ function SeasonBlock({
   season: Season;
   seasonReview: Review | null;
   episodeReviews: Review[];
+  /** Ranked-list placements for THIS season — rendered inline under the
+   *  season heading so a placement sits with the season the list ranked. */
+  listPlacements: { list: ShowList; position: number }[];
   /** Season is in `show.watchedUnreviewedSeasonNumbers` — watched
    *  pre-Serializd or otherwise without a writeup. Renders a
    *  "Watched" badge. */
@@ -768,6 +884,10 @@ function SeasonBlock({
                 <SeasonStatusBadge tone="in-progress">In progress</SeasonStatusBadge>
               ) : null}
             </div>
+            {/* Ranked-list placements for this season, inline under the
+                heading so the placement sits with the season the list
+                ranked (e.g. "#1 in 2025 Backlog · Editor's Cut"). */}
+            <ListPlacements placements={listPlacements} />
             {/* Render the full ReviewBlock only when there's prose
                 to show. Rating-only Season reviews surface their
                 rating inline with the Watched badge above;

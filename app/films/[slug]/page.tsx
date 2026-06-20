@@ -60,6 +60,7 @@ import { StarRating } from "@/components/primitives/StarRating";
 import {
   getFilmBySlug,
   getFilmNeighbors,
+  filmListsContaining,
 } from "@/lib/feeds/letterboxd";
 import {
   asString,
@@ -71,7 +72,12 @@ import {
 } from "@/lib/feeds/letterboxd-utils";
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { getCollectionDetails } from "@/lib/feeds/enrichment";
-import { indexableFilmCollections } from "@/lib/feeds/facet-index";
+import {
+  indexableFilmCollections,
+  filmCollectionsOfFilm,
+} from "@/lib/feeds/facet-index";
+import { listShortLabel } from "@/lib/feeds/list-taxonomy";
+import { slugifyEntity } from "@/lib/feeds/slug";
 import {
   findFilmContextualNeighbors,
   describeFilmFilterContext,
@@ -233,6 +239,17 @@ export default async function FilmDetailPage({
   // browsing (older → older → older) keeps replaying the original listing
   // and the back-link keeps returning to it.
   const neighborFrom = fromParam ? encodeURIComponent(fromParam) : null;
+
+  // "Appears in" backlinks — the published lists this film is ranked in,
+  // plus the routable collections it's part of. Both reuse the same gates
+  // the lists/collections pages use, so every link lands on a real page.
+  const listAppearances = filmListsContaining(film.letterboxdSlug);
+  const partOfCollections = filmCollectionsOfFilm(
+    films,
+    getCollectionDetails(),
+    new Date().getUTCFullYear(),
+    film.id,
+  );
 
   // Hero dateline rule mirrors FilmCard.tsx: when every review on
   // this film is a rewatch, surface "Rewatched" against the earliest
@@ -414,6 +431,49 @@ export default async function FilmDetailPage({
                     </li>
                   ))}
                 </ul>
+              ) : null}
+              {/* "Appears in" backlinks — collection membership + ranked-list
+                  placements, each linking into the discovery surface (more
+                  internal links into the reviews funnel). */}
+              {partOfCollections.length > 0 || listAppearances.length > 0 ? (
+                <Stack gap="100">
+                  {partOfCollections.length > 0 ? (
+                    <p style={{ margin: 0 }}>
+                      Part of{" "}
+                      {partOfCollections.map((c, i) => (
+                        <span key={c.key}>
+                          {i > 0
+                            ? i === partOfCollections.length - 1
+                              ? ", and "
+                              : ", "
+                            : ""}
+                          <Link href={`/films/collections/${slugifyEntity(c.name)}`}>
+                            {c.name}
+                          </Link>
+                        </span>
+                      ))}
+                      .
+                    </p>
+                  ) : null}
+                  {listAppearances.length > 0 ? (
+                    <p style={{ margin: 0 }}>
+                      Ranked{" "}
+                      {listAppearances.map(({ list, position }, i) => (
+                        <span key={list.slug}>
+                          {i > 0
+                            ? i === listAppearances.length - 1
+                              ? ", and "
+                              : ", "
+                            : ""}
+                          <Link href={`/films/lists/${list.slug}`}>
+                            #{position} in {listShortLabel(list.title)}
+                          </Link>
+                        </span>
+                      ))}
+                      .
+                    </p>
+                  ) : null}
+                </Stack>
               ) : null}
               {/* External CTA — sits inside the title block (not as
                   a separate Section) so the page stays compact and

@@ -298,6 +298,39 @@ export function getShowListBySlug(slug: string): ShowList | null {
   return lists.find((l) => l.slug === slug) ?? null;
 }
 
+/** One published-list placement for a show, carrying the season the list
+ *  actually ranked (null for a show-level entry, e.g. a miniseries). */
+export type ShowListPlacement = {
+  list: ShowList;
+  /** 1-based rank within the list. */
+  position: number;
+  seasonId: number | null;
+  seasonNumber: number | null;
+};
+
+/** Reverse index: every published-list placement for a given show — one per
+ *  matching list item, so the detail page can render each placement inline
+ *  with the SEASON that's on the list (a show can be ranked at several
+ *  seasons), or show-level when the entry has no season. Drives the "Ranked
+ *  #N in …" backlinks on a show's detail page. */
+export function showListPlacements(
+  serializdShowId: number,
+): ShowListPlacement[] {
+  const out: ShowListPlacement[] = [];
+  for (const list of getShowLists()) {
+    for (const item of list.items) {
+      if (item.showId !== serializdShowId) continue;
+      out.push({
+        list,
+        position: item.position + 1,
+        seasonId: item.seasonId,
+        seasonNumber: item.seasonNumber,
+      });
+    }
+  }
+  return out;
+}
+
 /** Up to three corpus poster URLs for a list's cover montage — walking
  *  the list's ranked items in order and skipping any whose show isn't in
  *  the reviewed corpus (or lacks a poster). A show repeated across seasons
