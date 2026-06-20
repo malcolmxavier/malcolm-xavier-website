@@ -36,6 +36,7 @@ export type {
   ShowFavorite,
   ShowFilters,
   ShowList,
+  ShowListItem,
   ShowSort,
   TmdbTvMeta,
   TvSummary,
@@ -280,12 +281,12 @@ export function getShowBySerializdId(serializdShowId: number): Show | null {
 //
 // All three tolerate a snapshot captured before the lists/favorites
 // scrape pass ran — they return [] / null rather than throwing. The
-// landing maps each entry's serializdShowId to a corpus Show via
-// getShowBySerializdId() for the rich card. The TV Lists module
-// stays dormant while getShowLists() is empty (no Serializd lists
-// created yet) per the no-placeholder rule.
+// landing maps each list item's showId to a corpus Show via
+// getShowBySerializdId() for the rich card. If the publish-set in the
+// refresh script is ever cleared, getShowLists() returns [] and the
+// Lists surfaces self-hide per the no-placeholder rule.
 
-/** Malcolm's public Serializd lists, in profile order (empty today). */
+/** Malcolm's published Serializd lists, in publish-set order. */
 export function getShowLists(): ShowList[] {
   return loadSnapshot().lists ?? [];
 }
@@ -295,6 +296,23 @@ export function getShowLists(): ShowList[] {
 export function getShowListBySlug(slug: string): ShowList | null {
   const lists = loadSnapshot().lists ?? [];
   return lists.find((l) => l.slug === slug) ?? null;
+}
+
+/** Up to three corpus poster URLs for a list's cover montage — walking
+ *  the list's ranked items in order and skipping any whose show isn't in
+ *  the reviewed corpus (or lacks a poster). A show repeated across seasons
+ *  contributes its poster once. Shared by the landing teaser + lists hub. */
+export function showListCoverPosters(list: ShowList): string[] {
+  const urls: string[] = [];
+  const seen = new Set<number>();
+  for (const item of list.items) {
+    if (seen.has(item.showId)) continue;
+    seen.add(item.showId);
+    const show = getShowBySerializdId(item.showId);
+    if (show?.posterUrl) urls.push(show.posterUrl);
+    if (urls.length >= 3) break;
+  }
+  return urls;
 }
 
 /** Serializd profile favorites, in the order Malcolm arranged them. */

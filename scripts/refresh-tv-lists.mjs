@@ -11,12 +11,18 @@
 // Serializd exposes a JSON API (no scraping needed), gated on the
 // X-Requested-With header its own React frontend sends. Endpoints:
 //   • /api/user/<user>/favoriteshows → { favoriteShows: [...] }
-//   • /api/user/<user>/lists         → { lists: [...], totalPages }
-//     (returns empty today — Malcolm has no Serializd lists yet, so
-//      the TV Lists module ships dormant until this is populated.)
+//   • /api/list/<id>                 → one list's metadata + listItems
 //
-// Both favorites and lists reference shows by serializdShowId (=
-// TMDB tv id), which joins to the reviewed corpus for the rich card.
+// NOTE: the username→lists listing endpoint (/api/user/<user>/lists) is
+// DEAD on Serializd's backend — it returns an empty array for every user
+// regardless of params/method (favorites + diary on the same host work).
+// So lists are pulled by id from the LIST_IDS publish-set below, fetched
+// one-by-one via /api/list/<id>. TV lists are season-ranked: each item
+// is a SHOW+SEASON with a position (see parseList / ShowListItem).
+//
+// Favorites reference shows by serializdShowId (= TMDB tv id); list
+// items reference them by showId — both join to the reviewed corpus for
+// the rich card.
 //
 // Output: rewrites lib/feeds/_fixtures/serializd-snapshot.json,
 // preserving every existing field and setting `lists` + `favorites`.
@@ -44,6 +50,45 @@ import {
 const USER = "malxavi";
 const API_BASE = "https://serializd.onrender.com";
 const SITE_BASE = "https://www.serializd.com";
+
+// ── The publish-set ──────────────────────────────────────────────
+// Serializd's username→lists listing endpoint (/api/user/<user>/lists)
+// is dead on their backend — it returns an empty array for every user,
+// across every param/method variant (favorites + diary on the same
+// host work fine). The only working list endpoint is GET /api/list/{id},
+// so we fetch a CONFIGURED set of list ids rather than discovering them.
+//
+// This doubles as editorial control: a list appears on the site iff its
+// id is here. The on-site label/grouping (year × scope × method) is
+// derived from each list's NAME by lib/feeds/list-taxonomy.ts — keep the
+// Serializd list titles in the "… Top N [— Fully Editorialized]" /
+// "Unbiased …" shape so the classifier can read them. Edit this array to
+// publish or retire a list, then re-run `npm run television:lists-refresh`.
+const LIST_IDS = [
+  451075, // 2025 Top 10 — Fully Editorialized   (New Releases · Editor's Cut)
+  451063, // 2025 Top 10                          (New Releases · Ratings Cut)
+  451111, // Unbiased 2025 Top 10 — Fully Editorialized (Backlog · Editor's Cut)
+  451095, // Unbiased 2025 Top 10                 (Backlog · Ratings Cut)
+];
+
+/** URL-safe route slug from a list name. Strips the em-dash and other
+ *  punctuation, lowercases, and collapses runs to single hyphens — our
+ *  own slug, independent of Serializd's numeric id. */
+function slugifyListName(name) {
+  return String(name)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+/** Canonical Serializd list URL. Their format is `/list/<Name>-<id>`,
+ *  preserving the title's casing with spaces→hyphens and URL-encoding
+ *  the em-dash (so it reads `…-%E2%80%94-…`). Mirror that exactly so the
+ *  link-out resolves rather than relying on an id-only redirect. */
+function serializdListUrl(name, id) {
+  const slug = encodeURI(String(name).trim().replace(/\s+/g, "-"));
+  return `${SITE_BASE}/list/${slug}-${id}`;
+}
 
 const SNAPSHOT_PATH = path.resolve(
   process.cwd(),
@@ -140,39 +185,56 @@ async function enrichFavoritePosters(favorites, showsById, overrides) {
 }
 
 /**
- * Map the lists payload to ShowList[]. Empty today, so the field
- * shapes are inferred defensively — when Malcolm creates a Serializd
- * list and this first returns data, we log the raw item so the
- * mapping can be confirmed/refined rather than silently mis-parsed.
+ * Map one GET /api/list/{id} payload to a season-aware ShowList. The
+ * payload's `listItems` are ranked SHOW+SEASON entries: a list can rank
+ * several seasons of the same show, and show-level entries (miniseries)
+ * carry a null season. We preserve each entry's showId, season, and
+ * position so the detail page can render the ranking faithfully.
+ *
+ * Returns null if the payload is malformed (missing listId) so the
+ * caller can skip it without aborting the whole run.
  */
-function parseLists(json) {
-  const raw = Array.isArray(json?.lists) ? json.lists : [];
-  if (raw.length > 0) {
-    console.log(
-      `      (first Serializd list item shape, for mapping review:\n${JSON.stringify(
-        raw[0],
-        null,
-        2,
-      ).replace(/^/gm, "        ")})`,
-    );
-  }
-  return raw.map((item) => {
-    const slug = String(item?.slug ?? item?.id ?? item?.listId ?? "");
-    // Show ids can live under a few plausible keys depending on the
-    // list payload shape; collect numeric ids from whichever is present.
-    const showSource = item?.shows ?? item?.items ?? item?.showIds ?? [];
-    const showIds = (Array.isArray(showSource) ? showSource : [])
-      .map((s) => Number(typeof s === "object" ? (s?.showId ?? s?.id) : s))
-      .filter((n) => Number.isFinite(n));
+function parseList(json) {
+  const id = Number(json?.listId);
+  if (!Number.isFinite(id)) return null;
+  const name = typeof json?.listName === "string" ? json.listName : "";
+  const rawItems = Array.isArray(json?.listItems) ? json.listItems : [];
+
+  const items = rawItems.map((it, i) => {
+    const season = it?.season ?? null;
     return {
-      slug,
-      name: typeof item?.name === "string" ? item.name : (item?.title ?? ""),
-      description:
-        typeof item?.description === "string" ? item.description : "",
-      showIds,
-      url: item?.url ?? (slug ? `${SITE_BASE}/${USER}/list/${slug}` : ""),
+      showId: Number(it?.showId),
+      // Prefer the item-level seasonId; fall back to the nested season
+      // object. Null for a show-level entry.
+      seasonId: Number.isFinite(Number(it?.seasonId))
+        ? Number(it.seasonId)
+        : Number.isFinite(Number(season?.seasonId ?? season?.id))
+          ? Number(season?.seasonId ?? season?.id)
+          : null,
+      seasonName: typeof season?.name === "string" ? season.name : null,
+      seasonNumber: Number.isFinite(Number(season?.seasonNumber))
+        ? Number(season.seasonNumber)
+        : null,
+      // Trust the API's position; fall back to array index so the order
+      // is always well-defined even if position is missing.
+      position: Number.isFinite(Number(it?.position)) ? Number(it.position) : i,
+      showName: typeof it?.showName === "string" ? it.showName : "",
     };
-  });
+  })
+    // Drop any entry without a usable show id, then sort by rank.
+    .filter((it) => Number.isFinite(it.showId))
+    .sort((a, b) => a.position - b.position);
+
+  return {
+    id,
+    slug: slugifyListName(name) || String(id),
+    name,
+    description:
+      typeof json?.listDescription === "string" ? json.listDescription : "",
+    isRanked: Boolean(json?.isRanked),
+    items,
+    url: serializdListUrl(name, id),
+  };
 }
 
 function readSnapshot() {
@@ -196,7 +258,17 @@ function readSnapshot() {
 function changeKey(lists, favorites) {
   return JSON.stringify({
     favorites: favorites.map((f) => [f.serializdShowId, f.name]),
-    lists: lists.map((l) => [l.slug, l.name, l.description, l.showIds]),
+    lists: lists.map((l) => [
+      l.id,
+      l.slug,
+      l.name,
+      l.description,
+      l.isRanked,
+      // Item identity = (show, season, rank) so a re-ranking or a
+      // season swap is detected, but posterUrl churn (none stored here)
+      // never triggers a commit.
+      l.items.map((it) => [it.showId, it.seasonId, it.position]),
+    ]),
   });
 }
 
@@ -221,14 +293,29 @@ export async function refreshTvLists(options = {}) {
 
   console.log("[tv-lists] Fetching favorites + lists from Serializd…");
   const favJson = await fetchJson(`${API_BASE}/api/user/${USER}/favoriteshows`);
-  await sleep(PAGE_GAP_MS);
-  const listsJson = await fetchJson(`${API_BASE}/api/user/${USER}/lists`);
 
-  // Both endpoints unreachable → almost certainly an auth/header
-  // change or outage. Bail without writing so we don't wipe good data.
-  if (favJson === null && listsJson === null) {
+  // Fetch each configured list by id (the username→lists endpoint is
+  // dead — see LIST_IDS). A null fetch / malformed payload skips that one
+  // id; `anyListReachable` tracks whether the list surface responded at
+  // all, to distinguish "Malcolm published nothing" from "the API is
+  // down" in the guard below.
+  const lists = [];
+  let anyListReachable = false;
+  for (const id of LIST_IDS) {
+    await sleep(PAGE_GAP_MS);
+    const json = await fetchJson(`${API_BASE}/api/list/${id}`);
+    if (json === null) continue; // network / non-OK — skip this id
+    anyListReachable = true;
+    const list = parseList(json);
+    if (list) lists.push(list);
+    else console.error(`      ! list ${id} → malformed payload, skipped`);
+  }
+
+  // Both surfaces unreachable → almost certainly an auth/header change
+  // or outage. Bail without writing so we don't wipe good data.
+  if (favJson === null && !anyListReachable) {
     throw new Error(
-      "Both favoriteshows and lists fetches failed — aborting without writing.",
+      "Both favoriteshows and every list fetch failed — aborting without writing.",
     );
   }
 
@@ -249,19 +336,20 @@ export async function refreshTvLists(options = {}) {
     );
   }
 
-  const lists = parseLists(listsJson);
-  const totalPages = Number(listsJson?.totalPages ?? 0);
+  for (const l of lists) {
+    console.log(
+      `[tv-lists]   · list ${l.id} "${l.name}" — ${l.items.length} ranked items` +
+        `${l.isRanked ? "" : " (unranked)"}`,
+    );
+  }
   console.log(
-    `[tv-lists] favorites: ${favorites.length}, lists: ${lists.length}` +
-      (totalPages > 1
-        ? ` (NOTE: totalPages=${totalPages}; pagination not yet implemented — add it before relying on full list coverage)`
-        : ""),
+    `[tv-lists] favorites: ${favorites.length}, lists: ${lists.length}/${LIST_IDS.length} configured`,
   );
 
-  // Mirror the films guard: nothing parsed from either surface →
+  // Mirror the films guard: both surfaces reachable but nothing parsed →
   // treat as a block/auth change rather than a real "no favorites or
-  // lists", and preserve existing data. (Lists alone being empty is
-  // normal today, so the guard keys on favorites-empty-too.)
+  // lists", and preserve existing data. (anyListReachable already gated
+  // the hard outage case above; this catches a subtler all-empty parse.)
   if (favorites.length === 0 && lists.length === 0) {
     throw new Error(
       "Parsed zero favorites AND zero lists — likely a block or auth change. " +

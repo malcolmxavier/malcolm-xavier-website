@@ -38,7 +38,9 @@ import {
   getShowLists,
   getShowBySerializdId,
   getWatchingExclusions,
+  showListCoverPosters,
 } from "@/lib/feeds/serializd";
+import { orderForTeaser } from "@/lib/feeds/list-taxonomy";
 import { getShowFeaturedPick } from "@/lib/feeds/featured-pick";
 import {
   buildInProgressCards,
@@ -52,7 +54,6 @@ import {
 } from "@/lib/feeds/facet-index";
 import { slugifyEntity } from "@/lib/feeds/slug";
 import type { Show } from "@/lib/feeds/serializd-utils";
-import type { ShowList } from "@/lib/feeds/serializd";
 import { InProgressCard } from "./InProgressCard";
 import { StatsBand } from "./StatsBand";
 
@@ -79,17 +80,6 @@ export const metadata: Metadata = {
     images: ["/opengraph-image"],
   },
 };
-
-/** Resolve up to three corpus poster URLs for a TV list's cover. */
-function listCoverPosters(list: ShowList): string[] {
-  const urls: string[] = [];
-  for (const id of list.showIds) {
-    const show = getShowBySerializdId(id);
-    if (show?.posterUrl) urls.push(show.posterUrl);
-    if (urls.length >= 3) break;
-  }
-  return urls;
-}
 
 /** Resolve up to three corpus poster URLs for a collection's cover
  *  montage — the family's member shows in the hub's canonical order
@@ -517,27 +507,32 @@ export default function TelevisionLandingPage() {
         ) : null}
 
         {/* ─── Lists ──────────────────────────────────────────── */}
-        {/* Dormant until Serializd lists exist (the endpoint returns
-            empty today) — renders nothing rather than an empty shell,
-            per the no-placeholder rule. Lights up automatically once
-            Malcolm creates a Serializd list. */}
+        {/* Teaser only — the full year × scope × method matrix lives on
+            the /television/lists hub. Hidden when the publish-set is
+            empty (no-placeholder rule). */}
         {hasLists ? (
           <Section id="lists" className="scroll-mt-28" padding="md" bordered>
             <Stack gap="400">
               <Kicker accent>Lists</Kicker>
               <Headline level={2}>Ranked and themed</Headline>
               <Grid cols={3} gap="600">
-                {lists.map((list) => (
-                  <ListCard
-                    key={list.slug}
-                    href={`/television/lists/${list.slug}`}
-                    title={list.name}
-                    count={list.showIds.length}
-                    description={list.description}
-                    coverPosterUrls={listCoverPosters(list)}
-                  />
-                ))}
+                {orderForTeaser(lists, (l) => l.name)
+                  .slice(0, 3)
+                  .map((list) => (
+                    <ListCard
+                      key={list.slug}
+                      href={`/television/lists/${list.slug}`}
+                      title={list.name}
+                      count={list.items.length}
+                      unit={{ one: "pick", other: "picks" }}
+                      description={list.description}
+                      coverPosterUrls={showListCoverPosters(list)}
+                    />
+                  ))}
               </Grid>
+              <p style={{ margin: 0 }}>
+                <Link href="/television/lists">Explore lists →</Link>
+              </p>
             </Stack>
           </Section>
         ) : null}

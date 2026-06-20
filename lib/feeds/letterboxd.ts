@@ -335,6 +335,20 @@ export function getFilmListBySlug(slug: string): FilmList | null {
   return lists.find((l) => l.slug === slug) ?? null;
 }
 
+/** Up to three corpus poster URLs for a list's cover montage — walking
+ *  the list's films in running order and skipping any not in the
+ *  reviewed corpus (or lacking a poster). Shared by the landing teaser
+ *  and the lists hub so both resolve covers identically. */
+export function filmListCoverPosters(list: FilmList): string[] {
+  const urls: string[] = [];
+  for (const slug of list.filmSlugs) {
+    const film = getFilmByLetterboxdSlug(slug);
+    if (film?.posterUrl) urls.push(film.posterUrl);
+    if (urls.length >= 3) break;
+  }
+  return urls;
+}
+
 /** Letterboxd profile favorites, in the order Malcolm arranged them. */
 export function getFilmFavorites(): FilmFavorite[] {
   return loadSnapshot().favorites ?? [];

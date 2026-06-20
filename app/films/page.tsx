@@ -38,7 +38,9 @@ import {
   getFilmFavorites,
   getFilmLists,
   getFilmByLetterboxdSlug,
+  filmListCoverPosters,
 } from "@/lib/feeds/letterboxd";
+import { orderForTeaser } from "@/lib/feeds/list-taxonomy";
 import { Link } from "@/components/primitives/Link";
 import { getFilmFeaturedPick } from "@/lib/feeds/featured-pick";
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
@@ -50,7 +52,7 @@ import {
   filmCollectionMemberSort,
 } from "@/lib/feeds/facet-index";
 import { slugifyEntity } from "@/lib/feeds/slug";
-import type { Film, FilmList } from "@/lib/feeds/letterboxd";
+import type { Film } from "@/lib/feeds/letterboxd";
 
 // How many recent watches to surface in the "Now" module — one clean
 // 5-up row on desktop (matches the denser poster grid below).
@@ -81,19 +83,6 @@ export const metadata: Metadata = {
 /** Canonical on-site detail href for a corpus film. */
 function filmDetailHref(film: Film): string {
   return `/films/${film.letterboxdSlug}-${film.releaseYear}`;
-}
-
-/** Resolve up to three corpus poster URLs for a list's cover montage,
- *  walking the list's films in order and skipping any not in the
- *  reviewed corpus (or lacking a poster). */
-function listCoverPosters(list: FilmList): string[] {
-  const urls: string[] = [];
-  for (const slug of list.filmSlugs) {
-    const film = getFilmByLetterboxdSlug(slug);
-    if (film?.posterUrl) urls.push(film.posterUrl);
-    if (urls.length >= 3) break;
-  }
-  return urls;
 }
 
 /** Resolve up to three corpus poster URLs for a collection's cover
@@ -410,23 +399,31 @@ export default function FilmsLandingPage() {
         ) : null}
 
         {/* ─── Lists ──────────────────────────────────────────── */}
+        {/* Teaser only — the full year × scope × method matrix lives on
+            the /films/lists hub. Show the top few (featured + newest
+            editorialized cuts via the shared taxonomy order). */}
         {hasLists ? (
           <Section id="lists" className="scroll-mt-28" padding="md" bordered>
             <Stack gap="400">
               <Kicker accent>Lists</Kicker>
               <Headline level={2}>Ranked shortlists</Headline>
               <Grid cols={3} gap="600">
-                {lists.map((list) => (
-                  <ListCard
-                    key={list.slug}
-                    href={`/films/lists/${list.slug}`}
-                    title={list.title}
-                    count={list.filmSlugs.length}
-                    description={list.description}
-                    coverPosterUrls={listCoverPosters(list)}
-                  />
-                ))}
+                {orderForTeaser(lists, (l) => l.title)
+                  .slice(0, 3)
+                  .map((list) => (
+                    <ListCard
+                      key={list.slug}
+                      href={`/films/lists/${list.slug}`}
+                      title={list.title}
+                      count={list.filmSlugs.length}
+                      description={list.description}
+                      coverPosterUrls={filmListCoverPosters(list)}
+                    />
+                  ))}
               </Grid>
+              <p style={{ margin: 0 }}>
+                <Link href="/films/lists">Explore lists →</Link>
+              </p>
             </Stack>
           </Section>
         ) : null}

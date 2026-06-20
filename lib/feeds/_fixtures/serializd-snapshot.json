@@ -52928,7 +52928,368 @@
       "dateAdded": "2024-05-16T06:08:12Z"
     }
   ],
-  "lists": [],
+  "lists": [
+    {
+      "id": 451075,
+      "slug": "2025-top-10-fully-editorialized",
+      "name": "2025 Top 10 — Fully Editorialized",
+      "description": "The best seasons of television whose finale aired/was made available in 2025. Methodology: star rating disregarded and fully editorialized.",
+      "isRanked": true,
+      "items": [
+        {
+          "showId": 124101,
+          "seasonId": 427668,
+          "seasonName": "Season 4",
+          "seasonNumber": 4,
+          "position": 0,
+          "showName": "Hacks"
+        },
+        {
+          "showId": 95396,
+          "seasonId": 401674,
+          "seasonName": "Season 2",
+          "seasonNumber": 2,
+          "position": 1,
+          "showName": "Severance"
+        },
+        {
+          "showId": 301507,
+          "seasonId": 476908,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 2,
+          "showName": "Heated Rivalry"
+        },
+        {
+          "showId": 249042,
+          "seasonId": 0,
+          "seasonName": null,
+          "seasonNumber": null,
+          "position": 3,
+          "showName": "Adolescence"
+        },
+        {
+          "showId": 250307,
+          "seasonId": 385657,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 4,
+          "showName": "The Pitt"
+        },
+        {
+          "showId": 243861,
+          "seasonId": 470988,
+          "seasonName": "Season 2",
+          "seasonNumber": 2,
+          "position": 5,
+          "showName": "The Vince Staples Show"
+        },
+        {
+          "showId": 225171,
+          "seasonId": 338336,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 6,
+          "showName": "Pluribus"
+        },
+        {
+          "showId": 110381,
+          "seasonId": 389062,
+          "seasonName": "Season 5",
+          "seasonNumber": 5,
+          "position": 7,
+          "showName": "The Real Housewives of Salt Lake City"
+        },
+        {
+          "showId": 241361,
+          "seasonId": 369422,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 8,
+          "showName": "Too Much"
+        },
+        {
+          "showId": 249695,
+          "seasonId": 384687,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 9,
+          "showName": "Doctor Odyssey"
+        }
+      ],
+      "url": "https://www.serializd.com/list/2025-Top-10-%E2%80%94-Fully-Editorialized-451075"
+    },
+    {
+      "id": 451063,
+      "slug": "2025-top-10",
+      "name": "2025 Top 10",
+      "description": "The best seasons of television whose finale aired/was made available in 2025. Methodology: by star rating and editorialized within.",
+      "isRanked": true,
+      "items": [
+        {
+          "showId": 124101,
+          "seasonId": 427668,
+          "seasonName": "Season 4",
+          "seasonNumber": 4,
+          "position": 0,
+          "showName": "Hacks"
+        },
+        {
+          "showId": 95396,
+          "seasonId": 401674,
+          "seasonName": "Season 2",
+          "seasonNumber": 2,
+          "position": 1,
+          "showName": "Severance"
+        },
+        {
+          "showId": 110381,
+          "seasonId": 389062,
+          "seasonName": "Season 5",
+          "seasonNumber": 5,
+          "position": 2,
+          "showName": "The Real Housewives of Salt Lake City"
+        },
+        {
+          "showId": 250307,
+          "seasonId": 385657,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 3,
+          "showName": "The Pitt"
+        },
+        {
+          "showId": 249042,
+          "seasonId": 0,
+          "seasonName": null,
+          "seasonNumber": null,
+          "position": 4,
+          "showName": "Adolescence"
+        },
+        {
+          "showId": 95480,
+          "seasonId": 459284,
+          "seasonName": "Season 5",
+          "seasonNumber": 5,
+          "position": 5,
+          "showName": "Slow Horses"
+        },
+        {
+          "showId": 301507,
+          "seasonId": 476908,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 6,
+          "showName": "Heated Rivalry"
+        },
+        {
+          "showId": 247758,
+          "seasonId": 445888,
+          "seasonName": "Season 2",
+          "seasonNumber": 2,
+          "position": 7,
+          "showName": "The Valley"
+        },
+        {
+          "showId": 261102,
+          "seasonId": 445800,
+          "seasonName": "Season 2",
+          "seasonNumber": 2,
+          "position": 8,
+          "showName": "The Secret Lives of Mormon Wives"
+        },
+        {
+          "showId": 237748,
+          "seasonId": 361920,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 9,
+          "showName": "Brilliant Minds"
+        }
+      ],
+      "url": "https://www.serializd.com/list/2025-Top-10-451063"
+    },
+    {
+      "id": 451111,
+      "slug": "unbiased-2025-top-10-fully-editorialized",
+      "name": "Unbiased 2025 Top 10 — Fully Editorialized",
+      "description": "The best seasons of television that I watched in 2025 and that didn’t air their season finale/make it available in 2025 — recency bias be damned. Methodology: star rating disregarded and fully editorialized.",
+      "isRanked": true,
+      "items": [
+        {
+          "showId": 17380,
+          "seasonId": 61193,
+          "seasonName": "Season 6",
+          "seasonNumber": 6,
+          "position": 0,
+          "showName": "The Real Housewives of Atlanta"
+        },
+        {
+          "showId": 128098,
+          "seasonId": 200240,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 1,
+          "showName": "Interview with the Vampire"
+        },
+        {
+          "showId": 101543,
+          "seasonId": 147156,
+          "seasonName": "Miniseries",
+          "seasonNumber": 1,
+          "position": 2,
+          "showName": "Quiz"
+        },
+        {
+          "showId": 95480,
+          "seasonId": 357755,
+          "seasonName": "Season 3",
+          "seasonNumber": 3,
+          "position": 3,
+          "showName": "Slow Horses"
+        },
+        {
+          "showId": 14808,
+          "seasonId": 26360,
+          "seasonName": "Season 3",
+          "seasonNumber": 3,
+          "position": 4,
+          "showName": "The Real Housewives of New York City"
+        },
+        {
+          "showId": 128098,
+          "seasonId": 349497,
+          "seasonName": "Season 2",
+          "seasonNumber": 2,
+          "position": 5,
+          "showName": "Interview with the Vampire"
+        },
+        {
+          "showId": 17380,
+          "seasonId": 61192,
+          "seasonName": "Season 5",
+          "seasonNumber": 5,
+          "position": 6,
+          "showName": "The Real Housewives of Atlanta"
+        },
+        {
+          "showId": 14808,
+          "seasonId": 146739,
+          "seasonName": "Season 12",
+          "seasonNumber": 12,
+          "position": 7,
+          "showName": "The Real Housewives of New York City"
+        },
+        {
+          "showId": 34356,
+          "seasonId": 45169,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 8,
+          "showName": "TRON: Uprising"
+        },
+        {
+          "showId": 14808,
+          "seasonId": 65709,
+          "seasonName": "Season 7",
+          "seasonNumber": 7,
+          "position": 9,
+          "showName": "The Real Housewives of New York City"
+        }
+      ],
+      "url": "https://www.serializd.com/list/Unbiased-2025-Top-10-%E2%80%94-Fully-Editorialized-451111"
+    },
+    {
+      "id": 451095,
+      "slug": "unbiased-2025-top-10",
+      "name": "Unbiased 2025 Top 10",
+      "description": "The best seasons of television that I watched in 2025 and that didn’t air their season finale/make it available in 2025 — recency bias be damned. Methodology: by star rating and editorialized within.",
+      "isRanked": true,
+      "items": [
+        {
+          "showId": 17380,
+          "seasonId": 61193,
+          "seasonName": "Season 6",
+          "seasonNumber": 6,
+          "position": 0,
+          "showName": "The Real Housewives of Atlanta"
+        },
+        {
+          "showId": 17380,
+          "seasonId": 61190,
+          "seasonName": "Season 3",
+          "seasonNumber": 3,
+          "position": 1,
+          "showName": "The Real Housewives of Atlanta"
+        },
+        {
+          "showId": 17380,
+          "seasonId": 61192,
+          "seasonName": "Season 5",
+          "seasonNumber": 5,
+          "position": 2,
+          "showName": "The Real Housewives of Atlanta"
+        },
+        {
+          "showId": 128098,
+          "seasonId": 200240,
+          "seasonName": "Season 1",
+          "seasonNumber": 1,
+          "position": 3,
+          "showName": "Interview with the Vampire"
+        },
+        {
+          "showId": 14808,
+          "seasonId": 26360,
+          "seasonName": "Season 3",
+          "seasonNumber": 3,
+          "position": 4,
+          "showName": "The Real Housewives of New York City"
+        },
+        {
+          "showId": 128098,
+          "seasonId": 349497,
+          "seasonName": "Season 2",
+          "seasonNumber": 2,
+          "position": 5,
+          "showName": "Interview with the Vampire"
+        },
+        {
+          "showId": 95480,
+          "seasonId": 357755,
+          "seasonName": "Season 3",
+          "seasonNumber": 3,
+          "position": 6,
+          "showName": "Slow Horses"
+        },
+        {
+          "showId": 14808,
+          "seasonId": 146739,
+          "seasonName": "Season 12",
+          "seasonNumber": 12,
+          "position": 7,
+          "showName": "The Real Housewives of New York City"
+        },
+        {
+          "showId": 17380,
+          "seasonId": 61191,
+          "seasonName": "Season 4",
+          "seasonNumber": 4,
+          "position": 8,
+          "showName": "The Real Housewives of Atlanta"
+        },
+        {
+          "showId": 14808,
+          "seasonId": 65709,
+          "seasonName": "Season 7",
+          "seasonNumber": 7,
+          "position": 9,
+          "showName": "The Real Housewives of New York City"
+        }
+      ],
+      "url": "https://www.serializd.com/list/Unbiased-2025-Top-10-451095"
+    }
+  ],
   "favorites": [
     {
       "serializdShowId": 1416,
