@@ -35,6 +35,10 @@
     "television:lists-refresh": "node --env-file=.env.local scripts/refresh-tv-lists.mjs",
     "tv:collection-audit": "node --experimental-strip-types scripts/audit-tv-collections.ts",
     "enrich:refresh": "node --env-file=.env.local scripts/enrich-refresh.mjs",
+    "demo:setup": "npm install --save-dev playwright && npx playwright install chromium",
+    "demo:record": "node scripts/record-demo.mjs",
+    "demo:record:sketch": "node scripts/record-demo.mjs --clip=01",
+    "demo:record:tour": "node scripts/record-demo.mjs --tour",
     "prebuild": "npm run tokens:build"
   },
   "dependencies": {
