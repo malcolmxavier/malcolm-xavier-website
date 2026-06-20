@@ -21,6 +21,7 @@ import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Grid } from "@/components/layout/Grid";
 import { Display } from "@/components/typography/Display";
+import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
@@ -85,6 +86,10 @@ export default async function FilmListPage({ params }: { params: Params }) {
   const list = getFilmListBySlug(slug);
   if (!list) notFound();
 
+  // Letterboxd doesn't flag ranked-ness in the snapshot, so infer it from
+  // the title — Malcolm's lists are "Top N" / "… Ranked" rankings.
+  const isRanked = /\branked\b|\btop\s*\d+\b/i.test(list.title);
+
   const landingUrl = `${SITE_URL}/films`;
   const listUrl = `${SITE_URL}/films/lists/${list.slug}`;
   const breadcrumbJsonLd = {
@@ -103,9 +108,9 @@ export default async function FilmListPage({ params }: { params: Params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <Container size="lg">
-        {/* Back to the landing (where the Lists section lives). */}
+        {/* Back to the lists hub (this list's parent index). */}
         <Section padding="md">
-          <Link href="/films">← Films</Link>
+          <Link href="/films/lists">← All lists</Link>
         </Section>
 
         {/* Header — title + methodology prose. */}
@@ -125,8 +130,18 @@ export default async function FilmListPage({ params }: { params: Params }) {
 
         {/* Films in list order (the ranking). */}
         <Section padding="md" bordered>
+          {/* sr-only h2 bridges the hero Display (h1) to the per-tile
+              Headline level={3} titles, so the heading outline doesn't
+              skip h2 (same fix as the collections leaf). */}
+          <Headline level={2} className="sr-only">
+            Films in this list
+          </Headline>
           <Grid cols={4} gap="500">
-            {list.filmSlugs.map((filmSlug) => {
+            {list.filmSlugs.map((filmSlug, i) => {
+              // Prefix the rank for ranked lists ("Top N" / "… Ranked") so
+              // the running order reads as a ranking, mirroring the TV
+              // list detail page.
+              const rank = isRanked ? `${i + 1}. ` : "";
               const film = getFilmByLetterboxdSlug(filmSlug);
               if (film) {
                 return (
@@ -134,7 +149,7 @@ export default async function FilmListPage({ params }: { params: Params }) {
                     key={filmSlug}
                     href={`/films/${film.letterboxdSlug}-${film.releaseYear}`}
                     posterUrl={film.posterUrl}
-                    title={film.title}
+                    title={`${rank}${film.title}`}
                     subtitle={String(film.releaseYear)}
                     rating={film.primaryRating}
                   />
@@ -147,7 +162,7 @@ export default async function FilmListPage({ params }: { params: Params }) {
                   href={`https://letterboxd.com/film/${filmSlug}/`}
                   external
                   posterUrl={null}
-                  title={deslugify(filmSlug)}
+                  title={`${rank}${deslugify(filmSlug)}`}
                 />
               );
             })}

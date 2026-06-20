@@ -3,8 +3,8 @@
 // /television/watching design: a mono, uppercase, sub-brand-accent link
 // in a padded row above the hero. Unlike BackToTelevision/BackToFilms
 // (smart detail→listing links that replay the source URL), this points at
-// a FIXED destination — used by the collections hub (→ cluster landing)
-// and the per-collection leaves (→ collections hub).
+// a FIXED destination — used by the collections + lists hubs (→ the
+// cluster reviews grid) and the per-collection leaves (→ collections hub).
 //
 // Server component: a plain <NextLink>; the hover/focus affordances are
 // CSS, so no client JS is needed. Styling is copied verbatim from

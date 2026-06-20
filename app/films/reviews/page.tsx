@@ -35,7 +35,7 @@ import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 import { SITE_URL } from "@/lib/site-config";
-import { getFilms } from "@/lib/feeds/letterboxd";
+import { getFilms, getFilmLists } from "@/lib/feeds/letterboxd";
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { hybridMatchIds, combineMatchSets } from "@/lib/feeds/fuzzy-search";
 import {
@@ -491,6 +491,7 @@ export default async function FilmsPage({
             availableWatchedYears={availableWatchedYears}
             entityFacets={entityFacets}
             gridNavAllCount={summary.totalFilms}
+            showLists={getFilmLists().length > 0}
             originHref={buildOriginHref("/films/reviews", params)}
           />
         </Section>

@@ -26,7 +26,7 @@ import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-config";
 import { getFilms, getFilmLists } from "@/lib/feeds/letterboxd";
 import { slugifyGenre as slugifyFilmGenre } from "@/lib/feeds/letterboxd-utils";
-import { getShows } from "@/lib/feeds/serializd";
+import { getShows, getShowLists } from "@/lib/feeds/serializd";
 import { slugifyGenre as slugifyTvGenre } from "@/lib/feeds/serializd-utils";
 import {
   getFilmsWithEnrichment,
@@ -92,6 +92,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "weekly",
       priority: 0.6,
+    });
+    // Lists hub — the curated year × scope × method landing (same
+    // indexed posture as the Collections hub).
+    filmEntries.push({
+      url: `${SITE_URL}/films/lists`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.55,
     });
     // Curated list-detail pages — one per public Letterboxd list,
     // pulled from the snapshot's lists[] (the weekly scrape pass).
@@ -251,6 +259,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency: "weekly",
         priority: 0.55,
       });
+    }
+    // Lists hub + per-list detail pages (mirrors the films block).
+    // getShowLists() is empty unless the publish-set is populated, so a
+    // pre-population snapshot contributes only the hub — which 404s in
+    // that state, but the sitemap is regenerated on each deploy.
+    const showLists = getShowLists();
+    if (showLists.length > 0) {
+      tvEntries.push({
+        url: `${SITE_URL}/television/lists`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.55,
+      });
+      for (const list of showLists) {
+        tvEntries.push({
+          url: `${SITE_URL}/television/lists/${list.slug}`,
+          lastModified,
+          changeFrequency: "monthly",
+          priority: 0.55,
+        });
+      }
     }
     for (const show of shows) {
       tvEntries.push({

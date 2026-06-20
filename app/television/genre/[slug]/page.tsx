@@ -26,7 +26,11 @@ import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
-import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
+import {
+  getShows,
+  getWatchingExclusions,
+  getShowLists,
+} from "@/lib/feeds/serializd";
 import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { buildOriginHref } from "@/lib/feeds/origin-href";
 import { hybridMatchIds } from "@/lib/feeds/fuzzy-search";
@@ -291,6 +295,7 @@ export default async function TvGenrePage({
           <TelevisionShell
             cards={clientCards}
             allCount={allCards.length}
+            showLists={getShowLists().length > 0}
             totalPages={totalPages}
             currentPage={page}
             totalResults={totalResults}
