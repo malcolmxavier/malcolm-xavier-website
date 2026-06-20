@@ -29,7 +29,11 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
 import { SITE_URL } from "@/lib/site-config";
-import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
+import {
+  getShows,
+  getWatchingExclusions,
+  getShowLists,
+} from "@/lib/feeds/serializd";
 import {
   buildCompletedCards,
   buildInProgressCards,
@@ -209,6 +213,7 @@ export default function WatchingPage() {
               active="watching"
               watchingCount={cards.length}
               allCount={buildCompletedCards(shows).length}
+              showLists={getShowLists().length > 0}
               from="watching"
             />
           </div>

@@ -170,6 +170,10 @@ type Props = {
    *  number is the "All (N)" count. Mirrors TelevisionShell's nav. The
    *  reviews grid passes it; genre/facet routes don't. */
   gridNavAllCount?: number;
+  /** Whether the cluster has published lists — drives the grid-nav's
+   *  Lists tab. Passed alongside gridNavAllCount (the nav only renders
+   *  when that's set). */
+  showLists?: boolean;
   /** Optional node rendered as the first row INSIDE the sticky grid-header
    *  band, above the nav/chips — so it pins with them. Used on TV for the
    *  "catalog" stat-bar; films has no equivalent today (passes nothing). */
@@ -197,6 +201,7 @@ export function FilmsShell({
   entityNameHints,
   routeFacetChip,
   gridNavAllCount,
+  showLists,
   gridHeaderLead,
   originHref,
 }: Props) {
@@ -774,6 +779,7 @@ export function FilmsShell({
                 cluster="films"
                 active="all"
                 allCount={gridNavAllCount}
+                showLists={showLists}
               />
             </div>
           ) : null}

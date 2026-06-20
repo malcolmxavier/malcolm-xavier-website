@@ -28,7 +28,7 @@ import { ClusterGridNav } from "@/components/feeds/ClusterGridNav";
 import { BackLink } from "@/components/feeds/BackLink";
 import { buildCompletedCards, type Show } from "@/lib/feeds/serializd-utils";
 import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
-import { getWatchingExclusions } from "@/lib/feeds/serializd";
+import { getWatchingExclusions, getShowLists } from "@/lib/feeds/serializd";
 import { slugifyEntity } from "@/lib/feeds/slug";
 import {
   indexableTvCollections,
@@ -66,8 +66,9 @@ export default function TvCollectionsHub() {
   return (
     <div data-subbrand="tv">
       <Container size="lg">
-        {/* Back-nav above the hero — same chrome as /television/watching. */}
-        <BackLink href="/television">← All television</BackLink>
+        {/* Back-nav above the hero — to the main reviews grid (the "All"
+            surface), matching the cluster grid-nav's All tab. */}
+        <BackLink href="/television/reviews">← All television</BackLink>
         <Section padding="md">
           <Stack gap="500">
             <Kicker accent>Television · Collections</Kicker>
@@ -92,6 +93,7 @@ export default function TvCollectionsHub() {
                 active="collections"
                 allCount={allCount}
                 watchingCount={watchingCount}
+                showLists={getShowLists().length > 0}
               />
             </div>
             {topLevel.map((c) => {

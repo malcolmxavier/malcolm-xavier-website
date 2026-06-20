@@ -139,6 +139,10 @@ type Props = {
    * (hidden when zero).
    */
   allCount: number;
+  /** Whether the cluster has published lists — drives the grid-nav's
+   *  Lists tab (the TV nav renders on every listing route, so all three
+   *  shell mounts pass this). */
+  showLists?: boolean;
   /** Optional node rendered as the first row INSIDE the sticky grid-header
    *  band, above the nav/chips — so it pins with them. The TV reviews page
    *  passes its "catalog" stat-bar (Seasons · Shows · Episodes) here. */
@@ -151,6 +155,7 @@ export function TelevisionShell({
   currentPage,
   totalResults,
   allCount,
+  showLists,
   gridHeaderLead,
   filters,
   sort,
@@ -663,6 +668,7 @@ export function TelevisionShell({
               active="all"
               watchingCount={watchingCount}
               allCount={allCount}
+              showLists={showLists}
               allHref={originHref ?? "/television/reviews"}
               from={routeGenre ? "genre" : "listing"}
             />

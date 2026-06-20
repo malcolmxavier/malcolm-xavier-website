@@ -34,6 +34,7 @@ import {
   filmCollectionMemberSort,
   type FilmCollectionRoute,
 } from "@/lib/feeds/facet-index";
+import { getFilmLists } from "@/lib/feeds/letterboxd";
 
 export const metadata: Metadata = {
   title: "Film Collections",
@@ -51,8 +52,9 @@ export default function FilmCollectionsHub() {
   return (
     <div data-subbrand="film">
       <Container size="lg">
-        {/* Back-nav above the hero — same chrome as /television/watching. */}
-        <BackLink href="/films">← All films</BackLink>
+        {/* Back-nav above the hero — to the main reviews grid (the "All"
+            surface), matching the cluster grid-nav's All tab. */}
+        <BackLink href="/films/reviews">← All films</BackLink>
         <Section padding="md">
           <Stack gap="500">
             <Kicker accent>Films · Collections</Kicker>
@@ -75,6 +77,7 @@ export default function FilmCollectionsHub() {
                 cluster="films"
                 active="collections"
                 allCount={summary.totalFilms}
+                showLists={getFilmLists().length > 0}
               />
             </div>
             {collections.map((c) => (

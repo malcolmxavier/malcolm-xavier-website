@@ -28,7 +28,7 @@ import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
-import { getWatchingExclusions } from "@/lib/feeds/serializd";
+import { getWatchingExclusions, getShowLists } from "@/lib/feeds/serializd";
 import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { hybridMatchIds } from "@/lib/feeds/fuzzy-search";
 import {
@@ -405,6 +405,7 @@ export async function TvFacetPage(
           <TelevisionShell
             cards={clientCards}
             allCount={allCards.length}
+            showLists={getShowLists().length > 0}
             totalPages={totalPages}
             currentPage={page}
             totalResults={totalResults}
