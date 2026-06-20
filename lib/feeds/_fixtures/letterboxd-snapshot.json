@@ -1,29 +1,29 @@
 {
-  "capturedAt": "2026-06-18T21:00:24.912Z",
+  "capturedAt": "2026-06-20T16:00:41.797Z",
   "summary": {
-    "totalFilms": 773,
-    "totalReviews": 773,
-    "thisYearCount": 132,
+    "totalFilms": 774,
+    "totalReviews": 774,
+    "thisYearCount": 133,
     "ratingDistribution": {
       "1": 38,
       "2": 123,
       "3": 147,
       "4": 104,
       "5": 16,
+      "3.5": 153,
       "1.5": 34,
-      "3.5": 152,
       "2.5": 101,
       "4.5": 49,
       "0.5": 9
     },
     "genreDistribution": {
-      "Thriller": 221,
+      "Drama": 365,
+      "Thriller": 222,
       "Science Fiction": 115,
       "Mystery": 81,
       "History": 42,
       "War": 17,
       "Crime": 102,
-      "Drama": 364,
       "Action": 115,
       "Fantasy": 60,
       "Comedy": 221,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 577,
+      "2020s": 578,
       "2010s": 127,
       "2000s": 32,
       "1990s": 16,
@@ -48,6 +48,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1284465",
+      "letterboxdSlug": "the-death-of-robin-hood",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-death-of-robin-hood/",
+      "title": "The Death of Robin Hood",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-18",
+      "latestWatchedDate": "2026-06-18",
+      "firstReviewDate": "2026-06-20",
+      "latestReviewDate": "2026-06-20",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1362292482",
+          "watchedDate": "2026-06-18",
+          "reviewDate": "2026-06-20",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Beautifully shot and pleasantly meandering. Unfortunately, the pace is so slow that the third act sneaks up on you and the ending ends up feeling rushed. In a way, I wish this could’ve been longer. Jodie Comer never misses!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1284465,
+        "posterPath": "/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+        "backdropPath": "/yw8FhuMvhJSy4zotEuCyk5bZ230.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 123,
+        "director": "Michael Sarnoski"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1275779",
       "letterboxdSlug": "disclosure-day",
@@ -33641,6 +33685,50 @@
     }
   ],
   "filmById": {
+    "tmdb-1284465": {
+      "id": "tmdb-1284465",
+      "letterboxdSlug": "the-death-of-robin-hood",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-death-of-robin-hood/",
+      "title": "The Death of Robin Hood",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-18",
+      "latestWatchedDate": "2026-06-18",
+      "firstReviewDate": "2026-06-20",
+      "latestReviewDate": "2026-06-20",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1362292482",
+          "watchedDate": "2026-06-18",
+          "reviewDate": "2026-06-20",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Beautifully shot and pleasantly meandering. Unfortunately, the pace is so slow that the third act sneaks up on you and the ending ends up feeling rushed. In a way, I wish this could’ve been longer. Jodie Comer never misses!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1284465,
+        "posterPath": "/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+        "backdropPath": "/yw8FhuMvhJSy4zotEuCyk5bZ230.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 123,
+        "director": "Michael Sarnoski"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1275779": {
       "id": "tmdb-1275779",
       "letterboxdSlug": "disclosure-day",
