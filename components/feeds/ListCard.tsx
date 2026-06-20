@@ -26,13 +26,22 @@ export function ListCard({
   href,
   title,
   count,
+  unit = { one: "film", other: "films" },
+  tags,
   description,
   coverPosterUrls,
 }: {
   href: string;
   title: string;
-  /** Total films in the list (not just the ones with covers). */
+  /** Total entries in the list (not just the ones with covers). */
   count: number;
+  /** Singular/plural noun for the count line (default film/films; TV
+   *  passes pick/picks since its lists rank seasons, not films). */
+  unit?: { one: string; other: string };
+  /** Small uppercase mono chips above the title — the hub passes the
+   *  scope + method axis labels so a card is legible without its long
+   *  title. Omitted on the landing teaser. */
+  tags?: string[];
   /** List prose / ranking methodology. Clamped to 3 lines. */
   description?: string;
   /** Up to three poster URLs (corpus-resolved, list order) for the
@@ -87,6 +96,33 @@ export function ListCard({
           )}
         </div>
         <Stack gap="100">
+          {/* Axis chips (scope · method) — let a card read at a glance
+              even when four same-year titles look alike. */}
+          {tags && tags.length > 0 ? (
+            <div
+              style={{ display: "flex", flexWrap: "wrap", gap: 6 }}
+              aria-hidden="true"
+            >
+              {tags.map((tag) => (
+                <span
+                  key={tag}
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: "var(--p-xs-font-size)",
+                    lineHeight: "var(--p-xs-line-height)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    color: "var(--text-caption)",
+                    border: "1px solid var(--border-default)",
+                    borderRadius: 4,
+                    padding: "1px 6px",
+                  }}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          ) : null}
           <Headline
             level={3}
             className="line-clamp-2"
@@ -98,7 +134,7 @@ export function ListCard({
             {title}
           </Headline>
           <Kicker>
-            {count.toLocaleString()} {count === 1 ? "film" : "films"}
+            {count.toLocaleString()} {count === 1 ? unit.one : unit.other}
           </Kicker>
           {description ? (
             <Body

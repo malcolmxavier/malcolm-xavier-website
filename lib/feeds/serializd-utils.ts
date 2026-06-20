@@ -372,21 +372,57 @@ export type WatchedOnlyShow = {
 // so the landing can render rich ShowCards via getShowBySerializdId().
 
 /**
- * One of Malcolm's public Serializd lists. `showIds` is the list's
- * running order. Mirrors FilmList in the /films cluster. The lists
- * endpoint returns empty today (no Serializd lists created yet), so
- * this type ships ahead of content — the TV Lists module stays
- * dormant until the array is non-empty.
+ * One ranked entry in a Serializd list. Serializd lists are curated at
+ * the SHOW+SEASON level, not the show level: a single list can rank
+ * several seasons of the same show as distinct entries (e.g. three
+ * Real Housewives of Atlanta seasons), and miniseries entries carry no
+ * season at all. So a list item is a (show, season, position) triple,
+ * not a bare show id — `showId` joins to the reviewed corpus for the
+ * rich card, `seasonNumber` deep-links to the season block, and
+ * `position` is the rank (0-based, ascending = better).
+ */
+export type ShowListItem = {
+  /** Serializd show id (= TMDB tv id); joins to the reviewed corpus. */
+  showId: number;
+  /** TMDB season id, or null for a show-level entry (e.g. a miniseries
+   *  ranked as a whole rather than by season). */
+  seasonId: number | null;
+  /** Display season name as Serializd labels it ("Season 6"), or null
+   *  for a show-level entry. */
+  seasonName: string | null;
+  /** Season number for the `#season-{n}` deep link, or null when the
+   *  entry is show-level. */
+  seasonNumber: number | null;
+  /** Rank within the list (0-based, ascending). Meaningful only when
+   *  the parent list `isRanked`. */
+  position: number;
+  /** Show title as Serializd labels it — the standalone fallback for an
+   *  entry whose show isn't in the reviewed corpus. */
+  showName: string;
+};
+
+/**
+ * One of Malcolm's public Serializd lists, fetched by id via
+ * GET /api/list/{id} (the username→lists listing endpoint is dead on
+ * Serializd's backend, so the refresh script pulls a configured set of
+ * list ids). Mirrors FilmList in the /films cluster, but season-aware:
+ * `items` carries the ranked SHOW+SEASON entries (see ShowListItem),
+ * since a TV list ranks seasons, not shows.
  */
 export type ShowList = {
-  /** List slug / id from the Serializd list URL, if exposed. */
+  /** Numeric Serializd list id (the publish-set handle, e.g. 451075). */
+  id: number;
+  /** Our own route slug, derived from the list name (not Serializd's). */
   slug: string;
   name: string;
-  /** List prose, if any. May be "". */
+  /** List prose / methodology, if any. May be "". */
   description: string;
-  /** Ordered Serializd show ids (= TMDB tv ids), list running order. */
-  showIds: number[];
-  /** Canonical Serializd list URL, if derivable. */
+  /** True when Serializd marks the list as ranked (drives rank numbers
+   *  in the detail render). */
+  isRanked: boolean;
+  /** Ranked SHOW+SEASON entries, in list (position) order. */
+  items: ShowListItem[];
+  /** Canonical Serializd list URL. */
   url: string;
 };
 
