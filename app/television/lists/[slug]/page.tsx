@@ -87,20 +87,48 @@ export default async function TvListPage({ params }: { params: Params }) {
 
   const landingUrl = `${SITE_URL}/television`;
   const listUrl = `${SITE_URL}/television/lists/${list.slug}`;
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
+  const breadcrumb = {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Television", item: landingUrl },
       { "@type": "ListItem", position: 2, name: list.name, item: listUrl },
     ],
   };
+  // ItemList — makes the ranking machine-legible (rich results + AI search).
+  // Each entry names the show (+ ranked season) and points at its on-site
+  // detail page, or Serializd if the show isn't in the reviewed corpus.
+  const itemList = {
+    "@type": "ItemList",
+    name: list.name,
+    url: listUrl,
+    numberOfItems: list.items.length,
+    itemListOrder: list.isRanked
+      ? "https://schema.org/ItemListOrderAscending"
+      : "https://schema.org/ItemListOrderUnordered",
+    itemListElement: list.items.map((item) => {
+      const show = getShowBySerializdId(item.showId);
+      return {
+        "@type": "ListItem",
+        position: item.position + 1,
+        name: item.seasonName
+          ? `${item.showName} (${item.seasonName})`
+          : item.showName,
+        url: show
+          ? `${SITE_URL}/television/${show.slug}`
+          : `${SERIALIZD_SHOW_BASE}/${item.showId}`,
+      };
+    }),
+  };
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [breadcrumb, itemList],
+  };
 
   return (
     <div data-subbrand="tv">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Container size="lg">
         {/* Back to the lists hub (this list's parent index). */}
@@ -134,16 +162,18 @@ export default async function TvListPage({ params }: { params: Params }) {
           </Headline>
           <Grid cols={4} gap="500">
             {list.items.map((item, i) => {
-              // Prefix the rank for ranked lists so the order reads as a
-              // ranking, not just a grid. Unranked → plain title.
-              const rank = list.isRanked ? `${item.position + 1}. ` : "";
-              const title = `${rank}${item.showName}`;
+              // Rank shows as a poster badge for ranked lists (the title
+              // stays clean); unranked lists pass no rank.
+              const rank = list.isRanked ? item.position + 1 : null;
               const show = getShowBySerializdId(item.showId);
               if (show) {
                 // Deep-link to the ranked season's block when we know the
-                // season number; otherwise the show's detail page top.
+                // season number — except miniseries, whose detail page
+                // collapses the season space (no #season-N anchor), so we
+                // land at the top where the whole-show review lives.
+                const isMiniseries = show.tmdb?.type === "Miniseries";
                 const hash =
-                  item.seasonNumber != null
+                  item.seasonNumber != null && !isMiniseries
                     ? `#season-${item.seasonNumber}`
                     : "";
                 return (
@@ -151,8 +181,9 @@ export default async function TvListPage({ params }: { params: Params }) {
                     key={`${item.showId}-${item.seasonId ?? "show"}-${i}`}
                     href={`/television/${show.slug}${hash}`}
                     posterUrl={show.posterUrl}
-                    title={title}
+                    title={item.showName}
                     subtitle={seasonSubtitle(item)}
+                    rank={rank}
                   />
                 );
               }
@@ -163,8 +194,9 @@ export default async function TvListPage({ params }: { params: Params }) {
                   href={`${SERIALIZD_SHOW_BASE}/${item.showId}`}
                   external
                   posterUrl={null}
-                  title={title}
+                  title={item.showName}
                   subtitle={seasonSubtitle(item)}
+                  rank={rank}
                 />
               );
             })}

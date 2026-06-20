@@ -36,6 +36,7 @@ export function PosterTile({
   title,
   subtitle,
   rating = null,
+  rank = null,
   // Default sizes for a ~4-up (desktop) / 2-up (mobile) row. Override
   // if the consuming grid uses a different column count.
   sizes = "(max-width: 640px) 45vw, (max-width: 1024px) 28vw, 18vw",
@@ -59,6 +60,10 @@ export function PosterTile({
   subtitle?: string;
   /** Optional star rating (corpus entries); null hides the row. */
   rating?: number | null;
+  /** Optional 1-based rank, for ranked lists. Renders a corner badge on
+   *  the poster (decorative) plus an sr-only "Ranked #N" prefix on the
+   *  title so the order is conveyed without prefixing the visible title. */
+  rank?: number | null;
   sizes?: string;
 }) {
   const inner = (
@@ -93,6 +98,14 @@ export function PosterTile({
             {title}
           </div>
         )}
+        {/* Rank badge — a corner chip for ranked lists. Decorative: the
+            rank is announced via the sr-only prefix on the title below, so
+            this is aria-hidden to avoid a double read. */}
+        {rank != null ? (
+          <span style={rankBadgeStyle} aria-hidden="true">
+            {rank}
+          </span>
+        ) : null}
       </div>
       <Stack gap="100">
         <Headline
@@ -103,6 +116,11 @@ export function PosterTile({
             lineHeight: "var(--p-md-line-height)",
           }}
         >
+          {/* sr-only rank prefix so AT hears "Ranked #1: Hacks" while the
+              visible title stays clean (the rank shows as the poster badge). */}
+          {rank != null ? (
+            <span className="sr-only">Ranked #{rank}: </span>
+          ) : null}
           {title}
         </Headline>
         {subtitle || external ? (
@@ -160,4 +178,28 @@ const placeholderStyle: CSSProperties = {
   letterSpacing: "0.04em",
   color: "var(--text-caption)",
   textAlign: "center",
+};
+
+// Rank chip pinned to the poster's top-left. High-contrast dark plate with
+// white numerals (a fixed dark surface, not a theme token, so it holds its
+// contrast over any poster art in both light and dark mode). Mono numerals
+// match the cluster's numeric voice.
+const rankBadgeStyle: CSSProperties = {
+  position: "absolute",
+  top: 6,
+  left: 6,
+  minWidth: 22,
+  height: 22,
+  padding: "0 6px",
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: 6,
+  background: "rgba(17, 17, 17, 0.86)",
+  color: "#ffffff",
+  fontFamily: "var(--font-mono)",
+  fontSize: "var(--p-xs-font-size)",
+  fontWeight: 600,
+  lineHeight: 1,
+  letterSpacing: "0.02em",
 };

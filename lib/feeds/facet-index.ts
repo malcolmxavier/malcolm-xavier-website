@@ -534,6 +534,21 @@ export function filmsInFilmFamily(films: Film[], key: string): Film[] {
   return films.filter((f) => familiesOf(toFranchiseFilm(f)).includes(key));
 }
 
+/** The routable film collections a given film belongs to — for the "Part of
+ *  …" backlink on a film's detail page. Filtered to the SAME indexable gate +
+ *  membership the collection leaf uses, so a link appears iff a real
+ *  collection page contains this film (no broken links). */
+export function filmCollectionsOfFilm(
+  films: Film[],
+  collectionDetails: Record<number, CollectionDetail>,
+  currentYear: number,
+  filmId: string,
+): FilmCollectionRoute[] {
+  return indexableFilmCollections(films, collectionDetails, currentYear).filter(
+    (c) => filmsInFilmFamily(films, c.key).some((f) => f.id === filmId),
+  );
+}
+
 // ── TV collections (curated franchise families → /television/collections) ──
 //
 // Fully curated (TV_FAMILY_BY_SHOW in stats/tv-franchise.ts) — TMDB has no
@@ -618,4 +633,19 @@ export function showsAttributedToTvFamily(shows: Show[], key: string): Show[] {
     if (network && primaryNetwork(s.tmdb?.networks ?? []) === network) return true;
     return false;
   });
+}
+
+/** The routable TV collections a given show belongs to — for the "Part of
+ *  …" backlink on a show's detail page. Uses the same indexable gate +
+ *  leaf attribution (curated families PLUS network-backed membership for
+ *  Bravo), so a link appears iff a real collection page lists this show. */
+export function tvCollectionsOfShow(
+  shows: Show[],
+  serializdShowId: number,
+): TvCollectionRoute[] {
+  return indexableTvCollections(shows).filter((c) =>
+    showsAttributedToTvFamily(shows, c.key).some(
+      (s) => s.serializdShowId === serializdShowId,
+    ),
+  );
 }

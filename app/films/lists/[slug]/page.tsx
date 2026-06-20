@@ -92,20 +92,46 @@ export default async function FilmListPage({ params }: { params: Params }) {
 
   const landingUrl = `${SITE_URL}/films`;
   const listUrl = `${SITE_URL}/films/lists/${list.slug}`;
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
+  const breadcrumb = {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Films", item: landingUrl },
       { "@type": "ListItem", position: 2, name: list.title, item: listUrl },
     ],
   };
+  // ItemList — makes the ranking machine-legible (rich results + AI search).
+  // Each entry points at its on-site detail page (or Letterboxd if the film
+  // isn't in the reviewed corpus); position is the rank.
+  const itemList = {
+    "@type": "ItemList",
+    name: list.title,
+    url: listUrl,
+    numberOfItems: list.filmSlugs.length,
+    itemListOrder: isRanked
+      ? "https://schema.org/ItemListOrderAscending"
+      : "https://schema.org/ItemListOrderUnordered",
+    itemListElement: list.filmSlugs.map((filmSlug, i) => {
+      const f = getFilmByLetterboxdSlug(filmSlug);
+      return {
+        "@type": "ListItem",
+        position: i + 1,
+        name: f ? f.title : deslugify(filmSlug),
+        url: f
+          ? `${SITE_URL}/films/${f.letterboxdSlug}-${f.releaseYear}`
+          : `https://letterboxd.com/film/${filmSlug}/`,
+      };
+    }),
+  };
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [breadcrumb, itemList],
+  };
 
   return (
     <div data-subbrand="film">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Container size="lg">
         {/* Back to the lists hub (this list's parent index). */}
@@ -138,10 +164,9 @@ export default async function FilmListPage({ params }: { params: Params }) {
           </Headline>
           <Grid cols={4} gap="500">
             {list.filmSlugs.map((filmSlug, i) => {
-              // Prefix the rank for ranked lists ("Top N" / "… Ranked") so
-              // the running order reads as a ranking, mirroring the TV
-              // list detail page.
-              const rank = isRanked ? `${i + 1}. ` : "";
+              // Rank shows as a poster badge for ranked lists ("Top N" /
+              // "… Ranked"); the visible title stays clean.
+              const rank = isRanked ? i + 1 : null;
               const film = getFilmByLetterboxdSlug(filmSlug);
               if (film) {
                 return (
@@ -149,9 +174,10 @@ export default async function FilmListPage({ params }: { params: Params }) {
                     key={filmSlug}
                     href={`/films/${film.letterboxdSlug}-${film.releaseYear}`}
                     posterUrl={film.posterUrl}
-                    title={`${rank}${film.title}`}
+                    title={film.title}
                     subtitle={String(film.releaseYear)}
                     rating={film.primaryRating}
+                    rank={rank}
                   />
                 );
               }
@@ -162,7 +188,8 @@ export default async function FilmListPage({ params }: { params: Params }) {
                   href={`https://letterboxd.com/film/${filmSlug}/`}
                   external
                   posterUrl={null}
-                  title={`${rank}${deslugify(filmSlug)}`}
+                  title={deslugify(filmSlug)}
+                  rank={rank}
                 />
               );
             })}
