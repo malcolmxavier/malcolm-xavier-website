@@ -38,10 +38,19 @@ import { Heatmap } from "@/components/stats/Heatmap";
 import { LineChart } from "@/components/stats/LineChart";
 import { SITE_URL } from "@/lib/site-config";
 import { computeFilmStats } from "@/lib/feeds/stats/film-stats";
+import {
+  buildFilmStatsRails,
+  FILM_SUMMARY_DIMS,
+} from "@/lib/feeds/stats/film-filter-options";
+import { StatsFilterControls } from "@/components/filters/StatsFilterControls";
 import type { Contrast } from "@/lib/feeds/stats/shrinkage";
 import type { DeskewContrast } from "@/lib/feeds/stats/franchise";
 import { slugifyEntity } from "@/lib/feeds/slug";
-import { slugifyGenre } from "@/lib/feeds/letterboxd-utils";
+import {
+  slugifyGenre,
+  parseFilmFilters,
+  type FilmFilters,
+} from "@/lib/feeds/letterboxd-utils";
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { getCollectionDetails } from "@/lib/feeds/enrichment";
 import {
@@ -51,27 +60,54 @@ import {
   type FilmRouteFacet,
 } from "@/lib/feeds/facet-index";
 
-export const metadata: Metadata = {
-  title: "Film stats",
-  description:
-    "The stats behind the film corpus—what Malcolm Xavier logs and how he rates it: genres, world cinema, studios, franchises, the theatrical premium, and the rhythm of a watching year.",
-  alternates: { canonical: "/films/stats" },
-  openGraph: {
-    title: "Film stats—Malcolm Xavier",
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+/** True if any FilmFilters field would actually narrow the corpus — the
+ *  signal that flips a filtered state to noindex and drops its JSON-LD
+ *  (STATS-FILTERS §7). Mirrors film-stats' internal hasAnyFilmFilter. */
+function anyFilmFilter(f: FilmFilters): boolean {
+  return Object.values(f).some((v) => {
+    if (v === undefined || v === null) return false;
+    if (Array.isArray(v)) return v.length > 0;
+    if (typeof v === "string") return v.length > 0;
+    return true; // numeric bounds (releaseYearMin/Max) and watchedWindow
+  });
+}
+
+/**
+ * Per-request metadata. The unfiltered dashboard is the indexable canonical;
+ * every filtered permutation is noindex,follow self-canonical (matches the
+ * reviews-filter posture — filtered states aren't canonical surfaces).
+ */
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}): Promise<Metadata> {
+  const filtered = anyFilmFilter(parseFilmFilters(await searchParams));
+  return {
+    title: "Film stats",
     description:
-      "The stats behind the film corpus: genres, world cinema, studios, franchises, and the rhythm of a watching year.",
-    url: "/films/stats",
-    type: "website",
-    images: ["/opengraph-image"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Film stats—Malcolm Xavier",
-    description:
-      "The stats behind the film corpus: genres, world cinema, studios, franchises, and a watching year's rhythm.",
-    images: ["/opengraph-image"],
-  },
-};
+      "The stats behind the film corpus—what Malcolm Xavier logs and how he rates it: genres, world cinema, studios, franchises, the theatrical premium, and the rhythm of a watching year.",
+    alternates: { canonical: "/films/stats" },
+    robots: filtered ? { index: false, follow: true } : undefined,
+    openGraph: {
+      title: "Film stats—Malcolm Xavier",
+      description:
+        "The stats behind the film corpus: genres, world cinema, studios, franchises, and the rhythm of a watching year.",
+      url: "/films/stats",
+      type: "website",
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Film stats—Malcolm Xavier",
+      description:
+        "The stats behind the film corpus: genres, world cinema, studios, franchises, and a watching year's rhythm.",
+      images: ["/opengraph-image"],
+    },
+  };
+}
 
 // Ascending 0.5–5★ order for the rating histogram x-axis.
 const RATING_KEYS = ["0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5"];
@@ -87,11 +123,21 @@ function versusRows(c: Contrast | DeskewContrast): {
   };
 }
 
-export default function FilmStatsPage() {
-  const s = computeFilmStats();
+export default async function FilmStatsPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  // Filter state lives in the URL (§9). Parse it, recompute every tile over
+  // the predicate-narrowed corpus, and note whether anything is active (the
+  // active state drops the JSON-LD, same as it flips noindex above).
+  const filters = parseFilmFilters(await searchParams);
+  const filtered = anyFilmFilter(filters);
+  const s = computeFilmStats(filters);
 
-  // Page-level JSON-LD — a CollectionPage describing the dashboard as a
-  // first-class, indexable portfolio artifact (mirrors the landing).
+  // Page-level JSON-LD — a CollectionPage describing the UNFILTERED dashboard
+  // as a first-class, indexable portfolio artifact (mirrors the landing).
+  // Filtered states drop it (they're noindex permutations).
   const pageUrl = `${SITE_URL}/films/stats`;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -128,7 +174,11 @@ export default function FilmStatsPage() {
   // already has its dedicated route. Conglomerate has NO route (not in the
   // floors table), so it always uses ?conglomerate=. Franchises link to the
   // curated-family collection routes (built below — WS7).
-  const { films } = getFilmsWithEnrichment();
+  const { films, summary } = getFilmsWithEnrichment();
+  // The filter island's bounded rails are built from the UNFILTERED corpus
+  // (so a rail keeps every chip as the selection narrows); the high-card
+  // dimensions are reached through the omnibox (FILM_SUMMARY_DIMS).
+  const statsRails = buildFilmStatsRails(films, summary);
   // route-iff-indexable, else the ?param= fallback. Indexable name sets are
   // built once per facet so the per-row check is O(1).
   const filmRouteHref = (facet: FilmRouteFacet, param: string) => {
@@ -208,10 +258,14 @@ export default function FilmStatsPage() {
 
   return (
     <div data-subbrand="film">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {/* JSON-LD only on the unfiltered canonical (filtered states are
+          noindex permutations). */}
+      {!filtered ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      ) : null}
       {/* Touch support for the chart hover chips (tap-to-toggle); no-ops
           on pointer devices, which use the CSS hover path. */}
       <StatsTips />
@@ -222,7 +276,13 @@ export default function FilmStatsPage() {
             <Kicker accent>Films</Kicker>
             <Display>The stats.</Display>
             <Lede wide>
-              {s.lifetime.films.toLocaleString()} films logged and counting—this
+              {/* Hero copy reads the UNFILTERED lifetime total (summary.totalFilms,
+                  computed over the full corpus below) — not s.lifetime.films, which
+                  narrows with the active filter. The live, filter-aware count lives
+                  in the sticky filter bar; the lede stays a stable brand statement
+                  (a recompute shouldn't rewrite a headline that's scrolled out of
+                  view). */}
+              {summary.totalFilms.toLocaleString()} films logged and counting—this
               is the quantitative breakdown. What I watch, how I rate it, where in the
               world it comes from, and the rhythm of a watching year.
             </Lede>
@@ -247,9 +307,38 @@ export default function FilmStatsPage() {
         </Section>
       </Container>
 
-      {/* ─── Dashboard ────────────────────────────────────────── */}
+      {/* ─── Filter controls + dashboard ──────────────────────────
+          ONE Container, ONE bordered Section wrapping BOTH the filter strip and
+          the dashboard. The shared parent is deliberate: position:sticky only
+          travels within its containing block (its DOM parent), so a bar boxed in
+          its own short section can't actually stick — it scrolls away the instant
+          that section ends. Sharing the dashboard's tall box is what gives the
+          summary bar real sticky range over the tiles it filters.
+          The lede's divider is this Section's top border; the bar tucks under it
+          (paddingTop 1rem, no bottom rule per the single-divider call), then the
+          dashboard bands follow. Every filter change is a URL round-trip that
+          re-runs computeFilmStats over the narrowed corpus. */}
       <Container size="lg">
-        <Section padding="md" style={{ paddingTop: 0 }}>
+        <Section bordered padding="md" style={{ paddingTop: "1rem" }}>
+          <StatsFilterControls
+            rails={statsRails}
+            summaryDims={FILM_SUMMARY_DIMS}
+            tailParams={["decade", "releaseType", "budgetTier"]}
+            omniboxEndpoint="/films/reviews/facet-search"
+            omniboxLabel="Search"
+            omniboxPlaceholder="Titles, actors, directors, studios…"
+            omniboxAriaLabel="Search films by title, actor, director, writer, or studio"
+            chipClassName="film-filter-chip"
+            idPrefix="films-stats"
+            basePath="/films/stats"
+            noun={{ singular: "film", plural: "films" }}
+            totalResults={s.lifetime.films}
+          />
+
+          {/* The dashboard bands. The top padding restores the breathing room
+              the old separate filter-section boundary used to provide, now that
+              the strip and the tiles share one section. */}
+          <div className="pt-10 sm:pt-14">
           {/* The dashboard is grouped into six named bands (readability
               pass) so ~23 tiles don't read as one wall. Tile order + spans
               within each band still follow Malcolm's saved sketch layout
@@ -580,6 +669,7 @@ export default function FilmStatsPage() {
               />
             </Tile>
           </StatsSection>
+          </div>
         </Section>
 
         {/* ─── Cross-brand handoff ──────────────────────────────── */}

@@ -12,6 +12,7 @@
 
 import { getFilms } from "../letterboxd";
 import { getFilmsWithEnrichment } from "../review-corpus";
+import { hybridMatchIds, combineMatchSets } from "../fuzzy-search";
 import { applyFilters, summarizeFilms } from "../letterboxd-utils";
 import type { FilmFilters, FilmsSummary, Film } from "../letterboxd-utils";
 import { getCollectionDetails, getEnrichedFilms } from "../enrichment";
@@ -345,7 +346,30 @@ function resolveFilmCorpus(filters?: FilmFilters): FilmCorpus {
   // Filtered: narrow the enrichment-joined corpus with the reviews predicate.
   // applyFilters returns AppliedFilm[]; we want the surviving Film objects.
   const { films: enrichedSnap } = getFilmsWithEnrichment();
-  const surviving = applyFilters(enrichedSnap, filters).map((a) => a.film);
+
+  // The fuzzy ?title= / ?director= queries match OUTSIDE applyFilters (it
+  // takes a precomputed id set so the Fuse dep stays off the client) — so we
+  // replicate the reviews page's match step here, or a director picked via
+  // the omnibox would render a chip but never narrow the corpus. Same field
+  // paths + AND-combine as /films/reviews, so a stats deep-link carrying
+  // ?director= resolves to the identical count on reviews (§11).
+  const titleMatch = hybridMatchIds(
+    enrichedSnap,
+    filters.titleQuery,
+    ["title"],
+    (f) => f.id,
+  );
+  const directorMatch = hybridMatchIds(
+    enrichedSnap,
+    filters.directorQuery,
+    ["tmdb.director"],
+    (f) => f.id,
+  );
+  const matchIds = combineMatchSets(titleMatch, directorMatch);
+
+  const surviving = applyFilters(enrichedSnap, filters, undefined, matchIds).map(
+    (a) => a.film,
+  );
 
   // The analytical tiles read getEnrichedFilms() (EnrichedFilm, keyed by
   // tmdbId). Restrict that array to the survivors via their TMDB ids. A
