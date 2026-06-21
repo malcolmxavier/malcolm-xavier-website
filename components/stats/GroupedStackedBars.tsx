@@ -171,7 +171,7 @@ export function GroupedStackedBars({
         />
         {n > 1 ? (
           <p style={captionStyle}>
-            {`Shade marks the year—lighter ${segments[0]} to fuller ${segments[n - 1]}. Hover any bar for its per-year counts.`}
+            {`Shade marks the year—lighter ${segments[0]} to fuller ${segments[n - 1]}.`}
           </p>
         ) : null}
       </div>

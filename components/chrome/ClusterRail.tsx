@@ -19,7 +19,7 @@
 // /television/reviews — where both appear — they read as two clearly
 // different levels of navigation rather than one confusing double row.
 //
-// Tabs are Overview + Reviews + "The numbers" (the stats dashboard,
+// Tabs are Overview + Reviews + "The Stats" (the stats dashboard,
 // added in WS5 once the page became real — it was held back under the
 // no-placeholder rule until then).
 //
@@ -88,9 +88,9 @@ export function ClusterRail({
   const tabs: { key: ClusterTab; label: string; href: string }[] = [
     { key: "overview", label: "Overview", href: base },
     { key: "reviews", label: "Reviews", href: `${base}/reviews` },
-    // "The numbers" joins in WS5 now that the stats dashboard is real
+    // "The Stats" joins in WS5 now that the stats dashboard is real
     // (was omitted under the no-placeholder rule).
-    { key: "numbers", label: "The numbers", href: `${base}/stats` },
+    { key: "numbers", label: "The Stats", href: `${base}/stats` },
   ];
 
   return (

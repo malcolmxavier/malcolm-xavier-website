@@ -85,7 +85,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.6,
     });
-    // /films/stats — the dashboard ("The numbers"). An indexable
+    // /films/stats — the dashboard ("The Stats"). An indexable
     // portfolio artifact in its own right (see PLAN.md indexation rule).
     filmEntries.push({
       url: `${SITE_URL}/films/stats`,
@@ -205,7 +205,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.6,
     });
-    // /television/stats — the TV dashboard ("The numbers"), indexable
+    // /television/stats — the TV dashboard ("The Stats"), indexable
     // (see the films block + PLAN.md indexation rule).
     tvEntries.push({
       url: `${SITE_URL}/television/stats`,

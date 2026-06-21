@@ -28,12 +28,8 @@ import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
-import { Lede } from "@/components/typography/Lede";
-import { Link } from "@/components/primitives/Link";
+import { HeroNote } from "@/components/typography/HeroNote";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
-import { TrackOnClick } from "@/components/analytics/TrackOnClick";
-import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import { ELSEWHERE } from "@/lib/elsewhere";
 import { SITE_URL } from "@/lib/site-config";
 import { getFilms, getFilmLists } from "@/lib/feeds/letterboxd";
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
@@ -150,15 +146,6 @@ function filmReviewsCanonical(
     noindex: dims.length > 0 || isPaged,
   };
 }
-
-// Pulled from the central registry so a URL change in Footer or
-// Contact (the other two surfaces that link out to Letterboxd) is
-// a single edit. Falls back to the canonical profile URL if the
-// entry is somehow missing — keeps the page from rendering a
-// broken CTA in that edge case.
-const LETTERBOXD_PROFILE_URL =
-  ELSEWHERE.find((e) => e.label === "Letterboxd")?.href ??
-  "https://letterboxd.com/malxavi/";
 
 /**
  * Build the listing meta description from the live snapshot total
@@ -439,25 +426,6 @@ export default async function FilmsPage({
           <Stack gap="500">
             <Kicker accent>Films</Kicker>
             <Display>Every film, every rating, every reaction.</Display>
-            <Lede wide>
-              I watch 300+ films a year and log my reviews on Letterboxd. This
-              is the full backlog. Open any card for the full review. And if you
-              want a recommendation, the filters are there for you.
-            </Lede>
-            {/* Follow CTA — sits inside the Stack so it picks up the
-                  Lede's gap rhythm. ↗ marks it external per the
-                  CTA-arrow convention. URL pulled from the ELSEWHERE
-                  registry so it stays in sync with Footer + Contact. */}
-            <p style={{ margin: 0 }}>
-              <TrackOnClick
-                event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
-                eventData={{ kind: "profile-follow", surface: "films-hero" }}
-              >
-                <Link href={LETTERBOXD_PROFILE_URL}>
-                  Follow along on Letterboxd ↗
-                </Link>
-              </TrackOnClick>
-            </p>
             {/* Cluster sub-nav, inline in the hero's left column. Its
                   height is part of what makes this column the taller of
                   the two, which the stats chart on the right stretches to
@@ -470,6 +438,12 @@ export default async function FilmsPage({
               label="Films sections"
               className="mt-2"
             />
+            {/* The "how to read the grid" note drops below the rail; the
+                overview landing now carries the scene-setting context. */}
+            <HeroNote>
+              Open any card for the full review. And if you want a
+              recommendation, the filters are there for you.
+            </HeroNote>
           </Stack>
         </Section>
       </Container>

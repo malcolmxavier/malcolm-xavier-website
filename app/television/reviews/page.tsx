@@ -32,11 +32,8 @@ import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
-import { Lede } from "@/components/typography/Lede";
-import { Link } from "@/components/primitives/Link";
+import { HeroNote } from "@/components/typography/HeroNote";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
-import { TrackOnClick } from "@/components/analytics/TrackOnClick";
-import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import {
   getShows,
@@ -68,8 +65,6 @@ import {
   type TvRouteFacet,
 } from "@/lib/feeds/facet-index";
 import { TelevisionShell } from "../TelevisionShell";
-
-const SERIALIZD_PROFILE_URL = "https://serializd.com/user/malxavi";
 
 // ── Canonical handoff (single-facet → dedicated route) ─────────────
 // Mirror of the film reviews handoff. TV adds two NAME-based facets
@@ -418,30 +413,6 @@ export default async function TelevisionPage({
           <Stack gap="500">
             <Kicker accent>Television</Kicker>
             <Display>Don&apos;t change the channel.</Display>
-            <Lede wide>
-              I watch 100+ seasons of television a year and log my reviews on
-              Serializd. Open any card for the full review hierarchy. And if you
-              want a recommendation, the filters are there for you.
-            </Lede>
-            {/* Hero CTA — single external link to the Serializd
-                  profile. The "Watching" affordance lives on the
-                  All/Watching toggle above the grid (mirrors
-                  /music's All/Collections display toggle), not in
-                  the hero, so the hero stays clean editorial
-                  copy + one outbound link. */}
-            <p style={{ margin: 0 }}>
-              <TrackOnClick
-                event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
-                eventData={{
-                  kind: "profile-follow",
-                  surface: "listing-hero",
-                }}
-              >
-                <Link href={SERIALIZD_PROFILE_URL}>
-                  Follow along on Serializd ↗
-                </Link>
-              </TrackOnClick>
-            </p>
             {/* Cluster sub-nav, inline in the hero's left column — part of
                   what makes this column the taller of the two, which the
                   stats chart on the right stretches to match. "Reviews" is
@@ -453,6 +424,12 @@ export default async function TelevisionPage({
               label="Television sections"
               className="mt-2"
             />
+            {/* The "how to read the grid" note drops below the rail; the
+                overview landing now carries the scene-setting context. */}
+            <HeroNote>
+              Open any card for the full review hierarchy. And if you want a
+              recommendation, the filters are there for you.
+            </HeroNote>
           </Stack>
         </Section>
       </Container>

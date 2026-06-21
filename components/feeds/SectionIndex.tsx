@@ -11,7 +11,7 @@
 //     straight to a section.
 //
 // Deliberately a DIFFERENT register from the ClusterRail directly above
-// it: the rail is page-level navigation (Overview / Reviews / The numbers)
+// it: the rail is page-level navigation (Overview / Reviews / The Stats)
 // rendered as filled/outlined icon pills — "leave this page". This strip
 // is intra-page wayfinding rendered as quiet mono-uppercase text links —
 // "move within this page". The two should never read as one double row.

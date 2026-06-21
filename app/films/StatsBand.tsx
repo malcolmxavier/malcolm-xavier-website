@@ -14,7 +14,7 @@
 //   • each top genre  → /films/genre/{slug}
 //   • the top decade  → /films/decade/{slug}
 //   • the in-year count → /films/reviews?watchedYear={year}
-// and the whole module links onward to /films/stats ("the numbers").
+// and the whole module links onward to /films/stats ("The Stats").
 //
 // Layout: a titled landing module (a Kicker eyebrow like its siblings),
 // then a two-column band on lg+ — lead + tail facts on the left, the
@@ -88,7 +88,7 @@ export function StatsBand({ summary, currentYearCount }: Props) {
 
   return (
     <Stack gap="400">
-      <Kicker accent>Numbers at a glance</Kicker>
+      <Kicker accent>Stats at a glance</Kicker>
 
       {/* Two-column band on lg+: facts left, chart right. items-start so
           the data summary sits at the top, level with the chart's eyebrow
@@ -148,7 +148,7 @@ export function StatsBand({ summary, currentYearCount }: Props) {
               column (not below the band) so the CTA stays tight under the
               facts instead of floating ~chart-height below them. */}
           <p style={{ margin: 0, marginTop: 4 }}>
-            <Link href="/films/stats">See all the numbers →</Link>
+            <Link href="/films/stats">See all the stats →</Link>
           </p>
         </Stack>
 

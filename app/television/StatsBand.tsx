@@ -110,7 +110,7 @@ export function StatsBand({
 
   return (
     <Stack gap="400">
-      <Kicker accent>Numbers at a glance</Kicker>
+      <Kicker accent>Stats at a glance</Kicker>
 
       {/* Scope toggle — swaps the chart + lead numbers across the three
           review levels. role=group + label so AT announces what the
@@ -226,7 +226,7 @@ export function StatsBand({
               column (not below the band) so the CTA stays tight under the
               facts instead of floating ~chart-height below them. */}
           <p style={{ margin: 0, marginTop: 4 }}>
-            <Link href="/television/stats">See all the numbers →</Link>
+            <Link href="/television/stats">See all the stats →</Link>
           </p>
         </Stack>
 
