@@ -313,7 +313,7 @@ export default function FilmStatsPage() {
 
           </StatsSection>
 
-          <StatsSection label="People">
+          <StatsSection label="People and critics">
             <Tile
               title="Actors — logged vs. rated"
               span={4}
@@ -369,9 +369,6 @@ export default function FilmStatsPage() {
               />
             </Tile>
 
-          </StatsSection>
-
-          <StatsSection label="Where it comes from">
             <Tile
               title="Me vs. the world"
               span={6}
@@ -395,6 +392,9 @@ export default function FilmStatsPage() {
               </div>
             </Tile>
 
+          </StatsSection>
+
+          <StatsSection label="Where it comes from">
             <Tile
               title="World cinema lean"
               span={12}
