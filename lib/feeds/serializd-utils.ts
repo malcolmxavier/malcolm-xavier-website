@@ -17,6 +17,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { facetHit, type FacetGroup } from "./slug";
+import { modesForReview } from "./serializd-mode-counts.mjs";
 import { conglomerateOfNet, primaryNetwork } from "./stats/network-canon";
 import { creatorNames, isActingShow, tvActorNames } from "./stats/people";
 import {
@@ -341,30 +342,13 @@ export type TvSummary = {
 };
 
 /**
- * Per-review mode buckets, mirroring the LOCKED miniseries double-count
- * rule. This is a request-time, client-safe restatement of the canonical
- * `modesForReview` in `lib/feeds/serializd-mode-counts.mjs` — kept byte-for
- * byte identical to that source so the narrowed-summary counts can't drift
- * from the snapshot writer. If the canonical rule ever changes, change it
- * there AND here in lockstep.
- */
-function modesForReviewLocal(
-  level: Review["level"],
-  isMiniseries: boolean,
-): Array<"show" | "season" | "episode"> {
-  if (level === "episode") return ["episode"];
-  if (level === "show") return isMiniseries ? ["show", "season"] : ["show"];
-  if (level === "season") return isMiniseries ? ["show", "season"] : ["season"];
-  return [];
-}
-
-/**
  * Recompute a TvSummary from a (narrowed) show array — the request-time
  * mirror of the snapshot writer's `aggregateSummary`
  * (scripts/bootstrap-serializd-snapshot.mjs). Pure and client-safe.
  *
- * Honours the miniseries double-count rule via modesForReviewLocal at every
- * per-level count surface (per the television-double-count memory). The
+ * Honours the miniseries double-count rule via the canonical `modesForReview`
+ * (lib/feeds/serializd-mode-counts.mjs) at every per-level count surface (per
+ * the television-double-count memory). The
  * watched-only totals can't be derived from the reviewed `Show[]` alone, so
  * they're carried through from the shipped corpus-wide summary — they're not
  * surfaced in any tile, so a stale value there is invisible (documented).
@@ -408,7 +392,7 @@ export function summarizeShows(
 
     for (const r of show.reviews) {
       const ratingKey = r.rating !== null ? String(r.rating) : null;
-      for (const mode of modesForReviewLocal(r.level, show.isMiniseries)) {
+      for (const mode of modesForReview(r.level, show.isMiniseries)) {
         if (mode === "show") totalShowReviews++;
         else if (mode === "season") totalSeasonReviews++;
         else if (mode === "episode") totalEpisodeReviews++;
