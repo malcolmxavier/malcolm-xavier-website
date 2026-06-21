@@ -57,15 +57,21 @@ page needs its own affordance. The prototype carries two candidates;
   neutral → include → exclude → neutral. Exclude renders struck-through
   with a leading `−`. Compact, but the third state is a discoverability
   risk.
-- **Style B — include body + dedicated `−`.** Click the chip body to
-  include; a separate `−` control on the chip excludes. More explicit,
-  wider, two hit targets per value.
+- **Style B — body toggles, dedicated remove.** Click the chip *body* to
+  flip include ⇄ exclude (one large target for the common act); a separate
+  `×` removes the value. No `+/−` control — the body is the toggle. The `×`
+  is a circular "cutout" badge floated over the pill's **top-right corner**
+  (a removable-tag idiom that keeps the body a clean toggle target); the
+  body carries trailing padding so the bubble never covers the label.
 
 **LOCKED:** **Style A** for the bounded chip rails (density matters in a
-rail), **Style B's explicit exclude** for the high-cardinality summary
-chips (§4) — exclusion there is rarer and benefits from being deliberate.
-The reviews rails are **not** touched (§11), so this tri-state affordance
-is stats-only and carries no funnel cost.
+rail), **Style B** for the high-cardinality summary chips (§4) — exclusion
+there is rarer, so the whole-pill toggle handles include ⇄ exclude and the
+corner-bubble `×` keeps removal deliberate and separate. The reviews rails
+are **not** touched (§11), so this tri-state affordance is stats-only and
+carries no funnel cost. Built as `components/filters/SummaryFilterChip.tsx`
+(rails) + `TriStateChip.tsx` (Style A); see the dev-only preview at
+`/stats/filter-preview`.
 
 ---
 
@@ -91,15 +97,18 @@ The reviews omnibox is include-by-selection only. Our query model wants
 NOT on these dimensions too, and a typeahead has no persistent surface to
 hang a tri-state on. Resolution:
 
-> A selected high-cardinality value lands as a **dismissable chip in the
-> active-filter summary, carrying the tri-state toggle** (include ⇄
-> exclude ⇄ remove). The summary becomes the home for excluded entities;
-> the rails own the bounded dimensions.
+> A selected high-cardinality value lands as a chip in the active-filter
+> summary: the **pill body toggles include ⇄ exclude**, and a
+> **corner-bubble `×` removes** it. The summary becomes the home for
+> excluded entities; the rails own the bounded dimensions.
 
-`components/filters/DismissableChip.tsx` already exists — extend it with
-the include/exclude toggle rather than inventing a new primitive. This
-makes the sticky summary do double duty: live readout **and** the editing
-surface for high-cardinality values.
+Built as `components/filters/SummaryFilterChip.tsx` — a **sibling** of the
+reviews `DismissableChip`, not an extension of it: `DismissableChip` is the
+binary single-button chip the reviews "Active filters" rail uses and must
+stay untouched (§11, locked decision #6). `SummaryFilterChip` shares
+`chipBaseStyle` so the two read as one system. This makes the sticky
+summary do double duty: live readout **and** the editing surface for
+high-cardinality values.
 
 ---
 
@@ -413,9 +422,12 @@ and the rails can adopt the same chip then; nothing here forecloses it.
 
 ## Locked decisions (resolved 2026-06-20)
 
-1. **Chip affordance** — Style A (cycling) on the bounded stats rails;
-   Style B (explicit `−`) on the high-cardinality summary chips. Reviews
-   rails unchanged (§11).
+1. **Chip affordance** — Style A (cycling: neutral → include → exclude) on
+   the bounded stats rails (`TriStateChip.tsx`); Style B on the
+   high-cardinality summary chips (`SummaryFilterChip.tsx`) — pill body
+   toggles include ⇄ exclude, corner-bubble `×` removes, no `+/−` control.
+   Reviews rails unchanged (§11). *(Refined 2026-06-21: body-toggle +
+   corner-bubble `×` replaced the original separate-`−` sketch.)*
 2. **Band collapse trigger** — collapses when **fewer than half** its
    chart tiles survive.
 3. **Suppressed-tile display** — **band-footnote rollup** (no per-tile
