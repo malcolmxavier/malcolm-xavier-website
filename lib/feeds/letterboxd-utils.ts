@@ -399,6 +399,14 @@ export type FilmFilters = {
   // - For ratings, exclude a film whose qualifying review's rating is in the
   //   excluded set (handled in the per-review pass).
   excludeRatings?: number[];
+  /**
+   * Watched-year exclusion (AND NOT) — drop a film whose qualifying review
+   * was watched in any excluded year. Unlike `watchedYears` (which sits in
+   * the mutually-exclusive WatchedDateFilter union with `watchedWindow`),
+   * this is an independent per-review gate: it composes with an include-year
+   * set, the rolling window, or neither. Handled in the per-review pass.
+   */
+  excludeWatchedYears?: number[];
   excludeGenres?: string[];
   excludeRuntimeBuckets?: string[];
   excludeDirectors?: string[];
@@ -752,6 +760,7 @@ export function applyFilters(
     (filters.ratings && filters.ratings.length > 0) ||
     (filters.excludeRatings && filters.excludeRatings.length > 0) ||
     (filters.watchedYears && filters.watchedYears.length > 0) ||
+    (filters.excludeWatchedYears && filters.excludeWatchedYears.length > 0) ||
     filters.watchedWindow !== undefined;
 
   // Skip the per-film enrichment work entirely on the default listing.
@@ -998,6 +1007,14 @@ function findQualifyingReview(
       const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
       if (!filters.watchedYears.includes(year)) continue;
     }
+    // WatchedYear exclusion (AND NOT): skip a review watched in any excluded
+    // year. A review surviving this gate (watched in a non-excluded year) is
+    // what keeps the film — so a film watched in both an excluded and a
+    // non-excluded year stays, qualified by the non-excluded watch.
+    if (filters.excludeWatchedYears && filters.excludeWatchedYears.length > 0) {
+      const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
+      if (filters.excludeWatchedYears.includes(year)) continue;
+    }
     // WatchedWindow filter (rolling 12 months from now, anchored to
     // watch date — when Malcolm actually saw the film, not when he
     // typed up the review).
@@ -1147,12 +1164,20 @@ export function parseFilmFilters(
 
   // WatchedYears and watchedWindow are mutually exclusive per the
   // discriminated-union spec — if both are present, watchedYears
-  // wins (more specific signal). watchedYear URL param is CSV like
-  // `rating` and `genre` (`?watchedYear=2026,2024`); name stays
-  // singular for symmetry with those param names.
-  const watchedYearsRaw = parseCsvNumbers(asString(params.watchedYear)).filter(
-    (y) => Number.isInteger(y) && y > 0,
-  );
+  // wins (more specific signal). watchedYear URL param is split into
+  // include/exclude via the leading-"!" encoding like every other rail
+  // (`?watchedYear=2026,2024,!2023`), so the stats rail's exclude cycle
+  // reaches the predicate; name stays singular for symmetry with the
+  // `rating`/`genre` param names. Exclusion (excludeWatchedYears) is an
+  // independent per-review gate, NOT part of the watchedYears/watchedWindow
+  // union — it composes with an include set, the window, or neither.
+  const watchedYearDim = parseDimension(asString(params.watchedYear));
+  const watchedYearsRaw = watchedYearDim.include
+    .map((s) => Number.parseInt(s, 10))
+    .filter((y) => Number.isInteger(y) && y > 0);
+  const excludeWatchedYears = watchedYearDim.exclude
+    .map((s) => Number.parseInt(s, 10))
+    .filter((y) => Number.isInteger(y) && y > 0);
   const watchedWindowRaw = asString(params.watchedWindow);
 
   // Title / director search (?title=, ?director=). Each active only at
@@ -1200,6 +1225,7 @@ export function parseFilmFilters(
   // Exclude side (STATS-FILTERS §2 — AND NOT). Only set when non-empty so
   // the predicate stays minimal and reviews URLs (no "!") are unaffected.
   if (excludeRatings.length > 0) base.excludeRatings = excludeRatings;
+  if (excludeWatchedYears.length > 0) base.excludeWatchedYears = excludeWatchedYears;
   if (genreDim.exclude.length > 0) base.excludeGenres = genreDim.exclude;
   if (excludeRuntimeBuckets.length > 0) base.excludeRuntimeBuckets = excludeRuntimeBuckets;
   if (actorDim.exclude.length > 0) base.excludeActors = actorDim.exclude;
