@@ -23,6 +23,7 @@ import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
+import { HeroNote } from "@/components/typography/HeroNote";
 import { railPillStyle } from "@/components/chrome/ClusterRail";
 import { IconChartBar } from "@/components/icons";
 import { StatsSection } from "@/components/stats/StatsSection";
@@ -120,15 +121,13 @@ export default function ConnectedStatsPage() {
             <Display>Where they connect.</Display>
             <Lede wide>
               Two libraries, one taste. This is where the film and television
-              logs meet—the head-to-head averages, the actors who cross over, the
-              genres I rate differently on screen than in a series, and the
-              watching year the two share. Television sits on its season ratings
-              so the two compare on even footing.
+              logs meet—the head-to-head averages, the actors who cross over, and the
+              genres I rate differently on screen than in a series.
             </Lede>
             {/* Back to each cluster's own dashboard — pills that mirror the
                 cluster rail's inactive tabs, each tinted to its medium
                 (orange film, blue television) so they read as the
-                counterpart to the "Connected" pill on those pages. */}
+                counterpart to the "Connected Stats" pill on those pages. */}
             <nav aria-label="Cluster dashboards" style={backNavStyle}>
               <NextLink
                 href="/films/stats"
@@ -140,7 +139,7 @@ export default function ConnectedStatsPage() {
                 className="transition-colors motion-reduce:transition-none hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
               >
                 <IconChartBar size={14} style={{ flex: "none" }} />
-                The film numbers
+                The film stats
               </NextLink>
               <NextLink
                 href="/television/stats"
@@ -152,20 +151,17 @@ export default function ConnectedStatsPage() {
                 className="transition-colors motion-reduce:transition-none hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
               >
                 <IconChartBar size={14} style={{ flex: "none" }} />
-                The television numbers
+                The television stats
               </NextLink>
             </nav>
             {/* Why the tiles here aren't clickable: every figure on this page
                 blends film AND television, so there's no single reviews list
                 to filter into the way the per-cluster dashboards do. The
                 click-through lives on those (linked above). */}
-            <p style={connectedNoteStyle}>
-              The tiles on the cluster dashboards click through to filtered
-              reviews; these don&rsquo;t. Each number here blends both
-              libraries, so there&rsquo;s no single list to open—head to the
-              film or television numbers above to filter into the reviews behind
-              a figure.
-            </p>
+            <HeroNote>
+              Each number here blends both libraries. Head to the individual film or television stats pages above
+              to explore separated data and click through to the reviews behind visualizations.
+            </HeroNote>
           </Stack>
         </Section>
       </Container>
@@ -177,7 +173,7 @@ export default function ConnectedStatsPage() {
             <Tile
               title="Films vs. television"
               span={12}
-              note="Your full film corpus against your rated TV seasons—the two units that carry a single rating each. The gap is season average minus film average."
+              note="My full film corpus against my rated TV seasons (the primary unit of television ratings)."
             >
               <Bigs
                 items={[
@@ -206,7 +202,7 @@ export default function ConnectedStatsPage() {
             <Tile
               title="Crossover actors"
               span={6}
-              note="In at least two films AND two shows, so the list reads as real cross-medium careers. The label carries each name's film·TV split; highest-rated is shrunk over everything logged."
+              note="In ≥2 films and ≥2 shows. Only top-10-billed roles with at least three episodes for a show to count. The label carries each name's film·TV split; highest-rated averages over everything logged."
             >
               <Versus
                 leftTitle="Most logged"
@@ -279,7 +275,7 @@ export default function ConnectedStatsPage() {
             <Tile
               title="By conglomerate — film vs. TV"
               span={12}
-              note="Each title rolls up to the conglomerate that owns its studio (film) or network (TV). The stack splits film and TV so you can see where each medium concentrates."
+              note="Each title rolls up to the conglomerate that owns its studio (film) or network (TV)."
             >
               <StackedBars
                 data={s.conglomerate}
@@ -289,7 +285,7 @@ export default function ConnectedStatsPage() {
             </Tile>
           </StatsSection>
 
-          <StatsSection label="When you watch">
+          <StatsSection label="When I watch">
             {/* The headline cadence view: one chart, three dimensions.
                 Each month carries two bars—film on the left, television on
                 the right—each stacked by year. Hue marks the medium (orange
@@ -299,7 +295,6 @@ export default function ConnectedStatsPage() {
             <Tile
               title="Film and television by month"
               span={12}
-              note="Two bars per month—film on the left, television on the right. Hue marks the medium (orange film, blue television); shade marks the year, lighter for earlier. Hover any bar for its per-year counts."
             >
               <GroupedStackedBars
                 data={s.temporal.monthMediumYear}
@@ -329,11 +324,9 @@ export default function ConnectedStatsPage() {
 
 // How the connected numbers are made — working drafts in Malcolm's voice.
 const CONNECTED_METHOD: string[] = [
-  "The same libraries the cluster dashboards draw on—Letterboxd for film, Serializd for television—pooled onto one calendar and one 0.5–5★ scale.",
-  "Television ratings use the season signal (each show folded to the mean of its rated seasons), so film and TV sit on comparable footing rather than comparing a film to a sparse overall show mark.",
-  "Crossover actors clear a symmetric gate—at least two films AND two shows—so the list reads as genuine cross-medium careers, not a film star with one TV cameo.",
-  "Genre comparison keeps only genres with at least five logged titles on each side, so a thin genre can’t manufacture a film-vs-TV gap.",
-  "Film = orange, TV = blue throughout, matching the cluster dashboards’ sub-brand hues. “This year” is computed at render, not snapshot time.",
+  "The same libraries the individual stats pages draw on—Letterboxd for film, Serializd for television—pooled onto one calendar and one 0.5–5★ scale.",
+  "Television ratings use season data (each show folded to the mean of its rated seasons), so film and TV sit on comparable footing rather than comparing a film to sparse overall show data.",
+  "“Highest rated” figures are Bayesian-shrunk—a thin sample is eased toward the overall average until enough ratings accumulate, so a lone high mark can’t outrank a consistently strong record.",
 ];
 
 // ─── Styles ───────────────────────────────────────────────────────

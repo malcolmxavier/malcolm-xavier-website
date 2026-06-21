@@ -143,7 +143,7 @@ export function IconDownload({ size = 16, ...props }: IconProps) {
 // Small leading icons for the cluster sub-nav tabs, so the pills read
 // as navigation at a glance and the labels can carry less weight.
 // Overview = home (the cluster landing), Reviews = star (rated work),
-// The numbers = bar chart (stats), Connected = link (cross-brand).
+// The Stats = bar chart (stats), Connected = link (cross-brand).
 // Decorative — the tab's own text is the accessible label.
 
 export function IconHome({ size = 16, ...props }: IconProps) {

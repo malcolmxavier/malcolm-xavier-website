@@ -22,6 +22,7 @@ import { Grid } from "@/components/layout/Grid";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
+import { HeroNote } from "@/components/typography/HeroNote";
 import { Headline } from "@/components/typography/Headline";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
 import {
@@ -42,6 +43,9 @@ import {
 } from "@/lib/feeds/letterboxd";
 import { orderForTeaser } from "@/lib/feeds/list-taxonomy";
 import { Link } from "@/components/primitives/Link";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { ELSEWHERE } from "@/lib/elsewhere";
 import { getFilmFeaturedPick } from "@/lib/feeds/featured-pick";
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { StatsBand } from "./StatsBand";
@@ -57,6 +61,13 @@ import type { Film } from "@/lib/feeds/letterboxd";
 // How many recent watches to surface in the "Now" module — one clean
 // 5-up row on desktop (matches the denser poster grid below).
 const NOW_COUNT = 5;
+
+// Letterboxd follow URL for the hero note's closing CTA — pulled from the
+// ELSEWHERE registry so it stays in sync with the Footer and Contact
+// page, with the canonical profile as a fallback so the CTA never breaks.
+const LETTERBOXD_PROFILE_URL =
+  ELSEWHERE.find((e) => e.label === "Letterboxd")?.href ??
+  "https://letterboxd.com/malxavi/";
 
 export const metadata: Metadata = {
   title: "Films",
@@ -139,7 +150,7 @@ export default function FilmsLandingPage() {
   const hasLists = lists.length > 0;
   const sectionIndexItems: SectionIndexItem[] = [
     hasFeatured ? { id: "featured", label: "Featured" } : null,
-    { id: "numbers", label: "Numbers at a glance" },
+    { id: "numbers", label: "Stats at a glance" },
     hasNow ? { id: "now", label: "Latest Watches" } : null,
     hasCollections ? { id: "collections", label: "Collections" } : null,
     hasFavorites ? { id: "favorites", label: "Favorites" } : null,
@@ -232,22 +243,13 @@ export default function FilmsLandingPage() {
             <Display>A catalogue of taste.</Display>
             {/* Full-width lede (the 60ch cap is dropped) so the blurb
                 reads in ~2 lines and the modules below sit higher on the
-                initial viewport. Split into two paragraphs: the
-                scene-setter, then the final sentence on its own line so it
-                reads as the page's CTA. The nested Stack carries a
-                deliberately large gap before that CTA line so it lands as
-                its own beat rather than a tight paragraph break. */}
-            <Stack gap="600">
-              <Lede wide>
-                I watch north of 300 new-to-me films a year&mdash;dramas, thrillers, documentaries, and
-                everything in between&mdash;and write up nearly all of them.
-              </Lede>
-              <Lede wide>
-                Explore this page for a quick overview of what I&rsquo;ve watched recently, my
-                recommended picks, and my favorites&mdash;click through to search through all
-                my reviews or explore the data behind my taste.
-              </Lede>
-            </Stack>
+                initial viewport. The scene-setter stays headline-weight;
+                the "what to do here" line drops below the rail as a quiet
+                HeroNote. */}
+            <Lede wide>
+              I watch north of 300 new-to-me films a year&mdash;dramas, thrillers, documentaries, and
+              everything in between&mdash;and write up nearly all of them.
+            </Lede>
             {/* Cluster sub-nav, inline in the hero. Overview is the
                 current page; Reviews links to the corpus — the on-site
                 action that replaces the old standalone "Browse all
@@ -261,6 +263,25 @@ export default function FilmsLandingPage() {
               label="Films sections"
               className="mt-2"
             />
+            {/* The follow CTA closes the note here on the landing page —
+                the cluster's top-level surface — rather than on /reviews.
+                ↗ marks it external per the CTA-arrow convention. */}
+            <HeroNote
+              action={
+                <TrackOnClick
+                  event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
+                  eventData={{ kind: "profile-follow", surface: "films-overview-hero" }}
+                >
+                  <Link href={LETTERBOXD_PROFILE_URL}>
+                    Follow along on Letterboxd ↗
+                  </Link>
+                </TrackOnClick>
+              }
+            >
+              Explore this page for a quick overview of what I&rsquo;ve watched recently, my
+              recommended picks, and my favorites&mdash;click through to search through all
+              my reviews or explore the data behind my taste.
+            </HeroNote>
           </Stack>
         </Section>
       </Container>
@@ -269,33 +290,22 @@ export default function FilmsLandingPage() {
         {/* ─── Featured pick ──────────────────────────────────── */}
         {/* The one editorial, hand-curated module — leads the modules so
             it's the payoff to the hero's taste thesis before any
-            feed-derived content. paddingTop:0 so the gap to it is the
-            hero's bottom rhythm alone (no doubled padding). Hidden
-            entirely when no pick is set / resolvable. */}
+            feed-derived content. A bordered divider sets it off from the
+            hero so the note's closing follow-CTA reads as the end of the
+            lede, not the top of this section. Hidden entirely when no
+            pick is set / resolvable. */}
         {featured ? (
-          <Section
-            id="featured"
-            className="scroll-mt-28"
-            padding="md"
-            style={{ paddingTop: 0 }}
-          >
+          <Section id="featured" className="scroll-mt-28" padding="md" bordered>
             <FeaturedPick pick={featured} />
           </Section>
         ) : null}
 
         {/* ─── By the numbers ─────────────────────────────────── */}
         {/* Lifetime stats, relocated here from the old listing-hero
-            panel. With a featured pick above it, a bordered divider sets
-            it off; with no pick it's the first module and sits tight to
-            the hero (paddingTop:0), matching the first-module rhythm the
-            Featured/Now sections use. */}
-        <Section
-          id="numbers"
-          className="scroll-mt-28"
-          padding="md"
-          bordered={Boolean(featured)}
-          style={featured ? undefined : { paddingTop: 0 }}
-        >
+            panel. Always carries a bordered divider: it follows either
+            the featured pick or (when no pick is set) the hero itself,
+            and both cases want it set off rather than sitting tight. */}
+        <Section id="numbers" className="scroll-mt-28" padding="md" bordered>
           <StatsBand summary={summary} currentYearCount={currentYearCount} />
         </Section>
 

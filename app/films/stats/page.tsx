@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────
-// /films/stats — the film dashboard ("The numbers").
+// /films/stats — the film dashboard ("The Stats").
 //
-// The third cluster surface (Overview → Reviews → The numbers). A server
+// The third cluster surface (Overview → Reviews → The Stats). A server
 // component reading the typed compute in lib/feeds/stats/film-stats.ts at
 // request time — no client data, no live API. Every tile is a real React
 // chart from components/stats; the numbers are computed + tested upstream
@@ -21,6 +21,7 @@ import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
+import { HeroNote } from "@/components/typography/HeroNote";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
 import { Link } from "@/components/primitives/Link";
 import { StatsSection } from "@/components/stats/StatsSection";
@@ -53,12 +54,12 @@ import {
 export const metadata: Metadata = {
   title: "Film stats",
   description:
-    "The numbers behind the film corpus—what Malcolm Xavier logs and how he rates it: genres, world cinema, studios, franchises, the theatrical premium, and the rhythm of a watching year.",
+    "The stats behind the film corpus—what Malcolm Xavier logs and how he rates it: genres, world cinema, studios, franchises, the theatrical premium, and the rhythm of a watching year.",
   alternates: { canonical: "/films/stats" },
   openGraph: {
     title: "Film stats—Malcolm Xavier",
     description:
-      "The numbers behind the film corpus: genres, world cinema, studios, franchises, and the rhythm of a watching year.",
+      "The stats behind the film corpus: genres, world cinema, studios, franchises, and the rhythm of a watching year.",
     url: "/films/stats",
     type: "website",
     images: ["/opengraph-image"],
@@ -67,7 +68,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Film stats—Malcolm Xavier",
     description:
-      "The numbers behind the film corpus: genres, world cinema, studios, franchises, and a watching year's rhythm.",
+      "The stats behind the film corpus: genres, world cinema, studios, franchises, and a watching year's rhythm.",
     images: ["/opengraph-image"],
   },
 };
@@ -219,14 +220,13 @@ export default function FilmStatsPage() {
         <Section padding="lg">
           <Stack gap="500">
             <Kicker accent>Films</Kicker>
-            <Display>The numbers.</Display>
+            <Display>The stats.</Display>
             <Lede wide>
               {s.lifetime.films.toLocaleString()} films logged and counting—this
-              is the shape of them. What I reach for, how I rate it, where in the
-              world it comes from, and the rhythm of a watching year. Every figure
-              here is the same one the reviews and landing pull from.
+              is the quantitative breakdown. What I watch, how I rate it, where in the
+              world it comes from, and the rhythm of a watching year.
             </Lede>
-            {/* The cross-brand dashboard rides inline with the rail as a
+            {/* The cross-brand board rides inline with the rail as a
                 fourth, sibling pill; a quieter link repeats at the foot. */}
             <ClusterRail
               base="/films"
@@ -234,8 +234,15 @@ export default function FilmStatsPage() {
               subbrand="film"
               label="Films sections"
               className="mt-2"
-              extra={{ label: "Connected", href: "/stats/connected" }}
+              extra={{ label: "Connected Stats", href: "/stats/connected" }}
             />
+            {/* The "how to use this page" note drops below the rail as a
+                quiet footnote rather than a second headline-weight lede. */}
+            <HeroNote>
+              This page is interactive. Click through on the visualizations to be
+              taken over to the search experience to discover the reviews behind
+              the data.
+            </HeroNote>
           </Stack>
         </Section>
       </Container>
@@ -293,9 +300,9 @@ export default function FilmStatsPage() {
             </Tile>
 
             <Tile
-              title="Genres vs. your baseline"
+              title="Genres vs. my baseline"
               span={8}
-              note={`Baseline = your ${s.lifetime.avgRating.toFixed(2)}★ average; most-logged genres first. Bars right of center rate above your norm, accent bars (left) below. Shrunk.`}
+              note={`Baseline = my ${s.lifetime.avgRating.toFixed(2)}★ average; most-logged genres first. Bars right of center rate above it; bars left of center rate below.`}
             >
               <Diverging
                 rows={s.divergingGenre}
@@ -310,7 +317,7 @@ export default function FilmStatsPage() {
             <Tile
               title="Actors — logged vs. rated"
               span={4}
-              note="Top-10 billed only; highest-rated counts distinct projects, not films."
+              note="Top-10 billed only; highest-rated counts distinct franchises, not films."
             >
               <Versus
                 leftTitle="Most logged"
@@ -324,7 +331,6 @@ export default function FilmStatsPage() {
             <Tile
               title="Writers — logged vs. rated"
               span={4}
-              note="Screenwriters via TMDB (source-material credits excluded)."
             >
               <Versus
                 leftTitle="Most logged"
@@ -338,7 +344,7 @@ export default function FilmStatsPage() {
             <Tile
               title="Directors — logged vs. rated"
               span={4}
-              note="Highest-rated gated on ≥3 distinct projects."
+              note="Highest-rated gated on ≥3 distinct franchises."
             >
               <Versus
                 leftTitle="Most logged"
@@ -350,9 +356,9 @@ export default function FilmStatsPage() {
             </Tile>
 
             <Tile
-              title="Franchises — logged vs. rated"
+              title="Collections — logged vs. rated"
               span={6}
-              note="Curated families (≥3 released films, logged 2+). Alien merges four TMDB collections; Ballerina folds into John Wick."
+              note="Curated families (≥3 released films, logged 2+)."
             >
               <Versus
                 leftTitle="Most logged"
@@ -367,9 +373,9 @@ export default function FilmStatsPage() {
 
           <StatsSection label="Where it comes from">
             <Tile
-              title="You vs. the world"
+              title="Me vs. the world"
               span={6}
-              note={`Across ${s.youVsWorld.filmsVsCritics} films with a critic score, on your 0.5–5★ scale (Metascore ÷ 20). Films lacking one sit out the comparison.`}
+              note={`Across ${s.youVsWorld.filmsVsCritics} films with a critic score. Films lacking one sit out the comparison.`}
             >
               <Bigs
                 items={[
@@ -384,15 +390,15 @@ export default function FilmStatsPage() {
                 ]}
               />
               <div style={hotColsStyle}>
-                <DeltaList title="Your hot takes (you ≫ critics)" rows={s.youVsWorld.hotTakes} />
-                <DeltaList title="Critics' darlings (critics ≫ you)" rows={s.youVsWorld.darlings} />
+                <DeltaList title="My hot takes (me ≫ critics)" rows={s.youVsWorld.hotTakes} />
+                <DeltaList title="Critics' darlings (critics ≫ me)" rows={s.youVsWorld.darlings} />
               </div>
             </Tile>
 
             <Tile
               title="World cinema lean"
               span={12}
-              note="You rate non-English and non-US films above domestic ones—language is the stronger signal, country reinforces it."
+              note="I rate non-English and non-US films above domestic ones—language is the stronger signal, country reinforces it."
             >
               <Bigs
                 items={[
@@ -412,7 +418,7 @@ export default function FilmStatsPage() {
             <Tile
               title="Language × country"
               span={12}
-              note="The joint view: which languages pair with which countries (language leads). Most films sit on the English·US diagonal."
+              note="The joint view: which languages pair with which countries (language leads)."
             >
               <Bigs
                 items={[
@@ -446,7 +452,7 @@ export default function FilmStatsPage() {
 
           </StatsSection>
 
-          <StatsSection label="How it reached you">
+          <StatsSection label="Distribution">
             <Tile title="Theatrical vs. streaming" span={12}>
               <Bigs
                 items={[
@@ -493,7 +499,7 @@ export default function FilmStatsPage() {
             <Tile
               title="Release type by year"
               span={6}
-              note="Films you logged from each release year, split by how they premiered. Streaming and limited only emerge through the 2010s and 2020s."
+              note="Films I logged from each release year, split by how they premiered. Streaming and limited only emerge through the 2010s and 2020s."
             >
               <StackedBars
                 data={s.releaseTypeByYear}
@@ -505,7 +511,7 @@ export default function FilmStatsPage() {
             <Tile
               title="Budget tier by year"
               span={6}
-              note="Wide-theatrical films with a reported budget only—recent indie and streaming work undercounts."
+              note="Wide-theatrical films with a reported budget only—recent indie and streaming work is excluded given under-reporting."
             >
               <StackedBars
                 data={s.budgetTierByYear}
@@ -517,7 +523,7 @@ export default function FilmStatsPage() {
             <Tile
               title="Release type × release era — avg rating"
               span={6}
-              note="All classified films, shrunk. Streaming and limited only exist in recent eras (older cells empty by definition)."
+              note="Streaming and limited only exist in recent eras (older cells empty by definition)."
             >
               <Heatmap
                 grid={s.releaseTypeEraHeat}
@@ -529,7 +535,7 @@ export default function FilmStatsPage() {
             <Tile
               title="Budget tier × release era — avg rating"
               span={6}
-              note="Wide-theatrical only, Bayesian-shrunk. * marks a thin sample (n<5). Tint intensity tracks the rating."
+              note="Wide-theatrical films with a reported budget only—recent indie and streaming work is excluded given budget under-reporting."
             >
               <Heatmap
                 grid={s.budgetEraHeat}
@@ -540,11 +546,11 @@ export default function FilmStatsPage() {
 
           </StatsSection>
 
-          <StatsSection label="When you watch">
+          <StatsSection label="When I watch">
             <Tile
               title="Watch pace by day of year"
               span={12}
-              note="Cumulative films watched by day, one line per year—the slope shows when in the year you watch most."
+              note="Cumulative films watched by each date of the year, per year."
             >
               <LineChart
                 series={s.temporal.paceByDay.map((c) => ({
@@ -597,10 +603,9 @@ export default function FilmStatsPage() {
 const FILM_METHOD: string[] = [
   "Ratings, watch dates, lists, and favorites come from Letterboxd; genre, runtime, director, and posters from TMDB.",
   "Critic scores (Metacritic here; IMDb and Rotten Tomatoes on the cards) come from MDBList, joined by IMDb id.",
-  "Ratings are on a 0.5–5★ scale. “This year” is computed at render, not snapshot time, so it stays current.",
-  "“Highest rated” lists gate on a minimum count, so a single 5★ film can’t top the chart.",
-  "People stats—actors, directors, writers—count distinct franchises, not films, so a long-running series can’t masquerade as preference. Most-logged stays a raw film count; highest-rated is shrunk and gated on distinct projects.",
-  "Actors count only top-10-billed roles, so deep-bench supporting credits don’t inflate the list. On TV the same rule also requires ≥3 episodes—the actor rule is shared across the Films, Television, and Connected pages.",
+  "“Highest rated” lists guard against thin samples two ways—a minimum-count gate, so a single 5★ film can’t top the chart, and Bayesian shrinkage, which eases a small sample toward the overall average until enough ratings accumulate. Both apply anywhere an average rating is ranked.",
+  "People stats—actors, directors, writers—count distinct franchises, not films, so a long-running series can’t masquerade as preference. Most-logged stays a raw film count; highest-rated is gated on distinct franchises2/compac.",
+  "Actors count only top-10-billed roles, so deep-bench supporting credits don’t inflate the list.",
 ];
 
 // ─── Local helpers ────────────────────────────────────────────────
@@ -610,7 +615,7 @@ function signed(n: number): string {
   return (n >= 0 ? "+" : "−") + Math.abs(n).toFixed(2);
 }
 
-/** The hot-takes / darlings list inside the you-vs-world tile. */
+/** The hot-takes / darlings list inside the me-vs-world tile. */
 function DeltaList({
   title,
   rows,

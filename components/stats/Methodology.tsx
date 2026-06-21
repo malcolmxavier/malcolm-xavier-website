@@ -10,6 +10,7 @@
 
 import type { CSSProperties, ReactNode } from "react";
 import { Kicker } from "@/components/typography/Kicker";
+import { IconStar } from "@/components/icons";
 
 export function Methodology({ notes }: { notes: ReactNode[] }) {
   return (
@@ -19,10 +20,15 @@ export function Methodology({ notes }: { notes: ReactNode[] }) {
       <summary style={summaryStyle}>
         <Kicker>Methodology</Kicker>
       </summary>
+      {/* Real <ul>/<li> so screen readers still announce a list. We drop
+          the default disc marker and stand in the site's star glyph —
+          decorative (aria-hidden, focusable=false) so it adds no noise to
+          assistive tech; the <li> itself carries the list semantics. */}
       <ul style={listStyle}>
         {notes.map((note, i) => (
           <li key={i} style={itemStyle}>
-            {note}
+            <IconStar size={13} style={markerStyle} />
+            <span>{note}</span>
           </li>
         ))}
       </ul>
@@ -43,18 +49,31 @@ const summaryStyle: CSSProperties = {
 
 const listStyle: CSSProperties = {
   margin: "14px 0 0",
-  paddingLeft: 18,
+  // No list-padding/disc; the star marker provides the hanging indent.
+  paddingLeft: 0,
+  listStyleType: "none",
   display: "flex",
   flexDirection: "column",
-  gap: 8,
+  gap: 10,
 };
 
 // Reading prose, so it follows the same mono→slab move as the tile
 // notes: the sub-brand's reading font (Roboto Slab via --font-secondary)
-// instead of monospace.
+// instead of monospace. Flex row hangs the text off the star marker.
 const itemStyle: CSSProperties = {
+  display: "flex",
+  alignItems: "flex-start",
+  gap: 8,
   fontFamily: "var(--font-secondary)",
   fontSize: 12,
   lineHeight: 1.6,
   color: "var(--text-caption)",
+};
+
+// Star bullet: inherits --text-caption via currentColor, doesn't shrink
+// when text wraps, and nudged down a hair to sit on the first line's
+// baseline rather than its cap-top.
+const markerStyle: CSSProperties = {
+  flex: "none",
+  marginTop: 3,
 };

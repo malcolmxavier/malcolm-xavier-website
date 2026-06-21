@@ -20,8 +20,11 @@ import { Grid } from "@/components/layout/Grid";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
+import { HeroNote } from "@/components/typography/HeroNote";
 import { Headline } from "@/components/typography/Headline";
 import { Link } from "@/components/primitives/Link";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
 import {
   SectionIndex,
@@ -58,6 +61,10 @@ import { InProgressCard } from "./InProgressCard";
 import { StatsBand } from "./StatsBand";
 
 const NOW_COUNT = 5;
+
+// Serializd follow URL for the hero note's closing CTA — the canonical
+// profile, kept as a literal here to mirror the films landing's CTA.
+const SERIALIZD_PROFILE_URL = "https://serializd.com/user/malxavi";
 
 export const metadata: Metadata = {
   title: "Television",
@@ -193,7 +200,7 @@ export default function TelevisionLandingPage() {
   const hasLists = lists.length > 0;
   const sectionIndexItems: SectionIndexItem[] = [
     hasFeatured ? { id: "featured", label: "Featured" } : null,
-    { id: "numbers", label: "Numbers at a glance" },
+    { id: "numbers", label: "Stats at a glance" },
     hasNow ? { id: "now", label: "Now" } : null,
     hasCollections ? { id: "collections", label: "Collections" } : null,
     hasFavorites ? { id: "favorites", label: "Favorites" } : null,
@@ -285,23 +292,13 @@ export default function TelevisionLandingPage() {
             <Display>The shows I stay up for.</Display>
             {/* Full-width lede (the 60ch cap is dropped) so the blurb
                 reads in fewer lines and the modules sit higher on load.
-                Split into two paragraphs: the scene-setter, then the final
-                sentence on its own line so it reads as the page's CTA. The
-                nested Stack carries a deliberately large gap before that CTA
-                line so it lands as its own beat rather than a tight
-                paragraph break. */}
-            <Stack gap="600">
-              <Lede wide>
-                I review television at the show, season, and (as of 2026) episode level—the
-                prestige dramas, the comfort comedies, and my fair share of reality. I watch north of 100 new-to-me
-                seasons of television a year and write up nearly all of them.
-              </Lede>
-              <Lede wide>
-                Explore this page for a quick overview of what I&rsquo;ve watched recently, my
-                recommended picks, and my favorites&mdash;click through to search through all
-                my reviews or explore the data behind my taste.
-              </Lede>
-            </Stack>
+                The scene-setter stays headline-weight; the "what to do
+                here" line drops below the rail as a quiet HeroNote. */}
+            <Lede wide>
+              I review television at the season, show, and (as of 2026) episode level—the
+              prestige dramas, the comfort comedies, and my fair share of reality. I watch north of 100 new-to-me
+              seasons of television a year and write up nearly all of them.
+            </Lede>
             {/* Cluster sub-nav, inline in the hero. Overview is the current
                 page; Reviews links to the corpus — the on-site action that
                 replaces the old standalone "Browse all shows reviewed" link.
@@ -314,6 +311,25 @@ export default function TelevisionLandingPage() {
               label="Television sections"
               className="mt-2"
             />
+            {/* The follow CTA closes the note here on the landing page —
+                the cluster's top-level surface — rather than on /reviews.
+                ↗ marks it external per the CTA-arrow convention. */}
+            <HeroNote
+              action={
+                <TrackOnClick
+                  event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
+                  eventData={{ kind: "profile-follow", surface: "television-overview-hero" }}
+                >
+                  <Link href={SERIALIZD_PROFILE_URL}>
+                    Follow along on Serializd ↗
+                  </Link>
+                </TrackOnClick>
+              }
+            >
+              Explore this page for a quick overview of what I&rsquo;ve watched recently, my
+              recommended picks, and my favorites&mdash;click through to search through all
+              my reviews or explore the data behind my taste.
+            </HeroNote>
           </Stack>
         </Section>
       </Container>
@@ -321,31 +337,22 @@ export default function TelevisionLandingPage() {
       <Container size="lg">
         {/* ─── Featured pick ──────────────────────────────────── */}
         {/* The one editorial, hand-curated module — leads the modules as
-            the payoff to the hero's taste thesis. paddingTop:0 so the gap
-            is the hero's bottom rhythm alone. Hidden when no pick set. */}
+            the payoff to the hero's taste thesis. A bordered divider sets
+            it off from the hero so the note's closing follow-CTA reads as
+            the end of the lede, not the top of this section. Hidden when
+            no pick set. */}
         {featured ? (
-          <Section
-            id="featured"
-            className="scroll-mt-28"
-            padding="md"
-            style={{ paddingTop: 0 }}
-          >
+          <Section id="featured" className="scroll-mt-28" padding="md" bordered>
             <FeaturedPick pick={featured} />
           </Section>
         ) : null}
 
         {/* ─── By the numbers ─────────────────────────────────── */}
         {/* Lifetime stats, relocated here from the old listing-hero
-            panel. With a featured pick above it, a bordered divider sets
-            it off; with no pick it's the first module and sits tight to
-            the hero (paddingTop:0), matching the first-module rhythm. */}
-        <Section
-          id="numbers"
-          className="scroll-mt-28"
-          padding="md"
-          bordered={Boolean(featured)}
-          style={featured ? undefined : { paddingTop: 0 }}
-        >
+            panel. Always carries a bordered divider: it follows either
+            the featured pick or (when no pick is set) the hero itself,
+            and both cases want it set off rather than sitting tight. */}
+        <Section id="numbers" className="scroll-mt-28" padding="md" bordered>
           <StatsBand
             summary={summary}
             currentYearByLevel={cybl}

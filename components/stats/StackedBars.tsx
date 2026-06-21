@@ -81,7 +81,7 @@ function typicalYearLine(
   return {
     points,
     values,
-    caption: `Dashed line = a typical year, averaging full years (${fullYears})${curNote}; thin ramp-up years stay in the bars only.`,
+    caption: `Dashed line = a typical year, averaging full years (${fullYears})${curNote}; thin data from 2023 is excluded from the average.`,
   };
 }
 

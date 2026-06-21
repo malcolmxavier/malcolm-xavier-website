@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────
-// /television/stats — the television dashboard ("The numbers").
+// /television/stats — the television dashboard ("The Stats").
 //
 // The TV sibling of /films/stats: a server component reading the typed
 // compute in lib/feeds/stats/tv-stats.ts at request time. Same chart kit,
@@ -19,6 +19,7 @@ import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
+import { HeroNote } from "@/components/typography/HeroNote";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
 import { Link } from "@/components/primitives/Link";
 import { StatsSection } from "@/components/stats/StatsSection";
@@ -49,12 +50,12 @@ import {
 export const metadata: Metadata = {
   title: "Television stats",
   description:
-    "The numbers behind the television corpus—what Malcolm Xavier logs and how he rates it across shows, seasons, and episodes: genres, networks, world cinema, creators, and the rhythm of a watching year.",
+    "The stats behind the television corpus—what Malcolm Xavier logs and how he rates it across shows, seasons, and episodes: genres, networks, world cinema, creators, and the rhythm of a watching year.",
   alternates: { canonical: "/television/stats" },
   openGraph: {
     title: "Television stats—Malcolm Xavier",
     description:
-      "The numbers behind the television corpus: per-level ratings, genres, networks, creators, world cinema, and a watching year's rhythm.",
+      "The stats behind the television corpus: per-level ratings, genres, networks, creators, world cinema, and a watching year's rhythm.",
     url: "/television/stats",
     type: "website",
     images: ["/opengraph-image"],
@@ -63,7 +64,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Television stats—Malcolm Xavier",
     description:
-      "The numbers behind the television corpus: per-level ratings, genres, networks, creators, and a watching year's rhythm.",
+      "The stats behind the television corpus: per-level ratings, genres, networks, creators, and a watching year's rhythm.",
     images: ["/opengraph-image"],
   },
 };
@@ -207,14 +208,11 @@ export default function TelevisionStatsPage() {
         <Section padding="lg">
           <Stack gap="500">
             <Kicker accent>Television</Kicker>
-            <Display>The numbers.</Display>
+            <Display>The stats.</Display>
             <Lede wide>
-              {s.lifetime.shows.toLocaleString()} shows in the corpus, rated season
-              by season—{s.lifetime.seasonReviews.toLocaleString()} season ratings in
-              all, because the season is the unit a series actually lives on. So the
-              averages here are built from how I rate seasons, not a single mark per
-              show. What I reach for, how I rate it, who makes it, where it comes from,
-              and the rhythm of a watching year.
+              {s.lifetime.seasonReviews.toLocaleString()} seasons across {s.lifetime.shows.toLocaleString()} shows—this
+              is the quantitative breakdown. What I watch, how I rate it, where in the
+              world it comes from, and the rhythm of a watching year.
             </Lede>
             {/* The cross-brand dashboard rides inline with the rail as a
                 fourth, sibling pill; a quieter link repeats at the foot. */}
@@ -224,8 +222,15 @@ export default function TelevisionStatsPage() {
               subbrand="tv"
               label="Television sections"
               className="mt-2"
-              extra={{ label: "Connected", href: "/stats/connected" }}
+              extra={{ label: "Connected Stats", href: "/stats/connected" }}
             />
+            {/* The "how to use this page" note drops below the rail as a
+                quiet footnote rather than a second headline-weight lede. */}
+            <HeroNote>
+              This page is interactive. Click through on the visualizations to be
+              taken over to the search experience to discover the reviews behind
+              the data.
+            </HeroNote>
           </Stack>
         </Section>
       </Container>
@@ -252,9 +257,9 @@ export default function TelevisionStatsPage() {
                   distribution tile below. */}
               <LifetimeLevels
                 levels={[
-                  { label: "Shows", n: s.ratingByLevel.show.n, avg: s.ratingByLevel.show.avg },
-                  { label: "Seasons", n: s.ratingByLevel.season.n, avg: s.ratingByLevel.season.avg },
-                  { label: "Episodes", n: s.ratingByLevel.episode.n, avg: s.ratingByLevel.episode.avg },
+                  { label: "Season-level reviews", n: s.ratingByLevel.season.n, avg: s.ratingByLevel.season.avg },
+                  { label: "Show-level reviews", n: s.ratingByLevel.show.n, avg: s.ratingByLevel.show.avg },
+                  { label: "Episode-level reviews", n: s.ratingByLevel.episode.n, avg: s.ratingByLevel.episode.avg },
                 ]}
               />
             </Tile>
@@ -262,7 +267,7 @@ export default function TelevisionStatsPage() {
             <Tile
               title="Rating distribution by level"
               span={12}
-              note="Shows, seasons, and episodes are rated and counted separately. Season ratings are the dense signal—most shows are rated season by season, not with a single overall mark—so the Seasons view is the fullest and the analytics rank on it. Episode logging only began this year. Miniseries are double-counted (show and season) by the same rule the reviews use."
+              note="Seasons, shows, and episodes are rated and counted separately with the exception of miniseries, which are double-counted (season and show). Episode logging only began this year."
             >
               <RatingByLevelTabs data={s.ratingByLevel} ratingHrefs={ratingHrefs} />
             </Tile>
@@ -270,7 +275,6 @@ export default function TelevisionStatsPage() {
             <Tile
               title="Type"
               span={6}
-              note="Scripted, reality, documentary, miniseries—the shape of what you log. Types I only ever log at the episode level (talk shows, e.g. WWHL) aren't clickable—there's no show or season card to filter to."
             >
               <Donut slices={s.types} ariaLabel="Share of shows by type" hrefFor={typeHref} />
             </Tile>
@@ -292,9 +296,9 @@ export default function TelevisionStatsPage() {
             </Tile>
 
             <Tile
-              title="Genres vs. your baseline"
+              title="Genres vs. my baseline"
               span={8}
-              note={`Baseline = your ${s.lifetime.avgRating.toFixed(2)}★ avg season rating; most-logged genres first. Bars right of center rate above it, accent bars (left) below. Shrunk.`}
+              note={`Baseline = my ${s.lifetime.avgRating.toFixed(2)}★ avg season rating; most-logged genres first. Bars right of center rate above it; bars left of center rate below.`}
             >
               <Diverging
                 rows={s.divergingGenre}
@@ -308,7 +312,7 @@ export default function TelevisionStatsPage() {
             <Tile
               title="Actors — logged vs. rated"
               span={6}
-              note="Top-10 billed and ≥3 episodes, so a one-off guest spot doesn't count. Highest-rated counts distinct shows, shrunk."
+              note="Top-10 billed and ≥3 episodes, so a one-off guest spot doesn't count. Highest-rated counts distinct shows."
             >
               <Versus
                 leftTitle="Most logged"
@@ -322,7 +326,7 @@ export default function TelevisionStatsPage() {
             <Tile
               title="Creators — logged vs. rated"
               span={6}
-              note="Series creators via TMDB; highest-rated gated on a minimum of distinct shows, shrunk."
+              note="Highest-rated gated on a minimum of 2 distinct shows."
             >
               <Versus
                 leftTitle="Most logged"
@@ -338,7 +342,7 @@ export default function TelevisionStatsPage() {
             <Tile
               title="World cinema lean"
               span={12}
-              note="You rate non-English and non-US shows against domestic ones—language is the stronger signal, country reinforces it."
+              note="I rate non-English and non-US shows against domestic ones—language is the stronger signal, country reinforces it."
             >
               <Bigs
                 items={[
@@ -358,7 +362,7 @@ export default function TelevisionStatsPage() {
             <Tile
               title="Language × country"
               span={12}
-              note="The joint view: which languages pair with which countries (language leads). Most shows sit on the English·US diagonal."
+              note="The joint view: which languages pair with which countries (language leads)."
             >
               <Bigs
                 items={[
@@ -391,7 +395,7 @@ export default function TelevisionStatsPage() {
             </Tile>
           </StatsSection>
 
-          <StatsSection label="How it reached you">
+          <StatsSection label="How it reached me">
             <Tile
               title="Networks — logged vs. rated"
               span={6}
@@ -409,7 +413,7 @@ export default function TelevisionStatsPage() {
             <Tile
               title="By conglomerate — logged vs. rated"
               span={6}
-              note="Each show rolls up to the conglomerate that owns its network (else independent). Shrunk."
+              note="Each show rolls up to the conglomerate that owns its network (else independent)."
             >
               <Versus
                 leftTitle="Most logged"
@@ -429,11 +433,11 @@ export default function TelevisionStatsPage() {
             </Tile>
           </StatsSection>
 
-          <StatsSection label="When you watch">
+          <StatsSection label="When I watch">
             <Tile
               title="Season pace by day of year"
               span={12}
-              note="Cumulative seasons finished by day, one line per year—the slope shows when in the year you watch most. Drag along a line to read any day."
+              note="Cumulative seasons finished by each date of the year, per year."
             >
               <LineChart
                 series={s.temporal.seasonPaceByDay.map((c) => ({
@@ -511,9 +515,9 @@ function LifetimeLevels({
         <div key={l.label} style={levelCellStyle}>
           <span style={levelLabelStyle}>{l.label}</span>
           <span style={levelNumStyle}>{l.n.toLocaleString()}</span>
-          <span style={levelSubStyle}>
-            {l.n === 1 ? "review" : "reviews"} · {l.avg.toFixed(2)}★ avg
-          </span>
+          {/* The level label already says "reviews," so the sub-line just
+              carries the average — the big number above is the count. */}
+          <span style={levelSubStyle}>{l.avg.toFixed(2)}★ avg</span>
         </div>
       ))}
     </div>
@@ -575,12 +579,10 @@ function NetGroup({
 // How the television numbers are made — working drafts in Malcolm's voice.
 const TV_METHOD: string[] = [
   "Ratings, watch dates, and the show/season/episode structure come from Serializd; genres, networks, cast, and creators from TMDB.",
-  "Shows, seasons, and episodes are rated and counted on separate scales. Miniseries are deliberately double-counted (as a show and as a season) by the same rule the reviews, landing, and genre pages use.",
-  "Every “how I rate it” figure ranks on season ratings—the dense signal, since only a handful of shows carry a single overall mark. The headline average and the genre baseline are the mean across all rated seasons (so they match the Seasons distribution above). The people and network rankings fold each show to its own season mean first, counted once, so a long-running series can’t swamp them.",
-  "Ratings are on a 0.5–5★ scale. “This year” is computed at render, not snapshot time, so it stays current.",
+  "Every “how I rate it” figure ranks on season ratings. The headline average and the genre baseline are the mean across all rated seasons. The people and network rankings fold each show to its own season mean first, counted once, so a long-running series can’t swamp them.",
   "Networks are canonicalized before counting—HBO and Max are one destination, Showtime rolls into Paramount+, and each show counts once under its primary network.",
-  "“Highest rated” lists gate on a minimum count, so a single 5★ show can’t top the chart.",
-  "Actors count only top-10-billed roles with at least three episodes, so a one-scene guest spot doesn’t inflate the list—the same actor rule the Films and Connected pages use. Creators come from the TMDB created-by credit.",
+  "“Highest rated” lists guard against thin samples two ways—a minimum-count gate, so a single 5★ show can’t top the chart, and Bayesian shrinkage, which eases a small sample toward the overall average until enough ratings accumulate. Both apply anywhere an average rating is ranked.",
+  "Actors count only top-10-billed roles with at least three episodes, so a one-scene guest spot doesn’t inflate the list.",
 ];
 
 // ─── Styles ───────────────────────────────────────────────────────
