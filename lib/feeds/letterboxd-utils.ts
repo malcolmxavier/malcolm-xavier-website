@@ -17,6 +17,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { facetHit, type FacetGroup } from "./slug";
+import { parseDimension } from "./stats/filter-url";
 import { canonStudio, conglomerateOfStudio } from "./stats/studio-canon";
 import { filmActorNames } from "./stats/people";
 import {
@@ -1115,13 +1116,30 @@ const VALID_RUNTIME_BUCKETS: readonly string[] = RUNTIME_BUCKETS.map(
 export function parseFilmFilters(
   params: Record<string, string | string[] | undefined>,
 ): FilmFilters {
-  const ratings = parseCsvNumbers(asString(params.rating)).filter((r) =>
-    VALID_RATINGS.includes(r),
-  );
-  const genres = parseCsvStrings(asString(params.genre));
+  // Each filterable dimension is split into include / exclude slugs via
+  // the leading-"!" encoding (STATS-FILTERS §7, e.g. ?country=us,!uk). This
+  // is shared with the reviews surfaces (§11): existing reviews URLs carry
+  // no "!", so parseDimension returns include-only there — backward
+  // compatible. Only the stats dashboards (and inherited deep-links)
+  // populate the exclude side.
+  //
+  // Ratings are numeric: split as strings, then coerce + validate each side.
+  const ratingDim = parseDimension(asString(params.rating));
+  const ratings = ratingDim.include
+    .map((s) => Number.parseFloat(s))
+    .filter((r) => Number.isFinite(r) && VALID_RATINGS.includes(r));
+  const excludeRatings = ratingDim.exclude
+    .map((s) => Number.parseFloat(s))
+    .filter((r) => Number.isFinite(r) && VALID_RATINGS.includes(r));
+
+  const genreDim = parseDimension(asString(params.genre));
   // Runtime buckets — CSV of RUNTIME_BUCKETS ids, validated against
   // the known set so a tampered ?runtime=foo drops to "no filter."
-  const runtimeBuckets = parseCsvStrings(asString(params.runtime)).filter((b) =>
+  const runtimeDim = parseDimension(asString(params.runtime));
+  const runtimeBuckets = runtimeDim.include.filter((b) =>
+    VALID_RUNTIME_BUCKETS.includes(b),
+  );
+  const excludeRuntimeBuckets = runtimeDim.exclude.filter((b) =>
     VALID_RUNTIME_BUCKETS.includes(b),
   );
   const releaseYearMin = parseReleaseYear(asString(params.releaseYearMin));
@@ -1143,23 +1161,25 @@ export function parseFilmFilters(
   const titleQuery = asString(params.title)?.trim();
   const directorQuery = asString(params.director)?.trim();
 
-  // Wave B entity facets — CSV of entity slugs. No allowlist validation:
-  // an unknown/tampered slug simply matches nothing in applyFilters (the
-  // corpus constraint), exactly like the genre/network facets today.
-  const actors = parseCsvStrings(asString(params.actor));
-  const writers = parseCsvStrings(asString(params.writer));
-  const studios = parseCsvStrings(asString(params.studio));
-  const conglomerates = parseCsvStrings(asString(params.conglomerate));
-  const languages = parseCsvStrings(asString(params.language));
-  const countries = parseCsvStrings(asString(params.country));
-  const releaseTypes = parseCsvStrings(asString(params.releaseType));
-  const budgetTiers = parseCsvStrings(asString(params.budgetTier));
-  const decades = parseCsvStrings(asString(params.decade));
-  const collections = parseCsvStrings(asString(params.collection));
+  // Wave B entity facets — CSV of entity slugs, each split into
+  // include/exclude. No allowlist validation: an unknown/tampered slug
+  // simply matches nothing in applyFilters (the corpus constraint),
+  // exactly like the genre/network facets today.
+  const actorDim = parseDimension(asString(params.actor));
+  const writerDim = parseDimension(asString(params.writer));
+  const studioDim = parseDimension(asString(params.studio));
+  const conglomerateDim = parseDimension(asString(params.conglomerate));
+  const languageDim = parseDimension(asString(params.language));
+  const countryDim = parseDimension(asString(params.country));
+  const releaseTypeDim = parseDimension(asString(params.releaseType));
+  const budgetTierDim = parseDimension(asString(params.budgetTier));
+  const decadeDim = parseDimension(asString(params.decade));
+  const collectionDim = parseDimension(asString(params.collection));
 
   const base: Omit<FilmFilters, "watchedYears" | "watchedWindow"> = {};
+  // Include side.
   if (ratings.length > 0) base.ratings = ratings;
-  if (genres.length > 0) base.genres = genres;
+  if (genreDim.include.length > 0) base.genres = genreDim.include;
   if (runtimeBuckets.length > 0) base.runtimeBuckets = runtimeBuckets;
   if (releaseYearMin !== undefined) base.releaseYearMin = releaseYearMin;
   if (releaseYearMax !== undefined) base.releaseYearMax = releaseYearMax;
@@ -1167,16 +1187,31 @@ export function parseFilmFilters(
   if (directorQuery && directorQuery.length >= 2) {
     base.directorQuery = directorQuery;
   }
-  if (actors.length > 0) base.actors = actors;
-  if (writers.length > 0) base.writers = writers;
-  if (studios.length > 0) base.studios = studios;
-  if (conglomerates.length > 0) base.conglomerates = conglomerates;
-  if (languages.length > 0) base.languages = languages;
-  if (countries.length > 0) base.countries = countries;
-  if (releaseTypes.length > 0) base.releaseTypes = releaseTypes;
-  if (budgetTiers.length > 0) base.budgetTiers = budgetTiers;
-  if (decades.length > 0) base.decades = decades;
-  if (collections.length > 0) base.collections = collections;
+  if (actorDim.include.length > 0) base.actors = actorDim.include;
+  if (writerDim.include.length > 0) base.writers = writerDim.include;
+  if (studioDim.include.length > 0) base.studios = studioDim.include;
+  if (conglomerateDim.include.length > 0) base.conglomerates = conglomerateDim.include;
+  if (languageDim.include.length > 0) base.languages = languageDim.include;
+  if (countryDim.include.length > 0) base.countries = countryDim.include;
+  if (releaseTypeDim.include.length > 0) base.releaseTypes = releaseTypeDim.include;
+  if (budgetTierDim.include.length > 0) base.budgetTiers = budgetTierDim.include;
+  if (decadeDim.include.length > 0) base.decades = decadeDim.include;
+  if (collectionDim.include.length > 0) base.collections = collectionDim.include;
+  // Exclude side (STATS-FILTERS §2 — AND NOT). Only set when non-empty so
+  // the predicate stays minimal and reviews URLs (no "!") are unaffected.
+  if (excludeRatings.length > 0) base.excludeRatings = excludeRatings;
+  if (genreDim.exclude.length > 0) base.excludeGenres = genreDim.exclude;
+  if (excludeRuntimeBuckets.length > 0) base.excludeRuntimeBuckets = excludeRuntimeBuckets;
+  if (actorDim.exclude.length > 0) base.excludeActors = actorDim.exclude;
+  if (writerDim.exclude.length > 0) base.excludeWriters = writerDim.exclude;
+  if (studioDim.exclude.length > 0) base.excludeStudios = studioDim.exclude;
+  if (conglomerateDim.exclude.length > 0) base.excludeConglomerates = conglomerateDim.exclude;
+  if (languageDim.exclude.length > 0) base.excludeLanguages = languageDim.exclude;
+  if (countryDim.exclude.length > 0) base.excludeCountries = countryDim.exclude;
+  if (releaseTypeDim.exclude.length > 0) base.excludeReleaseTypes = releaseTypeDim.exclude;
+  if (budgetTierDim.exclude.length > 0) base.excludeBudgetTiers = budgetTierDim.exclude;
+  if (decadeDim.exclude.length > 0) base.excludeDecades = decadeDim.exclude;
+  if (collectionDim.exclude.length > 0) base.excludeCollections = collectionDim.exclude;
 
   if (watchedYearsRaw.length > 0) {
     return { ...base, watchedYears: watchedYearsRaw };
@@ -1222,14 +1257,6 @@ function parseCsvNumbers(raw: string | undefined): number[] {
     .split(",")
     .map((s) => Number.parseFloat(s.trim()))
     .filter((n) => Number.isFinite(n));
-}
-
-function parseCsvStrings(raw: string | undefined): string[] {
-  if (!raw) return [];
-  return raw
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
 }
 
 function parsePositiveInt(raw: string | undefined): number | undefined {

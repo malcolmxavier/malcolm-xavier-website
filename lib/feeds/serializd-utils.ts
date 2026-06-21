@@ -17,6 +17,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { facetHit, type FacetGroup } from "./slug";
+import { parseDimension } from "./stats/filter-url";
 import { modesForReview } from "./serializd-mode-counts.mjs";
 import { conglomerateOfNet, primaryNetwork } from "./stats/network-canon";
 import { creatorNames, isActingShow, tvActorNames } from "./stats/people";
@@ -1595,15 +1596,23 @@ const VALID_RATINGS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 export function parseShowFilters(
   params: Record<string, string | string[] | undefined>,
 ): ShowFilters {
-  const ratings = parseCsvNumbers(asString(params.rating)).filter((r) =>
-    VALID_RATINGS.includes(r),
-  );
-  const genres = parseCsvStrings(asString(params.genre));
+  // Each dimension splits into include/exclude via the leading-"!"
+  // encoding (STATS-FILTERS §7), shared with the reviews surfaces (§11) —
+  // reviews URLs carry no "!", so this is backward compatible there.
+  const ratingDim = parseDimension(asString(params.rating));
+  const ratings = ratingDim.include
+    .map((s) => Number.parseFloat(s))
+    .filter((r) => Number.isFinite(r) && VALID_RATINGS.includes(r));
+  const excludeRatings = ratingDim.exclude
+    .map((s) => Number.parseFloat(s))
+    .filter((r) => Number.isFinite(r) && VALID_RATINGS.includes(r));
+
+  const genreDim = parseDimension(asString(params.genre));
   // Networks carry canonical names ("HBO / Max") and types are TMDB
   // labels ("Scripted"); both are CSV like genre. No allowlist — a
   // tampered value just matches nothing (same posture as genre).
-  const networks = parseCsvStrings(asString(params.network));
-  const types = parseCsvStrings(asString(params.type));
+  const networkDim = parseDimension(asString(params.network));
+  const typeDim = parseDimension(asString(params.type));
   const premiereYearMin = parsePremiereYear(asString(params.premiereYearMin));
   const premiereYearMax = parsePremiereYear(asString(params.premiereYearMax));
   // Tolerate any other value silently (URL tampering returns to
@@ -1623,30 +1632,43 @@ export function parseShowFilters(
   // no-op). Mirrors parseFilmFilters + MIN_QUERY_LENGTH.
   const titleQuery = asString(params.title)?.trim();
 
-  // Wave B entity facets — CSV of entity slugs. No allowlist: an unknown
-  // slug matches nothing in applyCompletedCardFilters (corpus constraint).
-  const actors = parseCsvStrings(asString(params.actor));
-  const creators = parseCsvStrings(asString(params.creator));
-  const conglomerates = parseCsvStrings(asString(params.conglomerate));
-  const languages = parseCsvStrings(asString(params.language));
-  const countries = parseCsvStrings(asString(params.country));
-  const decades = parseCsvStrings(asString(params.decade));
+  // Wave B entity facets — CSV of entity slugs, each split into
+  // include/exclude. No allowlist: an unknown slug matches nothing in
+  // applyCompletedCardFilters (corpus constraint).
+  const actorDim = parseDimension(asString(params.actor));
+  const creatorDim = parseDimension(asString(params.creator));
+  const conglomerateDim = parseDimension(asString(params.conglomerate));
+  const languageDim = parseDimension(asString(params.language));
+  const countryDim = parseDimension(asString(params.country));
+  const decadeDim = parseDimension(asString(params.decade));
 
   const base: Omit<ShowFilters, "watchedYears" | "watchedWindow"> = {};
+  // Include side.
   if (ratings.length > 0) base.ratings = ratings;
-  if (genres.length > 0) base.genres = genres;
-  if (networks.length > 0) base.networks = networks;
-  if (types.length > 0) base.types = types;
+  if (genreDim.include.length > 0) base.genres = genreDim.include;
+  if (networkDim.include.length > 0) base.networks = networkDim.include;
+  if (typeDim.include.length > 0) base.types = typeDim.include;
   if (premiereYearMin !== undefined) base.premiereYearMin = premiereYearMin;
   if (premiereYearMax !== undefined) base.premiereYearMax = premiereYearMax;
   if (cardKind !== undefined) base.cardKind = cardKind;
   if (titleQuery && titleQuery.length >= 2) base.titleQuery = titleQuery;
-  if (actors.length > 0) base.actors = actors;
-  if (creators.length > 0) base.creators = creators;
-  if (conglomerates.length > 0) base.conglomerates = conglomerates;
-  if (languages.length > 0) base.languages = languages;
-  if (countries.length > 0) base.countries = countries;
-  if (decades.length > 0) base.decades = decades;
+  if (actorDim.include.length > 0) base.actors = actorDim.include;
+  if (creatorDim.include.length > 0) base.creators = creatorDim.include;
+  if (conglomerateDim.include.length > 0) base.conglomerates = conglomerateDim.include;
+  if (languageDim.include.length > 0) base.languages = languageDim.include;
+  if (countryDim.include.length > 0) base.countries = countryDim.include;
+  if (decadeDim.include.length > 0) base.decades = decadeDim.include;
+  // Exclude side (AND NOT). Set only when non-empty.
+  if (excludeRatings.length > 0) base.excludeRatings = excludeRatings;
+  if (genreDim.exclude.length > 0) base.excludeGenres = genreDim.exclude;
+  if (networkDim.exclude.length > 0) base.excludeNetworks = networkDim.exclude;
+  if (typeDim.exclude.length > 0) base.excludeTypes = typeDim.exclude;
+  if (actorDim.exclude.length > 0) base.excludeActors = actorDim.exclude;
+  if (creatorDim.exclude.length > 0) base.excludeCreators = creatorDim.exclude;
+  if (conglomerateDim.exclude.length > 0) base.excludeConglomerates = conglomerateDim.exclude;
+  if (languageDim.exclude.length > 0) base.excludeLanguages = languageDim.exclude;
+  if (countryDim.exclude.length > 0) base.excludeCountries = countryDim.exclude;
+  if (decadeDim.exclude.length > 0) base.excludeDecades = decadeDim.exclude;
 
   if (watchedYearsRaw.length > 0) {
     return { ...base, watchedYears: watchedYearsRaw };
@@ -1680,14 +1702,6 @@ function parseCsvNumbers(raw: string | undefined): number[] {
     .split(",")
     .map((s) => Number.parseFloat(s.trim()))
     .filter((n) => Number.isFinite(n));
-}
-
-function parseCsvStrings(raw: string | undefined): string[] {
-  if (!raw) return [];
-  return raw
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
 }
 
 function parsePositiveInt(raw: string | undefined): number | undefined {
