@@ -146,6 +146,63 @@ export type FilmsSummary = {
   decadeDistribution: Record<string, number>;
 };
 
+/**
+ * Recompute a FilmsSummary from a (narrowed) film array — the request-time
+ * mirror of the snapshot writer's `recomputeSummary`
+ * (scripts/incremental-rss-refresh.mjs). Pure and client-safe (no fs).
+ *
+ * The snapshot ships a corpus-wide summary; the stats filters need a summary
+ * over the predicate-narrowed subset. Rather than re-deriving the
+ * distributions inside each stats tile, the stats entrypoints narrow the
+ * corpus, call this once, and feed the result through the same compute path
+ * the unfiltered dashboard uses. The counting rules match the writer EXACTLY
+ * (per-review ratings, per-film genres/decades, thisYear off latestWatchedDate)
+ * so a no-filter narrowing reproduces the shipped summary byte-for-byte.
+ */
+export function summarizeFilms(films: Film[]): FilmsSummary {
+  const currentYear = new Date().getUTCFullYear();
+  let totalReviews = 0;
+  let thisYearCount = 0;
+  const ratingDistribution: Record<string, number> = {};
+  const genreDistribution: Record<string, number> = {};
+  const decadeDistribution: Record<string, number> = {};
+
+  for (const film of films) {
+    totalReviews += film.reviews.length;
+    // "This year" is keyed off the most-recent WATCH date (the user-facing
+    // event), same as the writer — not the review-publication date.
+    const watchedYear = Number.parseInt(film.latestWatchedDate.slice(0, 4), 10);
+    if (watchedYear === currentYear) thisYearCount++;
+    // Ratings are per-review (a rewatch with two ratings counts twice);
+    // unrated reviews (null) contribute nothing.
+    for (const r of film.reviews) {
+      if (r.rating !== null) {
+        const key = String(r.rating);
+        ratingDistribution[key] = (ratingDistribution[key] ?? 0) + 1;
+      }
+    }
+    // Genres are per-film (a two-genre film adds to both buckets).
+    if (film.tmdb?.genres) {
+      for (const g of film.tmdb.genres) {
+        genreDistribution[g] = (genreDistribution[g] ?? 0) + 1;
+      }
+    }
+    if (Number.isFinite(film.releaseYear)) {
+      const decade = `${Math.floor(film.releaseYear / 10) * 10}s`;
+      decadeDistribution[decade] = (decadeDistribution[decade] ?? 0) + 1;
+    }
+  }
+
+  return {
+    totalFilms: films.length,
+    totalReviews,
+    thisYearCount,
+    ratingDistribution,
+    genreDistribution,
+    decadeDistribution,
+  };
+}
+
 // ─── Lists + favorites (editorial landing) ───────────────────────
 //
 // These are pulled from Letterboxd (the platform is the curation
@@ -326,6 +383,34 @@ export type FilmFilters = {
   decades?: string[];
   /** TMDB collection (franchise) name slugs. */
   collections?: string[];
+  // ── Exclusion (NOT) facets — stats-page query model (STATS-FILTERS §2) ──
+  // Each mirrors an includable dimension above. A film is DROPPED if it
+  // matches ANY excluded value in a dimension (AND NOT), composed with the
+  // include logic (OR within a dimension, AND across). Empty/undefined = no
+  // exclusion. These are ADDITIVE and backward-compatible: the reviews
+  // surfaces never set them, so their behaviour is unchanged. Only the stats
+  // dashboards (and inherited reviews deep-links, §11) populate them.
+  //
+  // Exclusion semantics, per dimension:
+  // - For the enrichment-backed facet dimensions, exclude if facetHit on the
+  //   excluded slug set (the value is present → drop).
+  // - For genres, exclude if the film's genres intersect the excluded set.
+  // - For ratings, exclude a film whose qualifying review's rating is in the
+  //   excluded set (handled in the per-review pass).
+  excludeRatings?: number[];
+  excludeGenres?: string[];
+  excludeRuntimeBuckets?: string[];
+  excludeDirectors?: string[];
+  excludeActors?: string[];
+  excludeWriters?: string[];
+  excludeStudios?: string[];
+  excludeConglomerates?: string[];
+  excludeLanguages?: string[];
+  excludeCountries?: string[];
+  excludeReleaseTypes?: string[];
+  excludeBudgetTiers?: string[];
+  excludeDecades?: string[];
+  excludeCollections?: string[];
   // Both queries are carried here so generateMetadata can noindex the
   // search state; the actual hybrid matching is precomputed server-side
   // (per field, then intersected) and passed to applyFilters as
@@ -618,7 +703,12 @@ export function filmEntityFacets(films: Film[]): FacetGroup[] {
   ];
 }
 
-/** True if any Wave B facet filter is active (gates the per-film work). */
+/**
+ * True if any Wave B facet filter is active (gates the per-film
+ * enrichment work). Includes the exclusion facets — an exclusion-only
+ * selection still needs the per-film enrichment pass to evaluate the
+ * NOT predicate.
+ */
 function anyFilmFacetActive(f: FilmFilters): boolean {
   return Boolean(
     f.directors?.length ||
@@ -631,7 +721,19 @@ function anyFilmFacetActive(f: FilmFilters): boolean {
     f.releaseTypes?.length ||
     f.budgetTiers?.length ||
     f.decades?.length ||
-    f.collections?.length,
+    f.collections?.length ||
+    // Exclusion facets (mirror the includes) also need the enrichment pass.
+    f.excludeDirectors?.length ||
+    f.excludeActors?.length ||
+    f.excludeWriters?.length ||
+    f.excludeStudios?.length ||
+    f.excludeConglomerates?.length ||
+    f.excludeLanguages?.length ||
+    f.excludeCountries?.length ||
+    f.excludeReleaseTypes?.length ||
+    f.excludeBudgetTiers?.length ||
+    f.excludeDecades?.length ||
+    f.excludeCollections?.length,
   );
 }
 
@@ -647,6 +749,7 @@ export function applyFilters(
 ): AppliedFilm[] {
   const hasPerReviewFilter =
     (filters.ratings && filters.ratings.length > 0) ||
+    (filters.excludeRatings && filters.excludeRatings.length > 0) ||
     (filters.watchedYears && filters.watchedYears.length > 0) ||
     filters.watchedWindow !== undefined;
 
@@ -694,12 +797,33 @@ export function applyFilters(
       const intersects = filters.genres.some((g) => filmGenres.includes(g));
       if (!intersects) continue;
     }
+    // Genre exclusion (AND NOT): drop the film if its genres intersect the
+    // excluded set. A film with no genres can't match an exclusion, so it
+    // survives this gate (the complement of the include rule above).
+    if (filters.excludeGenres && filters.excludeGenres.length > 0) {
+      const filmGenres = film.tmdb?.genres;
+      if (filmGenres && filters.excludeGenres.some((g) => filmGenres.includes(g))) {
+        continue;
+      }
+    }
     if (filters.runtimeBuckets && filters.runtimeBuckets.length > 0) {
       const runtime = film.tmdb?.runtime;
       // Null/unknown runtime can't be bucketed — drop it when the
       // length filter is active.
       if (runtime === null || runtime === undefined) continue;
       if (!filters.runtimeBuckets.some((b) => runtimeInBucket(runtime, b))) {
+        continue;
+      }
+    }
+    // Runtime-bucket exclusion (AND NOT). A null/unknown runtime can't be
+    // bucketed, so it can't match an exclusion — it survives this gate.
+    if (filters.excludeRuntimeBuckets && filters.excludeRuntimeBuckets.length > 0) {
+      const runtime = film.tmdb?.runtime;
+      if (
+        runtime !== null &&
+        runtime !== undefined &&
+        filters.excludeRuntimeBuckets.some((b) => runtimeInBucket(runtime, b))
+      ) {
         continue;
       }
     }
@@ -755,6 +879,54 @@ export function applyFilters(
         !facetHit(filters.collections, fv.collections)
       )
         continue;
+
+      // ── Exclusion (AND NOT) on the same enrichment facets ──
+      // Drop the film if it carries ANY excluded value in a dimension.
+      // facetHit returns true when a canonical value slugifies into the
+      // excluded set, so the film is excluded → continue (skip it).
+      if (
+        filters.excludeDirectors?.length &&
+        facetHit(filters.excludeDirectors, fv.directors)
+      )
+        continue;
+      if (filters.excludeActors?.length && facetHit(filters.excludeActors, fv.actors))
+        continue;
+      if (filters.excludeWriters?.length && facetHit(filters.excludeWriters, fv.writers))
+        continue;
+      if (filters.excludeStudios?.length && facetHit(filters.excludeStudios, fv.studios))
+        continue;
+      if (
+        filters.excludeConglomerates?.length &&
+        facetHit(filters.excludeConglomerates, fv.conglomerates)
+      )
+        continue;
+      if (
+        filters.excludeLanguages?.length &&
+        facetHit(filters.excludeLanguages, fv.languages)
+      )
+        continue;
+      if (
+        filters.excludeCountries?.length &&
+        facetHit(filters.excludeCountries, fv.countries)
+      )
+        continue;
+      if (
+        filters.excludeReleaseTypes?.length &&
+        facetHit(filters.excludeReleaseTypes, fv.releaseTypes)
+      )
+        continue;
+      if (
+        filters.excludeBudgetTiers?.length &&
+        facetHit(filters.excludeBudgetTiers, fv.budgetTiers)
+      )
+        continue;
+      if (filters.excludeDecades?.length && facetHit(filters.excludeDecades, fv.decades))
+        continue;
+      if (
+        filters.excludeCollections?.length &&
+        facetHit(filters.excludeCollections, fv.collections)
+      )
+        continue;
     }
 
     // ── Per-review filters ──────────────────────────────────
@@ -806,6 +978,15 @@ function findQualifyingReview(
     // ratings filter is active — they have no rating to match.
     if (filters.ratings && filters.ratings.length > 0) {
       if (review.rating === null || !filters.ratings.includes(review.rating)) {
+        continue;
+      }
+    }
+    // Rating exclusion (AND NOT): skip a review whose rating is in the
+    // excluded set. A rated review carrying an excluded rating is not a
+    // qualifying review; the film survives only via another (non-excluded)
+    // qualifying review. Unrated reviews (null) can't match an exclusion.
+    if (filters.excludeRatings && filters.excludeRatings.length > 0) {
+      if (review.rating !== null && filters.excludeRatings.includes(review.rating)) {
         continue;
       }
     }

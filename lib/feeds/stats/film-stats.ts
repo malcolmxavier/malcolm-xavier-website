@@ -11,6 +11,9 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { getFilms } from "../letterboxd";
+import { getFilmsWithEnrichment } from "../review-corpus";
+import { applyFilters, summarizeFilms } from "../letterboxd-utils";
+import type { FilmFilters, FilmsSummary, Film } from "../letterboxd-utils";
 import { getCollectionDetails, getEnrichedFilms } from "../enrichment";
 import type { EnrichedFilm } from "../enrichment";
 import {
@@ -308,10 +311,81 @@ export type FilmStats = {
   };
 };
 
-/** Compute every film dashboard number from the live fixtures. */
-export function computeFilmStats(): FilmStats {
-  const { films: snapFilms, summary } = getFilms();
-  const films = getEnrichedFilms();
+/**
+ * The narrowed corpus the stats compute runs against: the snapshot films
+ * (drive runtime / watch-date / genre-row tiles), the enriched films (drive
+ * the analytical tiles), and the summary (drives the lifetime + distribution
+ * tiles). Bundling them keeps the unfiltered and filtered paths feeding the
+ * SAME compute body — the only difference is whether the corpus was narrowed.
+ */
+type FilmCorpus = {
+  snapFilms: Film[];
+  films: EnrichedFilm[];
+  summary: FilmsSummary;
+};
+
+/**
+ * Resolve the corpus for a compute call.
+ *
+ * - No filters (the default / unfiltered dashboard): return the shipped
+ *   snapshot arrays + summary verbatim. This is the BYTE-FOR-BYTE-identical
+ *   path — `computeFilmStats()` behaves exactly as before.
+ * - With filters: narrow the corpus via the SHARED `applyFilters` predicate
+ *   (reused, not reimplemented — STATS-FILTERS §9), then derive the matching
+ *   enriched subset by TMDB id and recompute the summary over the survivors.
+ */
+function resolveFilmCorpus(filters?: FilmFilters): FilmCorpus {
+  // Unfiltered: hand back the shipped data untouched. An empty `{}` filter is
+  // treated as "no filter" so an empty selection equals the unfiltered page.
+  if (!filters || !hasAnyFilmFilter(filters)) {
+    const { films: snapFilms, summary } = getFilms();
+    return { snapFilms, films: getEnrichedFilms(), summary };
+  }
+
+  // Filtered: narrow the enrichment-joined corpus with the reviews predicate.
+  // applyFilters returns AppliedFilm[]; we want the surviving Film objects.
+  const { films: enrichedSnap } = getFilmsWithEnrichment();
+  const surviving = applyFilters(enrichedSnap, filters).map((a) => a.film);
+
+  // The analytical tiles read getEnrichedFilms() (EnrichedFilm, keyed by
+  // tmdbId). Restrict that array to the survivors via their TMDB ids. A
+  // surviving film whose snapshot id is the TMDB id joins cleanly; films
+  // without a TMDB match (id is the seed slug) carry no enrichment and so
+  // never appear in an entity-facet result anyway.
+  const survivingTmdbIds = new Set<number>();
+  for (const f of surviving) {
+    if (f.tmdb?.id != null) survivingTmdbIds.add(f.tmdb.id);
+  }
+  const films = getEnrichedFilms().filter((e) => survivingTmdbIds.has(e.tmdbId));
+
+  // Recompute the summary over the narrowed snapshot subset (same counting
+  // rules as the snapshot writer — see summarizeFilms).
+  const summary = summarizeFilms(surviving);
+
+  return { snapFilms: surviving, films, summary };
+}
+
+/** True if any FilmFilters field would actually narrow the corpus. */
+function hasAnyFilmFilter(f: FilmFilters): boolean {
+  return Object.values(f).some((v) => {
+    if (v === undefined || v === null) return false;
+    if (Array.isArray(v)) return v.length > 0;
+    if (typeof v === "string") return v.length > 0;
+    // numeric bounds (releaseYearMin/Max) and watchedWindow
+    return true;
+  });
+}
+
+/**
+ * Compute every film dashboard number from the live fixtures.
+ *
+ * `filters` is optional: omitted (or empty) → the full corpus, identical to
+ * the pre-filter behaviour. Provided → the predicate-narrowed corpus
+ * (STATS-FILTERS §9). The compute body below is unchanged; only the corpus
+ * it reads from differs.
+ */
+export function computeFilmStats(filters?: FilmFilters): FilmStats {
+  const { snapFilms, films, summary } = resolveFilmCorpus(filters);
   const collectionDetails = getCollectionDetails();
 
   // Film prior = the corpus-wide average rating (over all 766 films).

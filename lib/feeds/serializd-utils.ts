@@ -341,6 +341,110 @@ export type TvSummary = {
 };
 
 /**
+ * Per-review mode buckets, mirroring the LOCKED miniseries double-count
+ * rule. This is a request-time, client-safe restatement of the canonical
+ * `modesForReview` in `lib/feeds/serializd-mode-counts.mjs` — kept byte-for
+ * byte identical to that source so the narrowed-summary counts can't drift
+ * from the snapshot writer. If the canonical rule ever changes, change it
+ * there AND here in lockstep.
+ */
+function modesForReviewLocal(
+  level: Review["level"],
+  isMiniseries: boolean,
+): Array<"show" | "season" | "episode"> {
+  if (level === "episode") return ["episode"];
+  if (level === "show") return isMiniseries ? ["show", "season"] : ["show"];
+  if (level === "season") return isMiniseries ? ["show", "season"] : ["season"];
+  return [];
+}
+
+/**
+ * Recompute a TvSummary from a (narrowed) show array — the request-time
+ * mirror of the snapshot writer's `aggregateSummary`
+ * (scripts/bootstrap-serializd-snapshot.mjs). Pure and client-safe.
+ *
+ * Honours the miniseries double-count rule via modesForReviewLocal at every
+ * per-level count surface (per the television-double-count memory). The
+ * watched-only totals can't be derived from the reviewed `Show[]` alone, so
+ * they're carried through from the shipped corpus-wide summary — they're not
+ * surfaced in any tile, so a stale value there is invisible (documented).
+ */
+export function summarizeShows(
+  shows: Show[],
+  // The shipped corpus-wide summary, for the watched-only passthrough fields
+  // that can't be derived from the reviewed shows.
+  baseSummary: TvSummary,
+): TvSummary {
+  const currentYear = new Date().getUTCFullYear();
+  let totalShowReviews = 0;
+  let totalSeasonReviews = 0;
+  let totalEpisodeReviews = 0;
+  let showsInProgressCount = 0;
+  let thisYearCount = 0;
+  const ratingDistribution: Record<string, number> = {};
+  const ratingDistributionByLevel = {
+    show: {} as Record<string, number>,
+    season: {} as Record<string, number>,
+    episode: {} as Record<string, number>,
+  };
+  const genreDistribution: Record<string, number> = {};
+  const decadeDistribution: Record<string, number> = {};
+
+  const bump = (b: Record<string, number>, k: string) => {
+    b[k] = (b[k] ?? 0) + 1;
+  };
+
+  for (const show of shows) {
+    if (show.inProgressSeasonNumbers.length > 0) showsInProgressCount++;
+
+    // "Watched this year" = any review activity in the current calendar year
+    // by WATCH date (matches the writer + user intuition).
+    const watchedThisYear = show.reviews.some(
+      (r) =>
+        r.watchedDate &&
+        Number.parseInt(r.watchedDate.slice(0, 4), 10) === currentYear,
+    );
+    if (watchedThisYear) thisYearCount++;
+
+    for (const r of show.reviews) {
+      const ratingKey = r.rating !== null ? String(r.rating) : null;
+      for (const mode of modesForReviewLocal(r.level, show.isMiniseries)) {
+        if (mode === "show") totalShowReviews++;
+        else if (mode === "season") totalSeasonReviews++;
+        else if (mode === "episode") totalEpisodeReviews++;
+        if (ratingKey) bump(ratingDistributionByLevel[mode], ratingKey);
+      }
+      // Lifetime distribution is one-count-per-review (no double-count).
+      if (ratingKey) bump(ratingDistribution, ratingKey);
+    }
+
+    if (show.tmdb?.genres) {
+      for (const g of show.tmdb.genres) bump(genreDistribution, g);
+    }
+    if (Number.isFinite(show.premiereYear) && show.premiereYear > 0) {
+      const decade = `${Math.floor(show.premiereYear / 10) * 10}s`;
+      bump(decadeDistribution, decade);
+    }
+  }
+
+  return {
+    totalShows: shows.length,
+    totalShowReviews,
+    totalSeasonReviews,
+    totalEpisodeReviews,
+    ratingDistribution,
+    ratingDistributionByLevel,
+    genreDistribution,
+    decadeDistribution,
+    showsInProgressCount,
+    thisYearCount,
+    // Watched-only totals are corpus-wide and undisplayed; pass through.
+    totalWatchedShows: baseSummary.totalWatchedShows,
+    totalWatchedOnlyShows: baseSummary.totalWatchedOnlyShows,
+  };
+}
+
+/**
  * Watched-only show entry — the user has marked it watched on
  * Serializd but never written any kind of review. Lives on the
  * snapshot's `watchedOnlyShows` array (separate from `shows`,
@@ -661,6 +765,21 @@ export type ShowFilters = {
   countries?: string[];
   /** Premiere-decade slugs ("2010s", …) — derived from premiereYear. */
   decades?: string[];
+  // ── Exclusion (NOT) facets — stats-page query model (STATS-FILTERS §2) ──
+  // Mirror each includable dimension. A show is DROPPED if it matches ANY
+  // excluded value in a dimension (AND NOT), composed with the include
+  // logic. Empty/undefined = no exclusion. ADDITIVE and backward-compatible:
+  // the reviews surfaces never set them, so their behaviour is unchanged.
+  excludeRatings?: number[];
+  excludeGenres?: string[];
+  excludeNetworks?: string[];
+  excludeTypes?: string[];
+  excludeActors?: string[];
+  excludeCreators?: string[];
+  excludeConglomerates?: string[];
+  excludeLanguages?: string[];
+  excludeCountries?: string[];
+  excludeDecades?: string[];
 } & WatchedDateFilter;
 
 /**
@@ -1011,7 +1130,14 @@ function anyShowFacetActive(f: ShowFilters): boolean {
     f.conglomerates?.length ||
     f.languages?.length ||
     f.countries?.length ||
-    f.decades?.length,
+    f.decades?.length ||
+    // Exclusion facets (mirror the includes) also need the enrichment pass.
+    f.excludeActors?.length ||
+    f.excludeCreators?.length ||
+    f.excludeConglomerates?.length ||
+    f.excludeLanguages?.length ||
+    f.excludeCountries?.length ||
+    f.excludeDecades?.length,
   );
 }
 
@@ -1056,15 +1182,34 @@ export function applyCompletedCardFilters(
       if (!showGenres) continue;
       if (!filters.genres.some((g) => showGenres.includes(g))) continue;
     }
+    // Genre exclusion (AND NOT): drop if the show's genres intersect the
+    // excluded set. A show with no genres can't match an exclusion.
+    if (filters.excludeGenres && filters.excludeGenres.length > 0) {
+      const showGenres = card.show.tmdb?.genres;
+      if (showGenres && filters.excludeGenres.some((g) => showGenres.includes(g))) {
+        continue;
+      }
+    }
     if (filters.networks && filters.networks.length > 0) {
       // Match on the canonical PRIMARY network so a show lands under
       // exactly one network filter (same rule the stats counts use).
       const primary = primaryNetwork(card.show.tmdb?.networks ?? []);
       if (!primary || !filters.networks.includes(primary)) continue;
     }
+    // Network exclusion (AND NOT): drop if the show's PRIMARY network is in
+    // the excluded set (same primary-network rule as the include above).
+    if (filters.excludeNetworks && filters.excludeNetworks.length > 0) {
+      const primary = primaryNetwork(card.show.tmdb?.networks ?? []);
+      if (primary && filters.excludeNetworks.includes(primary)) continue;
+    }
     if (filters.types && filters.types.length > 0) {
       const showType = card.show.tmdb?.type;
       if (!showType || !filters.types.includes(showType)) continue;
+    }
+    // Type exclusion (AND NOT). A show with no type can't match an exclusion.
+    if (filters.excludeTypes && filters.excludeTypes.length > 0) {
+      const showType = card.show.tmdb?.type;
+      if (showType && filters.excludeTypes.includes(showType)) continue;
     }
     // ── Wave B entity facets (enrichment-backed) ────────────
     // OR within each facet; AND across them. Values come from the shared
@@ -1094,12 +1239,48 @@ export function applyCompletedCardFilters(
         continue;
       if (filters.decades?.length && !facetHit(filters.decades, fv.decades))
         continue;
+
+      // ── Exclusion (AND NOT) on the same enrichment facets ──
+      if (filters.excludeActors?.length && facetHit(filters.excludeActors, fv.actors))
+        continue;
+      if (
+        filters.excludeCreators?.length &&
+        facetHit(filters.excludeCreators, fv.creators)
+      )
+        continue;
+      if (
+        filters.excludeConglomerates?.length &&
+        facetHit(filters.excludeConglomerates, fv.conglomerates)
+      )
+        continue;
+      if (
+        filters.excludeLanguages?.length &&
+        facetHit(filters.excludeLanguages, fv.languages)
+      )
+        continue;
+      if (
+        filters.excludeCountries?.length &&
+        facetHit(filters.excludeCountries, fv.countries)
+      )
+        continue;
+      if (filters.excludeDecades?.length && facetHit(filters.excludeDecades, fv.decades))
+        continue;
     }
     // Per-review predicates apply to the card's surfaced review
     if (filters.ratings && filters.ratings.length > 0) {
       if (
         card.review.rating === null ||
         !filters.ratings.includes(card.review.rating)
+      ) {
+        continue;
+      }
+    }
+    // Rating exclusion (AND NOT): drop a card whose surfaced review carries
+    // an excluded rating. Unrated reviews (null) can't match an exclusion.
+    if (filters.excludeRatings && filters.excludeRatings.length > 0) {
+      if (
+        card.review.rating !== null &&
+        filters.excludeRatings.includes(card.review.rating)
       ) {
         continue;
       }
@@ -1173,8 +1354,16 @@ export function applyShowFilters(
 ): AppliedShow[] {
   const hasPerReviewFilter =
     (filters.ratings && filters.ratings.length > 0) ||
+    (filters.excludeRatings && filters.excludeRatings.length > 0) ||
     (filters.watchedYears && filters.watchedYears.length > 0) ||
     filters.watchedWindow !== undefined;
+
+  // Wave B facet predicates (network / type / enrichment-backed entities +
+  // their exclusions). The Show[] variant historically only filtered
+  // year/genre/ratings — the stats narrowing needs the full facet surface,
+  // so it's added here. No production reviews consumer uses this function
+  // (they all run applyCompletedCardFilters), so this is additive-only.
+  const waveBActive = anyShowFacetActive(filters);
 
   // Anchor the rolling-12mo cutoff to request time, not module-load
   // time — same calendar-year arithmetic as /films to dodge the
@@ -1203,6 +1392,80 @@ export function applyShowFilters(
       if (!showGenres) continue;
       const intersects = filters.genres.some((g) => showGenres.includes(g));
       if (!intersects) continue;
+    }
+    // Genre exclusion (AND NOT).
+    if (filters.excludeGenres && filters.excludeGenres.length > 0) {
+      const showGenres = show.tmdb?.genres;
+      if (showGenres && filters.excludeGenres.some((g) => showGenres.includes(g))) {
+        continue;
+      }
+    }
+    // Primary-network include / exclude (same primary-network rule the stats
+    // counts use, so a show lands under exactly one network).
+    if (filters.networks && filters.networks.length > 0) {
+      const primary = primaryNetwork(show.tmdb?.networks ?? []);
+      if (!primary || !filters.networks.includes(primary)) continue;
+    }
+    if (filters.excludeNetworks && filters.excludeNetworks.length > 0) {
+      const primary = primaryNetwork(show.tmdb?.networks ?? []);
+      if (primary && filters.excludeNetworks.includes(primary)) continue;
+    }
+    // Series-type include / exclude.
+    if (filters.types && filters.types.length > 0) {
+      const showType = show.tmdb?.type;
+      if (!showType || !filters.types.includes(showType)) continue;
+    }
+    if (filters.excludeTypes && filters.excludeTypes.length > 0) {
+      const showType = show.tmdb?.type;
+      if (showType && filters.excludeTypes.includes(showType)) continue;
+    }
+
+    // ── Wave B entity facets (enrichment-backed) ────────────
+    // OR within each facet; AND across; exclusion is AND NOT. A show whose
+    // enrichment can't confirm a match is dropped when an include facet is
+    // active. Skipped entirely unless a facet (include or exclude) is active.
+    if (waveBActive) {
+      const fv = showFacetValues(show);
+      if (filters.actors?.length && !facetHit(filters.actors, fv.actors))
+        continue;
+      if (filters.creators?.length && !facetHit(filters.creators, fv.creators))
+        continue;
+      if (
+        filters.conglomerates?.length &&
+        !facetHit(filters.conglomerates, fv.conglomerates)
+      )
+        continue;
+      if (filters.languages?.length && !facetHit(filters.languages, fv.languages))
+        continue;
+      if (filters.countries?.length && !facetHit(filters.countries, fv.countries))
+        continue;
+      if (filters.decades?.length && !facetHit(filters.decades, fv.decades))
+        continue;
+      // Exclusions
+      if (filters.excludeActors?.length && facetHit(filters.excludeActors, fv.actors))
+        continue;
+      if (
+        filters.excludeCreators?.length &&
+        facetHit(filters.excludeCreators, fv.creators)
+      )
+        continue;
+      if (
+        filters.excludeConglomerates?.length &&
+        facetHit(filters.excludeConglomerates, fv.conglomerates)
+      )
+        continue;
+      if (
+        filters.excludeLanguages?.length &&
+        facetHit(filters.excludeLanguages, fv.languages)
+      )
+        continue;
+      if (
+        filters.excludeCountries?.length &&
+        facetHit(filters.excludeCountries, fv.countries)
+      )
+        continue;
+      if (filters.excludeDecades?.length && facetHit(filters.excludeDecades, fv.decades))
+        continue;
     }
 
     // ── Per-review filters ──────────────────────────────────
@@ -1241,6 +1504,13 @@ function findQualifyingReview(
   for (const review of show.reviews) {
     if (filters.ratings && filters.ratings.length > 0) {
       if (review.rating === null || !filters.ratings.includes(review.rating)) {
+        continue;
+      }
+    }
+    // Rating exclusion (AND NOT): a review carrying an excluded rating is not
+    // a qualifying review. Unrated reviews (null) can't match an exclusion.
+    if (filters.excludeRatings && filters.excludeRatings.length > 0) {
+      if (review.rating !== null && filters.excludeRatings.includes(review.rating)) {
         continue;
       }
     }

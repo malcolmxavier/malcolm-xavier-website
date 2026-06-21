@@ -17,6 +17,11 @@ import { getEnrichedFilms, getEnrichedShows } from "../enrichment";
 import type { EnrichedFilm, EnrichedShow } from "../enrichment";
 import { getFilms } from "../letterboxd";
 import { getShows } from "../serializd";
+import { getFilmsWithEnrichment, getShowsWithEnrichment } from "../review-corpus";
+import { applyFilters } from "../letterboxd-utils";
+import type { FilmFilters, Film } from "../letterboxd-utils";
+import { applyShowFilters, summarizeShows } from "../serializd-utils";
+import type { ShowFilters, Show, TvSummary } from "../serializd-utils";
 import { avgFromDist, contrastE, meanOf, type Contrast } from "./shrinkage";
 import { seasonRating } from "./tv-stats";
 import { filmActorNames, tvActorNames } from "./people";
@@ -239,22 +244,101 @@ export type ConnectedStats = {
   temporal: ConnectedTemporal;
 };
 
-/** Compute every connected dashboard number from the live fixtures. */
-export function computeConnectedStats(): ConnectedStats {
-  const films = getEnrichedFilms();
+/**
+ * Connected accepts only the dimensions that exist on BOTH libraries (§5c):
+ * ratings, genres, languages, countries, conglomerates, watched*, actors.
+ * The shared dims have identical field names on FilmFilters and ShowFilters,
+ * so one object satisfies both — each side's apply function reads only the
+ * fields it knows and ignores the rest. (Film-only / TV-only fields like
+ * studios or networks aren't offered on connected; if a caller sets them
+ * anyway, they'd narrow only their own side — the page controls won't expose
+ * them, per §5c, so this is a non-issue in practice.)
+ */
+export type ConnectedFilters = FilmFilters & ShowFilters;
+
+/** The narrowed connected corpus — both libraries narrowed in lockstep. */
+type ConnectedCorpus = {
+  films: EnrichedFilm[];
+  enrichedShows: EnrichedShow[];
+  summary: TvSummary;
+  snapFilms: Film[];
+  snapShows: Show[];
+};
+
+/**
+ * Resolve the connected corpus.
+ *
+ * - No filters: shipped arrays, BYTE-FOR-BYTE identical to before.
+ * - With filters: narrow the film side via `applyFilters` and the TV side via
+ *   `applyShowFilters` (shared predicates, reused), restrict the enriched
+ *   arrays to the survivors by TMDB id, and recompute the TV summary over the
+ *   surviving shows. Both sides narrow against the SAME shared-dimension
+ *   filter, so a connected figure stays balanced across libraries.
+ */
+function resolveConnectedCorpus(filters?: ConnectedFilters): ConnectedCorpus {
+  if (!filters || !hasAnyConnectedFilter(filters)) {
+    return {
+      films: getEnrichedFilms(),
+      enrichedShows: getEnrichedShows(),
+      summary: getShows().summary,
+      snapFilms: getFilms().films,
+      snapShows: getShows().shows,
+    };
+  }
+
+  // Film side.
+  const { films: enrichedFilmSnap } = getFilmsWithEnrichment();
+  const snapFilms = applyFilters(enrichedFilmSnap, filters).map((a) => a.film);
+  const survivingFilmIds = new Set<number>();
+  for (const f of snapFilms) if (f.tmdb?.id != null) survivingFilmIds.add(f.tmdb.id);
+  const films = getEnrichedFilms().filter((e) => survivingFilmIds.has(e.tmdbId));
+
+  // TV side.
+  const { shows: enrichedShowSnap, summary: baseSummary } = getShowsWithEnrichment();
+  const snapShows = applyShowFilters(enrichedShowSnap, filters).map((a) => a.show);
+  const survivingShowIds = new Set<number>();
+  for (const s of snapShows) if (s.tmdb?.id != null) survivingShowIds.add(s.tmdb.id);
+  const enrichedShows = getEnrichedShows().filter((e) =>
+    survivingShowIds.has(e.tmdbId),
+  );
+  const summary = summarizeShows(snapShows, baseSummary);
+
+  return { films, enrichedShows, summary, snapFilms, snapShows };
+}
+
+/** True if any connected filter field would actually narrow either side. */
+function hasAnyConnectedFilter(f: ConnectedFilters): boolean {
+  return Object.values(f).some((v) => {
+    if (v === undefined || v === null) return false;
+    if (Array.isArray(v)) return v.length > 0;
+    if (typeof v === "string") return v.length > 0;
+    return true;
+  });
+}
+
+/**
+ * Compute every connected dashboard number from the live fixtures.
+ *
+ * `filters` optional: omitted/empty → full corpus, identical to the pre
+ * filter behaviour. Provided → both libraries narrowed by the shared
+ * predicate (§5c, §9).
+ */
+export function computeConnectedStats(filters?: ConnectedFilters): ConnectedStats {
+  const corpus = resolveConnectedCorpus(filters);
+  const films = corpus.films;
   // TV ratings use the season signal (see seasonRating), matching the
   // television dashboard — so crossover actors, the genre dumbbell's TV
   // side, the conglomerate split, and the pooled world lean rank on
   // seasons, not the most-recent-review proxy. Films are unchanged.
-  const shows = getEnrichedShows().map((s) => ({ ...s, mine: seasonRating(s) }));
-  const { summary } = getShows();
+  const shows = corpus.enrichedShows.map((s) => ({ ...s, mine: seasonRating(s) }));
+  const summary = corpus.summary;
   const pooled: Titled[] = [...films, ...shows];
   const cm = meanOf(pooled.map(mineOf));
 
   // Head-to-head: the FULL film corpus (not just the enriched subset)
   // vs. rated seasons. Season avg + rated-season count come from the
   // snapshot's per-level distribution.
-  const snapFilms = getFilms().films;
+  const snapFilms = corpus.snapFilms;
   const filmAvg = meanOf(
     snapFilms.map((f) => f.primaryRating).filter((r): r is number => r != null),
   );
@@ -266,7 +350,7 @@ export function computeConnectedStats(): ConnectedStats {
   const filmDates = snapFilms.flatMap((f) =>
     (f.reviews || []).map((r) => r.watchedDate).filter(Boolean),
   );
-  const seasonDates = getShows().shows.flatMap((s) =>
+  const seasonDates = corpus.snapShows.flatMap((s) =>
     (s.reviews || [])
       .filter((r) => r.level === "season" && r.watchedDate)
       .map((r) => r.watchedDate),
