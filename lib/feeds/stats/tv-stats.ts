@@ -20,6 +20,9 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { getShows } from "../serializd";
+import { getShowsWithEnrichment } from "../review-corpus";
+import { applyShowFilters, summarizeShows } from "../serializd-utils";
+import type { ShowFilters, TvSummary, Show } from "../serializd-utils";
 import { getEnrichedShows } from "../enrichment";
 import type { EnrichedShow } from "../enrichment";
 import { avgFromDist, contrastE, meanOf, rank, type Contrast } from "./shrinkage";
@@ -214,15 +217,70 @@ export type TvStats = {
   };
 };
 
-/** Compute every TV dashboard number from the live fixtures. */
-export function computeTvStats(): TvStats {
-  const { summary } = getShows();
+/**
+ * The narrowed TV corpus: the enriched shows (drive every analytical tile)
+ * and the summary (drives lifetime + per-level distributions). Bundled so the
+ * unfiltered and filtered paths feed the same compute body.
+ */
+type TvCorpus = {
+  enrichedShows: EnrichedShow[];
+  summary: TvSummary;
+};
+
+/**
+ * Resolve the corpus for a TV compute call.
+ *
+ * - No filters: shipped enriched shows + summary, BYTE-FOR-BYTE identical to
+ *   the pre-filter behaviour.
+ * - With filters: narrow the enrichment-joined Show[] via the SHARED
+ *   `applyShowFilters` predicate (reused, not reimplemented), restrict the
+ *   EnrichedShow[] to the survivors by TMDB id, and recompute the summary
+ *   over the surviving shows (honouring the miniseries double-count rule).
+ */
+function resolveTvCorpus(filters?: ShowFilters): TvCorpus {
+  if (!filters || !hasAnyShowFilter(filters)) {
+    return { enrichedShows: getEnrichedShows(), summary: getShows().summary };
+  }
+
+  const { shows: enrichedSnap, summary: baseSummary } = getShowsWithEnrichment();
+  const surviving = applyShowFilters(enrichedSnap, filters).map((a) => a.show);
+
+  const survivingTmdbIds = new Set<number>();
+  for (const s of surviving) {
+    if (s.tmdb?.id != null) survivingTmdbIds.add(s.tmdb.id);
+  }
+  const enrichedShows = getEnrichedShows().filter((e) =>
+    survivingTmdbIds.has(e.tmdbId),
+  );
+  const summary = summarizeShows(surviving, baseSummary);
+
+  return { enrichedShows, summary };
+}
+
+/** True if any ShowFilters field would actually narrow the corpus. */
+function hasAnyShowFilter(f: ShowFilters): boolean {
+  return Object.values(f).some((v) => {
+    if (v === undefined || v === null) return false;
+    if (Array.isArray(v)) return v.length > 0;
+    if (typeof v === "string") return v.length > 0;
+    return true;
+  });
+}
+
+/**
+ * Compute every TV dashboard number from the live fixtures.
+ *
+ * `filters` optional: omitted/empty → full corpus, identical to the pre
+ * filter behaviour. Provided → the predicate-narrowed corpus (§9).
+ */
+export function computeTvStats(filters?: ShowFilters): TvStats {
+  const { enrichedShows, summary } = resolveTvCorpus(filters);
   // Canonical rating = the season signal. Remapping `mine` to seasonRating
   // here moves every analytical tile (genres, people, networks, provenance,
   // world lean, diverging) AND the baseline onto season ratings at once,
   // since they all read `mine`. The rating-distribution-by-level tile is
   // unaffected — it reads the snapshot's per-level histograms, not `mine`.
-  const shows = getEnrichedShows().map((s) => ({ ...s, mine: seasonRating(s) }));
+  const shows = enrichedShows.map((s) => ({ ...s, mine: seasonRating(s) }));
 
   // Corpus baseline = the mean canonical (season-derived) show rating, over
   // the ~139 rated shows. This is the diverging/contrast prior and the
