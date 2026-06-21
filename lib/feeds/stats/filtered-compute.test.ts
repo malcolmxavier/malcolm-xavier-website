@@ -54,6 +54,31 @@ describe("computeFilmStats — narrowed corpus", () => {
     expect(onlyTop.lifetime.films).toBeGreaterThan(0);
   });
 
+  it("watched-year exclusion narrows the corpus (the rail's exclude cycle)", () => {
+    // Candidate years come straight from the temporal pace series, so this
+    // tracks whatever years the live fixture carries. Find a year whose
+    // exclusion actually shrinks the corpus — i.e. one with at least one film
+    // watched ONLY that year. A real multi-year diary always has one; the
+    // search just keeps the test resilient to which specific year it is.
+    const years = unfiltered.temporal.paceByDay
+      .map((c) => Number(c.year))
+      .filter((y) => Number.isFinite(y));
+    const year = years.find(
+      (y) =>
+        computeFilmStats({ excludeWatchedYears: [y] }).lifetime.films <
+        unfiltered.lifetime.films,
+    );
+    expect(year).toBeDefined();
+    const exclude = computeFilmStats({ excludeWatchedYears: [year!] });
+    // Excluding one year still leaves the other years' watches.
+    expect(exclude.lifetime.films).toBeGreaterThan(0);
+    expect(exclude.lifetime.films).toBeLessThan(unfiltered.lifetime.films);
+    // The matching include side is non-trivial too (that year has films).
+    expect(
+      computeFilmStats({ watchedYears: [year!] }).lifetime.films,
+    ).toBeGreaterThan(0);
+  });
+
   it("include + exclude in the same dimension composes (a AND NOT b)", () => {
     const dist = unfiltered.genreDistribution;
     const incGenre = dist[0][0];

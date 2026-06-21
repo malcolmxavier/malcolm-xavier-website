@@ -36,6 +36,19 @@ describe("parseFilmFilters — exclusion encoding", () => {
     expect(f.excludeRuntimeBuckets).toEqual(["gt150"]);
   });
 
+  it("splits watched years on both sides (the stats rail's exclude cycle)", () => {
+    const f = parseFilmFilters({ watchedYear: "2024,!2023,!nope" });
+    expect(f.watchedYears).toEqual([2024]);
+    // "nope" coerces to NaN → dropped; 2023 survives as an exclusion.
+    expect(f.excludeWatchedYears).toEqual([2023]);
+  });
+
+  it("supports an exclude-only watched year (no include set)", () => {
+    const f = parseFilmFilters({ watchedYear: "!2023" });
+    expect(f.watchedYears).toBeUndefined();
+    expect(f.excludeWatchedYears).toEqual([2023]);
+  });
+
   it("carries exclusion across the high-cardinality entity facets", () => {
     const f = parseFilmFilters({
       actor: "!christopher-nolan",
