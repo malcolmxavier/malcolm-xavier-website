@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-06-21T17:31:03.274Z",
+  "capturedAt": "2026-06-22T03:30:55.272Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 241,
-    "totalEpisodeReviews": 662,
+    "totalEpisodeReviews": 663,
     "ratingDistribution": {
       "1": 3,
       "2": 43,
       "3": 226,
-      "4": 182,
+      "4": 183,
       "5": 17,
       "3.5": 286,
       "4.5": 52,
@@ -43,7 +43,7 @@
       "episode": {
         "2": 21,
         "3": 165,
-        "4": 136,
+        "4": 137,
         "5": 7,
         "3.5": 221,
         "4.5": 43,
@@ -52,13 +52,13 @@
       }
     },
     "genreDistribution": {
-      "Reality": 27,
-      "Drama": 97,
       "Sci-Fi & Fantasy": 24,
+      "Drama": 97,
+      "Action & Adventure": 17,
+      "Reality": 27,
       "Talk": 1,
       "Comedy": 57,
       "Mystery": 32,
-      "Action & Adventure": 17,
       "Crime": 28,
       "Documentary": 12,
       "News": 1,
@@ -67,18 +67,137 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
-      "2000s": 6,
       "2020s": 128,
+      "2000s": 6,
       "2010s": 21,
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 10,
-    "thisYearCount": 50,
+    "showsInProgressCount": 11,
+    "thisYearCount": 51,
     "totalWatchedShows": 343,
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-94997",
+      "serializdShowId": 94997,
+      "slug": "house-of-the-dragon-2022",
+      "name": "House of the Dragon",
+      "premiereYear": 2022,
+      "premiereDate": "2022-08-21",
+      "serializdUrl": "https://serializd.com/show/94997",
+      "tmdb": {
+        "id": 94997,
+        "name": "House of the Dragon",
+        "posterPath": "/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
+        "backdropPath": "/2xGcSLyTAzConiHAByWqhfLiatT.jpg",
+        "genres": [
+          "Sci-Fi & Fantasy",
+          "Drama",
+          "Action & Adventure"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 26
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
+      "seasons": [
+        {
+          "serializdId": 309556,
+          "showId": 94997,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/n9z5p7psbfhLsaRyUrv0jrNCbh0.jpg",
+          "episodeCount": 73
+        },
+        {
+          "serializdId": 134965,
+          "showId": 94997,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/lx6hsqWXq4aVrXPjCqnMHFrGL5u.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 368014,
+          "showId": 94997,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/lZwxqNWnT1dRl76ry6BM0FPqCUg.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 449260,
+          "showId": 94997,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/5OfQpVSXRZnKcJH9cpk76NhOp96.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 70017465,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Like watching a train crash in slow-mo. Something felt not as rich in the battle look and feel, but the choreography is there. Gotta listen to your mother, kids!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-22T03:08:03Z",
+          "reviewDate": "2026-06-22T03:08:03Z",
+          "seasonId": 449260,
+          "episodeNumber": 1,
+          "episodeName": "Episode 1",
+          "tags": []
+        },
+        {
+          "id": 19832559,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I enjoyed most of this season, but I still need them to pick up the pace. The stakes seem appropriately set, but then the characters are not set up to action on them in any meaningful way. Or at least the audience does not see enough of those actions. The scene with Rhaenyra and Alicent in the sept, revealing how much is misunderstood between them, sticks out. As does the fourth episode. Melys and Rhaenys forever.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-08-04T18:34:00Z",
+          "reviewDate": "2024-08-25T18:37:08Z",
+          "seasonId": 368014,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2024,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        2
+      ],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        1
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-06-22T03:08:03Z",
+      "primaryRating": 4,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-17380",
       "serializdShowId": 17380,
@@ -24583,105 +24702,6 @@
       "liked": false
     },
     {
-      "id": "tmdb-tv-94997",
-      "serializdShowId": 94997,
-      "slug": "house-of-the-dragon-2022",
-      "name": "House of the Dragon",
-      "premiereYear": 2022,
-      "premiereDate": "2022-08-21",
-      "serializdUrl": "https://serializd.com/show/94997",
-      "tmdb": {
-        "id": 94997,
-        "name": "House of the Dragon",
-        "posterPath": "/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
-        "backdropPath": "/2xGcSLyTAzConiHAByWqhfLiatT.jpg",
-        "genres": [
-          "Sci-Fi & Fantasy",
-          "Drama",
-          "Action & Adventure"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 26
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
-      "seasons": [
-        {
-          "serializdId": 309556,
-          "showId": 94997,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/n9z5p7psbfhLsaRyUrv0jrNCbh0.jpg",
-          "episodeCount": 73
-        },
-        {
-          "serializdId": 134965,
-          "showId": 94997,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/lx6hsqWXq4aVrXPjCqnMHFrGL5u.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 368014,
-          "showId": 94997,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/lZwxqNWnT1dRl76ry6BM0FPqCUg.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 449260,
-          "showId": 94997,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/5OfQpVSXRZnKcJH9cpk76NhOp96.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 19832559,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I enjoyed most of this season, but I still need them to pick up the pace. The stakes seem appropriately set, but then the characters are not set up to action on them in any meaningful way. Or at least the audience does not see enough of those actions. The scene with Rhaenyra and Alicent in the sept, revealing how much is misunderstood between them, sticks out. As does the fourth episode. Melys and Rhaenys forever.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-08-04T18:34:00Z",
-          "reviewDate": "2024-08-25T18:37:08Z",
-          "seasonId": 368014,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5
-      ],
-      "watchedYearSet": [
-        2024
-      ],
-      "reviewedSeasonNumbers": [
-        2
-      ],
-      "inProgressSeasonNumbers": [],
-      "watchedUnreviewedSeasonNumbers": [
-        1
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2024-08-25T18:37:08Z",
-      "primaryRating": 3.5,
-      "liked": false
-    },
-    {
       "id": "tmdb-tv-252257",
       "serializdShowId": 252257,
       "slug": "americas-sweethearts-dallas-cowboys-cheerleaders-2024",
@@ -26645,6 +26665,125 @@
     }
   ],
   "showById": {
+    "tmdb-tv-94997": {
+      "id": "tmdb-tv-94997",
+      "serializdShowId": 94997,
+      "slug": "house-of-the-dragon-2022",
+      "name": "House of the Dragon",
+      "premiereYear": 2022,
+      "premiereDate": "2022-08-21",
+      "serializdUrl": "https://serializd.com/show/94997",
+      "tmdb": {
+        "id": 94997,
+        "name": "House of the Dragon",
+        "posterPath": "/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
+        "backdropPath": "/2xGcSLyTAzConiHAByWqhfLiatT.jpg",
+        "genres": [
+          "Sci-Fi & Fantasy",
+          "Drama",
+          "Action & Adventure"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 26
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
+      "seasons": [
+        {
+          "serializdId": 309556,
+          "showId": 94997,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/n9z5p7psbfhLsaRyUrv0jrNCbh0.jpg",
+          "episodeCount": 73
+        },
+        {
+          "serializdId": 134965,
+          "showId": 94997,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/lx6hsqWXq4aVrXPjCqnMHFrGL5u.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 368014,
+          "showId": 94997,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/lZwxqNWnT1dRl76ry6BM0FPqCUg.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 449260,
+          "showId": 94997,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/5OfQpVSXRZnKcJH9cpk76NhOp96.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 70017465,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Like watching a train crash in slow-mo. Something felt not as rich in the battle look and feel, but the choreography is there. Gotta listen to your mother, kids!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-22T03:08:03Z",
+          "reviewDate": "2026-06-22T03:08:03Z",
+          "seasonId": 449260,
+          "episodeNumber": 1,
+          "episodeName": "Episode 1",
+          "tags": []
+        },
+        {
+          "id": 19832559,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I enjoyed most of this season, but I still need them to pick up the pace. The stakes seem appropriately set, but then the characters are not set up to action on them in any meaningful way. Or at least the audience does not see enough of those actions. The scene with Rhaenyra and Alicent in the sept, revealing how much is misunderstood between them, sticks out. As does the fourth episode. Melys and Rhaenys forever.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-08-04T18:34:00Z",
+          "reviewDate": "2024-08-25T18:37:08Z",
+          "seasonId": 368014,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2024,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        2
+      ],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        1
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-06-22T03:08:03Z",
+      "primaryRating": 4,
+      "liked": false
+    },
     "tmdb-tv-17380": {
       "id": "tmdb-tv-17380",
       "serializdShowId": 17380,
@@ -51146,105 +51285,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2024-08-25T19:10:13Z",
       "primaryRating": 4,
-      "liked": false
-    },
-    "tmdb-tv-94997": {
-      "id": "tmdb-tv-94997",
-      "serializdShowId": 94997,
-      "slug": "house-of-the-dragon-2022",
-      "name": "House of the Dragon",
-      "premiereYear": 2022,
-      "premiereDate": "2022-08-21",
-      "serializdUrl": "https://serializd.com/show/94997",
-      "tmdb": {
-        "id": 94997,
-        "name": "House of the Dragon",
-        "posterPath": "/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
-        "backdropPath": "/2xGcSLyTAzConiHAByWqhfLiatT.jpg",
-        "genres": [
-          "Sci-Fi & Fantasy",
-          "Drama",
-          "Action & Adventure"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 26
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
-      "seasons": [
-        {
-          "serializdId": 309556,
-          "showId": 94997,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/n9z5p7psbfhLsaRyUrv0jrNCbh0.jpg",
-          "episodeCount": 73
-        },
-        {
-          "serializdId": 134965,
-          "showId": 94997,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/lx6hsqWXq4aVrXPjCqnMHFrGL5u.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 368014,
-          "showId": 94997,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/lZwxqNWnT1dRl76ry6BM0FPqCUg.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 449260,
-          "showId": 94997,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/5OfQpVSXRZnKcJH9cpk76NhOp96.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 19832559,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I enjoyed most of this season, but I still need them to pick up the pace. The stakes seem appropriately set, but then the characters are not set up to action on them in any meaningful way. Or at least the audience does not see enough of those actions. The scene with Rhaenyra and Alicent in the sept, revealing how much is misunderstood between them, sticks out. As does the fourth episode. Melys and Rhaenys forever.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-08-04T18:34:00Z",
-          "reviewDate": "2024-08-25T18:37:08Z",
-          "seasonId": 368014,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5
-      ],
-      "watchedYearSet": [
-        2024
-      ],
-      "reviewedSeasonNumbers": [
-        2
-      ],
-      "inProgressSeasonNumbers": [],
-      "watchedUnreviewedSeasonNumbers": [
-        1
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2024-08-25T18:37:08Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-252257": {
