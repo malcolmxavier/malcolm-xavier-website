@@ -1,22 +1,24 @@
 {
-  "capturedAt": "2026-06-20T16:00:41.797Z",
+  "capturedAt": "2026-06-23T07:00:16.064Z",
   "summary": {
-    "totalFilms": 774,
-    "totalReviews": 774,
-    "thisYearCount": 133,
+    "totalFilms": 775,
+    "totalReviews": 775,
+    "thisYearCount": 134,
     "ratingDistribution": {
       "1": 38,
       "2": 123,
       "3": 147,
       "4": 104,
       "5": 16,
-      "3.5": 153,
+      "3.5": 154,
       "1.5": 34,
       "2.5": 101,
       "4.5": 49,
       "0.5": 9
     },
     "genreDistribution": {
+      "Horror": 129,
+      "Romance": 89,
       "Drama": 365,
       "Thriller": 222,
       "Science Fiction": 115,
@@ -29,16 +31,14 @@
       "Comedy": 221,
       "Family": 21,
       "Music": 49,
-      "Horror": 128,
       "Adventure": 84,
-      "Romance": 88,
       "Documentary": 59,
       "Animation": 43,
       "TV Movie": 5,
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 578,
+      "2020s": 579,
       "2010s": 127,
       "2000s": 32,
       "1990s": 16,
@@ -48,6 +48,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1564614",
+      "letterboxdSlug": "leviticus",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/leviticus-2026/",
+      "title": "Leviticus",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-22",
+      "latestWatchedDate": "2026-06-22",
+      "firstReviewDate": "2026-06-23",
+      "latestReviewDate": "2026-06-23",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1366020331",
+          "watchedDate": "2026-06-22",
+          "reviewDate": "2026-06-23",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Happy pride! Can’t get over the thought of there being glory in all temperatures. Wishing those boys well on their little gay journey.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1564614,
+        "posterPath": "/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+        "backdropPath": "/ekFr4AyEpwyIHK1R3VOYDXN2PqL.jpg",
+        "genres": [
+          "Horror",
+          "Romance"
+        ],
+        "runtime": 88,
+        "director": "Adrian Chiarella"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1284465",
       "letterboxdSlug": "the-death-of-robin-hood",
@@ -33685,6 +33729,50 @@
     }
   ],
   "filmById": {
+    "tmdb-1564614": {
+      "id": "tmdb-1564614",
+      "letterboxdSlug": "leviticus",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/leviticus-2026/",
+      "title": "Leviticus",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-22",
+      "latestWatchedDate": "2026-06-22",
+      "firstReviewDate": "2026-06-23",
+      "latestReviewDate": "2026-06-23",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1366020331",
+          "watchedDate": "2026-06-22",
+          "reviewDate": "2026-06-23",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Happy pride! Can’t get over the thought of there being glory in all temperatures. Wishing those boys well on their little gay journey.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1564614,
+        "posterPath": "/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+        "backdropPath": "/ekFr4AyEpwyIHK1R3VOYDXN2PqL.jpg",
+        "genres": [
+          "Horror",
+          "Romance"
+        ],
+        "runtime": 88,
+        "director": "Adrian Chiarella"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1284465": {
       "id": "tmdb-1284465",
       "letterboxdSlug": "the-death-of-robin-hood",
