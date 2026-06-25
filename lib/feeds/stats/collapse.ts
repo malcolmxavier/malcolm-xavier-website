@@ -550,8 +550,17 @@ export const CONNECTED_TILES: TileSpec[] = [
   // Head to head — the always-surviving counter (n≥1 per side) that
   // connected keeps when it thins out.
   { id: "films-vs-television", archetype: "counter", band: "Head to head", bandCounter: true },
-  // Film vs. television
-  { id: "genres-film-vs-tv", archetype: "dumbbell", band: "Film vs. television" },
+  // Film vs. television. The dumbbell is the taste CLAIM tile (genres rated
+  // differently on screen vs. in a series); it gates on its OWN floor, not the
+  // dumbbell archetype default of 8. Connected's shared-genre rule (≥5 titles
+  // logged on EACH side) structurally caps the row count well below 8 — six on
+  // the full corpus — so the archetype floor would suppress a perfectly
+  // readable comparison. floor 2 keeps any two-genre-or-deeper comparison (two
+  // genres, each with its film and TV mark, is still a real contrast); only a
+  // single surviving genre folds to a readout, and zero suppresses the tile.
+  // Mirrors the films/TV genres-vs-baseline fix: gate on what the data
+  // structurally provides, not a generic archetype floor.
+  { id: "genres-film-vs-tv", archetype: "dumbbell", band: "Film vs. television", floor: 2 },
   { id: "crossover-actors", archetype: "versus", band: "Film vs. television" },
   // Where it comes from
   { id: "world-cinema-lean", archetype: "counter", band: "Where it comes from", bandCounter: true },

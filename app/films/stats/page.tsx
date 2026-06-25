@@ -40,6 +40,7 @@ import { TileReadout } from "@/components/stats/TileReadout";
 import { StatsHandoffPanel } from "@/components/stats/StatsHandoffPanel";
 import { SITE_URL } from "@/lib/site-config";
 import { computeFilmStats } from "@/lib/feeds/stats/film-stats";
+import { carryConnectedParams } from "@/lib/feeds/stats/connected-stats";
 import {
   buildFilmStatsRails,
   FILM_SUMMARY_DIMS,
@@ -208,6 +209,11 @@ export default async function FilmStatsPage({
   const reviewsHref = `/films/reviews${
     activeParams.toString() ? `?${activeParams.toString()}` : ""
   }`;
+  // Cross-brand handoff: carry only the dimensions the connected dashboard
+  // also filters on (rating, genre, watched year, actor, language, country,
+  // conglomerate) so a film selection crosses over without leaking film-only
+  // params connected would ignore.
+  const connectedHref = `/stats/connected${carryConnectedParams(activeParams)}`;
 
   // Page-level JSON-LD — a CollectionPage describing the UNFILTERED dashboard
   // as a first-class, indexable portfolio artifact (mirrors the landing).
@@ -413,7 +419,7 @@ export default async function FilmStatsPage({
               subbrand="film"
               label="Films sections"
               className="mt-2"
-              extra={{ label: "Connected Stats", href: "/stats/connected" }}
+              extra={{ label: "Connected Stats", href: connectedHref }}
             />
             {/* The "how to use this page" note drops below the rail as a
                 quiet footnote rather than a second headline-weight lede. */}
@@ -845,7 +851,7 @@ export default async function FilmStatsPage({
         {/* ─── Cross-brand handoff ──────────────────────────────── */}
         <Section padding="md" style={{ paddingTop: 0 }}>
           <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 14 }}>
-            <Link href="/stats/connected">See how film and television connect →</Link>
+            <Link href={connectedHref}>See how film and television connect →</Link>
           </p>
         </Section>
 

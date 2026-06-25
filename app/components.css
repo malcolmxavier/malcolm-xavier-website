@@ -546,6 +546,23 @@ a[data-subbrand="film"] {
   }
 }
 
+/* /stats/connected filter-rail + dismiss chips. Same posture as
+   .film-filter-chip / .show-filter-chip — the class carries only the
+   transition timing (colors come from the [data-connected] token cascade),
+   moved into the cascade so prefers-reduced-motion can disable it. Kept
+   distinct so the cross-brand page can diverge from the clusters later. */
+.connected-filter-chip {
+  transition:
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .connected-filter-chip {
+    transition: none;
+  }
+}
+
 @media (min-width: 768px) {
   .reviews-grid-header {
     position: sticky;

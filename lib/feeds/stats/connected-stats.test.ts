@@ -5,7 +5,12 @@
 // English 824 / US 700 · world lean +0.40.
 
 import { describe, expect, it } from "vitest";
-import { computeConnectedStats } from "./connected-stats";
+import {
+  computeConnectedStats,
+  connectedTileSurvival,
+  parseConnectedFilters,
+  carryConnectedParams,
+} from "./connected-stats";
 
 const s = computeConnectedStats();
 const asMap = (rows: [string, number][]) => Object.fromEntries(rows);
@@ -85,5 +90,83 @@ describe("connected cadence (film vs television by month)", () => {
   it("weekday matrix stacks Films vs Seasons", () => {
     expect(s.temporal.weekdayMatrix.cats).toHaveLength(7);
     expect(s.temporal.weekdayMatrix.segments).toEqual(["Films", "Seasons"]);
+  });
+});
+
+describe("connected degradation (Part C)", () => {
+  it("the full corpus is a healthy dashboard — every tile a chart", () => {
+    expect(s.collapse.verdict).toBe("dashboard");
+    for (const t of s.collapse.tiles) expect(t.rung).toBe("T0");
+  });
+
+  it("connectedTileSurvival maps each tile to its structural unit", () => {
+    const corpusN = s.headToHead.filmsLogged + s.headToHead.seasonsLogged;
+    const surv = connectedTileSurvival(s, corpusN);
+    const byId = Object.fromEntries(surv.map((t) => [t.id, t]));
+    // Counters ride the pooled corpus.
+    expect(byId["films-vs-television"].survivingN).toBe(corpusN);
+    // The dumbbell counts shared genres (6 at capture, ≥ its floor of 2).
+    expect(byId["genres-film-vs-tv"].survivingN).toBe(s.genreFilmVsTv.length);
+    expect(byId["genres-film-vs-tv"].survivingN).toBeGreaterThanOrEqual(2);
+    // The bar counts surviving language·country pairs.
+    expect(byId["language-x-country"].survivingN).toBe(s.overlap.topPairs.length);
+  });
+
+  it("a single-genre filter self-references the dumbbell", () => {
+    const surv = connectedTileSurvival(s, 1000, { genres: ["Drama"] });
+    const dumbbell = surv.find((t) => t.id === "genres-film-vs-tv");
+    expect(dumbbell?.selfReferenced).toBe(true);
+  });
+
+  it("a genre filter narrows the pooled corpus", () => {
+    const drama = computeConnectedStats(parseConnectedFilters({ genre: "Drama" }));
+    expect(drama.headToHead.filmsLogged).toBeLessThan(s.headToHead.filmsLogged);
+    expect(drama.headToHead.filmsLogged).toBeGreaterThan(0);
+  });
+});
+
+describe("parseConnectedFilters", () => {
+  it("parses the shared bounded + omnibox dims", () => {
+    const f = parseConnectedFilters({
+      rating: "4",
+      genre: "Drama",
+      watchedYear: "2026",
+      actor: "nicole-kidman",
+      language: "french",
+    });
+    expect(f.ratings).toEqual([4]);
+    expect(f.genres).toEqual(["Drama"]);
+    expect(f.watchedYears).toEqual([2026]);
+    expect(f.actors).toEqual(["nicole-kidman"]);
+    expect(f.languages).toEqual(["french"]);
+  });
+
+  it("ignores cluster-only params it doesn't report on (studio, network)", () => {
+    const f = parseConnectedFilters({ studio: "a24", network: "HBO / Max", genre: "Drama" });
+    expect(f.genres).toEqual(["Drama"]);
+    // Film-only / TV-only dims never narrow connected.
+    expect((f as { studios?: string[] }).studios).toBeUndefined();
+    expect((f as { networks?: string[] }).networks).toBeUndefined();
+  });
+});
+
+describe("carryConnectedParams", () => {
+  it("keeps the shared dims and drops cluster-only params", () => {
+    const active = new URLSearchParams();
+    active.set("genre", "Drama");
+    active.set("rating", "4");
+    active.set("studio", "a24"); // film-only — must not cross over
+    active.set("network", "HBO / Max"); // TV-only — must not cross over
+    const qs = carryConnectedParams(active);
+    expect(qs).toContain("genre=Drama");
+    expect(qs).toContain("rating=4");
+    expect(qs).not.toContain("studio");
+    expect(qs).not.toContain("network");
+  });
+
+  it("returns an empty string when no shared dims are active", () => {
+    const active = new URLSearchParams();
+    active.set("studio", "a24");
+    expect(carryConnectedParams(active)).toBe("");
   });
 });

@@ -18,9 +18,13 @@ import type { EnrichedFilm, EnrichedShow } from "../enrichment";
 import { getFilms } from "../letterboxd";
 import { getShows } from "../serializd";
 import { getFilmsWithEnrichment, getShowsWithEnrichment } from "../review-corpus";
-import { applyFilters } from "../letterboxd-utils";
+import { applyFilters, parseFilmFilters } from "../letterboxd-utils";
 import type { FilmFilters, Film } from "../letterboxd-utils";
-import { applyShowFilters, summarizeShows } from "../serializd-utils";
+import {
+  applyShowFilters,
+  summarizeShows,
+  parseShowFilters,
+} from "../serializd-utils";
 import type { ShowFilters, Show, TvSummary } from "../serializd-utils";
 import { avgFromDist, contrastE, meanOf, type Contrast } from "./shrinkage";
 import { seasonRating } from "./tv-stats";
@@ -46,6 +50,13 @@ import {
   WEEKDAYS,
 } from "./temporal";
 import type { GroupedStackedMatrix, StackedMatrix } from "./chart-data";
+import {
+  collapse,
+  CONNECTED_TILES,
+  type CollapseResult,
+  type TileSurvival,
+} from "./collapse";
+import { sumMatrix, versus, one } from "./survival-helpers";
 
 /** Anything with a language, country, and personal rating (film or show). */
 type Titled = { language: string | null; country: string | null; mine: number | null };
@@ -242,6 +253,10 @@ export type ConnectedStats = {
   conglomerate: StackedMatrix;
   worldLean: WorldLean;
   temporal: ConnectedTemporal;
+  /** The degradation verdict + per-tile rungs for this (possibly filtered)
+   *  corpus (§6). Connected never hands off to a single reviews list — it
+   *  reports "connected-thin" and points back at the two cluster dashboards. */
+  collapse: CollapseResult;
 };
 
 /**
@@ -356,7 +371,9 @@ export function computeConnectedStats(filters?: ConnectedFilters): ConnectedStat
       .map((r) => r.watchedDate),
   );
 
-  return {
+  // The view-model, sans the collapse verdict (which is derived FROM it, just
+  // below — mirrors computeFilmStats / computeTvStats).
+  const stats: Omit<ConnectedStats, "collapse"> = {
     headToHead: {
       filmsLogged: snapFilms.length,
       seasonsLogged,
@@ -391,4 +408,144 @@ export function computeConnectedStats(filters?: ConnectedFilters): ConnectedStat
     worldLean: worldLean(pooled),
     temporal: connectedTemporal(filmDates, seasonDates),
   };
+
+  // Bake in the degradation verdict (§6). The pooled corpus size (films +
+  // rated seasons) anchors the always-surviving counters; the connected
+  // verdict itself is the connected-thin exception, never a reviews handoff.
+  const corpusN = snapFilms.length + seasonsLogged;
+  return {
+    ...stats,
+    collapse: collapse(
+      "connected",
+      CONNECTED_TILES,
+      connectedTileSurvival(stats, corpusN, filters),
+    ),
+  };
+}
+
+/**
+ * Derive every connected tile's surviving-n + self-reference flag from the
+ * computed view-model and the active filter. Pure (the same stats always map
+ * to the same survival), so it's unit-testable against the fixtures — the
+ * connected sibling of filmTileSurvival / tvTileSurvival.
+ *
+ * Connected tiles DON'T deep-link (cross-brand → no single reviews list), so
+ * there are no navigational "immortal" tiles here; every chart gates on its
+ * own structural floor, and a single-value include self-references the tile
+ * whose axis it pins.
+ */
+export function connectedTileSurvival(
+  s: Omit<ConnectedStats, "collapse">,
+  corpusN: number,
+  filters?: ConnectedFilters,
+): TileSurvival[] {
+  const f = filters ?? {};
+
+  // A single include value collapses the matching tile's distribution to a
+  // tautology (§6 self-reference). On connected only one tile has a pinnable
+  // axis: filtering to ONE genre makes the film-vs-TV genre dumbbell a
+  // one-row comparison, so it folds to a readout. (Rating and watched-year
+  // don't have a connected distribution tile to flatten — head-to-head and
+  // the temporal grids stay meaningful under a single value.)
+  const selfRef = new Set<string>();
+  if (one(f.genres)) selfRef.add("genres-film-vs-tv");
+
+  // Per-tile survival on the right fragility axis. Counters ride the pooled
+  // corpus (honest at any n ≥ 1). Stacked/grid tiles count the items feeding
+  // them (sumMatrix), not their category count, so a dense few-category chart
+  // still survives. Versus tiles live on their most-logged column and degrade
+  // to a readout when the rated column drops below the per-column floor.
+  const surv: Record<
+    string,
+    { survivingN: number; degradeToReadout?: boolean }
+  > = {
+    // Head to head — the always-surviving counter that anchors the page.
+    "films-vs-television": { survivingN: corpusN },
+    // Film vs. television. The dumbbell counts shared genres (≥5 logged on
+    // each side); see its floor: 2 in CONNECTED_TILES. Crossover actors is a
+    // versus tile gated symmetrically (≥2 films AND ≥2 shows).
+    "genres-film-vs-tv": { survivingN: s.genreFilmVsTv.length },
+    "crossover-actors": versus(s.crossoverActors),
+    // Where it comes from — counter rides the corpus; the language×country bar
+    // counts surviving pairs; languages/countries are versus tiles.
+    "world-cinema-lean": { survivingN: corpusN },
+    languages: versus(s.languages),
+    countries: versus(s.countries),
+    "language-x-country": { survivingN: s.overlap.topPairs.length },
+    // The industry — a film-vs-TV stacked bar; counts the titles feeding it.
+    "by-conglomerate": { survivingN: sumMatrix(s.conglomerate.matrix) },
+    // When I watch — each grid counts its logged events. The month view is a
+    // grouped stack ([month][medium][year]); flatten one level for the total.
+    "film-and-tv-by-month": {
+      survivingN: sumMatrix(s.temporal.monthMediumYear.matrix.flat()),
+    },
+    "by-weekday": { survivingN: sumMatrix(s.temporal.weekdayMatrix.matrix) },
+  };
+
+  return CONNECTED_TILES.map((tile) => ({
+    id: tile.id,
+    survivingN: surv[tile.id]?.survivingN ?? 0,
+    selfReferenced: selfRef.has(tile.id),
+    degradeToReadout: surv[tile.id]?.degradeToReadout ?? false,
+  }));
+}
+
+/** The connected dashboard's filterable params — the dimensions it actually
+ *  REPORTS on AND that exist on BOTH libraries (§5c). Bounded rails: rating,
+ *  genre, watched year. Omnibox (high-card): actor, language, country,
+ *  conglomerate. Cluster-only dimensions connected never surfaces (studios,
+ *  networks, creators, directors, writers, type, decade) are deliberately
+ *  absent. Shared by the URL parser and the cross-dashboard carry-over. */
+export const CONNECTED_FILTER_PARAMS = [
+  "rating",
+  "genre",
+  "watchedYear",
+  "actor",
+  "language",
+  "country",
+  "conglomerate",
+] as const;
+
+/**
+ * Parse the connected dashboard's URL params into a ConnectedFilters object.
+ *
+ * Restrict the raw params to CONNECTED_FILTER_PARAMS FIRST — a hand-crafted
+ * ?studio= / ?network= must never narrow one side only — then delegate to the
+ * proven per-library parsers and merge. The shared dims have identical field
+ * names and semantics on FilmFilters and ShowFilters, so the two parses agree
+ * on every field and the merged object satisfies both halves of the
+ * intersection type.
+ */
+export function parseConnectedFilters(
+  params: Record<string, string | string[] | undefined>,
+): ConnectedFilters {
+  const shared: Record<string, string | string[] | undefined> = {};
+  for (const p of CONNECTED_FILTER_PARAMS) shared[p] = params[p];
+  // Both parses agree on every shared field, so the merge is runtime-correct.
+  // The cast is for a TS limitation only: FilmFilters and ShowFilters each
+  // carry a watchedYears|watchedWindow discriminated union, and spreading two
+  // union-typed results can't be inferred as assignable to their intersection
+  // even though the value satisfies both (connected only ever sets
+  // watchedYears, never watchedWindow).
+  return {
+    ...parseFilmFilters(shared),
+    ...parseShowFilters(shared),
+  } as ConnectedFilters;
+}
+
+/**
+ * Narrow a cluster dashboard's active params to connected's vocabulary and
+ * return a "?a=b" query string (or "") — so a film/TV selection carries onto
+ * /stats/connected without leaking cluster-only params (studios, networks, …)
+ * the connected parser would ignore anyway. The shared dims use identical
+ * param names and encodings across all three dashboards, so values transfer
+ * verbatim.
+ */
+export function carryConnectedParams(active: URLSearchParams): string {
+  const out = new URLSearchParams();
+  for (const k of CONNECTED_FILTER_PARAMS) {
+    for (const v of active.getAll(k)) out.append(k, v);
+  }
+  const qs = out.toString();
+  return qs ? `?${qs}` : "";
 }

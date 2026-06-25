@@ -417,6 +417,50 @@ describe("television tile catalog (B2 walkthrough)", () => {
   });
 });
 
+describe("connected tile catalog (Part C)", () => {
+  // The cross-brand degradation decisions. Connected tiles don't deep-link, so
+  // none are immortal; each chart gates on its own floor, and a single-genre
+  // include self-references the film-vs-TV dumbbell.
+
+  it("genres-film-vs-tv floors at 2, below the dumbbell archetype default of 8", () => {
+    // The shared-genre rule (≥5 logged on EACH side) structurally caps the row
+    // count well under 8 — six on the full corpus — so the archetype floor
+    // would suppress a readable comparison. Two genres (each with its film and
+    // TV mark) is still a real contrast, so n=2 renders; only a lone surviving
+    // genre (n=1) folds to a readout.
+    const belowFloor = collapse("connected", CONNECTED_TILES, [
+      { id: "genres-film-vs-tv", survivingN: 1 },
+    ]);
+    expect(rung(belowFloor, "genres-film-vs-tv")).toBe("T2");
+    const atFloor = collapse("connected", CONNECTED_TILES, [
+      { id: "genres-film-vs-tv", survivingN: 2 },
+    ]);
+    expect(rung(atFloor, "genres-film-vs-tv")).toBe("T0");
+  });
+
+  it("a single-genre filter self-references the dumbbell to a readout", () => {
+    // Filtering to ONE genre makes the film-vs-TV comparison a one-row
+    // tautology, so it folds even if the row count would otherwise clear.
+    const selfRef = collapse("connected", CONNECTED_TILES, [
+      { id: "genres-film-vs-tv", survivingN: 6, selfReferenced: true },
+    ]);
+    expect(rung(selfRef, "genres-film-vs-tv")).toBe("T2");
+  });
+
+  it("crossover-actors keeps its surviving column when only the rated side thins", () => {
+    // Versus tile: when the most-logged column clears the floor but the gated
+    // highest-rated column emptied, it stays a chart with the rated side
+    // withheld (soloColumn), not a bare readout. Full corpus elsewhere so the
+    // band stays full and only this tile's column degrades.
+    const surv = fullSurvival(CONNECTED_TILES).map((t) =>
+      t.id === "crossover-actors" ? { ...t, degradeToReadout: true } : t,
+    );
+    const result = collapse("connected", CONNECTED_TILES, surv);
+    expect(rung(result, "crossover-actors")).toBe("T0");
+    expect(tileDec(result, "crossover-actors").soloColumn).toBe(true);
+  });
+});
+
 describe("catalog integrity", () => {
   it("films catalog has unique tile ids and a load-bearing Taste band", () => {
     const ids = FILMS_TILES.map((t) => t.id);
