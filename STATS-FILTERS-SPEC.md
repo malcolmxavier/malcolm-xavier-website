@@ -379,6 +379,102 @@ hand off. Connected never shows the reviews-funnel panel.
 
 ---
 
+## 10a. Build status (as of 2026-06-21)
+
+Films is the proving slice and is **shipped on branch `feat/stats-filters`**
+(commit `72702db`, not yet pushed). Status against the §10 sequence:
+
+| Step | Area | Films | TV | Connected |
+|------|------|-------|----|-----------|
+| 1 | Predicate plumbing | ✅ `computeFilmStats(FilmFilters)`; fuzzy `?title=`/`?director=` wired into `resolveFilmCorpus` (matches reviews count) | ❌ still unfiltered | ❌ still unfiltered |
+| 2 | Collapse engine | ✅ `collapse.ts` wired into films render: per-tile rung, band footnotes/readouts, page handoff all live | reuse | — |
+| 3 | Tri-state chip + rails | ✅ `TriStateChip`, `FilterRail`, `FacetAccordion` | reuse | — |
+| 4 | Omnibox + summary | ✅ `SearchOmnibox`, `SummaryFilterChip`, `DismissableChip`, live n + `aria-live` | reuse | — |
+| 5 | URL state + noindex | ✅ `parseFilmFilters`, noindex + JSON-LD drop on filtered | reuse | — |
+| 6 | TV review-level control | — | ❌ | — |
+| 7 | Connected handoff variant | — | — | ❌ |
+| 8 | Reviews exclusion intake | ❌ (shared predicate exists; reviews side not surfaced) | | |
+| 9 | A11y + regression pass | ❌ films slice not yet axe/keyboard-audited | | |
+
+**Next-steps queue (agreed priority):**
+
+1. ~~**Wire `collapse.ts` into the films/stats render**~~ ✅ **DONE 2026-06-21.**
+   `computeFilmStats` now bakes a `collapse: CollapseResult` into `FilmStats`;
+   `Tile`/`StatsSection` are decision-aware (T3/suppressed→null, T2→readout,
+   T1→thinning caption); new primitives `TileReadout`, `BandFootnote`,
+   `StatsHandoffPanel`. Half-empty Versus tiles now degrade to a readout of
+   their surviving column. (See "Collapse wiring decisions" below.)
+2. **A11y/axe pass on the finished films slice** (step 9, films-scoped):
+   both themes, panel open, full keyboard trap + Esc/focus-restore,
+   class-audit the tile archetypes under filtering. Cheap insurance *before*
+   replicating the pattern across clusters.
+3. **Replicate to TV** (steps 1, 3–6 for TV) reusing `StatsFilterControls`
+   — build TV's rails/summary-dims, drop the island in; the "Type: Name"
+   prefix and sticky behaviour come along for free. Confirm
+   `TelevisionShell`'s existing active-chips already follow the prefix
+   convention. Then **connected** (step 7).
+4. **Reviews exclusion intake** (step 8).
+
+Rationale for the order: verify-then-replicate (don't port bugs into TV),
+and finish the proving slice before widening.
+
+**Durable approach notes (so re-entry doesn't relearn):**
+
+- **Sticky bar layout.** The bar and the dashboard must live in **one
+  bordered `<Section>`** — a `position:sticky` element only travels within
+  its DOM parent, so a bar boxed in its own short section never sticks.
+- **Stuck-state edge.** The bar's separating edge (soft shadow + dark-mode
+  hairline) appears **only while pinned**, toggled by an
+  `IntersectionObserver` on a **1px** sentinel (a zero-height sentinel reads
+  as non-intersecting in Chrome → permanently "stuck"). The border is driven
+  as **longhands** (`borderBottomColor` toggled), never the `borderBottom`
+  shorthand — mixing the two leaves the color reverting to `currentColor`
+  (an opaque line) on un-pin. `STICKY_TOP_PX` is the single source for both
+  `barStyle.top` and the observer's `rootMargin`.
+- **Chip labels.** Entity-facet (omnibox) chips carry a `"Type: Name"`
+  prefix (matches the reviews `ActiveFilterChips` convention); bounded rail
+  values stay bare. Lives in `StatsFilterControls`, so TV inherits it.
+- **Lede vs live count.** The hero lede reads the **unfiltered**
+  `summary.totalFilms`; the filter-aware count lives **only** in the sticky
+  bar (a recompute must not rewrite an out-of-view headline).
+
+**Collapse wiring decisions (2026-06-21, adjudicated with Malcolm):**
+
+- **Surviving-n is per-axis, NOT uniform "films feeding the tile".** Two
+  failure modes degrade differently and one yardstick misses one of them.
+  *Sample-driven* tiles (counters, the diverging genre tile, stacked-by-year,
+  heatmap, line) gate on the feeding-FILM/event count. *Structure-driven*
+  tiles (single-axis bars → non-empty categories; versus → the weaker column)
+  gate on the CATEGORY/COLUMN count. A uniform film-count gate is blind to
+  column emptiness — the exact thing this feature exists to catch. See
+  `filmTileSurvival` in `lib/feeds/stats/film-stats.ts`.
+- **The diverging tile is the one sample-gated exception in Taste.**
+  `divergingGenre` is hard-capped at 12 rows, so the §6 `diverging` floor of
+  15 is unsatisfiable as a ROW count and would collapse the tile even on the
+  full corpus. It gates on the surviving corpus (films) instead. Floors in
+  `ARCHETYPE_FLOORS` were left untouched.
+- **Versus degrades to a readout, not suppression.** When a versus tile's
+  gated "highest-rated" column drops below the per-column floor while
+  "most-logged" survives, `TileSurvival.degradeToReadout` forces T2 (readout
+  the surviving column) rather than T3. `degradeToReadout` is a general
+  secondary-axis signal in the engine, distinct from `selfReferenced`.
+- **Page handoff fires on THINNESS, not self-reference.** A Taste collapse
+  caused purely because the user filtered BY genre (tautological distribution,
+  but the corpus is still rich — e.g. 360 Drama films) keeps the dashboard:
+  Taste folds to a footnote and the other bands carry the page. The
+  reviews-handoff fires only when a Taste chart tile is genuinely below floor
+  (`collapse.ts` altitude-3 `collapsedForThinness` check).
+- **Readout copy is generic, flagged for voice.** `TileReadout` shows the
+  narrowed corpus count + "Needs a wider selection to chart"; the band
+  footnote names the hidden breakdowns. Per-tile voice (e.g. a versus readout
+  rendering the actual most-logged rows; a self-ref Genres readout reading
+  "Horror — 47 films, 100% of selection") is a deferred refinement.
+- **Handoff deep-link carries the raw stats query** to `/films/reviews`
+  verbatim (stats and reviews share the filter param vocabulary, §11). **KU:**
+  validate that every stats param resolves identically on the reviews side.
+
+---
+
 ## 11. Click-through propagation and reviews
 
 The deep-link from a stats tile means "see the reviews behind *this*

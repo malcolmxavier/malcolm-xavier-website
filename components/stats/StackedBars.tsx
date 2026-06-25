@@ -43,6 +43,11 @@ function typicalYearLine(
 ): AverageLine | null {
   const years = segments.map(Number);
   if (years.some((y) => !Number.isFinite(y))) return null;
+  // A "typical year" only means something when there are multiple years to
+  // average across. Filtered to a single year (e.g. ?watchedYear=2023) there
+  // is nothing to compare it against, so drop the line entirely — returning
+  // null makes the caller omit the polyline, dots, legend entry, and caption.
+  if (years.length < 2) return null;
   const curYear = new Date().getUTCFullYear();
   const curMonth = new Date().getUTCMonth();
   // A column counts as "elapsed" if its period has already happened this
@@ -78,10 +83,19 @@ function typicalYearLine(
   const fullYears = fullIdx.map((i) => years[i]).join(", ");
   const curNote =
     curIdx >= 0 ? ` plus ${curYear}${kind === "month" ? " (completed months)" : " so far"}` : "";
+  // Past years too thin to count as "full" (below half the busiest year) are
+  // dropped from the average. Name them dynamically so the caption stays true
+  // under any filter, rather than asserting a single hardcoded year.
+  const thinYears = pastIdx
+    .filter((i) => !fullIdx.includes(i))
+    .map((i) => years[i]);
+  const thinNote = thinYears.length
+    ? `; thin data from ${thinYears.join(", ")} is excluded from the average`
+    : "";
   return {
     points,
     values,
-    caption: `Dashed line = a typical year, averaging full years (${fullYears})${curNote}; thin data from 2023 is excluded from the average.`,
+    caption: `Dashed line = a typical year, averaging full years (${fullYears})${curNote}${thinNote}.`,
   };
 }
 
@@ -106,8 +120,18 @@ export function StackedBars({
   colors?: string[];
   segmentHref?: (segment: string, index: number) => string | undefined;
 }) {
-  const colorAt = (i: number) => colors?.[i] ?? paletteColor(i);
   const { cats, segments, matrix } = data;
+  // A stack that collapses to a single series is no longer categorical: one
+  // year (or one category) carries no cross-series comparison, so it takes the
+  // cluster brand hue via --stats-fill — the same token the single-series Bars
+  // and ColumnChart use — rather than an arbitrary categorical-palette slot.
+  // An explicit `colors` override (e.g. the Connected page's film/TV pair)
+  // still wins. The brand hue resolves from `.stats-brand-fill` on the wrapper
+  // below; --stats-fill (not currentColor) is used because the legend reuses
+  // colorAt for its swatch, where an ancestor sets its own text `color`.
+  const singleSeries = segments.length === 1;
+  const colorAt = (i: number) =>
+    colors?.[i] ?? (singleSeries ? "var(--stats-fill)" : paletteColor(i));
   const W = 560;
   const H = 200;
   const ml = 26;
@@ -137,7 +161,10 @@ export function StackedBars({
     : ariaLabel;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+    <div
+      className={singleSeries ? "stats-brand-fill" : undefined}
+      style={{ display: "flex", flexDirection: "column", gap: 6 }}
+    >
       {/* HTML hotspot layer over the SVG: one per column, giving each
           category a hover chip that breaks out every segment's value and
           the column total — the per-segment numbers the stack can't show.

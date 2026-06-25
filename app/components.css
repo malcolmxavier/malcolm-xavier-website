@@ -1277,6 +1277,13 @@ a.link-accent-pink,
   .stats-tile[data-span="12"] {
     grid-column: span 12;
   }
+  /* Centered placement: a span-8 tile alone on its row sits in the middle of
+     the 12-column grid (cols 3–10) rather than left-aligned, leaving even
+     gutters either side. Desktop only — on tablet a span-8 is already full
+     (6/6), so there's nothing to center. */
+  .stats-tile[data-span="8"][data-center] {
+    grid-column: 3 / span 8;
+  }
 }
 
 /* ─── Stats dashboard sections (WS5 — readability pass) ─────────────

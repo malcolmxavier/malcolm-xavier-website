@@ -15,18 +15,39 @@
 
 import type { ReactNode } from "react";
 import { StatsGrid } from "./StatsGrid";
+import { BandFootnote } from "./BandFootnote";
+import type { BandDecision } from "@/lib/feeds/stats/collapse";
 
 export function StatsSection({
   label,
   children,
+  /**
+   * This band's collapse decision under the active filter (STATS-FILTERS §6
+   * altitude 2). Omitted on unfiltered surfaces → renders in full with no
+   * footnote. When tiles suppress or the band folds, the hidden tiles roll
+   * up into a single footnote rather than leaving empty stubs. The surviving
+   * tiles (and a band-readout's anchor counter) still render via `children` —
+   * they self-suppress through their own `decision` prop.
+   */
+  band,
+  /** Resolve a hidden tile's id to its human label for the footnote. */
+  tileLabel,
 }: {
   /** The band name, e.g. "The corpus" — also the section's accessible name. */
   label: string;
   children: ReactNode;
+  band?: BandDecision;
+  tileLabel?: (id: string) => string;
 }) {
   // A stable id derived from the label links the <section> to its heading.
   const headingId =
     "band-" + label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+  // Hidden tiles (T3 or folded) roll up into one footnote, in band order.
+  const hiddenLabels = (band?.hiddenTileIds ?? []).map((id) =>
+    tileLabel ? tileLabel(id) : id,
+  );
+
   return (
     <section className="stats-section" aria-labelledby={headingId}>
       <div className="stats-section__head">
@@ -35,6 +56,7 @@ export function StatsSection({
         </h2>
       </div>
       <StatsGrid>{children}</StatsGrid>
+      <BandFootnote labels={hiddenLabels} />
     </section>
   );
 }

@@ -96,6 +96,57 @@ describe("computeFilmStats — narrowed corpus", () => {
   });
 });
 
+describe("computeFilmStats — collapse verdict (§6)", () => {
+  const unfiltered = computeFilmStats();
+
+  it("the unfiltered canonical renders EVERY tile in full", () => {
+    // The whole corpus clears every archetype floor on its real fragility
+    // axis: every tile must be T0 (no readouts, no folds), no band may
+    // collapse, and the page must NOT hand off. This is the regression guard
+    // for floor miscalibration — a tile that can't reach its floor even on the
+    // full corpus (e.g. genres-vs-baseline if its escaped-genre floor were set
+    // above the number of genres with ≥10 rated films) shows up here as a
+    // non-T0 rung.
+    expect(unfiltered.collapse.verdict).toBe("dashboard");
+    expect(unfiltered.collapse.bands.every((b) => b.state === "full")).toBe(true);
+    expect(unfiltered.collapse.tiles.every((t) => t.rung === "T0")).toBe(true);
+  });
+
+  it("a genre filter keeps the dashboard (self-reference, not thinness)", () => {
+    // Filtering to a single genre makes the divergence-from-baseline claim
+    // tautological, so genres-vs-baseline reads out — but with hundreds of
+    // films surviving the page is NOT thin. The dashboard stays (the other
+    // bands carry it); only a genuinely thin selection hands off to reviews.
+    const topGenre = unfiltered.genreDistribution[0][0];
+    const narrowed = computeFilmStats({ genres: [topGenre] });
+    expect(narrowed.lifetime.films).toBeGreaterThan(100);
+    expect(narrowed.collapse.verdict).toBe("dashboard");
+    // genres stays a full clickable chart (navigational / immortal) even though
+    // the filter self-references it — each surviving bar still links into
+    // reviews, and a narrow facet set is never treated as "thin".
+    const genresTile = narrowed.collapse.tiles.find((t) => t.id === "genres");
+    expect(genresTile?.rung).toBe("T0");
+    // Only the taste CLAIM tile collapses to a readout under self-reference.
+    const claimTile = narrowed.collapse.tiles.find(
+      (t) => t.id === "genres-vs-baseline",
+    );
+    expect(claimTile?.rung).toBe("T2");
+  });
+
+  it("a vanishingly thin selection hands the page off to reviews", () => {
+    // An impossible compound filter (a genre AND NOT itself) yields an empty
+    // corpus; the Taste band has nothing to plot, so the page verdict must
+    // be the reviews handoff rather than a wall of empty tiles.
+    const topGenre = unfiltered.genreDistribution[0][0];
+    const empty = computeFilmStats({
+      genres: [topGenre],
+      excludeGenres: [topGenre],
+    });
+    expect(empty.lifetime.films).toBe(0);
+    expect(empty.collapse.verdict).toBe("reviews-handoff");
+  });
+});
+
 describe("computeTvStats — narrowed corpus", () => {
   const unfiltered = computeTvStats();
 

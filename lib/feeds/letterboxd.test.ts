@@ -326,6 +326,32 @@ describe("applyFilters — per-film filters", () => {
     expect(out.map((f) => f.film.id)).toEqual(["h"]);
   });
 
+  it("matches genres passed as URL slugs, not just display names", () => {
+    // `?genre=science-fiction` reaches applyFilters as a slug (parseFilmFilters
+    // does not resolve it to the TMDB display name). Slugifying both sides must
+    // make the slug match the display-name genre on the film. Regression guard:
+    // the old display-name-only match silently dropped every slug param.
+    const films = [
+      makeFilm({
+        id: "sf",
+        tmdb: { ...makeFilm().tmdb!, genres: ["Science Fiction"] },
+      }),
+      makeFilm({
+        id: "dr",
+        tmdb: { ...makeFilm().tmdb!, genres: ["Drama"] },
+      }),
+    ];
+    expect(
+      applyFilters(films, { genres: ["science-fiction"] }).map((f) => f.film.id),
+    ).toEqual(["sf"]);
+    // Exclusion encoded as a slug must drop the film too.
+    expect(
+      applyFilters(films, { excludeGenres: ["science-fiction"] }).map(
+        (f) => f.film.id,
+      ),
+    ).toEqual(["dr"]);
+  });
+
   it("perReviewFilterActive=false when only per-film filters are set", () => {
     const films = [makeFilm({ id: "a" })];
     const [applied] = applyFilters(films, { genres: ["Drama"] });

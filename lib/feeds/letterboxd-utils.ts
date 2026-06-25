@@ -804,7 +804,16 @@ export function applyFilters(
     if (filters.genres && filters.genres.length > 0) {
       const filmGenres = film.tmdb?.genres;
       if (!filmGenres) continue;
-      const intersects = filters.genres.some((g) => filmGenres.includes(g));
+      // Genre values reach us two ways: as slugs from `?genre=` URL params
+      // (parseFilmFilters stores them un-resolved) and as TMDB display names
+      // from the /films/genre/[slug] route. Slugifying both the film's genres
+      // and the filter values collapses the two onto the same token, mirroring
+      // how the Wave B facets match via facetHit. The old raw display-name
+      // match silently dropped every slug param (e.g. ?genre=horror was a no-op).
+      const filmGenreSlugs = filmGenres.map(slugifyGenre);
+      const intersects = filters.genres.some((g) =>
+        filmGenreSlugs.includes(slugifyGenre(g)),
+      );
       if (!intersects) continue;
     }
     // Genre exclusion (AND NOT): drop the film if its genres intersect the
@@ -812,8 +821,17 @@ export function applyFilters(
     // survives this gate (the complement of the include rule above).
     if (filters.excludeGenres && filters.excludeGenres.length > 0) {
       const filmGenres = film.tmdb?.genres;
-      if (filmGenres && filters.excludeGenres.some((g) => filmGenres.includes(g))) {
-        continue;
+      if (filmGenres) {
+        // Same slug-normalization as the include path, so `?genre=!horror`
+        // excludes actually drop the film instead of slipping through.
+        const filmGenreSlugs = filmGenres.map(slugifyGenre);
+        if (
+          filters.excludeGenres.some((g) =>
+            filmGenreSlugs.includes(slugifyGenre(g)),
+          )
+        ) {
+          continue;
+        }
       }
     }
     if (filters.runtimeBuckets && filters.runtimeBuckets.length > 0) {
