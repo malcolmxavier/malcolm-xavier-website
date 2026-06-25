@@ -27,17 +27,14 @@ import {
  * the card comes from a listing, `originHref` — that listing's relative
  * URL — is encoded as `?from=` so the detail page can replay the user's
  * filter/sort context for adjacent-film navigation and the back-link.
- * The `#review-0` anchor lands on the first review unit (review articles
- * are `id="review-N"`), beating a hero landing for users mid-scroll.
+ * No scroll anchor: film links land at the hero / top of the page. The
+ * hero now carries its own value (cast and crew) and the first review
+ * still peeks above the fold, so a hero landing beats jumping past it.
  */
 function buildDetailHref(slug: string, originHref: string | undefined): string {
-  const base = `/films/${slug}?ref=internal#review-0`;
+  const base = `/films/${slug}?ref=internal`;
   if (!originHref) return base;
-  // Insert `from` before the hash so the URL parser doesn't fold the
-  // encoded source into the fragment.
-  const hashIdx = base.indexOf("#");
-  const fromParam = `&from=${encodeURIComponent(originHref)}`;
-  return `${base.slice(0, hashIdx)}${fromParam}${base.slice(hashIdx)}`;
+  return `${base}&from=${encodeURIComponent(originHref)}`;
 }
 
 export function FilmCard({

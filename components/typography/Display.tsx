@@ -16,8 +16,13 @@ import type { CSSProperties, ElementType, HTMLAttributes } from "react";
 type DisplayProps = HTMLAttributes<HTMLElement> & {
   /** Override the rendered tag. Defaults to h1. */
   as?: ElementType;
-  /** Optional override of the type-scale step. Defaults to h1. */
-  size?: "h1" | "h2";
+  /** Optional override of the type-scale step. Defaults to h1.
+   *  "h1-compact" is a dedicated role sitting between h1 and h2
+   *  (52/44 desktop-tablet/mobile) — used for the film/TV detail-page
+   *  titles, which need to read smaller than the landing h1 (to lift
+   *  the first review toward the mobile fold) while staying clearly
+   *  above the h2 section/season headings. */
+  size?: "h1" | "h2" | "h1-compact";
 };
 
 export function Display({
