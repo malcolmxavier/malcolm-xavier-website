@@ -67,6 +67,7 @@ import {
   formatRuntime,
   formatWatchedDate,
   slugifyGenre,
+  filmFacetValues,
   type Film,
   type Review,
 } from "@/lib/feeds/letterboxd-utils";
@@ -75,6 +76,8 @@ import { getCollectionDetails } from "@/lib/feeds/enrichment";
 import {
   indexableFilmCollections,
   filmCollectionsOfFilm,
+  makeFilmFacetHref,
+  type FilmFacetLink,
 } from "@/lib/feeds/facet-index";
 import { listShortLabel } from "@/lib/feeds/list-taxonomy";
 import { slugifyEntity } from "@/lib/feeds/slug";
@@ -251,6 +254,67 @@ export default async function FilmDetailPage({
     film.id,
   );
 
+  // Per-film facet block — surface the enrichment-backed facets (cast,
+  // writing, language, country, studio, release shape, budget) as chip rows
+  // that deep-link into the reviews funnel using the SAME vocabulary the
+  // stats tiles use (shared makeFilmFacetHref, so the slug + route-vs-?param=
+  // decision can't drift between the two surfaces). Each row is dropped when
+  // the film carries no value for it (never an empty <dd>), so a thinly
+  // enriched film renders a shorter block rather than blank rows. Release
+  // decade is deliberately excluded: the release year is already in the
+  // metadata line and we don't offer decade filtering from the detail page.
+  const facetHref = makeFilmFacetHref(films);
+  // `film` (from getFilmBySlug) rides the thin snapshot and carries no
+  // enrichment; the enriched copy lives in the `films` corpus loaded above.
+  // filmFacetValues reads film.enrichment, so resolve to the enriched film
+  // (fall back to the thin one — directors/decades still resolve from tmdb).
+  const enrichedFilm = films.find((f) => f.id === film.id) ?? film;
+  const fv = filmFacetValues(enrichedFilm);
+  // Cast and studios can run long; cap to the top-billed / lead labels so the
+  // block stays a scannable rail, not a credits dump. filmActorNames returns
+  // billing order and e.studios production order, so the caps keep the most
+  // salient names. Capped silently (the full set lives on the dedicated facet
+  // routes); CAST_CAP/STUDIO_CAP are the documented coverage cut.
+  const CAST_CAP = 4;
+  const STUDIO_CAP = 2;
+  const allFactRows: {
+    label: string;
+    facet: FilmFacetLink;
+    values: string[];
+  }[] = [
+    { label: "Cast", facet: "actors", values: fv.actors.slice(0, CAST_CAP) },
+    {
+      label: fv.writers.length > 1 ? "Writers" : "Writer",
+      facet: "writers",
+      values: fv.writers,
+    },
+    // Director is slotted after the writers (Malcolm's call) and rides the
+    // thin tmdb snapshot, so it shows even on un-enriched films.
+    {
+      label: fv.directors.length > 1 ? "Directors" : "Director",
+      facet: "directors",
+      values: fv.directors,
+    },
+    {
+      label: fv.languages.length > 1 ? "Languages" : "Language",
+      facet: "languages",
+      values: fv.languages,
+    },
+    {
+      label: fv.countries.length > 1 ? "Countries" : "Country",
+      facet: "countries",
+      values: fv.countries,
+    },
+    {
+      label: fv.studios.length > 1 ? "Studios" : "Studio",
+      facet: "studios",
+      values: fv.studios.slice(0, STUDIO_CAP),
+    },
+    { label: "Release", facet: "releaseTypes", values: fv.releaseTypes },
+    { label: "Budget", facet: "budgetTiers", values: fv.budgetTiers },
+  ];
+  const factRows = allFactRows.filter((row) => row.values.length > 0);
+
   // Hero dateline rule mirrors FilmCard.tsx: when every review on
   // this film is a rewatch, surface "Rewatched" against the earliest
   // rewatch date so the hero doesn't lie about a "First watched"
@@ -264,7 +328,8 @@ export default async function FilmDetailPage({
   const heroDatelineDate = allRewatches
     ? // Fall back to firstWatchedDate if reviews[] is somehow empty
       // — defensive only; the predicate above guarantees length > 0.
-      film.reviews[film.reviews.length - 1]?.watchedDate ?? film.firstWatchedDate
+      (film.reviews[film.reviews.length - 1]?.watchedDate ??
+      film.firstWatchedDate)
     : film.firstWatchedDate;
 
   // Combined JSON-LD payload — Review (per existing structure) plus
@@ -345,14 +410,12 @@ export default async function FilmDetailPage({
             <Stack gap="400">
               <Kicker accent>Film</Kicker>
               <Display>{film.title}</Display>
+              {/* Release year + runtime. Director used to sit here as
+                  plain text; it now lives as an interactive chip in the
+                  Cast & Crew disclosure below (after the writers), so a
+                  reader can pivot to the director's other reviews. */}
               <p style={metadataLineStyle}>
                 {film.releaseYear}
-                {film.tmdb?.director ? (
-                  <>
-                    {" · dir. "}
-                    {film.tmdb.director}
-                  </>
-                ) : null}
                 {film.tmdb?.runtime ? (
                   <>
                     {" · "}
@@ -373,11 +436,7 @@ export default async function FilmDetailPage({
                 }}
               >
                 {film.primaryRating !== null ? (
-                  <StarRating
-                    rating={film.primaryRating}
-                    size={20}
-                    showEmpty
-                  />
+                  <StarRating rating={film.primaryRating} size={20} showEmpty />
                 ) : null}
                 {film.liked ? (
                   <span
@@ -391,8 +450,7 @@ export default async function FilmDetailPage({
                   </span>
                 ) : null}
                 <span style={metadataLineStyle}>
-                  {heroDatelineLabel}{" "}
-                  {formatWatchedDate(heroDatelineDate)}
+                  {heroDatelineLabel} {formatWatchedDate(heroDatelineDate)}
                 </span>
               </div>
               {/* Genre chips — link to the dedicated genre route
@@ -432,6 +490,106 @@ export default async function FilmDetailPage({
                   ))}
                 </ul>
               ) : null}
+              {/* Cast & Crew — the per-film facet block (cast, writing,
+                  director, language, country, studio, release shape, budget),
+                  collapsed by default behind a native <details> disclosure so
+                  it doesn't dominate the hero at any width (the rows are dense
+                  and secondary to the rating/dateline). Native
+                  <details>/<summary> keeps it a zero-JS, keyboard-operable
+                  toggle on this server-rendered page; the chevron rotation is
+                  CSS-only and reduced-motion-aware (see app/components.css).
+                  Each row is a chip rail that deep-links into the reviews
+                  funnel via dl/dt/dd; the div-per-row grouping is valid dl
+                  content. The whole block is omitted when the film carries no
+                  facets at all. */}
+              {factRows.length > 0 ? (
+                <details className="film-credits-disclosure">
+                  <summary className="film-credits-summary">
+                    <Kicker>Cast &amp; Crew</Kicker>
+                    {/* Decorative state cue — CSS rotates it on [open]; the
+                        <summary> itself carries the toggle semantics. */}
+                    <svg
+                      className="film-credits-chevron"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M2.5 4.5 L6 8 L9.5 4.5" />
+                    </svg>
+                  </summary>
+                  <dl
+                    style={{
+                      margin: "var(--scale-300) 0 0",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "var(--scale-200)",
+                    }}
+                  >
+                    {factRows.map((row) => (
+                      <div
+                        key={row.facet}
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          alignItems: "baseline",
+                          gap: "var(--scale-300)",
+                        }}
+                      >
+                        <dt
+                          style={{
+                            ...metadataLineStyle,
+                            textTransform: "uppercase",
+                            // Fixed label column on wide viewports so the chip
+                            // rails align; on narrow ones the flex row wraps and
+                            // the rail drops below its label.
+                            minWidth: "5.5rem",
+                            flexShrink: 0,
+                          }}
+                        >
+                          {row.label}
+                        </dt>
+                        <dd style={{ margin: 0, flex: "1 1 12rem" }}>
+                          <ul
+                            role="list"
+                            style={{
+                              listStyle: "none",
+                              padding: 0,
+                              margin: 0,
+                              display: "flex",
+                              flexWrap: "wrap",
+                              gap: 8,
+                            }}
+                          >
+                            {row.values.map((value) => {
+                              const href = facetHref(row.facet, value);
+                              return (
+                                <li key={value}>
+                                  {href ? (
+                                    <NextLink
+                                      href={href}
+                                      className="film-detail-genre-chip"
+                                      style={genreChipStyle}
+                                    >
+                                      {value}
+                                    </NextLink>
+                                  ) : (
+                                    <span style={genreChipStyle}>{value}</span>
+                                  )}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </details>
+              ) : null}
               {/* "Appears in" backlinks — collection membership + ranked-list
                   placements, each linking into the discovery surface (more
                   internal links into the reviews funnel). */}
@@ -447,7 +605,9 @@ export default async function FilmDetailPage({
                               ? ", and "
                               : ", "
                             : ""}
-                          <Link href={`/films/collections/${slugifyEntity(c.name)}`}>
+                          <Link
+                            href={`/films/collections/${slugifyEntity(c.name)}`}
+                          >
                             {c.name}
                           </Link>
                         </span>
@@ -482,11 +642,12 @@ export default async function FilmDetailPage({
               <p style={{ margin: 0 }}>
                 <TrackOnClick
                   event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
-                  eventData={{ kind: "film-detail", surface: "film-detail-hero" }}
+                  eventData={{
+                    kind: "film-detail",
+                    surface: "film-detail-hero",
+                  }}
                 >
-                  <Link href={film.letterboxdUrl}>
-                    View on Letterboxd ↗
-                  </Link>
+                  <Link href={film.letterboxdUrl}>View on Letterboxd ↗</Link>
                 </TrackOnClick>
               </p>
             </Stack>
@@ -562,7 +723,7 @@ export default async function FilmDetailPage({
             Source order is newer-first so mobile (single-column
             stack) puts newer on top, older on bottom — same
             top-down chronology as the listing. */}
-        {(newerFilm || olderFilm) ? (
+        {newerFilm || olderFilm ? (
           <Section padding="md" bordered>
             <nav
               aria-label="Adjacent reviews"
@@ -971,8 +1132,7 @@ function NeighborLink({
   fromParam?: string | null;
 }) {
   const slug = `${film.letterboxdSlug}-${film.releaseYear}`;
-  const kicker =
-    direction === "newer" ? "← Newer review" : "Older review →";
+  const kicker = direction === "newer" ? "← Newer review" : "Older review →";
   // Use the latestWatchedDate to match the listing's sort key, so
   // the date the user sees here is the same date that determines
   // the neighbor's position in the listing order.
@@ -1070,4 +1230,3 @@ const genreChipStyle = {
   background: "transparent",
   whiteSpace: "nowrap" as const,
 };
-

@@ -32,6 +32,7 @@ import {
   curatedTvRailNetworks,
   FILM_FACET_FLOORS,
   TV_FACET_FLOORS,
+  makeFilmFacetHref,
 } from "./facet-index";
 import { filmEntityFacets } from "./letterboxd-utils";
 import { showEntityFacets, deriveAvailableNetworks } from "./serializd-utils";
@@ -570,5 +571,62 @@ describe("curatedTvRailNetworks (network floor; search stays full)", () => {
     expect(railed.every(([n]) => fullNames.has(n))).toBe(true);
     // The full list still carries the sub-floor network for the omnibox.
     expect(fullNames.has(primaryNetwork(["Netflix"])!)).toBe(true);
+  });
+});
+
+// ─── makeFilmFacetHref — the ONE value→href resolver both the stats tiles
+//     and the detail page consume, so the slug + route-vs-?param= decision
+//     can't drift (the ?genre= no-op bug came from two inline copies). ──
+describe("makeFilmFacetHref", () => {
+  // Writer A sits on three films → clears the writers floor (3) → route.
+  // Writer B appears once → sub-floor → ?param= fallback. "Lead Director"
+  // rides all three → clears the directors floor (3) → route.
+  const corpus = [
+    mkFilm("a", 2020, "Lead Director", {
+      writers: [
+        { id: 1, name: "Writer A" },
+        { id: 2, name: "Writer B" },
+      ],
+    }),
+    mkFilm("b", 2021, "Lead Director", { writers: [{ id: 1, name: "Writer A" }] }),
+    mkFilm("c", 2022, "Lead Director", { writers: [{ id: 1, name: "Writer A" }] }),
+  ];
+  const href = makeFilmFacetHref(corpus);
+
+  it("routes an indexable entity to its dedicated facet route", () => {
+    expect(href("writers", "Writer A")).toBe("/films/writer/writer-a");
+  });
+
+  it("falls back to the noindex ?param= filter for a sub-floor entity", () => {
+    expect(href("writers", "Writer B")).toBe("/films/reviews?writer=writer-b");
+  });
+
+  it("routes an indexable director but uses the fuzzy ?director= search below floor", () => {
+    expect(href("directors", "Lead Director")).toBe(
+      "/films/director/lead-director",
+    );
+    // Sub-floor / unknown director → the fuzzy name search (encoded), NOT a
+    // slug param — the exact director facet has no ?param= form.
+    expect(href("directors", "Some One")).toBe(
+      "/films/reviews?director=Some%20One",
+    );
+  });
+
+  it("always routes a genre to its dedicated route", () => {
+    expect(href("genres", "Science Fiction")).toBe(
+      "/films/genre/science-fiction",
+    );
+  });
+
+  it("uses the ?param= form for facets with no dedicated route", () => {
+    expect(href("releaseTypes", "Streaming")).toBe(
+      "/films/reviews?releaseType=streaming",
+    );
+    expect(href("budgetTiers", "Big budget")).toBe(
+      "/films/reviews?budgetTier=big-budget",
+    );
+    expect(href("conglomerates", "Warner Bros. Discovery")).toBe(
+      "/films/reviews?conglomerate=warner-bros-discovery",
+    );
   });
 });

@@ -26,6 +26,7 @@
 import {
   filmFacetDistributions,
   filmEntityFacets,
+  slugifyGenre,
   type Film,
   type FilmFilters,
 } from "./letterboxd-utils";
@@ -52,7 +53,7 @@ import {
   TV_FAMILIES,
 } from "./stats/tv-franchise";
 import type { CollectionDetail } from "./enrichment";
-import { findEntityBySlug } from "./slug";
+import { findEntityBySlug, slugifyEntity } from "./slug";
 
 /** Film facet types that earn a dedicated indexed route. */
 export type FilmRouteFacet =
@@ -175,6 +176,89 @@ export const TV_FACET_BASEPATH: Record<TvRouteFacet, string> = {
   types: "type",
   decades: "decade",
 };
+
+// ── Single-value facet deep-links (shared: stats tiles + detail page) ──
+//
+// Both the stats dashboard and the per-film review page emit the same kind of
+// link: "click this facet value → the reviews behind it." Those links must use
+// ONE slug vocabulary and ONE route-vs-?param= decision, or the two surfaces
+// drift — exactly the failure mode (a slug on one side, a display name on the
+// other) behind the ?genre= no-op bug. Routing both surfaces through this one
+// factory makes that drift unrepresentable.
+
+/**
+ * The facet kinds whose single value both the stats tiles and the detail page
+ * link. A superset of FilmRouteFacet (the routed facets) plus the param-only
+ * facets that have no dedicated route (genre / releaseType / budgetTier /
+ * conglomerate).
+ */
+export type FilmFacetLink =
+  | "directors"
+  | "actors"
+  | "writers"
+  | "studios"
+  | "languages"
+  | "countries"
+  | "genres"
+  | "releaseTypes"
+  | "budgetTiers"
+  | "conglomerates";
+
+/**
+ * Build a value→href resolver bound to one films corpus. The corpus is read
+ * only to compute the per-facet indexable name sets, which are cached on first
+ * use so each resolver call is O(1).
+ *
+ * Routing rules (mirroring the stats page's previous inline builders exactly):
+ *  - actor / writer / studio / language / country → the dedicated
+ *    `/films/<segment>/<slug>` route IFF the value clears its indexation floor,
+ *    else the noindex `/films/reviews?<param>=<slug>` filter (the ?param key is
+ *    the same word as the route segment).
+ *  - director → the same route-iff-indexable test, but the sub-floor fallback is
+ *    the FUZZY `?director=<name>` search: the exact director facet has no slug
+ *    param (that ?director= box is a fuzzy name match, deliberately separate).
+ *  - genre → always the dedicated `/films/genre/<slug>` route.
+ *  - releaseType / budgetTier / conglomerate → always the noindex `?param=`
+ *    filter (no dedicated route exists for these dimensions).
+ */
+export function makeFilmFacetHref(
+  films: Film[],
+): (facet: FilmFacetLink, value: string) => string | undefined {
+  // Indexable name sets are corpus-wide; build each at most once.
+  const indexableCache = new Map<FilmRouteFacet, Set<string>>();
+  const indexable = (facet: FilmRouteFacet): Set<string> => {
+    let set = indexableCache.get(facet);
+    if (!set) {
+      set = new Set(indexableFilmFacetNames(facet, films));
+      indexableCache.set(facet, set);
+    }
+    return set;
+  };
+
+  return (facet, value) => {
+    switch (facet) {
+      case "genres":
+        return `/films/genre/${slugifyGenre(value)}`;
+      case "releaseTypes":
+        return `/films/reviews?releaseType=${slugifyEntity(value)}`;
+      case "budgetTiers":
+        return `/films/reviews?budgetTier=${slugifyEntity(value)}`;
+      case "conglomerates":
+        return `/films/reviews?conglomerate=${slugifyEntity(value)}`;
+      case "directors":
+        return indexable("directors").has(value)
+          ? `/films/director/${slugifyEntity(value)}`
+          : `/films/reviews?director=${encodeURIComponent(value)}`;
+      default: {
+        // actor / writer / studio / language / country — route-iff-indexable.
+        const base = FILM_FACET_BASEPATH[facet];
+        return indexable(facet).has(value)
+          ? `/films/${base}/${slugifyEntity(value)}`
+          : `/films/reviews?${base}=${slugifyEntity(value)}`;
+      }
+    }
+  };
+}
 
 /**
  * Facet key → the reviews query param it canonicalizes from. Film
