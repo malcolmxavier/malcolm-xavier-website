@@ -507,7 +507,10 @@ a[data-subbrand="film"] {
    motion-reduce:transition-none class (inline-style 1000 vs
    @media-wrapped class ~10), silently defeating the guard. */
 .film-filter-chip {
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
 }
 @media (prefers-reduced-motion: reduce) {
   .film-filter-chip {
@@ -532,7 +535,10 @@ a[data-subbrand="film"] {
    .film-filter-chip so the two clusters can diverge later
    (e.g. different timing curves) without forking. */
 .show-filter-chip {
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
 }
 @media (prefers-reduced-motion: reduce) {
   .show-filter-chip {
@@ -543,8 +549,8 @@ a[data-subbrand="film"] {
 @media (min-width: 768px) {
   .reviews-grid-header {
     position: sticky;
-    top: 5rem;            /* clears the z-40 sticky site nav; matches the sticky sidebar */
-    z-index: 30;          /* above scrolling cards (z-auto), below the nav (z-40) */
+    top: 5rem; /* clears the z-40 sticky site nav; matches the sticky sidebar */
+    z-index: 30; /* above scrolling cards (z-auto), below the nav (z-40) */
     background: var(--surface-page);
     border-bottom: 1px solid var(--border-default);
     padding-bottom: 12px;
@@ -574,8 +580,13 @@ a[data-subbrand="film"] {
    sensitive users don't see the pulse at all (the badge text
    "Watching" carries the meaning regardless). */
 @keyframes watching-pulse-keyframes {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.35; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
 }
 .watching-pulse {
   animation: watching-pulse-keyframes 2s ease-in-out infinite;
@@ -589,7 +600,9 @@ a[data-subbrand="film"] {
 [data-subbrand="film"] a.film-detail-genre-chip {
   color: var(--text-caption) !important;
   text-decoration: none;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 [data-subbrand="film"] a.film-detail-genre-chip:hover,
 [data-subbrand="film"] a.film-detail-genre-chip:focus-visible {
@@ -597,7 +610,9 @@ a[data-subbrand="film"] {
   border-color: var(--orange-700);
 }
 [data-theme="dark"] [data-subbrand="film"] a.film-detail-genre-chip:hover,
-[data-theme="dark"] [data-subbrand="film"] a.film-detail-genre-chip:focus-visible {
+[data-theme="dark"]
+  [data-subbrand="film"]
+  a.film-detail-genre-chip:focus-visible {
   color: var(--orange-400) !important;
   border-color: var(--orange-400);
 }
@@ -607,6 +622,40 @@ a[data-subbrand="film"] {
 }
 @media (prefers-reduced-motion: reduce) {
   [data-subbrand="film"] a.film-detail-genre-chip {
+    transition: none;
+  }
+}
+
+/* Cast & Crew disclosure (films detail page). Native <details>/<summary>;
+   we drop the default disclosure triangle and stand in our own chevron so
+   the affordance matches the site's quiet caption idiom. The summary is the
+   clickable toggle — keyboard-operable for free via <details>. */
+.film-credits-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  /* Remove the native marker (both the modern and the WebKit form). */
+  list-style: none;
+}
+.film-credits-summary::-webkit-details-marker {
+  display: none;
+}
+.film-credits-summary:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.film-credits-chevron {
+  color: var(--text-caption);
+  transition: transform 0.15s ease;
+}
+/* Point the chevron up when the disclosure is open. */
+.film-credits-disclosure[open] .film-credits-chevron {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .film-credits-chevron {
     transition: none;
   }
 }
@@ -682,7 +731,9 @@ a[data-subbrand="tv"]:focus-visible {
 [data-subbrand="tv"] a.show-detail-genre-chip {
   color: var(--text-caption) !important;
   text-decoration: none;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 [data-subbrand="tv"] a.show-detail-genre-chip:hover,
 [data-subbrand="tv"] a.show-detail-genre-chip:focus-visible {
@@ -690,7 +741,9 @@ a[data-subbrand="tv"]:focus-visible {
   border-color: var(--blue-700);
 }
 [data-theme="dark"] [data-subbrand="tv"] a.show-detail-genre-chip:hover,
-[data-theme="dark"] [data-subbrand="tv"] a.show-detail-genre-chip:focus-visible {
+[data-theme="dark"]
+  [data-subbrand="tv"]
+  a.show-detail-genre-chip:focus-visible {
   color: var(--blue-300) !important;
   border-color: var(--blue-300);
 }
@@ -1035,12 +1088,16 @@ a.link-accent-pink,
 
 .italic-kern {
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern" 1, "liga" 1;
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1;
 }
 
 .italic-inline {
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern" 1, "liga" 1;
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1;
   padding-inline-end: 0.04em;
 }
 
@@ -1144,11 +1201,11 @@ a.link-accent-pink,
    Pair with `aria-hidden`-friendly programmatic controls so a
    keyboard user can still navigate. */
 .no-scrollbar {
-  scrollbar-width: none;            /* Firefox */
-  -ms-overflow-style: none;         /* IE/legacy Edge */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/legacy Edge */
 }
 .no-scrollbar::-webkit-scrollbar {
-  display: none;                    /* Safari/Chrome */
+  display: none; /* Safari/Chrome */
 }
 
 /* ─── Stats dashboard chart fills (WS5) ────────────────────────────
@@ -1439,11 +1496,11 @@ a.link-accent-pink,
   font-family: var(--font-mono);
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.10em;
+  letter-spacing: 0.1em;
   font-weight: 600;
   padding: 3px 9px;
   border-radius: 4px;
-  background: rgba(0, 0, 0, 0.60);
+  background: rgba(0, 0, 0, 0.6);
   color: #fff;
   pointer-events: none;
 }

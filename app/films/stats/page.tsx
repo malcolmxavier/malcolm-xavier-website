@@ -49,17 +49,14 @@ import type { Contrast } from "@/lib/feeds/stats/shrinkage";
 import type { DeskewContrast } from "@/lib/feeds/stats/franchise";
 import { slugifyEntity } from "@/lib/feeds/slug";
 import {
-  slugifyGenre,
   parseFilmFilters,
   type FilmFilters,
 } from "@/lib/feeds/letterboxd-utils";
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { getCollectionDetails } from "@/lib/feeds/enrichment";
 import {
-  indexableFilmFacetNames,
   indexableFilmCollectionNames,
-  FILM_FACET_BASEPATH,
-  type FilmRouteFacet,
+  makeFilmFacetHref,
 } from "@/lib/feeds/facet-index";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -288,34 +285,21 @@ export default async function FilmStatsPage({
   // (so a rail keeps every chip as the selection narrows); the high-card
   // dimensions are reached through the omnibox (FILM_SUMMARY_DIMS).
   const statsRails = buildFilmStatsRails(films, summary);
-  // route-iff-indexable, else the ?param= fallback. Indexable name sets are
-  // built once per facet so the per-row check is O(1).
-  const filmRouteHref = (facet: FilmRouteFacet, param: string) => {
-    const indexable = new Set(indexableFilmFacetNames(facet, films));
-    const base = FILM_FACET_BASEPATH[facet];
-    return (label: string) =>
-      indexable.has(label)
-        ? `/films/${base}/${slugifyEntity(label)}`
-        : `/films/reviews?${param}=${slugifyEntity(label)}`;
-  };
-  // Plain ?param= deep-link for facets with no dedicated route (conglomerate).
-  const facetHref = (param: string) => (label: string) =>
-    `/films/reviews?${param}=${slugifyEntity(label)}`;
-  const genreHref = (g: string) => `/films/genre/${slugifyGenre(g)}`;
-  // Director's sub-floor fallback is the FUZZY ?director= search (the exact
-  // facet has no param), not a slug param.
-  const directorHref = (() => {
-    const indexable = new Set(indexableFilmFacetNames("directors", films));
-    return (name: string) =>
-      indexable.has(name)
-        ? `/films/director/${slugifyEntity(name)}`
-        : `/films/reviews?director=${encodeURIComponent(name)}`;
-  })();
-  const actorHref = filmRouteHref("actors", "actor");
-  const writerHref = filmRouteHref("writers", "writer");
-  const studioHref = filmRouteHref("studios", "studio");
-  const languageHref = filmRouteHref("languages", "language");
-  const countryHref = filmRouteHref("countries", "country");
+  // All single-value facet deep-links route through the shared resolver, so
+  // the slug vocabulary + the route-vs-?param= decision stay identical to the
+  // detail page (see makeFilmFacetHref — the drift this prevents is the
+  // ?genre= no-op bug). The per-facet wrappers below keep the tile call sites
+  // (hrefFor={actorHref} …) unchanged.
+  const facetHref = makeFilmFacetHref(films);
+  const genreHref = (g: string) => facetHref("genres", g);
+  const directorHref = (name: string) => facetHref("directors", name);
+  const actorHref = (label: string) => facetHref("actors", label);
+  const writerHref = (label: string) => facetHref("writers", label);
+  const studioHref = (label: string) => facetHref("studios", label);
+  const languageHref = (label: string) => facetHref("languages", label);
+  const countryHref = (label: string) => facetHref("countries", label);
+  const conglomerateHref = (label: string) =>
+    facetHref("conglomerates", label);
 
   // Non-entity facet deep-links (WS6b.1): rating, release shape, decade,
   // watched year, and the language×country combination. None has a dedicated
@@ -323,10 +307,8 @@ export default async function FilmStatsPage({
   // films don't link (an empty filtered view helps no one).
   const ratingHref = (k: string) =>
     s.ratingDistribution[k] ? `/films/reviews?rating=${k}` : undefined;
-  const releaseTypeHref = (label: string) =>
-    `/films/reviews?releaseType=${slugifyEntity(label)}`;
-  const budgetTierHref = (label: string) =>
-    `/films/reviews?budgetTier=${slugifyEntity(label)}`;
+  const releaseTypeHref = (label: string) => facetHref("releaseTypes", label);
+  const budgetTierHref = (label: string) => facetHref("budgetTiers", label);
   // era → release-year scope: the decade buckets map to ?decade=; the open
   // "<2010" bucket spans many decades, so it caps the release year instead.
   const eraSuffix = (era: string) =>
@@ -737,7 +719,7 @@ export default async function FilmStatsPage({
                 left={conglomerate.left}
                 rightTitle="Highest rated"
                 right={conglomerate.right}
-                hrefFor={facetHref("conglomerate")}
+                hrefFor={conglomerateHref}
                 solo={solo("by-conglomerate")}
                 withheldNote="Widen the filters to rank conglomerates by rating—needs 3+ distinct entries."
               />
