@@ -33,6 +33,7 @@ import {
   FILM_FACET_FLOORS,
   TV_FACET_FLOORS,
   makeFilmFacetHref,
+  makeTvFacetHref,
 } from "./facet-index";
 import { filmEntityFacets } from "./letterboxd-utils";
 import { showEntityFacets, deriveAvailableNetworks } from "./serializd-utils";
@@ -627,6 +628,81 @@ describe("makeFilmFacetHref", () => {
     );
     expect(href("conglomerates", "Warner Bros. Discovery")).toBe(
       "/films/reviews?conglomerate=warner-bros-discovery",
+    );
+  });
+});
+
+// ─── makeTvFacetHref — the TV sibling: the ONE resolver the /television/stats
+//     tiles AND the per-show detail block consume, so the same drift the
+//     ?genre= no-op exposed on films can't reappear on television. ──────────
+describe("makeTvFacetHref", () => {
+  // HBO rides 5 shows → clears the networks floor (5) → route; Netflix on 1 →
+  // sub-floor → NAME-based ?network= fallback. "Scripted" on ≥2 → type route;
+  // "Documentary" on 1 → name-based type fallback. "Lead Creator" on 2 → the
+  // creators floor (2) → route; "Solo Creator" on 1 → slug ?param= fallback.
+  const corpus = [
+    ...Array.from({ length: 4 }, (_, i) =>
+      mkShow(`hbo-${i}`, 2018, { type: "Scripted", networks: ["HBO"] }),
+    ),
+    mkShow(
+      "hbo-lead",
+      2019,
+      { type: "Scripted", networks: ["HBO"] },
+      { creators: [{ id: 1, name: "Lead Creator" }] },
+    ),
+    mkShow(
+      "nf",
+      2021,
+      { type: "Scripted", networks: ["Netflix"] },
+      {
+        creators: [
+          { id: 1, name: "Lead Creator" },
+          { id: 2, name: "Solo Creator" },
+        ],
+      },
+    ),
+    mkShow("pbs", 2020, { type: "Documentary", networks: ["PBS"] }),
+  ];
+  const href = makeTvFacetHref(corpus);
+  // The route keys on the canonical PRIMARY network, so derive the expected
+  // names the way the gate does rather than hardcoding canon output.
+  const hbo = primaryNetwork(["HBO"])!;
+  const netflix = primaryNetwork(["Netflix"])!;
+
+  it("routes an indexable network, name-fallbacks a sub-floor one", () => {
+    expect(href("networks", hbo)).toBe(`/television/network/${slugify(hbo)}`);
+    // Sub-floor network keeps the NAME-based param (encoded, not slugified) —
+    // parseShowFilters reads ?network= verbatim.
+    expect(href("networks", netflix)).toBe(
+      `/television/reviews?network=${encodeURIComponent(netflix)}`,
+    );
+  });
+
+  it("routes an indexable type, name-fallbacks a sub-floor one", () => {
+    expect(href("types", "Scripted")).toBe("/television/type/scripted");
+    expect(href("types", "Documentary")).toBe(
+      "/television/reviews?type=Documentary",
+    );
+  });
+
+  it("routes an indexable creator, slug-fallbacks a sub-floor one", () => {
+    expect(href("creators", "Lead Creator")).toBe(
+      "/television/creator/lead-creator",
+    );
+    expect(href("creators", "Solo Creator")).toBe(
+      "/television/reviews?creator=solo-creator",
+    );
+  });
+
+  it("always routes a genre to its dedicated route", () => {
+    expect(href("genres", "Science Fiction")).toBe(
+      "/television/genre/science-fiction",
+    );
+  });
+
+  it("uses the ?param= form for conglomerate (no dedicated route)", () => {
+    expect(href("conglomerates", "Warner Bros. Discovery")).toBe(
+      "/television/reviews?conglomerate=warner-bros-discovery",
     );
   });
 });

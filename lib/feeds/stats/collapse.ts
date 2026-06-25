@@ -65,17 +65,21 @@ const HANDOFF_MAX_N = 3;
 // The degradation ladder (per tile)
 // ---------------------------------------------------------------------------
 
-// T0 Full → T1 Thinned → T2 Skeletal → T3 Empty.
-// - T0: n comfortably clears the floor — render the chart.
-// - T1: n near the floor — still renders the chart, with NO caption. "Few
-//       surviving categories" isn't "few entries" (3.5★ can sit on hundreds
-//       of films), so it makes no thinness claim; visually identical to T0
-//       today, kept distinct for an optional future near-floor treatment.
+// T0 Full → T2 Skeletal → T3 Empty. (A three-rung ladder; the T-numbering is
+// kept for continuity with the spec.)
+// - T0: n clears the floor — render the chart.
 // - T2: below floor OR self-referenced to a single value — collapse to a
 //       readout (the headline number, no chart).
 // - T3: zero surviving values — suppress entirely (no empty stub; rolls
 //       into the band footnote).
-export type LadderRung = "T0" | "T1" | "T2" | "T3";
+//
+// A former "T1 Thinned" rung (n near the floor) was removed: it rendered
+// identically to T0 with no caption and made no thinness claim, because a
+// near-floor surviving-n means few surviving CATEGORIES, not few entries (a
+// 3.5★ bar can sit on hundreds of films). It earned no distinct treatment, so
+// it was a dead concept; an honest near-floor hint, if ever wanted, would key
+// off the corpus count (the lifetime counter), not the category count.
+export type LadderRung = "T0" | "T2" | "T3";
 
 // The band a tile in the page belongs to. Bands are the §6 altitude-2 unit
 // (`StatsSection`). Labels match the page sources / spec §5.
@@ -101,7 +105,7 @@ export interface TileSpec {
   // reviews (a rating bar → reviews at that rating; a genre bar → reviews in
   // that genre). These never collapse to a readout below their chart floor or
   // under self-reference — a single clickable bar still earns its place. They
-  // ride the T0/T1 boundary down to one value and only vanish (T3) at zero.
+  // render the chart (T0) down to one value and only vanish (T3) at zero.
   // (The chart-to-navigate decision: a thin bar chart is a poor distribution
   // but a perfectly good set of links.)
   immortal?: boolean;
@@ -208,10 +212,6 @@ export interface CollapseResult {
 // - selfReferenced → T2 (degenerate to one value → readout).
 // - survivingN === 0 → T3 (suppress).
 // - survivingN < floor → T2 (below floor → readout).
-// - survivingN within the "near floor" band → T1 (thinned). We treat
-//   "near floor" as [floor, floor + thinMargin) where thinMargin scales
-//   with the floor; counters (floor 1) never thin — a counter is either
-//   present (T0) or absent (T3).
 // - otherwise → T0 (full).
 function decideRung(
   survivingN: number,
@@ -224,7 +224,7 @@ function decideRung(
   // Immortal (navigational) tiles never collapse to a readout: each surviving
   // category is a click-through into reviews, useful even below the chart
   // floor or when the active filter self-references the tile. They render a
-  // chart (T0/T1) down to a single value and only vanish (T3) when there is
+  // chart (T0) down to a single value and only vanish (T3) when there is
   // nothing to plot or link. (decided for rating-distribution and genres.)
   if (immortal) {
     // Navigational tiles never read as "thin": their surviving-n counts
@@ -255,28 +255,22 @@ function decideRung(
   // wins T3/T2.)
   const soloColumn = degradeToReadout;
 
-  // Counters don't have a "thinned" state — a single number is either there
-  // or it isn't. (floor === 1 and we've already cleared 0.)
+  // Counters are present-or-absent — a single number either renders or doesn't.
+  // (floor === 1 and we've already cleared 0.)
   if (archetype === "counter") return { rung: "T0", soloColumn: false };
 
-  // "Near the floor" → thinned. The margin is a soft band just above the
-  // floor; below `floor` is T2, at/above `floor + margin` is T0, and in
-  // between is T1 with a thinning caption. Margin = ~40% of the floor
-  // (min 1) so larger-floored charts get a proportionally wider warning
-  // zone. This boundary is a presentation nicety, not a correctness gate;
-  // tuned conservatively so a chart only claims "Full" when it has clear
-  // headroom over its floor.
-  const thinMargin = Math.max(1, Math.ceil(floor * 0.4));
-  const rung: LadderRung = survivingN < floor + thinMargin ? "T1" : "T0";
-
-  return { rung, soloColumn };
+  // Primary axis cleared its floor → render the full chart. (No near-floor T1
+  // rung: see the LadderRung note — a near-floor category count is not a
+  // thinness claim, so there was nothing honest to caption between floor and
+  // T0.) A composite whose secondary axis emptied carries soloColumn through.
+  return { rung: "T0", soloColumn };
 }
 
-// A rung at which the tile still renders a chart (T0/T1). T2 is a readout
-// (no chart) and T3 is suppressed — neither counts as a "surviving chart"
-// for the band-collapse trigger.
+// A rung at which the tile still renders a chart (T0). T2 is a readout (no
+// chart) and T3 is suppressed — neither counts as a "surviving chart" for the
+// band-collapse trigger.
 function rungRendersChart(rung: LadderRung): boolean {
-  return rung === "T0" || rung === "T1";
+  return rung === "T0";
 }
 
 // The effective floor for a tile: its per-tile override if present, else the
@@ -514,14 +508,23 @@ export const FILMS_TILES: TileSpec[] = [
 export const TV_TILES: TileSpec[] = [
   // The corpus
   { id: "lifetime", archetype: "counter", band: "The corpus", bandCounter: true },
-  { id: "rating-distribution-by-level", archetype: "single-axis-bar", band: "The corpus" },
+  // Navigational: each rating bar (every show/season level) links to reviews at
+  // that rating → immortal, exactly like films' rating-distribution.
+  { id: "rating-distribution-by-level", archetype: "single-axis-bar", band: "The corpus", immortal: true },
+  // Type is a donut, NOT immortal: a show has exactly one type, so filtering to
+  // one type makes the donut a single-slice tautology. Since immortal overrides
+  // self-reference, an immortal type tile would render that degenerate slice
+  // instead of a readout — so it stays a plain donut (floor 2): a real 2+-slice
+  // donut renders, a lone slice (or a single-type filter) degrades to a readout.
   { id: "type", archetype: "donut", band: "The corpus" },
-  // Taste (load-bearing). NOTE: television's Taste tiles still use the original
-  // floors/survival metric (genres floored, genres-vs-baseline on raw corpus)
-  // pending the television section walkthrough. The page handoff is now a raw
-  // corpus-size gate (HANDOFF_MAX_N), shared with films.
-  { id: "genres", archetype: "single-axis-bar", band: "Taste" },
-  { id: "genres-vs-baseline", archetype: "diverging", band: "Taste" },
+  // Taste (load-bearing). Mirrors films: genres is navigational (each bar →
+  // genre-filtered reviews) → immortal; genres-vs-baseline is the taste CLAIM
+  // and gates on its escaped-genre count (floor 2) — genres whose per-genre n
+  // cleared the m=8 shrinkage prior (n ≥ m/2 = 4, set in tvTileSurvival), not
+  // the diverging archetype floor of 15. The page handoff is the raw corpus-size
+  // gate (HANDOFF_MAX_N), shared with films.
+  { id: "genres", archetype: "single-axis-bar", band: "Taste", immortal: true },
+  { id: "genres-vs-baseline", archetype: "diverging", band: "Taste", floor: 2 },
   // People
   { id: "actors", archetype: "versus", band: "People" },
   { id: "creators", archetype: "versus", band: "People" },
@@ -533,7 +536,9 @@ export const TV_TILES: TileSpec[] = [
   // How it reached me
   { id: "networks", archetype: "versus", band: "How it reached me" },
   { id: "by-conglomerate", archetype: "versus", band: "How it reached me" },
-  { id: "shows-across-networks", archetype: "single-axis-bar", band: "How it reached me" },
+  // Cross-network shows are rare, so this single-axis-bar floors lower than the
+  // archetype default of 5: a 3-show set is still a meaningful list, not noise.
+  { id: "shows-across-networks", archetype: "single-axis-bar", band: "How it reached me", floor: 3 },
   // When I watch
   { id: "season-pace", archetype: "line", band: "When I watch" },
   { id: "seasons-by-month", archetype: "stacked-by-year", band: "When I watch" },

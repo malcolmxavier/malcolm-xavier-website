@@ -63,14 +63,14 @@ import {
   weekdayTally,
   WEEKDAYS,
 } from "./temporal";
-import type { HeatGrid, HeatCell, StackedMatrix } from "./chart-data";
+import type { HeatGrid, StackedMatrix } from "./chart-data";
 import {
   collapse,
-  ARCHETYPE_FLOORS,
   FILMS_TILES,
   type CollapseResult,
   type TileSurvival,
 } from "./collapse";
+import { sumMatrix, sumHeat, versus, one } from "./survival-helpers";
 
 /** The rating each film contributes (never null in the enriched set). */
 const mineOf = (f: EnrichedFilm) => f.mine ?? 0;
@@ -471,48 +471,8 @@ function hasAnyFilmFilter(f: FilmFilters): boolean {
 // Most counts come straight off the computed view-model.
 // ───────────────────────────────────────────────────────────────────
 
-/** Total across a dense numeric matrix — for the grid/stacked tiles this is
- *  the count of films (or events) feeding the tile (each contributes 1). */
-function sumMatrix(matrix: number[][]): number {
-  return matrix.reduce((t, row) => t + row.reduce((r, n) => r + n, 0), 0);
-}
-
-/** Films feeding a heat grid (each non-null cell's `n` counts its films). */
-function sumHeat(cells: HeatCell[][]): number {
-  return cells.reduce(
-    (t, row) => t + row.reduce((r, c) => r + (c?.n ?? 0), 0),
-    0,
-  );
-}
-
-// The per-column entity floor a versus tile's two columns must each clear.
-const VERSUS_FLOOR = ARCHETYPE_FLOORS.versus;
-
-/** Survival for a versus tile: it lives on its "most-logged" column (the
- *  robust side that still has data to read out), and degrades to a readout
- *  when the gated "highest-rated" column drops below the per-column floor. */
-function versus(c: {
-  most: ReadonlyArray<unknown>;
-  major: ReadonlyArray<unknown>;
-}): { survivingN: number; degradeToReadout: boolean } {
-  return {
-    survivingN: c.most.length,
-    degradeToReadout: c.major.length < VERSUS_FLOOR,
-  };
-}
-
-/** True when an include facet pins its dimension to a SINGLE value. One
- *  selected value collapses the matching tile's distribution to a tautology
- *  (the chart can only show that one value), so the tile is forced to a
- *  readout regardless of how many rows survive (§6 self-reference). Two or
- *  more selected values — or a pure exclude, which leaves the include array
- *  empty — keep a real distribution (the relative proportions the user did
- *  NOT pin), so the chart still renders. Checking cardinality, not mere
- *  presence, is what keeps "every genre except horror" from collapsing the
- *  genre tiles even though it barely narrows the corpus. */
-function one(v: readonly unknown[] | undefined): boolean {
-  return Array.isArray(v) && v.length === 1;
-}
+// sumMatrix / sumHeat / versus / one moved to ./survival-helpers (shared with
+// tvTileSurvival) — imported above.
 
 /**
  * Derive every film tile's surviving-n + self-reference flag from the

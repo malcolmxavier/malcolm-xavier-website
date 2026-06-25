@@ -29,9 +29,6 @@ export function Tile({
    * - suppressed (T3 / folded under a band collapse) → renders nothing; it
    *   rolls up into the band footnote instead of leaving an empty stub.
    * - T2 (skeletal) → renders `readout` in place of the chart.
-   * - T1 (thinned) → renders the chart, same as T0. The near-floor state
-   *   carries NO caption: "few surviving categories" isn't "few entries"
-   *   (3.5★ can sit on hundreds of films), so it makes no thinness claim.
    * - T0 (full) → renders the chart normally.
    */
   decision,
@@ -62,7 +59,8 @@ export function Tile({
 
   const rung = decision?.rung ?? "T0";
   // Below the floor / self-referenced → swap the chart for its readout.
-  const body = rung === "T2" && readout != null ? readout : children;
+  const showingReadout = rung === "T2" && readout != null;
+  const body = showingReadout ? readout : children;
   // Solo-column tiles drop the "— logged vs. rated" contrast suffix, since only
   // the logged side renders.
   const heading = decision?.soloColumn && soloTitle != null ? soloTitle : title;
@@ -84,11 +82,12 @@ export function Tile({
         {heading}
       </h3>
       {body}
-      {note ? <p style={noteStyle}>{note}</p> : null}
-      {/* T1 (near-floor) renders the chart with no caption: fewer surviving
-          categories doesn't mean fewer entries, so there's no honest thinness
-          claim to make. Only T2 (chart dropped for a readout) carries a note,
-          owned by TileReadout. */}
+      {/* The descriptive caption belongs to the CHART. When the tile collapses
+          to a readout (T2), the readout owns the caption — its "widen the
+          filters" nudge — so the chart's standard note is suppressed to avoid
+          two stacked captions under one collapsed tile. (T3 already returned
+          null above; the former near-floor T1 rung was removed.) */}
+      {note && !showingReadout ? <p style={noteStyle}>{note}</p> : null}
     </section>
   );
 }

@@ -54,3 +54,54 @@ export function cycleDimensionValue(
   const current = dimensionState(raw, slug);
   return setDimensionValue(raw, slug, nextTriState(current));
 }
+
+// ─────────────────────────────────────────────────────────────────
+// Stats-tile deep-link filter carryover
+//
+// A stats dashboard is URL-driven: every active filter lives in the query
+// string. When a tile deep-links into the reviews funnel, the reader expects
+// the WHOLE active filter set to come along — clicking a studio tile while the
+// page is filtered by rating + decade + language should land on that studio
+// scoped by all three, not on a fresh single-facet view. Each tile builder used
+// to emit a clean single-facet URL with no awareness of the page's filters, so
+// the rest of the selection was silently dropped. This helper merges the page's
+// active params onto a tile's href.
+// ─────────────────────────────────────────────────────────────────
+
+/**
+ * Compose a tile deep-link with the page's active filters.
+ *
+ * @param href    the tile's own destination — either a canonical facet route
+ *                (`/films/studio/a24`, where the facet is pinned in the PATH) or
+ *                a `?param=` reviews URL (where it's pinned in the query).
+ * @param active  the page's current query string (built from `searchParams`).
+ * @param pinned  param key(s) this click sets via the PATH and so must NOT be
+ *                carried (otherwise a canonical route would be double-filtered,
+ *                or a fuzzy `?director=` query would ride onto an exact route).
+ *                The href's OWN query keys are always dropped automatically, so
+ *                `?param=` builders need no explicit pin.
+ *
+ * Carried params come first; the tile's own params win on any conflict. Pure —
+ * never mutates `active`.
+ */
+export function withCarriedFilters(
+  href: string,
+  active: URLSearchParams,
+  pinned: readonly string[] = [],
+): string {
+  const [path, ownQuery = ""] = href.split("?");
+  const own = new URLSearchParams(ownQuery);
+  // Keys the destination already pins (via path or its own query) are dropped
+  // from the carried set so the click's value is the one that takes effect.
+  const drop = new Set<string>([...pinned, ...own.keys()]);
+
+  const out = new URLSearchParams();
+  for (const [key, value] of active) {
+    if (drop.has(key)) continue;
+    out.append(key, value);
+  }
+  for (const [key, value] of own) out.append(key, value);
+
+  const query = out.toString();
+  return query ? `${path}?${query}` : path;
+}

@@ -55,9 +55,12 @@ import {
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { getCollectionDetails } from "@/lib/feeds/enrichment";
 import {
+  FILM_FACET_LINK_PARAM,
   indexableFilmCollectionNames,
   makeFilmFacetHref,
+  type FilmFacetLink,
 } from "@/lib/feeds/facet-index";
+import { withCarriedFilters } from "@/lib/feeds/stats/filter-url-state";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
@@ -189,18 +192,21 @@ export default async function FilmStatsPage({
   // straight through to <Versus solo>.
   const solo = (id: string) => dec(id)?.soloColumn ?? false;
 
-  // Reviews-handoff deep-link (§6 altitude 3 / §11): when the page hands off,
-  // carry the active stats query straight through to the reviews funnel so the
-  // handoff lands on the SAME selection. Stats and reviews share the filter
-  // param vocabulary, so the raw query transfers verbatim.
-  const handoffQuery = new URLSearchParams();
+  // The page's active filter state as query params. Stats and reviews share the
+  // filter param vocabulary, so this transfers verbatim to both the reviews
+  // handoff (below) and every tile deep-link (via withCarriedFilters), so the
+  // WHOLE selection survives a click-through instead of just the clicked facet.
+  const activeParams = new URLSearchParams();
   for (const [k, v] of Object.entries(sp)) {
     if (v == null) continue;
-    if (Array.isArray(v)) v.forEach((x) => handoffQuery.append(k, x));
-    else handoffQuery.append(k, v);
+    if (Array.isArray(v)) v.forEach((x) => activeParams.append(k, x));
+    else activeParams.append(k, v);
   }
+  // Reviews-handoff deep-link (§6 altitude 3 / §11): when the page hands off,
+  // carry the active query straight through so the handoff lands on the SAME
+  // selection.
   const reviewsHref = `/films/reviews${
-    handoffQuery.toString() ? `?${handoffQuery.toString()}` : ""
+    activeParams.toString() ? `?${activeParams.toString()}` : ""
   }`;
 
   // Page-level JSON-LD — a CollectionPage describing the UNFILTERED dashboard
@@ -290,7 +296,15 @@ export default async function FilmStatsPage({
   // detail page (see makeFilmFacetHref — the drift this prevents is the
   // ?genre= no-op bug). The per-facet wrappers below keep the tile call sites
   // (hrefFor={actorHref} …) unchanged.
-  const facetHref = makeFilmFacetHref(films);
+  const facetResolver = makeFilmFacetHref(films);
+  // Wrap the resolver so every facet deep-link carries the page's other active
+  // filters, dropping only the param this click pins (FILM_FACET_LINK_PARAM[f]).
+  const facetHref = (facet: FilmFacetLink, value: string) => {
+    const href = facetResolver(facet, value);
+    return href === undefined
+      ? undefined
+      : withCarriedFilters(href, activeParams, [FILM_FACET_LINK_PARAM[facet]]);
+  };
   const genreHref = (g: string) => facetHref("genres", g);
   const directorHref = (name: string) => facetHref("directors", name);
   const actorHref = (label: string) => facetHref("actors", label);
@@ -305,8 +319,13 @@ export default async function FilmStatsPage({
   // watched year, and the language×country combination. None has a dedicated
   // route, so all use the ?param= form (noindex). Rating buckets with zero
   // films don't link (an empty filtered view helps no one).
+  // These inline builders emit ?param= URLs, so withCarriedFilters drops their
+  // own keys automatically — they carry the rest of the active filters with no
+  // explicit pin. (Entity facets go through facetHref above, which does pin.)
   const ratingHref = (k: string) =>
-    s.ratingDistribution[k] ? `/films/reviews?rating=${k}` : undefined;
+    s.ratingDistribution[k]
+      ? withCarriedFilters(`/films/reviews?rating=${k}`, activeParams)
+      : undefined;
   const releaseTypeHref = (label: string) => facetHref("releaseTypes", label);
   const budgetTierHref = (label: string) => facetHref("budgetTiers", label);
   // era → release-year scope: the decade buckets map to ?decade=; the open
@@ -314,8 +333,12 @@ export default async function FilmStatsPage({
   const eraSuffix = (era: string) =>
     era === "<2010" ? "&releaseYearMax=2009" : `&decade=${slugifyEntity(era)}`;
   const eraHeatHref = (param: string) => (row: string, col: string) =>
-    `/films/reviews?${param}=${slugifyEntity(row)}${eraSuffix(col)}`;
-  const watchedYearHref = (year: string) => `/films/reviews?watchedYear=${year}`;
+    withCarriedFilters(
+      `/films/reviews?${param}=${slugifyEntity(row)}${eraSuffix(col)}`,
+      activeParams,
+    );
+  const watchedYearHref = (year: string) =>
+    withCarriedFilters(`/films/reviews?watchedYear=${year}`, activeParams);
   // language×country pairs → the combination filter. Built as a label→href
   // map from the index-aligned topPairKeys so Bars' hrefFor(label) resolves
   // each pair to its two slugs without parsing the "·" label.
@@ -324,7 +347,10 @@ export default async function FilmStatsPage({
       const k = s.overlap.topPairKeys[i];
       return [
         label,
-        `/films/reviews?language=${slugifyEntity(k.language)}&country=${slugifyEntity(k.country)}`,
+        withCarriedFilters(
+          `/films/reviews?language=${slugifyEntity(k.language)}&country=${slugifyEntity(k.country)}`,
+          activeParams,
+        ),
       ];
     }),
   );
@@ -335,6 +361,8 @@ export default async function FilmStatsPage({
   // the route floor (≥3 logged) — the looser stats qualification (≥2) means
   // a 2-film family shows here but has no thin page, so it stays inert (no
   // ?param= fallback: the raw-collection filter doesn't speak family).
+  // No withCarriedFilters here: a collection route renders a curated
+  // one-card-per-title grid, not a filterable view, so carried params are inert.
   const routableFamilies = new Set(
     indexableFilmCollectionNames(
       films,
