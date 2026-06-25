@@ -241,3 +241,65 @@ export function searchShowSuggestions(query: string): Suggestion[] {
     ...facetGroup(["Language", "Country"]),
   ];
 }
+
+// The connected omnibox searches only the high-cardinality facets the
+// cross-brand dashboard REPORTS on AND that exist on both libraries (§5c):
+// actor, conglomerate, language, country. No titles (a title jump is
+// ambiguous across film vs. TV and off-purpose for an analytical filter),
+// and no cluster-only facets (creators, networks, studios, writers). Values
+// are entity slugs, matching parseConnectedFilters.
+const CONNECTED_FACET_SEARCH: {
+  kind: string;
+  distKey: "actors" | "conglomerates" | "languages" | "countries";
+  param: string;
+  facetKey: string;
+}[] = [
+  { kind: "Actor", distKey: "actors", param: "actor", facetKey: "actors" },
+  {
+    kind: "Conglomerate",
+    distKey: "conglomerates",
+    param: "conglomerate",
+    facetKey: "conglomerates",
+  },
+  { kind: "Language", distKey: "languages", param: "language", facetKey: "languages" },
+  { kind: "Country", distKey: "countries", param: "country", facetKey: "countries" },
+];
+
+/** Merge two facet distributions by display name, summing counts, re-ranked
+ *  count-desc then alphabetical — so a pooled search ranks an entity by its
+ *  combined film + TV footprint. */
+function mergeDistributions(
+  a: [string, number][],
+  b: [string, number][],
+): [string, number][] {
+  const m = new Map<string, number>();
+  for (const [name, count] of a) m.set(name, (m.get(name) ?? 0) + count);
+  for (const [name, count] of b) m.set(name, (m.get(name) ?? 0) + count);
+  return [...m.entries()].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]));
+}
+
+export function searchConnectedSuggestions(query: string): Suggestion[] {
+  const q = query.trim();
+  if (q.length < MIN_QUERY_LENGTH) return [];
+  const needle = norm(q);
+  const { films } = getFilmsWithEnrichment();
+  const { shows } = getShowsWithEnrichment();
+  const fd = filmFacetDistributions(films);
+  const sd = showFacetDistributions(shows);
+  // Pool each shared facet across both libraries before matching.
+  const pooled: Record<(typeof CONNECTED_FACET_SEARCH)[number]["distKey"], [string, number][]> = {
+    actors: mergeDistributions(fd.actors, sd.actors),
+    conglomerates: mergeDistributions(fd.conglomerates, sd.conglomerates),
+    languages: mergeDistributions(fd.languages, sd.languages),
+    countries: mergeDistributions(fd.countries, sd.countries),
+  };
+  return CONNECTED_FACET_SEARCH.flatMap((c) =>
+    matchEntities(pooled[c.distKey], needle, PER_GROUP).map(([name]) => ({
+      kind: c.kind,
+      label: name,
+      param: c.param,
+      facetKey: c.facetKey,
+      value: slugifyEntity(name),
+    })),
+  );
+}
