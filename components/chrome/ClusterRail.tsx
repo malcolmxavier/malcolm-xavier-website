@@ -149,6 +149,11 @@ export function ClusterRail({
 // for separation from the follow link above it.
 const listStyle: CSSProperties = {
   display: "flex",
+  // Wrap the pills onto a second line on narrow viewports. Without this the
+  // nowrap pills (tabBaseStyle) can't reflow and push the page wider than a
+  // phone, forcing a horizontal scroll on every cluster page this rail sits on
+  // (landings, reviews, stats). Mirrors the connected page's own wrapping nav.
+  flexWrap: "wrap",
   alignItems: "center",
   gap: 8,
   listStyle: "none",
