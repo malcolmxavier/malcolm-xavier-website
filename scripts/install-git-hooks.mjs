@@ -15,9 +15,14 @@
 // passed, so an unrelated user-added hook never gets clobbered by an
 // `npm install` side effect.
 //
-// Safe in CI: exits 0 silently if .git/ isn't a directory (e.g.
+// Safe in CI: exits 0 silently if this isn't a git repo (e.g.
 // Vercel's build environment, which doesn't always carry a full git
 // working tree).
+//
+// Worktree-safe: the hooks directory is resolved by asking git, not by
+// assuming ".git" is a directory. In a linked worktree, ".git" is a
+// *file* pointing at the shared common dir, and hooks live in that
+// common dir — so a hard-coded ".git/hooks" path would fail there.
 // ─────────────────────────────────────────────────────────────────
 
 import {
@@ -25,16 +30,29 @@ import {
   readFileSync,
   writeFileSync,
   chmodSync,
+  mkdirSync,
   readdirSync,
 } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { resolve, join } from "node:path";
 
-const GIT_DIR = resolve(".git");
 const SOURCE_DIR = resolve("scripts/git-hooks");
-const TARGET_DIR = resolve(".git/hooks");
 
-// CI / shallow-clone environments may have no .git/ — nothing to do.
-if (!existsSync(GIT_DIR)) {
+// Ask git itself where hooks belong. `git rev-parse --git-path hooks`
+// returns the correct path in every checkout shape: a normal clone, a
+// linked worktree (resolves to the shared common dir's hooks), and a
+// submodule. If git isn't available or this isn't a repo — e.g. a
+// shallow CI / Vercel build environment — there's nothing to install,
+// so exit 0 silently.
+let TARGET_DIR;
+try {
+  TARGET_DIR = resolve(
+    execFileSync("git", ["rev-parse", "--git-path", "hooks"], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim(),
+  );
+} catch {
   process.exit(0);
 }
 
@@ -42,6 +60,10 @@ if (!existsSync(SOURCE_DIR)) {
   console.error(`✗ Hook source dir not found: ${SOURCE_DIR}`);
   process.exit(1);
 }
+
+// A freshly initialized repo may not have a hooks directory yet; create
+// it so the first write doesn't fail.
+mkdirSync(TARGET_DIR, { recursive: true });
 
 const FORCE = process.argv.includes("--force");
 const hooks = readdirSync(SOURCE_DIR);
