@@ -58,6 +58,13 @@ import {
   type WorldLean,
 } from "./distributions";
 import type { StackedMatrix } from "./chart-data";
+import {
+  collapse,
+  TV_TILES,
+  type CollapseResult,
+  type TileSurvival,
+} from "./collapse";
+import { sumMatrix, versus, one } from "./survival-helpers";
 
 /**
  * A show's canonical rating for the analytics: the mean of its rated
@@ -215,6 +222,9 @@ export type TvStats = {
     /** Season completions, month × recent-year stack. */
     seasonMonthMatrix: StackedMatrix;
   };
+  /** Per-tile / per-band / page collapse decisions under the active filter
+   *  (STATS-FILTERS §6) — computed live, same as the films dashboard. */
+  collapse: CollapseResult;
 };
 
 /**
@@ -323,7 +333,7 @@ export function computeTvStats(filters?: ShowFilters): TvStats {
       .map((r) => ({ genres: s.genres ?? [], rating: r.rating as number })),
   );
 
-  return {
+  const stats: Omit<TvStats, "collapse"> = {
     lifetime: {
       shows: summary.totalShows,
       seasonReviews: summary.totalSeasonReviews,
@@ -398,4 +408,114 @@ export function computeTvStats(filters?: ShowFilters): TvStats {
       },
     },
   };
+
+  // Live degradation: resolve every tile's rung, every band's state, and the
+  // page verdict from the narrowed view-model — same engine the films
+  // dashboard runs (§6). Before this, the TV page rendered every tile as full.
+  return {
+    ...stats,
+    collapse: collapse("television", TV_TILES, tvTileSurvival(stats, filters)),
+  };
+}
+
+/**
+ * Derive every TV tile's surviving-n + self-reference flag from the computed
+ * view-model and the active filter — the TV counterpart of `filmTileSurvival`.
+ * Pure: the same stats always map to the same survival, so it's unit-testable
+ * against the fixtures.
+ */
+export function tvTileSurvival(
+  s: Omit<TvStats, "collapse">,
+  filters?: ShowFilters,
+): TileSurvival[] {
+  const f = filters ?? {};
+
+  // Tiles whose primary axis the user pinned to a SINGLE include value: their
+  // distribution is self-referential and collapses to a one-value readout
+  // (§5/§6). A lone rating also flattens the genre-divergence tile (every
+  // surviving season shares that rating, so every genre averages to it).
+  const selfRef = new Set<string>();
+  const pin = (active: boolean, ...ids: string[]) => {
+    if (active) for (const id of ids) selfRef.add(id);
+  };
+  pin(one(f.ratings), "rating-distribution-by-level", "genres-vs-baseline");
+  pin(one(f.genres), "genres", "genres-vs-baseline");
+  pin(one(f.actors), "actors");
+  pin(one(f.creators), "creators");
+  pin(one(f.languages), "languages", "language-x-country");
+  pin(one(f.countries), "countries");
+  pin(one(f.networks), "networks");
+  pin(one(f.conglomerates), "by-conglomerate");
+  pin(one(f.types), "type");
+
+  const corpus = s.lifetime.shows;
+
+  // The rating-distribution tile carries a show/season/episode level toggle, so
+  // it survives if ANY level has bars to plot — count the richest level.
+  const ratingBuckets = Math.max(
+    ...(["show", "season", "episode"] as const).map(
+      (lvl) => s.ratingByLevel[lvl].bars.filter(([, c]) => c > 0).length,
+    ),
+  );
+  // Season review events feed the pace line (a show can contribute several).
+  const seasonEvents = s.temporal.seasonsByWeekday.reduce((t, [, n]) => t + n, 0);
+  // Networks is a NetworkRollup ({most, topRated}), not a Contrast ({most,
+  // major}), so it can't use the shared `versus` helper: survive on the
+  // most-logged column, degrade to a readout when the highest-rated side
+  // (networks with ≥3 shows) drops below the per-column versus floor.
+  const networks = {
+    survivingN: s.networks.most.length,
+    degradeToReadout: s.networks.topRated.length < 3,
+  };
+
+  const surv: Record<
+    string,
+    { survivingN: number; degradeToReadout?: boolean }
+  > = {
+    // The corpus
+    lifetime: { survivingN: corpus },
+    "rating-distribution-by-level": { survivingN: ratingBuckets },
+    type: { survivingN: s.types.length },
+    // Taste — genres bar counts plotted (non-empty) genres; it's navigational
+    // (immortal in the catalog), so it rides the chart down to a single
+    // clickable bar. genres-vs-baseline counts genres that have ESCAPED
+    // shrinkage — per-genre n ≥ m/2 = 4 for TV (m = 8). A divergence built on
+    // genres all pulled to baseline is flat and unreadable, so gating on the
+    // escaped-genre count (vs. the old raw-corpus gate, which let the chart
+    // render below the m=8 prior with every bar near-flat) keeps the tile's
+    // viability aligned with the same per-genre sample the shrinkage depends on.
+    // Mirrors films (count ≥ m/2 = 10 at m = 20) with the tile floor of 2.
+    genres: { survivingN: s.genres.most.length },
+    "genres-vs-baseline": {
+      survivingN: s.divergingGenre.filter((g) => g.count >= 4).length,
+    },
+    // People
+    actors: versus(s.actors),
+    creators: versus(s.creators),
+    // Where it comes from
+    "world-cinema-lean": { survivingN: corpus },
+    "language-x-country": { survivingN: s.overlap.topPairs.length },
+    languages: versus(s.languages),
+    countries: versus(s.countries),
+    // How it reached me
+    networks,
+    "by-conglomerate": versus(s.conglomerate),
+    "shows-across-networks": { survivingN: s.multiNetwork.length },
+    // When I watch
+    "season-pace": { survivingN: seasonEvents },
+    "seasons-by-month": { survivingN: sumMatrix(s.temporal.seasonMonthMatrix.matrix) },
+    "seasons-by-weekday": {
+      survivingN: sumMatrix(s.temporal.seasonWeekdayMatrix.matrix),
+    },
+    "episodes-by-month": {
+      survivingN: s.temporal.episodesByMonth.filter(([, n]) => n > 0).length,
+    },
+  };
+
+  return TV_TILES.map((tile) => ({
+    id: tile.id,
+    survivingN: surv[tile.id]?.survivingN ?? 0,
+    selfReferenced: selfRef.has(tile.id),
+    degradeToReadout: surv[tile.id]?.degradeToReadout ?? false,
+  }));
 }

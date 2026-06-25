@@ -25,6 +25,9 @@ import { Link } from "@/components/primitives/Link";
 import { StatsSection } from "@/components/stats/StatsSection";
 import { StatsTips } from "@/components/stats/StatsTips";
 import { Tile } from "@/components/stats/Tile";
+import { TileReadout } from "@/components/stats/TileReadout";
+import { StatsHandoffPanel } from "@/components/stats/StatsHandoffPanel";
+import { StatsFilterControls } from "@/components/filters/StatsFilterControls";
 import { Methodology } from "@/components/stats/Methodology";
 import { Bigs } from "@/components/stats/Bigs";
 import { Bars } from "@/components/stats/Bars";
@@ -37,15 +40,25 @@ import { StackedBars } from "@/components/stats/StackedBars";
 import { RatingByLevelTabs } from "@/components/stats/RatingByLevelTabs";
 import { SITE_URL } from "@/lib/site-config";
 import { computeTvStats } from "@/lib/feeds/stats/tv-stats";
+import {
+  buildTvStatsRails,
+  TV_SUMMARY_DIMS,
+} from "@/lib/feeds/stats/tv-filter-options";
+import { withCarriedFilters } from "@/lib/feeds/stats/filter-url-state";
 import type { Contrast } from "@/lib/feeds/stats/shrinkage";
 import { slugifyEntity } from "@/lib/feeds/slug";
-import { slugifyGenre, buildCompletedCards } from "@/lib/feeds/serializd-utils";
+import {
+  buildCompletedCards,
+  parseShowFilters,
+} from "@/lib/feeds/serializd-utils";
 import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import {
-  indexableTvFacetNames,
-  TV_FACET_BASEPATH,
-  type TvRouteFacet,
+  makeTvFacetHref,
+  TV_FACET_LINK_PARAM,
+  type TvFacetLink,
 } from "@/lib/feeds/facet-index";
+
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
 export const metadata: Metadata = {
   title: "Television stats",
@@ -85,8 +98,76 @@ function signed(n: number): string {
   return (n >= 0 ? "+" : "−") + Math.abs(n).toFixed(2);
 }
 
-export default function TelevisionStatsPage() {
-  const s = computeTvStats();
+/** TV tile id → a reader-facing label for the band footnote. The footnote
+ *  names a hidden breakdown to someone who can't see the chart it refers to,
+ *  so it avoids chart-internal jargon. Keyed by the catalog id (collapse.ts),
+ *  not the tile title. */
+const TV_TILE_LABELS: Record<string, string> = {
+  lifetime: "Lifetime",
+  "rating-distribution-by-level": "Rating distribution",
+  type: "Types",
+  genres: "Genres",
+  "genres-vs-baseline": "Genre ratings",
+  actors: "Actors",
+  creators: "Creators",
+  "world-cinema-lean": "International lean",
+  "language-x-country": "Language by country",
+  languages: "Languages",
+  countries: "Countries",
+  networks: "Networks",
+  "by-conglomerate": "Network groups",
+  "shows-across-networks": "Shows across networks",
+  "season-pace": "Season pace",
+  "seasons-by-month": "Seasons by month",
+  "seasons-by-weekday": "Seasons by weekday",
+  "episodes-by-month": "Episodes by month",
+};
+const tvTileLabel = (id: string) => TV_TILE_LABELS[id] ?? id;
+
+export default async function TelevisionStatsPage({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}) {
+  // Filter state lives in the URL (§9). Parse it, recompute every tile over the
+  // predicate-narrowed corpus, and note whether anything is active (the active
+  // state drops the JSON-LD, mirroring the films dashboard).
+  const sp = await searchParams;
+  const filters = parseShowFilters(sp);
+  const filtered = Object.keys(filters).length > 0;
+  const s = computeTvStats(filters);
+
+  // Collapse decisions (§6): resolve a tile's rung / a band's state by id. `td`
+  // bundles the per-tile props every Tile takes (its decision + the shared
+  // readout); `bd` bundles the per-band props every StatsSection takes; `solo`
+  // passes a versus tile's surviving-column flag to <Versus solo>.
+  const dec = (id: string) => s.collapse.tiles.find((t) => t.id === id);
+  const bandDec = (id: string) => s.collapse.bands.find((b) => b.id === id);
+  const readout = <TileReadout n={s.lifetime.shows} noun="shows" />;
+  const td = (id: string) => ({ decision: dec(id), readout });
+  const bd = (label: string) => ({ band: bandDec(label), tileLabel: tvTileLabel });
+  const solo = (id: string) => dec(id)?.soloColumn ?? false;
+
+  // The page's active filter state as query params — shared by the reviews
+  // handoff and every tile deep-link (withCarriedFilters), so the WHOLE
+  // selection survives a click-through, not just the clicked facet.
+  const activeParams = new URLSearchParams();
+  for (const [k, v] of Object.entries(sp)) {
+    if (v == null) continue;
+    if (Array.isArray(v)) v.forEach((x) => activeParams.append(k, x));
+    else activeParams.append(k, v);
+  }
+  // Carry the active filters onto a tile href, dropping the param(s) this click
+  // pins. Canonical routes pin in the PATH (pass the param explicitly); ?param=
+  // builders auto-drop their own key, so they need no explicit pin.
+  const carry = (href: string, ...pinned: string[]) =>
+    withCarriedFilters(href, activeParams, pinned);
+
+  // Reviews-handoff deep-link (§6 altitude 3): when the page hands off, carry
+  // the active query through so the handoff lands on the SAME selection.
+  const reviewsHref = `/television/reviews${
+    activeParams.toString() ? `?${activeParams.toString()}` : ""
+  }`;
 
   // Page-level JSON-LD — a CollectionPage describing the dashboard as a
   // first-class, indexable portfolio artifact (mirrors the film dashboard).
@@ -114,34 +195,35 @@ export default function TelevisionStatsPage() {
   // its indexation floor links to the dedicated route (/television/network/
   // hbo-max); a sub-floor entity falls back to the noindex ?param= form.
   // Genre already has its route. Conglomerate has NO route (not in the floors
-  // table), so it always uses ?conglomerate=.
-  const { shows } = getShowsWithEnrichment();
-  // route-iff-indexable, else ?param= fallback (slug-based facets).
-  const tvRouteHref = (facet: TvRouteFacet, param: string) => {
-    const indexable = new Set(indexableTvFacetNames(facet, shows));
-    const base = TV_FACET_BASEPATH[facet];
-    return (label: string) =>
-      indexable.has(label)
-        ? `/television/${base}/${slugifyEntity(label)}`
-        : `/television/reviews?${param}=${slugifyEntity(label)}`;
-  };
-  // Plain ?param= deep-link for facets with no dedicated route (conglomerate).
-  const facetHref = (param: string) => (label: string) =>
-    `/television/reviews?${param}=${slugifyEntity(label)}`;
-  const genreHref = (g: string) => `/television/genre/${slugifyGenre(g)}`;
-  // Network is NAME-based (WS3): the route uses the slug, the sub-floor
-  // fallback keeps the existing name-based ?network= param.
-  const networkHref = (() => {
-    const indexable = new Set(indexableTvFacetNames("networks", shows));
-    return (name: string) =>
-      indexable.has(name)
-        ? `/television/network/${slugifyEntity(name)}`
-        : `/television/reviews?network=${encodeURIComponent(name)}`;
-  })();
-  const actorHref = tvRouteHref("actors", "actor");
-  const creatorHref = tvRouteHref("creators", "creator");
-  const languageHref = tvRouteHref("languages", "language");
-  const countryHref = tvRouteHref("countries", "country");
+  // table), so it always uses ?conglomerate=. Every link carries the page's
+  // active filters via `carry` (dropping the param this click pins).
+  // The indexable sets read the UNFILTERED corpus so the route-vs-?param
+  // decision stays stable as the selection narrows. `summary` feeds the rails.
+  const { shows, summary } = getShowsWithEnrichment();
+  const statsRails = buildTvStatsRails(shows, summary);
+  // The ONE value→href resolver, shared with the show detail block
+  // (makeTvFacetHref), so the slug + route-vs-?param= vocabulary can't drift
+  // between the two surfaces. Each facet deep-link wraps the bare href with
+  // `carry`, which folds the page's active filters onto it and drops the param
+  // THIS click pins — TV_FACET_LINK_PARAM names that param. (network/type keep
+  // their name-based ?param= fallback inside the factory; genre always routes;
+  // conglomerate is always a ?param= filter.)
+  const tvFacet = makeTvFacetHref(shows);
+  const facetLink =
+    (facet: TvFacetLink) =>
+    (value: string): string | undefined => {
+      const href = tvFacet(facet, value);
+      return href === undefined
+        ? undefined
+        : carry(href, TV_FACET_LINK_PARAM[facet]);
+    };
+  const genreHref = facetLink("genres");
+  const networkHref = facetLink("networks");
+  const conglomerateHref = facetLink("conglomerates");
+  const actorHref = facetLink("actors");
+  const creatorHref = facetLink("creators");
+  const languageHref = facetLink("languages");
+  const countryHref = facetLink("countries");
 
   // Non-entity facet deep-links (WS6b.1). Type is name-based and has a route
   // (mirrors networkHref); rating / watched-year / the language×country
@@ -156,38 +238,39 @@ export default function TelevisionStatsPage() {
       .map((c) => c.show.tmdb?.type)
       .filter((t): t is string => Boolean(t)),
   );
-  const typeHref = (() => {
-    const indexable = new Set(indexableTvFacetNames("types", shows));
-    return (name: string) => {
-      if (!cardTypes.has(name)) return undefined; // episode-only type → no cards
-      return indexable.has(name)
-        ? `/television/type/${slugifyEntity(name)}`
-        : `/television/reviews?type=${encodeURIComponent(name)}`;
-    };
-  })();
+  // Type additionally gates on cardTypes (an episode-only type lands an empty
+  // grid), pre-checking before it resolves through the shared factory.
+  const typeHref = (name: string): string | undefined =>
+    cardTypes.has(name) ? facetLink("types")(name) : undefined;
   // RatingByLevelTabs is a client component, so it gets a serializable
   // per-level rating→href map (not a closure). Show and season rating
   // buckets scope the grid by cardKind; EPISODE is omitted — episode
   // reviews aren't show/season cards, so there's nothing to filter to (the
-  // tab's pane shows a note). Only buckets with reviews get a link.
+  // tab's pane shows a note). Only buckets with reviews get a link. The
+  // rating+cardKind keys are this click's pins, auto-dropped by carry.
   const ratingHrefsForLevel = (lvl: "show" | "season") =>
     Object.fromEntries(
       s.ratingByLevel[lvl].bars
         .filter(([, n]) => n > 0)
-        .map(([k]) => [k, `/television/reviews?rating=${k}&cardKind=${lvl}`]),
+        .map(([k]) => [
+          k,
+          carry(`/television/reviews?rating=${k}&cardKind=${lvl}`),
+        ]),
     );
   const ratingHrefs = {
     show: ratingHrefsForLevel("show"),
     season: ratingHrefsForLevel("season"),
   };
   const watchedYearHref = (year: string) =>
-    `/television/reviews?watchedYear=${year}`;
+    carry(`/television/reviews?watchedYear=${year}`);
   const pairHrefByLabel = new Map(
     s.overlap.topPairs.map(([label], i) => {
       const k = s.overlap.topPairKeys[i];
       return [
         label,
-        `/television/reviews?language=${slugifyEntity(k.language)}&country=${slugifyEntity(k.country)}`,
+        carry(
+          `/television/reviews?language=${slugifyEntity(k.language)}&country=${slugifyEntity(k.country)}`,
+        ),
       ];
     }),
   );
@@ -195,10 +278,14 @@ export default function TelevisionStatsPage() {
 
   return (
     <div data-subbrand="tv">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {/* JSON-LD only on the unfiltered canonical (filtered states are
+          noindex permutations). */}
+      {!filtered ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      ) : null}
       {/* Touch support for the chart hover chips (tap-to-toggle); no-ops
           on pointer devices, which use the CSS hover path. */}
       <StatsTips />
@@ -235,16 +322,50 @@ export default function TelevisionStatsPage() {
         </Section>
       </Container>
 
-      {/* ─── Dashboard ────────────────────────────────────────── */}
+      {/* ─── Filter controls + dashboard ──────────────────────────
+          ONE bordered Section wraps BOTH the filter strip and the dashboard so
+          the sticky summary bar has real range over the tiles it filters
+          (position:sticky only travels within its DOM parent). Every filter
+          change is a URL round-trip that re-runs computeTvStats over the
+          narrowed corpus. Mirrors /films/stats. */}
       <Container size="lg">
-        <Section padding="md" style={{ paddingTop: 0 }}>
+        <Section bordered padding="md" style={{ paddingTop: "1rem" }}>
+          <StatsFilterControls
+            rails={statsRails}
+            summaryDims={TV_SUMMARY_DIMS}
+            tailParams={["type", "decade"]}
+            omniboxEndpoint="/television/reviews/facet-search"
+            omniboxLabel="Search"
+            omniboxPlaceholder="Titles, actors, creators, networks…"
+            omniboxAriaLabel="Search television by title, actor, creator, network, language, or country"
+            chipClassName="show-filter-chip"
+            idPrefix="tv-stats"
+            basePath="/television/stats"
+            noun={{ singular: "show", plural: "shows" }}
+            totalResults={s.lifetime.shows}
+          />
+
+          <div className="pt-10 sm:pt-14">
+          {/* Page verdict (§6 altitude 3): when the filtered corpus is too thin
+              (N ≤ HANDOFF_MAX_N) the page hands off to the reviews funnel for
+              the same selection rather than rendering a wall of readouts. */}
+          {s.collapse.verdict === "reviews-handoff" ? (
+            <StatsHandoffPanel
+              n={s.lifetime.shows}
+              href={reviewsHref}
+              noun={{ singular: "show", plural: "shows" }}
+              resetHref="/television/stats"
+            />
+          ) : (
+            <>
           {/* Six named bands (readability pass), mirroring the film
               dashboard. Spans within each band follow Malcolm's saved
               sketch layout (_private/_sketches/stats-sketch-layout.json
               → "tv"). */}
 
-          <StatsSection label="The corpus">
+          <StatsSection label="The corpus" {...bd("The corpus")}>
             <Tile
+              {...td("lifetime")}
               title="Lifetime"
               span={12}
               note={`Across ${s.lifetime.shows.toLocaleString()} total shows, ${s.lifetime.thisYear} of which I've actively watched at some point this year.`}
@@ -265,6 +386,7 @@ export default function TelevisionStatsPage() {
             </Tile>
 
             <Tile
+              {...td("rating-distribution-by-level")}
               title="Rating distribution by level"
               span={12}
               note="Seasons, shows, and episodes are rated and counted separately with the exception of miniseries, which are double-counted (season and show). Episode logging only began this year."
@@ -273,6 +395,7 @@ export default function TelevisionStatsPage() {
             </Tile>
 
             <Tile
+              {...td("type")}
               title="Type"
               span={6}
             >
@@ -280,8 +403,8 @@ export default function TelevisionStatsPage() {
             </Tile>
           </StatsSection>
 
-          <StatsSection label="Taste">
-            <Tile title="Genres" span={4}>
+          <StatsSection label="Taste" {...bd("Taste")}>
+            <Tile {...td("genres")} title="Genres" span={4}>
               <Bars
                 rows={s.genres.most}
                 hrefFor={genreHref}
@@ -296,6 +419,7 @@ export default function TelevisionStatsPage() {
             </Tile>
 
             <Tile
+              {...td("genres-vs-baseline")}
               title="Genres vs. my baseline"
               span={8}
               note={`Baseline = my ${s.lifetime.avgRating.toFixed(2)}★ avg season rating; most-logged genres first. Bars right of center rate above it; bars left of center rate below.`}
@@ -308,8 +432,9 @@ export default function TelevisionStatsPage() {
             </Tile>
           </StatsSection>
 
-          <StatsSection label="People">
+          <StatsSection label="People" {...bd("People")}>
             <Tile
+              {...td("actors")}
               title="Actors — logged vs. rated"
               span={6}
               note="Top-10 billed and ≥3 episodes, so a one-off guest spot doesn't count. Highest-rated counts distinct shows."
@@ -320,10 +445,12 @@ export default function TelevisionStatsPage() {
                 rightTitle="Highest rated"
                 right={actors.right}
                 hrefFor={actorHref}
+                solo={solo("actors")}
               />
             </Tile>
 
             <Tile
+              {...td("creators")}
               title="Creators — logged vs. rated"
               span={6}
               note="Highest-rated gated on a minimum of 2 distinct shows."
@@ -334,12 +461,14 @@ export default function TelevisionStatsPage() {
                 rightTitle="Highest rated"
                 right={creators.right}
                 hrefFor={creatorHref}
+                solo={solo("creators")}
               />
             </Tile>
           </StatsSection>
 
-          <StatsSection label="Where it comes from">
+          <StatsSection label="Where it comes from" {...bd("Where it comes from")}>
             <Tile
+              {...td("world-cinema-lean")}
               title="World cinema lean"
               span={12}
               note="I rate non-English and non-US shows against domestic ones—language is the stronger signal, country reinforces it."
@@ -360,6 +489,7 @@ export default function TelevisionStatsPage() {
             </Tile>
 
             <Tile
+              {...td("language-x-country")}
               title="Language × country"
               span={12}
               note="The joint view: which languages pair with which countries (language leads)."
@@ -374,29 +504,32 @@ export default function TelevisionStatsPage() {
               <Bars rows={s.overlap.topPairs} hrefFor={pairHref} />
             </Tile>
 
-            <Tile title="Languages — logged vs. rated" span={6}>
+            <Tile {...td("languages")} title="Languages — logged vs. rated" span={6}>
               <Versus
                 leftTitle="Most logged"
                 left={languages.left}
                 rightTitle="Highest rated"
                 right={languages.right}
                 hrefFor={languageHref}
+                solo={solo("languages")}
               />
             </Tile>
 
-            <Tile title="Countries — logged vs. rated" span={6}>
+            <Tile {...td("countries")} title="Countries — logged vs. rated" span={6}>
               <Versus
                 leftTitle="Most logged"
                 left={countries.left}
                 rightTitle="Highest rated"
                 right={countries.right}
                 hrefFor={countryHref}
+                solo={solo("countries")}
               />
             </Tile>
           </StatsSection>
 
-          <StatsSection label="How it reached me">
+          <StatsSection label="How it reached me" {...bd("How it reached me")}>
             <Tile
+              {...td("networks")}
               title="Networks — logged vs. rated"
               span={6}
               note="Each show counts once under its canonical primary network (HBO and Max merged, and so on). Highest-rated is a gated raw average across ≥3 shows."
@@ -407,10 +540,12 @@ export default function TelevisionStatsPage() {
                 rightTitle="Highest rated"
                 right={s.networks.topRated}
                 hrefFor={networkHref}
+                solo={solo("networks")}
               />
             </Tile>
 
             <Tile
+              {...td("by-conglomerate")}
               title="By conglomerate — logged vs. rated"
               span={6}
               note="Each show rolls up to the conglomerate that owns its network (else independent)."
@@ -420,11 +555,13 @@ export default function TelevisionStatsPage() {
                 left={conglomerate.left}
                 rightTitle="Highest rated"
                 right={conglomerate.right}
-                hrefFor={facetHref("conglomerate")}
+                hrefFor={conglomerateHref}
+                solo={solo("by-conglomerate")}
               />
             </Tile>
 
             <Tile
+              {...td("shows-across-networks")}
               title="Shows across networks"
               span={12}
               note="Shows tied to more than one canonical network. An arrow (→) marks a known change of home; a plus (+) marks a show carried on both at once (a linear-plus-streamer simulcast)."
@@ -433,8 +570,9 @@ export default function TelevisionStatsPage() {
             </Tile>
           </StatsSection>
 
-          <StatsSection label="When I watch">
+          <StatsSection label="When I watch" {...bd("When I watch")}>
             <Tile
+              {...td("season-pace")}
               title="Season pace by day of year"
               span={12}
               note="Cumulative seasons finished by each date of the year, per year."
@@ -449,7 +587,7 @@ export default function TelevisionStatsPage() {
               />
             </Tile>
 
-            <Tile title="Seasons by month" span={6}>
+            <Tile {...td("seasons-by-month")} title="Seasons by month" span={6}>
               <StackedBars
                 data={s.temporal.seasonMonthMatrix}
                 ariaLabel="Seasons finished by month, stacked by year"
@@ -458,7 +596,7 @@ export default function TelevisionStatsPage() {
               />
             </Tile>
 
-            <Tile title="Seasons by weekday" span={6}>
+            <Tile {...td("seasons-by-weekday")} title="Seasons by weekday" span={6}>
               <StackedBars
                 data={s.temporal.seasonWeekdayMatrix}
                 ariaLabel="Seasons finished by weekday, stacked by year"
@@ -468,6 +606,7 @@ export default function TelevisionStatsPage() {
             </Tile>
 
             <Tile
+              {...td("episodes-by-month")}
               title="Episodes logged by month"
               span={12}
               note="Standalone episode reviews by month—episode-level logging only began this year."
@@ -481,6 +620,9 @@ export default function TelevisionStatsPage() {
               />
             </Tile>
           </StatsSection>
+            </>
+          )}
+          </div>
         </Section>
 
         {/* ─── Cross-brand handoff ──────────────────────────────── */}

@@ -277,6 +277,30 @@ export const FILM_FACET_PARAM: Record<FilmRouteFacet, string | undefined> = {
   decades: "decade",
 };
 
+/**
+ * Every linkable facet → the query-param key a click on it pins. Unlike
+ * FILM_FACET_PARAM (routed facets only, `directors` deliberately undefined),
+ * this is total over FilmFacetLink, so the stats deep-link carryover
+ * (`withCarriedFilters`) always knows which active param a tile click replaces:
+ *  - genre / releaseType / budgetTier / conglomerate — their own ?param key;
+ *  - actor / writer / studio / language / country — the route-segment word,
+ *    which doubles as the ?param key in the sub-floor fallback;
+ *  - director — `director`: a director-tile click goes to the EXACT route, so
+ *    any active fuzzy `?director=` search must be dropped rather than carried.
+ */
+export const FILM_FACET_LINK_PARAM: Record<FilmFacetLink, string> = {
+  directors: "director",
+  actors: "actor",
+  writers: "writer",
+  studios: "studio",
+  languages: "language",
+  countries: "country",
+  genres: "genre",
+  releaseTypes: "releaseType",
+  budgetTiers: "budgetTier",
+  conglomerates: "conglomerate",
+};
+
 export const TV_FACET_PARAM: Record<TvRouteFacet, string> = {
   creators: "creator",
   actors: "actor",
@@ -285,6 +309,102 @@ export const TV_FACET_PARAM: Record<TvRouteFacet, string> = {
   countries: "country",
   types: "type",
   decades: "decade",
+};
+
+/**
+ * The TV facet kinds whose single value both the stats tiles and the show
+ * detail page link — the TV sibling of FilmFacetLink. A superset of the routed
+ * TV facets plus the param-only ones (genre / conglomerate). Decade is excluded
+ * (the detail page already shows the premiere year and offers no decade link),
+ * matching the films factory.
+ */
+export type TvFacetLink =
+  | "creators"
+  | "actors"
+  | "networks"
+  | "languages"
+  | "countries"
+  | "types"
+  | "genres"
+  | "conglomerates";
+
+/**
+ * Build a value→href resolver bound to one shows corpus — the TV sibling of
+ * makeFilmFacetHref. Both the /television/stats deep-links and the per-show
+ * detail block resolve through this, so the slug + route-vs-?param= decision
+ * can't drift between the two surfaces (the discipline that fixed the ?genre=
+ * no-op on films). Indexable name sets are cached on first use, so each call
+ * is O(1).
+ *
+ * Routing rules (mirroring the stats page's previous inline builders exactly):
+ *  - actor / creator / language / country → the dedicated
+ *    `/television/<segment>/<slug>` route IFF the value clears its indexation
+ *    floor, else the noindex `/television/reviews?<param>=<slug>` filter; both
+ *    sides slug via slugifyEntity (the ?param key is the route-segment word).
+ *  - network / type → the same route-iff-indexable test, but the sub-floor
+ *    fallback keeps the NAME-based ?network= / ?type= param (encodeURIComponent,
+ *    not a slug — parseShowFilters reads these verbatim, unlike the slug facets).
+ *  - genre → always the dedicated `/television/genre/<slug>` route.
+ *  - conglomerate → always the noindex `?conglomerate=<slug>` filter (no route).
+ *
+ * Type AVAILABILITY (a type logged only at the episode level produces no
+ * show/season cards, so filtering to it lands an empty grid) is the caller's
+ * concern, not this route vocabulary: the stats page and the detail block each
+ * pre-check against the card-types set before resolving a type link.
+ */
+export function makeTvFacetHref(
+  shows: Show[],
+): (facet: TvFacetLink, value: string) => string | undefined {
+  const indexableCache = new Map<TvRouteFacet, Set<string>>();
+  const indexable = (facet: TvRouteFacet): Set<string> => {
+    let set = indexableCache.get(facet);
+    if (!set) {
+      set = new Set(indexableTvFacetNames(facet, shows));
+      indexableCache.set(facet, set);
+    }
+    return set;
+  };
+
+  return (facet, value) => {
+    switch (facet) {
+      case "genres":
+        return `/television/genre/${slugifyGenre(value)}`;
+      case "conglomerates":
+        return `/television/reviews?conglomerate=${slugifyEntity(value)}`;
+      case "networks":
+        return indexable("networks").has(value)
+          ? `/television/network/${slugifyEntity(value)}`
+          : `/television/reviews?network=${encodeURIComponent(value)}`;
+      case "types":
+        return indexable("types").has(value)
+          ? `/television/type/${slugifyEntity(value)}`
+          : `/television/reviews?type=${encodeURIComponent(value)}`;
+      default: {
+        // actor / creator / language / country — route-iff-indexable, slug param.
+        const base = TV_FACET_BASEPATH[facet];
+        return indexable(facet).has(value)
+          ? `/television/${base}/${slugifyEntity(value)}`
+          : `/television/reviews?${base}=${slugifyEntity(value)}`;
+      }
+    }
+  };
+}
+
+/**
+ * Every linkable TV facet → the query-param key a click on it pins (the TV
+ * mirror of FILM_FACET_LINK_PARAM, total over TvFacetLink) so the stats
+ * deep-link carryover (`withCarriedFilters`) always knows which active param a
+ * tile click replaces.
+ */
+export const TV_FACET_LINK_PARAM: Record<TvFacetLink, string> = {
+  creators: "creator",
+  actors: "actor",
+  networks: "network",
+  languages: "language",
+  countries: "country",
+  types: "type",
+  genres: "genre",
+  conglomerates: "conglomerate",
 };
 
 // The TvRouteFacet members that live in showFacetDistributions (everything

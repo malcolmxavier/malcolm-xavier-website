@@ -116,19 +116,20 @@ describe("decideRung (via collapse)", () => {
     expect(rung(empty, "genres")).toBe("T3");
   });
 
-  it("near floor → T1 thinned; clear headroom → T0", () => {
-    // single-axis-bar floor 5, margin = ceil(5*0.4)=2 → [5,7) is T1, ≥7 T0.
-    // Uses language-x-country: a non-immortal single-axis-bar tile (genres is
-    // now immortal and never thins).
+  it("at/above floor → T0; below floor → T2 (3-rung ladder, no T1)", () => {
+    // single-axis-bar floor 5. The former near-floor T1 rung was removed, so
+    // there's a clean boundary: ≥ floor is a full chart (T0), < floor is a
+    // readout (T2). Uses language-x-country: a non-immortal single-axis-bar
+    // tile (genres is immortal and never collapses to a readout).
     const atFloor = collapse("films", FILMS_TILES, [
       { id: "language-x-country", survivingN: 5 },
     ]);
-    expect(rung(atFloor, "language-x-country")).toBe("T1");
+    expect(rung(atFloor, "language-x-country")).toBe("T0");
 
-    const headroom = collapse("films", FILMS_TILES, [
-      { id: "language-x-country", survivingN: 7 },
+    const belowFloor = collapse("films", FILMS_TILES, [
+      { id: "language-x-country", survivingN: 4 },
     ]);
-    expect(rung(headroom, "language-x-country")).toBe("T0");
+    expect(rung(belowFloor, "language-x-country")).toBe("T2");
   });
 
   it("counters never thin — present (T0) or absent (T3)", () => {
@@ -213,13 +214,13 @@ describe("band collapse (altitude 2)", () => {
 
   it("versus tile keeps its surviving column when only the rated side thins", () => {
     // Primary (most-logged) clears the floor; secondary (highest-rated) is
-    // below it → soloColumn, still a chart (T0/T1), NOT a readout (T2).
+    // below it → soloColumn, still a chart (T0), NOT a readout (T2).
     const result = collapse("films", FILMS_TILES, [
       { id: "actors", survivingN: 12, degradeToReadout: true },
     ]);
     const t = tileDec(result, "actors");
     expect(t.soloColumn).toBe(true);
-    expect(["T0", "T1"]).toContain(t.rung);
+    expect(t.rung).toBe("T0");
   });
 
   it("a solo-column versus tile counts toward band survival", () => {
@@ -305,9 +306,8 @@ describe("page verdict (altitude 3)", () => {
   });
 
   it("tiny corpus (N ≤ 3) → reviews handoff (television)", () => {
-    // Television shares the same raw-N gate. (Its Taste tiles still use the
-    // original floors pending the TV walkthrough, but they no longer drive the
-    // verdict.)
+    // Television shares the same raw-N gate; the Taste tiles no longer drive the
+    // verdict (the per-tile walkthrough decisions are exercised below).
     const result = collapse("television", TV_TILES, [
       { id: "lifetime", survivingN: 2 },
       { id: "genres", survivingN: 0 },
@@ -340,6 +340,80 @@ describe("page verdict (altitude 3)", () => {
   it("connected with healthy charts → plain dashboard", () => {
     const result = collapse("connected", CONNECTED_TILES, fullSurvival(CONNECTED_TILES));
     expect(result.verdict).toBe("dashboard");
+  });
+});
+
+describe("television tile catalog (B2 walkthrough)", () => {
+  // The TV-specific degradation decisions locked in the 2026-06-24 walkthrough.
+  // Each mirrors a films decision or is a TV-native call (type donut, the
+  // cross-network floor), so the catalog can't silently drift back.
+
+  it("rating-distribution-by-level is immortal — survives self-reference and a thin slice", () => {
+    // Navigational: every rating bar links to reviews at that rating, so it
+    // rides the chart down to one bar and only vanishes on an empty selection.
+    const selfRef = collapse("television", TV_TILES, [
+      { id: "rating-distribution-by-level", survivingN: 1, selfReferenced: true },
+    ]);
+    expect(rung(selfRef, "rating-distribution-by-level")).toBe("T0");
+    const empty = collapse("television", TV_TILES, [
+      { id: "rating-distribution-by-level", survivingN: 0 },
+    ]);
+    expect(rung(empty, "rating-distribution-by-level")).toBe("T3");
+  });
+
+  it("genres is immortal — survives self-reference and a single surviving bar", () => {
+    // Shows are multi-genre, so filtering by one genre keeps a rich (non-
+    // tautological) distribution; the bar count is navigational, not sample size.
+    const selfRef = collapse("television", TV_TILES, [
+      { id: "genres", survivingN: 1, selfReferenced: true },
+    ]);
+    expect(rung(selfRef, "genres")).toBe("T0");
+  });
+
+  it("type donut is NOT immortal — self-reference forces a readout", () => {
+    // A show has exactly one type, so filtering to one type makes the donut a
+    // single-slice tautology. Unlike genres, it must degrade rather than render
+    // that degenerate slice — the explicit divergence from the immortal rule.
+    const selfRef = collapse("television", TV_TILES, [
+      { id: "type", survivingN: 1, selfReferenced: true },
+    ]);
+    expect(rung(selfRef, "type")).toBe("T2");
+    // A genuine 2-slice donut still renders (donut floor 2); a lone slice folds.
+    const twoSlice = collapse("television", TV_TILES, [
+      { id: "type", survivingN: 2 },
+    ]);
+    expect(rung(twoSlice, "type")).toBe("T0");
+    const oneSlice = collapse("television", TV_TILES, [
+      { id: "type", survivingN: 1 },
+    ]);
+    expect(rung(oneSlice, "type")).toBe("T2");
+  });
+
+  it("genres-vs-baseline gates on the escaped-genre floor of 2, not diverging's 15", () => {
+    // Survival is the count of genres that escaped the m=8 shrinkage prior
+    // (per-genre n ≥ m/2 = 4, computed in tvTileSurvival). One escaped genre is
+    // below the floor → readout; two clears it → full diverging chart.
+    const belowFloor = collapse("television", TV_TILES, [
+      { id: "genres-vs-baseline", survivingN: 1 },
+    ]);
+    expect(rung(belowFloor, "genres-vs-baseline")).toBe("T2");
+    const atFloor = collapse("television", TV_TILES, [
+      { id: "genres-vs-baseline", survivingN: 2 },
+    ]);
+    expect(rung(atFloor, "genres-vs-baseline")).toBe("T0");
+  });
+
+  it("shows-across-networks floors at 3, below the single-axis-bar default of 5", () => {
+    // Cross-network shows are rare; a 3-show list is still meaningful. n=2 folds
+    // to a readout, n=3 renders the bar chart.
+    const belowFloor = collapse("television", TV_TILES, [
+      { id: "shows-across-networks", survivingN: 2 },
+    ]);
+    expect(rung(belowFloor, "shows-across-networks")).toBe("T2");
+    const atFloor = collapse("television", TV_TILES, [
+      { id: "shows-across-networks", survivingN: 3 },
+    ]);
+    expect(rung(atFloor, "shows-across-networks")).toBe("T0");
   });
 });
 

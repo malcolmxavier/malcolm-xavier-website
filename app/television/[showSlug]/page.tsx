@@ -62,6 +62,7 @@ import {
   parseShowSort,
   resolveSeasonPosterUrl,
   seasonNumberForReview,
+  showFacetValues,
   slugifyGenre,
   type CompletedCard,
   type InProgressCard as InProgressCardType,
@@ -79,6 +80,8 @@ import {
   tvCollectionsOfShow,
   tvCollectionMemberSort,
   TV_FACET_PIN,
+  makeTvFacetHref,
+  type TvFacetLink,
 } from "@/lib/feeds/facet-index";
 import { listShortLabel } from "@/lib/feeds/list-taxonomy";
 import { BackToTelevision } from "../BackToTelevision";
@@ -273,6 +276,77 @@ export default async function TelevisionDetailPage({
   // entry is newest since show.reviews is pre-sorted reviewDate
   // desc).
   const showLevelRating = showReviews[0]?.rating ?? null;
+
+  // ── Cast and Crew facet block (B3) ────────────────────────────────
+  // The per-show analog of the films "Cast & Crew" disclosure: the
+  // enrichment-backed facets (cast, creators, network, type, language,
+  // country) as chip rows that deep-link into the reviews funnel through the
+  // SAME resolver the stats tiles use (makeTvFacetHref), so the slug +
+  // route-vs-?param= vocabulary can't drift between the two surfaces. Each row
+  // drops when the show carries no value for it (never an empty row), so a
+  // thinly enriched show renders a shorter block. Decade is excluded (the
+  // premiere year is already in the metadata line).
+  //
+  // `show` (from getShowBySlug) rides the thin snapshot and carries no
+  // enrichment; the enriched copy lives in contextShows. showFacetValues reads
+  // show.enrichment, so resolve to the enriched show (network/type still come
+  // off the tmdb snapshot, so they survive even on an un-enriched show).
+  const enrichedShow = contextShows.find((s) => s.id === show.id) ?? show;
+  const tvFacetHref = makeTvFacetHref(contextShows);
+  const fv = showFacetValues(enrichedShow);
+  // Cast ordered by RECURRENCE (episode count desc) rather than billing: the
+  // enrichment carries no per-season cast, so most-recurring-first surfaces the
+  // through-line players as a stand-in for the season-to-season variance Malcolm
+  // flagged. This only reorders the canonical actor SET (showFacetValues.actors
+  // = top-10 billed ∩ ≥3 episodes, acting-shows only), so the deep-link
+  // vocabulary is unchanged. No extra cap: the ≤10 bound already keeps the rail
+  // scannable, and TV ensembles (Housewives, soaps) earn fuller coverage than a
+  // film's top billing.
+  const castEligible = new Set(fv.actors);
+  const cast = (enrichedShow.enrichment?.cast ?? [])
+    .filter((c) => castEligible.has(c.name))
+    .sort((a, b) => (b.eps ?? 0) - (a.eps ?? 0))
+    .map((c) => c.name);
+  // Network + type come off the snapshot (not enrichment). The Type row appears
+  // only when THIS show contributes a show/season card to the reviews grid — an
+  // episode-only show (e.g. a Talk Show logged per-episode) would land an empty
+  // type grid, so its Type row is omitted rather than linking to nothing.
+  const primaryNet = primaryNetwork(show.tmdb?.networks ?? []);
+  const showType = show.tmdb?.type ?? null;
+  const showHasCard = showReviews.length > 0 || seasonReviewsByNum.size > 0;
+  const allCreditRows: {
+    label: string;
+    facet: TvFacetLink;
+    values: string[];
+  }[] = [
+    { label: "Cast", facet: "actors", values: cast },
+    {
+      label: fv.creators.length > 1 ? "Creators" : "Creator",
+      facet: "creators",
+      values: fv.creators,
+    },
+    {
+      label: "Network",
+      facet: "networks",
+      values: primaryNet ? [primaryNet] : [],
+    },
+    {
+      label: "Type",
+      facet: "types",
+      values: showType && showHasCard ? [showType] : [],
+    },
+    {
+      label: fv.languages.length > 1 ? "Languages" : "Language",
+      facet: "languages",
+      values: fv.languages,
+    },
+    {
+      label: fv.countries.length > 1 ? "Countries" : "Country",
+      facet: "countries",
+      values: fv.countries,
+    },
+  ];
+  const creditRows = allCreditRows.filter((row) => row.values.length > 0);
 
   // ── "Appears in" backlinks + miniseries handling ──────────────────
   // Collection membership is show-scoped, so it stays in the hero.
@@ -513,6 +587,106 @@ export default async function TelevisionDetailPage({
                     </li>
                   ))}
                 </ul>
+              ) : null}
+              {/* Cast and Crew — the per-show facet block (cast, creators,
+                  network, type, language, country), collapsed by default behind
+                  a native <details> disclosure so it doesn't crowd the hero
+                  above the season-by-season hierarchy rendered right below. The
+                  native <details>/<summary> is a zero-JS, keyboard-operable
+                  toggle; the chevron rotation is CSS-only and reduced-motion-
+                  aware. Each row is a chip rail deep-linking into the reviews
+                  funnel via dl/dt/dd through the shared makeTvFacetHref resolver
+                  (so the vocabulary matches the stats tiles). It reuses the
+                  film-credits-* disclosure mechanics (theme-neutral); the chips
+                  carry the TV-blue show-detail-genre-chip class. The whole block
+                  is omitted when the show carries no facets at all. */}
+              {creditRows.length > 0 ? (
+                <details className="film-credits-disclosure">
+                  <summary className="film-credits-summary">
+                    <Kicker>Cast and Crew</Kicker>
+                    {/* Decorative state cue — CSS rotates it on [open]; the
+                        <summary> itself carries the toggle semantics. */}
+                    <svg
+                      className="film-credits-chevron"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M2.5 4.5 L6 8 L9.5 4.5" />
+                    </svg>
+                  </summary>
+                  <dl
+                    style={{
+                      margin: "var(--scale-300) 0 0",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "var(--scale-200)",
+                    }}
+                  >
+                    {creditRows.map((row) => (
+                      <div
+                        key={row.facet}
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          alignItems: "baseline",
+                          gap: "var(--scale-300)",
+                        }}
+                      >
+                        <dt
+                          style={{
+                            ...metadataLineStyle,
+                            textTransform: "uppercase",
+                            // Fixed label column on wide viewports so the chip
+                            // rails align; the flex row wraps on narrow ones and
+                            // the rail drops below its label.
+                            minWidth: "5.5rem",
+                            flexShrink: 0,
+                          }}
+                        >
+                          {row.label}
+                        </dt>
+                        <dd style={{ margin: 0, flex: "1 1 12rem" }}>
+                          <ul
+                            role="list"
+                            style={{
+                              listStyle: "none",
+                              padding: 0,
+                              margin: 0,
+                              display: "flex",
+                              flexWrap: "wrap",
+                              gap: 8,
+                            }}
+                          >
+                            {row.values.map((value) => {
+                              const href = tvFacetHref(row.facet, value);
+                              return (
+                                <li key={value}>
+                                  {href ? (
+                                    <NextLink
+                                      href={href}
+                                      className="show-detail-genre-chip"
+                                      style={genreChipStyle}
+                                    >
+                                      {value}
+                                    </NextLink>
+                                  ) : (
+                                    <span style={genreChipStyle}>{value}</span>
+                                  )}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </details>
               ) : null}
               {/* Collection membership + miniseries placements + the
                   external CTA. On md+ they close out the hero's title
