@@ -11,10 +11,16 @@
 // so no aria-hidden gymnastics needed.
 // ─────────────────────────────────────────────────────────────────
 
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import Link from "next/link";
 
 export type VersusRow = [label: string, value: number];
+
+// Default copy when a solo tile gives no bespoke note. The collapse engine
+// flags `solo` when the highest-rated column dropped below its ranking floor;
+// the panel says so in place of a stunted, half-empty second column.
+const DEFAULT_WITHHELD_NOTE =
+  "Widen the filters to rank this column by rating—needs 3+ distinct entries.";
 
 export function Versus({
   leftTitle,
@@ -26,6 +32,12 @@ export function Versus({
   /** Per-row deep-link for the row's entity (both columns share the
    *  vocabulary); return undefined for rows that shouldn't link. */
   hrefFor,
+  /** When true (collapse engine's `soloColumn`), the right/highest-rated column
+   *  fell below its ranking floor: render the surviving left column plus a
+   *  withheld-explanation panel instead of a lopsided two-list chart. */
+  solo = false,
+  /** Optional bespoke copy for the withheld panel (per-tile gate wording). */
+  withheldNote,
 }: {
   leftTitle: string;
   left: VersusRow[];
@@ -33,11 +45,29 @@ export function Versus({
   right: VersusRow[];
   rightSuffix?: string;
   hrefFor?: (label: string) => string | undefined;
+  solo?: boolean;
+  withheldNote?: ReactNode;
 }) {
   return (
     <div style={twoColStyle}>
       <Column title={leftTitle} rows={left} suffix="" hrefFor={hrefFor} />
-      <Column title={rightTitle} rows={right} suffix={rightSuffix} hrefFor={hrefFor} />
+      {solo ? (
+        <WithheldColumn title={rightTitle} note={withheldNote ?? DEFAULT_WITHHELD_NOTE} />
+      ) : (
+        <Column title={rightTitle} rows={right} suffix={rightSuffix} hrefFor={hrefFor} />
+      )}
+    </div>
+  );
+}
+
+/** The right column when its ranking is withheld: keeps the column heading so
+ *  the tile still reads as a comparison-in-waiting, with a muted note under it
+ *  explaining why the ranking isn't shown rather than leaving a stunted list. */
+function WithheldColumn({ title, note }: { title: string; note: ReactNode }) {
+  return (
+    <div style={{ minWidth: 0 }}>
+      <h4 style={miniHeadingStyle}>{title}</h4>
+      <p style={withheldNoteStyle}>{note}</p>
     </div>
   );
 }
@@ -102,6 +132,16 @@ const miniHeadingStyle: CSSProperties = {
   color: "var(--text-caption)",
   margin: "0 0 8px",
   fontWeight: 600,
+};
+
+// The withheld-ranking note reads as prose, so it takes the secondary reading
+// font (not mono) at the body-caption color — visibly a sentence, not a row.
+const withheldNoteStyle: CSSProperties = {
+  fontFamily: "var(--font-secondary)",
+  fontSize: 12,
+  lineHeight: 1.5,
+  color: "var(--text-caption)",
+  margin: 0,
 };
 
 const listStyle: CSSProperties = {

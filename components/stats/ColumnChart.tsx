@@ -60,13 +60,15 @@ export function ColumnChart({
           );
           return (
             // The whole column is the hover/focus target (full-height, so
-            // hovering anywhere over it works, not just the bar). When a
-            // deep-link is present the column is a full-height link (the
-            // focus target); otherwise it opts into focusability via
-            // tipTrigger so keyboard users can still reveal the count.
+            // hovering anywhere over it works, not just the bar). It always
+            // carries the .stats-tip class so the count chip reveals on hover
+            // and on keyboard focus-within. A deep-linked column takes no extra
+            // tab stop (its inner Link is already the focus target); a
+            // non-linked column opts into a tab stop so keyboard users can
+            // still reveal the count.
             <li
               key={l}
-              {...(href ? {} : tipTrigger(true))}
+              {...tipTrigger(!href)}
               style={colStyle}
               aria-label={href ? undefined : aria}
             >

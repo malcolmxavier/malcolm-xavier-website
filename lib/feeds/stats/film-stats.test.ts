@@ -17,7 +17,7 @@
 //   world lean +0.44 · theatrical premium > 0.
 
 import { describe, expect, it } from "vitest";
-import { computeFilmStats } from "./film-stats";
+import { computeFilmStats, filmTileSurvival } from "./film-stats";
 
 const s = computeFilmStats();
 const asMap = (rows: [string, number][]) => Object.fromEntries(rows);
@@ -83,20 +83,27 @@ describe("film world lean + theatrical premium", () => {
 const finite = (n: number) => Number.isFinite(n);
 
 describe("film you-vs-world", () => {
-  it("compares against the critics and surfaces both extremes", () => {
-    expect(s.youVsWorld.filmsVsCritics).toBeGreaterThan(50);
-    expect(s.youVsWorld.coveragePct).toBeGreaterThan(0);
-    expect(s.youVsWorld.coveragePct).toBeLessThanOrEqual(100);
-    expect(finite(s.youVsWorld.avgVsMetascore)).toBe(true);
-    expect(finite(s.youVsWorld.avgVsLetterboxd)).toBe(true);
-    expect(s.youVsWorld.hotTakes.length).toBeLessThanOrEqual(6);
-    expect(s.youVsWorld.darlings.length).toBeLessThanOrEqual(6);
-    // Hot takes are your biggest over-the-critics calls → positive deltas
-    // lead; darlings are the inverse.
-    if (s.youVsWorld.hotTakes.length && s.youVsWorld.darlings.length) {
-      expect(s.youVsWorld.hotTakes[0].delta).toBeGreaterThan(
-        s.youVsWorld.darlings[0].delta,
-      );
+  it("compares against critics and crowd on independent coverage", () => {
+    const { critics, crowd } = s.youVsWorld;
+    expect(critics.count).toBeGreaterThan(50);
+    // Metascore is a strict subset of Letterboxd in a Letterboxd-sourced
+    // corpus, so the crowd track always covers at least as many films.
+    expect(crowd.count).toBeGreaterThanOrEqual(critics.count);
+    expect(finite(critics.avg)).toBe(true);
+    expect(finite(crowd.avg)).toBe(true);
+
+    for (const gap of [critics, crowd]) {
+      expect(gap.hotTakes.length).toBeLessThanOrEqual(6);
+      expect(gap.darlings.length).toBeLessThanOrEqual(6);
+      // The two lists are symmetric in size (k each) and never share a film
+      // (top-k and bottom-k can't overlap while k ≤ n/2).
+      expect(gap.hotTakes.length).toBe(gap.darlings.length);
+      const hot = new Set(gap.hotTakes.map((r) => r.slug));
+      expect(gap.darlings.some((r) => hot.has(r.slug))).toBe(false);
+      // Hot takes lead with positive deltas; darlings are the inverse.
+      if (gap.hotTakes.length && gap.darlings.length) {
+        expect(gap.hotTakes[0].delta).toBeGreaterThan(gap.darlings[0].delta);
+      }
     }
   });
 });
@@ -158,5 +165,60 @@ describe("film rating heatmaps", () => {
           expect(cell.n).toBeGreaterThan(0);
         }
     }
+  });
+});
+
+// Self-reference degradation (§6): a tile collapses to a readout only when a
+// filter pins ITS axis to a single value — not on the mere presence of an
+// include facet. These guard the two QA findings that motivated the
+// cardinality predicate: a multi-value selection must keep its chart, and a
+// lone rating must suppress the (now-flat) genre-rating divergence tile. The
+// self-reference flag reads only the filter cardinality, so synthetic genre /
+// rating values are corpus-independent like the rest of this file.
+describe("film tile self-reference", () => {
+  // The set of tile ids the given filter forces to a one-value readout.
+  const pinned = (filters: Parameters<typeof filmTileSurvival>[1]) =>
+    new Set(
+      filmTileSurvival(s, filters)
+        .filter((t) => t.selfReferenced)
+        .map((t) => t.id),
+    );
+
+  it("pins the genre tiles when exactly one genre is selected", () => {
+    const ids = pinned({ genres: ["Horror"] });
+    expect(ids.has("genres")).toBe(true);
+    expect(ids.has("genres-vs-baseline")).toBe(true);
+  });
+
+  it("does NOT pin the genre tiles for a multi-genre selection", () => {
+    // "Every genre except one" barely narrows the corpus and still carries a
+    // real distribution — the false positive that collapsed the Taste band.
+    const ids = pinned({ genres: ["Horror", "Comedy", "Drama"] });
+    expect(ids.has("genres")).toBe(false);
+    expect(ids.has("genres-vs-baseline")).toBe(false);
+  });
+
+  it("does NOT pin on a pure exclude (no include array)", () => {
+    const ids = pinned({ excludeGenres: ["Horror"] });
+    expect(ids.has("genres")).toBe(false);
+    expect(ids.has("genres-vs-baseline")).toBe(false);
+  });
+
+  it("pins both rating tiles when exactly one rating is selected", () => {
+    // A lone rating flattens the divergence chart to all-zero bars, so it
+    // degrades alongside the rating histogram.
+    const ids = pinned({ ratings: [4] });
+    expect(ids.has("rating-distribution")).toBe(true);
+    expect(ids.has("genres-vs-baseline")).toBe(true);
+  });
+
+  it("does NOT pin the rating tiles for a multi-rating selection", () => {
+    const ids = pinned({ ratings: [4, 5] });
+    expect(ids.has("rating-distribution")).toBe(false);
+    expect(ids.has("genres-vs-baseline")).toBe(false);
+  });
+
+  it("leaves every tile unpinned under no filter", () => {
+    expect(pinned(undefined).size).toBe(0);
   });
 });

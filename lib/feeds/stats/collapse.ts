@@ -50,13 +50,27 @@ export const ARCHETYPE_FLOORS: Record<Archetype, number> = {
 // when the rest of the band's charts fold (spec §6 altitude 2).
 const ROBUST_COUNTER: Archetype = "counter";
 
+// Films / television hand off to the reviews list only when the filtered
+// corpus is this small or smaller (count of surviving films / shows). Below
+// this the slice is too thin to populate even a single honest chart, so the
+// dashboard adds nothing the reviews list doesn't say better. Above it we
+// keep the dashboard — the analysis over 39 real filter slices showed the
+// page is never barren above N≈1 (min 12 click-targets, 5 live bands even at
+// N=1), so a low, raw-N gate is the honest trigger. Replaces the earlier
+// escaped-genre signal, which ejected rich dashboards because it tracked one
+// tile's statistical viability rather than whole-page value.
+const HANDOFF_MAX_N = 3;
+
 // ---------------------------------------------------------------------------
 // The degradation ladder (per tile)
 // ---------------------------------------------------------------------------
 
 // T0 Full → T1 Thinned → T2 Skeletal → T3 Empty.
 // - T0: n comfortably clears the floor — render the chart.
-// - T1: n near the floor — render with fewer rows / a thinning caption.
+// - T1: n near the floor — still renders the chart, with NO caption. "Few
+//       surviving categories" isn't "few entries" (3.5★ can sit on hundreds
+//       of films), so it makes no thinness claim; visually identical to T0
+//       today, kept distinct for an optional future near-floor treatment.
 // - T2: below floor OR self-referenced to a single value — collapse to a
 //       readout (the headline number, no chart).
 // - T3: zero surviving values — suppress entirely (no empty stub; rolls
@@ -83,6 +97,19 @@ export interface TileSpec {
   // for the corpus band and "World cinema lean" for the where-it-comes-from
   // band as the canonical robust counters.
   bandCounter?: boolean;
+  // Navigational tiles whose every surviving category is a click-through into
+  // reviews (a rating bar → reviews at that rating; a genre bar → reviews in
+  // that genre). These never collapse to a readout below their chart floor or
+  // under self-reference — a single clickable bar still earns its place. They
+  // ride the T0/T1 boundary down to one value and only vanish (T3) at zero.
+  // (The chart-to-navigate decision: a thin bar chart is a poor distribution
+  // but a perfectly good set of links.)
+  immortal?: boolean;
+  // Per-tile floor override. When set, replaces ARCHETYPE_FLOORS[archetype]
+  // for this tile — used where a tile's surviving-n is measured on a bespoke
+  // axis. genres-vs-baseline counts genres that have escaped shrinkage (not
+  // the raw corpus), so its floor is a small genre count, not the diverging 15.
+  floor?: number;
 }
 
 // Runtime input: how many items survived in this tile's primary axis under
@@ -96,6 +123,13 @@ export interface TileSurvival {
   // regardless of survivingN — a genre-filtered Genres tile is a readout,
   // not a one-bar chart.
   selfReferenced?: boolean;
+  // Set when a composite tile's SECONDARY axis fell below floor — e.g. a
+  // versus tile whose "highest-rated" column emptied while "most-logged"
+  // survives. Forces the tile to degrade to a readout (T2) of the surviving
+  // axis rather than render a lopsided chart. Unlike a below-floor PRIMARY
+  // axis it does NOT suppress: `survivingN` still reflects the surviving
+  // column, so a non-zero survivor reads out instead of vanishing.
+  degradeToReadout?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -104,12 +138,12 @@ export interface TileSurvival {
 
 export type PageId = "films" | "television" | "connected";
 
-// The band whose collapse triggers a page handoff. Spec §6 altitude 3:
-// Taste (Genres + Genres-vs-baseline) is the load-bearing band — if the
-// selection is too thin for taste distribution, it's too thin for a
-// dashboard. Connected has no single Taste band and never hands off to one
-// reviews query (its figures blend both libraries), so it has no handoff
-// band (see verdict logic below).
+// The load-bearing band (spec §6 altitude 3). Films / television no longer
+// hand off to reviews on a Taste-claim signal — the page verdict is now a
+// raw corpus-size gate (see HANDOFF_MAX_N). This name is retained for
+// Connected's fallback "thinned out" detection: it has no
+// single Taste band and never hands off to one reviews query (its figures
+// blend both libraries), so it routes to connected-thin instead.
 export const TASTE_BAND: BandId = "Taste";
 
 // Per-tile decision: the ladder rung the tile renders at, plus a snapshot
@@ -122,6 +156,14 @@ export interface TileDecision {
   // True when the tile vanished into the band footnote (T3) or folded under
   // a band collapse — used to compose the footnote's "what was hidden" list.
   suppressed: boolean;
+  // True for a versus tile rendering only its surviving PRIMARY column: its
+  // secondary axis (the gated "highest-rated" side) fell below floor while the
+  // primary held. The tile keeps its chart — the surviving column plus a short
+  // "why the other side is withheld" panel — instead of collapsing to a bare
+  // readout, so a healthy most-logged ranking isn't thrown away for want of a
+  // rankable second column. It still renders a chart, so it counts as a
+  // surviving chart for the band-collapse trigger.
+  soloColumn?: boolean;
 }
 
 // A band's resolved state. One of:
@@ -171,20 +213,51 @@ export interface CollapseResult {
 //   with the floor; counters (floor 1) never thin — a counter is either
 //   present (T0) or absent (T3).
 // - otherwise → T0 (full).
-function decideRung(survivingN: number, archetype: Archetype, selfReferenced: boolean): LadderRung {
-  // Self-reference collapses the tile to a single value regardless of n.
-  if (selfReferenced) return "T2";
-  // Zero surviving values: suppress, do not stub.
-  if (survivingN <= 0) return "T3";
+function decideRung(
+  survivingN: number,
+  archetype: Archetype,
+  floor: number,
+  selfReferenced: boolean,
+  degradeToReadout: boolean,
+  immortal: boolean,
+): { rung: LadderRung; soloColumn: boolean } {
+  // Immortal (navigational) tiles never collapse to a readout: each surviving
+  // category is a click-through into reviews, useful even below the chart
+  // floor or when the active filter self-references the tile. They render a
+  // chart (T0/T1) down to a single value and only vanish (T3) when there is
+  // nothing to plot or link. (decided for rating-distribution and genres.)
+  if (immortal) {
+    // Navigational tiles never read as "thin": their surviving-n counts
+    // clickable categories (rating buckets, genres), not sample size — one bar
+    // can stand for a large, concentrated corpus. So there's no honest thinning
+    // signal to caption off the category count; render the chart (T0) whenever
+    // there's anything to plot or link, and only an empty selection removes it
+    // (T3). A genuine small-sample hint, if ever wanted, would key off the
+    // corpus count (already shown by the lifetime counter), not bar-count.
+    return { rung: survivingN > 0 ? "T0" : "T3", soloColumn: false };
+  }
 
-  const floor = ARCHETYPE_FLOORS[archetype];
+  // Self-reference collapses the tile to a single value regardless of n.
+  if (selfReferenced) return { rung: "T2", soloColumn: false };
+  // Zero surviving values: suppress, do not stub.
+  if (survivingN <= 0) return { rung: "T3", soloColumn: false };
 
   // Below the floor: the chart would be noise — collapse to a readout.
-  if (survivingN < floor) return "T2";
+  if (survivingN < floor) return { rung: "T2", soloColumn: false };
+
+  // Past here the PRIMARY axis cleared its floor. A composite tile whose
+  // SECONDARY axis fell below floor (e.g. a versus tile's emptied highest-rated
+  // column) no longer collapses the whole tile to a readout — it keeps the
+  // surviving primary column as a chart and flags `soloColumn` so the renderer
+  // withholds the dead column behind an explanatory panel. This preserves a
+  // healthy most-logged ranking instead of discarding it for a bare number.
+  // (Checked after the primary-axis gates so a zero/below-floor primary still
+  // wins T3/T2.)
+  const soloColumn = degradeToReadout;
 
   // Counters don't have a "thinned" state — a single number is either there
   // or it isn't. (floor === 1 and we've already cleared 0.)
-  if (archetype === "counter") return "T0";
+  if (archetype === "counter") return { rung: "T0", soloColumn: false };
 
   // "Near the floor" → thinned. The margin is a soft band just above the
   // floor; below `floor` is T2, at/above `floor + margin` is T0, and in
@@ -194,9 +267,9 @@ function decideRung(survivingN: number, archetype: Archetype, selfReferenced: bo
   // tuned conservatively so a chart only claims "Full" when it has clear
   // headroom over its floor.
   const thinMargin = Math.max(1, Math.ceil(floor * 0.4));
-  if (survivingN < floor + thinMargin) return "T1";
+  const rung: LadderRung = survivingN < floor + thinMargin ? "T1" : "T0";
 
-  return "T0";
+  return { rung, soloColumn };
 }
 
 // A rung at which the tile still renders a chart (T0/T1). T2 is a readout
@@ -204,6 +277,13 @@ function decideRung(survivingN: number, archetype: Archetype, selfReferenced: bo
 // for the band-collapse trigger.
 function rungRendersChart(rung: LadderRung): boolean {
   return rung === "T0" || rung === "T1";
+}
+
+// The effective floor for a tile: its per-tile override if present, else the
+// archetype default. The override exists for tiles whose surviving-n is on a
+// bespoke axis (genres-vs-baseline's escaped-genre count, not the corpus).
+function floorFor(tile: TileSpec): number {
+  return tile.floor ?? ARCHETYPE_FLOORS[tile.archetype];
 }
 
 // ---------------------------------------------------------------------------
@@ -231,7 +311,15 @@ export function collapse(
     const s = survivalById.get(tile.id);
     const survivingN = s?.survivingN ?? 0;
     const selfReferenced = s?.selfReferenced ?? false;
-    const rung = decideRung(survivingN, tile.archetype, selfReferenced);
+    const degradeToReadout = s?.degradeToReadout ?? false;
+    const { rung, soloColumn } = decideRung(
+      survivingN,
+      tile.archetype,
+      floorFor(tile),
+      selfReferenced,
+      degradeToReadout,
+      tile.immortal ?? false,
+    );
     return {
       id: tile.id,
       band: tile.band,
@@ -241,6 +329,7 @@ export function collapse(
       // the band step below; T3 is suppressed up front, T2 readouts may also
       // be folded if their whole band collapses.
       suppressed: rung === "T3",
+      soloColumn,
     };
   });
 
@@ -349,8 +438,19 @@ export function collapse(
       (bandDecisions.length > 0 && chartBands.length * 2 > bandDecisions.length);
     if (thinnedOut) verdict = "connected-thin";
   } else {
-    // Films / television: Taste collapse → reviews handoff.
-    if (collapsedBands.has(TASTE_BAND)) verdict = "reviews-handoff";
+    // Films / television hand off to the reviews list only when the filtered
+    // corpus itself is tiny — N ≤ HANDOFF_MAX_N surviving films / shows. The
+    // corpus count is the `lifetime` band-counter's surviving-n. This replaces
+    // the earlier escaped-genre signal, which over-triggered: it ejected rich
+    // dashboards (every band alive, 60–124 reviews click-targets) the moment
+    // one diverging tile went flat, because that signal tracked a single
+    // tile's statistical viability rather than whole-page value. A raw-N gate
+    // keeps the dashboard whenever there's anything to explore — including
+    // self-referenced slices (filter BY genre but still a deep corpus) and the
+    // deep T-state readouts — and hands off only when the slice can't fill a
+    // chart. Zero-corpus is subsumed (0 ≤ HANDOFF_MAX_N).
+    const corpusN = survivalById.get("lifetime")?.survivingN ?? 0;
+    if (corpusN <= HANDOFF_MAX_N) verdict = "reviews-handoff";
   }
 
   return { tiles: tileDecisions, bands: bandDecisions, verdict };
@@ -370,16 +470,27 @@ export function collapse(
 export const FILMS_TILES: TileSpec[] = [
   // The corpus
   { id: "lifetime", archetype: "counter", band: "The corpus", bandCounter: true },
-  { id: "rating-distribution", archetype: "single-axis-bar", band: "The corpus" },
-  // Taste (load-bearing — its collapse hands the page off to reviews)
-  { id: "genres", archetype: "single-axis-bar", band: "Taste" },
-  { id: "genres-vs-baseline", archetype: "diverging", band: "Taste" },
-  // People and critics
-  { id: "actors", archetype: "versus", band: "People and critics" },
-  { id: "writers", archetype: "versus", band: "People and critics" },
-  { id: "directors", archetype: "versus", band: "People and critics" },
-  { id: "collections", archetype: "versus", band: "People and critics" },
-  { id: "me-vs-the-world", archetype: "counter", band: "People and critics" },
+  // Navigational: each rating bar links to reviews at that rating → immortal.
+  { id: "rating-distribution", archetype: "single-axis-bar", band: "The corpus", immortal: true },
+  // Taste (load-bearing). genres is navigational (each bar → genre-filtered
+  // reviews) → immortal. genres-vs-baseline is the taste CLAIM: it gates on its
+  // escaped-genre count (floor 2), not the diverging archetype floor of 15.
+  // (The page handoff is now a raw corpus-size gate, not this tile's floor.)
+  { id: "genres", archetype: "single-axis-bar", band: "Taste", immortal: true },
+  { id: "genres-vs-baseline", archetype: "diverging", band: "Taste", floor: 2 },
+  // Cast, crew, and franchises — the entity breakdowns (versus charts).
+  { id: "actors", archetype: "versus", band: "Cast, Crew, and Franchises" },
+  { id: "writers", archetype: "versus", band: "Cast, Crew, and Franchises" },
+  { id: "directors", archetype: "versus", band: "Cast, Crew, and Franchises" },
+  { id: "collections", archetype: "versus", band: "Cast, Crew, and Franchises" },
+  // How I stack up — the rating-gap counters live in their OWN band so they
+  // survive a collapse of the entity charts above (a counters-only band can't
+  // collapse: the trigger needs at least one chart tile). Filtering to one
+  // director thins the charts but makes the comparison more interesting, not
+  // less, so it must not be swept into the charts' footnote. Each counter gates
+  // on its own score's coverage, set in filmTileSurvival.
+  { id: "me-vs-critics", archetype: "counter", band: "How I Stack Up" },
+  { id: "me-vs-people", archetype: "counter", band: "How I Stack Up" },
   // Where it comes from
   { id: "world-cinema-lean", archetype: "counter", band: "Where it comes from", bandCounter: true },
   // Language × country is a composite counter+bar → classified by the bar.
@@ -387,7 +498,7 @@ export const FILMS_TILES: TileSpec[] = [
   { id: "languages", archetype: "versus", band: "Where it comes from" },
   { id: "countries", archetype: "versus", band: "Where it comes from" },
   // Distribution
-  { id: "theatrical-vs-streaming", archetype: "counter", band: "Distribution" },
+  { id: "theatrical-vs-streaming", archetype: "counter", band: "Distribution", bandCounter: true },
   { id: "studios", archetype: "versus", band: "Distribution" },
   { id: "by-conglomerate", archetype: "versus", band: "Distribution" },
   { id: "release-type-by-year", archetype: "stacked-by-year", band: "Distribution" },
@@ -405,7 +516,10 @@ export const TV_TILES: TileSpec[] = [
   { id: "lifetime", archetype: "counter", band: "The corpus", bandCounter: true },
   { id: "rating-distribution-by-level", archetype: "single-axis-bar", band: "The corpus" },
   { id: "type", archetype: "donut", band: "The corpus" },
-  // Taste (load-bearing)
+  // Taste (load-bearing). NOTE: television's Taste tiles still use the original
+  // floors/survival metric (genres floored, genres-vs-baseline on raw corpus)
+  // pending the television section walkthrough. The page handoff is now a raw
+  // corpus-size gate (HANDOFF_MAX_N), shared with films.
   { id: "genres", archetype: "single-axis-bar", band: "Taste" },
   { id: "genres-vs-baseline", archetype: "diverging", band: "Taste" },
   // People

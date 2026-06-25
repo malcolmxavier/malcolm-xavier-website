@@ -124,6 +124,14 @@ export type WorldLean = {
   nonEnglishVsEnglish: number;
   nonUsVsUs: number;
   pctInternational: number;
+  // Bucket sizes behind the two deltas. A delta needs BOTH sides populated to
+  // mean anything: meanOf([]) returns 0, so an empty side yields a real-looking
+  // but bogus premium. The render reads these to hide a one-sided comparison
+  // (only reachable under a narrow filter; the full corpus has all four).
+  enCount: number;
+  nonEnglishCount: number;
+  usCount: number;
+  nonUsCount: number;
 };
 
 /**
@@ -146,5 +154,9 @@ export function worldLean(items: Provenanced[]): WorldLean {
       us.length + nonus.length
         ? Math.round((nonus.length / (us.length + nonus.length)) * 100)
         : 0,
+    enCount: en.length,
+    nonEnglishCount: nonen.length,
+    usCount: us.length,
+    nonUsCount: nonus.length,
   };
 }

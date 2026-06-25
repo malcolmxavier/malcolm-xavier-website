@@ -28,7 +28,7 @@ import { StatsSection } from "@/components/stats/StatsSection";
 import { StatsTips } from "@/components/stats/StatsTips";
 import { Tile } from "@/components/stats/Tile";
 import { Methodology } from "@/components/stats/Methodology";
-import { Bigs } from "@/components/stats/Bigs";
+import { Bigs, type BigItem } from "@/components/stats/Bigs";
 import { Bars } from "@/components/stats/Bars";
 import { ColumnChart } from "@/components/stats/ColumnChart";
 import { Versus } from "@/components/stats/Versus";
@@ -36,6 +36,8 @@ import { Diverging } from "@/components/stats/Diverging";
 import { StackedBars } from "@/components/stats/StackedBars";
 import { Heatmap } from "@/components/stats/Heatmap";
 import { LineChart } from "@/components/stats/LineChart";
+import { TileReadout } from "@/components/stats/TileReadout";
+import { StatsHandoffPanel } from "@/components/stats/StatsHandoffPanel";
 import { SITE_URL } from "@/lib/site-config";
 import { computeFilmStats } from "@/lib/feeds/stats/film-stats";
 import {
@@ -112,6 +114,42 @@ export async function generateMetadata({
 // Ascending 0.5–5★ order for the rating histogram x-axis.
 const RATING_KEYS = ["0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5"];
 
+// Plain-noun labels for the FILMS_TILES catalog ids — used by the band
+// footnote when a tile suppresses or folds under a thin selection (§6). These
+// deliberately read as plain nouns ("Genre ratings", "Language by country")
+// rather than echoing the chart titles ("Genres vs. baseline", "Language ×
+// country"): the footnote names a hidden breakdown to a reader who can't see
+// the chart it refers to, so cross-tab "×" notation and chart-internal jargon
+// ("baseline", "the world") wouldn't land. Keyed by the catalog id
+// (lib/feeds/stats/collapse.ts), not the tile title.
+const FILM_TILE_LABELS: Record<string, string> = {
+  lifetime: "Lifetime",
+  "rating-distribution": "Rating distribution",
+  genres: "Genres",
+  "genres-vs-baseline": "Genre ratings",
+  actors: "Actors",
+  writers: "Writers",
+  directors: "Directors",
+  collections: "Franchises",
+  "me-vs-critics": "Ratings vs. critics",
+  "me-vs-people": "Ratings vs. the crowd",
+  "world-cinema-lean": "International lean",
+  "language-x-country": "Language by country",
+  languages: "Languages",
+  countries: "Countries",
+  "theatrical-vs-streaming": "Theatrical vs. streaming",
+  studios: "Studios",
+  "by-conglomerate": "Conglomerates",
+  "release-type-by-year": "Release type by year",
+  "budget-tier-by-year": "Budget tier by year",
+  "release-type-x-era": "Release type by era",
+  "budget-tier-x-era": "Budget tier by era",
+  "watch-pace": "Watch pace",
+  "watched-by-month": "Watched by month",
+  "watched-by-weekday": "Watched by weekday",
+};
+const filmTileLabel = (id: string) => FILM_TILE_LABELS[id] ?? id;
+
 /** Map a Contrast/DeskewContrast to the Versus tile's left/right rows. */
 function versusRows(c: Contrast | DeskewContrast): {
   left: [string, number][];
@@ -131,9 +169,42 @@ export default async function FilmStatsPage({
   // Filter state lives in the URL (§9). Parse it, recompute every tile over
   // the predicate-narrowed corpus, and note whether anything is active (the
   // active state drops the JSON-LD, same as it flips noindex above).
-  const filters = parseFilmFilters(await searchParams);
+  const sp = await searchParams;
+  const filters = parseFilmFilters(sp);
   const filtered = anyFilmFilter(filters);
   const s = computeFilmStats(filters);
+
+  // Collapse decisions (§6): resolve a tile's rung / a band's state by id.
+  // `td` bundles the per-tile props every Tile takes (its decision + the
+  // shared readout); `bd` bundles the per-band props every StatsSection takes.
+  const dec = (id: string) => s.collapse.tiles.find((t) => t.id === id);
+  const bandDec = (id: string) => s.collapse.bands.find((b) => b.id === id);
+  // The generic T2 readout is one shared node for every tile: the narrowed
+  // corpus count + a thinning caption (per-tile voice comes later).
+  const readout = <TileReadout n={s.lifetime.films} noun="films" />;
+  const td = (id: string) => ({ decision: dec(id), readout });
+  const bd = (label: string) => ({
+    band: bandDec(label),
+    tileLabel: filmTileLabel,
+  });
+  // A versus tile renders solo (surviving column + withheld panel) when the
+  // engine flagged its highest-rated column below the ranking floor. Passed
+  // straight through to <Versus solo>.
+  const solo = (id: string) => dec(id)?.soloColumn ?? false;
+
+  // Reviews-handoff deep-link (§6 altitude 3 / §11): when the page hands off,
+  // carry the active stats query straight through to the reviews funnel so the
+  // handoff lands on the SAME selection. Stats and reviews share the filter
+  // param vocabulary, so the raw query transfers verbatim.
+  const handoffQuery = new URLSearchParams();
+  for (const [k, v] of Object.entries(sp)) {
+    if (v == null) continue;
+    if (Array.isArray(v)) v.forEach((x) => handoffQuery.append(k, x));
+    else handoffQuery.append(k, v);
+  }
+  const reviewsHref = `/films/reviews${
+    handoffQuery.toString() ? `?${handoffQuery.toString()}` : ""
+  }`;
 
   // Page-level JSON-LD — a CollectionPage describing the UNFILTERED dashboard
   // as a first-class, indexable portfolio artifact (mirrors the landing).
@@ -165,6 +236,44 @@ export default async function FilmStatsPage({
   const writers = versusRows(s.writers);
   const languages = versusRows(s.languages);
   const countries = versusRows(s.countries);
+
+  // Theatrical vs. streaming counter. The wide-vs-streaming comparison only
+  // means something when BOTH buckets hold films. Under a narrow filter (a
+  // single pre-streaming era, or down at n=1) one side empties out, and the
+  // premium delta plus the empty bucket's row would read as bogus zeros. In
+  // that case we drop to the one populated bucket's count·avg as a single
+  // figure, losing the empty side and the comparison stat.
+  const theat = s.theatrical;
+  const theatricalItems =
+    theat.wideCount > 0 && theat.nonCount > 0
+      ? [
+          { n: theat.wideCount, label: `wide theatrical · ${theat.wideAvg.toFixed(2)}★` },
+          { n: theat.nonCount, label: `streaming/limited · ${theat.nonAvg.toFixed(2)}★` },
+          { n: `${signed(theat.premium)}★`, label: "theatrical premium" },
+        ]
+      : theat.wideCount > 0
+        ? [{ n: theat.wideCount, label: `wide theatrical · ${theat.wideAvg.toFixed(2)}★` }]
+        : [{ n: theat.nonCount, label: `streaming/limited · ${theat.nonAvg.toFixed(2)}★` }];
+
+  // World cinema lean counter. Same two-sided rule as the theatrical split: each
+  // "vs" delta only means something when BOTH sides hold films (meanOf([]) is 0,
+  // so an empty side yields a real-looking but bogus premium). Under a narrow
+  // filter one side can empty out, so we drop whichever delta has gone one-sided.
+  // The international share is always shown—it's a share of the corpus, not a
+  // two-bucket comparison, so it stays honest down to n=1.
+  const wl = s.worldLean;
+  const worldLeanItems: BigItem[] = [];
+  if (wl.enCount > 0 && wl.nonEnglishCount > 0)
+    worldLeanItems.push({
+      n: `${signed(wl.nonEnglishVsEnglish)}★`,
+      label: "non-English vs. English",
+    });
+  if (wl.usCount > 0 && wl.nonUsCount > 0)
+    worldLeanItems.push({ n: `${signed(wl.nonUsVsUs)}★`, label: "non-US vs. US" });
+  worldLeanItems.push({
+    n: `${wl.pctInternational}%`,
+    label: "international (non-US)",
+  });
 
   // Deep-link builders: a stats-tile row links to its SUBJECT under that
   // entity filter (vocabulary matches the filter — same canonicalizers +
@@ -339,12 +448,25 @@ export default async function FilmStatsPage({
               the old separate filter-section boundary used to provide, now that
               the strip and the tiles share one section. */}
           <div className="pt-10 sm:pt-14">
+          {/* Page verdict (§6 altitude 3): when the load-bearing Taste band
+              collapses the selection is too thin for a dashboard, so the page
+              hands off to the reviews funnel for the same selection rather
+              than rendering a wall of readouts. */}
+          {s.collapse.verdict === "reviews-handoff" ? (
+            <StatsHandoffPanel
+              n={s.lifetime.films}
+              href={reviewsHref}
+              noun={{ singular: "film", plural: "films" }}
+              resetHref="/films/stats"
+            />
+          ) : (
+            <>
           {/* The dashboard is grouped into six named bands (readability
               pass) so ~23 tiles don't read as one wall. Tile order + spans
               within each band still follow Malcolm's saved sketch layout
               (_private/_sketches/stats-sketch-layout.json → "films"). */}
-          <StatsSection label="The corpus">
-            <Tile title="Lifetime" span={12}>
+          <StatsSection label="The corpus" {...bd("The corpus")}>
+            <Tile title="Lifetime" {...td("lifetime")} span={12}>
               <Bigs
                 items={[
                   { n: s.lifetime.films.toLocaleString(), label: "films logged" },
@@ -355,7 +477,7 @@ export default async function FilmStatsPage({
               />
             </Tile>
 
-            <Tile title="Rating distribution" span={12}>
+            <Tile title="Rating distribution" {...td("rating-distribution")} span={12}>
               <ColumnChart
                 columns={RATING_KEYS.map((k): [string, number] => [
                   k,
@@ -373,8 +495,8 @@ export default async function FilmStatsPage({
 
           </StatsSection>
 
-          <StatsSection label="Taste">
-            <Tile title="Genres" span={4}>
+          <StatsSection label="Taste" {...bd("Taste")}>
+            <Tile title="Genres" {...td("genres")} span={4}>
               <Bars
                 rows={s.genreDistribution}
                 hrefFor={genreHref}
@@ -389,7 +511,7 @@ export default async function FilmStatsPage({
             </Tile>
 
             <Tile
-              title="Genres vs. my baseline"
+              title="Genres vs. my baseline" {...td("genres-vs-baseline")}
               span={8}
               note={`Baseline = my ${s.lifetime.avgRating.toFixed(2)}★ average; most-logged genres first. Bars right of center rate above it; bars left of center rate below.`}
             >
@@ -402,9 +524,14 @@ export default async function FilmStatsPage({
 
           </StatsSection>
 
-          <StatsSection label="People and critics">
+          <StatsSection
+            label="Cast, Crew, and Franchises"
+            {...bd("Cast, Crew, and Franchises")}
+          >
             <Tile
               title="Actors — logged vs. rated"
+              soloTitle="Actors"
+              {...td("actors")}
               span={4}
               note="Top-10 billed only; highest-rated counts distinct franchises, not films."
             >
@@ -414,11 +541,15 @@ export default async function FilmStatsPage({
                 rightTitle="Highest rated"
                 right={actors.right}
                 hrefFor={actorHref}
+                solo={solo("actors")}
+                withheldNote="Widen the filters to rank actors by rating—needs 3+ with distinct franchises."
               />
             </Tile>
 
             <Tile
               title="Writers — logged vs. rated"
+              soloTitle="Writers"
+              {...td("writers")}
               span={4}
             >
               <Versus
@@ -427,11 +558,15 @@ export default async function FilmStatsPage({
                 rightTitle="Highest rated"
                 right={writers.right}
                 hrefFor={writerHref}
+                solo={solo("writers")}
+                withheldNote="Widen the filters to rank writers by rating—needs 3+ with distinct franchises."
               />
             </Tile>
 
             <Tile
               title="Directors — logged vs. rated"
+              soloTitle="Directors"
+              {...td("directors")}
               span={4}
               note="Highest-rated gated on ≥3 distinct franchises."
             >
@@ -441,12 +576,17 @@ export default async function FilmStatsPage({
                 rightTitle="Highest rated"
                 right={directors.right}
                 hrefFor={directorHref}
+                solo={solo("directors")}
+                withheldNote="Widen the filters to rank directors by rating—needs 3+ with distinct franchises."
               />
             </Tile>
 
             <Tile
               title="Collections — logged vs. rated"
-              span={6}
+              soloTitle="Collections"
+              {...td("collections")}
+              span={8}
+              centered
               note="Curated families (≥3 released films, logged 2+)."
             >
               <Versus
@@ -455,57 +595,65 @@ export default async function FilmStatsPage({
                 rightTitle="Highest rated"
                 right={s.franchises.major.map((x): [string, number] => [x.k, x.adj])}
                 hrefFor={franchiseHref}
+                solo={solo("collections")}
+                withheldNote="Widen the filters to rank franchises by rating—needs 3+ ranked families."
               />
             </Tile>
+          </StatsSection>
 
+          <StatsSection label="How I Stack Up" {...bd("How I Stack Up")}>
             <Tile
-              title="Me vs. the world"
+              title="Me vs. the Critics"
+              {...td("me-vs-critics")}
               span={6}
-              note={`Across ${s.youVsWorld.filmsVsCritics} films with a critic score. Films lacking one sit out the comparison.`}
+              note={`Across ${s.youVsWorld.critics.count} films with a Metascore.`}
             >
               <Bigs
                 items={[
-                  {
-                    n: `${signed(s.youVsWorld.avgVsMetascore)}★`,
-                    label: "avg gap vs. Metascore",
-                  },
-                  {
-                    n: `${signed(s.youVsWorld.avgVsLetterboxd)}★`,
-                    label: "avg gap vs. Letterboxd crowd",
-                  },
+                  { n: `${signed(s.youVsWorld.critics.avg)}★`, label: "avg gap vs. Metascore" },
                 ]}
               />
-              <div style={hotColsStyle}>
-                <DeltaList title="My hot takes (me ≫ critics)" rows={s.youVsWorld.hotTakes} />
-                <DeltaList title="Critics' darlings (critics ≫ me)" rows={s.youVsWorld.darlings} />
-              </div>
+              {/* Lists only appear above the threshold (n ≥ 4); below it the
+                  tile is the average gap alone. */}
+              {s.youVsWorld.critics.hotTakes.length > 0 ? (
+                <div style={hotColsStyle}>
+                  <DeltaList title="My hot takes (me ≫ critics)" rows={s.youVsWorld.critics.hotTakes} />
+                  <DeltaList title="Critics' darlings (critics ≫ me)" rows={s.youVsWorld.critics.darlings} />
+                </div>
+              ) : null}
             </Tile>
 
+            <Tile
+              title="Me vs. the People"
+              {...td("me-vs-people")}
+              span={6}
+              note={`Across ${s.youVsWorld.crowd.count} films with a Letterboxd score.`}
+            >
+              <Bigs
+                items={[
+                  { n: `${signed(s.youVsWorld.crowd.avg)}★`, label: "avg gap vs. Letterboxd" },
+                ]}
+              />
+              {s.youVsWorld.crowd.hotTakes.length > 0 ? (
+                <div style={hotColsStyle}>
+                  <DeltaList title="My hot takes (me ≫ crowd)" rows={s.youVsWorld.crowd.hotTakes} />
+                  <DeltaList title="Crowd darlings (crowd ≫ me)" rows={s.youVsWorld.crowd.darlings} />
+                </div>
+              ) : null}
+            </Tile>
           </StatsSection>
 
-          <StatsSection label="Where it comes from">
+          <StatsSection label="Where it comes from" {...bd("Where it comes from")}>
             <Tile
-              title="World cinema lean"
+              title="World cinema lean" {...td("world-cinema-lean")}
               span={12}
               note="I rate non-English and non-US films above domestic ones—language is the stronger signal, country reinforces it."
             >
-              <Bigs
-                items={[
-                  {
-                    n: `${signed(s.worldLean.nonEnglishVsEnglish)}★`,
-                    label: "non-English vs. English",
-                  },
-                  { n: `${signed(s.worldLean.nonUsVsUs)}★`, label: "non-US vs. US" },
-                  {
-                    n: `${s.worldLean.pctInternational}%`,
-                    label: "international (non-US)",
-                  },
-                ]}
-              />
+              <Bigs items={worldLeanItems} />
             </Tile>
 
             <Tile
-              title="Language × country"
+              title="Language × country" {...td("language-x-country")}
               span={12}
               note="The joint view: which languages pair with which countries (language leads)."
             >
@@ -519,60 +667,68 @@ export default async function FilmStatsPage({
               <Bars rows={s.overlap.topPairs} hrefFor={pairHref} />
             </Tile>
 
-            <Tile title="Languages — logged vs. rated" span={6}>
+            <Tile
+              title="Languages — logged vs. rated"
+              soloTitle="Languages"
+              {...td("languages")}
+              span={6}
+            >
               <Versus
                 leftTitle="Most logged"
                 left={languages.left}
                 rightTitle="Highest rated"
                 right={languages.right}
                 hrefFor={languageHref}
+                solo={solo("languages")}
+                withheldNote="Widen the filters to rank languages by rating—needs 3+ distinct entries."
               />
             </Tile>
 
-            <Tile title="Countries — logged vs. rated" span={6}>
+            <Tile
+              title="Countries — logged vs. rated"
+              soloTitle="Countries"
+              {...td("countries")}
+              span={6}
+            >
               <Versus
                 leftTitle="Most logged"
                 left={countries.left}
                 rightTitle="Highest rated"
                 right={countries.right}
                 hrefFor={countryHref}
+                solo={solo("countries")}
+                withheldNote="Widen the filters to rank countries by rating—needs 3+ distinct entries."
               />
             </Tile>
 
           </StatsSection>
 
-          <StatsSection label="Distribution">
-            <Tile title="Theatrical vs. streaming" span={12}>
-              <Bigs
-                items={[
-                  {
-                    n: s.theatrical.wideCount,
-                    label: `wide theatrical · ${s.theatrical.wideAvg.toFixed(2)}★`,
-                  },
-                  {
-                    n: s.theatrical.nonCount,
-                    label: `streaming/limited · ${s.theatrical.nonAvg.toFixed(2)}★`,
-                  },
-                  {
-                    n: `${signed(s.theatrical.premium)}★`,
-                    label: "theatrical premium",
-                  },
-                ]}
-              />
+          <StatsSection label="Distribution" {...bd("Distribution")}>
+            <Tile title="Theatrical vs. streaming" {...td("theatrical-vs-streaming")} span={12}>
+              <Bigs items={theatricalItems} />
             </Tile>
 
-            <Tile title="Studios — logged vs. rated" span={6}>
+            <Tile
+              title="Studios — logged vs. rated"
+              soloTitle="Studios"
+              {...td("studios")}
+              span={6}
+            >
               <Versus
                 leftTitle="Most logged"
                 left={studios.left}
                 rightTitle="Highest rated"
                 right={studios.right}
                 hrefFor={studioHref}
+                solo={solo("studios")}
+                withheldNote="Widen the filters to rank studios by rating—needs 3+ distinct entries."
               />
             </Tile>
 
             <Tile
               title="By conglomerate — logged vs. rated"
+              soloTitle="By conglomerate"
+              {...td("by-conglomerate")}
               span={6}
               note="Each film rolls up to the conglomerate that owns its studio (else independent). TMDB lists production companies, so this is approximate."
             >
@@ -582,11 +738,13 @@ export default async function FilmStatsPage({
                 rightTitle="Highest rated"
                 right={conglomerate.right}
                 hrefFor={facetHref("conglomerate")}
+                solo={solo("by-conglomerate")}
+                withheldNote="Widen the filters to rank conglomerates by rating—needs 3+ distinct entries."
               />
             </Tile>
 
             <Tile
-              title="Release type by year"
+              title="Release type by year" {...td("release-type-by-year")}
               span={6}
               note="Films I logged from each release year, split by how they premiered. Streaming and limited only emerge through the 2010s and 2020s."
             >
@@ -598,7 +756,7 @@ export default async function FilmStatsPage({
             </Tile>
 
             <Tile
-              title="Budget tier by year"
+              title="Budget tier by year" {...td("budget-tier-by-year")}
               span={6}
               note="Wide-theatrical films with a reported budget only—recent indie and streaming work is excluded given under-reporting."
             >
@@ -610,7 +768,7 @@ export default async function FilmStatsPage({
             </Tile>
 
             <Tile
-              title="Release type × release era — avg rating"
+              title="Release type × release era — avg rating" {...td("release-type-x-era")}
               span={6}
               note="Streaming and limited only exist in recent eras (older cells empty by definition)."
             >
@@ -622,7 +780,7 @@ export default async function FilmStatsPage({
             </Tile>
 
             <Tile
-              title="Budget tier × release era — avg rating"
+              title="Budget tier × release era — avg rating" {...td("budget-tier-x-era")}
               span={6}
               note="Wide-theatrical films with a reported budget only—recent indie and streaming work is excluded given budget under-reporting."
             >
@@ -635,9 +793,9 @@ export default async function FilmStatsPage({
 
           </StatsSection>
 
-          <StatsSection label="When I watch">
+          <StatsSection label="When I watch" {...bd("When I watch")}>
             <Tile
-              title="Watch pace by day of year"
+              title="Watch pace by day of year" {...td("watch-pace")}
               span={12}
               note="Cumulative films watched by each date of the year, per year."
             >
@@ -651,7 +809,7 @@ export default async function FilmStatsPage({
               />
             </Tile>
 
-            <Tile title="Watched by month" span={6}>
+            <Tile title="Watched by month" {...td("watched-by-month")} span={6}>
               <StackedBars
                 data={s.temporal.monthMatrix}
                 ariaLabel="Films watched by month, stacked by year"
@@ -660,7 +818,7 @@ export default async function FilmStatsPage({
               />
             </Tile>
 
-            <Tile title="Watched by weekday" span={6}>
+            <Tile title="Watched by weekday" {...td("watched-by-weekday")} span={6}>
               <StackedBars
                 data={s.temporal.weekdayMatrix}
                 ariaLabel="Films watched by weekday, stacked by year"
@@ -669,6 +827,8 @@ export default async function FilmStatsPage({
               />
             </Tile>
           </StatsSection>
+            </>
+          )}
           </div>
         </Section>
 

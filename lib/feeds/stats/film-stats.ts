@@ -63,7 +63,14 @@ import {
   weekdayTally,
   WEEKDAYS,
 } from "./temporal";
-import type { HeatGrid, StackedMatrix } from "./chart-data";
+import type { HeatGrid, HeatCell, StackedMatrix } from "./chart-data";
+import {
+  collapse,
+  ARCHETYPE_FLOORS,
+  FILMS_TILES,
+  type CollapseResult,
+  type TileSurvival,
+} from "./collapse";
 
 /** The rating each film contributes (never null in the enriched set). */
 const mineOf = (f: EnrichedFilm) => f.mine ?? 0;
@@ -131,30 +138,66 @@ export function theatricalSplit(films: EnrichedFilm[]): TheatricalSplit {
   };
 }
 
-/** You-vs-critics: how your ratings diverge from the consensus. */
-export type YouVsWorld = {
-  /** Mean (your★ − Metascore÷20) across films with a Metascore. */
-  avgVsMetascore: number;
-  /** Mean (your★ − Letterboxd crowd★) across films with a LB score. */
-  avgVsLetterboxd: number;
-  /** How many films had a Metascore to compare against. */
-  filmsVsCritics: number;
-  /** % of the enriched set covered by a Metascore (the comparison base). */
-  coveragePct: number;
-  /** Your biggest over-the-critics calls (top by positive delta). */
-  hotTakes: { title: string; year: number; slug: string; delta: number }[];
-  /** Critics' darlings you rated below them (top by negative delta). */
-  darlings: { title: string; year: number; slug: string; delta: number }[];
+/** One delta row: a film and how far your rating sat above (+) or below (−)
+ *  the external score, on the 0.5–5★ scale. */
+export type GapRow = { title: string; year: number; slug: string; delta: number };
+
+/** One side of the you-vs-them comparison — either the critics (Metascore) or
+ *  the crowd (Letterboxd). Each track stands on its own coverage. */
+export type RatingGap = {
+  /** Mean (your★ − their★) across the films carrying this external score. */
+  avg: number;
+  /** How many films carried this score. This is the comparison base AND the
+   *  tile's surviving-n: it shows the average down to a single film and only
+   *  hides at zero. */
+  count: number;
+  /** Your biggest over-them calls (top by positive delta). Empty below the
+   *  list threshold, where the tile shows the average gap alone. */
+  hotTakes: GapRow[];
+  /** Their darlings you rated below them (top by negative delta). */
+  darlings: GapRow[];
 };
 
+/** You-vs-them: how your ratings diverge from the critics (Metascore) and the
+ *  crowd (Letterboxd). Two independent tracks over DIFFERENT film sets — nearly
+ *  every film carries a Letterboxd score but only ~87% a Metascore — so each
+ *  owns its coverage count rather than sharing one (misleading) denominator. */
+export type YouVsWorld = {
+  critics: RatingGap;
+  crowd: RatingGap;
+};
+
+// Below this many scored films a track shows just its average gap, no lists:
+// one or two films per side isn't a hot-takes-vs-darlings contrast, it's the
+// same handful sorted twice. At or above it each side takes k = min(6, ⌊n/2⌋),
+// so the two lists are always distinct titles (top-k and bottom-k can't overlap
+// while k ≤ n/2).
+const GAP_LIST_MIN = 4;
+
+/** Build one comparison track from per-film deltas (already computed as
+ *  your★ − their★). Sorts once, then takes symmetric top/bottom slices. */
+function ratingGap(rows: GapRow[]): RatingGap {
+  const sorted = [...rows].sort((a, b) => b.delta - a.delta);
+  const n = sorted.length;
+  // Films per list: none below the threshold, else half the set capped at 6.
+  const k = n >= GAP_LIST_MIN ? Math.min(6, Math.floor(n / 2)) : 0;
+  return {
+    avg: meanOf(rows.map((r) => r.delta)),
+    count: n,
+    hotTakes: sorted.slice(0, k),
+    // slice(-0) returns the whole array, so guard the empty case explicitly.
+    darlings: k ? sorted.slice(-k).reverse() : [],
+  };
+}
+
 /**
- * Rating gaps vs. Metascore (÷20 onto the 0.5–5★ scale) and the
+ * Rating gaps vs. the critics (Metascore, ÷20 onto the 0.5–5★ scale) and the
  * Letterboxd crowd, plus the sharpest disagreements either way (sketch
- * youVsWorldTile, ~582). Films lacking the relevant external score are
- * simply excluded from that average.
+ * youVsWorldTile, ~582). Each track runs over only the films carrying that
+ * score; a film lacking one sits out that track entirely.
  */
 export function youVsWorld(films: EnrichedFilm[]): YouVsWorld {
-  const mc = films
+  const critics = films
     .filter((f) => f.ratings?.metacritic != null && f.mine != null)
     .map((f) => ({
       title: f.title,
@@ -162,18 +205,15 @@ export function youVsWorld(films: EnrichedFilm[]): YouVsWorld {
       slug: f.slug,
       delta: (f.mine as number) - (f.ratings!.metacritic as number) / 20,
     }));
-  const lb = films
+  const crowd = films
     .filter((f) => f.ratings?.letterboxd != null && f.mine != null)
-    .map((f) => (f.mine as number) - (f.ratings!.letterboxd as number));
-  const sorted = [...mc].sort((a, b) => b.delta - a.delta);
-  return {
-    avgVsMetascore: meanOf(mc.map((x) => x.delta)),
-    avgVsLetterboxd: meanOf(lb),
-    filmsVsCritics: mc.length,
-    coveragePct: films.length ? Math.round((mc.length / films.length) * 100) : 0,
-    hotTakes: sorted.slice(0, 6),
-    darlings: sorted.slice(-6).reverse(),
-  };
+    .map((f) => ({
+      title: f.title,
+      year: f.year,
+      slug: f.slug,
+      delta: (f.mine as number) - (f.ratings!.letterboxd as number),
+    }));
+  return { critics: ratingGap(critics), crowd: ratingGap(crowd) };
 }
 
 // Release-type / budget-tier segment labels (column-stack legends).
@@ -310,6 +350,14 @@ export type FilmStats = {
     /** Month × recent-year stack (cats = months, segments = years). */
     monthMatrix: StackedMatrix;
   };
+  /**
+   * The recursive-collapse verdict for this (possibly filtered) corpus
+   * (STATS-FILTERS §6): per-tile ladder rung, per-band state, and the page
+   * verdict. Computed server-side from the narrowed result so the render
+   * never flashes a broken chart — tiles that fall below their archetype
+   * floor degrade to a readout or fold into a band footnote instead.
+   */
+  collapse: CollapseResult;
 };
 
 /**
@@ -400,6 +448,185 @@ function hasAnyFilmFilter(f: FilmFilters): boolean {
   });
 }
 
+// ───────────────────────────────────────────────────────────────────
+// Tile survival → collapse decisions (STATS-FILTERS §6).
+//
+// Surviving-n is measured along each archetype's REAL fragility axis — the
+// two failure modes degrade differently and a single yardstick misses one:
+//
+// - SAMPLE-driven tiles fail when too few films feed them. Their surviving-n
+//   is the feeding-FILM (or watch-event) count: counters, the diverging
+//   genre tile (hard-capped at 12 rows, so a 15-ROW floor is unsatisfiable —
+//   its reliability is really about sample size), stacked-by-year, heatmap,
+//   line. Floors read as "films this chart type needs to be meaningful".
+//
+// - STRUCTURE-driven tiles fail when the films collapse onto too few
+//   categories/columns even with a healthy sample. Their surviving-n is the
+//   CATEGORY/COLUMN count: single-axis bars (genre/rating/pair bars) count
+//   non-empty categories; versus tiles count their weaker column. A versus
+//   whose "highest-rated" column empties while "most-logged" survives sets
+//   `degradeToReadout` so it reads out the surviving column instead of
+//   rendering a lopsided two-column chart (the case this feature exists for).
+//
+// Most counts come straight off the computed view-model.
+// ───────────────────────────────────────────────────────────────────
+
+/** Total across a dense numeric matrix — for the grid/stacked tiles this is
+ *  the count of films (or events) feeding the tile (each contributes 1). */
+function sumMatrix(matrix: number[][]): number {
+  return matrix.reduce((t, row) => t + row.reduce((r, n) => r + n, 0), 0);
+}
+
+/** Films feeding a heat grid (each non-null cell's `n` counts its films). */
+function sumHeat(cells: HeatCell[][]): number {
+  return cells.reduce(
+    (t, row) => t + row.reduce((r, c) => r + (c?.n ?? 0), 0),
+    0,
+  );
+}
+
+// The per-column entity floor a versus tile's two columns must each clear.
+const VERSUS_FLOOR = ARCHETYPE_FLOORS.versus;
+
+/** Survival for a versus tile: it lives on its "most-logged" column (the
+ *  robust side that still has data to read out), and degrades to a readout
+ *  when the gated "highest-rated" column drops below the per-column floor. */
+function versus(c: {
+  most: ReadonlyArray<unknown>;
+  major: ReadonlyArray<unknown>;
+}): { survivingN: number; degradeToReadout: boolean } {
+  return {
+    survivingN: c.most.length,
+    degradeToReadout: c.major.length < VERSUS_FLOOR,
+  };
+}
+
+/** True when an include facet pins its dimension to a SINGLE value. One
+ *  selected value collapses the matching tile's distribution to a tautology
+ *  (the chart can only show that one value), so the tile is forced to a
+ *  readout regardless of how many rows survive (§6 self-reference). Two or
+ *  more selected values — or a pure exclude, which leaves the include array
+ *  empty — keep a real distribution (the relative proportions the user did
+ *  NOT pin), so the chart still renders. Checking cardinality, not mere
+ *  presence, is what keeps "every genre except horror" from collapsing the
+ *  genre tiles even though it barely narrows the corpus. */
+function one(v: readonly unknown[] | undefined): boolean {
+  return Array.isArray(v) && v.length === 1;
+}
+
+/**
+ * Derive every film tile's surviving-n + self-reference flag from the
+ * computed view-model and the active filter. Pure: the same stats always
+ * map to the same survival, so it's unit-testable against the fixtures.
+ */
+export function filmTileSurvival(
+  s: Omit<FilmStats, "collapse">,
+  filters?: FilmFilters,
+): TileSurvival[] {
+  const f = filters ?? {};
+
+  // Tiles whose primary axis the user has pinned to a SINGLE include value —
+  // their distribution is self-referential and collapses to a one-value
+  // readout (§5/§6), independent of surviving rows. A single rating also
+  // flattens the genre-rating divergence tile: every surviving film shares
+  // that rating, so every genre averages to it and every bar is zero — so a
+  // lone rating pins genres-vs-baseline too.
+  const selfRef = new Set<string>();
+  const pin = (active: boolean, ...ids: string[]) => {
+    if (active) for (const id of ids) selfRef.add(id);
+  };
+  pin(one(f.ratings), "rating-distribution", "genres-vs-baseline");
+  pin(one(f.genres), "genres", "genres-vs-baseline");
+  pin(one(f.actors), "actors");
+  pin(one(f.writers), "writers");
+  pin(one(f.directors) || (f.directorQuery?.length ?? 0) >= 2, "directors");
+  pin(one(f.collections), "collections");
+  pin(one(f.languages), "languages", "language-x-country");
+  pin(one(f.countries), "countries");
+  pin(one(f.studios), "studios");
+  pin(one(f.conglomerates), "by-conglomerate");
+  pin(
+    one(f.releaseTypes),
+    "release-type-by-year",
+    "release-type-x-era",
+    "theatrical-vs-streaming",
+  );
+  pin(one(f.budgetTiers), "budget-tier-by-year", "budget-tier-x-era");
+
+  // Total watch events feeding the temporal tiles (weekday tally sums to
+  // the full event count, unlike the recent-years-only stacked matrices).
+  const watchEvents = s.temporal.byWeekday.reduce((t, [, n]) => t + n, 0);
+
+  // Counters ride the surviving corpus — a count is honest at any n ≥ 1. (The
+  // diverging tile used to as well, but now gates on its escaped-genre count;
+  // see genres-vs-baseline below.)
+  const corpus = s.lifetime.films;
+
+  // Per-tile survival on the right fragility axis (see the header). Versus
+  // tiles carry a degradeToReadout flag for the half-empty-column case.
+  const surv: Record<
+    string,
+    { survivingN: number; degradeToReadout?: boolean }
+  > = {
+    // The corpus
+    lifetime: { survivingN: corpus },
+    "rating-distribution": {
+      survivingN: Object.values(s.ratingDistribution).filter((c) => c > 0).length,
+    },
+    // Taste — genres bar counts non-empty genres (navigational: immortal in
+    // the collapse engine, so it rides the chart down to a single clickable
+    // bar). genres-vs-baseline counts genres that have ESCAPED shrinkage —
+    // per-genre n ≥ m/2 = 10 for film (m = 20). A divergence built on genres
+    // all pulled to baseline is flat and unreadable, so gating on the
+    // escaped-genre count keeps the tile's viability aligned with the same
+    // per-genre sample the shrinkage depends on (vs. the old raw-corpus gate,
+    // which let the chart render at 15 films total — below the m=20 prior, so
+    // every bar was structurally near-flat). Counts off the charted rows.
+    genres: { survivingN: s.genreDistribution.length },
+    "genres-vs-baseline": {
+      survivingN: s.divergingGenre.filter((g) => g.count >= 10).length,
+    },
+    // Cast, crew, and franchises — the four versus tiles.
+    actors: versus(s.actors),
+    writers: versus(s.writers),
+    directors: versus(s.directors),
+    collections: versus(s.franchises),
+    // How I stack up — each rating-gap counter survives on its OWN coverage
+    // (the films carrying that score), not the corpus, so it hides only when
+    // nothing can be compared. Crowd ≈ corpus (Letterboxd is near-universal);
+    // critics is the scarcer, more meaningful gate.
+    "me-vs-critics": { survivingN: s.youVsWorld.critics.count },
+    "me-vs-people": { survivingN: s.youVsWorld.crowd.count },
+    // Where it comes from — the language×country bar counts surviving pairs.
+    "world-cinema-lean": { survivingN: corpus },
+    "language-x-country": { survivingN: s.overlap.topPairs.length },
+    languages: versus(s.languages),
+    countries: versus(s.countries),
+    // Distribution — release/budget grids feed off films (budget off the
+    // smaller wide-theatrical-with-budget subset, captured by the grid sum).
+    "theatrical-vs-streaming": { survivingN: corpus },
+    studios: versus(s.studios),
+    "by-conglomerate": versus(s.conglomerate),
+    "release-type-by-year": { survivingN: sumMatrix(s.releaseTypeByYear.matrix) },
+    "budget-tier-by-year": { survivingN: sumMatrix(s.budgetTierByYear.matrix) },
+    "release-type-x-era": { survivingN: sumHeat(s.releaseTypeEraHeat.cells) },
+    "budget-tier-x-era": { survivingN: sumHeat(s.budgetEraHeat.cells) },
+    // When I watch — watch events (a film can contribute several).
+    "watch-pace": { survivingN: watchEvents },
+    "watched-by-month": { survivingN: sumMatrix(s.temporal.monthMatrix.matrix) },
+    "watched-by-weekday": {
+      survivingN: sumMatrix(s.temporal.weekdayMatrix.matrix),
+    },
+  };
+
+  return FILMS_TILES.map((tile) => ({
+    id: tile.id,
+    survivingN: surv[tile.id]?.survivingN ?? 0,
+    selfReferenced: selfRef.has(tile.id),
+    degradeToReadout: surv[tile.id]?.degradeToReadout ?? false,
+  }));
+}
+
 /**
  * Compute every film dashboard number from the live fixtures.
  *
@@ -444,7 +671,7 @@ export function computeFilmStats(filters?: FilmFilters): FilmStats {
     rating: f.primaryRating,
   }));
 
-  return {
+  const stats: Omit<FilmStats, "collapse"> = {
     lifetime: {
       films: summary.totalFilms,
       thisYear: summary.thisYearCount,
@@ -544,5 +771,13 @@ export function computeFilmStats(filters?: FilmFilters): FilmStats {
         matrix: monthByYearMatrix(watchDates, years),
       },
     },
+  };
+
+  // Bake the collapse verdict into the response (§6): the render reads the
+  // per-tile rung / per-band state / page verdict instead of re-deriving
+  // thinness in the view layer.
+  return {
+    ...stats,
+    collapse: collapse("films", FILMS_TILES, filmTileSurvival(stats, filters)),
   };
 }
