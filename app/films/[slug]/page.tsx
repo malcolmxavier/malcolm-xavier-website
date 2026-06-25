@@ -338,6 +338,67 @@ export default async function FilmDetailPage({
   // films-detail-no-breadcrumb-jsonld.
   const jsonLd = buildPageJsonLd(film);
 
+  // ── Discovery backlinks + external CTA (shared markup) ──────────
+  // The "Part of …" / "Ranked …" backlinks plus the external "View on
+  // Letterboxd" CTA render in two breakpoint-gated slots: inside the
+  // hero's title block on md+ (via display:contents, so they flow as
+  // normal Stack children with identical spacing), and relocated below
+  // the review on mobile — where a tall hero would otherwise push the
+  // first review under the fold. Defined once here so the two slots
+  // can't drift apart.
+  const appearsInBlock =
+    partOfCollections.length > 0 || listAppearances.length > 0 ? (
+      <Stack gap="100">
+        {partOfCollections.length > 0 ? (
+          <p style={{ margin: 0 }}>
+            Part of{" "}
+            {partOfCollections.map((c, i) => (
+              <span key={c.key}>
+                {i > 0
+                  ? i === partOfCollections.length - 1
+                    ? ", and "
+                    : ", "
+                  : ""}
+                <Link href={`/films/collections/${slugifyEntity(c.name)}`}>
+                  {c.name}
+                </Link>
+              </span>
+            ))}
+            .
+          </p>
+        ) : null}
+        {listAppearances.length > 0 ? (
+          <p style={{ margin: 0 }}>
+            Ranked{" "}
+            {listAppearances.map(({ list, position }, i) => (
+              <span key={list.slug}>
+                {i > 0
+                  ? i === listAppearances.length - 1
+                    ? ", and "
+                    : ", "
+                  : ""}
+                <Link href={`/films/lists/${list.slug}`}>
+                  #{position} in {listShortLabel(list.title)}
+                </Link>
+              </span>
+            ))}
+            .
+          </p>
+        ) : null}
+      </Stack>
+    ) : null;
+
+  const viewOnLetterboxd = (
+    <p style={{ margin: 0 }}>
+      <TrackOnClick
+        event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
+        eventData={{ kind: "film-detail", surface: "film-detail-hero" }}
+      >
+        <Link href={film.letterboxdUrl}>View on Letterboxd ↗</Link>
+      </TrackOnClick>
+    </p>
+  );
+
   return (
     <div data-subbrand="film">
       <script
@@ -409,7 +470,7 @@ export default async function FilmDetailPage({
 
             <Stack gap="400">
               <Kicker accent>Film</Kicker>
-              <Display>{film.title}</Display>
+              <Display size="h1-compact">{film.title}</Display>
               {/* Release year + runtime. Director used to sit here as
                   plain text; it now lives as an interactive chip in the
                   Cast & Crew disclosure below (after the writers), so a
@@ -590,66 +651,18 @@ export default async function FilmDetailPage({
                   </dl>
                 </details>
               ) : null}
-              {/* "Appears in" backlinks — collection membership + ranked-list
-                  placements, each linking into the discovery surface (more
-                  internal links into the reviews funnel). */}
-              {partOfCollections.length > 0 || listAppearances.length > 0 ? (
-                <Stack gap="100">
-                  {partOfCollections.length > 0 ? (
-                    <p style={{ margin: 0 }}>
-                      Part of{" "}
-                      {partOfCollections.map((c, i) => (
-                        <span key={c.key}>
-                          {i > 0
-                            ? i === partOfCollections.length - 1
-                              ? ", and "
-                              : ", "
-                            : ""}
-                          <Link
-                            href={`/films/collections/${slugifyEntity(c.name)}`}
-                          >
-                            {c.name}
-                          </Link>
-                        </span>
-                      ))}
-                      .
-                    </p>
-                  ) : null}
-                  {listAppearances.length > 0 ? (
-                    <p style={{ margin: 0 }}>
-                      Ranked{" "}
-                      {listAppearances.map(({ list, position }, i) => (
-                        <span key={list.slug}>
-                          {i > 0
-                            ? i === listAppearances.length - 1
-                              ? ", and "
-                              : ", "
-                            : ""}
-                          <Link href={`/films/lists/${list.slug}`}>
-                            #{position} in {listShortLabel(list.title)}
-                          </Link>
-                        </span>
-                      ))}
-                      .
-                    </p>
-                  ) : null}
-                </Stack>
-              ) : null}
-              {/* External CTA — sits inside the title block (not as
-                  a separate Section) so the page stays compact and
-                  above-the-fold. ↗ is the convention for external
-                  links per CTA-arrow rules. */}
-              <p style={{ margin: 0 }}>
-                <TrackOnClick
-                  event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
-                  eventData={{
-                    kind: "film-detail",
-                    surface: "film-detail-hero",
-                  }}
-                >
-                  <Link href={film.letterboxdUrl}>View on Letterboxd ↗</Link>
-                </TrackOnClick>
-              </p>
+              {/* Discovery backlinks + external CTA. On md+ they close
+                  out the hero's title block; display:contents makes this
+                  wrapper layout-transparent so the children flow as
+                  normal Stack items (identical gap/spacing to before).
+                  On mobile they're hidden here and re-rendered below the
+                  review (see the md:hidden Section after the review
+                  stack), so the first review peeks above the fold rather
+                  than being pushed down by this block. */}
+              <div className="hidden md:contents">
+                {appearsInBlock}
+                {viewOnLetterboxd}
+              </div>
             </Stack>
           </div>
         </Section>
@@ -693,6 +706,19 @@ export default async function FilmDetailPage({
               </Stack>
             </div>
           </div>
+        </Section>
+
+        {/* Mobile-only relocation of the hero's discovery backlinks +
+            external CTA. Hidden on md+ (the same markup renders in the
+            hero via display:contents); on mobile it sits directly below
+            the review so the tall stacked hero doesn't push the review
+            under the fold. Stack gap mirrors the hero's so the two
+            items keep the same rhythm they had in the title block. */}
+        <Section padding="md" bordered className="md:hidden">
+          <Stack gap="400">
+            {appearsInBlock}
+            {viewOnLetterboxd}
+          </Stack>
         </Section>
 
         {/* ─── Adjacent reviews (chronological prev/next) ──────

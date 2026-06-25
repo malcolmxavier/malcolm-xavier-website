@@ -317,6 +317,53 @@ export default async function TelevisionDetailPage({
 
   const jsonLd = buildPageJsonLd(show);
 
+  // ── Discovery backlinks + external CTA (shared markup) ──────────
+  // Collection membership ("Part of …"), the miniseries-only hero
+  // ranked-list placements, and the external "View on Serializd" CTA.
+  // This group renders in two breakpoint-gated slots: inside the
+  // hero's title block on md+ (via display:contents, so it flows as
+  // normal Stack children with identical spacing), and relocated below
+  // the review content on mobile — where a tall hero would otherwise
+  // push the first review under the fold. Defined once here so the two
+  // slots can't drift apart.
+  const appearsInBlock =
+    partOfCollections.length > 0 || heroPlacements.length > 0 ? (
+      <Stack gap="100">
+        {partOfCollections.length > 0 ? (
+          <p style={{ margin: 0 }}>
+            Part of{" "}
+            {partOfCollections.map((c, i) => (
+              <span key={c.key}>
+                {i > 0
+                  ? i === partOfCollections.length - 1
+                    ? ", and "
+                    : ", "
+                  : ""}
+                <Link
+                  href={`/television/collections/${slugifyEntity(c.name)}`}
+                >
+                  {c.name}
+                </Link>
+              </span>
+            ))}
+            .
+          </p>
+        ) : null}
+        <ListPlacements placements={heroPlacements} />
+      </Stack>
+    ) : null;
+
+  const viewOnSerializd = (
+    <p style={{ margin: 0 }}>
+      <TrackOnClick
+        event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
+        eventData={{ kind: "show-detail", showId: show.serializdShowId }}
+      >
+        <Link href={show.serializdUrl}>View on Serializd ↗</Link>
+      </TrackOnClick>
+    </p>
+  );
+
   return (
     <div data-subbrand="tv">
       <script
@@ -390,7 +437,7 @@ export default async function TelevisionDetailPage({
 
             <Stack gap="400">
               <Kicker accent>Show</Kicker>
-              <Display>{show.name}</Display>
+              <Display size="h1-compact">{show.name}</Display>
               <p style={metadataLineStyle}>
                 {show.premiereYear || ""}
                 {show.tmdb?.type ? ` · ${show.tmdb.type}` : ""}
@@ -467,46 +514,19 @@ export default async function TelevisionDetailPage({
                   ))}
                 </ul>
               ) : null}
-              {/* Collection membership (show-scoped) + — for a miniseries,
-                  whose whole page is the show — its ranked-list placements.
-                  Multi-season shows render placements inline with the season
-                  the list ranked instead. */}
-              {partOfCollections.length > 0 || heroPlacements.length > 0 ? (
-                <Stack gap="100">
-                  {partOfCollections.length > 0 ? (
-                    <p style={{ margin: 0 }}>
-                      Part of{" "}
-                      {partOfCollections.map((c, i) => (
-                        <span key={c.key}>
-                          {i > 0
-                            ? i === partOfCollections.length - 1
-                              ? ", and "
-                              : ", "
-                            : ""}
-                          <Link
-                            href={`/television/collections/${slugifyEntity(c.name)}`}
-                          >
-                            {c.name}
-                          </Link>
-                        </span>
-                      ))}
-                      .
-                    </p>
-                  ) : null}
-                  <ListPlacements placements={heroPlacements} />
-                </Stack>
-              ) : null}
-              <p style={{ margin: 0 }}>
-                <TrackOnClick
-                  event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
-                  eventData={{
-                    kind: "show-detail",
-                    showId: show.serializdShowId,
-                  }}
-                >
-                  <Link href={show.serializdUrl}>View on Serializd ↗</Link>
-                </TrackOnClick>
-              </p>
+              {/* Collection membership + miniseries placements + the
+                  external CTA. On md+ they close out the hero's title
+                  block; display:contents makes this wrapper layout-
+                  transparent so the children flow as normal Stack items
+                  (identical gap/spacing to before). On mobile they're
+                  hidden here and re-rendered below the review content
+                  (see the md:hidden Section before the adjacent-shows
+                  nav), so the first review peeks above the fold rather
+                  than being pushed down by this block. */}
+              <div className="hidden md:contents">
+                {appearsInBlock}
+                {viewOnSerializd}
+              </div>
             </Stack>
           </div>
         </Section>
@@ -587,6 +607,19 @@ export default async function TelevisionDetailPage({
             </Stack>
           </Section>
         ) : null}
+
+        {/* Mobile-only relocation of the hero's discovery backlinks +
+            external CTA. Hidden on md+ (the same markup renders in the
+            hero via display:contents); on mobile it sits below the
+            review content so the tall stacked hero doesn't push the
+            review under the fold. Stack gap mirrors the hero's so the
+            items keep the same rhythm they had in the title block. */}
+        <Section padding="md" bordered className="md:hidden">
+          <Stack gap="400">
+            {appearsInBlock}
+            {viewOnSerializd}
+          </Stack>
+        </Section>
 
         {/* ─── Adjacent shows (chronological prev/next) ────────
             Sibling-to-sibling links between detail pages. Newer
