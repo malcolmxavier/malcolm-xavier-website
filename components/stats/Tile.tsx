@@ -131,7 +131,8 @@ const titleStyle: CSSProperties = {
   textTransform: "uppercase",
   letterSpacing: "0.11em",
   margin: 0,
-  fontWeight: 600,
+  // font-weight lives in the .stats-tile__title rule (alongside color) so the
+  // title's register isn't split between the stylesheet and this inline object.
 };
 
 // The explanatory caption reads as prose, so it moves out of mono into

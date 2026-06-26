@@ -557,11 +557,12 @@ const barStyle: CSSProperties = {
 };
 
 // Applied only while the bar is pinned: a soft downward shadow reads as
-// "content passes under a floating bar" on light, and the faint hairline
-// keeps the edge legible on dark, where the shadow all but disappears.
+// "content passes under a floating bar." The --shadow-sticky token carries a
+// black-alpha shadow on light and a light-channel glow on dark, so the pinned
+// state reads as a frosted floating bar in both themes (not just a hairline).
 const barStuckStyle: CSSProperties = {
   borderBottomColor: "var(--border-default)",
-  boxShadow: "0 6px 16px -10px rgba(0, 0, 0, 0.35)",
+  boxShadow: "var(--shadow-sticky)",
 };
 
 const barTopRowStyle: CSSProperties = {
@@ -596,7 +597,7 @@ const chipsRowStyle: CSSProperties = {
   flexWrap: "wrap",
   alignItems: "center",
   gap: 10,
-  marginTop: 8,
+  marginTop: "var(--scale-200)", // kicker-to-row gap; --scale-200 = 8px
 };
 
 const clearAllStyle: CSSProperties = {
@@ -627,7 +628,9 @@ const panelStyle: CSSProperties = {
   borderColor: "var(--border-default)",
   borderWidth: 1,
   borderStyle: "solid",
-  boxShadow: "0 -8px 24px rgba(0,0,0,0.12)",
+  // Per-theme elevation token (upward cast for this bottom-anchored panel);
+  // light-channel in dark so the panel separates from the near-black page.
+  boxShadow: "var(--shadow-panel)",
 };
 
 const panelHeaderStyle: CSSProperties = {

@@ -101,7 +101,7 @@ export function Heatmap({
                     // rather than currentColor: the cell's own text color
                     // is --text-body, so currentColor here would be the
                     // text, not the brand. See app/components.css.
-                    background: `color-mix(in srgb, var(--stats-heat) ${(m * 100).toFixed(0)}%, var(--surface-default))`,
+                    background: `color-mix(in oklab, var(--stats-heat) ${(m * 100).toFixed(0)}%, var(--surface-default))`,
                   }}
                 >
                   {href ? (

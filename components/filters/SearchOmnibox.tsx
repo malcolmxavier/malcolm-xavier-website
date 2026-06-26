@@ -184,7 +184,7 @@ export function SearchOmnibox({
         onFocus={() => setOpen(true)}
         onKeyDown={onKeyDown}
         className="reviews-search-input focus-visible:outline-2 focus-visible:outline-offset-2"
-        style={{ ...searchInputStyle, marginTop: 8 }}
+        style={{ ...searchInputStyle, marginTop: "var(--scale-200)" }}
       />
 
       {showPopup ? (
@@ -258,7 +258,9 @@ const popupStyle: CSSProperties = {
   background: "var(--surface-page)",
   border: "1px solid var(--border-interactive)",
   borderRadius: "var(--border-radius-sm)",
-  boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+  // Per-theme elevation: a black-alpha shadow vanishes on the near-black
+  // dark surface, so the token swaps to a light-channel glow in dark mode.
+  boxShadow: "var(--shadow-popup)",
 };
 
 const groupHeaderStyle: CSSProperties = {

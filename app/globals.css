@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-06-25T02:19:46.175Z
+   Built:        2026-06-26T17:13:42.912Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -734,6 +734,10 @@
   --chart-accent: #b3402f;
   --chart-positive: #2f6b43;
   --chart-grid: #e1e4e1;
+  --shadow-popup: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-sticky: 0 6px 16px -10px rgba(0, 0, 0, 0.35);
+  --shadow-panel: 0 -8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-pointer: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
 [data-theme="dark"] {
@@ -789,6 +793,10 @@
   --chart-accent: #f08a6f;
   --chart-positive: #4ecb86;
   --chart-grid: #525452;
+  --shadow-popup: 0 8px 24px rgba(255, 255, 255, 0.16);
+  --shadow-sticky: 0 6px 16px -8px rgba(255, 255, 255, 0.2);
+  --shadow-panel: 0 -8px 24px rgba(255, 255, 255, 0.14);
+  --shadow-pointer: 0 6px 18px rgba(255, 255, 255, 0.16);
 }
 
 /* ─── AA-safe action chain on the recruiter cluster ───────── */

@@ -447,5 +447,11 @@
     "accent": { "$type": "color", "$value": "#f08a6f" },
     "positive": { "$type": "color", "$value": "#4ecb86" },
     "grid": { "$type": "color", "$value": "#525452" }
+  },
+  "shadow": {
+    "popup": { "$type": "boxShadow", "$value": "0 8px 24px rgba(255, 255, 255, 0.16)" },
+    "sticky": { "$type": "boxShadow", "$value": "0 6px 16px -8px rgba(255, 255, 255, 0.2)" },
+    "panel": { "$type": "boxShadow", "$value": "0 -8px 24px rgba(255, 255, 255, 0.14)" },
+    "pointer": { "$type": "boxShadow", "$value": "0 6px 18px rgba(255, 255, 255, 0.16)" }
   }
 }

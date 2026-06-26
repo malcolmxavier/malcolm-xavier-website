@@ -183,7 +183,9 @@ const tipStyle: CSSProperties = {
   background: "var(--surface-default)",
   border: "1px solid var(--border-default)",
   borderRadius: "var(--border-radius-sm)",
-  boxShadow: "0 6px 18px rgba(0, 0, 0, 0.18)",
+  // Per-theme elevation token; light-channel in dark since this tooltip sits
+  // on --surface-default (near-black) where a black-alpha shadow is invisible.
+  boxShadow: "var(--shadow-pointer)",
   pointerEvents: "none",
 };
 

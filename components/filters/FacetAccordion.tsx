@@ -79,7 +79,7 @@ export function FacetAccordion({
         <span>{label}</span>
         {/* +/− affordance; aria-hidden because aria-expanded already
             carries the open/closed state for AT. */}
-        <span aria-hidden="true" style={{ fontSize: 16, lineHeight: 1 }}>
+        <span aria-hidden="true" style={{ fontSize: "1em", lineHeight: 1 }}>
           {open ? "−" : "+"}
         </span>
       </button>

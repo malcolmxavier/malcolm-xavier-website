@@ -29,7 +29,9 @@ export function FilterRow({ label, children, idPrefix }: FilterRowProps) {
           display: "flex",
           flexWrap: "wrap",
           gap: 6,
-          marginTop: 8,
+          // Kicker-to-row gap from the shared scale (--scale-200 = 8px) so
+          // every filter component's label spacing tracks one source.
+          marginTop: "var(--scale-200)",
         }}
       >
         {children}
