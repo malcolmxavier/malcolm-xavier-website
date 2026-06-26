@@ -870,7 +870,7 @@ const FILM_METHOD: string[] = [
   "Ratings, watch dates, lists, and favorites come from Letterboxd; genre, runtime, director, and posters from TMDB.",
   "Critic scores (Metacritic here; IMDb and Rotten Tomatoes on the cards) come from MDBList, joined by IMDb id.",
   "“Highest rated” lists guard against thin samples two ways—a minimum-count gate, so a single 5★ film can’t top the chart, and Bayesian shrinkage, which eases a small sample toward the overall average until enough ratings accumulate. Both apply anywhere an average rating is ranked.",
-  "People stats—actors, directors, writers—count distinct franchises, not films, so a long-running series can’t masquerade as preference. Most-logged stays a raw film count; highest-rated is gated on distinct franchises2/compac.",
+  "People stats—actors, directors, writers—count distinct franchises, not films, so a long-running series can’t masquerade as preference. Most-logged stays a raw film count; highest-rated is gated on distinct franchises.",
   "Actors count only top-10-billed roles, so deep-bench supporting credits don’t inflate the list.",
 ];
 
