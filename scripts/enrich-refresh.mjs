@@ -230,22 +230,12 @@ function loadFixture() {
 }
 
 function save(fixture) {
-  fixture.meta = {
-    films: Object.keys(fixture.films).length,
-    shows: Object.keys(fixture.shows).length,
-    collections: Object.keys(fixture.collectionDetails).length,
-  };
-  fixture.capturedAt = new Date().toISOString();
-  // Stable key order (capturedAt, meta, then the big maps) + trailing
-  // newline, matching the other committed snapshots.
-  const ordered = {
-    capturedAt: fixture.capturedAt,
-    meta: fixture.meta,
-    films: fixture.films,
-    shows: fixture.shows,
-    collectionDetails: fixture.collectionDetails,
-  };
-  writeFileSync(FIXTURE_PATH, JSON.stringify(ordered, null, 2) + "\n");
+  // serializeFixture is the single source of truth for the on-disk shape:
+  // stable key order (capturedAt, meta, then the big maps), recomputed meta
+  // summary, and the trailing newline. Reusing it here keeps the CLI's
+  // batch-save and the bulk writer from drifting apart (the two used to build
+  // the ordered object independently).
+  writeFileSync(FIXTURE_PATH, serializeFixture(fixture));
 }
 
 export async function mdbRemaining(key) {

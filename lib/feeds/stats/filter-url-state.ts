@@ -105,3 +105,23 @@ export function withCarriedFilters(
   const query = out.toString();
   return query ? `${path}?${query}` : path;
 }
+
+/**
+ * True when a parsed filter object holds at least one field that would
+ * actually narrow the corpus. Generic across FilmFilters, ShowFilters, and
+ * ConnectedFilters — they share this exact "sparse object of optional
+ * dimensions" shape, so a single predicate serves every stats surface and a
+ * newly added filter field can't silently update one hand-rolled copy while
+ * missing another. An empty `{}` (every dimension cleared) is treated as "no
+ * filter", so an empty selection renders identically to the unfiltered page.
+ */
+export function hasActiveFilter(f: Record<string, unknown>): boolean {
+  return Object.values(f).some((v) => {
+    if (v === undefined || v === null) return false;
+    if (Array.isArray(v)) return v.length > 0;
+    if (typeof v === "string") return v.length > 0;
+    // Numeric bounds (releaseYearMin / releaseYearMax) and the watchedWindow
+    // enum are always meaningful once set.
+    return true;
+  });
+}

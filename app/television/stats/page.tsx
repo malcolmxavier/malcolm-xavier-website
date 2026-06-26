@@ -46,7 +46,10 @@ import {
   buildTvStatsRails,
   TV_SUMMARY_DIMS,
 } from "@/lib/feeds/stats/tv-filter-options";
-import { withCarriedFilters } from "@/lib/feeds/stats/filter-url-state";
+import {
+  withCarriedFilters,
+  hasActiveFilter,
+} from "@/lib/feeds/stats/filter-url-state";
 import type { Contrast } from "@/lib/feeds/stats/shrinkage";
 import { slugifyEntity } from "@/lib/feeds/slug";
 import {
@@ -136,7 +139,7 @@ export default async function TelevisionStatsPage({
   // state drops the JSON-LD, mirroring the films dashboard).
   const sp = await searchParams;
   const filters = parseShowFilters(sp);
-  const filtered = Object.keys(filters).length > 0;
+  const filtered = hasActiveFilter(filters);
   const s = computeTvStats(filters);
 
   // Collapse decisions (§6): resolve a tile's rung / a band's state by id. `td`
