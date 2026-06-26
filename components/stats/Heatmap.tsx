@@ -69,7 +69,11 @@ export function Heatmap({
               const cell = grid.cells[ri][ci];
               if (!cell) {
                 return (
-                  <td key={col} style={emptyCellStyle} aria-label="no data">
+                  // No aria-label: it would REPLACE the cell's accessible
+                  // name and strip the row/column header context. The em-dash
+                  // plus the table's scope=row/col headers already convey
+                  // "this intersection is empty" (SC 1.3.1).
+                  <td key={col} style={emptyCellStyle}>
                     —
                   </td>
                 );

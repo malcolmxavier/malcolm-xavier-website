@@ -38,7 +38,10 @@ export function Donut({
         viewBox="0 0 100 100"
         style={ringStyle}
         role="img"
-        aria-label={ariaLabel}
+        // The center <text> total is a child of this role="img" SVG, so it's
+        // opaque to assistive tech and the legend only carries per-slice
+        // counts — fold the total into the accessible name (SC 4.1.2).
+        aria-label={`${ariaLabel}, ${total} total`}
       >
         {slices.map(([label, n], i) => {
           const frac = n / total;

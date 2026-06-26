@@ -159,6 +159,40 @@ export function GroupedStackedBars({
           )}
         </div>
       </div>
+      {/* Visually-hidden data table — the per-year counts each bar encodes.
+          The SVG is role="img" with only a summary aria-label and the hover
+          chips are aria-hidden, so this table is how keyboard and screen-reader
+          users reach the numbers (SC 1.3.1). One row per month-and-medium pair
+          (mirroring the hover chips), a column per year, plus the bar total.
+          `sr-only` clips it visually while leaving it navigable to assistive
+          tech as a real table. */}
+      <table className="sr-only">
+        <caption>{ariaLabel}</caption>
+        <thead>
+          <tr>
+            <th scope="col">Month and medium</th>
+            {segments.map((seg) => (
+              <th key={seg} scope="col">
+                {seg}
+              </th>
+            ))}
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cats.map((cat, ci) =>
+            groups.map((g, gi) => (
+              <tr key={`${cat}-${g}`}>
+                <th scope="row">{`${cat} · ${g}`}</th>
+                {segments.map((seg, si) => (
+                  <td key={seg}>{matrix[ci][gi][si]}</td>
+                ))}
+                <td>{stackTotal(ci, gi)}</td>
+              </tr>
+            )),
+          )}
+        </tbody>
+      </table>
       {/* Legend names the medium hues (the full, most-recent shade);
           the year is the shade ramp within each bar, named in the caption
           and broken out exactly in the hover chips. */}

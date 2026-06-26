@@ -146,7 +146,12 @@ export function StatsFilterControls({
         dialog.querySelectorAll<HTMLElement>(
           'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
         ),
-      ).filter((el) => el.offsetParent !== null);
+        // Skip controls that aren't rendered (the collapsed accordion tail).
+        // getClientRects() — not offsetParent — because the panel is
+        // position:fixed, and some browsers report offsetParent as null for
+        // descendants of a fixed ancestor, which would wrongly drop visible
+        // controls from the trap. getClientRects is robust under fixed.
+      ).filter((el) => el.getClientRects().length > 0);
       if (focusable.length === 0) return;
       const first = focusable[0];
       const last = focusable[focusable.length - 1];
@@ -537,9 +542,10 @@ const barStyle: CSSProperties = {
   display: "flex",
   flexDirection: "column",
   gap: 12,
-  // Smooth the shadow/border in as the bar pins (a non-vestibular micro-fade,
-  // safe under prefers-reduced-motion).
-  transition: "box-shadow 0.18s ease, border-color 0.18s ease",
+  // The shadow/border fade as the bar pins lives in the `.stats-filter-bar`
+  // CSS class (app/components.css), NOT here: an inline transition can't be
+  // reached by a prefers-reduced-motion media query, and this is a visible
+  // positional elevation shift that should drop for reduced-motion users.
   // Reserve the 1px edge up front (transparent at rest) so pinning doesn't
   // shift layout. Driven as LONGHANDS, not the `borderBottom` shorthand: the
   // stuck style only flips borderBottomColor, and mixing shorthand-here with

@@ -147,9 +147,19 @@ export function SearchOmnibox({
     }
   }
 
-  // Render the flat results with a group heading inserted whenever `kind`
-  // changes. Keeps one running option index for aria-activedescendant.
-  let lastKind: string | null = null;
+  // Group the flat results into kind-runs ("Titles", "Actor", "Director"…)
+  // so each renders as a real ARIA listbox group with an accessible name.
+  // Without this, screen readers hear one flat option list and lose the
+  // signal that the omnibox searches across several facet types (SC 1.3.1).
+  // Each item keeps its flat index `i` because keyboard nav and
+  // aria-activedescendant address options by that index, not by group.
+  const resultGroups: { kind: string; items: { s: Suggestion; i: number }[] }[] =
+    [];
+  results.forEach((s, i) => {
+    const last = resultGroups[resultGroups.length - 1];
+    if (last && last.kind === s.kind) last.items.push({ s, i });
+    else resultGroups.push({ kind: s.kind, items: [{ s, i }] });
+  });
 
   return (
     <div ref={rootRef} style={{ position: "relative" }}>
@@ -189,17 +199,18 @@ export function SearchOmnibox({
               {loading ? "Searching…" : "No matches"}
             </li>
           ) : (
-            results.map((s, i) => {
-              const headerForGroup = s.kind !== lastKind ? s.kind : null;
-              lastKind = s.kind;
-              return (
-                <li key={`${s.kind}-${s.label}-${i}`} role="presentation">
-                  {headerForGroup ? (
-                    <div role="presentation" style={groupHeaderStyle}>
-                      {headerForGroup}
-                    </div>
-                  ) : null}
+            resultGroups.map((group) => (
+              // One ARIA group per facet kind, named by the kind so screen
+              // readers announce "Actor, group" before its options. The
+              // visible header is aria-hidden to avoid double-announcing the
+              // name the group already carries.
+              <li key={group.kind} role="group" aria-label={group.kind}>
+                <div aria-hidden="true" style={groupHeaderStyle}>
+                  {group.kind}
+                </div>
+                {group.items.map(({ s, i }) => (
                   <div
+                    key={`${s.kind}-${s.label}-${i}`}
                     id={optionId(i)}
                     role="option"
                     aria-selected={i === active}
@@ -221,9 +232,9 @@ export function SearchOmnibox({
                       <span style={optionMetaStyle}>{s.sublabel}</span>
                     ) : null}
                   </div>
-                </li>
-              );
-            })
+                ))}
+              </li>
+            ))
           )}
         </ul>
       ) : null}
