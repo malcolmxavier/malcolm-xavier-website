@@ -55,7 +55,7 @@ export function RatingByLevelTabs({
               aria-pressed={isActive}
               onClick={() => setActive(lvl)}
               style={isActive ? activeBtnStyle : btnStyle}
-              className="transition-colors motion-reduce:transition-none"
+              className="transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2"
             >
               {LABELS[lvl]}
             </button>

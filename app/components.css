@@ -1472,6 +1472,20 @@ a.link-accent-pink,
   display: block;
 }
 
+/* ─── Sticky stats filter bar ──────────────────────────────────────
+   The shadow/border fade as the bar pins lives here, not inline, so a
+   prefers-reduced-motion query can drop it. The pin is a visible
+   positional elevation shift, so reduced-motion users get the end state
+   with no transition. See components/filters/StatsFilterControls.tsx. */
+.stats-filter-bar {
+  transition: box-shadow 0.18s ease, border-color 0.18s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stats-filter-bar {
+    transition: none;
+  }
+}
+
 /* ── VideoClip — demo video player in case studies ──────────────── */
 
 /* Outer figure: vertical rhythm matches other case-study insertions

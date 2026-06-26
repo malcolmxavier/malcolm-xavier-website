@@ -278,6 +278,43 @@ export function StackedBars({
           })}
         </div>
       </div>
+      {/* Visually-hidden data table — the per-segment counts the stacks
+          encode. The SVG is role="img" with only a summary aria-label, and
+          the hover chips are aria-hidden, so without this table a keyboard
+          or screen-reader user can't reach the numbers (SC 1.3.1). It mirrors
+          the hover-chip data exactly: a row per category, a column per
+          segment, plus the column total — and the typical-year value when the
+          reference line is drawn. `sr-only` clips it from sighted layout while
+          leaving it in the accessibility tree as a real, navigable table. */}
+      <table className="sr-only">
+        <caption>{fullAriaLabel}</caption>
+        <thead>
+          <tr>
+            <th scope="col">Category</th>
+            {segments.map((seg) => (
+              <th key={seg} scope="col">
+                {seg}
+              </th>
+            ))}
+            <th scope="col">Total</th>
+            {avg ? <th scope="col">Typical year</th> : null}
+          </tr>
+        </thead>
+        <tbody>
+          {cats.map((cat, ci) => (
+            <tr key={cat}>
+              <th scope="row">{cat}</th>
+              {segments.map((seg, si) => (
+                <td key={seg}>{matrix[ci][si]}</td>
+              ))}
+              <td>{totals[ci]}</td>
+              {avg ? (
+                <td>{avg.values[ci] != null ? avg.values[ci].toFixed(1) : "—"}</td>
+              ) : null}
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <LegendSwatches
         items={[
           ...segments.map((s, i) => ({

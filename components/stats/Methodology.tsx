@@ -17,7 +17,10 @@ export function Methodology({ notes }: { notes: ReactNode[] }) {
     // Open by default so the notes are visible; still collapsible for
     // readers who want to fold the dense block away.
     <details open style={detailsStyle}>
-      <summary style={summaryStyle}>
+      <summary
+        style={summaryStyle}
+        className="focus-visible:outline-2 focus-visible:outline-offset-2"
+      >
         <Kicker>Methodology</Kicker>
       </summary>
       {/* Real <ul>/<li> so screen readers still announce a list. We drop
