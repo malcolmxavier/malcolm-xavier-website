@@ -1397,6 +1397,7 @@ a.link-accent-pink,
    the ramp's mid step is --primary-default. */
 .stats-tile__title {
   color: var(--text-body);
+  font-weight: 600;
 }
 [data-subbrand] .stats-section__label,
 [data-subbrand] .stats-tile__title {

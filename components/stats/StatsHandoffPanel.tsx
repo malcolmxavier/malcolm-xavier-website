@@ -107,6 +107,7 @@ const leadStyle: CSSProperties = {
 const linkStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
   fontSize: 13,
-  fontWeight: 600,
+  // Normal weight to match every other stat CTA link (Bars, Versus, Legend);
+  // size plus the cascade's brand color carry the emphasis, no 600 bump.
   letterSpacing: "0.02em",
 };

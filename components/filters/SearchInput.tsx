@@ -78,7 +78,7 @@ export function SearchInput({
         // carries the implicit searchbox role.
         aria-label={ariaLabel}
         className="reviews-search-input focus-visible:outline-2 focus-visible:outline-offset-2"
-        style={{ ...searchInputStyle, marginTop: 8 }}
+        style={{ ...searchInputStyle, marginTop: "var(--scale-200)" }}
       />
     </div>
   );

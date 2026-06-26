@@ -115,9 +115,11 @@ const listStyle: CSSProperties = {
 };
 
 // label | track | value — the label column is fixed so the bars align.
+// Upper bound is 120px (not 96px) so long director/studio names get more
+// room before ellipsis on narrow tablet tiles; the track absorbs the width.
 const rowStyle: CSSProperties = {
   display: "grid",
-  gridTemplateColumns: "minmax(72px, 96px) 1fr 40px",
+  gridTemplateColumns: "minmax(72px, 120px) 1fr 40px",
   gap: 9,
   alignItems: "center",
   fontSize: 12,

@@ -38,7 +38,7 @@ export function ReviewLensStrip({
           display: "flex",
           flexWrap: "wrap",
           gap: 6,
-          marginTop: 8,
+          marginTop: "var(--scale-200)", // kicker-to-row gap; --scale-200 = 8px
         }}
       >
         {lenses.map((lens) => (
