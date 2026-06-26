@@ -24,7 +24,7 @@ import { dirname, resolve } from "node:path";
 import {
   TV_FAMILY_BY_SHOW,
   tvFamilyName,
-} from "../lib/feeds/stats/tv-franchise.ts";
+} from "../lib/feeds/stats/tv-franchise";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const snapshotPath = resolve(

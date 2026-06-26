@@ -45,10 +45,12 @@ import { conglomerateOfStudio } from "./studio-canon";
 import { conglomerateOfNet } from "./network-canon";
 import {
   MONTHS,
+  monthByYearMatrix,
   recentYears,
   WEEKDAY_INDEX,
   WEEKDAYS,
 } from "./temporal";
+import { hasActiveFilter } from "./filter-url-state";
 import type { GroupedStackedMatrix, StackedMatrix } from "./chart-data";
 import {
   collapse,
@@ -184,17 +186,11 @@ function connectedTemporal(
   // for the whole chart. Capped at six to keep the stacks legible and to
   // fit the six-hue categorical palette without wrapping.
   const years = recentYears([...filmDates, ...seasonDates], 6);
-  // Count one medium's logs in a given month + year.
-  const cell = (dates: string[], mi: number, yr: number) =>
-    dates.filter((d) => {
-      const dt = new Date(d);
-      return dt.getUTCMonth() === mi && dt.getUTCFullYear() === yr;
-    }).length;
-  // A medium's [month][year] grid.
-  const grid = (dates: string[]) =>
-    MONTHS.map((_m, mi) => years.map((yr) => cell(dates, mi, yr)));
-  const filmGrid = grid(filmDates);
-  const tvGrid = grid(seasonDates);
+  // Each medium's [month][year] grid. monthByYearMatrix parses every date once
+  // into a year→month tally, so the two grids cost two linear passes instead of
+  // the 12×6 re-scan-and-re-parse the inline builder used to run per medium.
+  const filmGrid = monthByYearMatrix(filmDates, years);
+  const tvGrid = monthByYearMatrix(seasonDates, years);
 
   return {
     // [month] → [ [film by year], [television by year] ].
@@ -291,7 +287,7 @@ type ConnectedCorpus = {
  *   filter, so a connected figure stays balanced across libraries.
  */
 function resolveConnectedCorpus(filters?: ConnectedFilters): ConnectedCorpus {
-  if (!filters || !hasAnyConnectedFilter(filters)) {
+  if (!filters || !hasActiveFilter(filters)) {
     return {
       films: getEnrichedFilms(),
       enrichedShows: getEnrichedShows(),
@@ -319,16 +315,6 @@ function resolveConnectedCorpus(filters?: ConnectedFilters): ConnectedCorpus {
   const summary = summarizeShows(snapShows, baseSummary);
 
   return { films, enrichedShows, summary, snapFilms, snapShows };
-}
-
-/** True if any connected filter field would actually narrow either side. */
-function hasAnyConnectedFilter(f: ConnectedFilters): boolean {
-  return Object.values(f).some((v) => {
-    if (v === undefined || v === null) return false;
-    if (Array.isArray(v)) return v.length > 0;
-    if (typeof v === "string") return v.length > 0;
-    return true;
-  });
 }
 
 /**
@@ -382,6 +368,10 @@ export function computeConnectedStats(filters?: ConnectedFilters): ConnectedStat
       seasonMinusFilm: seasonAvg - filmAvg,
     },
     crossoverActors: crossoverActors(films, shows),
+    // `shows` MUST be the season-remapped copy built above (mine = seasonRating),
+    // not corpus.enrichedShows directly: genreFilmVsTv averages each show's
+    // `mine`, and the raw enriched field is the most-recent-review proxy. Passing
+    // raw shows would silently average the wrong signal with no type error.
     genreFilmVsTv: genreFilmVsTv(films, shows),
     languages: contrastE(
       pooled.filter((x) => x.language),

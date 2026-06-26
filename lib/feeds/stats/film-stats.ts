@@ -71,6 +71,7 @@ import {
   type TileSurvival,
 } from "./collapse";
 import { sumMatrix, sumHeat, versus, one } from "./survival-helpers";
+import { hasActiveFilter } from "./filter-url-state";
 
 /** The rating each film contributes (never null in the enriched set). */
 const mineOf = (f: EnrichedFilm) => f.mine ?? 0;
@@ -386,7 +387,7 @@ type FilmCorpus = {
 function resolveFilmCorpus(filters?: FilmFilters): FilmCorpus {
   // Unfiltered: hand back the shipped data untouched. An empty `{}` filter is
   // treated as "no filter" so an empty selection equals the unfiltered page.
-  if (!filters || !hasAnyFilmFilter(filters)) {
+  if (!filters || !hasActiveFilter(filters)) {
     const { films: snapFilms, summary } = getFilms();
     return { snapFilms, films: getEnrichedFilms(), summary };
   }
@@ -435,17 +436,6 @@ function resolveFilmCorpus(filters?: FilmFilters): FilmCorpus {
   const summary = summarizeFilms(surviving);
 
   return { snapFilms: surviving, films, summary };
-}
-
-/** True if any FilmFilters field would actually narrow the corpus. */
-function hasAnyFilmFilter(f: FilmFilters): boolean {
-  return Object.values(f).some((v) => {
-    if (v === undefined || v === null) return false;
-    if (Array.isArray(v)) return v.length > 0;
-    if (typeof v === "string") return v.length > 0;
-    // numeric bounds (releaseYearMin/Max) and watchedWindow
-    return true;
-  });
 }
 
 // ───────────────────────────────────────────────────────────────────

@@ -57,6 +57,7 @@ import {
   CONNECTED_SUMMARY_DIMS,
 } from "@/lib/feeds/stats/connected-filter-options";
 import { getFilmsWithEnrichment, getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
+import { hasActiveFilter } from "@/lib/feeds/stats/filter-url-state";
 import type { Contrast } from "@/lib/feeds/stats/shrinkage";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -71,8 +72,7 @@ export async function generateMetadata({
 }: {
   searchParams: SearchParams;
 }): Promise<Metadata> {
-  const filtered =
-    Object.keys(parseConnectedFilters(await searchParams)).length > 0;
+  const filtered = hasActiveFilter(parseConnectedFilters(await searchParams));
   return {
     title: "Film × Television",
     description:
@@ -147,7 +147,7 @@ export default async function ConnectedStatsPage({
   // state drops the JSON-LD, mirroring the cluster dashboards).
   const sp = await searchParams;
   const filters = parseConnectedFilters(sp);
-  const filtered = Object.keys(filters).length > 0;
+  const filtered = hasActiveFilter(filters);
   const s = computeConnectedStats(filters);
 
   // Collapse decisions (§6): resolve a tile's rung / a band's state by id. `td`

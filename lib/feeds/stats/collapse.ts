@@ -142,14 +142,6 @@ export interface TileSurvival {
 
 export type PageId = "films" | "television" | "connected";
 
-// The load-bearing band (spec §6 altitude 3). Films / television no longer
-// hand off to reviews on a Taste-claim signal — the page verdict is now a
-// raw corpus-size gate (see HANDOFF_MAX_N). This name is retained for
-// Connected's fallback "thinned out" detection: it has no
-// single Taste band and never hands off to one reviews query (its figures
-// blend both libraries), so it routes to connected-thin instead.
-export const TASTE_BAND: BandId = "Taste";
-
 // Per-tile decision: the ladder rung the tile renders at, plus a snapshot
 // of why (handy for the band-footnote rollup and for tests).
 export interface TileDecision {
@@ -415,21 +407,18 @@ export function collapse(
   let verdict: PageVerdict = "dashboard";
 
   if (pageId === "connected") {
-    // Connected "thins out" when its Taste-equivalent band — the
-    // film-vs-TV taste comparison — collapses. We reuse the same
-    // load-bearing-band signal but route to the connected variant instead
-    // of a reviews handoff. If the catalog has no Taste band (connected's
-    // bands are named differently), fall back to: connected-thin when the
-    // band that owns the head-to-head counter is the only one left standing.
-    const tasteCollapsed = collapsedBands.has(TASTE_BAND);
-    // Connected's load-bearing comparison band may be named for its content
-    // rather than "Taste"; treat a collapse of any band flagged via the
-    // catalog as load-bearing the same way. We detect "thinned out" as: more
-    // than half of all chart-bearing bands collapsed.
-    const chartBands = bandDecisions.filter((b) => b.state !== "full");
+    // Connected has no single "Taste" band to hand off on — its bands are
+    // named for their content ("Film vs. television", "Where it comes from",
+    // …), so there is no Taste-equivalent collapse signal here. We detect
+    // "thinned out" structurally instead: more than half of all bands have
+    // dropped out of their full chart state (collapsed to a readout or a
+    // footnote). When connected thins out it keeps the head-to-head counter
+    // and points back at the two per-cluster dashboards rather than a reviews
+    // handoff.
+    const nonFullBands = bandDecisions.filter((b) => b.state !== "full");
     const thinnedOut =
-      tasteCollapsed ||
-      (bandDecisions.length > 0 && chartBands.length * 2 > bandDecisions.length);
+      bandDecisions.length > 0 &&
+      nonFullBands.length * 2 > bandDecisions.length;
     if (thinnedOut) verdict = "connected-thin";
   } else {
     // Films / television hand off to the reviews list only when the filtered

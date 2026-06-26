@@ -133,6 +133,33 @@ describe("computeFilmStats — collapse verdict (§6)", () => {
     expect(claimTile?.rung).toBe("T2");
   });
 
+  it("a short director query degrades only the directors tile (the pin boundary)", () => {
+    // filmTileSurvival pins the directors ranking to a readout once a free-text
+    // ?director= query is >= 2 chars (the "S." boundary): fuzzy-searching a
+    // director makes a "who I rate highest among directors" chart tautological,
+    // so it folds to T2 regardless of how many films survive. A 2-char query
+    // like "an" still matches a deep slice of the corpus, so this isolates the
+    // pin: the directors tile reads out while NOTHING else is affected and the
+    // page stays a full dashboard (not a thin-corpus handoff).
+    const narrowed = computeFilmStats({ directorQuery: "an" });
+    expect(narrowed.lifetime.films).toBeGreaterThan(100);
+    expect(narrowed.collapse.verdict).toBe("dashboard");
+    const directors = narrowed.collapse.tiles.find((t) => t.id === "directors");
+    expect(directors?.rung).toBe("T2");
+    // The pin is surgical: every other tile keeps its healthy full rung, so the
+    // short director query never drags an unrelated tile down with it.
+    const otherNonFull = narrowed.collapse.tiles.filter(
+      (t) => t.id !== "directors" && t.rung !== "T0",
+    );
+    expect(otherNonFull).toEqual([]);
+    // Baseline: on the unfiltered corpus the directors tile is a full ranking,
+    // so the readout above is the query's doing, not a pre-existing collapse.
+    const baseDirectors = unfiltered.collapse.tiles.find(
+      (t) => t.id === "directors",
+    );
+    expect(baseDirectors?.rung).toBe("T0");
+  });
+
   it("a vanishingly thin selection hands the page off to reviews", () => {
     // An impossible compound filter (a genre AND NOT itself) yields an empty
     // corpus; the Taste band has nothing to plot, so the page verdict must

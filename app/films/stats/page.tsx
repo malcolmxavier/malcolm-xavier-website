@@ -50,10 +50,7 @@ import { StatsFilterControls } from "@/components/filters/StatsFilterControls";
 import type { Contrast } from "@/lib/feeds/stats/shrinkage";
 import type { DeskewContrast } from "@/lib/feeds/stats/franchise";
 import { slugifyEntity } from "@/lib/feeds/slug";
-import {
-  parseFilmFilters,
-  type FilmFilters,
-} from "@/lib/feeds/letterboxd-utils";
+import { parseFilmFilters } from "@/lib/feeds/letterboxd-utils";
 import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
 import { getCollectionDetails } from "@/lib/feeds/enrichment";
 import {
@@ -62,21 +59,12 @@ import {
   makeFilmFacetHref,
   type FilmFacetLink,
 } from "@/lib/feeds/facet-index";
-import { withCarriedFilters } from "@/lib/feeds/stats/filter-url-state";
+import {
+  withCarriedFilters,
+  hasActiveFilter,
+} from "@/lib/feeds/stats/filter-url-state";
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
-
-/** True if any FilmFilters field would actually narrow the corpus — the
- *  signal that flips a filtered state to noindex and drops its JSON-LD
- *  (STATS-FILTERS §7). Mirrors film-stats' internal hasAnyFilmFilter. */
-function anyFilmFilter(f: FilmFilters): boolean {
-  return Object.values(f).some((v) => {
-    if (v === undefined || v === null) return false;
-    if (Array.isArray(v)) return v.length > 0;
-    if (typeof v === "string") return v.length > 0;
-    return true; // numeric bounds (releaseYearMin/Max) and watchedWindow
-  });
-}
 
 /**
  * Per-request metadata. The unfiltered dashboard is the indexable canonical;
@@ -88,7 +76,7 @@ export async function generateMetadata({
 }: {
   searchParams: SearchParams;
 }): Promise<Metadata> {
-  const filtered = anyFilmFilter(parseFilmFilters(await searchParams));
+  const filtered = hasActiveFilter(parseFilmFilters(await searchParams));
   return {
     title: "Film stats",
     description:
@@ -173,7 +161,7 @@ export default async function FilmStatsPage({
   // active state drops the JSON-LD, same as it flips noindex above).
   const sp = await searchParams;
   const filters = parseFilmFilters(sp);
-  const filtered = anyFilmFilter(filters);
+  const filtered = hasActiveFilter(filters);
   const s = computeFilmStats(filters);
 
   // Collapse decisions (§6): resolve a tile's rung / a band's state by id.

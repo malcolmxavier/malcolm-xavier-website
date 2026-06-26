@@ -83,6 +83,44 @@ export function recentYears(dates: string[], n = 5): number[] {
 }
 
 /**
+ * Single-pass builder shared by the weekday and month "× year" matrices.
+ * Each date is parsed exactly once into a `year → row-counts` tally, then the
+ * matrix is read out of that tally. This replaces the previous nested-filter
+ * form, which re-scanned the whole `dates` array and constructed a fresh
+ * `Date` for every (row, year) cell — 7×years or 12×years redundant passes.
+ *
+ * `rowCount` is the number of output rows (7 weekdays / 12 months); `rowOf`
+ * maps a parsed Date to its row index. The returned matrix is `[row][year]`.
+ */
+function byYearMatrix(
+  dates: string[],
+  years: number[],
+  rowCount: number,
+  rowOf: (d: Date) => number,
+): number[][] {
+  const yearSet = new Set(years);
+  // counts.get(year)[rowIndex] — only the requested years are tallied.
+  const counts = new Map<number, number[]>();
+  for (const iso of dates) {
+    const dt = new Date(iso);
+    const yr = dt.getUTCFullYear();
+    if (!yearSet.has(yr)) continue;
+    let row = counts.get(yr);
+    if (!row) {
+      row = new Array<number>(rowCount).fill(0);
+      counts.set(yr, row);
+    }
+    row[rowOf(dt)]++;
+  }
+  return Array.from({ length: rowCount }, (_row, i) =>
+    years.map((yr) => counts.get(yr)?.[i] ?? 0),
+  );
+}
+
+// getUTCDay() (Sun=0) → Monday-first row index, matching WEEKDAYS/WEEKDAY_INDEX.
+const WEEKDAY_ROW = new Map(WEEKDAY_INDEX.map((dayIdx, row) => [dayIdx, row]));
+
+/**
  * Weekday × year matrix (rows = Mon-first weekdays, cols = the given
  * years): how many logs fell on each weekday in each year. Feeds the
  * stacked-by-year weekday tile.
@@ -91,15 +129,8 @@ export function weekdayByYearMatrix(
   dates: string[],
   years: number[],
 ): number[][] {
-  return WEEKDAY_INDEX.map((idx) =>
-    years.map(
-      (yr) =>
-        dates.filter(
-          (d) =>
-            new Date(d).getUTCDay() === idx &&
-            new Date(d).getUTCFullYear() === yr,
-        ).length,
-    ),
+  return byYearMatrix(dates, years, WEEKDAYS.length, (dt) =>
+    WEEKDAY_ROW.get(dt.getUTCDay() as (typeof WEEKDAY_INDEX)[number])!,
   );
 }
 
@@ -111,14 +142,5 @@ export function monthByYearMatrix(
   dates: string[],
   years: number[],
 ): number[][] {
-  return MONTHS.map((_mo, i) =>
-    years.map(
-      (yr) =>
-        dates.filter(
-          (d) =>
-            new Date(d).getUTCMonth() === i &&
-            new Date(d).getUTCFullYear() === yr,
-        ).length,
-    ),
-  );
+  return byYearMatrix(dates, years, MONTHS.length, (dt) => dt.getUTCMonth());
 }

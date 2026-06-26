@@ -22,7 +22,7 @@
 import { getShows } from "../serializd";
 import { getShowsWithEnrichment } from "../review-corpus";
 import { applyShowFilters, summarizeShows } from "../serializd-utils";
-import type { ShowFilters, TvSummary, Show } from "../serializd-utils";
+import type { ShowFilters, TvSummary } from "../serializd-utils";
 import { getEnrichedShows } from "../enrichment";
 import type { EnrichedShow } from "../enrichment";
 import { avgFromDist, contrastE, meanOf, rank, type Contrast } from "./shrinkage";
@@ -61,10 +61,12 @@ import type { StackedMatrix } from "./chart-data";
 import {
   collapse,
   TV_TILES,
+  ARCHETYPE_FLOORS,
   type CollapseResult,
   type TileSurvival,
 } from "./collapse";
 import { sumMatrix, versus, one } from "./survival-helpers";
+import { hasActiveFilter } from "./filter-url-state";
 
 /**
  * A show's canonical rating for the analytics: the mean of its rated
@@ -248,7 +250,7 @@ type TvCorpus = {
  *   over the surviving shows (honouring the miniseries double-count rule).
  */
 function resolveTvCorpus(filters?: ShowFilters): TvCorpus {
-  if (!filters || !hasAnyShowFilter(filters)) {
+  if (!filters || !hasActiveFilter(filters)) {
     return { enrichedShows: getEnrichedShows(), summary: getShows().summary };
   }
 
@@ -265,16 +267,6 @@ function resolveTvCorpus(filters?: ShowFilters): TvCorpus {
   const summary = summarizeShows(surviving, baseSummary);
 
   return { enrichedShows, summary };
-}
-
-/** True if any ShowFilters field would actually narrow the corpus. */
-function hasAnyShowFilter(f: ShowFilters): boolean {
-  return Object.values(f).some((v) => {
-    if (v === undefined || v === null) return false;
-    if (Array.isArray(v)) return v.length > 0;
-    if (typeof v === "string") return v.length > 0;
-    return true;
-  });
 }
 
 /**
@@ -459,14 +451,6 @@ export function tvTileSurvival(
   );
   // Season review events feed the pace line (a show can contribute several).
   const seasonEvents = s.temporal.seasonsByWeekday.reduce((t, [, n]) => t + n, 0);
-  // Networks is a NetworkRollup ({most, topRated}), not a Contrast ({most,
-  // major}), so it can't use the shared `versus` helper: survive on the
-  // most-logged column, degrade to a readout when the highest-rated side
-  // (networks with ≥3 shows) drops below the per-column versus floor.
-  const networks = {
-    survivingN: s.networks.most.length,
-    degradeToReadout: s.networks.topRated.length < 3,
-  };
 
   const surv: Record<
     string,
@@ -497,8 +481,15 @@ export function tvTileSurvival(
     "language-x-country": { survivingN: s.overlap.topPairs.length },
     languages: versus(s.languages),
     countries: versus(s.countries),
-    // How it reached me
-    networks,
+    // How it reached me. Networks is a NetworkRollup ({most, topRated}), not a
+    // Contrast ({most, major}), so it can't use the shared `versus` helper: it
+    // survives on the most-logged column and degrades to a readout when the
+    // highest-rated side drops below the same per-column versus floor every
+    // other versus tile reads (ARCHETYPE_FLOORS.versus), rather than a literal.
+    networks: {
+      survivingN: s.networks.most.length,
+      degradeToReadout: s.networks.topRated.length < ARCHETYPE_FLOORS.versus,
+    },
     "by-conglomerate": versus(s.conglomerate),
     "shows-across-networks": { survivingN: s.multiNetwork.length },
     // When I watch
