@@ -76,7 +76,7 @@ export async function generateMetadata({
   return {
     title: "Film × Television",
     description:
-      "Where Malcolm Xavier's film and television logs connect: the head-to-head averages, crossover actors, how genres rate differently on screen vs. series, shared world-cinema lean, and one watching year across both.",
+      "Where Malcolm Xavier's film and TV logs meet—head-to-head averages, crossover actors, how genres rate on screen vs. series, and one watching year across both.",
     alternates: { canonical: "/stats/connected" },
     robots: filtered ? { index: false, follow: true } : undefined,
     openGraph: {
@@ -194,7 +194,7 @@ export default async function ConnectedStatsPage({
       "Cross-brand statistics pooling Malcolm Xavier's film and television reviews: head-to-head averages, crossover actors, genre comparison, shared provenance, and a combined watching year.",
     url: pageUrl,
     inLanguage: "en-US",
-    isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website` },
+    isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: SITE_URL },
     author: { "@type": "Person", name: "Malcolm Xavier", "@id": `${SITE_URL}/#person` },
   };
 

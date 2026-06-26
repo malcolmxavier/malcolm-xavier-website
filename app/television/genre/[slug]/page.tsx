@@ -112,7 +112,7 @@ export async function generateMetadata({
 
   const noindex = additionalFiltersActive || isPagedBeyondFirst;
   const count = summary.genreDistribution[genre] ?? 0;
-  const description = `${count} ${genre.toLowerCase()} ${count === 1 ? "show" : "shows"} rated and reviewed at the show, season, and episode level—logged on Serializd. Every card links to its full review hierarchy with TMDB metadata, star ratings, and prose.`;
+  const description = `${count} ${genre.toLowerCase()} ${count === 1 ? "show" : "shows"} rated and reviewed at the show, season, and episode level—logged on Serializd. Every card links to its full review hierarchy.`;
   const canonical = `/television/genre/${slug}`;
   const titleBase = `${genre} TV Reviews`;
   const socialTitle = `${titleBase}—Malcolm Xavier`;

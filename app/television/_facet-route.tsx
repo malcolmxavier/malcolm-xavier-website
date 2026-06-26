@@ -121,7 +121,7 @@ const FULL_HIERARCHY =
 
 function buildCopy(facet: TvRouteFacet, name: string, count: number): Copy {
   const desc = (lead: string) =>
-    `${lead} rated and reviewed at the show, season, and episode level—logged on Serializd. Every card links to its full review hierarchy with TMDB metadata, star ratings, and prose.`;
+    `${lead} rated and reviewed at the show, season, and episode level—logged on Serializd. Every card links to its full review hierarchy.`;
   switch (facet) {
     case "creators":
       return {

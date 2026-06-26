@@ -52,7 +52,7 @@ export async function generateMetadata({
   const canonical = `/films/lists/${list.slug}`;
   const description =
     list.description ||
-    `${list.filmSlugs.length} films, ranked and curated by Malcolm Xavier.`;
+    `${list.filmSlugs.length} films, ranked and curated by Malcolm Xavier. Logged, rated, and reviewed—each entry links to its full on-site review.`;
   return {
     title: list.title,
     description,
