@@ -404,7 +404,7 @@ export default async function FilmStatsPage({
         <Section padding="lg">
           <Stack gap="500">
             <Kicker accent>Films</Kicker>
-            <Display>The stats.</Display>
+            <Display>Film by the numbers.</Display>
             <Lede wide>
               {/* Hero copy reads the UNFILTERED lifetime total (summary.totalFilms,
                   computed over the full corpus below) — not s.lifetime.films, which
@@ -553,8 +553,8 @@ export default async function FilmStatsPage({
           </StatsSection>
 
           <StatsSection
-            label="Cast, Crew, and Franchises"
-            {...bd("Cast, Crew, and Franchises")}
+            label="Cast, crew, and franchises"
+            {...bd("Cast, crew, and franchises")}
           >
             <Tile
               title="Actors — logged vs. rated"
@@ -634,7 +634,7 @@ export default async function FilmStatsPage({
             </Tile>
           </StatsSection>
 
-          <StatsSection label="How I Stack Up" {...bd("How I Stack Up")}>
+          <StatsSection label="How I stack up" {...bd("How I stack up")}>
             <Tile
               title="Me vs. the Critics"
               {...td("me-vs-critics")}
@@ -680,7 +680,7 @@ export default async function FilmStatsPage({
             <Tile
               title="World cinema lean" {...td("world-cinema-lean")}
               span={12}
-              note="I rate non-English and non-US films above domestic ones—language is the stronger signal, country reinforces it."
+              note="I rate non-English and non-US films above domestic ones—language is the stronger signal; country reinforces it."
             >
               <Bigs items={worldLeanItems} />
             </Tile>

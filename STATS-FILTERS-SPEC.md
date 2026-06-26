@@ -278,7 +278,7 @@ The page hands off to reviews when the **Taste band collapses** — Taste
 (Genres + Genres-vs-baseline) is the load-bearing band; if the selection
 is too thin to support taste distribution, it's too thin for a dashboard.
 The handoff replaces the dashboard with a funnel panel: "This selection
-has N titles — too few for the full breakdown. See the N reviews →"
+has N titles—too few for the full breakdown. See the N reviews →"
 deep-linking into the corresponding reviews query.
 
 **Connected exception.** Connected tiles don't click through to a single
