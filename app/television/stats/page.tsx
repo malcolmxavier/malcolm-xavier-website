@@ -307,7 +307,7 @@ export default async function TelevisionStatsPage({
         <Section padding="lg">
           <Stack gap="500">
             <Kicker accent>Television</Kicker>
-            <Display>The stats.</Display>
+            <Display>Television by the numbers.</Display>
             <Lede wide>
               {s.lifetime.seasonReviews.toLocaleString()} seasons across {s.lifetime.shows.toLocaleString()} shows—this
               is the quantitative breakdown. What I watch, how I rate it, where in the
@@ -494,7 +494,7 @@ export default async function TelevisionStatsPage({
               {...td("world-cinema-lean")}
               title="World cinema lean"
               span={12}
-              note="I rate non-English and non-US shows against domestic ones—language is the stronger signal, country reinforces it."
+              note="I rate non-English and non-US shows against domestic ones—language is the stronger signal; country reinforces it."
             >
               <Bigs
                 items={[

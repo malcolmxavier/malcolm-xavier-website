@@ -359,7 +359,7 @@ export function StatsFilterControls({
             style={triggerStyle}
             className={`${chipClassName} focus-visible:outline-2 focus-visible:outline-offset-2`}
           >
-            Filter{activeCount > 0 ? ` (${activeCount})` : ""}
+            Filter{activeCount > 0 ? ` · ${activeCount}` : ""}
           </button>
           {/* The live n — the single most important affordance (§4): it
               warns before a selection thins the page into collapse.
@@ -463,8 +463,8 @@ export function StatsFilterControls({
                     from the chips alone (one tap includes, a second excludes),
                     so the panel spells the interaction out in words. */}
                 <p style={panelHintStyle}>
-                  Tap a filter to include it, tap again to exclude it (marked
-                  with − and a strike-through), and once more to clear.
+                  Select a filter to include it, select again to exclude it
+                  (marked with − and a strike-through), and once more to clear.
                 </p>
                 {/* Omnibox leads — the only way to reach the high-card
                     dimensions (people / studios / networks). */}
