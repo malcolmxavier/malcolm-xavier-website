@@ -16,6 +16,9 @@
 import type { CSSProperties } from "react";
 import NextLink from "next/link";
 
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
+
 export function StatsHandoffPanel({
   /** Titles matching the active selection (the narrowed corpus count). */
   n,
@@ -25,11 +28,15 @@ export function StatsHandoffPanel({
   noun,
   /** Where the reset link points when the selection is empty. */
   resetHref,
+  /** Which dashboard handed off — "films" | "television" — for the
+   *  STATS_HANDOFF_CLICK conversion event. */
+  cluster,
 }: {
   n: number;
   href: string;
   noun: { singular: string; plural: string };
   resetHref: string;
+  cluster: "films" | "television";
 }) {
   const word = n === 1 ? noun.singular : noun.plural;
 
@@ -54,9 +61,16 @@ export function StatsHandoffPanel({
         Widen the filters for the full breakdown—or read the {n.toLocaleString()}{" "}
         {word} in this selection below.
       </p>
-      <NextLink href={href} style={linkStyle}>
-        See the {n.toLocaleString()} {n === 1 ? "review" : "reviews"} →
-      </NextLink>
+      {/* The handoff conversion: this is the page giving up on a too-thin
+          dashboard and pushing the SAME selection into the reviews funnel. */}
+      <TrackOnClick
+        event={ANALYTICS_EVENTS.STATS_HANDOFF_CLICK}
+        eventData={{ cluster, n }}
+      >
+        <NextLink href={href} style={linkStyle}>
+          See the {n.toLocaleString()} {n === 1 ? "review" : "reviews"} →
+        </NextLink>
+      </TrackOnClick>
     </div>
   );
 }

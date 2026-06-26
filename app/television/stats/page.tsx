@@ -30,6 +30,7 @@ import { StatsHandoffPanel } from "@/components/stats/StatsHandoffPanel";
 import { StatsFilterControls } from "@/components/filters/StatsFilterControls";
 import { Methodology } from "@/components/stats/Methodology";
 import { Bigs } from "@/components/stats/Bigs";
+import { StatsTrackingRegion } from "@/components/analytics/StatsTrackingRegion";
 import { Bars } from "@/components/stats/Bars";
 import { ColumnChart } from "@/components/stats/ColumnChart";
 import { Versus } from "@/components/stats/Versus";
@@ -163,6 +164,11 @@ export default async function TelevisionStatsPage({
   // builders auto-drop their own key, so they need no explicit pin.
   const carry = (href: string, ...pinned: string[]) =>
     withCarriedFilters(href, activeParams, pinned);
+
+  // Active filter-dimension count — reported as `carriedFilters` on each tile
+  // deep-link so the dashboard separates cold-corpus clicks from clicks that
+  // carry a narrowed selection through. Mirrors the films dashboard.
+  const carriedCount = new Set(activeParams.keys()).size;
 
   // Reviews-handoff deep-link (§6 altitude 3): when the page hands off, carry
   // the active query through so the handoff lands on the SAME selection.
@@ -349,9 +355,14 @@ export default async function TelevisionStatsPage({
             basePath="/television/stats"
             noun={{ singular: "show", plural: "shows" }}
             totalResults={s.lifetime.shows}
+            cluster="television"
           />
 
           <div className="pt-10 sm:pt-14">
+          {/* One delegated click listener instruments every tile deep-link
+              (STATS_TILE_CLICK) without the chart primitives becoming client
+              components — each linking Tile stamps its facet via data-sd. */}
+          <StatsTrackingRegion cluster="television" activeFilterCount={carriedCount}>
           {/* Page verdict (§6 altitude 3): when the filtered corpus is too thin
               (N ≤ HANDOFF_MAX_N) the page hands off to the reviews funnel for
               the same selection rather than rendering a wall of readouts. */}
@@ -361,6 +372,7 @@ export default async function TelevisionStatsPage({
               href={reviewsHref}
               noun={{ singular: "show", plural: "shows" }}
               resetHref="/television/stats"
+              cluster="television"
             />
           ) : (
             <>
@@ -395,6 +407,7 @@ export default async function TelevisionStatsPage({
               {...td("rating-distribution-by-level")}
               title="Rating distribution by level"
               span={12}
+              linkDimension="rating"
               note="Seasons, shows, and episodes are rated and counted separately with the exception of miniseries, which are double-counted (season and show). Episode logging only began this year."
             >
               <RatingByLevelTabs data={s.ratingByLevel} ratingHrefs={ratingHrefs} />
@@ -404,13 +417,14 @@ export default async function TelevisionStatsPage({
               {...td("type")}
               title="Type"
               span={6}
+              linkDimension="type"
             >
               <Donut slices={s.types} ariaLabel="Share of shows by type" hrefFor={typeHref} />
             </Tile>
           </StatsSection>
 
           <StatsSection label="Taste" {...bd("Taste")}>
-            <Tile {...td("genres")} title="Genres" span={4}>
+            <Tile {...td("genres")} title="Genres" span={4} linkDimension="genre">
               <Bars
                 rows={s.genres.most}
                 hrefFor={genreHref}
@@ -428,6 +442,7 @@ export default async function TelevisionStatsPage({
               {...td("genres-vs-baseline")}
               title="Genres vs. my baseline"
               span={8}
+              linkDimension="genre"
               note={`Baseline = my ${s.lifetime.avgRating.toFixed(2)}★ avg season rating; most-logged genres first. Bars right of center rate above it; bars left of center rate below.`}
             >
               <Diverging
@@ -443,6 +458,7 @@ export default async function TelevisionStatsPage({
               {...td("actors")}
               title="Actors — logged vs. rated"
               span={6}
+              linkDimension="actor"
               note="Top-10 billed and ≥3 episodes, so a one-off guest spot doesn't count. Highest-rated counts distinct shows."
             >
               <Versus
@@ -459,6 +475,7 @@ export default async function TelevisionStatsPage({
               {...td("creators")}
               title="Creators — logged vs. rated"
               span={6}
+              linkDimension="creator"
               note="Highest-rated gated on a minimum of 2 distinct shows."
             >
               <Versus
@@ -498,6 +515,7 @@ export default async function TelevisionStatsPage({
               {...td("language-x-country")}
               title="Language × country"
               span={12}
+              linkDimension="language-country"
               note="The joint view: which languages pair with which countries (language leads)."
             >
               <Bigs
@@ -510,7 +528,7 @@ export default async function TelevisionStatsPage({
               <Bars rows={s.overlap.topPairs} hrefFor={pairHref} />
             </Tile>
 
-            <Tile {...td("languages")} title="Languages — logged vs. rated" span={6}>
+            <Tile {...td("languages")} title="Languages — logged vs. rated" span={6} linkDimension="language">
               <Versus
                 leftTitle="Most logged"
                 left={languages.left}
@@ -521,7 +539,7 @@ export default async function TelevisionStatsPage({
               />
             </Tile>
 
-            <Tile {...td("countries")} title="Countries — logged vs. rated" span={6}>
+            <Tile {...td("countries")} title="Countries — logged vs. rated" span={6} linkDimension="country">
               <Versus
                 leftTitle="Most logged"
                 left={countries.left}
@@ -538,6 +556,7 @@ export default async function TelevisionStatsPage({
               {...td("networks")}
               title="Networks — logged vs. rated"
               span={6}
+              linkDimension="network"
               note="Each show counts once under its canonical primary network (HBO and Max merged, and so on). Highest-rated is a gated raw average across ≥3 shows."
             >
               <Versus
@@ -554,6 +573,7 @@ export default async function TelevisionStatsPage({
               {...td("by-conglomerate")}
               title="By conglomerate — logged vs. rated"
               span={6}
+              linkDimension="conglomerate"
               note="Each show rolls up to the conglomerate that owns its network (else independent)."
             >
               <Versus
@@ -581,6 +601,7 @@ export default async function TelevisionStatsPage({
               {...td("season-pace")}
               title="Season pace by day of year"
               span={12}
+              linkDimension="watched-year"
               note="Cumulative seasons finished by each date of the year, per year."
             >
               <LineChart
@@ -593,7 +614,7 @@ export default async function TelevisionStatsPage({
               />
             </Tile>
 
-            <Tile {...td("seasons-by-month")} title="Seasons by month" span={6}>
+            <Tile {...td("seasons-by-month")} title="Seasons by month" span={6} linkDimension="watched-year">
               <StackedBars
                 data={s.temporal.seasonMonthMatrix}
                 ariaLabel="Seasons finished by month, stacked by year"
@@ -602,7 +623,7 @@ export default async function TelevisionStatsPage({
               />
             </Tile>
 
-            <Tile {...td("seasons-by-weekday")} title="Seasons by weekday" span={6}>
+            <Tile {...td("seasons-by-weekday")} title="Seasons by weekday" span={6} linkDimension="watched-year">
               <StackedBars
                 data={s.temporal.seasonWeekdayMatrix}
                 ariaLabel="Seasons finished by weekday, stacked by year"
@@ -628,6 +649,7 @@ export default async function TelevisionStatsPage({
           </StatsSection>
             </>
           )}
+          </StatsTrackingRegion>
           </div>
         </Section>
 

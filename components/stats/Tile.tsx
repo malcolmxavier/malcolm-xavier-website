@@ -43,6 +43,17 @@ export function Tile({
    *  on desktop where the tile is narrower than the full grid (e.g. a span-8
    *  tile alone on its row); the grid CSS offsets it to sit centered. */
   centered = false,
+  /** Analytics: the facet this tile's chart deep-links on (e.g. "genre",
+   *  "actor", "release-type-x-era"). Stamped as data-sd so the delegated
+   *  StatsTrackingRegion can read it off a click without the chart
+   *  primitives needing to know about analytics. Omitted on tiles that
+   *  don't deep-link (Bigs readouts, connected tiles). */
+  linkDimension,
+  /** Analytics: where this tile's deep-link lands — "reviews" (default) or
+   *  "collection-page" (the films Collections tile, whose rows go to a
+   *  curated /films/collections page rather than a filtered reviews view).
+   *  Only meaningful alongside `linkDimension`. */
+  linkDestination,
 }: {
   title: string;
   children: ReactNode;
@@ -52,6 +63,8 @@ export function Tile({
   readout?: ReactNode;
   soloTitle?: string;
   centered?: boolean;
+  linkDimension?: string;
+  linkDestination?: "reviews" | "collection-page";
 }) {
   // Suppressed tiles (zero surviving values, or charts folded under a band
   // collapse) leave no stub — the band footnote names them instead.
@@ -75,6 +88,10 @@ export function Tile({
       data-span={span}
       data-rung={rung}
       data-center={centered ? "" : undefined}
+      // Analytics hooks read by the delegated StatsTrackingRegion. Only
+      // present when the tile deep-links; data-sdest defaults to "reviews".
+      data-sd={linkDimension}
+      data-sdest={linkDimension ? (linkDestination ?? "reviews") : undefined}
       aria-labelledby={headingId}
       style={tileStyle}
     >
