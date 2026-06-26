@@ -114,6 +114,38 @@ export const ANALYTICS_EVENTS = {
    *  landing earns attention before the user heads to the corpus, or
    *  is just a tax on the way there. */
   LANDING_DWELL_TO_CTA: "landing_dwell_to_cta",
+  /** Click on a stats dashboard tile's deep-link into the reviews
+   *  corpus (a Bars / Versus / ColumnChart / Diverging / Donut /
+   *  Heatmap / StackedBars row). The core stats→reviews funnel step.
+   *  Pair with:
+   *   - `cluster`:        "films" | "television"
+   *   - `dimension`:      the facet the row deep-links on ("genre",
+   *                       "actor", "rating", "language-country",
+   *                       "release-type-x-era", "collection", …)
+   *   - `destination`:    "reviews" (a filtered corpus view) |
+   *                       "collection-page" (a curated /films/collections
+   *                       page, which isn't a reviews filter)
+   *   - `carriedFilters`: how many active filter dimensions carried
+   *                       through the click (0 when the page is unfiltered)
+   *  Bigs (headline scalar figures) are intentionally NOT tracked — they
+   *  don't deep-link. Connected tiles don't deep-link either, so they
+   *  never fire this. */
+  STATS_TILE_CLICK: "stats_tile_click",
+  /** A filter change on a stats dashboard (via StatsFilterControls).
+   *  Pair with:
+   *   - `cluster`:   "films" | "television" | "connected"
+   *   - `dimension`: the filter param touched ("genres", "rating",
+   *                  "releaseType", "actors", "director", …)
+   *   - `action`:    "apply" (added or changed a value) | "clear"
+   *                  (removed the last value on that dimension) |
+   *                  "clear-all" (the bulk Clear all). */
+  STATS_FILTER_APPLIED: "stats_filter_applied",
+  /** Click on the StatsHandoffPanel "See the N reviews" CTA — the
+   *  conversion fired when a thin selection collapses the dashboard and
+   *  it hands the SAME selection off to the reviews funnel. Pair with:
+   *   - `cluster`: "films" | "television"
+   *   - `n`:       the matched-corpus size handed off. */
+  STATS_HANDOFF_CLICK: "stats_handoff_click",
 } as const;
 
 export type AnalyticsEvent =

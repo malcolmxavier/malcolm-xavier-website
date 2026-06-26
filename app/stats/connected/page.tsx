@@ -290,6 +290,7 @@ export default async function ConnectedStatsPage({
             basePath="/stats/connected"
             noun={{ singular: "title", plural: "titles" }}
             totalResults={pooledCorpus}
+            cluster="connected"
           />
 
           <div className="pt-10 sm:pt-14">

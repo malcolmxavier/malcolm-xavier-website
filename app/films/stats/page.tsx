@@ -29,6 +29,7 @@ import { StatsTips } from "@/components/stats/StatsTips";
 import { Tile } from "@/components/stats/Tile";
 import { Methodology } from "@/components/stats/Methodology";
 import { Bigs, type BigItem } from "@/components/stats/Bigs";
+import { StatsTrackingRegion } from "@/components/analytics/StatsTrackingRegion";
 import { Bars } from "@/components/stats/Bars";
 import { ColumnChart } from "@/components/stats/ColumnChart";
 import { Versus } from "@/components/stats/Versus";
@@ -206,6 +207,10 @@ export default async function FilmStatsPage({
   // Reviews-handoff deep-link (§6 altitude 3 / §11): when the page hands off,
   // carry the active query straight through so the handoff lands on the SAME
   // selection.
+  // How many distinct filter dimensions are active — reported as
+  // `carriedFilters` on every tile deep-link so the dashboard can tell a
+  // cold-corpus click from one that carries a narrowed selection through.
+  const carriedCount = new Set(activeParams.keys()).size;
   const reviewsHref = `/films/reviews${
     activeParams.toString() ? `?${activeParams.toString()}` : ""
   }`;
@@ -458,12 +463,17 @@ export default async function FilmStatsPage({
             basePath="/films/stats"
             noun={{ singular: "film", plural: "films" }}
             totalResults={s.lifetime.films}
+            cluster="films"
           />
 
           {/* The dashboard bands. The top padding restores the breathing room
               the old separate filter-section boundary used to provide, now that
               the strip and the tiles share one section. */}
           <div className="pt-10 sm:pt-14">
+          {/* One delegated click listener instruments every tile deep-link
+              (STATS_TILE_CLICK) without the chart primitives becoming client
+              components — each linking Tile stamps its facet via data-sd. */}
+          <StatsTrackingRegion cluster="films" activeFilterCount={carriedCount}>
           {/* Page verdict (§6 altitude 3): when the load-bearing Taste band
               collapses the selection is too thin for a dashboard, so the page
               hands off to the reviews funnel for the same selection rather
@@ -474,6 +484,7 @@ export default async function FilmStatsPage({
               href={reviewsHref}
               noun={{ singular: "film", plural: "films" }}
               resetHref="/films/stats"
+              cluster="films"
             />
           ) : (
             <>
@@ -493,7 +504,7 @@ export default async function FilmStatsPage({
               />
             </Tile>
 
-            <Tile title="Rating distribution" {...td("rating-distribution")} span={12}>
+            <Tile title="Rating distribution" {...td("rating-distribution")} span={12} linkDimension="rating">
               <ColumnChart
                 columns={RATING_KEYS.map((k): [string, number] => [
                   k,
@@ -512,7 +523,7 @@ export default async function FilmStatsPage({
           </StatsSection>
 
           <StatsSection label="Taste" {...bd("Taste")}>
-            <Tile title="Genres" {...td("genres")} span={4}>
+            <Tile title="Genres" {...td("genres")} span={4} linkDimension="genre">
               <Bars
                 rows={s.genreDistribution}
                 hrefFor={genreHref}
@@ -529,6 +540,7 @@ export default async function FilmStatsPage({
             <Tile
               title="Genres vs. my baseline" {...td("genres-vs-baseline")}
               span={8}
+              linkDimension="genre"
               note={`Baseline = my ${s.lifetime.avgRating.toFixed(2)}★ average; most-logged genres first. Bars right of center rate above it; bars left of center rate below.`}
             >
               <Diverging
@@ -549,6 +561,7 @@ export default async function FilmStatsPage({
               soloTitle="Actors"
               {...td("actors")}
               span={4}
+              linkDimension="actor"
               note="Top-10 billed only; highest-rated counts distinct franchises, not films."
             >
               <Versus
@@ -567,6 +580,7 @@ export default async function FilmStatsPage({
               soloTitle="Writers"
               {...td("writers")}
               span={4}
+              linkDimension="writer"
             >
               <Versus
                 leftTitle="Most logged"
@@ -584,6 +598,7 @@ export default async function FilmStatsPage({
               soloTitle="Directors"
               {...td("directors")}
               span={4}
+              linkDimension="director"
               note="Highest-rated gated on ≥3 distinct franchises."
             >
               <Versus
@@ -603,6 +618,8 @@ export default async function FilmStatsPage({
               {...td("collections")}
               span={8}
               centered
+              linkDimension="collection"
+              linkDestination="collection-page"
               note="Curated families (≥3 released films, logged 2+)."
             >
               <Versus
@@ -671,6 +688,7 @@ export default async function FilmStatsPage({
             <Tile
               title="Language × country" {...td("language-x-country")}
               span={12}
+              linkDimension="language-country"
               note="The joint view: which languages pair with which countries (language leads)."
             >
               <Bigs
@@ -688,6 +706,7 @@ export default async function FilmStatsPage({
               soloTitle="Languages"
               {...td("languages")}
               span={6}
+              linkDimension="language"
             >
               <Versus
                 leftTitle="Most logged"
@@ -705,6 +724,7 @@ export default async function FilmStatsPage({
               soloTitle="Countries"
               {...td("countries")}
               span={6}
+              linkDimension="country"
             >
               <Versus
                 leftTitle="Most logged"
@@ -729,6 +749,7 @@ export default async function FilmStatsPage({
               soloTitle="Studios"
               {...td("studios")}
               span={6}
+              linkDimension="studio"
             >
               <Versus
                 leftTitle="Most logged"
@@ -746,6 +767,7 @@ export default async function FilmStatsPage({
               soloTitle="By conglomerate"
               {...td("by-conglomerate")}
               span={6}
+              linkDimension="conglomerate"
               note="Each film rolls up to the conglomerate that owns its studio (else independent). TMDB lists production companies, so this is approximate."
             >
               <Versus
@@ -762,6 +784,7 @@ export default async function FilmStatsPage({
             <Tile
               title="Release type by year" {...td("release-type-by-year")}
               span={6}
+              linkDimension="release-type"
               note="Films I logged from each release year, split by how they premiered. Streaming and limited only emerge through the 2010s and 2020s."
             >
               <StackedBars
@@ -774,6 +797,7 @@ export default async function FilmStatsPage({
             <Tile
               title="Budget tier by year" {...td("budget-tier-by-year")}
               span={6}
+              linkDimension="budget-tier"
               note="Wide-theatrical films with a reported budget only—recent indie and streaming work is excluded given under-reporting."
             >
               <StackedBars
@@ -786,6 +810,7 @@ export default async function FilmStatsPage({
             <Tile
               title="Release type × release era — avg rating" {...td("release-type-x-era")}
               span={6}
+              linkDimension="release-type-x-era"
               note="Streaming and limited only exist in recent eras (older cells empty by definition)."
             >
               <Heatmap
@@ -798,6 +823,7 @@ export default async function FilmStatsPage({
             <Tile
               title="Budget tier × release era — avg rating" {...td("budget-tier-x-era")}
               span={6}
+              linkDimension="budget-tier-x-era"
               note="Wide-theatrical films with a reported budget only—recent indie and streaming work is excluded given budget under-reporting."
             >
               <Heatmap
@@ -813,6 +839,7 @@ export default async function FilmStatsPage({
             <Tile
               title="Watch pace by day of year" {...td("watch-pace")}
               span={12}
+              linkDimension="watched-year"
               note="Cumulative films watched by each date of the year, per year."
             >
               <LineChart
@@ -825,7 +852,7 @@ export default async function FilmStatsPage({
               />
             </Tile>
 
-            <Tile title="Watched by month" {...td("watched-by-month")} span={6}>
+            <Tile title="Watched by month" {...td("watched-by-month")} span={6} linkDimension="watched-year">
               <StackedBars
                 data={s.temporal.monthMatrix}
                 ariaLabel="Films watched by month, stacked by year"
@@ -834,7 +861,7 @@ export default async function FilmStatsPage({
               />
             </Tile>
 
-            <Tile title="Watched by weekday" {...td("watched-by-weekday")} span={6}>
+            <Tile title="Watched by weekday" {...td("watched-by-weekday")} span={6} linkDimension="watched-year">
               <StackedBars
                 data={s.temporal.weekdayMatrix}
                 ariaLabel="Films watched by weekday, stacked by year"
@@ -845,6 +872,7 @@ export default async function FilmStatsPage({
           </StatsSection>
             </>
           )}
+          </StatsTrackingRegion>
           </div>
         </Section>
 

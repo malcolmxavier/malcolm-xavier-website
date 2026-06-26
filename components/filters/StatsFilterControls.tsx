@@ -26,6 +26,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { CSSProperties } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { track } from "@vercel/analytics";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { Stack } from "@/components/layout/Stack";
 import { Kicker } from "@/components/typography/Kicker";
 import { FilterRail } from "@/components/filters/FilterRail";
@@ -69,6 +71,9 @@ export type StatsFilterControlsProps = {
   noun: { singular: string; plural: string };
   /** The recomputed corpus size for the active predicate (the live n). */
   totalResults: number;
+  /** Which dashboard this drives — tags the STATS_FILTER_APPLIED events
+   *  so the dashboard can compare filter engagement across clusters. */
+  cluster: "films" | "television" | "connected";
 };
 
 const PANEL_ID = "stats-filter-panel";
@@ -91,6 +96,7 @@ export function StatsFilterControls({
   basePath,
   noun,
   totalResults,
+  cluster,
 }: StatsFilterControlsProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -191,6 +197,14 @@ export function StatsFilterControls({
     else params.delete(param);
     const qs = params.toString();
     router.replace(qs ? `${basePath}?${qs}` : basePath, { scroll: false });
+    // A non-empty value added/changed the dimension; an empty one cleared
+    // its last value. Single choke point for every per-dimension control
+    // (rail cycle, chip toggle/remove, omnibox add, director query).
+    track(ANALYTICS_EVENTS.STATS_FILTER_APPLIED, {
+      cluster,
+      dimension: param,
+      action: value ? "apply" : "clear",
+    });
   }
 
   // Rail chip cycles neutral → include → exclude → neutral (Style A).
@@ -232,6 +246,11 @@ export function StatsFilterControls({
 
   function clearAll() {
     router.replace(basePath, { scroll: false });
+    track(ANALYTICS_EVENTS.STATS_FILTER_APPLIED, {
+      cluster,
+      dimension: "all",
+      action: "clear-all",
+    });
   }
 
   // ─── Derive view state from the URL ──────────────────────────────
