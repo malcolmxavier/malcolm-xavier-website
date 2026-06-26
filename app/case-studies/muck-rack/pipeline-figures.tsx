@@ -309,8 +309,8 @@ export function PipelineBeforeFigure() {
             Monolithic ingestion pipeline
           </title>
           <desc id="pipeline-before-desc">
-            Three sources&mdash;proprietary scraping, LexisNexis, and
-            TVEyes&mdash;all feed into a single ETL pipeline whose
+            Three sources—proprietary scraping, LexisNexis, and
+            TVEyes—all feed into a single ETL pipeline whose
             five serial stages (detect, process, enrich, download,
             supplemental enrichment) run on one instance. The
             pipeline output fans out to three downstream consumers:
@@ -438,17 +438,17 @@ export function PipelineAfterFigure() {
         >
           <title id="pipeline-after-title">Decomposed ingestion fleet</title>
           <desc id="pipeline-after-desc">
-            Three sources&mdash;proprietary scraping, LexisNexis, and
-            TVEyes&mdash;each get their own end-to-end pipeline,
+            Three sources—proprietary scraping, LexisNexis, and
+            TVEyes—each get their own end-to-end pipeline,
             grouped by content type. The Article swim-lane holds two
             pipelines (scraping, LexisNexis) and the Broadcast
             swim-lane holds one (TVEyes). Every pipeline runs detect,
             extract, and transform in its own microservice, then runs
-            its own copy of three nanoservices&mdash;enrichment,
-            download, supplemental enrichment&mdash;configured for
+            its own copy of three nanoservices—enrichment,
+            download, supplemental enrichment—configured for
             its content type. The nanoservices are duplicated per
             source and share only their shape across pipelines. Each
-            pipeline's output fans out independently to the same
+            pipeline’s output fans out independently to the same
             three consumers: search, monitoring, and reporting.
           </desc>
           {diagramArrowMarker(ARROW)}
@@ -562,10 +562,10 @@ export function PipelineAfterFigure() {
         Each source got its own end-to-end pipeline. Inside the
         Article and Broadcast swim-lanes, every source ran its own
         microservice (detection, extraction, transformation) followed
-        by its own copy of three nanoservices&mdash;enrichment,
-        download, supplemental enrichment&mdash;configured for its
+        by its own copy of three nanoservices—enrichment,
+        download, supplemental enrichment—configured for its
         content type. The nanoservices share a shape across pipelines, not
-        an instance. Every pipeline's output fans out independently
+        an instance. Every pipeline’s output fans out independently
         to the same three consumers. Enrichment and supplemental
         enrichment also drew on external audience and viewership
         data sources outside the content pipelines, not detailed

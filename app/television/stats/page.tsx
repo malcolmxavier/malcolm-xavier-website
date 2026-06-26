@@ -68,12 +68,12 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 export const metadata: Metadata = {
   title: "Television stats",
   description:
-    "Malcolm Xavier's TV corpus by the numbers—genres, networks, world cinema, creators, and the rhythm of a watching year, logged by show, season, and episode.",
+    "Malcolm Xavier’s TV corpus by the numbers—genres, networks, world cinema, creators, and the rhythm of a watching year, logged by show, season, and episode.",
   alternates: { canonical: "/television/stats" },
   openGraph: {
     title: "Television stats—Malcolm Xavier",
     description:
-      "The stats behind the television corpus: per-level ratings, genres, networks, creators, world cinema, and a watching year's rhythm.",
+      "The stats behind the television corpus: per-level ratings, genres, networks, creators, world cinema, and a watching year’s rhythm.",
     url: "/television/stats",
     type: "website",
     images: ["/opengraph-image"],
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Television stats—Malcolm Xavier",
     description:
-      "The stats behind the television corpus: per-level ratings, genres, networks, creators, and a watching year's rhythm.",
+      "The stats behind the television corpus: per-level ratings, genres, networks, creators, and a watching year’s rhythm.",
     images: ["/opengraph-image"],
   },
 };
@@ -192,7 +192,7 @@ export default async function TelevisionStatsPage({
     "@type": "CollectionPage",
     name: "Television stats",
     description:
-      "Aggregate statistics derived from Malcolm Xavier's television reviews across shows, seasons, and episodes: genres, networks, creators, world cinema, and temporal rhythm.",
+      "Aggregate statistics derived from Malcolm Xavier’s television reviews across shows, seasons, and episodes: genres, networks, creators, world cinema, and temporal rhythm.",
     url: pageUrl,
     inLanguage: "en-US",
     isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: SITE_URL },
@@ -462,7 +462,7 @@ export default async function TelevisionStatsPage({
               title="Actors — logged vs. rated"
               span={6}
               linkDimension="actor"
-              note="Top-10 billed and ≥3 episodes, so a one-off guest spot doesn't count. Highest-rated counts distinct shows."
+              note="Top-10 billed and ≥3 episodes, so a one-off guest spot doesn’t count. Highest-rated counts distinct shows."
             >
               <Versus
                 leftTitle="Most logged"

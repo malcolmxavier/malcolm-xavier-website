@@ -12,7 +12,7 @@
 // tone (no swipes). NDA-conservative on internals — defensible
 // numbers only, with framing for measurement caveats (e.g. the
 // parsing-error stat is measured via user complaints because unknown
-// errors aren't countable).
+// errors aren’t countable).
 
 import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
@@ -172,14 +172,14 @@ function Hero() {
         </TrackOnClick>
       </span>
       Quality was the lever; quantity was the language. Behind the
-      &ldquo;missing mentions&rdquo; framing sat two simpler problems:
+      “missing mentions” framing sat two simpler problems:
       we were capturing mentions late and labelling them wrong. A year
       and a half at Muck Rack as the technical PM for content and data
       ingestion meant <Emph>translating</Emph>{" "}accuracy, relevance,
       and connectivity into the volume metric leadership trusted. The
       path there was decomposing a single ETL pipeline into a fleet of
-      microservices&mdash;first by content type, then by
-      source&mdash;even as leadership sold the product on parity with
+      microservices—first by content type, then by
+      source—even as leadership sold the product on parity with
       legacy competitors.
     </CaseStudyHero>
   );
@@ -215,14 +215,14 @@ function BeatContext() {
           inside it: the pipeline that turned a fragmented set of
           upstream sources into the content objects every other team
           composed against and the platform that would scale that
-          pipeline&apos;s operations. Leadership was hands-on; outside
+          pipeline’s operations. Leadership was hands-on; outside
           the product team, I worked day-to-day with the CEO, chief of
           staff, chief partnerships officer, and head of legal.
         </p>
         <p>
           I worked with an engineering manager and four to five
           engineers. There was no embedded designer (we rarely touched
-          the frontend) and no embedded data scientist&mdash;the
+          the frontend) and no embedded data scientist—the
           data-science function had been operationalized as data
           engineering, and I had to influence their development
           priorities project-by-project. We built out observability in
@@ -256,35 +256,35 @@ function BeatOpportunity() {
       <Body>
         <p>
           The institutional rallying cry was{" "}
-          <Emph>&ldquo;never miss a mention.&rdquo;</Emph>{" "}
+          <Emph>“never miss a mention.”</Emph>{" "}
           GTM sold on content-volume parity with legacy competitors;
           customers and prospects reported missed mentions as the
           most visible quality failure of the product. The instinct
           across the leadership team was that the answer was more
-          sources&mdash;more partnerships, more integrations, more
+          sources—more partnerships, more integrations, more
           scraping. We did pursue those in parallel. But the
           diagnostic that emerged from the data told a different
           story.
         </p>
         <p>
-          We weren&apos;t missing mentions. We were capturing them{" "}
+          We weren’t missing mentions. We were capturing them{" "}
           <Emph>late</Emph>. Every source funnelled into the same
           ETL pipeline and stalled mid-stage during peak ingestion
-          windows. From a user&apos;s perspective, a mention that
+          windows. From a user’s perspective, a mention that
           arrived four hours late was indistinguishable from one
           that never arrived. A second failure mode lived alongside
           it: parsing errors and content-type misclassification
           dropped <Emph>perceived</Emph>{" "}volume because users
           experienced misclassified content as missing content. The
-          system saw it. The system just didn&apos;t surface it
+          system saw it. The system just didn’t surface it
           where the user expected.
         </p>
         <p>
-          Two failure modes&mdash;one structural (the monolith) and
-          one qualitative (parsing and classification accuracy)&mdash;read
+          Two failure modes—one structural (the monolith) and
+          one qualitative (parsing and classification accuracy)—read
           to users and leadership as a single symptom:
           low volume. But the symptom is not the disease. The primary
-          opportunity wasn&apos;t to source more content. It was to
+          opportunity wasn’t to source more content. It was to
           move what we already had through the pipeline more efficiently,
           and to label it more accurately when it arrived.
         </p>
@@ -307,7 +307,7 @@ function BeatDiscovery() {
       id="discovery"
       number="03"
       title="Discovery"
-      headline="Observability turned 'low volume' into 'stalled stages.'"
+      headline="Observability turned ‘low volume’ into ‘stalled stages.’"
     >
       <Body>
         <p>
@@ -318,9 +318,9 @@ function BeatDiscovery() {
 
       <EvidenceGrid>
         <EvidenceCard eyebrow="Quantitative" title="Stage-by-stage Grafana dashboards made the bottleneck visible.">
-          We instrumented every stage of the pipeline&mdash;detected,
+          We instrumented every stage of the pipeline—detected,
           core processing, enrichment, downloaded, supplemental
-          enrichment&mdash;and counted content objects sitting in
+          enrichment—and counted content objects sitting in
           each stage at any given moment, with alerting on
           thresholds that historically preceded incidents. The
           dashboards reframed the conversation from{" "}
@@ -331,7 +331,7 @@ function BeatDiscovery() {
           <Code>downloaded</Code> per day. It was also the metric
           marketing and sales were already using.
         </EvidenceCard>
-        <EvidenceCard eyebrow="Qualitative" title="Missed-mention complaints weren't always about content we never saw.">
+        <EvidenceCard eyebrow="Qualitative" title="Missed-mention complaints weren’t always about content we never saw.">
           Feature requests aggregated through Productboard, sales
           escalations, and customer-success triage all pointed at
           the same surface symptom: users reported missing
@@ -339,7 +339,7 @@ function BeatDiscovery() {
           sample of these complaints against the actual ingestion
           record. A meaningful share of them were about content
           the system had seen and processed, but had labelled in a
-          way that pushed it out of the user&apos;s expected
+          way that pushed it out of the user’s expected
           retrieval path. That insight is what shifted the second
           workstream from a pure quality-improvement effort to a
           volume-perception effort.
@@ -349,7 +349,7 @@ function BeatDiscovery() {
       <Body>
         <p>
           Both strands pointed at the same conclusion: the
-          monolith&apos;s shape was the constraint, and accuracy
+          monolith’s shape was the constraint, and accuracy
           was a quieter half of the same problem. The technical
           investment that followed was justified to leadership on
           the volume math; the team itself understood it as quality
@@ -379,8 +379,8 @@ function BeatStrategy() {
       <Body>
         <p>
           The bet was a two-axis decomposition. We split the
-          monolith first by{" "}<Emph>content type</Emph>&mdash;article,
-          broadcast, and so on&mdash;so each type ran its own pipeline;
+          monolith first by{" "}<Emph>content type</Emph>—article,
+          broadcast, and so on—so each type ran its own pipeline;
           then by{" "}<Emph>source</Emph> within each pipeline, so our
           proprietary scraping technology, a LexisNexis
           integration, and a TVEyes broadcast content feed each became
@@ -443,7 +443,7 @@ function BeatStrategy() {
           improvement to the metric users and leadership cared about.
           LexisNexis was the critical partnership integration on
           the source side, so isolating it as its own service was
-          both architecturally clean and politically necessary&mdash;it
+          both architecturally clean and politically necessary—it
           let us iterate stage-by-stage on the most
           contractually sensitive source without coupling that work
           to the rest of the pipeline. The sell-in to leadership
@@ -463,13 +463,13 @@ function BeatStrategy() {
           primitive on the site; the `kicker` prop overrides the
           default "How I used Claude" label. */}
       <ClaudeNote kicker="Long view: Negotiating leverage">
-        I'm of the opinion that the standardized content schema positioned the platform,
+        I’m of the opinion that the standardized content schema positioned the platform,
         over time, to exert more negotiating leverage on vendors: the
         more it proved its value to users, the more we could demand a
         richer content schema and appropriate maintenance terms from
         any single vendor (or a cheaper rate if a vendor could not
         meet these demands). This was an underexploited moat, when paired
-        with advanced reporting features that relied upon the uniqueness of the platform's
+        with advanced reporting features that relied upon the uniqueness of the platform’s
         enriched data.
       </ClaudeNote>
     </Beat>
@@ -500,14 +500,14 @@ function BeatExecution() {
           to real-time influence from the market and stakeholders.
           Ours was defended quarter-by-quarter against pet projects
           and incoming requests with sales-cycle deadlines
-          attached&mdash;requests that didn&apos;t map to our stated
+          attached—requests that didn’t map to our stated
           team goal of driving database volume growth. We absorbed
           some of them anyway, and implemented a few outright. My
           EM and I worked closely to shield the
-          engineering team from whiplash as much as possible&mdash;cushioning
+          engineering team from whiplash as much as possible—cushioning
           timeline estimates, partnering on stakeholder management, and
           relying on him to present the technical roadmap because
-          leadership respected his title&apos;s authority on
+          leadership respected his title’s authority on
           architecture. Inside that collaboration, we moved work forward on
           three workstreams in parallel.
         </p>
@@ -518,8 +518,8 @@ function BeatExecution() {
           Before any decomposition shipped, we built the
           stage-by-stage Grafana dashboards and the alerting
           thresholds that made pipeline health legible. This is
-          what bought us leadership&apos;s patience for structural
-          work&mdash;not the architectural argument, but the
+          what bought us leadership’s patience for structural
+          work—not the architectural argument, but the
           single chart that tied every technical investment back
           to <Code>downloaded</Code>-per-day. The dashboards
           stayed live through the rest of the project as both a
@@ -534,7 +534,7 @@ function BeatExecution() {
           itself, while the rest of the team absorbed day-to-day
           fires and new integrations. Within each pipeline, we
           iterated stage-by-stage on the nanoservices so a fix to
-          enrichment didn&apos;t require a rebuild of detection.
+          enrichment didn’t require a rebuild of detection.
         </IterationCard>
         <IterationCard lens="Phase 03" title="Quality models in parallel with the structural work.">
           Article parsing and content-type detection (new vs.
@@ -560,7 +560,7 @@ function BeatExecution() {
           became a working integration and outright acquisition
           after my tenure. This work was consistently framed as separate
           from the platform decomposition; in practice it was the same
-          job&mdash;control over the data, expressed contractually
+          job—control over the data, expressed contractually
           on one side and architecturally on the other.
         </p>
       </Body>
@@ -615,7 +615,7 @@ function BeatOutcomes() {
         <Stat
           big="−45%"
           eyebrow="Parsing errors"
-          caption="Year-over-year reduction in user-reported parsing errors. Measured via complaint volume because unknown errors aren't countable; once we identified a parsing failure, we fixed it."
+          caption="Year-over-year reduction in user-reported parsing errors. Measured via complaint volume because unknown errors aren’t countable; once we identified a parsing failure, we fixed it."
           bigClassName="text-[44px] md:text-[48px] lg:text-[56px]"
         />
         <Stat
@@ -629,27 +629,27 @@ function BeatOutcomes() {
       <Body>
         <p>
           The decomposition enabled three downstream products
-          &mdash;search and discovery, monitoring, and reporting&mdash;built
+          —search and discovery, monitoring, and reporting—built
           across two teams: search and monitoring within Content, and
           reporting within PRM. The teams behind them now had faster,
           more accurate, and cleaner data to build against.
           This work improved <Emph>reliability and accuracy</Emph>{" "}beneath
           features that already existed, but it did not generally
           result in net new user features. This is most of what
-          senior platform PM work actually is&mdash;invisible to a
+          senior platform PM work actually is—invisible to a
           screenshot, visible in the metric the org sold and
           marketed on.
         </p>
         <p>
-          The &ldquo;never miss a mention&rdquo; pressure cooled as we
+          The “never miss a mention” pressure cooled as we
           progressed towards the Q1 2024 backfill but never fully
-          resolved. It couldn&apos;t&mdash;&ldquo;more volume&rdquo;
-          without a numerator or denominator isn&apos;t a target you
+          resolved. It couldn’t—“more volume”
+          without a numerator or denominator isn’t a target you
           can satisfy. The social monitoring vendor evaluation surfaced this
           tension explicitly: choosing among candidates required a
-          definition of &ldquo;a mention&rdquo; that the org
-          hadn&apos;t committed to. Did we mean a hashtag? Keyword?
-          Tag? The PR industry (our users) wasn&apos;t terribly clear
+          definition of “a mention” that the org
+          hadn’t committed to. Did we mean a hashtag? Keyword?
+          Tag? The PR industry (our users) wasn’t terribly clear
           on the need, but we, as the platform org, needed to have
           a sharper one.
         </p>
@@ -691,37 +691,37 @@ function BeatReflection() {
           The sharpest thing I learned at Muck Rack is about the
           metric itself.{" "}
           <Emph>More volume</Emph>, without a numerator or
-          denominator, isn&apos;t a target&mdash;it&apos;s a
-          strategy gap. There&apos;s no defensible answer to
-          &ldquo;are we done&rdquo; because the goal isn&apos;t
+          denominator, isn’t a target—it’s a
+          strategy gap. There’s no defensible answer to
+          “are we done” because the goal isn’t
           grounded in the universe of content actually published,
           nor in what users consider a mention in the first place.
           The social vendor evaluation made this visible: choosing
           a partner required defining the moat, and the org
-          didn&apos;t have one. Platform work can solve a lot of
-          things, but it can&apos;t replace strategy clarity. PMs
+          didn’t have one. Platform work can solve a lot of
+          things, but it can’t replace strategy clarity. PMs
           working under unbounded growth targets should be alert to
-          this&mdash;you can ship excellent work and still be
+          this—you can ship excellent work and still be
           chasing a ghost.
         </p>
         <p>
           The companion lesson is about how platform work moves in a
           sales-led organization: by translation, not education. In
           a high-conviction leadership room, translation{" "}
-          <Emph>is</Emph>{" "}stakeholder management&mdash;the two
+          <Emph>is</Emph>{" "}stakeholder management—the two
           collapse into one craft. The leadership room never flipped
-          on the diagnosis&mdash;it accepted, gradually, that I was
+          on the diagnosis—it accepted, gradually, that I was
           driving results in the metric it already marketed and sold
           on. Every structural improvement I shipped had to prove
           itself by estimated impact on the{" "}
           <Code>downloaded</Code>-per-day metric before it earned the
           cycles to develop. Even the qualitative
-          wins&mdash;parsing accuracy, evergreen detection&mdash;were
+          wins—parsing accuracy, evergreen detection—were
           largely marketed to users as part of the volume narrative
           rather than as their own stories. Translation went all the
-          way down&mdash;and so did the work of absorbing shifting
+          way down—and so did the work of absorbing shifting
           priorities into structured technical investment, a
-          discipline my EM and I built together&mdash;and one I&apos;d
+          discipline my EM and I built together—and one I’d
           carry into a network-scale role at{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
@@ -747,7 +747,7 @@ function BeatReflection() {
           content-type models were accuracy work. The
           perceived-mention insight was a relevance reframing.
           The ETL decomposition itself was connectivity. The
-          stage-by-stage dashboards were legibility&mdash;a system
+          stage-by-stage dashboards were legibility—a system
           state any non-technical stakeholder could read. And the
           ongoing partnership and content-compliance work with
           legal was the privacy column doing its quiet job. The
@@ -762,17 +762,17 @@ function BeatReflection() {
             call; the resume is the next logical step in the funnel. */}
         <p>
           Two next steps, if this is the kind of PM work
-          you&apos;re hiring for:{" "}
+          you’re hiring for:{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{ surface: "case-study-muck-rack-close", destination: "resume" }}
           >
-            <Link href="/resume">review my resume <span aria-hidden="true">&rarr;</span></Link>
+            <Link href="/resume">review my resume <span aria-hidden="true">→</span></Link>
           </TrackOnClick>
           .
         </p>
         <p className="text-[15px] text-[var(--text-caption)]">
-          Or, if you&apos;re ready to talk,{" "}
+          Or, if you’re ready to talk,{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-muck-rack-close" }}

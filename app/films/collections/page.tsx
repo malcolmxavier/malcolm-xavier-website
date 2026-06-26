@@ -58,9 +58,9 @@ export default function FilmCollectionsHub() {
         <Section padding="md">
           <Stack gap="500">
             <Kicker accent>Films · Collections</Kicker>
-            <Display>Franchises and film families I&rsquo;ve logged.</Display>
+            <Display>Franchises and film families I’ve logged.</Display>
             <Lede wide>
-              The series I&rsquo;ve followed across more than a couple of films,
+              The series I’ve followed across more than a couple of films,
               each grouped into its own page of reviews. Open a collection to
               see every entry, every rating, every reaction.
             </Lede>

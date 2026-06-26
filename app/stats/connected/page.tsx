@@ -76,7 +76,7 @@ export async function generateMetadata({
   return {
     title: "Film × Television",
     description:
-      "Where Malcolm Xavier's film and TV logs meet—head-to-head averages, crossover actors, how genres rate on screen vs. series, and one watching year across both.",
+      "Where Malcolm Xavier’s film and TV logs meet—head-to-head averages, crossover actors, how genres rate on screen vs. series, and one watching year across both.",
     alternates: { canonical: "/stats/connected" },
     robots: filtered ? { index: false, follow: true } : undefined,
     openGraph: {
@@ -191,7 +191,7 @@ export default async function ConnectedStatsPage({
     "@type": "CollectionPage",
     name: "Film × Television",
     description:
-      "Cross-brand statistics pooling Malcolm Xavier's film and television reviews: head-to-head averages, crossover actors, genre comparison, shared provenance, and a combined watching year.",
+      "Cross-brand statistics pooling Malcolm Xavier’s film and television reviews: head-to-head averages, crossover actors, genre comparison, shared provenance, and a combined watching year.",
     url: pageUrl,
     inLanguage: "en-US",
     isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: SITE_URL },
@@ -263,7 +263,7 @@ export default async function ConnectedStatsPage({
                 behind a chart, use the per-cluster dashboards linked above. */}
             <HeroNote>
               Use the filters to narrow both libraries at once. The tiles here
-              don't click through—each number blends both libraries—so for the
+              don’t click through—each number blends both libraries—so for the
               reviews behind a visualization, head to the individual film or
               television stats pages above.
             </HeroNote>
@@ -333,7 +333,7 @@ export default async function ConnectedStatsPage({
                     {...td("genres-film-vs-tv")}
                     title="Genres — film vs. TV"
                     span={6}
-                    note="Shared genres only (≥5 titles logged on each side). Each row is a genre's film average and its TV average; the bar is the gap. Film = orange, TV = blue."
+                    note="Shared genres only (≥5 titles logged on each side). Each row is a genre’s film average and its TV average; the bar is the gap. Film = orange, TV = blue."
                   >
                     <Dumbbell rows={s.genreFilmVsTv} />
                   </Tile>
@@ -342,7 +342,7 @@ export default async function ConnectedStatsPage({
                     {...td("crossover-actors")}
                     title="Crossover actors"
                     span={6}
-                    note="In ≥2 films and ≥2 shows. Only top-10-billed roles with at least three episodes for a show to count. The label carries each name's film·TV split; highest-rated averages over everything logged."
+                    note="In ≥2 films and ≥2 shows. Only top-10-billed roles with at least three episodes for a show to count. The label carries each name’s film·TV split; highest-rated averages over everything logged."
                   >
                     <Versus
                       leftTitle="Most logged"

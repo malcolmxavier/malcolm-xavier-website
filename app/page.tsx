@@ -82,7 +82,7 @@ const SUB_BRAND_TILES: SubBrandTile[] = [
     blurb: (
       <>
         Appointment viewing, binge fodder, channel
-        surfing&mdash;100+ seasons a year on Serializd.
+        surfing—100+ seasons a year on Serializd.
       </>
     ),
     accent: "tv",
@@ -204,8 +204,8 @@ export default function Home() {
                   from the button row below. */}
               <Stack gap="400">
                 <Lede>
-                  I&rsquo;m a senior product manager who specializes
-                  in building growth and data platforms. I&rsquo;m
+                  I’m a senior product manager who specializes
+                  in building growth and data platforms. I’m
                   AI-native by practice: I built this site with
                   Claude Code as my build partner.
                 </Lede>
@@ -243,7 +243,7 @@ export default function Home() {
                   </Button>
                 </HeroCtaInView>
                 <Button as="a" href="/contact" variant="secondary" size="lg">
-                  Get in touch &rarr;
+                  Get in touch →
                 </Button>
               </div>
             </Stack>
@@ -327,7 +327,7 @@ export default function Home() {
                         eventData={{ tile: tile.accent }}
                       >
                         <Link href={tile.href}>
-                          {tile.cta ?? `Visit ${tile.label}`} &rarr;
+                          {tile.cta ?? `Visit ${tile.label}`} →
                         </Link>
                       </TrackOnClick>
                     </Headline>
@@ -357,18 +357,18 @@ export default function Home() {
           <Kicker>About</Kicker>
           <Headline level={2}>Off the clock.</Headline>
           <Body>
-            Massachusetts &rarr; NYC &rarr; Chicago &rarr; LA.
-            When I&rsquo;m not building, I might be out on a run or
-            playing some video games. But most likely I&rsquo;m
+            Massachusetts → NYC → Chicago → LA.
+            When I’m not building, I might be out on a run or
+            playing some video games. But most likely I’m
             seated at my local AMC or curled up on my couch with
-            some TV. When I want to let loose, I&rsquo;m usually
+            some TV. When I want to let loose, I’m usually
             trying to find a concert.
           </Body>
           {/* "Read more →" goes to /about (the long version).
               TODO(creative-cv): drop a quiet inline link to
               /creative-cv here when that page ships, per the
               talent-scout audience rule. */}
-          <Link href="/about">Get to know me &rarr;</Link>
+          <Link href="/about">Get to know me →</Link>
         </Stack>
       </Section>
 
@@ -376,7 +376,7 @@ export default function Home() {
       <Section padding="md" bordered>
         <Stack gap="400">
           <Kicker>Get in touch</Kicker>
-          <Headline level={2}>Let&rsquo;s talk.</Headline>
+          <Headline level={2}>Let’s talk.</Headline>
           <Body>
             Hiring a senior PM in media or streaming? Want to compare
             notes on growth, data, AI, or anything else above? Pick a

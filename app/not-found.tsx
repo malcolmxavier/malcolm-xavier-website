@@ -41,12 +41,12 @@ export default function NotFound() {
           <Kicker>404</Kicker>
           <Display>You wandered off-script.</Display>
           <Body>
-            There&rsquo;s nothing at this URL. Maybe one of these
+            There’s nothing at this URL. Maybe one of these
             will get you where you meant to go:
           </Body>
           <Stack gap="300" align="start">
-            <Link href="/">Home &rarr;</Link>
-            <Link href="/resume">Review my resume &rarr;</Link>
+            <Link href="/">Home →</Link>
+            <Link href="/resume">Review my resume →</Link>
           </Stack>
         </Stack>
       </Section>

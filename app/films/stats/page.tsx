@@ -80,7 +80,7 @@ export async function generateMetadata({
   return {
     title: "Film stats",
     description:
-      "Malcolm Xavier's film corpus by the numbers—genres, world cinema, studios, franchises, the theatrical premium, and the rhythm of a watching year.",
+      "Malcolm Xavier’s film corpus by the numbers—genres, world cinema, studios, franchises, the theatrical premium, and the rhythm of a watching year.",
     alternates: { canonical: "/films/stats" },
     robots: filtered ? { index: false, follow: true } : undefined,
     openGraph: {
@@ -95,7 +95,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       title: "Film stats—Malcolm Xavier",
       description:
-        "The stats behind the film corpus: genres, world cinema, studios, franchises, and a watching year's rhythm.",
+        "The stats behind the film corpus: genres, world cinema, studios, franchises, and a watching year’s rhythm.",
       images: ["/opengraph-image"],
     },
   };
@@ -217,7 +217,7 @@ export default async function FilmStatsPage({
     "@type": "CollectionPage",
     name: "Film stats",
     description:
-      "Aggregate statistics derived from Malcolm Xavier's film reviews: genres, world cinema, studios, franchises, release shape, and temporal rhythm.",
+      "Aggregate statistics derived from Malcolm Xavier’s film reviews: genres, world cinema, studios, franchises, release shape, and temporal rhythm.",
     url: pageUrl,
     inLanguage: "en-US",
     isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: SITE_URL },
@@ -639,7 +639,7 @@ export default async function FilmStatsPage({
               {s.youVsWorld.critics.hotTakes.length > 0 ? (
                 <div style={hotColsStyle}>
                   <DeltaList title="My hot takes (me ≫ critics)" rows={s.youVsWorld.critics.hotTakes} />
-                  <DeltaList title="Critics' darlings (critics ≫ me)" rows={s.youVsWorld.critics.darlings} />
+                  <DeltaList title="Critics’ darlings (critics ≫ me)" rows={s.youVsWorld.critics.darlings} />
                 </div>
               ) : null}
             </Tile>

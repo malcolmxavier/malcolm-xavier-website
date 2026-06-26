@@ -122,7 +122,7 @@ export default function FilmListsHub() {
               Every year I rank what I watched two ways. By scope—
               <strong>New Releases</strong> (premiered that year) versus{" "}
               <strong>Backlog</strong> (caught up on, recency bias be damned).
-              And by method—<strong>Editor&rsquo;s Cut</strong> (star rating
+              And by method—<strong>Editor’s Cut</strong> (star rating
               disregarded, fully editorialized) versus{" "}
               <strong>Ratings Cut</strong> (by the stars). Four takes on the
               same twelve months.

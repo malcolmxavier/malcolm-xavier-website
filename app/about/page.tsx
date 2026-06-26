@@ -137,8 +137,8 @@ export default function AboutPage() {
             <div>
               <Stack gap="500">
                 <Lede>
-                  I&rsquo;m a senior product manager and, like many PMs,
-                  my journey into product was non-linear. I'm a creative by trade
+                  I’m a senior product manager and, like many PMs,
+                  my journey into product was non-linear. I’m a creative by trade
                   and a child of the Internet era. My life has been defined by
                   drawing these threads together. I hold degrees in theater and law,
                   and have also studied music, studio art, web development, and data science.
@@ -196,24 +196,24 @@ export default function AboutPage() {
                 </Body>
 
                 <Body>
-                  When I'm not building, I'm probably out on a run or playing some video games
+                  When I’m not building, I’m probably out on a run or playing some video games
                   (I love a good puzzle, even outside of work). I watch 300 films and 100
                   seasons of television a year, and I release a new playlist each month.
-                  Outside of work, I'm usually at a theater (imagine my pitch for AMC Stubs
-                  A-List here); if I'm at home, I'm probably watching TV&mdash;anything
+                  Outside of work, I’m usually at a theater (imagine my pitch for AMC Stubs
+                  A-List here); if I’m at home, I’m probably watching TV—anything
                   from a new streaming hit, to a Housewives re-run, to the news, to an intense tennis match.
-                  When I want to let loose, I'm usually trying to find a concert
+                  When I want to let loose, I’m usually trying to find a concert
                   or a dancefloor. I love a great dinner and a cheeky martini, but the
                   dining experience is the most important part (you can take the boy out of
-                  the hospitality industry...)
+                  the hospitality industry…)
                 </Body>
 
                 <Body>
-                  Right now I&rsquo;m interviewing&mdash;looking
+                  Right now I’m interviewing—looking
                   for senior PM roles in media and streaming,
                   ideally somewhere that takes both the growth side
                   and the editorial side seriously. If that sounds
-                  like your team, I&rsquo;d love to{" "}
+                  like your team, I’d love to{" "}
                   <Link href={CONTACT.linkedin}>connect</Link>.
                 </Body>
               </Stack>
@@ -233,7 +233,7 @@ export default function AboutPage() {
               // distinguish it during landmark navigation. The inner
               // nav drops its label in turn so the two landmarks
               // don't double up with the same name.
-              aria-label="What I'm into"
+              aria-label="What I’m into"
               className="mt-10 lg:mt-0"
             >
               <Stack gap="500">
@@ -272,7 +272,7 @@ export default function AboutPage() {
                     landmarks with identical names that SR users
                     heard as duplicates. */}
                 <Stack gap="400" as="nav">
-                  <Kicker>What I&rsquo;m into</Kicker>
+                  <Kicker>What I’m into</Kicker>
                   <ul
                     role="list"
                     className="space-y-3"

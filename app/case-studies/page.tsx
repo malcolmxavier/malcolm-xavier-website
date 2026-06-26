@@ -217,7 +217,7 @@ function CaseStudyCard({ study }: { study: ResumeCaseStudy }) {
           href={study.href}
           aria-label={`Read the case study: ${study.title}`}
         >
-          Read the case study &rarr;
+          Read the case study →
         </Link>
         {study.liveHref && (
           <Link

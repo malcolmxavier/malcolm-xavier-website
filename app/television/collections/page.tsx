@@ -40,7 +40,7 @@ import {
 export const metadata: Metadata = {
   title: "Television Collections",
   description:
-    "The franchises and show families I've followed across a universe—Bravo, 9-1-1, Grey's Anatomy, and more—each with its own page of reviews.",
+    "The franchises and show families I’ve followed across a universe—Bravo, 9-1-1, Grey’s Anatomy, and more—each with its own page of reviews.",
   alternates: { canonical: "/television/collections" },
 };
 
@@ -72,9 +72,9 @@ export default function TvCollectionsHub() {
         <Section padding="md">
           <Stack gap="500">
             <Kicker accent>Television · Collections</Kicker>
-            <Display>Franchises and show families I&rsquo;ve logged.</Display>
+            <Display>Franchises and show families I’ve logged.</Display>
             <Lede wide>
-              The shows I&rsquo;ve followed across a franchise or universe,
+              The shows I’ve followed across a franchise or universe,
               grouped into their own pages of reviews. Some collections
               nest—the Bravo-verse holds the Real Housewives and Vanderpump
               Rules families inside it.

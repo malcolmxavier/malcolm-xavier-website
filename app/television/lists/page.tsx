@@ -127,7 +127,7 @@ export default function TvListsHub() {
               <strong>New Releases</strong> (seasons that aired that year)
               versus <strong>Backlog</strong> (older seasons I caught up on,
               recency bias be damned). And by method—
-              <strong>Editor&rsquo;s Cut</strong> (star rating disregarded,
+              <strong>Editor’s Cut</strong> (star rating disregarded,
               fully editorialized) versus <strong>Ratings Cut</strong> (by the
               stars). Ranked by season, since a great season is the unit that
               matters.

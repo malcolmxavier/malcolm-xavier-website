@@ -83,7 +83,7 @@ import { CaseStudyCarousel } from "./CaseStudyCarousel";
 // on LinkedIn unfurled with the sitewide stub title and no per-page
 // description. (2026-04-29 /full-review, a-per-page-og-twitter.)
 const RESUME_DESCRIPTION =
-  "Malcolm Xavier's web resume. Senior PM with growth, data, and AI work across media and streaming. Currently interviewing. Download PDF or book a call.";
+  "Malcolm Xavier’s web resume. Senior PM with growth, data, and AI work across media and streaming. Currently interviewing. Download PDF or book a call.";
 const RESUME_OG_TITLE = "Malcolm Xavier · Senior PM Resume";
 
 export const metadata: Metadata = {
@@ -432,7 +432,7 @@ const TOC_ITEMS: TocItem[] = [
   { href: "#work-experience", prefix: "01", label: "Work experience" },
   { href: "#education", prefix: "02", label: "Education" },
   { href: "#case-studies", prefix: "03", label: "Case studies" },
-  { href: "#contact", label: "Let's talk" },
+  { href: "#contact", label: "Let’s talk" },
 ];
 
 function ResumeTableOfContents() {
@@ -691,10 +691,10 @@ export default function ResumePage() {
               m-resume-closing-cta-flat from the 2026-04-29
               /full-review. */}
           <Stack gap="400" align="start">
-            <Headline level={2}>Let&apos;s talk.</Headline>
+            <Headline level={2}>Let’s talk.</Headline>
             <Body>
-              If you&apos;re hiring for a Senior PM in media, publishing, or
-              streaming—or you&apos;d just like to compare notes—LinkedIn
+              If you’re hiring for a Senior PM in media, publishing, or
+              streaming—or you’d just like to compare notes—LinkedIn
               is fastest. Or send an{" "}
               <TrackOnClick
                 event={ANALYTICS_EVENTS.EMAIL_CLICK}

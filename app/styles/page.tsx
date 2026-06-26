@@ -18,7 +18,7 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
-const HERO_COPY = "Senior product manager with an artist's eye.";
+const HERO_COPY = "Senior product manager with an artist’s eye.";
 const BODY_COPY =
   "Body copy renders here. The work happens at this size — five lines, fifteen lines, fifty. Looking for legibility, voice, and the absence of fatigue. Spaces between letters, the thickness of a stem, the way a comma falls.";
 const KICKER = "Currently interviewing · LA · open to media & streaming";
@@ -46,7 +46,7 @@ const SUBBRANDS: SubBrand[] = [
   { name: "Newsletter", slug: "newsletter", color: "green", hero: "Every Sunday morning, a few hundred words.", kicker: "Newsletter · weekly" },
   { name: "Film", slug: "film", color: "orange", hero: "Last thing I watched. What I made of it.", kicker: "Film · via Letterboxd" },
   { name: "TV", slug: "tv", color: "blue", hero: "Episodes worth your time.", kicker: "TV · via Serializd" },
-  { name: "Music", slug: "music", color: "purple", hero: "Things I've been listening to lately.", kicker: "Music · via Spotify" },
+  { name: "Music", slug: "music", color: "purple", hero: "Things I’ve been listening to lately.", kicker: "Music · via Spotify" },
   { name: "Games", slug: "games", color: "red", hero: "Played, finished, recommended.", kicker: "Games" },
   { name: "Books", slug: "books", color: "yellow", hero: "Reading, currently.", kicker: "Books · via StoryGraph" },
   { name: "Podcast", slug: "podcast", color: "pink", hero: "Conversations worth pressing play on.", kicker: "Podcast" },
@@ -315,7 +315,7 @@ export default function StylesPreview() {
       {/* ─── Section 02: Sub-brand cluster ──────────────────────── */}
       <Section
         title="02 · Sub-brand cluster — Roboto Mono display + Roboto Slab body"
-        subtitle="Sub-brand pages (Newsletter, Film, TV, Music, Games, Books, Podcast) get Roboto Mono for display headlines (early-internet/terminal voice) and Roboto Slab for body (warm slab serif for the long read). Mirrors what Substack serves — Malcolm's publication will flip to match."
+        subtitle="Sub-brand pages (Newsletter, Film, TV, Music, Games, Books, Podcast) get Roboto Mono for display headlines (early-internet/terminal voice) and Roboto Slab for body (warm slab serif for the long read). Mirrors what Substack serves — Malcolm’s publication will flip to match."
       >
         <div className="space-y-8" data-subbrand="newsletter">
           <p

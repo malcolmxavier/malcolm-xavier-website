@@ -322,7 +322,7 @@ export default async function FilmGenrePage({
                   (the genre's whole-corpus total, not the filtered
                   totalResults). */}
             <Lede wide>
-              I&rsquo;ve logged {summary.genreDistribution[genre] ?? 0}{" "}
+              I’ve logged {summary.genreDistribution[genre] ?? 0}{" "}
               {genre === "TV Movie"
                 ? "TV movies"
                 : `${genre.toLowerCase()} films`}{" "}
