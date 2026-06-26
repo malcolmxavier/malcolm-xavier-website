@@ -14,6 +14,12 @@
 //     These return JSON, not HTML, but disallowing them keeps the
 //     crawl budget focused on real content.
 //
+//   - /*/facet-search — the three typeahead endpoints behind the
+//     filter omniboxes (films, television, connected). They return
+//     application/json with no navigational content, so they sit in
+//     the same "don't burn crawl budget on JSON" bucket as /api/* —
+//     they just live outside the /api/ prefix by route convention.
+//
 // Reference: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots
 // ─────────────────────────────────────────────────────────────────
 
@@ -24,7 +30,13 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/banner/", "/api/"],
+      disallow: [
+        "/banner/",
+        "/api/",
+        "/films/reviews/facet-search",
+        "/television/reviews/facet-search",
+        "/stats/connected/facet-search",
+      ],
     },
     // Point crawlers at the sitemap so they don't have to discover
     // routes by walking links. Next.js generates /sitemap.xml from

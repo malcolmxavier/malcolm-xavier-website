@@ -65,7 +65,7 @@ type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 export const metadata: Metadata = {
   title: "Television stats",
   description:
-    "The stats behind the television corpus—what Malcolm Xavier logs and how he rates it across shows, seasons, and episodes: genres, networks, world cinema, creators, and the rhythm of a watching year.",
+    "Malcolm Xavier's TV corpus by the numbers—genres, networks, world cinema, creators, and the rhythm of a watching year, logged by show, season, and episode.",
   alternates: { canonical: "/television/stats" },
   openGraph: {
     title: "Television stats—Malcolm Xavier",
@@ -192,7 +192,7 @@ export default async function TelevisionStatsPage({
       "Aggregate statistics derived from Malcolm Xavier's television reviews across shows, seasons, and episodes: genres, networks, creators, world cinema, and temporal rhythm.",
     url: pageUrl,
     inLanguage: "en-US",
-    isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website` },
+    isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: SITE_URL },
     author: { "@type": "Person", name: "Malcolm Xavier", "@id": `${SITE_URL}/#person` },
   };
 

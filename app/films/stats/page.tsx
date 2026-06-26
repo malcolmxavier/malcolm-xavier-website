@@ -92,7 +92,7 @@ export async function generateMetadata({
   return {
     title: "Film stats",
     description:
-      "The stats behind the film corpus—what Malcolm Xavier logs and how he rates it: genres, world cinema, studios, franchises, the theatrical premium, and the rhythm of a watching year.",
+      "Malcolm Xavier's film corpus by the numbers—genres, world cinema, studios, franchises, the theatrical premium, and the rhythm of a watching year.",
     alternates: { canonical: "/films/stats" },
     robots: filtered ? { index: false, follow: true } : undefined,
     openGraph: {
@@ -232,7 +232,7 @@ export default async function FilmStatsPage({
       "Aggregate statistics derived from Malcolm Xavier's film reviews: genres, world cinema, studios, franchises, release shape, and temporal rhythm.",
     url: pageUrl,
     inLanguage: "en-US",
-    isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website` },
+    isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: SITE_URL },
     author: { "@type": "Person", name: "Malcolm Xavier", "@id": `${SITE_URL}/#person` },
   };
 
