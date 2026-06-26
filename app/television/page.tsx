@@ -74,7 +74,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Television—Malcolm Xavier",
     description:
-      "What I'm mid-watch on now, my favorite series, and every review.",
+      "What I’m mid-watch on now, my favorite series, and every review.",
     url: "/television",
     type: "website",
     images: ["/opengraph-image"],
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Television—Malcolm Xavier",
     description:
-      "What I'm mid-watch on now, my favorite series, and every review.",
+      "What I’m mid-watch on now, my favorite series, and every review.",
     images: ["/opengraph-image"],
   },
 };
@@ -326,8 +326,8 @@ export default function TelevisionLandingPage() {
                 </TrackOnClick>
               }
             >
-              Explore this page for a quick overview of what I&rsquo;ve watched recently, my
-              recommended picks, and my favorites&mdash;click through to search through all
+              Explore this page for a quick overview of what I’ve watched recently, my
+              recommended picks, and my favorites—click through to search through all
               my reviews or explore the data behind my taste.
             </HeroNote>
           </Stack>
@@ -401,7 +401,7 @@ export default function TelevisionLandingPage() {
             <Stack gap="400">
               <Kicker accent>Collections</Kicker>
               <Lede>
-                The shows I&rsquo;ve followed across a franchise or universe,
+                The shows I’ve followed across a franchise or universe,
                 grouped into their own pages—from the Bravo-verse to 9-1-1.
               </Lede>
               {/* Teaser cards: the biggest top-level families, each

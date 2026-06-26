@@ -152,7 +152,7 @@ function Hero() {
       who qualified for their first study within two weeks of signup)
       by 15%. The org had picked EQR as the leading indicator for
       both researcher-side completion and participant-side
-      retention&mdash;a single upstream signal that predicted health
+      retention—a single upstream signal that predicted health
       on both sides of the marketplace. The bet was that occupational
       targeting would lift it.
     </CaseStudyHero>
@@ -179,14 +179,14 @@ function BeatContext() {
           two-sided SaaS marketplace for user research. Researchers
           recruited participants, participants got paid for completed
           sessions, and the unit of value was a successfully-run study.
-          For the company&apos;s size, the analytics program was
+          For the company’s size, the analytics program was
           unusually mature: data scientists were embedded in product
           pods rather than centralized, and most meaningful product
           decisions were scoped as experiments, launched first to
           roughly 50% of users, and held or shipped based on the data.
         </p>
         <p>
-          I joined the Core pod (researcher-side flows&mdash;email
+          I joined the Core pod (researcher-side flows—email
           theming, multi-team org accounts, etc.) and later moved over
           to Matching, the platform pod that owned the core marketplace.
           My data background unlocked the move. Matching owned two pieces
@@ -215,11 +215,11 @@ function BeatOpportunity() {
       <Body>
         <p>
           The instinctive metrics for a research marketplace
-          (study completion, time-to-fill) are lagging&mdash;by the
+          (study completion, time-to-fill) are lagging—by the
           time they move, the participant or researcher is already
           either delighted or gone. The data science team had
           identified an upstream signal that predicted both:{" "}
-          <Emph>Early Qualification Rate</Emph>, or EQR&mdash;the
+          <Emph>Early Qualification Rate</Emph>, or EQR—the
           percentage of new participants who qualified for their
           first study within two weeks of signup. Higher EQR meant
           participants were materially more likely to complete a session,
@@ -234,17 +234,17 @@ function BeatOpportunity() {
         <p>
           The diagnostic was straightforward and uncomfortable. Too
           many new participants were entering screener funnels for
-          studies they weren&apos;t a fit for, being screened out,
+          studies they weren’t a fit for, being screened out,
           and disengaging. Researchers had only basic demographic
-          targeting available&mdash;location, age, gender&mdash;but
+          targeting available—location, age, gender—but
           their actual use cases (often B2B research) needed to filter
           on occupation and skills. So researchers had been doing it
           indirectly: writing screener questions like{" "}
-          <Emph>&ldquo;Are you a product manager?&rdquo;</Emph> and
+          <Emph>“Are you a product manager?”</Emph> and
           relying on the post-invitation screener to filter. The
           problem is that screener filtering happens{" "}
           <Emph>after</Emph>{" "}the invitation lands. By the time a
-          participant is told they don&apos;t qualify, they&apos;re
+          participant is told they don’t qualify, they’re
           already hopeful if not expectant that they do.
         </p>
       </Body>
@@ -277,7 +277,7 @@ function BeatDiscovery() {
       <EvidenceGrid>
         <EvidenceCard eyebrow="Researcher signal" title="Occupation and skills targeting would unblock B2B research.">
           Researchers consistently told us that occupational
-          targeting&mdash;and skills targeting, separately&mdash;would
+          targeting—and skills targeting, separately—would
           let them reach participants for their studies more
           efficiently. The screener-question workaround was a
           known tax, not an invisible one.
@@ -331,8 +331,8 @@ function BeatStrategy() {
           more likely to qualify, which would lift EQR directly.
           Second, participants would feel selected{" "}
           <Emph>for</Emph> rather than filtered{" "}
-          <Emph>out</Emph>&mdash;improving retention even in the
-          cases where they didn&apos;t ultimately fit a specific
+          <Emph>out</Emph>—improving retention even in the
+          cases where they didn’t ultimately fit a specific
           study.
         </p>
         <p>
@@ -342,7 +342,7 @@ function BeatStrategy() {
           targeting attribute mismatch, by contrast, is more or less
           invisible to the participant entirely. The first costs you
           retention almost immediately. The second costs you retention
-          over time if you don&apos;t implement other solutions (which
+          over time if you don’t implement other solutions (which
           is why we tended to iterative changes to batch size, cadence,
           and composition).
         </p>
@@ -366,7 +366,7 @@ function BeatExecution() {
     >
       <Body>
         <p>
-          The pods&apos; shipping cadence shaped the project as much
+          The pods’ shipping cadence shaped the project as much
           as the data did. We scoped each effort to a two-to-three
           week build and a two-to-three week live experiment. Experiments
           launched to roughly 50% of users, and we decided go or no-go from
@@ -412,7 +412,7 @@ function BeatExecution() {
           The pre-qualification on new attributes could only be
           fully proven out by adjustments to batch size and cadence.
           The more confident we were in the matching, the smaller
-          and less frequent the batches needed to be. But we couldn&apos;t
+          and less frequent the batches needed to be. But we couldn’t
           do this and ignore which participants were still inside
           their first two-week window. In this phase, the work shifted
           from feature releases to continuous iteration on the email
@@ -448,7 +448,7 @@ function BeatOutcomes() {
           An unrelated solution was also contributing to the rise in EQR 
           during this time. While I was still on Core, we had a
           fragile hypothesis: if we could increase usage of the{" "}
-          <Emph>&ldquo;invite past participants&rdquo;</Emph>{" "}
+          <Emph>“invite past participants”</Emph>{" "}
           feature, researchers would see better study outcomes. The
           data showed that researchers who used it had measurably
           better study outcomes; usage was surprisingly low.
@@ -460,8 +460,8 @@ function BeatOutcomes() {
           sessions confirmed it over a couple of weeks. We clarified the
           help text language for the feature, explaining what it was
           and how it worked, and tweaked the icon and its color as a
-          secondary fix. The whole thing&mdash;diagnosis, discovery,
-          build, ship&mdash;took about a month (fast for the
+          secondary fix. The whole thing—diagnosis, discovery,
+          build, ship—took about a month (fast for the
           pre-Claude-Code era). Re-recruitment usage rose 135%. When
           we began working on occupation and skills targeting, re-recruitment
           was already influencing EQR in a positive direction; the new releases
@@ -483,7 +483,7 @@ function BeatOutcomes() {
         <Stat
           big="+135%"
           eyebrow="Re-recruitment"
-          caption="Researcher usage of the &lsquo;invite past participants&rsquo; feature after a separate, one-month UX writing fix to an existing, but underused surface."
+          caption="Researcher usage of the ‘invite past participants’ feature after a separate, one-month UX writing fix to an existing, but underused surface."
         />
       </StatRow>
     </Beat>
@@ -510,8 +510,8 @@ function BeatReflection() {
     >
       <Body>
         <p>
-          The biggest leverage move at User Interviews wasn&apos;t
-          a feature in the traditional sense&mdash;it was changing{" "}
+          The biggest leverage move at User Interviews wasn’t
+          a feature in the traditional sense—it was changing{" "}
           <Emph>where</Emph> general qualification happened in the supply-side funnel.
           This holds true across all early-stage marketplaces.
         </p>
@@ -527,9 +527,9 @@ function BeatReflection() {
         </p>
         <p>
           Pre-qualifying via attribute targeting costs more
-          upfront&mdash;data sourcing, integration work,
-          participant-side adoption&mdash;but the benefit compounds in
-          the marketplace&apos;s favor over time. Every marketplace has its
+          upfront—data sourcing, integration work,
+          participant-side adoption—but the benefit compounds in
+          the marketplace’s favor over time. Every marketplace has its
           own version of this tradeoff. The lesson generalizes:
           be skeptical of downstream supply-side qualification, especially
           when the price is paid by your users.
@@ -555,7 +555,7 @@ function BeatReflection() {
           roadmap one program launch at a time, each launch a proof
           point for the bet and a vehicle for the next increment of
           executive buy-in. The re-recruitment side story is the
-          same lesson at smaller scale&mdash;a fragile hypothesis,
+          same lesson at smaller scale—a fragile hypothesis,
           a few discovery sessions, and a month of work outperformed
           several quarters of people not prioritizing investigation
           of a solution on the assumption that it would be complex.
@@ -571,17 +571,17 @@ function BeatReflection() {
             resume is the next logical step in the funnel. */}
         <p>
           Two next steps, if this is the kind of PM work
-          you&apos;re hiring for:{" "}
+          you’re hiring for:{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{ surface: "case-study-user-interviews-close", destination: "resume" }}
           >
-            <Link href="/resume">review my resume <span aria-hidden="true">&rarr;</span></Link>
+            <Link href="/resume">review my resume <span aria-hidden="true">→</span></Link>
           </TrackOnClick>
           .
         </p>
         <p className="text-[15px] text-[var(--text-caption)]">
-          Or, if you&apos;re ready to talk,{" "}
+          Or, if you’re ready to talk,{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-user-interviews-close" }}

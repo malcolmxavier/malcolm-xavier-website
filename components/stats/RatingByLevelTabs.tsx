@@ -93,7 +93,7 @@ export function RatingByLevelTabs({
               {ratingHrefs && !levelHrefs ? (
                 <>
                   {" "}
-                  Episode reviews live inside their show, so they aren&rsquo;t a
+                  Episode reviews live inside their show, so they aren’t a
                   separate filter in the reviews grid.
                 </>
               ) : null}

@@ -161,7 +161,7 @@ function Hero() {
         </TrackOnClick>
       </span>
       Personalization was the strategy. Identity was the missing
-      layer. People Inc.'s core hypothesis was that directly-owned user
+      layer. People Inc.’s core hypothesis was that directly-owned user
       relationships would beat reliance on search and social referrals.
       However, there was a structural gap that prevented testing of that hypothesis:
       the network of 40+ brands and 22M+ users had no standard user-account experience and was running
@@ -169,7 +169,7 @@ function Hero() {
       signals never reached the product. My nearly two years at People Inc.
       as senior PM for audience relationships meant{" "}
       <Emph roman>translating that gap into infrastructural bets leadership would buy
-      into</Emph>&mdash;surfaces, capabilities, and growth programs built in lockstep on a
+      into</Emph>—surfaces, capabilities, and growth programs built in lockstep on a
       pilot-to-network rollout cadence, with a multi-year identity, registration, and onboarding
       roadmap stewarded behind them. Across that arc, the
       network grew email revenue 33% year-over-year.
@@ -196,7 +196,7 @@ function BeatContext() {
     >
       <Body>
         <p>
-          People Inc. is &ldquo;America&apos;s largest publisher&rdquo;&mdash;the
+          People Inc. is “America’s largest publisher”—the
           consolidated entity formed when Dotdash and Meredith merged under IAC,
           since renamed from Dotdash Meredith. During my tenure from early 2024 to late 2025, the network spanned
           40+ brands and 22M+ users, with editorial properties ranging
@@ -204,19 +204,19 @@ function BeatContext() {
           Food & Wine, Allrecipes, and Investopedia, to name a few.
           I was hired into the product organization as senior PM for
           audience relationships. The written mandate was newsletter
-          migration work: moving the network&apos;s newsletter and
+          migration work: moving the network’s newsletter and
           sweepstakes experiences onto a shared MarTech stack as part
           of the post-merger consolidation. The implicit mandate was that
           I was being trusted to develop and drive the broader growth
-          vision&mdash;and the early days of the role were spent
+          vision—and the early days of the role were spent
           pitching that vision consistently until it became the actual
           shape of the work.
         </p>
         <p>
           The platform I walked into shaped the work that followed.
           The Overlay was the foundational onsite marketing surface
-          across the network&mdash;an engagement-triggered modal that
-          served a generic newsletter signup offer&mdash;and it ran on{" "}
+          across the network—an engagement-triggered modal that
+          served a generic newsletter signup offer—and it ran on{" "}
           <Code>Digioh</Code>, the marketing tool that read the rendered
           DOM for targeting. Acquisition was per-newsletter, with no
           concept of a user account underneath; the CDP existed
@@ -234,12 +234,12 @@ function BeatContext() {
           and three engineers, plus access to a platform designer
           on a project-by-project basis (I mostly delegated user research to
           her and mentored her as she refined her skills in this area).
-          Every other partner&mdash;data
+          Every other partner—data
           science, data operations, design operations, brand product teams, editorial leadership,
-          privacy, and legal (again, to name a few)&mdash;sat fully on another team and
-          contributed to my team's work as a result of my influence. Roughly halfway through
+          privacy, and legal (again, to name a few)—sat fully on another team and
+          contributed to my team’s work as a result of my influence. Roughly halfway through
           my tenure, a restructuring shifted my reporting
-          line, reset the team&apos;s resourcing, and reinforced the
+          line, reset the team’s resourcing, and reinforced the
           commitment to my vision for audience and engagement growth. Between Q4 2024 and Q1
           2025 the role moved from executing a backlog of marketing
           projects to driving a multi-year roadmap for identity,
@@ -305,7 +305,7 @@ function BeatContext() {
                 03 &middot; Scope of influence
               </div>
               <div className="mt-1 text-[12px] text-[var(--text-caption)]">
-                Sat on other teams, contributed to my team's work
+                Sat on other teams, contributed to my team’s work
               </div>
             </dt>
             <dd className="m-0 mt-3 md:mt-0 text-[15px] md:text-[16px] leading-[1.55] text-[var(--text-body)]">
@@ -347,29 +347,29 @@ function BeatOpportunity() {
       <Body>
         <p>
           The institutional rallying cry was{" "}
-          <Emph>&ldquo;jumping the wall&rdquo;</Emph>&mdash;the bet
-          that the brands&apos; sites should become destinations on
+          <Emph>“jumping the wall”</Emph>—the bet
+          that the brands’ sites should become destinations on
           their own terms, with directly-owned relationships that
-          didn&apos;t depend on Google referrals or social platforms
+          didn’t depend on Google referrals or social platforms
           surfacing the content. SEO and the emerging GEO (generative
           engine optimization) layer still mattered, but newsletters
           carried a different kind of weight in this thesis: the inbox
-          was framed as a rarefied, sacred space&mdash;a directly-owned
-          channel to the user that the platforms in between couldn&apos;t
+          was framed as a rarefied, sacred space—a directly-owned
+          channel to the user that the platforms in between couldn’t
           intermediate. Niche, topical content and personalization were
           the long-arc vision; the organization was bullish on both.
         </p>
         <p>
-          What leadership couldn&apos;t see was the infrastructure that
-          vision required. The CDP&apos;s behavioral signals lived in
+          What leadership couldn’t see was the infrastructure that
+          vision required. The CDP’s behavioral signals lived in
           analytics; they never reached the product or the newsletter
           experience in a way that could shape what a given user saw
-          next. The theory of change&mdash;personalize the site
-          experience, drive time on site, lift ad revenue&mdash;was
+          next. The theory of change—personalize the site
+          experience, drive time on site, lift ad revenue—was
           correct. The gap was that modern personalization runs on
           user-account infrastructure and user-controlled account
-          management, and the network's platform had neither. The vision was
-          right; the infrastructure shape underneath it didn&apos;t exist.
+          management, and the network’s platform had neither. The vision was
+          right; the infrastructure shape underneath it didn’t exist.
         </p>
         <p>
           The reality on the user side made the gap concrete. A
@@ -378,8 +378,8 @@ function BeatOpportunity() {
           to personalize what arrived when. On site, the newsletter
           signup units that popped up never acknowledged whether the
           user was already subscribed; you could be offered a
-          newsletter you&apos;d signed up for the week before, and the
-          signup flow itself wouldn&apos;t confirm what you already had.
+          newsletter you’d signed up for the week before, and the
+          signup flow itself wouldn’t confirm what you already had.
           The qualitative truth was widely known across the
           organization. What was missing was a clear, quant-driven roadmap
           of solutions that leadership could buy into.
@@ -429,33 +429,33 @@ function BeatDiscovery() {
         <EvidenceCard eyebrow="Qualitative" title="The inbox reality was known. What it needed was quantification.">
           The 20+ emails-per-day experience and generic signup units were widely
           discussed across the organization. What the business
-          couldn&apos;t justify was a change that risked the existing
+          couldn’t justify was a change that risked the existing
           revenue stream. User research on broad newsletter expectations
           (delegated to the platform designer, evaluative and
           unmoderated by default given our scope of work) reinforced
           the finding without surprising anyone. The harder lever was
           competitive: when three or four competitors had shipped a
           capability that read as modern table stakes, that became
-          quantifiable pressure&mdash;market benchmarking translated
+          quantifiable pressure—market benchmarking translated
           into something a leadership room could weigh against the
           status-quo revenue.
         </EvidenceCard>
         <EvidenceCard eyebrow="Quantitative" title="The DOM was missing classification data that the source HTML carried.">
           The network ran five content-classification systems, each represented
-          in our database and source HTML&mdash;document
+          in our database and source HTML—document
           type (core, list, commerce), page layout, revenue
           attribution, sitemap taxonomy, and a network-wide
           what-is-this-about taxonomy. Revenue modelling for every new marketing
           unit typically ran against the first three, but the primary onsite
           marketing tool (Digioh) only read the
           rendered DOM, not the source HTML. A separate integration
-          duplicated classification data from source into DOM&mdash;and
-          on inspection, that duplication wasn&apos;t happening on
+          duplicated classification data from source into DOM—and
+          on inspection, that duplication wasn’t happening on
           all documents. I modelled the gap against the source data
           and the deficit was visible: marketing was under-serving
           a meaningful share of users, with revenue left on the
           table. That model secured buy-in for the next layer of the
-          roadmap&mdash;targeting capability&mdash;and the trust it
+          roadmap—targeting capability—and the trust it
           brokered paved the way for the longer-arc identity and
           onboarding work.
         </EvidenceCard>
@@ -463,8 +463,8 @@ function BeatDiscovery() {
 
       <Body>
         <p>
-          The third piece of discovery wasn&apos;t about the user
-          experience or the platform&mdash;it was about how the
+          The third piece of discovery wasn’t about the user
+          experience or the platform—it was about how the
           organization itself shipped. Across every initiative, I
           documented intake, handoff, and delivery acceptance criteria,
           with PRDs nested under larger initiative milestones and a
@@ -503,16 +503,16 @@ function BeatStrategy() {
         <p>
           The bet was{" "}
           <Emph>co-shipping</Emph>. My team
-          wasn&apos;t plugging marketing programs into existing
+          wasn’t plugging marketing programs into existing
           capabilities and pre-built surfaces; it was building the
           surfaces and capabilities at the same time as the growth
           programs that proved them out. Each program landed when its
           capability landed, on the same release cadence, in a tight but
           modular sequence: this program needs this surface and this
           capability, so build them in lockstep. I stewarded the longer-arc bet
-          underneath that loop&mdash;the identity, registration, and onboarding
-          infrastructure underpinning every program&mdash;in
-          the background of the marketing organization&apos;s
+          underneath that loop—the identity, registration, and onboarding
+          infrastructure underpinning every program—in
+          the background of the marketing organization’s
           newsletter-program-launch roadmap, advanced one increment of
           buy-in at a time as each program proved the next part of
           the thesis.
@@ -522,7 +522,7 @@ function BeatStrategy() {
           feasible was a three-tier enablement pattern. The first tier
           decided which pages the{" "}<Code>Digioh</Code>{" "}script loaded
           on. The second tier decided which pages the empty{" "}<Code>div</Code>{" "}placements
-          were added to&mdash;each unit type had its
+          were added to—each unit type had its
           own implementation, but every one of them spoke the same
           empty-div-then-unit-injection contract so that the marketing team
           could iterate and ship new program creative for any units without
@@ -544,25 +544,25 @@ function BeatStrategy() {
           could ship when. A brand wanting to prioritize a program that
           relied on the new capability and surface had to prioritize
           enabling that capability and surface first. To that end, per-brand rollout was
-          governed by each brand team&apos;s own roadmap and capacity
-          as much as by the implementation&apos;s revenue impact on each brand. I
+          governed by each brand team’s own roadmap and capacity
+          as much as by the implementation’s revenue impact on each brand. I
           collaborated with marketing to develop the revenue models for each program,
-          then built and pitched each program's rollout plan, taking into account the
-          model projections and the constraints of each brand's roadmap. I gauged stakeholder
+          then built and pitched each program’s rollout plan, taking into account the
+          model projections and the constraints of each brand’s roadmap. I gauged stakeholder
           interest and buy-in early, usually off of a basic revenue model
-          that we'd iterate on as we got data from brand launches. Throughout the
+          that we’d iterate on as we got data from brand launches. Throughout the
           process, we also had to meet brand expectations regarding impacts on site performance,
           both as a dimension in its own right and as a downstream lever on revenue. As we got closer
           to release, I ran regular demos, office hours, and similar touchpoints to build alignment,
           gather any additional feedback, and secure buy-in on the rollout plan.
-          My team&apos;s capacity, including marketing, was the third sequencing factor.
+          My team’s capacity, including marketing, was the third sequencing factor.
         </p>
         <p>
-          For longer-term planning, I also mined other teams&apos; experiments; I was looking out for two things: free intel and possible work
+          For longer-term planning, I also mined other teams’ experiments; I was looking out for two things: free intel and possible work
           that could serve as a proxy for work my team wanted to do. In the latter case, we could leverage their data
           to build early models that would help us sequence certain work sooner (or even bypass it entirely). For example, when the People team announced
-          they&apos;d be testing login in the header for comments, I regularly checked in on their work and data to
-          move site registration up in my team&apos;s sequence with increased confidence and lower predicted effort.
+          they’d be testing login in the header for comments, I regularly checked in on their work and data to
+          move site registration up in my team’s sequence with increased confidence and lower predicted effort.
         </p>
       </Body>
 
@@ -594,7 +594,7 @@ function BeatStrategy() {
               caption={
                 <>
                   Only loads where configuration allows. The script
-                  bootstraps Digioh&mdash;it doesn&apos;t target users
+                  bootstraps Digioh—it doesn’t target users
                   or pick creative itself.
                 </>
               }
@@ -616,7 +616,7 @@ off: everywhere else`}
               subtitle="Engineering places the surfaces"
               caption={
                 <>
-                  Per surface, per page&mdash;page&nbsp;X gets
+                  Per surface, per page—page&nbsp;X gets
                   overlay&nbsp;+ toaster, page&nbsp;Y gets
                   overlay&nbsp;+ inline. Digioh targets these
                   placements to know where to inject.
@@ -708,7 +708,7 @@ off: everywhere else`}
         topical-affinity launch proved the personalization vision;
         a comments product earned a header navigation placement for account management.
         The identity, registration, and onboarding roadmap was multi-year by
-        design&mdash;it couldn&apos;t be sold as a single pitch&mdash;
+        design—it couldn’t be sold as a single pitch—
         so I sold it one program at a time, with each launch buying
         the next increment of executive buy-in for the work
         underneath.
@@ -749,21 +749,21 @@ function BeatZeroToOne() {
             wrap-strips-trailing-space trap. */}
         <p>
           <Emph>
-            What follows is a 0-to-1 across surfaces and capabilities, then a 1-to-<var>n</var> inside a single compounding program&mdash;together, the meta-0-to-1 the role was sized against.
+            What follows is a 0-to-1 across surfaces and capabilities, then a 1-to-<var>n</var> inside a single compounding program—together, the meta-0-to-1 the role was sized against.
           </Emph>
         </p>
         <p>
           Every capability, surface, and program followed the same
           shape: 0 to 1 at a pilot brand, then 1 to <var>n</var>{" "}
           across the network. The 0-to-1 half was capability
-          invention&mdash;surfaces, data plumbing, governance
-          patterns&mdash;done once. The 1-to-<var>n</var>{" "}half was
-          sequencing&mdash;brand roadmaps, capacity, revenue models,
-          demo cadence, override patterns&mdash;repeated per brand.
+          invention—surfaces, data plumbing, governance
+          patterns—done once. The 1-to-<var>n</var>{" "}half was
+          sequencing—brand roadmaps, capacity, revenue models,
+          demo cadence, override patterns—repeated per brand.
           Both halves had to land for a launch to count, and the
           work that survived handoff was the work that treated the
           second half as first-class from day one rather than as a
-          rollout afterthought. I&apos;d internalized the discipline at{" "}
+          rollout afterthought. I’d internalized the discipline at{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{ surface: "case-study-people-inc-body", destination: "case-study:user-interviews" }}
@@ -779,7 +779,7 @@ function BeatZeroToOne() {
           capability prerequisites, the inline-units misstep that
           hardened the brand-override pattern, the toaster +
           slide-in pivot that surfaced the unit-design discipline,
-          and Comments&mdash;the program that proved the identity
+          and Comments—the program that proved the identity
           bet had legs and seeded the email-journey work Follow
           This Topic (below) would lean on.
         </p>
@@ -791,10 +791,10 @@ function BeatZeroToOne() {
           sweepstakes experiences onto the shared MarTech stack,
           expanding Digioh from a test percentage of
           the network to the majority of sites, and standing up the
-          first new onsite marketing surface&mdash;a banner variant
-          that extended the CMS team&apos;s Sitewide Banner to trigger
+          first new onsite marketing surface—a banner variant
+          that extended the CMS team’s Sitewide Banner to trigger
           the Overlay on click. The Sitewide Banner shared the
-          editorial calendar with Editorial&apos;s planned campaigns,
+          editorial calendar with Editorial’s planned campaigns,
           so part of the work was a marketing-editorial coordination
           process for which page-by-page placements ran which day.
         </IterationCard>
@@ -802,9 +802,9 @@ function BeatZeroToOne() {
           The next planned unit was inline. Page-placement logic had
           come from a prior manual test in the CMS, and I assumed the
           per-brand approval was settled. We built against it. At demo
-          and rollout, brands rejected the placement logic&mdash;the
+          and rollout, brands rejected the placement logic—the
           per-brand need was disparate enough that the network default
-          didn&apos;t hold. The misstep landed exactly as a resourcing
+          didn’t hold. The misstep landed exactly as a resourcing
           realignment hit, and we recalibrated the roadmap to delay
           the rebuild. The lesson stayed:{" "}
           <Emph>pre-pitch placement logic brand-by-brand before
@@ -814,11 +814,11 @@ function BeatZeroToOne() {
         </IterationCard>
         <IterationCard lens="03" title="Toaster and slide-in pivot.">
           With the inline rebuild deferred, we picked up a toaster
-          unit (injected into another team&apos;s bottom-sheet
+          unit (injected into another team’s bottom-sheet
           technology after they offered to build the integration for
           us to accelerate post-resource-restructuring) and a slide-in unit for
           event marketing. We tested the toaster for commerce-page
-          signups&mdash;driving newsletter enrollment that triggered
+          signups—driving newsletter enrollment that triggered
           purchase-reminder notifications for items a user was
           researching. The slide-in tested against the Food & Wine
           Classic and surfaced a previously-invisible variable: unit
@@ -893,13 +893,13 @@ function BeatOneToN() {
         </p>
         <p>
           <Emph>Follow This Topic</Emph>{" "}was the topical-affinity
-          bet&mdash;the &ldquo;personalized&rdquo; newsletter
+          bet—the “personalized” newsletter
           program and the launch the rest of the platform was built
           for. The hypothesis from our user research was that
           readers wanted topical newsletter subscriptions surfaced
           at two moments in the article: at the top of the page
           before they read, then partway through the article body
-          as a reminder once they&apos;d engaged meaningfully with
+          as a reminder once they’d engaged meaningfully with
           the content. We built the MVP on Travel + Leisure. The{" "}
           <Code>Digioh</Code>{" "}script was already on the majority
           of the site from the platform expansion; we placed a
@@ -922,17 +922,17 @@ function BeatOneToN() {
         <p>
           The model clarified which topics would drive enough
           impact to justify the placement. However, it required a
-          load-bearing risk-mitigation move&mdash;every topical
-          signup also enrolled the user in the brand&apos;s
+          load-bearing risk-mitigation move—every topical
+          signup also enrolled the user in the brand’s
           flagship newsletter, so the program protected the
           existing revenue base while we tested whether a topical
           channel could pay for itself. I led the partnership
           between brand marketing and editorial leadership to set
           the final taxonomy list, the offer and creative
           combinations, and the email journey that
-          followed&mdash;subject lines, sequence, content
+          followed—subject lines, sequence, content
           selection. The retention-side care put us ahead of where
-          we thought we&apos;d be on proving out personalization,
+          we thought we’d be on proving out personalization,
           and those outcomes became part of our headline in our
           pitches to brands for post-MVP adoption.
         </p>
@@ -947,7 +947,7 @@ function BeatOneToN() {
           only sometimes made it to the DOM, per the discovery
           noted above. We partnered with the SEO team to extract
           the classification cleanly into the DOM as numeric IDs
-          (the SEO team&apos;s concern was that inserting
+          (the SEO team’s concern was that inserting
           human-readable taxonomy strings would degrade SERP performance
           through unintended keyword stuffing; numeric IDs solved
           that without losing the targeting signal). This had a
@@ -958,7 +958,7 @@ function BeatOneToN() {
         <p>
           <Emph>On the email side</Emph>:{" "}<Code>Iterable</Code>{" "}
           received content classification via{" "}
-          <Code>Hightouch</Code>&apos;s reverse ETL, and a
+          <Code>Hightouch</Code>’s reverse ETL, and a
           transformation in that step was producing content
           mismatches between what should have qualified for a send
           and what actually did. A sub-initiative inside Follow
@@ -977,7 +977,7 @@ function BeatOneToN() {
 
         <p>
           Stepping up a level: this program and the 0-to-1 foundation before
-          it were a meta-0-to-1&mdash;proof that the personalization
+          it were a meta-0-to-1—proof that the personalization
           bet could be successfully executed. At this meta level, 1-to-<var>n</var>{" "}
           was the longer-running personalization roadmap the
           platform had been built to enable, sequenced behind the
@@ -1012,9 +1012,9 @@ function BeatOutcomes() {
     >
       <Body>
         <p>
-          The network grew email revenue 33% year-over-year during my tenure&mdash;against
+          The network grew email revenue 33% year-over-year during my tenure—against
           a ~12% YoY baseline the year prior. The growth-program portfolio I
-          owned roughly tripled the network&apos;s email-revenue growth rate
+          owned roughly tripled the network’s email-revenue growth rate
           above baseline. That portfolio spanned capability and surface development,
           marketing-campaign work, and newsletter-content development across
           program launches.
@@ -1029,7 +1029,7 @@ function BeatOutcomes() {
         <Stat
           big="33%"
           eyebrow="Email revenue"
-          caption="Network-wide year-over-year lift in email revenue across People Inc.'s 40+ brands, blending ad revenue from site traffic and in-newsletter placements. A whole-marketing-organization outcome—the figure the role's growth-program work was sized against."
+          caption="Network-wide year-over-year lift in email revenue across People Inc.’s 40+ brands, blending ad revenue from site traffic and in-newsletter placements. A whole-marketing-organization outcome—the figure the role’s growth-program work was sized against."
           bigClassName="text-[44px] md:text-[56px] lg:text-[68px]"
         />
         <Stat
@@ -1044,7 +1044,7 @@ function BeatOutcomes() {
         <p>
           <Emph>
             The growth-program portfolio I owned roughly tripled the
-            network&apos;s email-revenue growth rate during my tenure&mdash;33% YoY
+            network’s email-revenue growth rate during my tenure—33% YoY
             against a ~12% baseline the year prior. Inside that portfolio, the
             comments product I architected on People opened a new $2.2M annual
             revenue channel.
@@ -1076,8 +1076,8 @@ function BeatOutcomes() {
       <Body>
         <p>
           <Emph>
-            Follow This Topic&mdash;the topical-affinity newsletter program I built
-            end-to-end on Travel + Leisure&mdash;drove a 3x topical-open rate among
+            Follow This Topic—the topical-affinity newsletter program I built
+            end-to-end on Travel + Leisure—drove a 3x topical-open rate among
             signups and 2x customer LTV against the flagship-newsletter average.
           </Emph>
         </p>
@@ -1086,7 +1086,7 @@ function BeatOutcomes() {
           Every program in this case study moved through the same
           loop: build the MVP on one brand, prove it on revenue
           and site performance, then steward adoption brand-by-brand
-          against each brand&apos;s own roadmap and capacity.
+          against each brand’s own roadmap and capacity.
         </p>
       </Body>
     </Beat>
@@ -1111,16 +1111,16 @@ function BeatReflection() {
     >
       <Body>
         <p>
-          People Inc.'s thesis was right&mdash;directly-owned user
+          People Inc.’s thesis was right—directly-owned user
           relationships, deeper engagement, ad revenue lift through
-          time on site&mdash;but leadership couldn&apos;t
-          see that the strategy required a technical foundation that didn&apos;t exist.
+          time on site—but leadership couldn’t
+          see that the strategy required a technical foundation that didn’t exist.
           You cannot personalize effectively without identity. You cannot
           run topical-affinity programs effectively without a data
           platform that appropriately aligns content classification
           across each tool that operationalizes the experience.
           The vision was sound; the infrastructural shape underneath it
-          was the gap; closing that gap was the work. I&apos;d run the
+          was the gap; closing that gap was the work. I’d run the
           pattern before at{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
@@ -1129,18 +1129,18 @@ function BeatReflection() {
             <Link href="/case-studies/muck-rack">Muck Rack</Link>
           </TrackOnClick>
           , where standardizing the content schema was the precondition for
-          everything the platform&apos;s search and discovery features
+          everything the platform’s search and discovery features
           built on top of it.
         </p>
         <p>
           The skills I honed in this role were all about{" "}
           <Emph>operationalizing vision into strategy and strategy into execution</Emph>.
           The first part looked like collaborating with cross-functional teams and leadership to continuously
-          refine the strategy&mdash;translating it into the modular sequence of capabilities,
+          refine the strategy—translating it into the modular sequence of capabilities,
           surfaces, and programs that drove impact across the line of business.
           The second part looked like developing artifacts, processes, and systems that supported the execution of the strategy.
-          All of this shaped me into a more strategic product leader who isn&apos;t afraid to roll up his sleeves
-          and get his hands dirty. That&apos;s the posture I bring to any media company driving personalization bets through platform development.
+          All of this shaped me into a more strategic product leader who isn’t afraid to roll up his sleeves
+          and get his hands dirty. That’s the posture I bring to any media company driving personalization bets through platform development.
         </p>
         {/* Case-study close — exit ramp for the highest-intent
             reader. Same recruiter-funnel handoff across all 5 work-
@@ -1151,17 +1151,17 @@ function BeatReflection() {
             Calendly is here for the already-ready reader. */}
         <p>
           Two next steps, if this is the kind of PM work
-          you&apos;re hiring for:{" "}
+          you’re hiring for:{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{ surface: "case-study-people-inc-close", destination: "resume" }}
           >
-            <Link href="/resume">review my resume <span aria-hidden="true">&rarr;</span></Link>
+            <Link href="/resume">review my resume <span aria-hidden="true">→</span></Link>
           </TrackOnClick>
           .
         </p>
         <p className="text-[15px] text-[var(--text-caption)]">
-          Or, if you&apos;re ready to talk,{" "}
+          Or, if you’re ready to talk,{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-people-inc-close" }}

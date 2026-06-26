@@ -49,7 +49,7 @@ function Banner() {
   return (
     <div
       role="img"
-      aria-label="Senior product manager, with an artist's eye."
+      aria-label="Senior product manager, with an artist’s eye."
       style={{
         position: "relative",
         width: BANNER_WIDTH,
@@ -80,7 +80,7 @@ function Banner() {
       >
         <span style={{ display: "block" }}>Senior product manager,</span>
         <span className="italic-kern" style={{ display: "block", fontStyle: "italic" }}>
-          with an artist&rsquo;s eye.
+          with an artist’s eye.
         </span>
       </div>
     </div>

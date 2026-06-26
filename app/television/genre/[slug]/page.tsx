@@ -269,7 +269,7 @@ export default async function TvGenrePage({
               Every {genreInProse(genre)} show, every level, every review.
             </Display>
             <Lede wide>
-              I&apos;ve logged {summary.genreDistribution[genre] ?? 0}{" "}
+              I’ve logged {summary.genreDistribution[genre] ?? 0}{" "}
               {genreInProse(genre)}{" "}
               {(summary.genreDistribution[genre] ?? 0) === 1 ? "show" : "shows"}{" "}
               on Serializd. Open any card for the full hierarchy—show review,

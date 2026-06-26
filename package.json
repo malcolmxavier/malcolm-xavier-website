@@ -12,6 +12,7 @@
     "build:offline": "SPOTIFY_OFFLINE=1 next build",
     "start": "next start",
     "lint": "eslint",
+    "typography:check": "node scripts/check-typography.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "tokens:build": "node scripts/build-tokens.mjs",

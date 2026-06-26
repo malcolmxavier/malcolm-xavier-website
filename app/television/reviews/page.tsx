@@ -412,7 +412,7 @@ export default async function TelevisionPage({
         <Section padding="lg">
           <Stack gap="500">
             <Kicker accent>Television</Kicker>
-            <Display>Don&apos;t change the channel.</Display>
+            <Display>Don’t change the channel.</Display>
             {/* Cluster sub-nav, inline in the hero's left column — part of
                   what makes this column the taller of the two, which the
                   stats chart on the right stretches to match. "Reviews" is

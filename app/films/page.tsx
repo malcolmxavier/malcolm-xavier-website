@@ -77,7 +77,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Films—Malcolm Xavier",
     description:
-      "What I'm watching now, my all-time favorites, my ranked lists, and every review.",
+      "What I’m watching now, my all-time favorites, my ranked lists, and every review.",
     url: "/films",
     type: "website",
     images: ["/opengraph-image"],
@@ -86,7 +86,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Films—Malcolm Xavier",
     description:
-      "What I'm watching now, my all-time favorites, my ranked lists, and every review.",
+      "What I’m watching now, my all-time favorites, my ranked lists, and every review.",
     images: ["/opengraph-image"],
   },
 };
@@ -247,8 +247,8 @@ export default function FilmsLandingPage() {
                 the "what to do here" line drops below the rail as a quiet
                 HeroNote. */}
             <Lede wide>
-              I watch north of 300 new-to-me films a year&mdash;dramas, thrillers, documentaries, and
-              everything in between&mdash;and write up nearly all of them.
+              I watch north of 300 new-to-me films a year—dramas, thrillers, documentaries, and
+              everything in between—and write up nearly all of them.
             </Lede>
             {/* Cluster sub-nav, inline in the hero. Overview is the
                 current page; Reviews links to the corpus — the on-site
@@ -278,8 +278,8 @@ export default function FilmsLandingPage() {
                 </TrackOnClick>
               }
             >
-              Explore this page for a quick overview of what I&rsquo;ve watched recently, my
-              recommended picks, and my favorites&mdash;click through to search through all
+              Explore this page for a quick overview of what I’ve watched recently, my
+              recommended picks, and my favorites—click through to search through all
               my reviews or explore the data behind my taste.
             </HeroNote>
           </Stack>
@@ -347,7 +347,7 @@ export default function FilmsLandingPage() {
               <Kicker accent>Collections</Kicker>
               <Lede>
                 Check out my thoughts on your favorite franchises and sagas. Sorry to report
-                I haven&rsquo;t watched Star Wars&hellip; yet&hellip;
+                I haven’t watched Star Wars… yet…
               </Lede>
               {/* Teaser cards: the biggest franchise families, each
                   deep-linking straight to its leaf collection route (not

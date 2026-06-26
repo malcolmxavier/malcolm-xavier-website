@@ -177,9 +177,9 @@ export default async function TvCollectionPage({ params }: RouteArgs) {
         <Section padding="md">
           <Stack gap="500">
             <Kicker accent>Television · {name}</Kicker>
-            <Display>Every {inlineName(name)} show I&rsquo;ve logged.</Display>
+            <Display>Every {inlineName(name)} show I’ve logged.</Display>
             <Lede wide>
-              I&rsquo;ve logged {count} {inlineName(name)} shows. Open any card
+              I’ve logged {count} {inlineName(name)} shows. Open any card
               for the full review history.
             </Lede>
             {/* Hierarchy context — a subcollection links up to its parent;

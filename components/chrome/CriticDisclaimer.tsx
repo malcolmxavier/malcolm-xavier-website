@@ -55,7 +55,7 @@ export function CriticDisclaimer() {
       }}
     >
       Most art is spiritually 5-star and should be celebrated. My
-      taste shouldn&rsquo;t be misconstrued as disparaging, even
+      taste shouldn’t be misconstrued as disparaging, even
       when the opinion is critical.
     </p>
   );

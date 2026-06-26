@@ -96,7 +96,7 @@ const robotoMono = Roboto_Mono({
 import { SITE_URL, SITE_NAME } from "@/lib/site-config";
 
 const SITE_DESCRIPTION =
-  "Senior product manager with an artist's eye. Growth and data in tech, media, and streaming. AI-native, MS in Law, plus a theater background that shows.";
+  "Senior product manager with an artist’s eye. Growth and data in tech, media, and streaming. AI-native, MS in Law, plus a theater background that shows.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

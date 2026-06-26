@@ -67,7 +67,7 @@ const TOC_ITEMS: TocItem[] = [
   { href: "#refresh", prefix: "04", label: "Refresh Cadence" },
   { href: "#polite", prefix: "05", label: "Polite Client" },
   { href: "#automated-editorial", prefix: "06", label: "Automated Editorial" },
-  { href: "#live", prefix: "07", label: "What's Live" },
+  { href: "#live", prefix: "07", label: "What’s Live" },
 ];
 
 export default function FeedTrilogyCaseStudy() {
@@ -112,7 +112,7 @@ function Hero() {
   return (
     <CaseStudyHero
       title="Architecture under contract"
-      subtitle="How three integrations stay online when their upstreams don't."
+      subtitle="How three integrations stay online when their upstreams don’t."
       readMin={10}
       updatedDate={formatLastUpdated()}
     >
@@ -156,7 +156,7 @@ function CaseStudyTLDR() {
       className={`${CASE_STUDY_WIDTH} pt-4 pb-6 md:pt-6 md:pb-9`}
     >
       <div className="mb-3 md:mb-4">
-        <CaseStudyKicker as="h2">If you&apos;re skimming</CaseStudyKicker>
+        <CaseStudyKicker as="h2">If you’re skimming</CaseStudyKicker>
       </div>
       <Body>
         <p>
@@ -166,7 +166,7 @@ function CaseStudyTLDR() {
           different upstreams agreed to that contract.
         </p>
         <ul className="m-0 pl-5 list-disc marker:text-[var(--text-caption)] flex flex-col gap-2">
-          <li>The render contract shouldn&apos;t know how the data got there.</li>
+          <li>The render contract shouldn’t know how the data got there.</li>
           <li>Editorial intent belongs upstream of the writer, not the reader.</li>
           <li>Unofficial integrations call for politeness, not workarounds.</li>
         </ul>
@@ -190,12 +190,12 @@ function BeatBrief() {
           <Code>/television</Code>—needed data from three completely different
           upstreams, plus TMDB for metadata enrichment on two of them. The
           brief: ship them under one rendering pattern so a visitor lands on a
-          page that doesn&apos;t know—and doesn&apos;t need to know—which
+          page that doesn’t know—and doesn’t need to know—which
           upstream fed it. Spotify is the easy case structurally (real OAuth
           API). Letterboxd has no API. Serializd has a publicly-callable
           internal endpoint that no one promised to keep stable. TMDB is the
           easy supporting case (public API, API-key auth), but it only matters
-          if the upstream it&apos;s enriching landed cleanly.
+          if the upstream it’s enriching landed cleanly.
         </p>
         <p>
           <TrackOnClick
@@ -230,7 +230,7 @@ function BeatSources() {
         <p>
           Three pages that look the same to a visitor sit on three
           architectures that look nothing alike. Likeness at the page level
-          doesn&apos;t require likeness at the integration level—and forcing
+          doesn’t require likeness at the integration level—and forcing
           it would have meant compromising either the page or one of the
           upstreams.
         </p>
@@ -240,7 +240,7 @@ function BeatSources() {
 
       <Body>
         <p>
-          <Emph>Spotify is the easy case structurally</Emph>. There&apos;s an
+          <Emph>Spotify is the easy case structurally</Emph>. There’s an
           API, the auth flow is documented, and the data shapes are generally stable.
           The hard part was operational—rate limits,
           deprecations—and is covered in the{" "}
@@ -262,23 +262,23 @@ function BeatSources() {
           CSV export a user can request by hand from account settings (ground
           truth, complete history, manual, ZIPped), and an RSS feed of
           recent activity (last ~50 entries, public, fast, machine-readable,
-          but truncated to the recent window). This site's integration treats a CSV as the
+          but truncated to the recent window). This site’s integration treats a CSV as the
           seed and the RSS as the delta. The CSV bootstraps the catalog; RSS keeps
-          it warm. The two fix each other&apos;s blind spots.
+          it warm. The two fix each other’s blind spots.
         </p>
         <p>
           <Emph>Serializd is the awkward middle</Emph>. No documented API,
           but the site itself is a React app that talks to a public-by-design
           endpoint at <Code>serializd.onrender.com</Code>. Anyone with
           browser DevTools can see the URL. The integration uses it the same
-          way the site&apos;s own frontend does, with a few extra
+          way the site’s own frontend does, with a few extra
           courtesies. More on that a couple of sections below.
         </p>
         <p>
           <Emph>TMDB is the reference layer</Emph>. A stateless catalog API
           with an API-key auth model and rate limits generous enough to
           never matter at this scale. It supplies the metadata the other
-          three sources don&apos;t return themselves—poster art, genre
+          three sources don’t return themselves—poster art, genre
           taxonomy, episode counts, and the show-type classification downstream
           editorial logic depends on. TMDB has no cron of its own; it rides
           whichever pipeline is enriching new items. The other three sources
@@ -444,17 +444,17 @@ function BeatContract() {
           <Code>lib/feeds/_fixtures/&lt;service&gt;-snapshot.json</Code>.
           Zero live API calls per render; deterministic latency. The
           rate-limit incident that almost broke <Code>/music</Code>{" "}
-          couldn&apos;t break it again, because the page never talks to
+          couldn’t break it again, because the page never talks to
           Spotify in production. The same property protects{" "}
           <Code>/films</Code> from Letterboxd outages and{" "}
           <Code>/television</Code> from a Serializd 5xx.
         </p>
         <p>
           Each snapshot envelope carries the same four things: a{" "}
-          <Code>capturedAt</Code>{" "}ISO timestamp (used for &ldquo;data as
-          of&rdquo; UI captions and freshness diagnostics), a{" "}
+          <Code>capturedAt</Code>{" "}ISO timestamp (used for “data as
+          of” UI captions and freshness diagnostics), a{" "}
           <Code>summary</Code>{" "}block with the headline numbers pre-tallied so
-          the page doesn&apos;t have to total them up on every visit, the
+          the page doesn’t have to total them up on every visit, the
           full content list already in display order, and a lookup map so
           any <Code>/[slug]</Code> detail page can find its item instantly.
           Each reader implements the same three things: a schema-shape guard
@@ -462,14 +462,14 @@ function BeatContract() {
           in a render, a module-scoped cache that builds derived indices
           once and shares a lifetime with the snapshot itself, and a{" "}
           <Code>/api/&lt;service&gt;/health</Code>{" "}probe that answers
-          &ldquo;would a refresh work right now?&rdquo; in one call.
+          “would a refresh work right now?” in one call.
         </p>
         <p>
           The shared-lifetime detail is worth flagging. The cache holds the
           snapshot, the slug map, and the chronological position map for
           prev/next neighbor nav as one object. The
           alternative—evict the snapshot but keep the slug map—is a
-          class of bug that&apos;s easy to write, impossible to debug from
+          class of bug that’s easy to write, impossible to debug from
           the symptom, and trivially prevented by making them rise and fall
           together.
         </p>
@@ -477,9 +477,9 @@ function BeatContract() {
           The cost: every render is reading data that is, on average, half
           the cron interval old. For <Code>/music</Code>{" "}it could be days
           old. The pages are editorial, not realtime, so the freshness
-          budget is generous. The trade-off is that there&apos;s no
+          budget is generous. The trade-off is that there’s no
           moment-of-truth retrieval; a play-history change at T+0
-          doesn&apos;t appear at T+0. None of these surfaces need it.
+          doesn’t appear at T+0. None of these surfaces need it.
         </p>
       </Body>
     </Beat>
@@ -506,17 +506,17 @@ function BeatRefresh() {
           <Code>/me</Code> and <Code>/me/playlists</Code> buckets, call{" "}
           <Code>/api/spotify/snapshot</Code>, diff old vs new, write the new
           fixture. No cron. The 21-hour penalty box from case study #1 was
-          earned in dev, and Spotify&apos;s rate limiter is sticky and
+          earned in dev, and Spotify’s rate limiter is sticky and
           per-app—a cron firing during a dev iteration could chain into
           it. Manual gating means the only refreshes that happen are ones
-          I&apos;m ready for.
+          I’m ready for.
         </p>
         <p>
           <Emph>Letterboxd is hourly, RSS-driven</Emph>.{" "}
           <Code>/api/cron/films-refresh</Code> runs at{" "}
           <Code>0 * * * *</Code>{" "}UTC. It fetches the RSS feed, parses the
           last ~50 entries, diffs against the snapshot, enriches any new
-          films via TMDB&apos;s <Code>/movie/&#123;id&#125;</Code>{" "}
+          films via TMDB’s <Code>/movie/&#123;id&#125;</Code>{" "}
           endpoint, merges, re-aggregates, and commits the new snapshot
           back to the repo via the GitHub contents API. Vercel rebuilds on
           push. The CSV bootstrap path is separate: when a fresh export
@@ -524,7 +524,7 @@ function BeatRefresh() {
           folder, joins <Code>diary.csv</Code> with{" "}
           <Code>reviews.csv</Code> on{" "}
           <Code>(Date, Letterboxd URI)</Code>, applies the prose-only scope
-          filter (rating-only watches don&apos;t qualify a film for{" "}
+          filter (rating-only watches don’t qualify a film for{" "}
           <Code>/films</Code>), and rebuilds the snapshot from scratch. RSS
           catches edits inside its ~50-entry window but goes blind on older
           edits and on deletions; the CSV bootstrap is the ground-truth
@@ -534,12 +534,12 @@ function BeatRefresh() {
           <Emph>Serializd is hourly, paginated, with a thirty-minute offset</Emph>.{" "}
           <Code>/api/cron/television-refresh</Code> runs at{" "}
           <Code>30 * * * *</Code>{" "}UTC. The offset is a race-guard so the
-          films and television crons don&apos;t push to <Code>main</Code>{" "}
+          films and television crons don’t push to <Code>main</Code>{" "}
           simultaneously and collide on the GitHub contents API SHA. The
           pipeline paginates{" "}
           <Code>/api/user/malxavi/diary?page=1..N</Code>{" "}with a 500ms gap
           between pages, groups reviews by show, enriches each unique show
-          via TMDB&apos;s <Code>/tv/&#123;id&#125;</Code> endpoint, runs an
+          via TMDB’s <Code>/tv/&#123;id&#125;</Code> endpoint, runs an
           editorial-cleaning pass (next section), aggregates the summary, and
           commits.
         </p>
@@ -570,23 +570,23 @@ function BeatPolite() {
       title="The Polite Client"
       claudeTag="ethics and posture"
       claudeTagLiteral
-      headline="It's easier to ask forgiveness..."
+      headline="It’s easier to ask forgiveness…"
     >
       <Body>
         <p>
           The Serializd integration calls an endpoint that no public
           documentation describes. The endpoint is the same one
-          Serializd&apos;s own React frontend calls; it&apos;s discoverable
+          Serializd’s own React frontend calls; it’s discoverable
           in two minutes with browser DevTools. The integration includes
           three deliberate courtesies. First, an identifying{" "}
           <Code>User-Agent</Code>: not a browser-spoof, but{" "}
           <Code>
-            &quot;malxavi.com /television cluster - read-only,
-            snapshot-driven, hourly (https://malxavi.com)&quot;
+            “malxavi.com /television cluster - read-only,
+            snapshot-driven, hourly (https://malxavi.com)”
           </Code>
           —a name, a scope, a cadence, and a contact path. Second, an{" "}
           <Code>X-Requested-With</Code>{" "}header that matches their own
-          frontend&apos;s; the integration looks like the client their
+          frontend’s; the integration looks like the client their
           service expects to answer. Third, a 500ms gap between paginated
           requests, so a full bootstrap spreads ~28 requests over ~14
           seconds rather than hammering. The cron fires once an hour and
@@ -594,11 +594,11 @@ function BeatPolite() {
         </p>
         <p>
           This is closer in posture to scraping a public website than to
-          consuming an API. The site isn&apos;t doing anything
-          Serializd&apos;s own frontend doesn&apos;t do; it&apos;s doing it
-          less often, more slowly, and identifying itself. There&apos;s no
-          auth bypass—the endpoint is anonymous-by-design. There&apos;s
-          no volume that would resemble an attack vector. There&apos;s no
+          consuming an API. The site isn’t doing anything
+          Serializd’s own frontend doesn’t do; it’s doing it
+          less often, more slowly, and identifying itself. There’s no
+          auth bypass—the endpoint is anonymous-by-design. There’s
+          no volume that would resemble an attack vector. There’s no
           data resale, no aggregation product, no exposure of any user
           other than mine. If Serializd publishes a public API tomorrow,
           the integration switches to it tomorrow. If they ask the
@@ -650,8 +650,8 @@ function BeatAutomatedEditorial() {
         <p>
           Most data pipelines treat editorial quality as a downstream
           review concern. Pulling it left into the writer means the
-          snapshot file <Emph>is</Emph>{" "}the contract—if it&apos;s on
-          disk, it&apos;s reviewable, and pipelines that don&apos;t enforce
+          snapshot file <Emph>is</Emph>{" "}the contract—if it’s on
+          disk, it’s reviewable, and pipelines that don’t enforce
           editorial intent eventually surface that gap to the user.
         </p>
       </Body>
@@ -665,8 +665,8 @@ function BeatLive() {
     <Beat
       id="live"
       number="07"
-      title="What's Live"
-      headline="What shipped and what's next."
+      title="What’s Live"
+      headline="What shipped and what’s next."
     >
       <Body>
         <p>As of writing:</p>
@@ -694,7 +694,7 @@ function BeatLive() {
           <li>
             <Emph><Code>/television</Code></Emph>—153 shows across 37
             show-level, 230 season-level, and 489 episode-level reviews,
-            sourced from Serializd&apos;s internal API under a polite-client
+            sourced from Serializd’s internal API under a polite-client
             posture and enriched through TMDB. Snapshot captured 2026-05-12.
           </li>
         </ul>
@@ -704,7 +704,7 @@ function BeatLive() {
           sources will move the refresh script, not the page.
         </p>
         <p>
-          <Emph>What&apos;s next</Emph>. Build the cleanup gate even
+          <Emph>What’s next</Emph>. Build the cleanup gate even
           earlier on any future integration of this shape; building it
           after the parser meant a round of avoidable manual classification.
           Smooth the Letterboxd CSV re-seed into a{" "}
@@ -740,7 +740,7 @@ function BeatLive() {
         <p>
           Third, the polite client is a posture, not a workaround.
           Identifying User-Agent, low volume, documented
-          fallback. That&apos;s the default for any unofficial integration,
+          fallback. That’s the default for any unofficial integration,
           not a special case.
         </p>
       </Body>
@@ -822,7 +822,7 @@ function ExploreCTAGrid() {
             stat={music.playlistCount}
             unit="playlists"
             title="Music"
-            description="Every public playlist I've shipped, newest first."
+            description="Every public playlist I’ve shipped, newest first."
             cta="Find your next listen"
           />
         </TrackOnClick>
