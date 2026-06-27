@@ -239,7 +239,7 @@ export default async function ConnectedStatsPage({
                   color: "var(--film-hue)",
                   border: "1px solid var(--film-hue)",
                 }}
-                className="transition-colors motion-reduce:transition-none hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="cluster-back-pill transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2"
               >
                 <IconChartBar size={14} style={{ flex: "none" }} />
                 The film stats
@@ -251,7 +251,7 @@ export default async function ConnectedStatsPage({
                   color: "var(--tv-hue)",
                   border: "1px solid var(--tv-hue)",
                 }}
-                className="transition-colors motion-reduce:transition-none hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
+                className="cluster-back-pill transition-colors motion-reduce:transition-none focus-visible:outline-2 focus-visible:outline-offset-2"
               >
                 <IconChartBar size={14} style={{ flex: "none" }} />
                 The television stats

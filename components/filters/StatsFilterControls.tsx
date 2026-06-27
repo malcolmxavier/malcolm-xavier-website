@@ -617,7 +617,13 @@ const backdropStyle: CSSProperties = {
   position: "fixed",
   inset: 0,
   zIndex: 40,
-  background: "rgba(0,0,0,0.4)",
+  // A plain dark scrim is near-invisible over the dark-mode page (dark on
+  // dark). Pairing the scrim with a small backdrop blur dims the page content
+  // regardless of luminance, so the modal reads as modal in both themes — the
+  // same backdrop-filter trick the Nav and case-study glass already use.
+  background: "rgba(0,0,0,0.5)",
+  backdropFilter: "blur(2px)",
+  WebkitBackdropFilter: "blur(2px)",
   border: "none",
   padding: 0,
   cursor: "pointer",
