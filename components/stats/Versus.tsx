@@ -121,7 +121,7 @@ function Column({
 const twoColStyle: CSSProperties = {
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
-  gap: 20,
+  gap: "var(--scale-500)", // 20px
 };
 
 const miniHeadingStyle: CSSProperties = {
@@ -130,8 +130,9 @@ const miniHeadingStyle: CSSProperties = {
   textTransform: "uppercase",
   letterSpacing: "0.08em",
   color: "var(--text-caption)",
-  margin: "0 0 8px",
-  fontWeight: 600,
+  margin: "0 0 var(--scale-200)", // 8px
+  // Weight inherits (matching the canonical Kicker mono-caption register);
+  // an inline 600 here re-split the heading weighting the tile-title fix unified.
 };
 
 // The withheld-ranking note reads as prose, so it takes the secondary reading
