@@ -556,7 +556,11 @@ export const CONNECTED_TILES: TileSpec[] = [
   { id: "languages", archetype: "versus", band: "Where it comes from" },
   { id: "countries", archetype: "versus", band: "Where it comes from" },
   { id: "language-x-country", archetype: "single-axis-bar", band: "Where it comes from" },
-  // The industry
+  // The industry — a film-vs-TV stacked bar across the top conglomerates, NOT
+  // a temporal chart. It borrows the `stacked-by-year` archetype purely for its
+  // floor of 10 (a dense multi-series stack needs a real title count to read);
+  // archetype only feeds the floor here (decideRung switches on "counter"
+  // alone), so the year-named archetype carries no temporal behavior onto it.
   { id: "by-conglomerate", archetype: "stacked-by-year", band: "The industry" },
   // When I watch
   { id: "film-and-tv-by-month", archetype: "stacked-by-year", band: "When I watch" },

@@ -134,7 +134,11 @@ function conglomerateBoth(
   films: EnrichedFilm[],
   shows: EnrichedShow[],
 ): StackedMatrix {
-  // Short labels keep the dense two-stack columns legible.
+  // Short labels keep the dense two-stack columns legible. The KEYS here must
+  // match the canonical conglomerate names emitted by conglomerateOfStudio /
+  // conglomerateOfNet verbatim — if the canon renames a group, the lookup
+  // silently misses and the long name leaks into the column. Any abbreviation
+  // we don't list falls through to the full canon name (the `|| x.c` below).
   const ABBR: Record<string, string> = {
     "Warner Bros. Discovery": "WBD",
     NBCUniversal: "NBCU",
@@ -235,6 +239,10 @@ function genreFilmVsTv(
   return Object.keys(fg)
     .filter((g) => tg[g] && fg[g] >= 5 && tg[g] >= 5)
     .map((g) => ({ label: g, filmAvg: fs[g] / fg[g], tvAvg: ts[g] / tg[g] }))
+    // Sort by the signed TV-over-film gap, descending: genres I rate higher on
+    // television than on film lead, genres I rate higher on film trail, and the
+    // sign of each row's gap stays readable as you scan down the dumbbell. This
+    // ordering is intentional — the contrast (not the raw average) is the story.
     .sort((x, y) => y.tvAvg - y.filmAvg - (x.tvAvg - x.filmAvg));
 }
 
@@ -432,13 +440,18 @@ export function connectedTileSurvival(
   const f = filters ?? {};
 
   // A single include value collapses the matching tile's distribution to a
-  // tautology (§6 self-reference). On connected only one tile has a pinnable
-  // axis: filtering to ONE genre makes the film-vs-TV genre dumbbell a
-  // one-row comparison, so it folds to a readout. (Rating and watched-year
-  // don't have a connected distribution tile to flatten — head-to-head and
-  // the temporal grids stay meaningful under a single value.)
+  // tautology (§6 self-reference). Two connected tiles have a pinnable axis:
+  //   • filtering to ONE genre makes the film-vs-TV genre dumbbell a one-row
+  //     comparison, so it folds to a readout; and
+  //   • filtering to ONE actor makes the crossover-actors versus tile a single
+  //     self-comparison — mirrors how the film and TV dashboards pin their own
+  //     `actors` versus tile on a one-actor filter (film-stats / tv-stats).
+  // (Rating and watched-year don't have a connected distribution tile to
+  // flatten — head-to-head and the temporal grids stay meaningful under a
+  // single value.)
   const selfRef = new Set<string>();
   if (one(f.genres)) selfRef.add("genres-film-vs-tv");
+  if (one(f.actors)) selfRef.add("crossover-actors");
 
   // Per-tile survival on the right fragility axis. Counters ride the pooled
   // corpus (honest at any n ≥ 1). Stacked/grid tiles count the items feeding
@@ -511,12 +524,20 @@ export function parseConnectedFilters(
 ): ConnectedFilters {
   const shared: Record<string, string | string[] | undefined> = {};
   for (const p of CONNECTED_FILTER_PARAMS) shared[p] = params[p];
-  // Both parses agree on every shared field, so the merge is runtime-correct.
-  // The cast is for a TS limitation only: FilmFilters and ShowFilters each
-  // carry a watchedYears|watchedWindow discriminated union, and spreading two
+  // Spread-merge contract: parseShowFilters wins on any field both parsers
+  // emit. That is safe ONLY because every CONNECTED_FILTER_PARAMS dimension is
+  // a *shared* field (rating, genre, watchedYear, actor, language, country,
+  // conglomerate) that both parsers read from the same key and parse
+  // identically — so the override is a no-op in value, never a merge loss. The
+  // film-only fields (directors, writers, studios, collections) and TV-only
+  // fields (creators, networks, type) survive because the other parser never
+  // emits them. `watchedWindow` can't leak: it isn't in CONNECTED_FILTER_PARAMS,
+  // so connected only ever sets `watchedYears`.
+  //
+  // The `as ConnectedFilters` is a TS limitation only: each parser returns the
+  // watchedYears|watchedWindow discriminated union, and spreading two
   // union-typed results can't be inferred as assignable to their intersection
-  // even though the value satisfies both (connected only ever sets
-  // watchedYears, never watchedWindow).
+  // even though the value satisfies both.
   return {
     ...parseFilmFilters(shared),
     ...parseShowFilters(shared),
