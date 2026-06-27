@@ -28,6 +28,7 @@ import {
   paginate,
   parseFilmFilters,
   parseFilmSort,
+  runtimeInBucket,
   slugifyGenre,
   yearFromIso,
   type Film,
@@ -206,6 +207,89 @@ describe("parseFilmSort", () => {
   });
 });
 
+// ─── search query (?q=) ──────────────────────────────────────────
+// The fuzzy matching itself (Fuse) is exercised server-side via the
+// fuzzy-search helper; these cover the two pieces that live in this
+// client-safe module: parsing the ?q= param, and applyFilters honoring
+// a precomputed matchIds set (so the corpus-vs-Fuse split is verifiable
+// without importing the server-only helper here).
+
+describe("parseFilmFilters — search queries (title + director)", () => {
+  it("sets titleQuery / directorQuery when length >= 2, trimmed", () => {
+    expect(parseFilmFilters({ title: "park" })).toMatchObject({
+      titleQuery: "park",
+    });
+    expect(parseFilmFilters({ director: "  gerwig  " })).toMatchObject({
+      directorQuery: "gerwig",
+    });
+  });
+
+  it("ignores a query shorter than 2 chars (no-op — no premature noindex)", () => {
+    expect(parseFilmFilters({ title: "a" })).toEqual({});
+    expect(parseFilmFilters({ director: " " })).toEqual({});
+    expect(parseFilmFilters({ title: "" })).toEqual({});
+  });
+
+  it("parses title and director independently and alongside filters", () => {
+    expect(
+      parseFilmFilters({ title: "black", director: "gerwig", rating: "5" }),
+    ).toMatchObject({
+      titleQuery: "black",
+      directorQuery: "gerwig",
+      ratings: [5],
+    });
+  });
+});
+
+describe("applyFilters — search matchIds", () => {
+  const films = [
+    makeFilm({ id: "a", title: "A" }),
+    makeFilm({ id: "b", title: "B" }),
+    makeFilm({ id: "c", title: "C" }),
+  ];
+
+  it("keeps only films whose id is in the match set", () => {
+    const out = applyFilters(
+      films,
+      { titleQuery: "x" },
+      undefined,
+      new Set(["b"]),
+    );
+    expect(out.map((f) => f.film.id)).toEqual(["b"]);
+  });
+
+  it("returns all films when matchIds is null/undefined (no search active)", () => {
+    expect(applyFilters(films, {}).map((f) => f.film.id)).toEqual([
+      "a",
+      "b",
+      "c",
+    ]);
+    expect(
+      applyFilters(films, {}, undefined, null).map((f) => f.film.id),
+    ).toEqual(["a", "b", "c"]);
+  });
+
+  it("composes (AND) with per-film filters", () => {
+    const tmdb = makeFilm().tmdb!;
+    const horror = makeFilm({ id: "h", tmdb: { ...tmdb, genres: ["Horror"] } });
+    const drama = makeFilm({ id: "d", tmdb: { ...tmdb, genres: ["Drama"] } });
+    // Match set allows both; the genre filter narrows to Horror → only h.
+    const out = applyFilters(
+      [horror, drama],
+      { genres: ["Horror"], titleQuery: "x" },
+      undefined,
+      new Set(["h", "d"]),
+    );
+    expect(out.map((f) => f.film.id)).toEqual(["h"]);
+  });
+
+  it("drops everything when the match set is empty", () => {
+    expect(
+      applyFilters(films, { titleQuery: "zzz" }, undefined, new Set()),
+    ).toHaveLength(0);
+  });
+});
+
 // ─── applyFilters ────────────────────────────────────────────────
 
 describe("applyFilters — per-film filters", () => {
@@ -240,6 +324,32 @@ describe("applyFilters — per-film filters", () => {
     ];
     const out = applyFilters(films, { genres: ["Horror"] });
     expect(out.map((f) => f.film.id)).toEqual(["h"]);
+  });
+
+  it("matches genres passed as URL slugs, not just display names", () => {
+    // `?genre=science-fiction` reaches applyFilters as a slug (parseFilmFilters
+    // does not resolve it to the TMDB display name). Slugifying both sides must
+    // make the slug match the display-name genre on the film. Regression guard:
+    // the old display-name-only match silently dropped every slug param.
+    const films = [
+      makeFilm({
+        id: "sf",
+        tmdb: { ...makeFilm().tmdb!, genres: ["Science Fiction"] },
+      }),
+      makeFilm({
+        id: "dr",
+        tmdb: { ...makeFilm().tmdb!, genres: ["Drama"] },
+      }),
+    ];
+    expect(
+      applyFilters(films, { genres: ["science-fiction"] }).map((f) => f.film.id),
+    ).toEqual(["sf"]);
+    // Exclusion encoded as a slug must drop the film too.
+    expect(
+      applyFilters(films, { excludeGenres: ["science-fiction"] }).map(
+        (f) => f.film.id,
+      ),
+    ).toEqual(["dr"]);
   });
 
   it("perReviewFilterActive=false when only per-film filters are set", () => {
@@ -550,5 +660,94 @@ describe("yearFromIso", () => {
   it("returns the UTC year of an ISO date", () => {
     expect(yearFromIso("2026-01-01")).toBe(2026);
     expect(yearFromIso("1999-12-31")).toBe(1999);
+  });
+});
+
+// ─── runtime (length) filter ─────────────────────────────────────
+
+/** Build a film with a specific runtime (or null), keeping the rest
+ *  of the tmdb block valid. The makeFilm factory replaces tmdb
+ *  wholesale on override, so we supply the full object here. */
+function filmWithRuntime(runtime: number | null, id = "tmdb-rt"): Film {
+  return makeFilm({
+    id,
+    tmdb: {
+      id: 1,
+      posterPath: null,
+      backdropPath: null,
+      genres: ["Drama"],
+      runtime,
+      director: "Director",
+    },
+  });
+}
+
+describe("runtimeInBucket", () => {
+  it("classifies with non-overlapping half-open boundaries", () => {
+    // [_,90)
+    expect(runtimeInBucket(89, "lt90")).toBe(true);
+    expect(runtimeInBucket(90, "lt90")).toBe(false);
+    // [90,120]
+    expect(runtimeInBucket(90, "90-120")).toBe(true);
+    expect(runtimeInBucket(120, "90-120")).toBe(true);
+    expect(runtimeInBucket(121, "90-120")).toBe(false);
+    // (120,150]
+    expect(runtimeInBucket(121, "120-150")).toBe(true);
+    expect(runtimeInBucket(150, "120-150")).toBe(true);
+    expect(runtimeInBucket(120, "120-150")).toBe(false);
+    // (150,_)
+    expect(runtimeInBucket(151, "gt150")).toBe(true);
+    expect(runtimeInBucket(150, "gt150")).toBe(false);
+  });
+
+  it("returns false for an unknown bucket id", () => {
+    expect(runtimeInBucket(100, "nonsense")).toBe(false);
+  });
+});
+
+describe("applyFilters — runtime buckets", () => {
+  it("keeps only films whose runtime falls in a selected bucket", () => {
+    const films = [
+      filmWithRuntime(85, "a"), // lt90
+      filmWithRuntime(110, "b"), // 90-120
+      filmWithRuntime(140, "c"), // 120-150
+      filmWithRuntime(170, "d"), // gt150
+    ];
+    const result = applyFilters(films, { runtimeBuckets: ["lt90"] });
+    expect(result.map((r) => r.film.id)).toEqual(["a"]);
+  });
+
+  it("ORs within the facet (multiple buckets)", () => {
+    const films = [
+      filmWithRuntime(85, "a"),
+      filmWithRuntime(110, "b"),
+      filmWithRuntime(170, "d"),
+    ];
+    const result = applyFilters(films, {
+      runtimeBuckets: ["lt90", "gt150"],
+    });
+    expect(result.map((r) => r.film.id).sort()).toEqual(["a", "d"]);
+  });
+
+  it("drops films with null runtime when the filter is active", () => {
+    const films = [filmWithRuntime(null, "a"), filmWithRuntime(100, "b")];
+    const result = applyFilters(films, { runtimeBuckets: ["90-120"] });
+    expect(result.map((r) => r.film.id)).toEqual(["b"]);
+  });
+});
+
+describe("parseFilmFilters — runtime", () => {
+  it("parses a CSV of valid bucket ids", () => {
+    expect(parseFilmFilters({ runtime: "lt90,gt150" }).runtimeBuckets).toEqual([
+      "lt90",
+      "gt150",
+    ]);
+  });
+
+  it("drops unknown bucket ids and yields no filter when all invalid", () => {
+    expect(parseFilmFilters({ runtime: "lt90,bogus" }).runtimeBuckets).toEqual([
+      "lt90",
+    ]);
+    expect(parseFilmFilters({ runtime: "bogus" }).runtimeBuckets).toBeUndefined();
   });
 });

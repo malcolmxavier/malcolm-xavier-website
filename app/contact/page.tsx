@@ -131,13 +131,13 @@ export default function ContactPage() {
       <Section padding="lg">
         <Stack gap="500">
           <Kicker>Contact</Kicker>
-          <Display>Let&rsquo;s talk.</Display>
+          <Display>Let’s talk.</Display>
           <Lede>
             Hiring a senior PM in media or streaming? Want to
-            compare notes on growth, data, AI, or anything I&rsquo;ve
+            compare notes on growth, data, AI, or anything I’ve
             written about? Pick a slot below, send a note, or find
-            me elsewhere on the internet. I reply within a day or two&mdash;faster
-            if there&rsquo;s a job at the end of it.
+            me elsewhere on the internet. I reply within a day or two—faster
+            if there’s a job at the end of it.
           </Lede>
         </Stack>
       </Section>
@@ -163,7 +163,7 @@ export default function ContactPage() {
               </Headline>
               <Body>
                 Best for: recruiter intros, product chats, and
-                anyone who&rsquo;d rather not write three emails to
+                anyone who’d rather not write three emails to
                 coordinate a meeting time.
               </Body>
             </Stack>

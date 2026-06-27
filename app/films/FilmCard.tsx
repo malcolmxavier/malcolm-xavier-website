@@ -20,7 +20,34 @@ import {
   type AppliedFilm,
 } from "@/lib/feeds/letterboxd-utils";
 
-export function FilmCard({ applied }: { applied: AppliedFilm }) {
+/**
+ * Build the detail-page href for a card.
+ *
+ * `?ref=internal` marks in-app navigation (the back-link reads it). When
+ * the card comes from a listing, `originHref` — that listing's relative
+ * URL — is encoded as `?from=` so the detail page can replay the user's
+ * filter/sort context for adjacent-film navigation and the back-link.
+ * No scroll anchor: film links land at the hero / top of the page. The
+ * hero now carries its own value (cast and crew) and the first review
+ * still peeks above the fold, so a hero landing beats jumping past it.
+ */
+function buildDetailHref(slug: string, originHref: string | undefined): string {
+  const base = `/films/${slug}?ref=internal`;
+  if (!originHref) return base;
+  return `${base}&from=${encodeURIComponent(originHref)}`;
+}
+
+export function FilmCard({
+  applied,
+  originHref,
+}: {
+  applied: AppliedFilm;
+  /** Source listing URL to encode as `?from=` on the detail-page link, so
+   *  filter-aware adjacent-film nav + the back-link know the user's
+   *  filter/sort context. Omitted → detail page falls back to
+   *  chronological neighbours and the cluster-root back-link. */
+  originHref?: string;
+}) {
   const film = applied.film;
   const reviewCount = film.reviews.length;
   // URL slug is `<letterboxdSlug>-<releaseYear>` — human-readable
@@ -70,15 +97,10 @@ export function FilmCard({ applied }: { applied: AppliedFilm }) {
         eventData={{ slug, releaseYear: film.releaseYear }}
       >
       <NextLink
-        // ?ref=internal marks this as in-app navigation so the detail
-        // page's BackToFilms link can router.back() into the exact
-        // grid state instead of pushing /films and losing scroll
-        // position + future filter URL params. Cluster-agnostic key
-        // so /music can share the same convention without naming the
-        // cluster in every outbound href; the per-cluster legacy
-        // `?from=films` form is still honored by BackToFilms for any
-        // pre-rename shared links.
-        href={`/films/${slug}?ref=internal`}
+        // ?ref=internal marks in-app navigation (the back-link reads it);
+        // ?from=<listing> (when present) carries the filter/sort context
+        // for adjacent-film nav + the back-link. See buildDetailHref.
+        href={buildDetailHref(slug, originHref)}
         className="film-card-link block h-full focus-visible:outline-2 focus-visible:outline-offset-4"
         style={{ outlineColor: "var(--border-focus)" }}
       >
@@ -169,6 +191,9 @@ export function FilmCard({ applied }: { applied: AppliedFilm }) {
                   fontFamily: "var(--font-mono)",
                   fontSize: 10,
                   letterSpacing: "0.06em",
+                  // Intentional fixed-dark scrim (NOT a theme token): the badge
+                  // sits on the poster artwork, so it must stay dark behind the
+                  // white count in both themes to keep contrast over any poster.
                   background: "rgba(0,0,0,0.65)",
                   color: "#fff",
                   padding: "3px 6px",

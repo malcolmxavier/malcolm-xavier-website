@@ -11,13 +11,18 @@
 // data-subbrand CSS aliases in globals.css).
 // ─────────────────────────────────────────────────────────────────
 
-import type { ElementType, HTMLAttributes } from "react";
+import type { CSSProperties, ElementType, HTMLAttributes } from "react";
 
 type DisplayProps = HTMLAttributes<HTMLElement> & {
   /** Override the rendered tag. Defaults to h1. */
   as?: ElementType;
-  /** Optional override of the type-scale step. Defaults to h1. */
-  size?: "h1" | "h2";
+  /** Optional override of the type-scale step. Defaults to h1.
+   *  "h1-compact" is a dedicated role sitting between h1 and h2
+   *  (52/44 desktop-tablet/mobile) — used for the film/TV detail-page
+   *  titles, which need to read smaller than the landing h1 (to lift
+   *  the first review toward the mobile fold) while staying clearly
+   *  above the h2 section/season headings. */
+  size?: "h1" | "h2" | "h1-compact";
 };
 
 export function Display({
@@ -30,20 +35,36 @@ export function Display({
 }: DisplayProps) {
   return (
     <Tag
-      className={`text-balance ${className}`}
-      style={{
-        // Display always uses the primary font (display family).
-        fontFamily: "var(--font-primary)",
-        fontSize: `var(--${size}-font-size)`,
-        lineHeight: `var(--${size}-line-height)`,
-        // Recruiter-cluster Instrument Serif looks more editorial with
-        // a touch of negative tracking at this size; sub-brand Roboto
-        // Mono ignores it (mono fonts ignore letter-spacing tuning by
-        // convention but it doesn't hurt).
-        letterSpacing: "-0.01em",
-        color: "var(--text-heading)",
-        ...style,
-      }}
+      // display-role is a stable hook for cross-cutting Display tuning that
+      // can't live inline — notably the sub-brand (Roboto Mono) word-
+      // spacing correction in components.css (mono's fixed-width space
+      // glyph reads loose between words at this size).
+      className={`display-role text-balance ${className}`}
+      style={
+        {
+          // Display always uses the primary font (display family).
+          fontFamily: "var(--font-primary)",
+          fontSize: `var(--${size}-font-size)`,
+          lineHeight: `var(--${size}-line-height)`,
+          // Recruiter-cluster Instrument Serif looks more editorial with
+          // a touch of negative tracking at this size; sub-brand Roboto
+          // Mono ignores it (mono fonts ignore letter-spacing tuning by
+          // convention but it doesn't hurt).
+          letterSpacing: "-0.01em",
+          color: "var(--text-heading)",
+          // Trim the line-box leading to the cap-height (top) and the
+          // alphabetic baseline (bottom) so the headline's box hugs its
+          // glyphs. This removes the invisible leading — ~18px below the
+          // last line on h1, plus the slot above the first — that
+          // otherwise inflated the gap to the kicker above and the lede
+          // below, sitewide. text-box-* is cast because it's newer than
+          // the CSSProperties type; non-supporting browsers ignore it and
+          // keep the prior (looser) leading — progressive enhancement.
+          textBoxTrim: "trim-both",
+          textBoxEdge: "cap alphabetic",
+          ...style,
+        } as CSSProperties
+      }
       {...rest}
     >
       {children}

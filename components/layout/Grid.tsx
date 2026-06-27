@@ -9,7 +9,7 @@
 
 import type { HTMLAttributes } from "react";
 
-type GridCols = 1 | 2 | 3 | 4;
+type GridCols = 1 | 2 | 3 | 4 | 5 | 6;
 
 type GridGap = "200" | "300" | "400" | "500" | "600" | "700" | "800";
 
@@ -27,7 +27,17 @@ const COL_CLASSES: Record<GridCols, string> = {
   1: "grid-cols-1",
   2: "grid-cols-1 sm:grid-cols-2",
   3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
-  4: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
+  // 4 is a poster-tile layout too (films Favorites = Letterboxd Top 4;
+  // the list-detail ranking) — so it shares the dense ramp below: 2-up
+  // on mobile (a compact pair, not one giant full-width poster), 3-up
+  // tablet, 4-up desktop.
+  4: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4",
+  // 5 + 6 are the dense poster-tile layouts (the editorial landings'
+  // Now / Favorites rows). They start at 2-up on mobile — not 1-up —
+  // so a phone shows a compact pair per row rather than one giant
+  // full-width poster, then step up through tablet to desktop.
+  5: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-5",
+  6: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-6",
 };
 
 export function Grid({

@@ -42,7 +42,8 @@ next-env.d.ts
 
 # internal-only docs and review trackers — kept locally, never tracked
 /_private/
-/PLAN.md
+# Plan docs (PLAN.md + any PLAN-<feature>.md) stay local working notes.
+/PLAN*.md
 
 # Claude Code per-machine permission cache — accumulates per-session approvals
 .claude/settings.local.json

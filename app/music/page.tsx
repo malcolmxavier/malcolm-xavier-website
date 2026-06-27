@@ -48,8 +48,8 @@ import { MusicShell } from "./MusicShell";
 // with the sitewide Malcolm card and no per-page positioning.
 // (2026-04-29 /full-review, a-per-page-og-twitter.)
 const MUSIC_DESCRIPTION =
-  "What I'm playing right now and what I've played for years. Monthly Spotify drops from Malcolm Xavier.";
-const MUSIC_OG_TITLE = "Malcolm Xavier's Playlists · New every month";
+  "What I’m playing right now and what I’ve played for years. Monthly Spotify drops from Malcolm Xavier.";
+const MUSIC_OG_TITLE = "Malcolm Xavier’s Playlists · New every month";
 
 export const metadata: Metadata = {
   title: "Music",
@@ -129,7 +129,7 @@ export default async function MusicPage() {
             <Lede>
               I release a new playlist each month. Click any card for
               the full track list. And click through to listen on Spotify
-              or Apple Music. Check back in each month to see what's new.
+              or Apple Music. Check back in each month to see what’s new.
             </Lede>
           </Stack>
         </Section>
@@ -189,7 +189,7 @@ function SpotifyUnavailable() {
         <Section padding="lg">
           <Stack gap="500">
             <Kicker accent>Music · temporarily unavailable</Kicker>
-            <Display>Spotify isn&rsquo;t talking right now.</Display>
+            <Display>Spotify isn’t talking right now.</Display>
             <Lede>
               The playlist feed is hitting a rate limit upstream.
               Refresh in a minute or two and it should be back. In
@@ -207,7 +207,7 @@ function SpotifyUnavailable() {
                 href="https://open.spotify.com/user/malcolmxevans"
                 style={{ fontFamily: "var(--font-mono)" }}
               >
-                Open my profile on Spotify &rarr;
+                Open my profile on Spotify →
               </Link>
             </div>
           </Stack>

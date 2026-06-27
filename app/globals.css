@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-06-05T01:10:35.697Z
+   Built:        2026-06-26T17:13:42.912Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -725,6 +725,19 @@
   --border-action: var(--primary-default);
   --border-focus: var(--primary-800);
   --border-action-hover: var(--primary-600);
+  --chart-c1: #2f7d57;
+  --chart-c2: #b07d12;
+  --chart-c3: #3a5fb0;
+  --chart-c4: #9c3b66;
+  --chart-c5: #4f8f86;
+  --chart-c6: #b5602f;
+  --chart-accent: #b3402f;
+  --chart-positive: #2f6b43;
+  --chart-grid: #e1e4e1;
+  --shadow-popup: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-sticky: 0 6px 16px -10px rgba(0, 0, 0, 0.35);
+  --shadow-panel: 0 -8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-pointer: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 
 [data-theme="dark"] {
@@ -771,6 +784,19 @@
   --border-action: var(--primary-default);
   --border-focus: var(--primary-700);
   --border-action-hover: var(--primary-400);
+  --chart-c1: #4ecb86;
+  --chart-c2: #e0b34a;
+  --chart-c3: #7d8cf0;
+  --chart-c4: #e06aa0;
+  --chart-c5: #6fc9bb;
+  --chart-c6: #f0915a;
+  --chart-accent: #f08a6f;
+  --chart-positive: #4ecb86;
+  --chart-grid: #525452;
+  --shadow-popup: 0 8px 24px rgba(255, 255, 255, 0.16);
+  --shadow-sticky: 0 6px 16px -8px rgba(255, 255, 255, 0.2);
+  --shadow-panel: 0 -8px 24px rgba(255, 255, 255, 0.14);
+  --shadow-pointer: 0 6px 18px rgba(255, 255, 255, 0.16);
 }
 
 /* ─── AA-safe action chain on the recruiter cluster ───────── */
@@ -818,6 +844,9 @@
   --h1-font-size: 60px;
   --h1-line-height: 72px;
   --h1-paragraph-spacing: 64px;
+  --h1-compact-font-size: 52px;
+  --h1-compact-line-height: 60px;
+  --h1-compact-paragraph-spacing: 60px;
   --h2-font-size: 48px;
   --h2-line-height: 56px;
   --h2-paragraph-spacing: 48px;
@@ -853,6 +882,9 @@
   --h1-font-size: 60px;
   --h1-line-height: 72px;
   --h1-paragraph-spacing: 64px;
+  --h1-compact-font-size: 52px;
+  --h1-compact-line-height: 60px;
+  --h1-compact-paragraph-spacing: 60px;
   --h2-font-size: 48px;
   --h2-line-height: 56px;
   --h2-paragraph-spacing: 48px;
@@ -890,6 +922,9 @@
   --h1-font-size: 48px;
   --h1-line-height: 56px;
   --h1-paragraph-spacing: 64px;
+  --h1-compact-font-size: 44px;
+  --h1-compact-line-height: 52px;
+  --h1-compact-paragraph-spacing: 52px;
   --h2-font-size: 40px;
   --h2-line-height: 48px;
   --h2-paragraph-spacing: 48px;

@@ -436,5 +436,22 @@
       "$type": "color",
       "$value": "{primary.600}"
     }
+  },
+  "chart": {
+    "c1": { "$type": "color", "$value": "#2f7d57" },
+    "c2": { "$type": "color", "$value": "#b07d12" },
+    "c3": { "$type": "color", "$value": "#3a5fb0" },
+    "c4": { "$type": "color", "$value": "#9c3b66" },
+    "c5": { "$type": "color", "$value": "#4f8f86" },
+    "c6": { "$type": "color", "$value": "#b5602f" },
+    "accent": { "$type": "color", "$value": "#b3402f" },
+    "positive": { "$type": "color", "$value": "#2f6b43" },
+    "grid": { "$type": "color", "$value": "#e1e4e1" }
+  },
+  "shadow": {
+    "popup": { "$type": "boxShadow", "$value": "0 8px 24px rgba(0, 0, 0, 0.12)" },
+    "sticky": { "$type": "boxShadow", "$value": "0 6px 16px -10px rgba(0, 0, 0, 0.35)" },
+    "panel": { "$type": "boxShadow", "$value": "0 -8px 24px rgba(0, 0, 0, 0.12)" },
+    "pointer": { "$type": "boxShadow", "$value": "0 6px 18px rgba(0, 0, 0, 0.18)" }
   }
 }

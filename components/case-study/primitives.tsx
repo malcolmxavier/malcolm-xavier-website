@@ -358,7 +358,7 @@ export function Pullquote({
           fontStyle: "italic",
         }}
       >
-        &ldquo;{children}&rdquo;
+        “{children}”
       </blockquote>
       <figcaption
         className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"

@@ -82,7 +82,7 @@ const TOC_ITEMS: TocItem[] = [
   { href: "#button", prefix: "05", label: "Button Mashing" },
   { href: "#resumes", prefix: "06", label: "Three Resumes" },
   { href: "#review", prefix: "07", label: "QA" },
-  { href: "#live", prefix: "08", label: "What's Live" },
+  { href: "#live", prefix: "08", label: "What’s Live" },
 ];
 
 export default function BuildingThisSiteCaseStudy() {
@@ -187,9 +187,9 @@ function BeatBrief() {
           artifact, and nothing should compete with it for attention above
           the fold on the landing page.
         </EvidenceCard>
-        <EvidenceCard eyebrow="Job 02" title="Show, don't tell">
+        <EvidenceCard eyebrow="Job 02" title="Show, don’t tell">
           A live, well-built site signals shipping ability more than any
-          deck. What you're viewing <Emph>is</Emph> the proof.
+          deck. What you’re viewing <Emph>is</Emph> the proof.
         </EvidenceCard>
         <EvidenceCard eyebrow="Job 03" title="Re-introduce my creative side">
           A centralized home for my playlists, reviews, and other creative work.
@@ -202,7 +202,7 @@ function BeatBrief() {
         <p>
           This site has a wide scope, and more is coming soon. I deliberately scoped MVP
           down to five pages—<Emph>Landing, Resume, About, Contact, Music</Emph>—with
-          everything else I'm working on gated behind a no-public-placeholders rule. Day 4
+          everything else I’m working on gated behind a no-public-placeholders rule. Day 4
           was my deadline for a shippable MVP; Days 5 through
           7 were for polish and stretch goals.
         </p>
@@ -230,7 +230,7 @@ function BeatWorkflow() {
     >
       <Body>
         <p>
-          Most of the code is the agent&apos;s. Most of the decisions are
+          Most of the code is the agent’s. Most of the decisions are
           mine. The interesting part—and the part recruiters keep asking
           about—is what that division of labor actually looks like in
           practice.
@@ -240,7 +240,7 @@ function BeatWorkflow() {
       <EvidenceGrid>
         <EvidenceCard eyebrow="The human in the loop" title="Where I drove">
           Information architecture and brand voice. Decision-quality reviews
-          when the agent picked a fork I&apos;d have picked differently.
+          when the agent picked a fork I’d have picked differently.
           Editorial taste on the user-facing product. Constraint discipline
           (e.g. no placeholders, platform links never show handles, etc.).
         </EvidenceCard>
@@ -255,7 +255,7 @@ function BeatWorkflow() {
           Visual design creation. Iconography, layout proportions, the feel of a UI choice—anywhere taste matters more than logic.
           We went through four rounds of phone-icon variants, none landing, before the call
           was to pick a stock Heroicons handset and move on. The agent
-          can&apos;t develop taste; a PM can&apos;t always articulate it.
+          can’t develop taste; a PM can’t always articulate it.
           Even when provided design references, the agent struggled to create a visually pleasing icon.
         </EvidenceCard>
       </EvidenceGrid>
@@ -269,7 +269,7 @@ function BeatWorkflow() {
           Most sessions started with me writing or referencing the plan
           (<Code>PLAN.md</Code>), the agent and I aligning on what to build,
           then the agent shipping a working iteration in 15 to 45 minutes.
-          I&apos;d review, redirect, and redline. The total build time was a
+          I’d review, redirect, and redline. The total build time was a
           fraction of what solo-coding would have taken; the cognitive load
           was almost entirely on direction and judgment, which is the part
           of the work that I specialize in (and that adds value to AI-native product teams).
@@ -313,7 +313,7 @@ function BeatWorkflow() {
           inside the project—global and portable across
           whatever I build next. The PM cost of standing them up is
           paid once; the lens travels. They form the foundation of
-          an AI "second brain" for all my work.
+          an AI “second brain” for all my work.
         </p>
       </ClaudeNote>
     </Beat>
@@ -334,7 +334,7 @@ function BeatArchitecture() {
         <p>
           The site looks deceptively simple: a recruiter cluster, a few
           sub-brand pages, a case-study cluster. The decisions that hold
-          it together are quieter, and they&apos;re the part worth
+          it together are quieter, and they’re the part worth
           flagging for anyone reading the source.
         </p>
       </Body>
@@ -344,7 +344,7 @@ function BeatArchitecture() {
           lens="Information architecture"
           title="Recruiter-first, exploration-second"
         >
-          Landing elevates exactly one CTA—&ldquo;See my resume →&rdquo;.
+          Landing elevates exactly one CTA—“See my resume →”.
           Below that, a conditional sub-brand matrix lets cultural-curious
           visitors explore (today, just Music; the rest of the matrix
           unlocks the day each sub-brand ships, per the no-placeholders
@@ -355,9 +355,9 @@ function BeatArchitecture() {
           lens="Information architecture"
           title="No public placeholders, ever"
         >
-          Routes don&apos;t ship until they&apos;re real. Nav only shows
+          Routes don’t ship until they’re real. Nav only shows
           live pages. The landing matrix renders only tiles for sub-brand
-          pages that actually exist. There are no &ldquo;coming soon&rdquo;
+          pages that actually exist. There are no “coming soon”
           pages, no skeleton routes, no nav entries pointing at unbuilt
           work. The discipline keeps the site small, the chrome honest,
           and the surface area genuinely shippable on any given day.
@@ -383,19 +383,19 @@ function BeatArchitecture() {
           canonical. A small parser (<Code>scripts/build-tokens.mjs</Code>)
           walks the multi-tier files (Brand → Alias → Mapped → Responsive)
           and emits CSS custom properties grouped by tier into{" "}
-          <Code>globals.css</Code>. When &ldquo;design system&rdquo; means
-          &ldquo;spreadsheet of values,&rdquo; the spreadsheet should live
+          <Code>globals.css</Code>. When “design system” means
+          “spreadsheet of values,” the spreadsheet should live
           where the values are read.
         </IterationCard>
       </IterationGrid>
 
       <ClaudeNote>
-        None of these were the agent&apos;s instinct. Generic-Next.js
-        decisions are the agent&apos;s gravity well; the PM job was naming
-        the constraint (&ldquo;no placeholders,&rdquo;{" "}
-        &ldquo;sub-brand flip via data attribute, not JS,&rdquo;{" "}
-        &ldquo;tokens are code now&rdquo;) and then letting the agent
-        execute against it. That&apos;s the part of the workflow that
+        None of these were the agent’s instinct. Generic-Next.js
+        decisions are the agent’s gravity well; the PM job was naming
+        the constraint (“no placeholders,”{" "}
+        “sub-brand flip via data attribute, not JS,”{" "}
+        “tokens are code now”) and then letting the agent
+        execute against it. That’s the part of the workflow that
         scales.
       </ClaudeNote>
     </Beat>
@@ -429,8 +429,8 @@ function BeatSpotify() {
         >
           Spotify quietly deprecated a swath of Web API endpoints in
           November 2024—including the user-playlists endpoint that
-          historically mapped 1:1 to &ldquo;public playlists on this
-          profile.&rdquo; Apps registered after that cutoff get 403,
+          historically mapped 1:1 to “public playlists on this
+          profile.” Apps registered after that cutoff get 403,
           regardless of auth method. We refactored from Client Credentials
           to Authorization Code with refresh-token persistence. Cost: ~1
           hour.
@@ -442,7 +442,7 @@ function BeatSpotify() {
           Endpoints renamed (<Code>/tracks</Code> → <Code>/items</Code>),
           response shapes flattened, field names changed (<Code>item.track</Code>{" "}
           became <Code>item.item</Code>{" "}because Spotify unified tracks and
-          podcast episodes under one model). The docs hadn&apos;t fully
+          podcast episodes under one model). The docs hadn’t fully
           caught up. Cost: another hour of empirical shape-discovery via
           logged responses.
         </EvidenceCard>
@@ -450,12 +450,12 @@ function BeatSpotify() {
           eyebrow="Plot point 03"
           title="The rate-limit incident"
         >
-          The fetch logic, in a moment of &ldquo;this works for now&rdquo;
+          The fetch logic, in a moment of “this works for now”
           optimism, used <Code>Promise.all</Code>{" "}to fetch track lists for
           57 playlists in parallel as I was working with Claude
           to understand how to curate that list for the site. Multiple back-to-back bursts
           during dev triggered the rate limiter, then an escalated
-          cool-down. At one point Spotify&apos;s <Code>Retry-After</Code>{" "}
+          cool-down. At one point Spotify’s <Code>Retry-After</Code>{" "}
           returned <Emph>77,368 seconds</Emph>—about 21 hours.
         </EvidenceCard>
       </EvidenceGrid>
@@ -464,7 +464,7 @@ function BeatSpotify() {
         <Stat
           big="77,368s"
           eyebrow="Retry-After value"
-          caption="Spotify's escalated cool-down after multiple bursts. About 21 hours."
+          caption="Spotify’s escalated cool-down after multiple bursts. About 21 hours."
         />
         <Stat
           big="3"
@@ -479,12 +479,12 @@ function BeatSpotify() {
           max), retry-on-429 honoring <Code>Retry-After</Code>, and a
           graceful fallback page when Spotify is unreachable. The lesson
           is the part that travels: rate limits are a property of
-          production systems, and &ldquo;I&apos;ll add throttling
-          later&rdquo; is a sentence that buys you a 21-hour penalty box.
+          production systems, and “I’ll add throttling
+          later” is a sentence that buys you a 21-hour penalty box.
           Should have throttled from the first request.
         </p>
         <p>
-          There&apos;s a quieter PM lesson in here too. The original ROI
+          There’s a quieter PM lesson in here too. The original ROI
           estimate on the Music page assumed the API would behave the way
           the docs described. That assumption broke twice (deprecation,
           reshape) and the rate-limit was the third hit. Multi-day vendor
@@ -495,7 +495,7 @@ function BeatSpotify() {
         <p>
           A subtler discovery after the fact: Spotify rate-limits per
           endpoint family, not per app. A clear <Code>/me</Code>{" "}bucket
-          doesn&apos;t mean a clear <Code>/me/playlists</Code>{" "}bucket. I
+          doesn’t mean a clear <Code>/me/playlists</Code>{" "}bucket. I
           built a small probe (<Code>npm run spotify:health</Code>, also
           exposed at <Code>/api/spotify/health</Code> in dev) that hits
           both and returns the time-to-clear. When <Code>/music</Code>{" "}
@@ -508,9 +508,9 @@ function BeatSpotify() {
         Claude wrote both the original optimistic <Code>Promise.all</Code>{" "}
         and, after the incident, the throttled client with retry logic.
         Both were correct against the spec I gave at the moment I gave it.
-        The constraint &ldquo;rate-limit every third-party integration on
-        day one&rdquo; now lives in project memory so the next integration
-        doesn&apos;t earn its lesson the same way.
+        The constraint “rate-limit every third-party integration on
+        day one” now lives in project memory so the next integration
+        doesn’t earn its lesson the same way.
       </ClaudeNote>
     </Beat>
   );
@@ -539,7 +539,7 @@ function BeatButton() {
       number="05"
       title="Button Mashing"
       claudeTag="the recursion"
-      headline="If all you have is a hammer..."
+      headline="If all you have is a hammer…"
     >
       {/* Opener and the first-two-bugs paragraphs share one Body
           so the three paragraphs use Body's gap-4 rhythm. Splitting
@@ -550,7 +550,7 @@ function BeatButton() {
         <p>
           Pair-programming with an agent looks deceptively like
           pair-programming with a person—until the agent has been wrong
-          twice. A human collaborator who&apos;s been wrong twice will
+          twice. A human collaborator who’s been wrong twice will
           usually abandon the hypothesis class and try something
           fundamentally different. The agent generates refined variations
           of the same hypothesis as long as you let it. This build earned
@@ -562,9 +562,9 @@ function BeatButton() {
           to be a solid black or white pill; it kept rendering as
           outlined transparent. Four rounds of debugging followed—the
           agent generating plausible hypotheses about CSS rules, each
-          round a different surface-level fix that didn&apos;t change
+          round a different surface-level fix that didn’t change
           the outcome. The actual bug: a color value silently failed
-          to resolve at the button. The browser didn&apos;t throw an
+          to resolve at the button. The browser didn’t throw an
           error—it fell back to a default that happened to be
           transparent. The diagnostic that ended it:{" "}
           <Emph>
@@ -597,15 +597,15 @@ function BeatButton() {
           The part worth sitting with: I had a written memory note
           from the button bug describing exactly this pattern.{" "}
           <Emph>
-            The memory existed. It wasn&apos;t operationalized.
+            The memory existed. It wasn’t operationalized.
           </Emph>{" "}
           The 15-commit saga happened anyway. Documentation of a
-          lesson isn&apos;t the same as discipline around
+          lesson isn’t the same as discipline around
           it—writing the postmortem feels like resolution; carrying
           it into the next session <Emph>is</Emph>{" "}the resolution.
-          Almost every product org I&apos;ve worked in conflates the
+          Almost every product org I’ve worked in conflates the
           two, and an AI-native system will pick up the same
-          conflation if you&apos;re not careful.
+          conflation if you’re not careful.
         </p>
       </Body>
 
@@ -638,8 +638,8 @@ function BeatButton() {
         <p>
           Three loops, three rules. They now load on every Claude session
           because they live in <Code>~/.claude/</Code>{" "}memory—not because
-          I&apos;ve reread the postmortem. The difference, again, is the
-          difference between memory and discipline. The class hasn&apos;t
+          I’ve reread the postmortem. The difference, again, is the
+          difference between memory and discipline. The class hasn’t
           stopped showing up; the rules make each recurrence cheaper than
           the last.
         </p>
@@ -650,11 +650,11 @@ function BeatButton() {
           eyebrow="Movement 01"
           title="Force the binary test"
         >
-          When the agent&apos;s been wrong twice on the same code path,
+          When the agent’s been wrong twice on the same code path,
           stop refining its syntax and force a fundamentally different
           test. Replace the value with red. Toggle the rule off. The
           30-second binary outcome ends loops that another round of
-          refinement won&apos;t.
+          refinement won’t.
         </EvidenceCard>
         <EvidenceCard
           eyebrow="Movement 02"
@@ -663,7 +663,7 @@ function BeatButton() {
           Postmortems documented in markdown rot the moment the next
           session starts. Project-level rules in <Code>AGENTS.md</Code>{" "}
           and operator-level rules in <Code>~/.claude/</Code>{" "}load on
-          every turn—that&apos;s the surface that drives behavior. Two
+          every turn—that’s the surface that drives behavior. Two
           failed fixes means the diagnosis is wrong; root-cause it before
           iterating again.
         </EvidenceCard>
@@ -674,16 +674,16 @@ function BeatButton() {
           Any agent-proposed fix that touches global state—installing
           software, swapping the default runtime, editing dotfiles—gets
           gated on the cheapest test that would falsify the diagnosis.
-          For infra-flavored bugs, that&apos;s almost always &ldquo;bootstrap
-          a minimal repro and see if it reproduces.&rdquo;
+          For infra-flavored bugs, that’s almost always “bootstrap
+          a minimal repro and see if it reproduces.”
         </EvidenceCard>
       </EvidenceGrid>
 
       <ClaudeNote>
         <p className="m-0">
           Senior PM craft includes naming the pattern when it costs you,
-          not just when it doesn&apos;t. The recursion is the more honest
-          case study than any single incident—and it&apos;s the part that
+          not just when it doesn’t. The recursion is the more honest
+          case study than any single incident—and it’s the part that
           travels. Every team pair-programming with an agent will earn
           its own version of these three loops; what matters is whether
           the rules end up in operating memory before the next loop
@@ -726,7 +726,7 @@ function BeatResumes() {
           recruiter following a link from LinkedIn or an emailed
           intro. The <Code>.docx</Code>{" "}template is what I download
           and tailor per application, export to PDF, then submit
-          through the company&apos;s portal—ATS-shaped, single
+          through the company’s portal—ATS-shaped, single
           column, no fancy typography, edited to the specific posting.
           And the standard PDF is a static fallback for anyone who
           just wants a file in their inbox without asking—no
@@ -789,7 +789,7 @@ function BeatResumes() {
       </Body>
 
       <Pullquote attribution="the small-detail rule">
-        Brand-craft is mostly the details no one&apos;s supposed to
+        Brand-craft is mostly the details no one’s supposed to
         consciously notice.
       </Pullquote>
 
@@ -833,19 +833,19 @@ function BeatResumes() {
           </li>
           <li>
             <Emph>Friendly link labels</Emph>.{" "}
-            &ldquo;LinkedIn · GitHub · Personal Website&rdquo; instead
+            “LinkedIn · GitHub · Personal Website” instead
             of bare URLs in the contact strip. Easier to scan, less
             visual noise, the underlying hyperlink still resolves.
           </li>
           <li>
             <Emph>
-              Company URLs match each company&apos;s actual canonical hostname.
+              Company URLs match each company’s actual canonical hostname.
             </Emph>{" "}
             People Inc., Muck Rack, GitHub, and Calendly canonicalize
             to apex (no <Code>www.</Code>); LinkedIn, User Interviews,
             Fullstack Academy, Fractured Atlas, Artist Growth, and
             NEFA canonicalize to <Code>www.</Code>. Matching each
-            site&apos;s canonical avoids a 301 redirect hop when the
+            site’s canonical avoids a 301 redirect hop when the
             link is clicked. Approximately zero recruiter value, and
             a non-zero number of senior engineers will notice.
           </li>
@@ -859,7 +859,7 @@ function BeatResumes() {
         the path of least resistance the moment an application asks
         for a working file. The standard PDF is the polite drop-in. No
         friction, standard resume on demand. If data
-        ever suggests the web resume isn&apos;t getting reviewed,
+        ever suggests the web resume isn’t getting reviewed,
         the file artifacts become the lead surface and the web
         version becomes the deep cut companion. Same source
         material, three distributions. A recruiter who prefers a
@@ -883,7 +883,7 @@ function BeatReview() {
       <Body>
         <p>
           Pre-launch QA at solo-PM scale needs three lanes that
-          don&apos;t overlap—one for accessibility, one for design
+          don’t overlap—one for accessibility, one for design
           cohesion, one for code maintainability—and a way to merge
           them into a single punch list. Of the five sub-agents I
           built, three sit on the QA loop:{" "}
@@ -924,21 +924,21 @@ function BeatReview() {
           Each role spec lives at{" "}
           <Code>~/.claude/agents/{`<name>.md`}</Code>: checklist,
           output format, severity definitions, and an explicit{" "}
-          <Emph>what NOT to do</Emph>{" "}section so the agents don&apos;t
-          drift into each other&apos;s lanes. All three were
+          <Emph>what NOT to do</Emph>{" "}section so the agents don’t
+          drift into each other’s lanes. All three were
           standardized on a shared severity vocabulary—Critical,
-          High, Medium, Low, plus a Couldn&apos;t-verify bucket—so a
+          High, Medium, Low, plus a Couldn’t-verify bucket—so a
           downstream orchestrator can merge their reports cleanly.
         </p>
       </Body>
 
       <ClaudeNote>
-        The pattern that matters: each role spec isn&apos;t just{" "}
-        <Emph>what to do</Emph>—it&apos;s <Emph>what NOT to do</Emph>.
+        The pattern that matters: each role spec isn’t just{" "}
+        <Emph>what to do</Emph>—it’s <Emph>what NOT to do</Emph>.
         The design reviewer explicitly defers a11y issues with a
         one-line mention and lets the a11y reviewer handle the
         detail. The code reviewer explicitly defers visual-design and
-        a11y. That discipline keeps each report focused, and it&apos;s
+        a11y. That discipline keeps each report focused, and it’s
         what makes the synthesis step possible—three overlapping
         reviews would be mush, not signal.
       </ClaudeNote>
@@ -961,9 +961,9 @@ function BeatReview() {
         <p>
           The first run, against the entire site in light and dark modes, came
           back with ninety-nine findings. One of them—a token-chain
-          bug that silently invalidates the recruiter cluster&apos;s
+          bug that silently invalidates the recruiter cluster’s
           text colors—was independently flagged by both the design
-          reviewer and the a11y reviewer at Critical severity. That&apos;s
+          reviewer and the a11y reviewer at Critical severity. That’s
           the kind of cross-confirmed signal a single reviewer would
           have either missed entirely or underweighted. Aligned items
           are the highest-leverage fixes; conflicts are the ones the
@@ -984,18 +984,18 @@ function BeatReview() {
           <Code>{`_private/_reviews/full-review-<date>.html`}</Code>,
           with each finding as a card carrying severity, reviewer
           tags, file:line citation, description, and fix
-          recommendation. Status dropdowns (Open / Done / Won&apos;t
+          recommendation. Status dropdowns (Open / Done / Won’t
           do) and severity dropdowns are wired to{' '}
           <Code>localStorage</Code>, so working through the list
           survives reloads. Filters on Status, Severity, and Reviewer
           cut the list to whatever slice you want to work in.
         </p>
         <p>
-          The point isn&apos;t the dashboard. The point is that the
+          The point isn’t the dashboard. The point is that the
           review becomes load-bearing data—something to triage,
           manage, and check off—instead of a markdown file that
           gets read once and buried. Per the recursion lesson above,
-          written notes don&apos;t drive behavior. A working surface
+          written notes don’t drive behavior. A working surface
           does.
         </p>
       </Body>
@@ -1006,18 +1006,18 @@ function BeatReview() {
           landed, I ran <Code>/full-review</Code>{" "}a second time on
           the closeout work itself. It surfaced 35 substantive new
           findings—six items the first pass had missed, twelve
-          tradeoff costs of choices I&apos;d made knowingly, and{" "}
-          <Emph>seventeen regressions in code we&apos;d just written</Emph>.
+          tradeoff costs of choices I’d made knowingly, and{" "}
+          <Emph>seventeen regressions in code we’d just written</Emph>.
           Forty-nine percent of the new findings were brand-new bugs
           introduced while fixing other bugs.
         </p>
         <p>
           The reflection on the missed-six was the more humbling
           number. Five of the six were variations on a single failure
-          mode: we&apos;d audited the trigger of a fix, not the family
+          mode: we’d audited the trigger of a fix, not the family
           the bug belonged to. The original{" "}
           <Code>--text-action</Code>{" "}contrast fix landed for the
-          components we&apos;d noticed but missed PaginationButton
+          components we’d noticed but missed PaginationButton
           (which used <Code>--primary-default</Code> directly) and{" "}
           <Code>--border-focus</Code> (which chained through{" "}
           <Code>--primary-700</Code>)—sibling bugs in the same
@@ -1029,12 +1029,12 @@ function BeatReview() {
         <Stat
           big="49%"
           eyebrow="Regression rate"
-          caption="Of 35 new findings on the audit-closeout commits, 17 were regressions in code we'd just written."
+          caption="Of 35 new findings on the audit-closeout commits, 17 were regressions in code we’d just written."
         />
         <Stat
           big="5 of 6"
           eyebrow="Sibling-bug discoveries"
-          caption="Of the pre-existing items the first pass missed, 5 were variations on a single failure family the original fix didn't sweep for."
+          caption="Of the pre-existing items the first pass missed, 5 were variations on a single failure family the original fix didn’t sweep for."
         />
       </StatRow>
 
@@ -1050,7 +1050,7 @@ function BeatReview() {
           <Emph>when fixing a class of bug, audit the whole class</Emph>{" "}
           (name the abstraction, grep every consumer, verify each
           under the same conditions). Per the recursion lesson in
-          Button Mashing above: written documentation isn&apos;t operational
+          Button Mashing above: written documentation isn’t operational
           discipline. The repo-level rule is the discipline; the
           markdown is the documentation. Both, not one.
         </p>
@@ -1070,7 +1070,7 @@ function BeatReview() {
         reviewers through the generic <Code>general-purpose</Code>{' '}
         agent reading their role files at runtime—same persona,
         just not native yet. After a session restart, they load
-        directly. Worth knowing if you&apos;re authoring agents and
+        directly. Worth knowing if you’re authoring agents and
         trying them in the same conversation.
       </ClaudeNote>
     </Beat>
@@ -1083,8 +1083,8 @@ function BeatLive() {
     <Beat
       id="live"
       number="08"
-      title="What's Live"
-      headline="What shipped, what got cut, what's next."
+      title="What’s Live"
+      headline="What shipped, what got cut, what’s next."
     >
       <Body>
         <p>
@@ -1092,13 +1092,13 @@ function BeatLive() {
           behind a Basic Auth proxy while the site is being battle
           tested by close friends and colleagues. Two audit cycles deep, with the
           regressions and class-audit lessons captured as repo-level
-          rules so the next agent doesn&apos;t earn the same ones.
+          rules so the next agent doesn’t earn the same ones.
         </p>
       </Body>
 
       <HarnessGrid>
         <HarnessFeature name="Landing">
-          One CTA above the fold (&ldquo;See my resume →&rdquo;), with a
+          One CTA above the fold (“See my resume →”), with a
           conditional sub-brand matrix below for cultural-curious visitors.
         </HarnessFeature>
         <HarnessFeature name="Resume">
@@ -1119,7 +1119,7 @@ function BeatLive() {
         <HarnessFeature name="Music">
           37 Spotify playlists, sorted by most-recent track{" "}
           <Code>added_at</Code>{" "}as a proxy for last-edited (Spotify
-          doesn&apos;t expose <Code>modified_at</Code>), with manual-pin
+          doesn’t expose <Code>modified_at</Code>), with manual-pin
           override and an{" "}
           <Code>/api/spotify/health</Code> probe for per-bucket
           rate-limit diagnostics.
@@ -1149,9 +1149,9 @@ function BeatLive() {
           PM judgment is mostly about what <Emph>not</Emph> to ship.
           The biggest scope cut from the MVP: forthcoming sub-brand pages. No content for them yet—per
           the no-placeholders rule from Section 3, they appear in
-          nav and on landing the day they ship, not before. Stay tuned...
+          nav and on landing the day they ship, not before. Stay tuned…
         </p>
-        <p>What I&apos;d do differently next time:</p>
+        <p>What I’d do differently next time:</p>
       </Body>
 
       <EvidenceGrid>
@@ -1172,14 +1172,14 @@ function BeatLive() {
         >
           API responses on disk during dev would have prevented the
           rate-limit cascade entirely and made iteration faster.
-          Production code shouldn&apos;t pay the cost of dev
+          Production code shouldn’t pay the cost of dev
           iteration loops.
         </EvidenceCard>
         <EvidenceCard
           eyebrow="Lesson 03"
           title="Hardcode the visual baseline"
         >
-          Theme-aware UI primitives shouldn&apos;t depend on{" "}
+          Theme-aware UI primitives shouldn’t depend on{" "}
           <Code>var()</Code>{" "}references that can fail silently.
           Hex literals via <Code>{`[data-theme="dark"]`}</Code>{" "}
           selectors are more brittle to read but more bulletproof to
@@ -1190,8 +1190,8 @@ function BeatLive() {
           title="Validate against the deployed render"
         >
           Computed-style or screenshot before declaring a visual fix
-          done. Not &ldquo;the code looks right.&rdquo; The two
-          aren&apos;t the same thing, as the button bug spent four
+          done. Not “the code looks right.” The two
+          aren’t the same thing, as the button bug spent four
           rounds proving.
         </EvidenceCard>
         <EvidenceCard
@@ -1209,12 +1209,12 @@ function BeatLive() {
         >
           Anything touching global state needs a 90-second
           falsification before the destructive commit. Same gate
-          I&apos;d apply to a junior PM proposing a vendor
+          I’d apply to a junior PM proposing a vendor
           escalation.
         </EvidenceCard>
         <EvidenceCard
           eyebrow="Lesson 07"
-          title="Documentation isn't discipline"
+          title="Documentation isn’t discipline"
         >
           Written postmortems are documentation. Operational
           discipline is the ongoing thing. Product teams need to
@@ -1239,7 +1239,7 @@ function BeatLive() {
             }}
           >
             <Link href="/case-studies/architecture-under-contract">
-              Architecture under contract &rarr;
+              Architecture under contract →
             </Link>
           </TrackOnClick>
           .
@@ -1255,12 +1255,12 @@ function BeatLive() {
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{ surface: "case-study-meta-close", destination: "resume" }}
           >
-            <Link href="/resume">review my resume <span aria-hidden="true">&rarr;</span></Link>
+            <Link href="/resume">review my resume <span aria-hidden="true">→</span></Link>
           </TrackOnClick>
           .
         </p>
         <p className="text-[15px] text-[var(--text-caption)]">
-          Or, if you&apos;re ready to talk,{" "}
+          Or, if you’re ready to talk,{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-meta-close" }}

@@ -17,7 +17,13 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
-import type { Show, TvSummary, WatchedOnlyShow } from "./serializd-utils";
+import type {
+  Show,
+  ShowFavorite,
+  ShowList,
+  TvSummary,
+  WatchedOnlyShow,
+} from "./serializd-utils";
 
 // Re-export public types so consumers can import everything from
 // either module — same convention as letterboxd.ts.
@@ -27,7 +33,10 @@ export type {
   ReviewLevel,
   Season,
   Show,
+  ShowFavorite,
   ShowFilters,
+  ShowList,
+  ShowListItem,
   ShowSort,
   TmdbTvMeta,
   TvSummary,
@@ -50,6 +59,15 @@ type SerializdSnapshot = {
    *  never reviewed. Not surfaced in current UI; available for
    *  future iterations via getWatchedOnlyShows. */
   watchedOnlyShows: WatchedOnlyShow[];
+  /**
+   * Editorial-landing data, attached by the slow-cadence
+   * scripts/refresh-tv-lists.mjs pass (NOT the hourly refresh).
+   * Optional so a snapshot captured before that pass — or by the
+   * bootstrap, which preserves but doesn't author these — still
+   * validates. Read via getShowLists() / getShowFavorites().
+   */
+  lists?: ShowList[];
+  favorites?: ShowFavorite[];
 };
 
 /**
@@ -102,6 +120,11 @@ const SNAPSHOT_PATH = path.resolve(
 type SnapshotCache = {
   snapshot: SerializdSnapshot;
   slugMap: Map<string, Show>;
+  /** serializdShowId (= TMDB tv id) → Show. The join key for
+   *  favorites and list entries, which reference shows by their
+   *  numeric Serializd/TMDB id. Shares the snapshot's cache
+   *  lifetime so it can't drift. */
+  bySerializdId: Map<number, Show>;
   positionByShowId: Map<string, number>;
 };
 
@@ -113,6 +136,14 @@ function buildSlugMap(shows: Show[]): Map<string, Show> {
     slugMap.set(show.slug, show);
   }
   return slugMap;
+}
+
+function buildSerializdIdMap(shows: Show[]): Map<number, Show> {
+  const bySerializdId = new Map<number, Show>();
+  for (const show of shows) {
+    bySerializdId.set(show.serializdShowId, show);
+  }
+  return bySerializdId;
 }
 
 function buildPositionMap(shows: Show[]): Map<string, number> {
@@ -159,6 +190,7 @@ function loadCache(): SnapshotCache {
   cachedState = {
     snapshot: parsed,
     slugMap: buildSlugMap(parsed.shows),
+    bySerializdId: buildSerializdIdMap(parsed.shows),
     positionByShowId: buildPositionMap(parsed.shows),
   };
   return cachedState;
@@ -233,6 +265,92 @@ export function getShowNeighbors(showId: string): {
     newer: idx > 0 ? shows[idx - 1] : null,
     older: idx + 1 < shows.length ? shows[idx + 1] : null,
   };
+}
+
+/**
+ * O(1) lookup by Serializd show id (= TMDB tv id) — the join key
+ * carried by favorites and list entries. Returns null when the show
+ * isn't in the reviewed corpus, in which case the favorite/list
+ * entry renders from its own captured name fallback.
+ */
+export function getShowBySerializdId(serializdShowId: number): Show | null {
+  return loadCache().bySerializdId.get(serializdShowId) ?? null;
+}
+
+// ─── Editorial-landing read API (lists + favorites) ───────────────
+//
+// All three tolerate a snapshot captured before the lists/favorites
+// scrape pass ran — they return [] / null rather than throwing. The
+// landing maps each list item's showId to a corpus Show via
+// getShowBySerializdId() for the rich card. If the publish-set in the
+// refresh script is ever cleared, getShowLists() returns [] and the
+// Lists surfaces self-hide per the no-placeholder rule.
+
+/** Malcolm's published Serializd lists, in publish-set order. */
+export function getShowLists(): ShowList[] {
+  return loadSnapshot().lists ?? [];
+}
+
+/** O(n) lookup of one list by slug (n = list count, tiny). Returns
+ *  null when absent — caller should notFound(). */
+export function getShowListBySlug(slug: string): ShowList | null {
+  const lists = loadSnapshot().lists ?? [];
+  return lists.find((l) => l.slug === slug) ?? null;
+}
+
+/** One published-list placement for a show, carrying the season the list
+ *  actually ranked (null for a show-level entry, e.g. a miniseries). */
+export type ShowListPlacement = {
+  list: ShowList;
+  /** 1-based rank within the list. */
+  position: number;
+  seasonId: number | null;
+  seasonNumber: number | null;
+};
+
+/** Reverse index: every published-list placement for a given show — one per
+ *  matching list item, so the detail page can render each placement inline
+ *  with the SEASON that's on the list (a show can be ranked at several
+ *  seasons), or show-level when the entry has no season. Drives the "Ranked
+ *  #N in …" backlinks on a show's detail page. */
+export function showListPlacements(
+  serializdShowId: number,
+): ShowListPlacement[] {
+  const out: ShowListPlacement[] = [];
+  for (const list of getShowLists()) {
+    for (const item of list.items) {
+      if (item.showId !== serializdShowId) continue;
+      out.push({
+        list,
+        position: item.position + 1,
+        seasonId: item.seasonId,
+        seasonNumber: item.seasonNumber,
+      });
+    }
+  }
+  return out;
+}
+
+/** Up to three corpus poster URLs for a list's cover montage — walking
+ *  the list's ranked items in order and skipping any whose show isn't in
+ *  the reviewed corpus (or lacks a poster). A show repeated across seasons
+ *  contributes its poster once. Shared by the landing teaser + lists hub. */
+export function showListCoverPosters(list: ShowList): string[] {
+  const urls: string[] = [];
+  const seen = new Set<number>();
+  for (const item of list.items) {
+    if (seen.has(item.showId)) continue;
+    seen.add(item.showId);
+    const show = getShowBySerializdId(item.showId);
+    if (show?.posterUrl) urls.push(show.posterUrl);
+    if (urls.length >= 3) break;
+  }
+  return urls;
+}
+
+/** Serializd profile favorites, in the order Malcolm arranged them. */
+export function getShowFavorites(): ShowFavorite[] {
+  return loadSnapshot().favorites ?? [];
 }
 
 // ─── Editorial overrides reader ──────────────────────────────────

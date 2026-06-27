@@ -46,6 +46,46 @@ html {
   background: var(--surface-page);
 }
 
+/* ─── Mono heading word-spacing ────────────────────────────────
+   Headings flip to Roboto Mono inside a [data-subbrand] wrapper
+   (films/tv/music) AND on the connected dashboard ([data-connected],
+   which adopts the sub-brand display type). Mono renders the space
+   character at a fixed full-character advance, so at heading sizes
+   the gaps BETWEEN words read noticeably loose — made worse by the
+   -0.01em letter-spacing headings apply, which tightens WITHIN words
+   and so widens the contrast with the inter-word gaps. Pull the word-
+   spacing in so a heading reads as one phrase, not spaced-out tokens.
+
+   Targets heading TAGS directly (mirroring the letter-spacing reset
+   below) rather than the .display-role / .headline-role hooks: the
+   stats-dashboard headings (stats-section__label, stats-tile__title)
+   are raw <h2>/<h3> that don't route through Display/Headline, so a
+   tag-based selector is the only thing that reaches every mono
+   heading — which is why the earlier hook-scoped rule left section
+   and stats headings loose. Recruiter headings (Instrument Serif,
+   proportional) are untouched. Lives here, not globals.css
+   (regenerated from tokens/). */
+[data-subbrand] :is(h1, h2, h3, h4, h5, h6),
+[data-connected] :is(h1, h2, h3, h4, h5, h6) {
+  word-spacing: -0.2em;
+}
+
+/* ─── In-page anchor smoothing ─────────────────────────────────
+   The landing "On this page" jump strips (SectionIndex) and the
+   home page's "explore the rest ↓" anchor scroll to a #section via
+   native hash links. Smooth the jump so the motion reads as
+   intentional wayfinding — but ONLY when the visitor hasn't asked
+   for reduced motion (a no-preference media query, so reduced-
+   motion users get an instant native jump, never an animated one).
+   Targets land below the sticky Nav via each section's
+   scroll-margin-top (Tailwind scroll-mt-28 on the landing modules).
+   Lives here, not globals.css, which is regenerated from tokens/. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 /* ─── Sub-brand font inheritance ───────────────────────────────
    The [data-subbrand="X"] wrappers in globals.css redefine the
    --font-secondary / --font-primary custom properties for their
@@ -290,11 +330,14 @@ a.music-action:focus-visible:not(:disabled) {
    swaps to Roboto Mono — and negative tracking on a monospace
    crushes characters in adjacent cells (mono fonts give every glyph
    a fixed advance; subtracting from that breaks the grid).
-   Override to 0 inside the sub-brand subtree so mono headings sit
-   on their own grid. !important to beat the inline style.
+   Override to 0 inside the sub-brand subtree — and on the connected
+   dashboard, which now renders headings in Roboto Mono too — so mono
+   headings sit on their own grid. !important to beat the inline
+   style.
    ───────────────────────────────────────────────────────────── */
 
-[data-subbrand] :is(h1, h2, h3, h4, h5, h6) {
+[data-subbrand] :is(h1, h2, h3, h4, h5, h6),
+[data-connected] :is(h1, h2, h3, h4, h5, h6) {
   letter-spacing: 0 !important;
 }
 
@@ -399,6 +442,27 @@ a.link-loud:hover,
   color: var(--primary-100) !important;
 }
 
+/* ─── ClusterRail active tab — opt out of the link cascade ─────
+   The rules above force the cluster link color onto EVERY sub-brand
+   anchor (with !important). That's right for body links, but the
+   ClusterRail's active tab is a FILLED nav pill: forcing the cluster
+   color onto its label rendered it orange-on-orange / blue-on-blue —
+   invisible (~1:1). It's a nav control, not a body link, so pin its
+   label white here. The label sits on the inline --primary-700 fill
+   (orange-700 / blue-700, dark in both themes), so white clears AA
+   (5.82:1 / higher) identically in light and dark. Listed with
+   :hover/:focus-visible and a dark-theme tier so it out-specifies and
+   out-orders every rest/hover link rule above. Inactive tabs keep the
+   cascade's cluster color, which already clears AA on the page bg. */
+[data-subbrand] a.cluster-rail-tab--active,
+[data-subbrand] a.cluster-rail-tab--active:hover,
+[data-subbrand] a.cluster-rail-tab--active:focus-visible,
+[data-theme="dark"] [data-subbrand] a.cluster-rail-tab--active,
+[data-theme="dark"] [data-subbrand] a.cluster-rail-tab--active:hover,
+[data-theme="dark"] [data-subbrand] a.cluster-rail-tab--active:focus-visible {
+  color: #fff !important;
+}
+
 [data-subbrand="music"] a,
 a[data-subbrand="music"] {
   color: var(--purple-700) !important;
@@ -443,12 +507,24 @@ a[data-subbrand="film"] {
    motion-reduce:transition-none class (inline-style 1000 vs
    @media-wrapped class ~10), silently defeating the guard. */
 .film-filter-chip {
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
 }
 @media (prefers-reduced-motion: reduce) {
   .film-filter-chip {
     transition: none;
   }
+}
+
+/* Reviews-grid search box (FilmsShell / TelevisionShell). ::placeholder
+   can't be set via React inline styles, so the muted placeholder color
+   is pinned here to match the caption token (and the sort control's
+   visual weight). */
+.reviews-search-input::placeholder {
+  color: var(--text-caption);
+  opacity: 1; /* Firefox dims placeholders by default; undo it. */
 }
 
 /* /television filter-rail + dismiss chips. Same posture as
@@ -459,11 +535,57 @@ a[data-subbrand="film"] {
    .film-filter-chip so the two clusters can diverge later
    (e.g. different timing curves) without forking. */
 .show-filter-chip {
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
 }
 @media (prefers-reduced-motion: reduce) {
   .show-filter-chip {
     transition: none;
+  }
+}
+
+/* /stats/connected filter-rail + dismiss chips. Same posture as
+   .film-filter-chip / .show-filter-chip — the class carries only the
+   transition timing (colors come from the [data-connected] token cascade),
+   moved into the cascade so prefers-reduced-motion can disable it. Kept
+   distinct so the cross-brand page can diverge from the clusters later. */
+.connected-filter-chip {
+  transition:
+    background 0.12s,
+    color 0.12s,
+    border-color 0.12s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .connected-filter-chip {
+    transition: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .reviews-grid-header {
+    position: sticky;
+    top: 5rem; /* clears the z-40 sticky site nav; matches the sticky sidebar */
+    z-index: 30; /* above scrolling cards (z-auto), below the nav (z-40) */
+    background: var(--surface-page);
+    border-bottom: 1px solid var(--border-default);
+    padding-bottom: 12px;
+  }
+  /* Cover the gap between the pinned band and the site nav above it.
+     The band pins at top:5rem (80px) but the nav bottom is ~69px, and
+     the nav is translucent (backdrop-blur) — so without this, the sharp
+     card grid flashes through the ~11px seam directly above the chips.
+     An opaque strip the band's own width, riding just above its top
+     edge (and tucking under the z-40 nav), closes the seam. */
+  .reviews-grid-header::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 1.25rem;
+    background: var(--surface-page);
   }
 }
 
@@ -475,8 +597,13 @@ a[data-subbrand="film"] {
    sensitive users don't see the pulse at all (the badge text
    "Watching" carries the meaning regardless). */
 @keyframes watching-pulse-keyframes {
-  0%, 100% { opacity: 1; }
-  50%      { opacity: 0.35; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
 }
 .watching-pulse {
   animation: watching-pulse-keyframes 2s ease-in-out infinite;
@@ -490,7 +617,9 @@ a[data-subbrand="film"] {
 [data-subbrand="film"] a.film-detail-genre-chip {
   color: var(--text-caption) !important;
   text-decoration: none;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 [data-subbrand="film"] a.film-detail-genre-chip:hover,
 [data-subbrand="film"] a.film-detail-genre-chip:focus-visible {
@@ -498,7 +627,9 @@ a[data-subbrand="film"] {
   border-color: var(--orange-700);
 }
 [data-theme="dark"] [data-subbrand="film"] a.film-detail-genre-chip:hover,
-[data-theme="dark"] [data-subbrand="film"] a.film-detail-genre-chip:focus-visible {
+[data-theme="dark"]
+  [data-subbrand="film"]
+  a.film-detail-genre-chip:focus-visible {
   color: var(--orange-400) !important;
   border-color: var(--orange-400);
 }
@@ -508,6 +639,40 @@ a[data-subbrand="film"] {
 }
 @media (prefers-reduced-motion: reduce) {
   [data-subbrand="film"] a.film-detail-genre-chip {
+    transition: none;
+  }
+}
+
+/* Cast & Crew disclosure (films detail page). Native <details>/<summary>;
+   we drop the default disclosure triangle and stand in our own chevron so
+   the affordance matches the site's quiet caption idiom. The summary is the
+   clickable toggle — keyboard-operable for free via <details>. */
+.film-credits-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  /* Remove the native marker (both the modern and the WebKit form). */
+  list-style: none;
+}
+.film-credits-summary::-webkit-details-marker {
+  display: none;
+}
+.film-credits-summary:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.film-credits-chevron {
+  color: var(--text-caption);
+  transition: transform 0.15s ease;
+}
+/* Point the chevron up when the disclosure is open. */
+.film-credits-disclosure[open] .film-credits-chevron {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .film-credits-chevron {
     transition: none;
   }
 }
@@ -583,7 +748,9 @@ a[data-subbrand="tv"]:focus-visible {
 [data-subbrand="tv"] a.show-detail-genre-chip {
   color: var(--text-caption) !important;
   text-decoration: none;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 [data-subbrand="tv"] a.show-detail-genre-chip:hover,
 [data-subbrand="tv"] a.show-detail-genre-chip:focus-visible {
@@ -591,7 +758,9 @@ a[data-subbrand="tv"]:focus-visible {
   border-color: var(--blue-700);
 }
 [data-theme="dark"] [data-subbrand="tv"] a.show-detail-genre-chip:hover,
-[data-theme="dark"] [data-subbrand="tv"] a.show-detail-genre-chip:focus-visible {
+[data-theme="dark"]
+  [data-subbrand="tv"]
+  a.show-detail-genre-chip:focus-visible {
   color: var(--blue-300) !important;
   border-color: var(--blue-300);
 }
@@ -911,6 +1080,22 @@ a.link-accent-pink,
   background: color-mix(in oklab, var(--text-body) 26%, transparent);
 }
 
+/* ─── Cluster back-pills (/stats/connected) ────────────────────
+   The "back to the film / TV stats" pills carry only a thin hue-colored
+   border and text on a transparent fill. A plain opacity hover washed
+   out in dark mode (the pill just faded toward the dark page). A faint
+   currentColor tint — the pill's own hue, since `color` is set to
+   --film-hue / --tv-hue — reads as a hover in both themes; the dark step
+   bumps higher to clear the dark-mode noise floor, mirroring the
+   .code-chip calibration above. */
+.cluster-back-pill:hover {
+  background: color-mix(in oklab, currentColor 10%, transparent);
+}
+
+[data-theme="dark"] .cluster-back-pill:hover {
+  background: color-mix(in oklab, currentColor 18%, transparent);
+}
+
 /* ─── Italic kerning baseline ──────────────────────────────────
    Italic serif glyphs (Instrument Serif italic) read with tight
    built-in rhythm; the browser's default `text-rendering: auto`
@@ -936,12 +1121,16 @@ a.link-accent-pink,
 
 .italic-kern {
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern" 1, "liga" 1;
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1;
 }
 
 .italic-inline {
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern" 1, "liga" 1;
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1;
   padding-inline-end: 0.04em;
 }
 
@@ -1045,9 +1234,331 @@ a.link-accent-pink,
    Pair with `aria-hidden`-friendly programmatic controls so a
    keyboard user can still navigate. */
 .no-scrollbar {
-  scrollbar-width: none;            /* Firefox */
-  -ms-overflow-style: none;         /* IE/legacy Edge */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/legacy Edge */
 }
 .no-scrollbar::-webkit-scrollbar {
-  display: none;                    /* Safari/Chrome */
+  display: none; /* Safari/Chrome */
+}
+
+/* ─── Stats dashboard chart fills (WS5) ────────────────────────────
+   Direction A: single-series chart fills (bars, columns, diverging
+   positives, heatmap intensity) take the cluster's BRAND hue; the page
+   provides it through `currentColor` so HTML backgrounds and SVG
+   fill/stroke share one source. We drive it with a class rather than an
+   inline var() because the fill must be theme-aware (light vs dark) and
+   inline styles can't carry a media/attribute condition.
+
+   Light uses --primary-700 / dark uses --primary-300 — the same brand
+   steps the sub-brand --icon-action chain uses, both comfortably AA as a
+   fill against the card surface in their theme (orange-700 ≈ 4.7:1 on
+   white; orange-300 ≈ 11:1 on near-black; blue equivalents higher).
+
+   On the Connected page there is no [data-subbrand] wrapper (it's the
+   cross-brand neutral surface), so the base rule falls back to a
+   categorical chart hue — its film-vs-TV charts carry the two brand
+   hues explicitly instead. We reference --primary-700/-300 directly
+   (a one-hop alias to an --orange/--blue primitive) to avoid the
+   multi-hop alias chains that have resolved to empty in some contexts
+   (see the Button hardcode note above). */
+/* `color` drives currentColor fills (bars/columns/diverging, whose fill
+   element carries no color of its own). `--stats-fill` carries the same
+   brand hue as a named property for cases where the element ALSO needs a
+   distinct text color — the Heatmap, where each cell sets its own
+   --text-body for the number, so currentColor there is the text color,
+   not the brand. Both stay in lockstep across theme + sub-brand. */
+.stats-brand-fill {
+  color: var(--chart-c3);
+  --stats-fill: var(--chart-c3);
+  --stats-heat: var(--chart-c2);
+}
+[data-subbrand] .stats-brand-fill {
+  color: var(--primary-700);
+  --stats-fill: var(--primary-700);
+  /* The heatmap tint uses a brighter brand step than the bars so it
+     reads orange, not the brown-ish -700. In light mode the vivid
+     -default (orange-500) over white stays orange across the intensity
+     range; in dark mode a darker -600 keeps every cell dark enough for
+     white text. NB: there is no --primary-500 token — the ramp's 500
+     step is --primary-default. */
+  --stats-heat: var(--primary-default);
+}
+[data-theme="dark"] [data-subbrand] .stats-brand-fill {
+  color: var(--primary-300);
+  --stats-fill: var(--primary-300);
+  /* Heatmap tint uses the -700 step in dark (not -600): at full strength
+     -600 (#bf7618) is a mid-orange where white cell text is only 3.6:1,
+     below AA. -700 (#8f5912) keeps the strongest cell dark enough that
+     white text clears (~5.8:1) while still reading as a deep orange. */
+  --stats-heat: var(--primary-700);
+}
+
+/* Connected page film/TV hues — the EXACT orange and blue the cluster
+   dashboards paint their single-series bars with (the sub-brand
+   --primary-700 in light, --primary-300 in dark = orange/blue 700/300).
+   Connected carries no [data-subbrand], so these are scoped to its
+   wrapper and consumed by the dumbbell + the Film-vs-TV stacks/line. */
+[data-connected] {
+  --film-hue: var(--orange-700);
+  --tv-hue: var(--blue-700);
+  /* Sub-brand TYPE without sub-brand color. Both cluster dashboards
+     render Roboto Mono (display) + Roboto Slab (body/labels); that type
+     is shared by both sub-brands, so adopting it here — on a page that
+     carries no [data-subbrand] to keep its colors neutral — favors
+     neither cluster and makes all three stats dashboards typographically
+     consistent. Color stays neutral; the Film-vs-TV series keep the two
+     hues above. (--font-mono is already Roboto Mono site-wide.) */
+  --font-primary: var(--font-family-roboto-mono);
+  --font-secondary: var(--font-family-roboto-slab);
+}
+[data-theme="dark"] [data-connected] {
+  --film-hue: var(--orange-300);
+  --tv-hue: var(--blue-300);
+}
+
+/* ─── Stats dashboard responsive tile grid (WS5) ───────────────────
+   A 12-column grid on desktop; each tile declares a span via
+   data-span (4 = third, 8 = two-thirds, 12 = full). Tablet drops to a
+   6-column grid (wide/full tiles go full, default tiles go half) and
+   mobile is a single stacked column. The span lives in CSS (not inline)
+   so it can collapse responsively — an inline `grid-column: span 8`
+   would overflow the 1-column mobile grid. */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--scale-200, 16px);
+}
+.stats-grid > * {
+  grid-column: 1 / -1; /* mobile: every tile full width */
+  min-width: 0; /* let chart SVGs shrink instead of forcing overflow */
+}
+/* Tablet: a 6-column grid. The desktop spans collapse so the row
+   pairings Malcolm designed survive — a 4 or 6 becomes a half (3/6), an
+   8 or 12 becomes full (6/6). So a 6+6 row stays side-by-side, a 4+4+4
+   triple wraps 3+3 / 3, and full-width tiles stay full. */
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .stats-tile[data-span="4"],
+  .stats-tile[data-span="6"] {
+    grid-column: span 3;
+  }
+  .stats-tile[data-span="8"],
+  .stats-tile[data-span="12"] {
+    grid-column: span 6;
+  }
+}
+/* Desktop: the full 12-column grid the saved layout is authored against
+   (spans of 4 / 6 / 8 / 12). */
+@media (min-width: 1024px) {
+  .stats-grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .stats-tile[data-span="4"] {
+    grid-column: span 4;
+  }
+  .stats-tile[data-span="6"] {
+    grid-column: span 6;
+  }
+  .stats-tile[data-span="8"] {
+    grid-column: span 8;
+  }
+  .stats-tile[data-span="12"] {
+    grid-column: span 12;
+  }
+  /* Centered placement: a span-8 tile alone on its row sits in the middle of
+     the 12-column grid (cols 3–10) rather than left-aligned, leaving even
+     gutters either side. Desktop only — on tablet a span-8 is already full
+     (6/6), so there's nothing to center. */
+  .stats-tile[data-span="8"][data-center] {
+    grid-column: 3 / span 8;
+  }
+}
+
+/* ─── Stats dashboard sections (WS5 — readability pass) ─────────────
+   The dashboard is grouped into a handful of named bands (The corpus,
+   Taste, People, …) so ~23 tiles don't read as one undifferentiated
+   wall. Each band is a small mono kicker heading over a hairline rule,
+   then the band's own tile grid. The heading is the data/label register
+   (Roboto Mono in the sub-brand); the rule gives the eye a rest point
+   between groups without adding prose. */
+.stats-section + .stats-section {
+  margin-top: var(--scale-500, 32px);
+}
+.stats-section__head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0 0 var(--scale-200, 16px);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-default);
+}
+.stats-section__label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-body);
+  margin: 0;
+}
+
+/* Brand-colour the mono labels (section bands + tile titles) so the eye
+   can scan the dashboard's structure at a glance. The colour follows the
+   same contrast-safe ramp the chart bars use — the darker -700 step on
+   light, the lighter -300 on dark — so it clears AA over the tile/page
+   surface in both themes. Outside a sub-brand (e.g. the Connected page)
+   it falls back to the body colour. NB: there is no --primary-500 token;
+   the ramp's mid step is --primary-default. */
+.stats-tile__title {
+  color: var(--text-body);
+  font-weight: 600;
+}
+[data-subbrand] .stats-section__label,
+[data-subbrand] .stats-tile__title {
+  color: var(--primary-700);
+}
+[data-theme="dark"] [data-subbrand] .stats-section__label,
+[data-theme="dark"] [data-subbrand] .stats-tile__title {
+  color: var(--primary-300);
+}
+
+/* ─── Chart hover tooltips (WS5 — holistic hover) ──────────────────
+   A designed, server-rendered chip that surfaces a chart datum's
+   underlying number on hover (and on focus where the trigger opts in).
+   Replaces the native title= tooltips. The chip is an inverted surface
+   (--text-body fill / --surface-default text) so it stays high-contrast
+   over any tile in either theme; it's a contrast pair by construction.
+   The same number lives in the trigger's aria-label, so the chip is
+   aria-hidden and purely visual. See components/stats/Tip.tsx. */
+.stats-tip {
+  position: relative;
+}
+/* Focusable triggers (e.g. the rating columns) get a visible focus ring
+   so keyboard users see what they've landed on. */
+.stats-tip[tabindex]:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+  border-radius: var(--border-radius-sm);
+}
+.stats-tip__pop {
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  /* Cap the width and let it wrap. Critically NOT `min-width: max-content`
+     — that overrode max-width and blew long chips out to ~490px, which (as
+     absolutely-positioned boxes) extended the page's scroll width and made
+     the whole dashboard scroll horizontally. */
+  max-width: 220px;
+  width: max-content;
+  padding: 6px 9px;
+  background: var(--text-body);
+  color: var(--surface-default);
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  text-align: center;
+  white-space: normal;
+  pointer-events: none; /* the chip never eats the hover it's reacting to */
+  /* `display: none` at rest (not `visibility: hidden`) so a hidden chip
+     contributes nothing to layout/scroll width — the fix for the stray
+     horizontal scroll. Shown chips toggle to block below. */
+  display: none;
+}
+/* A small pointer tail anchored to the trigger's center. */
+.stats-tip__pop::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--text-body);
+}
+/* Hover + keyboard focus reveal the chip; `.stats-tip--open` is the
+   touch path, toggled by the StatsTips controller on tap. */
+.stats-tip:hover > .stats-tip__pop,
+.stats-tip:focus-within > .stats-tip__pop,
+.stats-tip--open > .stats-tip__pop {
+  display: block;
+}
+
+/* ─── Sticky stats filter bar ──────────────────────────────────────
+   The shadow/border fade as the bar pins lives here, not inline, so a
+   prefers-reduced-motion query can drop it. The pin is a visible
+   positional elevation shift, so reduced-motion users get the end state
+   with no transition. See components/filters/StatsFilterControls.tsx. */
+.stats-filter-bar {
+  transition: box-shadow 0.18s ease, border-color 0.18s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .stats-filter-bar {
+    transition: none;
+  }
+}
+
+/* ── VideoClip — demo video player in case studies ──────────────── */
+
+/* Outer figure: vertical rhythm matches other case-study insertions
+   (EvidenceGrid, ClaudeNote, etc. all use my-8/my-10). No width
+   constraint here — the component fills its parent (typically a
+   Beat section bounded by CASE_STUDY_WIDTH). */
+.cs-video-figure {
+  margin: 2.5rem 0;
+}
+
+/* Clip container: dark bg shows while the video loads or if the
+   poster is absent. rounded-xl + overflow:hidden masks the video
+   corners. border keeps the clip from bleeding into page bg on
+   light mode. */
+.cs-video-clip {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--neutral-black);
+  border: 1px solid var(--border-default);
+}
+
+/* The <video> element fills its aspect-ratio box completely. */
+.cs-video-el {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* "Before" / "After" / "Final" chip overlaid top-left.
+   Semi-opaque black works in both light and dark mode against
+   whatever the video is showing — no token-based override needed. */
+.cs-video-label {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 1;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  pointer-events: none;
+}
+
+/* Caption: mono body at small scale, center-aligned, caption color. */
+.cs-video-caption {
+  margin: 10px 0 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--text-caption);
+  text-align: center;
 }

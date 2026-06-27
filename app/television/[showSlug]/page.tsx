@@ -46,8 +46,10 @@ import { SITE_URL } from "@/lib/site-config";
 import {
   getShowBySlug,
   getShowNeighbors,
-  getShows,
+  showListPlacements,
 } from "@/lib/feeds/serializd";
+import type { ShowList } from "@/lib/feeds/serializd-utils";
+import { getShowsWithEnrichment } from "@/lib/feeds/review-corpus";
 import {
   applyCompletedCardFilters,
   asString,
@@ -60,6 +62,7 @@ import {
   parseShowSort,
   resolveSeasonPosterUrl,
   seasonNumberForReview,
+  showFacetValues,
   slugifyGenre,
   type CompletedCard,
   type InProgressCard as InProgressCardType,
@@ -67,6 +70,20 @@ import {
   type Season,
   type Show,
 } from "@/lib/feeds/serializd-utils";
+import { primaryNetwork } from "@/lib/feeds/stats/network-canon";
+import { findEntityBySlug, slugifyEntity } from "@/lib/feeds/slug";
+import {
+  tvFacetForBasePath,
+  resolveTvFacet,
+  indexableTvCollections,
+  showsAttributedToTvFamily,
+  tvCollectionsOfShow,
+  tvCollectionMemberSort,
+  TV_FACET_PIN,
+  makeTvFacetHref,
+  type TvFacetLink,
+} from "@/lib/feeds/facet-index";
+import { listShortLabel } from "@/lib/feeds/list-taxonomy";
 import { BackToTelevision } from "../BackToTelevision";
 
 type Params = { showSlug: string };
@@ -186,8 +203,12 @@ export default async function TelevisionDetailPage({
   const fromParam = asString(sp.from);
   // Cache the breadcrumb label once so the JSX doesn't run
   // describeFilterContext twice per render (conditional + value).
-  // Server-side helper, fast — but no reason to call it twice.
-  const filterContext = describeFilterContext(fromParam);
+  // Server-side helper, fast — but no reason to call it twice. The
+  // enriched corpus is needed to resolve facet/collection canonical
+  // names; getShowsWithEnrichment is module-cached so this shares the
+  // same array findContextualNeighbors loads internally.
+  const { shows: contextShows } = getShowsWithEnrichment();
+  const filterContext = describeFilterContext(fromParam, contextShows);
   const contextual = findContextualNeighbors(show.id, fromParam);
   const fallback = getShowNeighbors(show.id);
   const { newer: newerShow, older: olderShow } = contextual ?? fallback;
@@ -256,7 +277,166 @@ export default async function TelevisionDetailPage({
   // desc).
   const showLevelRating = showReviews[0]?.rating ?? null;
 
+  // ── Cast and Crew facet block (B3) ────────────────────────────────
+  // The per-show analog of the films "Cast & Crew" disclosure: the
+  // enrichment-backed facets (cast, creators, network, type, language,
+  // country) as chip rows that deep-link into the reviews funnel through the
+  // SAME resolver the stats tiles use (makeTvFacetHref), so the slug +
+  // route-vs-?param= vocabulary can't drift between the two surfaces. Each row
+  // drops when the show carries no value for it (never an empty row), so a
+  // thinly enriched show renders a shorter block. Decade is excluded (the
+  // premiere year is already in the metadata line).
+  //
+  // `show` (from getShowBySlug) rides the thin snapshot and carries no
+  // enrichment; the enriched copy lives in contextShows. showFacetValues reads
+  // show.enrichment, so resolve to the enriched show (network/type still come
+  // off the tmdb snapshot, so they survive even on an un-enriched show).
+  const enrichedShow = contextShows.find((s) => s.id === show.id) ?? show;
+  const tvFacetHref = makeTvFacetHref(contextShows);
+  const fv = showFacetValues(enrichedShow);
+  // Cast ordered by RECURRENCE (episode count desc) rather than billing: the
+  // enrichment carries no per-season cast, so most-recurring-first surfaces the
+  // through-line players as a stand-in for the season-to-season variance Malcolm
+  // flagged. This only reorders the canonical actor SET (showFacetValues.actors
+  // = top-10 billed ∩ ≥3 episodes, acting-shows only), so the deep-link
+  // vocabulary is unchanged. No extra cap: the ≤10 bound already keeps the rail
+  // scannable, and TV ensembles (Housewives, soaps) earn fuller coverage than a
+  // film's top billing.
+  const castEligible = new Set(fv.actors);
+  const cast = (enrichedShow.enrichment?.cast ?? [])
+    .filter((c) => castEligible.has(c.name))
+    .sort((a, b) => (b.eps ?? 0) - (a.eps ?? 0))
+    .map((c) => c.name);
+  // Network + type come off the snapshot (not enrichment). The Type row appears
+  // only when THIS show contributes a show/season card to the reviews grid — an
+  // episode-only show (e.g. a Talk Show logged per-episode) would land an empty
+  // type grid, so its Type row is omitted rather than linking to nothing.
+  const primaryNet = primaryNetwork(show.tmdb?.networks ?? []);
+  const showType = show.tmdb?.type ?? null;
+  const showHasCard = showReviews.length > 0 || seasonReviewsByNum.size > 0;
+  const allCreditRows: {
+    label: string;
+    facet: TvFacetLink;
+    values: string[];
+  }[] = [
+    { label: "Cast", facet: "actors", values: cast },
+    {
+      label: fv.creators.length > 1 ? "Creators" : "Creator",
+      facet: "creators",
+      values: fv.creators,
+    },
+    {
+      label: "Network",
+      facet: "networks",
+      values: primaryNet ? [primaryNet] : [],
+    },
+    {
+      label: "Type",
+      facet: "types",
+      values: showType && showHasCard ? [showType] : [],
+    },
+    {
+      label: fv.languages.length > 1 ? "Languages" : "Language",
+      facet: "languages",
+      values: fv.languages,
+    },
+    {
+      label: fv.countries.length > 1 ? "Countries" : "Country",
+      facet: "countries",
+      values: fv.countries,
+    },
+  ];
+  const creditRows = allCreditRows.filter((row) => row.values.length > 0);
+
+  // ── "Appears in" backlinks + miniseries handling ──────────────────
+  // Collection membership is show-scoped, so it stays in the hero.
+  const partOfCollections = tvCollectionsOfShow(
+    contextShows,
+    show.serializdShowId,
+  );
+  // Ranked-list placements render inline with the SEASON the list ranked
+  // (or in "The whole show" for show-level / miniseries entries), not in
+  // the hero — reuses the same gate so each link lands on a real page.
+  const listPlacements = showListPlacements(show.serializdShowId);
+  // Miniseries: a single "season" that IS the whole show. Drop the
+  // redundant "Season by season" block and give the whole-show review
+  // room. Guarded off when episode-level reviews exist (nothing to fold
+  // them into) so we never hide content.
+  const hasEpisodeReviews = show.reviews.some((r) => r.level === "episode");
+  const isMiniseries =
+    show.tmdb?.type === "Miniseries" &&
+    orderedSeasons.length <= 1 &&
+    !hasEpisodeReviews;
+  // For a miniseries logged at the season level (no show-level review),
+  // promote that single season review into the whole-show treatment.
+  const miniSeasonReview =
+    isMiniseries && showReviews.length === 0 && orderedSeasons[0]
+      ? (seasonReviewsByNum.get(orderedSeasons[0].seasonNumber) ?? null)
+      : null;
+  const wholeShowReviews =
+    showReviews.length > 0
+      ? showReviews
+      : miniSeasonReview
+        ? [miniSeasonReview]
+        : [];
+  // Where the non-season placements go:
+  //   • Miniseries — the whole PAGE is the show, so its placements sit in
+  //     the hero (alongside collection membership), the original position.
+  //   • Multi-season show — show-level (no-season) placements live in the
+  //     "The whole show" section; seasoned placements render at their block.
+  const heroPlacements = isMiniseries ? listPlacements : [];
+  const wholeShowPlacements = isMiniseries
+    ? []
+    : listPlacements.filter((p) => p.seasonNumber == null);
+
   const jsonLd = buildPageJsonLd(show);
+
+  // ── Discovery backlinks + external CTA (shared markup) ──────────
+  // Collection membership ("Part of …"), the miniseries-only hero
+  // ranked-list placements, and the external "View on Serializd" CTA.
+  // This group renders in two breakpoint-gated slots: inside the
+  // hero's title block on md+ (via display:contents, so it flows as
+  // normal Stack children with identical spacing), and relocated below
+  // the review content on mobile — where a tall hero would otherwise
+  // push the first review under the fold. Defined once here so the two
+  // slots can't drift apart.
+  const appearsInBlock =
+    partOfCollections.length > 0 || heroPlacements.length > 0 ? (
+      <Stack gap="100">
+        {partOfCollections.length > 0 ? (
+          <p style={{ margin: 0 }}>
+            Part of{" "}
+            {partOfCollections.map((c, i) => (
+              <span key={c.key}>
+                {i > 0
+                  ? i === partOfCollections.length - 1
+                    ? ", and "
+                    : ", "
+                  : ""}
+                <Link
+                  href={`/television/collections/${slugifyEntity(c.name)}`}
+                >
+                  {c.name}
+                </Link>
+              </span>
+            ))}
+            .
+          </p>
+        ) : null}
+        <ListPlacements placements={heroPlacements} />
+      </Stack>
+    ) : null;
+
+  const viewOnSerializd = (
+    <p style={{ margin: 0 }}>
+      <TrackOnClick
+        event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
+        eventData={{ kind: "show-detail", showId: show.serializdShowId }}
+      >
+        <Link href={show.serializdUrl}>View on Serializd ↗</Link>
+      </TrackOnClick>
+    </p>
+  );
 
   return (
     <div data-subbrand="tv">
@@ -331,13 +511,13 @@ export default async function TelevisionDetailPage({
 
             <Stack gap="400">
               <Kicker accent>Show</Kicker>
-              <Display>{show.name}</Display>
+              <Display size="h1-compact">{show.name}</Display>
               <p style={metadataLineStyle}>
                 {show.premiereYear || ""}
                 {show.tmdb?.type ? ` · ${show.tmdb.type}` : ""}
                 {show.tmdb?.status ? ` · ${show.tmdb.status}` : ""}
                 {show.tmdb?.networks && show.tmdb.networks.length > 0
-                  ? ` · ${show.tmdb.networks[0]}`
+                  ? ` · ${primaryNetwork(show.tmdb.networks)}`
                   : ""}
               </p>
               {/* Hero rating shows ONLY when there's a Show-level
@@ -408,23 +588,129 @@ export default async function TelevisionDetailPage({
                   ))}
                 </ul>
               ) : null}
-              <p style={{ margin: 0 }}>
-                <TrackOnClick
-                  event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
-                  eventData={{
-                    kind: "show-detail",
-                    showId: show.serializdShowId,
-                  }}
-                >
-                  <Link href={show.serializdUrl}>View on Serializd ↗</Link>
-                </TrackOnClick>
-              </p>
+              {/* Cast and Crew — the per-show facet block (cast, creators,
+                  network, type, language, country), collapsed by default behind
+                  a native <details> disclosure so it doesn't crowd the hero
+                  above the season-by-season hierarchy rendered right below. The
+                  native <details>/<summary> is a zero-JS, keyboard-operable
+                  toggle; the chevron rotation is CSS-only and reduced-motion-
+                  aware. Each row is a chip rail deep-linking into the reviews
+                  funnel via dl/dt/dd through the shared makeTvFacetHref resolver
+                  (so the vocabulary matches the stats tiles). It reuses the
+                  film-credits-* disclosure mechanics (theme-neutral); the chips
+                  carry the TV-blue show-detail-genre-chip class. The whole block
+                  is omitted when the show carries no facets at all. */}
+              {creditRows.length > 0 ? (
+                <details className="film-credits-disclosure">
+                  <summary className="film-credits-summary">
+                    <Kicker>Cast and Crew</Kicker>
+                    {/* Decorative state cue — CSS rotates it on [open]; the
+                        <summary> itself carries the toggle semantics. */}
+                    <svg
+                      className="film-credits-chevron"
+                      width="12"
+                      height="12"
+                      viewBox="0 0 12 12"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <path d="M2.5 4.5 L6 8 L9.5 4.5" />
+                    </svg>
+                  </summary>
+                  <dl
+                    style={{
+                      margin: "var(--scale-300) 0 0",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "var(--scale-200)",
+                    }}
+                  >
+                    {creditRows.map((row) => (
+                      <div
+                        key={row.facet}
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          alignItems: "baseline",
+                          gap: "var(--scale-300)",
+                        }}
+                      >
+                        <dt
+                          style={{
+                            ...metadataLineStyle,
+                            textTransform: "uppercase",
+                            // Fixed label column on wide viewports so the chip
+                            // rails align; the flex row wraps on narrow ones and
+                            // the rail drops below its label.
+                            minWidth: "5.5rem",
+                            flexShrink: 0,
+                          }}
+                        >
+                          {row.label}
+                        </dt>
+                        <dd style={{ margin: 0, flex: "1 1 12rem" }}>
+                          <ul
+                            role="list"
+                            style={{
+                              listStyle: "none",
+                              padding: 0,
+                              margin: 0,
+                              display: "flex",
+                              flexWrap: "wrap",
+                              gap: 8,
+                            }}
+                          >
+                            {row.values.map((value) => {
+                              const href = tvFacetHref(row.facet, value);
+                              return (
+                                <li key={value}>
+                                  {href ? (
+                                    <NextLink
+                                      href={href}
+                                      className="show-detail-genre-chip"
+                                      style={genreChipStyle}
+                                    >
+                                      {value}
+                                    </NextLink>
+                                  ) : (
+                                    <span style={genreChipStyle}>{value}</span>
+                                  )}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                </details>
+              ) : null}
+              {/* Collection membership + miniseries placements + the
+                  external CTA. On md+ they close out the hero's title
+                  block; display:contents makes this wrapper layout-
+                  transparent so the children flow as normal Stack items
+                  (identical gap/spacing to before). On mobile they're
+                  hidden here and re-rendered below the review content
+                  (see the md:hidden Section before the adjacent-shows
+                  nav), so the first review peeks above the fold rather
+                  than being pushed down by this block. */}
+              <div className="hidden md:contents">
+                {appearsInBlock}
+                {viewOnSerializd}
+              </div>
             </Stack>
           </div>
         </Section>
 
-        {/* ─── Show-level review (if any) ──────────────────────── */}
-        {showReviews.length > 0 ? (
+        {/* ─── Show-level review ───────────────────────────────── */}
+        {/* Renders for a genuine show-level writeup AND for a miniseries
+            (whose single-season review is promoted here so the whole show
+            reads as one piece — no redundant "Season by season" block).
+            Also home to show-level / miniseries ranked-list placements. */}
+        {wholeShowReviews.length > 0 || wholeShowPlacements.length > 0 ? (
           <Section padding="md" bordered>
             <div
               id="show-review"
@@ -437,13 +723,14 @@ export default async function TelevisionDetailPage({
               <div style={{ maxWidth: "65ch" }}>
                 <Stack gap="600">
                   <Headline level={2}>The whole show</Headline>
-                  {showReviews.map((review, i) => (
+                  {wholeShowReviews.map((review, i) => (
                     <ReviewBlock
                       key={`show-${i}`}
                       review={review}
                       anchorId={`show-review-${i}`}
                     />
                   ))}
+                  <ListPlacements placements={wholeShowPlacements} />
                 </Stack>
               </div>
             </div>
@@ -458,7 +745,10 @@ export default async function TelevisionDetailPage({
             so each season can fill the poster column with its
             own poster — distinct visual identity per season,
             aligned with the show's overall column rhythm. */}
-        {orderedSeasons.length > 0 ? (
+        {/* Miniseries collapse the season space (their single season IS the
+            show — rendered above), so this only shows for true multi-season
+            shows. */}
+        {!isMiniseries && orderedSeasons.length > 0 ? (
           <Section padding="md" bordered>
             <Stack gap="800">
               <div className="md:grid md:grid-cols-[200px_1fr] md:gap-8 lg:grid-cols-[240px_1fr] lg:gap-10">
@@ -476,6 +766,10 @@ export default async function TelevisionDetailPage({
                   episodeReviews={
                     episodeReviewsByNum.get(season.seasonNumber) ?? []
                   }
+                  // Ranked-list placements for THIS season, rendered inline.
+                  listPlacements={listPlacements.filter(
+                    (p) => p.seasonNumber === season.seasonNumber,
+                  )}
                   watchedUnreviewed={show.watchedUnreviewedSeasonNumbers.includes(
                     season.seasonNumber,
                   )}
@@ -487,6 +781,19 @@ export default async function TelevisionDetailPage({
             </Stack>
           </Section>
         ) : null}
+
+        {/* Mobile-only relocation of the hero's discovery backlinks +
+            external CTA. Hidden on md+ (the same markup renders in the
+            hero via display:contents); on mobile it sits below the
+            review content so the tall stacked hero doesn't push the
+            review under the fold. Stack gap mirrors the hero's so the
+            items keep the same rhythm they had in the title block. */}
+        <Section padding="md" bordered className="md:hidden">
+          <Stack gap="400">
+            {appearsInBlock}
+            {viewOnSerializd}
+          </Stack>
+        </Section>
 
         {/* ─── Adjacent shows (chronological prev/next) ────────
             Sibling-to-sibling links between detail pages. Newer
@@ -582,11 +889,38 @@ function ReviewBlock({
   );
 }
 
+/** Inline "Ranked #N in [list]" links — rendered next to the season the
+ *  list actually ranked (or in the whole-show area for show-level /
+ *  miniseries entries). Each lands on a real list page, deepening the path
+ *  back into the lists discovery surface. Renders nothing when empty. */
+function ListPlacements({
+  placements,
+}: {
+  placements: { list: ShowList; position: number }[];
+}) {
+  if (placements.length === 0) return null;
+  return (
+    <p style={{ margin: 0 }}>
+      Ranked{" "}
+      {placements.map(({ list, position }, i) => (
+        <span key={list.slug}>
+          {i > 0 ? (i === placements.length - 1 ? ", and " : ", ") : ""}
+          <Link href={`/television/lists/${list.slug}`}>
+            #{position} in {listShortLabel(list.name)}
+          </Link>
+        </span>
+      ))}
+      .
+    </p>
+  );
+}
+
 function SeasonBlock({
   show,
   season,
   seasonReview,
   episodeReviews,
+  listPlacements,
   watchedUnreviewed,
   inProgress,
 }: {
@@ -597,6 +931,9 @@ function SeasonBlock({
   season: Season;
   seasonReview: Review | null;
   episodeReviews: Review[];
+  /** Ranked-list placements for THIS season — rendered inline under the
+   *  season heading so a placement sits with the season the list ranked. */
+  listPlacements: { list: ShowList; position: number }[];
   /** Season is in `show.watchedUnreviewedSeasonNumbers` — watched
    *  pre-Serializd or otherwise without a writeup. Renders a
    *  "Watched" badge. */
@@ -754,6 +1091,10 @@ function SeasonBlock({
                 <SeasonStatusBadge tone="in-progress">In progress</SeasonStatusBadge>
               ) : null}
             </div>
+            {/* Ranked-list placements for this season, inline under the
+                heading so the placement sits with the season the list
+                ranked (e.g. "#1 in 2025 Backlog · Editor's Cut"). */}
+            <ListPlacements placements={listPlacements} />
             {/* Render the full ReviewBlock only when there's prose
                 to show. Rating-only Season reviews surface their
                 rating inline with the Watched badge above;
@@ -794,6 +1135,14 @@ function SeasonBlock({
               <p
                 style={{
                   ...metadataLineStyle,
+                  // Override the muted caption color with high-contrast
+                  // body text. This line only renders on unreviewed
+                  // seasons, which is exactly the `dim` case (the section
+                  // carries opacity 0.65). At that opacity the caption
+                  // grey composites to ~3.2:1 (fails AA); body text holds
+                  // ~5.4:1. We de-emphasize by size/italic, not by a
+                  // muted color the dim would push under the floor.
+                  color: "var(--text-body)",
                   margin: 0,
                   fontStyle: "italic",
                 }}
@@ -1043,7 +1392,10 @@ function NeighborLink({
  * the visitor came from the bare /television listing) so the
  * caller can skip rendering the breadcrumb.
  */
-function describeFilterContext(fromUrl: string | undefined): string | null {
+function describeFilterContext(
+  fromUrl: string | undefined,
+  shows: Show[],
+): string | null {
   if (!fromUrl) return null;
   let parsed: URL;
   try {
@@ -1055,6 +1407,12 @@ function describeFilterContext(fromUrl: string | undefined): string | null {
   }
   const labels: string[] = [];
   const genreMatch = parsed.pathname.match(/^\/television\/genre\/([^/]+)/);
+  // A two-segment /television/<seg>/<slug> path that names a real WS6b
+  // facet (tvFacetForBasePath is null for genre/collections).
+  const facetPathMatch = parsed.pathname.match(/^\/television\/([^/]+)\/([^/]+)$/);
+  const facetFromPath = facetPathMatch
+    ? tvFacetForBasePath(facetPathMatch[1])
+    : null;
   if (genreMatch) {
     // Multi-word genre slugs (sci-fi--fantasy, action--adventure,
     // war--politics) carry double-dashes that the slug-to-titlecase
@@ -1071,6 +1429,16 @@ function describeFilterContext(fromUrl: string | undefined): string | null {
     );
   } else if (parsed.pathname.startsWith("/television/watching")) {
     labels.push("Watching");
+  } else if (parsed.pathname.startsWith("/television/collections/")) {
+    // WS7 collection leaf — name the collection (canonical).
+    const slug = parsed.pathname.slice("/television/collections/".length);
+    const routable = indexableTvCollections(shows);
+    const name = findEntityBySlug(routable.map((c) => c.name), slug);
+    if (name) labels.push(name);
+  } else if (facetFromPath && facetPathMatch) {
+    // WS6b facet route — name the entity (canonical), e.g. "Mark Ruffalo".
+    const resolved = resolveTvFacet(facetFromPath, shows, facetPathMatch[2]);
+    if (resolved) labels.push(resolved.name);
   } else {
     const genre = parsed.searchParams.get("genre");
     if (genre) {
@@ -1141,7 +1509,11 @@ function findContextualNeighbors(
     Object.fromEntries(url.searchParams.entries());
   const filters = parseShowFilters(sp);
   const sort = parseShowSort(sp);
-  const { shows, summary } = getShows();
+  // Enriched corpus: the facet arm's predicates (actor/creator/network/…)
+  // and the collection arm's membership read show.enrichment. The
+  // pre-existing genre/reviews/watching arms don't read enrichment, so the
+  // switch from getShows() is behaviour-neutral for them.
+  const { shows, summary } = getShowsWithEnrichment();
   let orderedShows: Show[];
   if (pathname === "/television/watching") {
     const cards = buildInProgressCards(shows);
@@ -1162,12 +1534,48 @@ function findContextualNeighbors(
       sort,
     );
     orderedShows = uniqueShowsInOrder(filteredCards.map((c: CompletedCard) => c.show));
-  } else if (pathname === "/television") {
+  } else if (pathname.startsWith("/television/collections/")) {
+    // WS7 collection leaf: walk the family in premiere order (matches the
+    // leaf page; user filters/sort don't apply on a collection page).
+    const slug = pathname.slice("/television/collections/".length);
+    const routable = indexableTvCollections(shows);
+    const name = findEntityBySlug(routable.map((c) => c.name), slug);
+    const family = name ? routable.find((c) => c.name === name) : undefined;
+    if (!family) return null;
+    // Attributed membership (not just curated) so the prev/next walk on a
+    // network-only Bravo title (e.g. Watch What Happens Live) matches the
+    // set the Bravo leaf page actually showed.
+    orderedShows = showsAttributedToTvFamily(shows, family.key).sort(
+      tvCollectionMemberSort,
+    );
+  } else if (pathname === "/television/reviews" || pathname === "/television") {
+    // The corpus grid lives at /television/reviews now; the bare
+    // "/television" arm is kept so any detail link shared before the
+    // move (carrying ?from=/television) still resolves filter-aware
+    // neighbors instead of silently falling back to default ordering.
     const allCards = buildCompletedCards(shows);
     const filteredCards = applyCompletedCardFilters(allCards, filters, sort);
     orderedShows = uniqueShowsInOrder(filteredCards.map((c: CompletedCard) => c.show));
   } else {
-    return null;
+    // WS6b facet route: /television/<facet>/<slug>. Pin the facet value
+    // (by name for network/type, else by slug — exactly as the facet route
+    // does) and replay the user's other filters. Any unrecognized
+    // two-segment path → null → chronological fallback.
+    const facetMatch = pathname.match(/^\/television\/([^/]+)\/([^/]+)$/);
+    const facet = facetMatch ? tvFacetForBasePath(facetMatch[1]) : null;
+    if (!facet || !facetMatch) return null;
+    const { pinKey, nameBased } = TV_FACET_PIN[facet];
+    const pinValue = nameBased
+      ? resolveTvFacet(facet, shows, facetMatch[2])?.name ?? null
+      : facetMatch[2];
+    if (pinValue === null) return null;
+    const allCards = buildCompletedCards(shows);
+    const filteredCards = applyCompletedCardFilters(
+      allCards,
+      { ...filters, [pinKey]: [pinValue] },
+      sort,
+    );
+    orderedShows = uniqueShowsInOrder(filteredCards.map((c: CompletedCard) => c.show));
   }
   const idx = orderedShows.findIndex((s) => s.id === currentShowId);
   if (idx === -1) return null;

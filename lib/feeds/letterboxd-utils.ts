@@ -8,7 +8,25 @@
 //
 // Server-only logic (snapshot reading, TMDB enrichment, CSV/RSS
 // parsing) lives in `letterboxd.ts` and re-exports these types.
+//
+// Wave B entity filters (WS6) canonicalize with the SAME pure helpers
+// the stats compute uses (studio/people/provenance canon) so a filter
+// param value and the stats-tile row it deep-links from are identical.
+// Those modules are pure + client-safe, so importing them here keeps
+// this module client-bundle-safe.
 // ─────────────────────────────────────────────────────────────────
+
+import { facetHit, type FacetGroup } from "./slug";
+import { parseDimension } from "./stats/filter-url";
+import { canonStudio, conglomerateOfStudio } from "./stats/studio-canon";
+import { filmActorNames } from "./stats/people";
+import {
+  budgetTierLabel,
+  countryName,
+  languageName,
+  normalizeCountry,
+  normalizeLanguage,
+} from "./stats/provenance";
 
 // ─── Public types ────────────────────────────────────────────────
 
@@ -94,6 +112,15 @@ export type Film = {
   posterUrl: string | null;
   /** TMDB-derived fallback used by the card's onError swap when posterUrl 404s. */
   posterFallbackUrl: string | null;
+  /**
+   * Enrichment delta (cast, writers, studios, country, language, budget,
+   * release, collection) joined by TMDB id in lib/feeds/review-corpus.ts.
+   * Present only on the corpus the reviews pages filter with; absent on
+   * the snapshot-only getFilms() corpus. Server-side filtering reads it;
+   * strip before serializing cards to the client. Type-only import (erased
+   * at build) so this client-safe module never pulls in the fixture reader.
+   */
+  enrichment?: import("./enrichment").EnrichedFilm;
   /** Precomputed at snapshot-write time for O(1) filter membership checks. Unique ratings across reviews. */
   ratingSet: number[];
   /**
@@ -118,6 +145,120 @@ export type FilmsSummary = {
   genreDistribution: Record<string, number>;
   /** Per-film decade counts keyed as "2020s", "2010s", etc. */
   decadeDistribution: Record<string, number>;
+};
+
+/**
+ * Recompute a FilmsSummary from a (narrowed) film array — the request-time
+ * mirror of the snapshot writer's `recomputeSummary`
+ * (scripts/incremental-rss-refresh.mjs). Pure and client-safe (no fs).
+ *
+ * The snapshot ships a corpus-wide summary; the stats filters need a summary
+ * over the predicate-narrowed subset. Rather than re-deriving the
+ * distributions inside each stats tile, the stats entrypoints narrow the
+ * corpus, call this once, and feed the result through the same compute path
+ * the unfiltered dashboard uses. The counting rules match the writer EXACTLY
+ * (per-review ratings, per-film genres/decades, thisYear off latestWatchedDate)
+ * so a no-filter narrowing reproduces the shipped summary byte-for-byte.
+ */
+export function summarizeFilms(films: Film[]): FilmsSummary {
+  const currentYear = new Date().getUTCFullYear();
+  let totalReviews = 0;
+  let thisYearCount = 0;
+  const ratingDistribution: Record<string, number> = {};
+  const genreDistribution: Record<string, number> = {};
+  const decadeDistribution: Record<string, number> = {};
+
+  for (const film of films) {
+    totalReviews += film.reviews.length;
+    // "This year" is keyed off the most-recent WATCH date (the user-facing
+    // event), same as the writer — not the review-publication date.
+    const watchedYear = Number.parseInt(film.latestWatchedDate.slice(0, 4), 10);
+    if (watchedYear === currentYear) thisYearCount++;
+    // Ratings are per-review (a rewatch with two ratings counts twice);
+    // unrated reviews (null) contribute nothing.
+    for (const r of film.reviews) {
+      if (r.rating !== null) {
+        const key = String(r.rating);
+        ratingDistribution[key] = (ratingDistribution[key] ?? 0) + 1;
+      }
+    }
+    // Genres are per-film (a two-genre film adds to both buckets).
+    if (film.tmdb?.genres) {
+      for (const g of film.tmdb.genres) {
+        genreDistribution[g] = (genreDistribution[g] ?? 0) + 1;
+      }
+    }
+    if (Number.isFinite(film.releaseYear)) {
+      const decade = `${Math.floor(film.releaseYear / 10) * 10}s`;
+      decadeDistribution[decade] = (decadeDistribution[decade] ?? 0) + 1;
+    }
+  }
+
+  return {
+    totalFilms: films.length,
+    totalReviews,
+    thisYearCount,
+    ratingDistribution,
+    genreDistribution,
+    decadeDistribution,
+  };
+}
+
+// ─── Lists + favorites (editorial landing) ───────────────────────
+//
+// These are pulled from Letterboxd (the platform is the curation
+// surface — Malcolm arranges his lists and favorites there, the
+// site reflects them) by a separate slow-cadence scrape pass, NOT
+// the daily RSS-incremental path. See scripts/refresh-films-lists.mjs.
+// Both reference the review corpus by `letterboxdSlug` so the landing
+// can render rich FilmCards; the captured title/poster fields are a
+// standalone fallback for any entry not in the reviewed corpus (you
+// can favorite or list a film you haven't written up).
+
+/**
+ * One of Malcolm's public Letterboxd lists. `filmSlugs` is the
+ * list's running order (Letterboxd preserves manual / ranked order
+ * in the page markup), so the landing and the list-detail page
+ * render films in the order he arranged them. `description` carries
+ * the list's prose — for the ranked lists that's the methodology
+ * note ("star rating disregarded and fully editorialized"), which is
+ * the editorial voice we surface rather than per-film blurbs.
+ */
+export type FilmList = {
+  /** URL slug from letterboxd.com/<user>/list/<slug>/. */
+  slug: string;
+  /** Human title from the list page's og:title. */
+  title: string;
+  /** List prose / ranking methodology from og:description. May be "". */
+  description: string;
+  /** Ordered Letterboxd film slugs (list running order preserved). */
+  filmSlugs: string[];
+  /** Canonical Letterboxd list URL. */
+  url: string;
+};
+
+/**
+ * A single Letterboxd profile favorite. `slug` is the Letterboxd
+ * film slug (matches `Film.letterboxdSlug` for a corpus join); the
+ * remaining fields are captured straight off the profile so a
+ * favorite that isn't in the reviewed corpus still renders a poster
+ * card. Stored in profile order (Letterboxd lets you arrange them).
+ */
+export type FilmFavorite = {
+  slug: string;
+  title: string;
+  releaseYear: number | null;
+  /**
+   * w342 TMDB poster, resolved at scrape time via the corpus
+   * enricher (title+year search). Favorites are often rating-only
+   * films absent from the prose-only corpus, so the poster can't be
+   * borrowed from a corpus Film — but a TMDB poster keeps the
+   * favourite tile's 2:3 aspect consistent with every other poster
+   * on the site (the Letterboxd og:image is a 16:9 social crop, the
+   * wrong shape here). Null if TMDB had no match.
+   */
+  posterUrl: string | null;
+  letterboxdUrl: string;
 };
 
 // ─── Genre slug helpers ──────────────────────────────────────────
@@ -193,7 +334,135 @@ export type FilmFilters = {
   releaseYearMax?: number;
   /** Empty/undefined = no filter. Otherwise: keep film if film's genres intersect this set. */
   genres?: string[];
+  /** Title search (?title=), length ≥ 2. */
+  titleQuery?: string;
+  /** Director search (?director=), length ≥ 2. Separate field from
+   *  title so "everything by X" is its own lens. */
+  directorQuery?: string;
+  /**
+   * Runtime (length) buckets — empty/undefined = no filter.
+   * Otherwise keep the film if its tmdb.runtime falls in ANY selected
+   * bucket (OR within the facet). Values are RUNTIME_BUCKETS ids
+   * ("lt90", "90-120", "120-150", "gt150"). A film with null runtime
+   * is dropped when this filter is active (nothing to bucket).
+   */
+  runtimeBuckets?: string[];
+  // ── Wave B entity facets (WS6) ──────────────────────────────────
+  // Each is a set of selected entity SLUGS (slugifyEntity of the
+  // canonical display name). OR within a facet, AND across facets. A
+  // film matches when any of its canonical values for that facet (read
+  // from `film.enrichment` + the shared canonicalizers) slugifies into
+  // the selected set; a film with no enrichment can't confirm a match
+  // and is dropped when that facet is active. The vocabulary is
+  // identical to the stats tiles, so every tile row deep-links here.
+  /**
+   * EXACT director name slugs. Distinct from `directorQuery` (the fuzzy
+   * ?director= search box): this is set only by the /films/director/[slug]
+   * route (and resolves from a tile deep-link), never from a query param,
+   * so the route's exact-director scope can't collide with the fuzzy
+   * search. Read from the thin snapshot (tmdb.director), so it works
+   * without enrichment.
+   */
+  directors?: string[];
+  /** Top-10-billed actor name slugs. */
+  actors?: string[];
+  /** Writer name slugs. */
+  writers?: string[];
+  /** Canonical studio (canonStudio) name slugs. */
+  studios?: string[];
+  /** Owning conglomerate (conglomerateOfStudio) name slugs. */
+  conglomerates?: string[];
+  /** Original-language display-name slugs (e.g. "french"). */
+  languages?: string[];
+  /** Country-of-origin display-name slugs (e.g. "united-states"). */
+  countries?: string[];
+  /** Release classification slugs ("theatrical" | "limited" | "streaming" | "unknown"). */
+  releaseTypes?: string[];
+  /** Budget-tier label slugs (budgetTierLabel). */
+  budgetTiers?: string[];
+  /** Release-decade slugs ("2010s", "1990s", …) — derived from releaseYear. */
+  decades?: string[];
+  /** TMDB collection (franchise) name slugs. */
+  collections?: string[];
+  // ── Exclusion (NOT) facets — stats-page query model (STATS-FILTERS §2) ──
+  // Each mirrors an includable dimension above. A film is DROPPED if it
+  // matches ANY excluded value in a dimension (AND NOT), composed with the
+  // include logic (OR within a dimension, AND across). Empty/undefined = no
+  // exclusion. These are ADDITIVE and backward-compatible: the reviews
+  // surfaces never set them, so their behaviour is unchanged. Only the stats
+  // dashboards (and inherited reviews deep-links, §11) populate them.
+  //
+  // Exclusion semantics, per dimension:
+  // - For the enrichment-backed facet dimensions, exclude if facetHit on the
+  //   excluded slug set (the value is present → drop).
+  // - For genres, exclude if the film's genres intersect the excluded set.
+  // - For ratings, exclude a film whose qualifying review's rating is in the
+  //   excluded set (handled in the per-review pass).
+  excludeRatings?: number[];
+  /**
+   * Watched-year exclusion (AND NOT) — drop a film whose qualifying review
+   * was watched in any excluded year. Unlike `watchedYears` (which sits in
+   * the mutually-exclusive WatchedDateFilter union with `watchedWindow`),
+   * this is an independent per-review gate: it composes with an include-year
+   * set, the rolling window, or neither. Handled in the per-review pass.
+   */
+  excludeWatchedYears?: number[];
+  excludeGenres?: string[];
+  excludeRuntimeBuckets?: string[];
+  excludeDirectors?: string[];
+  excludeActors?: string[];
+  excludeWriters?: string[];
+  excludeStudios?: string[];
+  excludeConglomerates?: string[];
+  excludeLanguages?: string[];
+  excludeCountries?: string[];
+  excludeReleaseTypes?: string[];
+  excludeBudgetTiers?: string[];
+  excludeDecades?: string[];
+  excludeCollections?: string[];
+  // Both queries are carried here so generateMetadata can noindex the
+  // search state; the actual hybrid matching is precomputed server-side
+  // (per field, then intersected) and passed to applyFilters as
+  // `matchIds` — keeps this client-safe module free of the Fuse dep.
 } & WatchedDateFilter;
+
+/**
+ * Runtime (length) filter buckets. Static set — unlike genre/year,
+ * the options don't grow with the corpus, so no per-request
+ * derivation. Boundaries are non-overlapping: a 90m film lands in
+ * "90–120m", a 120m film in "90–120m", a 150m film in "120–150m".
+ * Exported so FilmsShell renders the chip rail from the same source
+ * the predicate reads.
+ */
+export const RUNTIME_BUCKETS = [
+  { id: "lt90", label: "Under 90m" },
+  { id: "90-120", label: "90–120m" },
+  { id: "120-150", label: "120–150m" },
+  { id: "gt150", label: "Over 150m" },
+] as const;
+
+export type RuntimeBucketId = (typeof RUNTIME_BUCKETS)[number]["id"];
+
+/**
+ * True if a runtime (minutes) falls in the given bucket. Half-open
+ * boundaries keep the buckets non-overlapping: [_,90) / [90,120] /
+ * (120,150] / (150,_). Unknown bucket ids return false so a tampered
+ * ?runtime= value matches nothing rather than throwing.
+ */
+export function runtimeInBucket(runtime: number, bucketId: string): boolean {
+  switch (bucketId) {
+    case "lt90":
+      return runtime < 90;
+    case "90-120":
+      return runtime >= 90 && runtime <= 120;
+    case "120-150":
+      return runtime > 120 && runtime <= 150;
+    case "gt150":
+      return runtime > 150;
+    default:
+      return false;
+  }
+}
 
 /**
  * Single source of truth for valid sort dimensions. The runtime
@@ -295,15 +564,207 @@ export type AppliedFilm = {
  * (latest-watched-desc) the filter pass preserves snapshot order
  * via JS's stable sort — the within-day tiebreaker survives.
  */
+/** Release-decade label for a year, e.g. 1994 → "1990s". Shared by the
+ *  decade predicate, the decade chip rail, and the deep-link slug. */
+export function filmDecadeLabel(year: number): string {
+  return `${Math.floor(year / 10) * 10}s`;
+}
+
+/** The Wave B facet keys a film exposes. */
+export type FilmFacet =
+  | "directors"
+  | "actors"
+  | "writers"
+  | "studios"
+  | "conglomerates"
+  | "languages"
+  | "countries"
+  | "releaseTypes"
+  | "budgetTiers"
+  | "decades"
+  | "collections";
+
+/**
+ * Canonical Wave B facet values for a film — DISPLAY names (pre-slug),
+ * via the same canonicalizers the stats use. The SINGLE source both the
+ * filter predicate (applyFilters) and the available-value derivation
+ * (the reviews page) read, so the two vocabularies can't drift — the
+ * contract the stats-tile deep-links depend on. A film with no
+ * enrichment yields empty arrays for the enrichment-backed facets.
+ */
+export function filmFacetValues(film: Film): Record<FilmFacet, string[]> {
+  const e = film.enrichment;
+  return {
+    // Director rides the THIN snapshot (tmdb.director), so it's available
+    // without enrichment — unlike the other Wave B facets below. It's an
+    // EXACT facet (one director per film) reached only via the dedicated
+    // route + stats deep-link; there's no ?director= facet param (that
+    // param is the fuzzy title-search box, kept separate).
+    directors: film.tmdb?.director ? [film.tmdb.director] : [],
+    actors: e ? filmActorNames({ cast: e.cast }) : [],
+    writers: e?.writers?.map((w) => w.name) ?? [],
+    studios: e?.studios?.map(canonStudio) ?? [],
+    conglomerates: e ? [conglomerateOfStudio(e.studios ?? [])] : [],
+    languages: e?.language ? [languageName(normalizeLanguage(e.language))] : [],
+    countries: e?.country ? [countryName(normalizeCountry(e.country))] : [],
+    releaseTypes: e?.release ? [e.release.cls] : [],
+    budgetTiers: e?.budget != null ? [budgetTierLabel(e.budget)] : [],
+    decades: [filmDecadeLabel(film.releaseYear)],
+    collections: e?.collection ? [e.collection.name] : [],
+  };
+}
+
+/**
+ * Per-facet value→count distributions across a film corpus, each sorted
+ * count desc then name asc. One pass over the corpus via filmFacetValues
+ * (so the available lists share the filter's exact vocabulary). Feeds the
+ * sidebar chip rails (low-card facets) and, in 6c, the constrained
+ * typeahead (high-card). `count` is the number of logged films carrying
+ * that value.
+ */
+export function filmFacetDistributions(
+  films: Film[],
+): Record<FilmFacet, [string, number][]> {
+  const facets: FilmFacet[] = [
+    "directors",
+    "actors",
+    "writers",
+    "studios",
+    "conglomerates",
+    "languages",
+    "countries",
+    "releaseTypes",
+    "budgetTiers",
+    "decades",
+    "collections",
+  ];
+  const maps = new Map<FilmFacet, Map<string, number>>(
+    facets.map((f) => [f, new Map<string, number>()]),
+  );
+  for (const film of films) {
+    const fv = filmFacetValues(film);
+    for (const facet of facets) {
+      const m = maps.get(facet)!;
+      for (const name of fv[facet]) m.set(name, (m.get(name) ?? 0) + 1);
+    }
+  }
+  const out = {} as Record<FilmFacet, [string, number][]>;
+  for (const facet of facets) {
+    out[facet] = [...maps.get(facet)!.entries()].sort(
+      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+    );
+  }
+  return out;
+}
+
+/**
+ * The low-cardinality facet groups for the film reviews sidebar, built
+ * from the corpus (shared by the reviews page and the genre route so
+ * their rails match). High-cardinality facets — actors, writers,
+ * studios, collections — are intentionally excluded: they're reached via
+ * stats deep-links now and get a constrained typeahead in 6c.
+ */
+export function filmEntityFacets(films: Film[]): FacetGroup[] {
+  const d = filmFacetDistributions(films);
+  // Sidebar rails are scanned by name, so each group sorts alphabetically
+  // — the count-desc ranking in filmFacetDistributions stays untouched
+  // (stats + sitemap depend on it). Decade labels are "YYYYs", so an
+  // alpha sort reads as chronological.
+  const byName = (opts: [string, number][]): [string, number][] =>
+    [...opts].sort((a, b) => a[0].localeCompare(b[0]));
+  return [
+    {
+      key: "languages",
+      param: "language",
+      label: "Language",
+      options: byName(d.languages),
+    },
+    {
+      key: "countries",
+      param: "country",
+      label: "Country",
+      options: byName(d.countries),
+    },
+    {
+      key: "conglomerates",
+      param: "conglomerate",
+      label: "Studio group",
+      options: byName(d.conglomerates),
+    },
+    {
+      key: "releaseTypes",
+      param: "releaseType",
+      label: "Release",
+      options: byName(d.releaseTypes),
+    },
+    {
+      key: "budgetTiers",
+      param: "budgetTier",
+      label: "Budget",
+      options: byName(d.budgetTiers),
+    },
+    {
+      key: "decades",
+      param: "decade",
+      label: "Decade",
+      options: byName(d.decades),
+    },
+  ];
+}
+
+/**
+ * True if any Wave B facet filter is active (gates the per-film
+ * enrichment work). Includes the exclusion facets — an exclusion-only
+ * selection still needs the per-film enrichment pass to evaluate the
+ * NOT predicate.
+ */
+function anyFilmFacetActive(f: FilmFilters): boolean {
+  return Boolean(
+    f.directors?.length ||
+    f.actors?.length ||
+    f.writers?.length ||
+    f.studios?.length ||
+    f.conglomerates?.length ||
+    f.languages?.length ||
+    f.countries?.length ||
+    f.releaseTypes?.length ||
+    f.budgetTiers?.length ||
+    f.decades?.length ||
+    f.collections?.length ||
+    // Exclusion facets (mirror the includes) also need the enrichment pass.
+    f.excludeDirectors?.length ||
+    f.excludeActors?.length ||
+    f.excludeWriters?.length ||
+    f.excludeStudios?.length ||
+    f.excludeConglomerates?.length ||
+    f.excludeLanguages?.length ||
+    f.excludeCountries?.length ||
+    f.excludeReleaseTypes?.length ||
+    f.excludeBudgetTiers?.length ||
+    f.excludeDecades?.length ||
+    f.excludeCollections?.length,
+  );
+}
+
 export function applyFilters(
   films: Film[],
   filters: FilmFilters,
   sort: FilmSort = DEFAULT_FILM_SORT,
+  // Precomputed fuzzy-search match set (film ids) for the ?q= filter.
+  // null/undefined = no search active (keep all). The matching is done
+  // by the caller via the server-only fuzzy-search helper so this
+  // module stays free of the Fuse dep and client-bundle-safe.
+  matchIds?: Set<string> | null,
 ): AppliedFilm[] {
   const hasPerReviewFilter =
     (filters.ratings && filters.ratings.length > 0) ||
+    (filters.excludeRatings && filters.excludeRatings.length > 0) ||
     (filters.watchedYears && filters.watchedYears.length > 0) ||
+    (filters.excludeWatchedYears && filters.excludeWatchedYears.length > 0) ||
     filters.watchedWindow !== undefined;
+
+  // Skip the per-film enrichment work entirely on the default listing.
+  const waveBActive = anyFilmFacetActive(filters);
 
   // Pre-compute the "12mo" cutoff once outside the loop. Using
   // Date.now() at filter time means the rolling window is always
@@ -323,6 +784,11 @@ export function applyFilters(
 
   for (const film of films) {
     // ── Per-film filters ────────────────────────────────────
+    // Search (?q=): drop films whose id isn't in the fuzzy-match set.
+    // Composes (AND) with every other filter below.
+    if (matchIds && !matchIds.has(film.id)) {
+      continue;
+    }
     if (
       filters.releaseYearMin !== undefined &&
       film.releaseYear < filters.releaseYearMin
@@ -338,17 +804,162 @@ export function applyFilters(
     if (filters.genres && filters.genres.length > 0) {
       const filmGenres = film.tmdb?.genres;
       if (!filmGenres) continue;
-      const intersects = filters.genres.some((g) => filmGenres.includes(g));
+      // Genre values reach us two ways: as slugs from `?genre=` URL params
+      // (parseFilmFilters stores them un-resolved) and as TMDB display names
+      // from the /films/genre/[slug] route. Slugifying both the film's genres
+      // and the filter values collapses the two onto the same token, mirroring
+      // how the Wave B facets match via facetHit. The old raw display-name
+      // match silently dropped every slug param (e.g. ?genre=horror was a no-op).
+      const filmGenreSlugs = filmGenres.map(slugifyGenre);
+      const intersects = filters.genres.some((g) =>
+        filmGenreSlugs.includes(slugifyGenre(g)),
+      );
       if (!intersects) continue;
+    }
+    // Genre exclusion (AND NOT): drop the film if its genres intersect the
+    // excluded set. A film with no genres can't match an exclusion, so it
+    // survives this gate (the complement of the include rule above).
+    if (filters.excludeGenres && filters.excludeGenres.length > 0) {
+      const filmGenres = film.tmdb?.genres;
+      if (filmGenres) {
+        // Same slug-normalization as the include path, so `?genre=!horror`
+        // excludes actually drop the film instead of slipping through.
+        const filmGenreSlugs = filmGenres.map(slugifyGenre);
+        if (
+          filters.excludeGenres.some((g) =>
+            filmGenreSlugs.includes(slugifyGenre(g)),
+          )
+        ) {
+          continue;
+        }
+      }
+    }
+    if (filters.runtimeBuckets && filters.runtimeBuckets.length > 0) {
+      const runtime = film.tmdb?.runtime;
+      // Null/unknown runtime can't be bucketed — drop it when the
+      // length filter is active.
+      if (runtime === null || runtime === undefined) continue;
+      if (!filters.runtimeBuckets.some((b) => runtimeInBucket(runtime, b))) {
+        continue;
+      }
+    }
+    // Runtime-bucket exclusion (AND NOT). A null/unknown runtime can't be
+    // bucketed, so it can't match an exclusion — it survives this gate.
+    if (filters.excludeRuntimeBuckets && filters.excludeRuntimeBuckets.length > 0) {
+      const runtime = film.tmdb?.runtime;
+      if (
+        runtime !== null &&
+        runtime !== undefined &&
+        filters.excludeRuntimeBuckets.some((b) => runtimeInBucket(runtime, b))
+      ) {
+        continue;
+      }
+    }
+
+    // ── Wave B entity facets (enrichment-backed) ────────────
+    // OR within each facet; AND across them (sequential continue). A
+    // film whose enrichment can't confirm a match — or is absent — is
+    // dropped when that facet is active. Values come from the shared
+    // filmFacetValues (same vocabulary as the stats + the available
+    // lists). Skipped entirely unless a Wave B facet is active.
+    if (waveBActive) {
+      const fv = filmFacetValues(film);
+      if (
+        filters.directors?.length &&
+        !facetHit(filters.directors, fv.directors)
+      )
+        continue;
+      if (filters.actors?.length && !facetHit(filters.actors, fv.actors))
+        continue;
+      if (filters.writers?.length && !facetHit(filters.writers, fv.writers))
+        continue;
+      if (filters.studios?.length && !facetHit(filters.studios, fv.studios))
+        continue;
+      if (
+        filters.conglomerates?.length &&
+        !facetHit(filters.conglomerates, fv.conglomerates)
+      )
+        continue;
+      if (
+        filters.languages?.length &&
+        !facetHit(filters.languages, fv.languages)
+      )
+        continue;
+      if (
+        filters.countries?.length &&
+        !facetHit(filters.countries, fv.countries)
+      )
+        continue;
+      if (
+        filters.releaseTypes?.length &&
+        !facetHit(filters.releaseTypes, fv.releaseTypes)
+      )
+        continue;
+      if (
+        filters.budgetTiers?.length &&
+        !facetHit(filters.budgetTiers, fv.budgetTiers)
+      )
+        continue;
+      if (filters.decades?.length && !facetHit(filters.decades, fv.decades))
+        continue;
+      if (
+        filters.collections?.length &&
+        !facetHit(filters.collections, fv.collections)
+      )
+        continue;
+
+      // ── Exclusion (AND NOT) on the same enrichment facets ──
+      // Drop the film if it carries ANY excluded value in a dimension.
+      // facetHit returns true when a canonical value slugifies into the
+      // excluded set, so the film is excluded → continue (skip it).
+      if (
+        filters.excludeDirectors?.length &&
+        facetHit(filters.excludeDirectors, fv.directors)
+      )
+        continue;
+      if (filters.excludeActors?.length && facetHit(filters.excludeActors, fv.actors))
+        continue;
+      if (filters.excludeWriters?.length && facetHit(filters.excludeWriters, fv.writers))
+        continue;
+      if (filters.excludeStudios?.length && facetHit(filters.excludeStudios, fv.studios))
+        continue;
+      if (
+        filters.excludeConglomerates?.length &&
+        facetHit(filters.excludeConglomerates, fv.conglomerates)
+      )
+        continue;
+      if (
+        filters.excludeLanguages?.length &&
+        facetHit(filters.excludeLanguages, fv.languages)
+      )
+        continue;
+      if (
+        filters.excludeCountries?.length &&
+        facetHit(filters.excludeCountries, fv.countries)
+      )
+        continue;
+      if (
+        filters.excludeReleaseTypes?.length &&
+        facetHit(filters.excludeReleaseTypes, fv.releaseTypes)
+      )
+        continue;
+      if (
+        filters.excludeBudgetTiers?.length &&
+        facetHit(filters.excludeBudgetTiers, fv.budgetTiers)
+      )
+        continue;
+      if (filters.excludeDecades?.length && facetHit(filters.excludeDecades, fv.decades))
+        continue;
+      if (
+        filters.excludeCollections?.length &&
+        facetHit(filters.excludeCollections, fv.collections)
+      )
+        continue;
     }
 
     // ── Per-review filters ──────────────────────────────────
     if (hasPerReviewFilter) {
-      const qualifying = findQualifyingReview(
-        film,
-        filters,
-        twelveMoCutoffMs,
-      );
+      const qualifying = findQualifyingReview(film, filters, twelveMoCutoffMs);
       if (!qualifying) continue;
       result.push({
         film,
@@ -398,12 +1009,29 @@ function findQualifyingReview(
         continue;
       }
     }
+    // Rating exclusion (AND NOT): skip a review whose rating is in the
+    // excluded set. A rated review carrying an excluded rating is not a
+    // qualifying review; the film survives only via another (non-excluded)
+    // qualifying review. Unrated reviews (null) can't match an exclusion.
+    if (filters.excludeRatings && filters.excludeRatings.length > 0) {
+      if (review.rating !== null && filters.excludeRatings.includes(review.rating)) {
+        continue;
+      }
+    }
     // WatchedYears filter: the review's watchedDate year must be
     // in the selected set. Multi-select — any year in the chip
     // rail counts as a match.
     if (filters.watchedYears && filters.watchedYears.length > 0) {
       const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
       if (!filters.watchedYears.includes(year)) continue;
+    }
+    // WatchedYear exclusion (AND NOT): skip a review watched in any excluded
+    // year. A review surviving this gate (watched in a non-excluded year) is
+    // what keeps the film — so a film watched in both an excluded and a
+    // non-excluded year stays, qualified by the non-excluded watch.
+    if (filters.excludeWatchedYears && filters.excludeWatchedYears.length > 0) {
+      const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
+      if (filters.excludeWatchedYears.includes(year)) continue;
     }
     // WatchedWindow filter (rolling 12 months from now, anchored to
     // watch date — when Malcolm actually saw the film, not when he
@@ -453,10 +1081,7 @@ function positionDateForSort(film: Film, sort: FilmSort): string {
  * csvRowIdx tiebreaker even though the index isn't on the
  * public Film type.
  */
-function sortApplied(
-  arr: AppliedFilm[],
-  sort: FilmSort,
-): AppliedFilm[] {
+function sortApplied(arr: AppliedFilm[], sort: FilmSort): AppliedFilm[] {
   // Spread so the input array stays untouched (the snapshot's
   // films array shouldn't be mutated by a filter pass).
   return [...arr].sort((a, b) => {
@@ -511,6 +1136,12 @@ const VALID_SORTS: readonly FilmSort[] = FILM_SORTS;
 
 const VALID_RATINGS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 
+// Runtime bucket ids, derived from RUNTIME_BUCKETS so the parse
+// allowlist can't drift from the rendered chip set.
+const VALID_RUNTIME_BUCKETS: readonly string[] = RUNTIME_BUCKETS.map(
+  (b) => b.id,
+);
+
 /**
  * Parse a Next.js searchParams record into FilmFilters. Tolerates
  * malformed input — a bad ?rating=foo just becomes "no rating
@@ -520,30 +1151,111 @@ const VALID_RATINGS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 export function parseFilmFilters(
   params: Record<string, string | string[] | undefined>,
 ): FilmFilters {
-  const ratings = parseCsvNumbers(asString(params.rating)).filter((r) =>
-    VALID_RATINGS.includes(r),
+  // Each filterable dimension is split into include / exclude slugs via
+  // the leading-"!" encoding (STATS-FILTERS §7, e.g. ?country=us,!uk). This
+  // is shared with the reviews surfaces (§11): existing reviews URLs carry
+  // no "!", so parseDimension returns include-only there — backward
+  // compatible. Only the stats dashboards (and inherited deep-links)
+  // populate the exclude side.
+  //
+  // Ratings are numeric: split as strings, then coerce + validate each side.
+  const ratingDim = parseDimension(asString(params.rating));
+  const ratings = ratingDim.include
+    .map((s) => Number.parseFloat(s))
+    .filter((r) => Number.isFinite(r) && VALID_RATINGS.includes(r));
+  const excludeRatings = ratingDim.exclude
+    .map((s) => Number.parseFloat(s))
+    .filter((r) => Number.isFinite(r) && VALID_RATINGS.includes(r));
+
+  const genreDim = parseDimension(asString(params.genre));
+  // Runtime buckets — CSV of RUNTIME_BUCKETS ids, validated against
+  // the known set so a tampered ?runtime=foo drops to "no filter."
+  const runtimeDim = parseDimension(asString(params.runtime));
+  const runtimeBuckets = runtimeDim.include.filter((b) =>
+    VALID_RUNTIME_BUCKETS.includes(b),
   );
-  const genres = parseCsvStrings(asString(params.genre));
+  const excludeRuntimeBuckets = runtimeDim.exclude.filter((b) =>
+    VALID_RUNTIME_BUCKETS.includes(b),
+  );
   const releaseYearMin = parseReleaseYear(asString(params.releaseYearMin));
   const releaseYearMax = parseReleaseYear(asString(params.releaseYearMax));
 
   // WatchedYears and watchedWindow are mutually exclusive per the
   // discriminated-union spec — if both are present, watchedYears
-  // wins (more specific signal). watchedYear URL param is CSV like
-  // `rating` and `genre` (`?watchedYear=2026,2024`); name stays
-  // singular for symmetry with those param names.
-  const watchedYearsRaw = parseCsvNumbers(asString(params.watchedYear))
+  // wins (more specific signal). watchedYear URL param is split into
+  // include/exclude via the leading-"!" encoding like every other rail
+  // (`?watchedYear=2026,2024,!2023`), so the stats rail's exclude cycle
+  // reaches the predicate; name stays singular for symmetry with the
+  // `rating`/`genre` param names. Exclusion (excludeWatchedYears) is an
+  // independent per-review gate, NOT part of the watchedYears/watchedWindow
+  // union — it composes with an include set, the window, or neither.
+  const watchedYearDim = parseDimension(asString(params.watchedYear));
+  const watchedYearsRaw = watchedYearDim.include
+    .map((s) => Number.parseInt(s, 10))
+    .filter((y) => Number.isInteger(y) && y > 0);
+  const excludeWatchedYears = watchedYearDim.exclude
+    .map((s) => Number.parseInt(s, 10))
     .filter((y) => Number.isInteger(y) && y > 0);
   const watchedWindowRaw = asString(params.watchedWindow);
 
-  const base: Pick<
-    FilmFilters,
-    "ratings" | "genres" | "releaseYearMin" | "releaseYearMax"
-  > = {};
+  // Title / director search (?title=, ?director=). Each active only at
+  // length ≥ 2 so a single typed character is a no-op (no jarring
+  // filter, no premature noindex). Mirrors MIN_QUERY_LENGTH.
+  const titleQuery = asString(params.title)?.trim();
+  const directorQuery = asString(params.director)?.trim();
+
+  // Wave B entity facets — CSV of entity slugs, each split into
+  // include/exclude. No allowlist validation: an unknown/tampered slug
+  // simply matches nothing in applyFilters (the corpus constraint),
+  // exactly like the genre/network facets today.
+  const actorDim = parseDimension(asString(params.actor));
+  const writerDim = parseDimension(asString(params.writer));
+  const studioDim = parseDimension(asString(params.studio));
+  const conglomerateDim = parseDimension(asString(params.conglomerate));
+  const languageDim = parseDimension(asString(params.language));
+  const countryDim = parseDimension(asString(params.country));
+  const releaseTypeDim = parseDimension(asString(params.releaseType));
+  const budgetTierDim = parseDimension(asString(params.budgetTier));
+  const decadeDim = parseDimension(asString(params.decade));
+  const collectionDim = parseDimension(asString(params.collection));
+
+  const base: Omit<FilmFilters, "watchedYears" | "watchedWindow"> = {};
+  // Include side.
   if (ratings.length > 0) base.ratings = ratings;
-  if (genres.length > 0) base.genres = genres;
+  if (genreDim.include.length > 0) base.genres = genreDim.include;
+  if (runtimeBuckets.length > 0) base.runtimeBuckets = runtimeBuckets;
   if (releaseYearMin !== undefined) base.releaseYearMin = releaseYearMin;
   if (releaseYearMax !== undefined) base.releaseYearMax = releaseYearMax;
+  if (titleQuery && titleQuery.length >= 2) base.titleQuery = titleQuery;
+  if (directorQuery && directorQuery.length >= 2) {
+    base.directorQuery = directorQuery;
+  }
+  if (actorDim.include.length > 0) base.actors = actorDim.include;
+  if (writerDim.include.length > 0) base.writers = writerDim.include;
+  if (studioDim.include.length > 0) base.studios = studioDim.include;
+  if (conglomerateDim.include.length > 0) base.conglomerates = conglomerateDim.include;
+  if (languageDim.include.length > 0) base.languages = languageDim.include;
+  if (countryDim.include.length > 0) base.countries = countryDim.include;
+  if (releaseTypeDim.include.length > 0) base.releaseTypes = releaseTypeDim.include;
+  if (budgetTierDim.include.length > 0) base.budgetTiers = budgetTierDim.include;
+  if (decadeDim.include.length > 0) base.decades = decadeDim.include;
+  if (collectionDim.include.length > 0) base.collections = collectionDim.include;
+  // Exclude side (STATS-FILTERS §2 — AND NOT). Only set when non-empty so
+  // the predicate stays minimal and reviews URLs (no "!") are unaffected.
+  if (excludeRatings.length > 0) base.excludeRatings = excludeRatings;
+  if (excludeWatchedYears.length > 0) base.excludeWatchedYears = excludeWatchedYears;
+  if (genreDim.exclude.length > 0) base.excludeGenres = genreDim.exclude;
+  if (excludeRuntimeBuckets.length > 0) base.excludeRuntimeBuckets = excludeRuntimeBuckets;
+  if (actorDim.exclude.length > 0) base.excludeActors = actorDim.exclude;
+  if (writerDim.exclude.length > 0) base.excludeWriters = writerDim.exclude;
+  if (studioDim.exclude.length > 0) base.excludeStudios = studioDim.exclude;
+  if (conglomerateDim.exclude.length > 0) base.excludeConglomerates = conglomerateDim.exclude;
+  if (languageDim.exclude.length > 0) base.excludeLanguages = languageDim.exclude;
+  if (countryDim.exclude.length > 0) base.excludeCountries = countryDim.exclude;
+  if (releaseTypeDim.exclude.length > 0) base.excludeReleaseTypes = releaseTypeDim.exclude;
+  if (budgetTierDim.exclude.length > 0) base.excludeBudgetTiers = budgetTierDim.exclude;
+  if (decadeDim.exclude.length > 0) base.excludeDecades = decadeDim.exclude;
+  if (collectionDim.exclude.length > 0) base.excludeCollections = collectionDim.exclude;
 
   if (watchedYearsRaw.length > 0) {
     return { ...base, watchedYears: watchedYearsRaw };
@@ -589,14 +1301,6 @@ function parseCsvNumbers(raw: string | undefined): number[] {
     .split(",")
     .map((s) => Number.parseFloat(s.trim()))
     .filter((n) => Number.isFinite(n));
-}
-
-function parseCsvStrings(raw: string | undefined): string[] {
-  if (!raw) return [];
-  return raw
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
 }
 
 function parsePositiveInt(raw: string | undefined): number | undefined {

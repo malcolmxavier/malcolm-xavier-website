@@ -29,12 +29,17 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
 import { SITE_URL } from "@/lib/site-config";
-import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
+import {
+  getShows,
+  getWatchingExclusions,
+  getShowLists,
+} from "@/lib/feeds/serializd";
 import {
   buildCompletedCards,
   buildInProgressCards,
 } from "@/lib/feeds/serializd-utils";
-import { AllOrWatchingToggle } from "../AllOrWatchingToggle";
+import { ClusterGridNav } from "@/components/feeds/ClusterGridNav";
+import { ScrollRestoration } from "@/components/feeds/useScrollRestoration";
 import { InProgressCard } from "../InProgressCard";
 import { BackToTelevision } from "../BackToTelevision";
 
@@ -86,8 +91,8 @@ export default function WatchingPage() {
   // Reading from data/television/overrides.json#excludeFromWatching
   // so the list lives next to the other editorial pins (miniseries,
   // poster overrides, watchedSeasons). Filtered AFTER buildInProgress-
-  // Cards so the SummaryPanel and any other consumer of the snapshot
-  // still sees the un-edited data.
+  // Cards so any other consumer of the snapshot still sees the
+  // un-edited data.
   const exclusions = getWatchingExclusions();
   const cards = buildInProgressCards(shows).filter(
     (c) => !exclusions.has(c.show.serializdShowId),
@@ -145,6 +150,8 @@ export default function WatchingPage() {
 
   return (
     <div data-subbrand="tv">
+      {/* Restore scroll when returning here from a show detail page. */}
+      <ScrollRestoration />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -172,12 +179,12 @@ export default function WatchingPage() {
         <Section padding="md">
           <Stack gap="500">
             <Kicker accent>Television · Watching</Kicker>
-            <Display>What&apos;s on my television right now.</Display>
-            <Lede>
-              Each card is a season I&apos;ve started but haven&apos;t finished.
-              The progress line shows how many episodes I&apos;ve
-              logged so far. Open any card to see episode ratings and reviews,
-              or explore prior ratings and reviews from prior seasons.
+            <Display>What’s on my television right now.</Display>
+            <Lede wide>
+              Each card is a season I’ve started but haven’t finished.
+              The progress line shows how many episodes I’ve logged so far.
+              Open any card to see episode ratings and reviews, or explore prior
+              ratings and reviews from prior seasons.
             </Lede>
           </Stack>
         </Section>
@@ -188,7 +195,7 @@ export default function WatchingPage() {
               this, axe flags the h1→h3 outline skip (regression caught
               in the 2026-05-07 re-review after Batch B's Low pass had
               removed it on the wrong rationale). Hidden visually
-              because AllOrWatchingToggle below already names the
+              because ClusterGridNav below already names the
               section for sighted users. */}
           <Headline level={2} className="sr-only">
             In-progress seasons
@@ -200,14 +207,13 @@ export default function WatchingPage() {
               id="grid" + scroll-margin-top is the anchor target
               the toggle's hrefs append (#grid) so view switches
               land at the grid row rather than the page hero. */}
-          <div
-            id="grid"
-            style={{ marginBottom: 16, scrollMarginTop: "5rem" }}
-          >
-            <AllOrWatchingToggle
+          <div id="grid" style={{ marginBottom: 16, scrollMarginTop: "5rem" }}>
+            <ClusterGridNav
+              cluster="television"
               active="watching"
               watchingCount={cards.length}
               allCount={buildCompletedCards(shows).length}
+              showLists={getShowLists().length > 0}
               from="watching"
             />
           </div>
@@ -216,8 +222,7 @@ export default function WatchingPage() {
               role="list"
               className="grid gap-4 sm:gap-6"
               style={{
-                gridTemplateColumns:
-                  "repeat(auto-fill, minmax(160px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
                 listStyle: "none",
                 padding: 0,
                 margin: 0,
@@ -278,7 +283,7 @@ export default function WatchingPage() {
                   padding: "4px 0",
                 }}
               >
-                <Link href="/television#grid">
+                <Link href="/television/reviews#grid">
                   Browse the rest of the catalog →
                 </Link>
               </p>

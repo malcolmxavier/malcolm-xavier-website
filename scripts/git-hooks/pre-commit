@@ -38,4 +38,22 @@ if echo "$STAGED" | grep -qE "$RESUME_FILES_REGEX"; then
   echo "✓ Resume sync check passed."
 fi
 
+# Typography backstop: any staged reader-facing source (app/components/lib
+# .tsx/.ts, excluding tests) is scanned for banned HTML entities — the blunt
+# net under the typographic-glyphs ESLint rule, catching entities in string
+# literals and arrays the AST rule can't see. Pass only the staged files so the
+# hook stays fast.
+TYPO_FILES=$(echo "$STAGED" | grep -E '^(app|components|lib)/.*\.(tsx|jsx|ts)$' | grep -vE '\.(test|spec)\.' || true)
+
+if [ -n "$TYPO_FILES" ]; then
+  echo "▶ Reader-facing source staged — running typography check..."
+  if ! node scripts/check-typography.mjs $TYPO_FILES; then
+    echo ""
+    echo "✗ Typography check failed. Replace HTML entities with real Unicode"
+    echo "  glyphs, or use 'git commit --no-verify' if an entity is genuinely"
+    echo "  code (also add a '// typography-ok' comment so the check stays green)."
+    exit 1
+  fi
+fi
+
 exit 0

@@ -47,11 +47,7 @@
 
 "use client";
 
-import {
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, ReactNode } from "react";
 import { track } from "@vercel/analytics";
@@ -60,17 +56,39 @@ import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
 import { InfoToast } from "@/components/primitives/InfoToast";
 import { Pagination } from "@/components/primitives/Pagination";
+import { ClusterGridNav } from "@/components/feeds/ClusterGridNav";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import type {
-  AppliedFilm,
-  FilmFilters,
-  FilmSort,
+import {
+  RUNTIME_BUCKETS,
+  type AppliedFilm,
+  type FilmFilters,
+  type FilmSort,
 } from "@/lib/feeds/letterboxd-utils";
+import { slugifyEntity, type FacetGroup } from "@/lib/feeds/slug";
 import { FilmCard } from "./FilmCard";
+import { useScrollRestoration } from "@/components/feeds/useScrollRestoration";
+// Shared filter primitives (extracted from the verbatim copies that used
+// to live in both shells). The local Chip/FilterRow/DismissableChip
+// wrappers below bind this cluster's chip class + id prefix so the many
+// call sites stay unchanged. SearchInput + deslugify carry no
+// cluster-specific prop, so they're used directly.
+import { Chip as SharedChip, type ChipProps } from "@/components/filters/Chip";
+import {
+  DismissableChip as SharedDismissableChip,
+  type DismissableChipProps,
+} from "@/components/filters/DismissableChip";
+import {
+  FilterRow as SharedFilterRow,
+  type FilterRowProps,
+} from "@/components/filters/FilterRow";
+import { deslugify } from "@/components/filters/deslugify";
+import { FacetAccordion } from "@/components/filters/FacetAccordion";
+import { SearchOmnibox } from "@/components/filters/SearchOmnibox";
+import type { Suggestion } from "@/components/filters/omnibox-types";
+import { ReviewLensStrip } from "@/components/filters/ReviewLensStrip";
+import { reviewLenses, type ReviewLens } from "@/lib/feeds/review-lenses";
 
-const RATING_VALUES = [
-  0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5,
-] as const;
+const RATING_VALUES = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5] as const;
 
 // Order: most-recent-watch (default) first, then watched/release/
 // review dimensions in newest-first/oldest-first pairs, then rating
@@ -107,8 +125,10 @@ type Props = {
   totalResults: number;
   filters: FilmFilters;
   sort: FilmSort;
-  /** Genres present in the snapshot, sorted by usage descending. */
-  availableGenres: string[];
+  /** Genres present in the snapshot as [name, count] tuples, sorted
+   *  alphabetically. The chip shows the name only; counts ride along for
+   *  the rail-curation floor + the omnibox search, not for display. */
+  availableGenres: [string, number][];
   /** Watched years present in the snapshot, sorted desc. Derived at
    *  request time from each film's pre-computed watchedYearSet
    *  (sourced from review.watchedDate) so the chip rail expands
@@ -116,6 +136,11 @@ type Props = {
    *  and the displayed year always matches what the watchedYear
    *  filter actually compares against. */
   availableWatchedYears: number[];
+  /** Wave B low-cardinality facet groups (language, country, studio
+   *  group, release, budget, decade) — each a labelled chip rail whose
+   *  chip values are entity slugs. Built by the page from the enriched
+   *  corpus; the same vocabulary the stats tiles deep-link with. */
+  entityFacets: FacetGroup[];
   /** When the shell is mounted from a /films/genre/<slug> route,
    *  this is the genre name pinned by that route. The shell uses
    *  it to seed query-string params on every nav so the genre
@@ -125,6 +150,40 @@ type Props = {
    *  query-string mode at /films?...). Undefined when the shell
    *  is mounted from /films directly. */
   routeGenre?: string;
+  /** When the shell is mounted from a Wave B facet route
+   *  (/films/director|actor|writer|studio|language|country|decade/<slug>),
+   *  this is the slug-based query param + value that route pins. Like
+   *  routeGenre, it's seeded into the query string on every nav so the
+   *  facet persists as the user composes additional filters, and the
+   *  target flips to /films/reviews (facet routes are single-value). The
+   *  one facet WITHOUT a param — director — passes undefined and stays on
+   *  its own pathname (the route re-pins it server-side). */
+  routePin?: { param: string; value: string };
+  /** slug → canonical name for the route's pinned facet, so its active
+   *  chip shows the real name even when the facet isn't a sidebar rail
+   *  (studio, actor, writer). */
+  entityNameHints?: Record<string, string>;
+  /** The director route's pin as a chip (director is param-less). */
+  routeFacetChip?: { facetLabel: string; name: string };
+  /** When set, renders the All · Collections grid-nav at the top of the
+   *  grid column (above the chips/grid, NOT above the filter sidebar) — the
+   *  number is the "All (N)" count. Mirrors TelevisionShell's nav. The
+   *  reviews grid passes it; genre/facet routes don't. */
+  gridNavAllCount?: number;
+  /** Whether the cluster has published lists — drives the grid-nav's
+   *  Lists tab. Passed alongside gridNavAllCount (the nav only renders
+   *  when that's set). */
+  showLists?: boolean;
+  /** Optional node rendered as the first row INSIDE the sticky grid-header
+   *  band, above the nav/chips — so it pins with them. Used on TV for the
+   *  "catalog" stat-bar; films has no equivalent today (passes nothing). */
+  gridHeaderLead?: ReactNode;
+  /** This listing's own relative URL (pathname + active filters), encoded
+   *  onto each card's detail-page link as `?from=` so the detail page can
+   *  replay the user's filter/sort context for adjacent-film nav + the
+   *  back-link. Recomputed server-side on every filter change (filtering
+   *  navigates the URL), so it always reflects the live listing state. */
+  originHref?: string;
 };
 
 export function FilmsShell({
@@ -136,11 +195,29 @@ export function FilmsShell({
   sort,
   availableGenres,
   availableWatchedYears,
+  entityFacets,
   routeGenre,
+  routePin,
+  entityNameHints,
+  routeFacetChip,
+  gridNavAllCount,
+  showLists,
+  gridHeaderLead,
+  originHref,
 }: Props) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+
+  // Restore the exact scroll position when returning from a detail page
+  // (the back-link push doesn't get native scroll restoration).
+  useScrollRestoration();
+
+  // slug → canonical name for facets picked via the omnibox this session.
+  // The omnibox knows the name at selection time, but after router.replace
+  // the active-filter chip re-renders from the URL slug with no route hint
+  // — this restores the display name (e.g. "A24", "Penélope Cruz").
+  const [pickerHints, setPickerHints] = useState<Record<string, string>>({});
 
   // Drawer (mobile fly-in) state.
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -194,8 +271,8 @@ export function FilmsShell({
       // role="dialog" aria-modal hints to AT but doesn't actually
       // trap keyboard focus; that's the JS responsibility here.
       // Without this, Tab from the drawer's last focusable
-      // ("Show results" button) escapes to the listing hero /
-      // mobile SummaryPanel siblings of FilmsShell.
+      // ("Show results" button) escapes to the listing hero
+      // siblings of FilmsShell.
       if (e.key !== "Tab") return;
       const dialog = document.getElementById(DRAWER_ID);
       if (!dialog) return;
@@ -267,6 +344,12 @@ export function FilmsShell({
     if (routeGenre && !params.has("genre")) {
       params.set("genre", routeGenre);
     }
+    // Same seeding for a Wave B facet route (language/studio/…): carry the
+    // route's pinned facet forward as a query param so it survives the
+    // hand-off to /films/reviews, or drops cleanly if toggled off.
+    if (routePin && !params.has(routePin.param)) {
+      params.set(routePin.param, routePin.value);
+    }
     for (const [k, v] of Object.entries(updates)) {
       if (v === undefined || v === "") {
         params.delete(k);
@@ -295,7 +378,11 @@ export function FilmsShell({
     // set lands at the canonical query-string surface. On the main
     // listing, stay at the current pathname (preserves e.g. /films
     // → /films behavior).
-    const targetBase = routeGenre ? "/films" : pathname;
+    // Multi-filter combos from a genre route land on the corpus grid,
+    // which now lives at /films/reviews (the cluster root /films is the
+    // editorial landing). The non-genre branch uses pathname, which is
+    // already /films/reviews when mounted there.
+    const targetBase = routeGenre || routePin ? "/films/reviews" : pathname;
     const qs = params.toString();
     router.replace(qs ? `${targetBase}?${qs}` : targetBase, {
       scroll: false,
@@ -320,6 +407,29 @@ export function FilmsShell({
     navigate({
       genre: next.length > 0 ? next.join(",") : undefined,
     });
+  }
+
+  function toggleRuntimeBucket(bucketId: string) {
+    const current = filters.runtimeBuckets ?? [];
+    const next = current.includes(bucketId)
+      ? current.filter((b) => b !== bucketId)
+      : [...current, bucketId];
+    navigate({
+      runtime: next.length > 0 ? next.join(",") : undefined,
+    });
+  }
+
+  // Generic toggle for every Wave B entity facet (studio, language,
+  // country, …). The chip value is an entity slug; `key` is the
+  // FilmFilters array it lives in, `param` the URL param it writes.
+  // OR within a facet, like genre.
+  function toggleEntityFacet(param: string, key: string, slug: string) {
+    const current =
+      ((filters as Record<string, unknown>)[key] as string[] | undefined) ?? [];
+    const next = current.includes(slug)
+      ? current.filter((s) => s !== slug)
+      : [...current, slug];
+    navigate({ [param]: next.length > 0 ? next.join(",") : undefined });
   }
 
   // Watched-date handlers. Year multi-select + two singletons
@@ -379,6 +489,41 @@ export function FilmsShell({
     });
   }
 
+  // Search. Values arrive already trimmed from SearchInput; "" clears
+  // the param. navigate() handles empty→delete + page reset + analytics
+  // ("search" dimension via pickFilterDimension).
+  function handleTitleChange(value: string) {
+    navigate({ title: value || undefined });
+  }
+  function handleDirectorChange(value: string) {
+    navigate({ director: value || undefined });
+  }
+
+  // Route an omnibox selection: a Title jumps to its detail page; the
+  // Director suggestion sets the fuzzy ?director= query; a slug facet
+  // (actor / writer / studio) is added to its filter array (add-only, so
+  // re-picking an already-active value is a no-op rather than a toggle-off).
+  function handleOmniboxSelect(s: Suggestion) {
+    if (s.href) {
+      router.push(s.href);
+      return;
+    }
+    if (s.param === "director" && s.value) {
+      navigate({ director: s.value });
+      return;
+    }
+    if (s.param && s.facetKey && s.value) {
+      const current =
+        ((filters as Record<string, unknown>)[s.facetKey] as
+          | string[]
+          | undefined) ?? [];
+      if (!current.includes(s.value)) {
+        toggleEntityFacet(s.param, s.facetKey, s.value);
+      }
+      setPickerHints((h) => ({ ...h, [s.value as string]: s.label }));
+    }
+  }
+
   function resetSort() {
     handleSortChange("latest-watched-desc");
   }
@@ -391,10 +536,51 @@ export function FilmsShell({
     router.replace(pathname, { scroll: false });
   }
 
+  // Dismiss a param-less route pin (the director route): drop to the
+  // unfiltered corpus, preserving any other query filters (the pin is the
+  // path, not a query param, so leaving the path clears it).
+  function clearRoutePin() {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("page");
+    const qs = params.toString();
+    router.replace(qs ? `/films/reviews?${qs}` : "/films/reviews", {
+      scroll: false,
+    });
+  }
+
   const activeFilterCount = countActiveFilters(filters);
   const sortIsDefault = sort === "latest-watched-desc";
-  const anyControlChangedFromDefault =
-    activeFilterCount > 0 || !sortIsDefault;
+  const anyControlChangedFromDefault = activeFilterCount > 0 || !sortIsDefault;
+
+  // Curated lenses ("Start here"). A lens is active when the current URL's
+  // filter params exactly match its bundle. Applying replaces the filter
+  // state with the lens's params; re-tapping the active lens clears back
+  // to the default view.
+  const reviewLensList = reviewLenses("films", new Date().getUTCFullYear());
+  const lensSignature = (params: Record<string, string>) =>
+    Object.entries(params)
+      .map(([k, v]) => `${k}=${v}`)
+      .sort()
+      .join("&");
+  const currentLensSignature = (() => {
+    const cur = new URLSearchParams(searchParams.toString());
+    for (const k of ["page", "ref", "from"]) cur.delete(k);
+    return [...cur.entries()]
+      .map(([k, v]) => `${k}=${v}`)
+      .sort()
+      .join("&");
+  })();
+  const activeLensId =
+    reviewLensList.find((l) => lensSignature(l.params) === currentLensSignature)
+      ?.id ?? null;
+  function applyLens(lens: ReviewLens) {
+    if (activeLensId === lens.id) {
+      router.replace(pathname, { scroll: false });
+      return;
+    }
+    const p = new URLSearchParams(lens.params);
+    router.replace(`${pathname}?${p.toString()}`, { scroll: false });
+  }
 
   // The desktop sidebar and the mobile drawer both render the same
   // FilterContent. They differ in only two props:
@@ -414,14 +600,18 @@ export function FilmsShell({
     sort,
     availableGenres,
     availableWatchedYears,
+    entityFacets,
     anyControlChangedFromDefault,
     totalResults,
     onToggleRating: toggleRating,
     onToggleGenre: toggleGenre,
+    onToggleRuntimeBucket: toggleRuntimeBucket,
     onToggleWatchedYear: toggleWatchedYear,
     onSetWatched12Mo: setWatched12Mo,
     onClearWatchedDate: clearWatchedDate,
+    onToggleEntityFacet: toggleEntityFacet,
     onSortChange: handleSortChange,
+    onOmniboxSelect: handleOmniboxSelect,
     onClearAll: clearAll,
   };
   const sidebarFilterContent = (
@@ -429,12 +619,18 @@ export function FilmsShell({
       {...sharedFilterContentProps}
       announceResultCount={true}
       showClearAll={false}
+      // Desktop sidebar stays fully expanded — it's sticky with its own
+      // scroll, so length isn't the constraint it is in the drawer.
+      collapsibleSecondary={false}
     />
   );
   const drawerFilterContent = (
     <FilterContent
       {...sharedFilterContentProps}
       announceResultCount={false}
+      // Mobile drawer collapses the Wave-B long tail behind "More
+      // filters" so the common filters sit near the top.
+      collapsibleSecondary={true}
     />
   );
 
@@ -556,6 +752,49 @@ export function FilmsShell({
           <Headline level={2} className="sr-only">
             Film reviews
           </Headline>
+          {/* Sticky grid header (md+): wraps the nav, lens chips, and
+              active-filter rail so all three pin below the site nav
+              while results scroll under. id="grid" is the scroll
+              target the nav's "All" link appends (#grid); moved to
+              this wrapper so facet routes (no ClusterGridNav) still
+              get the anchor. Mobile (< 768px): plain block flow,
+              sticky class is suppressed by the @media guard. */}
+          <div
+            id="grid"
+            className="reviews-grid-header"
+            style={{ scrollMarginTop: "5rem" }}
+          >
+          {/* Optional lead row (e.g. a catalog stat-bar) — pins as the
+              top of the band. Films passes nothing today. */}
+          {gridHeaderLead ? (
+            <div style={{ marginBottom: 16 }}>{gridHeaderLead}</div>
+          ) : null}
+          {/* Grid-nav (All · Collections) — lives at the top of the GRID
+              column, not above the filter sidebar. */}
+          {gridNavAllCount !== undefined ? (
+            <div
+              style={{ marginBottom: 16 }}
+            >
+              <ClusterGridNav
+                cluster="films"
+                active="all"
+                allCount={gridNavAllCount}
+                showLists={showLists}
+              />
+            </div>
+          ) : null}
+          {/* Curated lenses — main reviews page only (genre/facet routes
+              are already a filtered view). */}
+          {!routeGenre && !routePin ? (
+            <div style={{ marginBottom: 16 }}>
+              <ReviewLensStrip
+                lenses={reviewLensList}
+                activeId={activeLensId}
+                onSelect={applyLens}
+                chipClassName="film-filter-chip"
+              />
+            </div>
+          ) : null}
           {/* Active-filter chip rail + inline info toast — both share
               one flex-wrap row above the grid so the user always
               sees what's currently filtered AND any transient
@@ -574,10 +813,12 @@ export function FilmsShell({
                   dismissers reachable even when result is empty)
                 • films-no-active-filter-summary-mobile-multiselect
                   (mobile parity with the desktop sidebar)
-              The labelling half of films-stats-orphaned-by-filters
-              lands on the SummaryPanel "Lifetime · all N films"
-              kicker, which makes the chart's scope explicit. */}
-          {(anyControlChangedFromDefault || toastMessage) ? (
+              (The lifetime-stats chart that used to need a scope
+              label here moved off the listing page entirely — it now
+              lives on the /films landing's "By the numbers" band — so
+              the on-page orphaned-by-filters labelling concern is
+              moot; the chip rail still handles the recovery half.) */}
+          {anyControlChangedFromDefault || toastMessage ? (
             // Block-flow wrapper: chips on the first line, the
             // (md+ inline) toast on its own line below. Pinning the
             // toast to a dedicated line keeps its position from
@@ -589,16 +830,26 @@ export function FilmsShell({
             // onto the next line. The mobile floating variant of
             // <InfoToast> is position: fixed and ignores this DOM
             // placement entirely.
-            <div style={{ marginBottom: 16 }}>
+            // marginBottom omitted: wrapper's padding-bottom:12px
+            // handles the gap above the border-bottom divider.
+            <div>
               <ActiveFilterChips
                 filters={filters}
                 sort={sort}
+                entityFacets={entityFacets}
                 onRemoveRating={toggleRating}
                 onRemoveGenre={toggleGenre}
+                onRemoveRuntimeBucket={toggleRuntimeBucket}
                 onRemoveWatchedYear={toggleWatchedYear}
                 onClearWatchedWindow={clearWatchedDate}
+                onRemoveTitle={() => handleTitleChange("")}
+                onRemoveDirector={() => handleDirectorChange("")}
+                onRemoveEntityFacet={toggleEntityFacet}
                 onResetSort={resetSort}
                 onClearAll={clearAll}
+                entityNameHints={{ ...entityNameHints, ...pickerHints }}
+                routeFacetChip={routeFacetChip}
+                onClearRoutePin={clearRoutePin}
               />
               <InfoToast
                 message={toastMessage}
@@ -606,13 +857,13 @@ export function FilmsShell({
               />
             </div>
           ) : null}
+          </div>
           {films.length > 0 ? (
             <ul
               role="list"
               className="grid gap-4 sm:gap-6"
               style={{
-                gridTemplateColumns:
-                  "repeat(auto-fill, minmax(160px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
                 listStyle: "none",
                 padding: 0,
                 margin: 0,
@@ -620,7 +871,7 @@ export function FilmsShell({
             >
               {films.map((applied) => (
                 <li key={applied.film.id}>
-                  <FilmCard applied={applied} />
+                  <FilmCard applied={applied} originHref={originHref} />
                 </li>
               ))}
             </ul>
@@ -635,7 +886,9 @@ export function FilmsShell({
               pageParam="page"
               preserveParams={preserveParams}
               ariaLabel="Film review pages"
-              surface={routeGenre ? "films-genre" : "films"}
+              surface={
+                routeGenre ? "films-genre" : routePin ? "films-facet" : "films"
+              }
             />
           </div>
         </div>
@@ -651,30 +904,40 @@ function FilterContent({
   sort,
   availableGenres,
   availableWatchedYears,
+  entityFacets,
   anyControlChangedFromDefault,
   totalResults,
   onToggleRating,
   onToggleGenre,
+  onToggleRuntimeBucket,
   onToggleWatchedYear,
   onSetWatched12Mo,
   onClearWatchedDate,
+  onToggleEntityFacet,
   onSortChange,
+  onOmniboxSelect,
   onClearAll,
   announceResultCount,
   showClearAll = true,
+  collapsibleSecondary,
 }: {
   filters: FilmFilters;
   sort: FilmSort;
-  availableGenres: string[];
+  availableGenres: [string, number][];
   availableWatchedYears: number[];
+  entityFacets: FacetGroup[];
   anyControlChangedFromDefault: boolean;
   totalResults: number;
   onToggleRating: (r: number) => void;
   onToggleGenre: (g: string) => void;
+  onToggleRuntimeBucket: (b: string) => void;
   onToggleWatchedYear: (y: number) => void;
   onSetWatched12Mo: () => void;
   onClearWatchedDate: () => void;
+  onToggleEntityFacet: (param: string, key: string, slug: string) => void;
   onSortChange: (v: FilmSort) => void;
+  /** Route an omnibox suggestion (title jump / director query / facet add). */
+  onOmniboxSelect: (s: Suggestion) => void;
   onClearAll: () => void;
   /** Hide the inline "Clear all" button. The desktop sidebar sets
    *  this `false` because the active-filter chip rail above the
@@ -692,6 +955,10 @@ function FilterContent({
    * FilterContent renders.
    */
   announceResultCount: boolean;
+  /** When true (mobile drawer), the Wave-B facet rails collapse behind
+   *  a "More filters" disclosure; false (desktop sidebar) renders them
+   *  inline. */
+  collapsibleSecondary: boolean;
 }) {
   // Singletons (All time, Past 12 months) and multi-select years
   // share the Watched chip rail. Active states derived inline so
@@ -702,11 +969,21 @@ function FilterContent({
   const past12moActive = filters.watchedWindow === "12mo";
   return (
     <Stack gap="500">
-      {/* Sort + clear-all live at the top of the rail so the most
-          common control is the easiest to reach. The result count
-          sits next to "Clear all" — same line as the Sort label
-          would feel cramped, so each gets its own row inside the
-          Stack. */}
+      {/* Search leads the rail — one omnibox that suggests titles (jump
+          to the review) and the high-cardinality facets (actor, director,
+          writer, studio → apply a filter) the rails don't surface. */}
+      <SearchOmnibox
+        endpoint="/films/reviews/facet-search"
+        label="Search"
+        placeholder="Titles, actors, directors, studios…"
+        ariaLabel="Search films by title, actor, director, writer, or studio"
+        onSelect={onOmniboxSelect}
+      />
+
+      {/* Sort + clear-all live near the top of the rail so the most
+          common control is easy to reach. The result count sits next
+          to "Clear all" — same line as the Sort label would feel
+          cramped, so each gets its own row inside the Stack. */}
       <div>
         <Kicker>Sort</Kicker>
         <select
@@ -792,7 +1069,7 @@ function FilterContent({
 
       {availableGenres.length > 0 ? (
         <FilterRow label="Genre">
-          {availableGenres.map((g) => (
+          {availableGenres.map(([g]) => (
             <Chip
               key={g}
               isActive={(filters.genres ?? []).includes(g)}
@@ -804,6 +1081,56 @@ function FilterContent({
           ))}
         </FilterRow>
       ) : null}
+
+      {/* Length — static runtime buckets (the options don't grow with
+          the corpus, so no availableX prop). Multi-select OR within
+          the facet. */}
+      <FilterRow label="Length">
+        {RUNTIME_BUCKETS.map((b) => (
+          <Chip
+            key={b.id}
+            isActive={(filters.runtimeBuckets ?? []).includes(b.id)}
+            onClick={() => onToggleRuntimeBucket(b.id)}
+            ariaLabel={`Filter to runtime ${b.label}`}
+          >
+            {b.label}
+          </Chip>
+        ))}
+      </FilterRow>
+
+      {/* Wave B low-cardinality facets — one chip rail per group
+          (language, country, studio group, release, budget, decade).
+          Each chip's value is an entity slug; OR within a facet. The
+          vocabulary matches the stats tiles, so a tile deep-link selects
+          the same chip here. On mobile (collapsibleSecondary) they tuck
+          behind a "More filters" disclosure to shorten the drawer; on
+          desktop the accordion renders them inline. */}
+      <FacetAccordion label="More filters" collapsible={collapsibleSecondary}>
+        {entityFacets.map((fg) => {
+          if (fg.options.length === 0) return null;
+          const active =
+            ((filters as Record<string, unknown>)[fg.key] as
+              | string[]
+              | undefined) ?? [];
+          return (
+            <FilterRow key={fg.param} label={fg.label}>
+              {fg.options.map(([name]) => {
+                const slug = slugifyEntity(name);
+                return (
+                  <Chip
+                    key={slug}
+                    isActive={active.includes(slug)}
+                    onClick={() => onToggleEntityFacet(fg.param, fg.key, slug)}
+                    ariaLabel={`Filter to ${name}`}
+                  >
+                    {name}
+                  </Chip>
+                );
+              })}
+            </FilterRow>
+          );
+        })}
+      </FacetAccordion>
 
       <div
         style={{
@@ -844,76 +1171,15 @@ function FilterContent({
   );
 }
 
-function FilterRow({
-  label,
-  children,
-}: {
-  label: string;
-  children: ReactNode;
-}) {
-  // Stable id derived from the label slug. role="group" +
-  // aria-labelledby give the chip cluster programmatic context for
-  // SR users navigating button-by-button — without this, AT users
-  // hear each chip's aria-label without knowing the chips belong
-  // to a group, which makes multi-select especially confusing
-  // ("can I press more than one? are these mutually exclusive?").
-  const labelId = `films-filter-row-${label
-    .toLowerCase()
-    .replace(/\s+/g, "-")}`;
-  return (
-    <div role="group" aria-labelledby={labelId}>
-      <Kicker id={labelId}>{label}</Kicker>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: 6,
-          marginTop: 8,
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
+// Films cluster bindings for the shared filter leaves — inject the
+// "films" id namespace and the film-filter-chip transition class so the
+// call sites below stay unchanged.
+function FilterRow(props: Omit<FilterRowProps, "idPrefix">) {
+  return <SharedFilterRow {...props} idPrefix="films" />;
 }
 
-function Chip({
-  isActive,
-  onClick,
-  children,
-  ariaLabel,
-}: {
-  isActive: boolean;
-  onClick: () => void;
-  children: ReactNode;
-  ariaLabel?: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={isActive}
-      aria-label={ariaLabel}
-      style={{
-        ...chipBaseStyle,
-        background: isActive ? "var(--text-action)" : "transparent",
-        color: isActive ? "var(--surface-page)" : "var(--text-body)",
-        // Inactive borderColor mirrors the chipBaseStyle's border —
-        // both must be --border-interactive for SC 1.4.11.
-        borderColor: isActive
-          ? "var(--text-action)"
-          : "var(--border-interactive)",
-      }}
-      // .film-filter-chip carries the transition + paired
-      // prefers-reduced-motion override (see components.css). An
-      // inline `transition` on chipBaseStyle would outrank Tailwind's
-      // motion-reduce:transition-none class, silently defeating the
-      // accessibility guard.
-      className="film-filter-chip hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
-    >
-      {children}
-    </button>
-  );
+function Chip(props: Omit<ChipProps, "chipClassName">) {
+  return <SharedChip {...props} chipClassName="film-filter-chip" />;
 }
 
 /**
@@ -932,26 +1198,68 @@ function Chip({
 function ActiveFilterChips({
   filters,
   sort,
+  entityFacets,
   onRemoveRating,
   onRemoveGenre,
+  onRemoveRuntimeBucket,
   onRemoveWatchedYear,
   onClearWatchedWindow,
+  onRemoveTitle,
+  onRemoveDirector,
+  onRemoveEntityFacet,
   onResetSort,
   onClearAll,
+  entityNameHints,
+  routeFacetChip,
+  onClearRoutePin,
 }: {
   filters: FilmFilters;
   sort: FilmSort;
+  entityFacets: FacetGroup[];
   onRemoveRating: (r: number) => void;
   onRemoveGenre: (g: string) => void;
+  onRemoveRuntimeBucket: (b: string) => void;
   onRemoveWatchedYear: (y: number) => void;
   onClearWatchedWindow: () => void;
+  onRemoveTitle: () => void;
+  onRemoveDirector: () => void;
+  onRemoveEntityFacet: (param: string, key: string, slug: string) => void;
   onResetSort: () => void;
   onClearAll: () => void;
+  /** slug → canonical name, for facets reached by deep-link/route that
+   *  aren't in the sidebar rails (so their chip shows the real name). */
+  entityNameHints?: Record<string, string>;
+  /** The director route's pin as a chip (director has no query param, so it
+   *  can't ride the param-based entityActive path). */
+  routeFacetChip?: { facetLabel: string; name: string };
+  onClearRoutePin: () => void;
 }) {
   const ratings = filters.ratings ?? [];
   const genres = filters.genres ?? [];
+  const runtimeBuckets = filters.runtimeBuckets ?? [];
   const watchedYears = filters.watchedYears ?? [];
   const sortIsDefault = sort === "latest-watched-desc";
+
+  // Active Wave B entity-facet selections, flattened to dismissable
+  // descriptors — across EVERY param-backed facet (not just the sidebar
+  // rails), so a route-pinned or deep-linked high-card facet (studio,
+  // actor, …) shows a chip too. The display name resolves in priority:
+  // the route's exact-name hint → the rail option list → a de-slugified
+  // fallback (for a query-param value with no hint and no rail).
+  const railOptions = new Map(entityFacets.map((fg) => [fg.key, fg.options]));
+  const entityActive = FILM_CHIP_FACETS.flatMap(({ key, param, label }) => {
+    const selected = (filters[key] as string[] | undefined) ?? [];
+    return selected.map((slug) => ({
+      param,
+      key,
+      label,
+      slug,
+      name:
+        entityNameHints?.[slug] ??
+        railOptions.get(key)?.find(([n]) => slugifyEntity(n) === slug)?.[0] ??
+        deslugify(slug),
+    }));
+  });
 
   // Total count of dismissable items — used to decide whether a
   // "Clear all" affordance is worth surfacing here. With one item
@@ -960,8 +1268,13 @@ function ActiveFilterChips({
   const dismissableCount =
     ratings.length +
     genres.length +
+    runtimeBuckets.length +
     watchedYears.length +
+    entityActive.length +
+    (routeFacetChip ? 1 : 0) +
     (filters.watchedWindow !== undefined ? 1 : 0) +
+    (filters.titleQuery ? 1 : 0) +
+    (filters.directorQuery ? 1 : 0) +
     (sortIsDefault ? 0 : 1);
 
   if (dismissableCount === 0) return null;
@@ -980,6 +1293,20 @@ function ActiveFilterChips({
         gap: 8,
       }}
     >
+      {filters.titleQuery ? (
+        <DismissableChip
+          label={`Title: “${filters.titleQuery}”`}
+          ariaLabel={`Clear title search for ${filters.titleQuery}`}
+          onDismiss={onRemoveTitle}
+        />
+      ) : null}
+      {filters.directorQuery ? (
+        <DismissableChip
+          label={`Director: “${filters.directorQuery}”`}
+          ariaLabel={`Clear director search for ${filters.directorQuery}`}
+          onDismiss={onRemoveDirector}
+        />
+      ) : null}
       {ratings.map((r) => (
         <DismissableChip
           key={`rating-${r}`}
@@ -996,6 +1323,14 @@ function ActiveFilterChips({
           onDismiss={() => onRemoveGenre(g)}
         />
       ))}
+      {runtimeBuckets.map((b) => (
+        <DismissableChip
+          key={`runtime-${b}`}
+          label={labelForRuntimeBucket(b)}
+          ariaLabel={`Remove ${labelForRuntimeBucket(b)} length filter`}
+          onDismiss={() => onRemoveRuntimeBucket(b)}
+        />
+      ))}
       {watchedYears.map((y) => (
         <DismissableChip
           key={`year-${y}`}
@@ -1009,6 +1344,23 @@ function ActiveFilterChips({
           label="Past 12 months"
           ariaLabel="Remove past-12-months filter"
           onDismiss={onClearWatchedWindow}
+        />
+      ) : null}
+      {entityActive.map((e) => (
+        <DismissableChip
+          key={`${e.param}-${e.slug}`}
+          label={`${e.label}: ${e.name}`}
+          ariaLabel={`Remove ${e.name} ${e.label} filter`}
+          onDismiss={() => onRemoveEntityFacet(e.param, e.key, e.slug)}
+        />
+      ))}
+      {/* Director route pin — param-less, so it can't ride entityActive;
+          dismissing it drops to the unfiltered corpus. */}
+      {routeFacetChip ? (
+        <DismissableChip
+          label={`${routeFacetChip.facetLabel}: ${routeFacetChip.name}`}
+          ariaLabel={`Remove ${routeFacetChip.name} ${routeFacetChip.facetLabel} filter`}
+          onDismiss={onClearRoutePin}
         />
       ) : null}
       {!sortIsDefault ? (
@@ -1033,50 +1385,8 @@ function ActiveFilterChips({
   );
 }
 
-/** Pill-shaped chip with a label and a trailing × dismisser.
- *  Single-button affordance — tapping anywhere on the chip removes
- *  it. Visual treatment matches the active state of FilterContent's
- *  Chip (filled background + page-color text) so the user reads
- *  these as "currently applied" without ambiguity. */
-function DismissableChip({
-  label,
-  ariaLabel,
-  onDismiss,
-}: {
-  label: string;
-  ariaLabel: string;
-  onDismiss: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onDismiss}
-      aria-label={ariaLabel}
-      style={{
-        ...chipBaseStyle,
-        // --text-action is the right token here even for a fill,
-        // because the films cluster explicitly bumps --text-action
-        // up to --primary-700 (orange-700) so white-on-orange clears
-        // SC 1.4.3 (5.82:1, vs --primary-default's 3.61:1). Using
-        // --primary-default for the fill would re-introduce the
-        // contrast bug AND visually fork the cluster's orange in
-        // light mode (links land at orange-700; this fill at
-        // orange-500 = the "two oranges" people-eye notice).
-        background: "var(--text-action)",
-        color: "var(--surface-page)",
-        borderColor: "var(--text-action)",
-        display: "inline-flex",
-        alignItems: "center",
-        gap: 6,
-      }}
-      className="film-filter-chip hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2"
-    >
-      <span>{label}</span>
-      <span aria-hidden="true" style={{ fontSize: 14, lineHeight: 1 }}>
-        ✕
-      </span>
-    </button>
-  );
+function DismissableChip(props: Omit<DismissableChipProps, "chipClassName">) {
+  return <SharedDismissableChip {...props} chipClassName="film-filter-chip" />;
 }
 
 /** Look up the user-facing label for a sort value. Mirrors
@@ -1085,6 +1395,13 @@ function DismissableChip({
 function labelForSort(sort: FilmSort): string {
   const opt = SORT_OPTIONS.find((o) => o.value === sort);
   return opt?.label ?? sort;
+}
+
+/** Display label for a runtime bucket id (e.g. "120-150" → "120–150m").
+ *  Falls back to the raw id if an unknown value somehow reaches the
+ *  rail. */
+function labelForRuntimeBucket(bucketId: string): string {
+  return RUNTIME_BUCKETS.find((b) => b.id === bucketId)?.label ?? bucketId;
 }
 
 function EmptyState({ onClearAll }: { onClearAll: () => void }) {
@@ -1138,9 +1455,27 @@ function EmptyState({ onClearAll }: { onClearAll: () => void }) {
 function pickFilterDimension(keys: string[]): string | null {
   if (keys.includes("rating")) return "rating";
   if (keys.includes("genre")) return "genre";
+  if (keys.includes("runtime")) return "runtime";
   if (keys.includes("watchedYear") || keys.includes("watchedWindow"))
     return "watched";
+  if (keys.includes("title") || keys.includes("director")) return "search";
   if (keys.includes("sort")) return "sort";
+  // Wave B entity facets — report the param name as the dimension so the
+  // dashboard can see which entity facets earn their UI.
+  for (const k of [
+    "actor",
+    "writer",
+    "studio",
+    "conglomerate",
+    "language",
+    "country",
+    "releaseType",
+    "budgetTier",
+    "decade",
+    "collection",
+  ]) {
+    if (keys.includes(k)) return k;
+  }
   return null;
 }
 
@@ -1148,6 +1483,9 @@ function countActiveFilters(filters: FilmFilters): number {
   let n = 0;
   if (filters.ratings && filters.ratings.length > 0) n++;
   if (filters.genres && filters.genres.length > 0) n++;
+  if (filters.runtimeBuckets && filters.runtimeBuckets.length > 0) n++;
+  if (filters.titleQuery) n++;
+  if (filters.directorQuery) n++;
   // releaseYearMin / releaseYearMax intentionally NOT counted here
   // — they're parsed from the URL and respected by applyFilters,
   // but no chip in ActiveFilterChips and no input in FilterContent
@@ -1163,34 +1501,52 @@ function countActiveFilters(filters: FilmFilters): number {
   ) {
     n++;
   }
+  // Each active Wave B facet counts as one slot (like genre), so the
+  // badge reflects every dimension the user has narrowed by. `directors`
+  // is the exact-director facet (set only by the /films/director route);
+  // counting it makes the chip rail render on that route.
+  for (const key of [
+    "directors",
+    "actors",
+    "writers",
+    "studios",
+    "conglomerates",
+    "languages",
+    "countries",
+    "releaseTypes",
+    "budgetTiers",
+    "decades",
+    "collections",
+  ] as const) {
+    const v = filters[key];
+    if (v && v.length > 0) n++;
+  }
   return n;
 }
 
-// ─── Inline styles ────────────────────────────────────────────────
+// Every param-backed Wave B facet that earns a dismissable chip, with the
+// human label + URL param. Drives the comprehensive active-chip rail so a
+// deep-linked or route-pinned facet (studio, actor, …) shows a chip — not
+// just the low-cardinality rail facets. `directors` is excluded (it has no
+// query param; the route surfaces it via routeFacetChip instead).
+const FILM_CHIP_FACETS: {
+  key: keyof FilmFilters;
+  param: string;
+  label: string;
+}[] = [
+  { key: "actors", param: "actor", label: "Actor" },
+  { key: "writers", param: "writer", label: "Writer" },
+  { key: "studios", param: "studio", label: "Studio" },
+  { key: "conglomerates", param: "conglomerate", label: "Studio group" },
+  { key: "languages", param: "language", label: "Language" },
+  { key: "countries", param: "country", label: "Country" },
+  { key: "releaseTypes", param: "releaseType", label: "Release" },
+  { key: "budgetTiers", param: "budgetTier", label: "Budget" },
+  { key: "decades", param: "decade", label: "Decade" },
+  { key: "collections", param: "collection", label: "Collection" },
+];
 
-// chipBaseStyle uses --border-interactive (grey-700 on white = ~5:1
-// light, grey-600 on black = ~4.35:1 dark). The previous
-// --border-default (grey-50 / grey-800 in dark) failed SC 1.4.11
-// (3:1 minimum for non-text UI components) — the border is the
-// sole visual indicator distinguishing inactive chips from the
-// page background, so it has to clear AA. Matches the
-// triggerButtonStyle below which already used --border-interactive
-// for the same reason.
-// Transition lives on the .film-filter-chip class in components.css
-// (paired with a prefers-reduced-motion override). Inline styles
-// outrank @media-wrapped Tailwind classes, so the previous inline
-// `transition` defeated motion-reduce:transition-none silently.
-const chipBaseStyle: CSSProperties = {
-  fontFamily: "var(--font-mono)",
-  fontSize: 12,
-  letterSpacing: "0.04em",
-  padding: "6px 12px",
-  borderRadius: 999,
-  border: "1px solid var(--border-interactive)",
-  cursor: "pointer",
-  whiteSpace: "nowrap",
-  outlineColor: "var(--border-focus)",
-};
+// ─── Inline styles ────────────────────────────────────────────────
 
 const sortSelectStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
@@ -1332,4 +1688,3 @@ const drawerShowResultsButtonStyle: CSSProperties = {
   cursor: "pointer",
   outlineColor: "var(--border-focus)",
 };
-
