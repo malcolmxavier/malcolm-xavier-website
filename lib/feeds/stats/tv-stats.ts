@@ -100,6 +100,10 @@ export type NetworkRollup = {
 };
 
 export function networkRollup(shows: EnrichedShow[]): NetworkRollup {
+  // Show-level ranking: one increment per show, weighted by the show's `mine`
+  // rating (mineOf). A network is a property of the show, so this deliberately
+  // does NOT expand per season/episode — the miniseries double-count rule
+  // (modesForReview) governs the per-mode COUNT surfaces, not these rollups.
   const cnt: Record<string, number> = {};
   const sum: Record<string, number> = {};
   for (const s of shows) {
@@ -136,6 +140,11 @@ export type GenreRanking = {
 };
 
 function genreRanking(shows: EnrichedShow[]): GenreRanking {
+  // Show-level ranking: one increment per show per genre, weighted by the
+  // show's `mine` rating (mineOf). A genre is a property of the show, so this
+  // deliberately does NOT expand per season/episode — the miniseries
+  // double-count rule (modesForReview) governs the per-mode COUNT surfaces, not
+  // these rollups.
   const cnt: Record<string, number> = {};
   const sum: Record<string, number> = {};
   for (const s of shows) {

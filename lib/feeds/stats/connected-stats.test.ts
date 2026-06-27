@@ -118,6 +118,12 @@ describe("connected degradation (Part C)", () => {
     expect(dumbbell?.selfReferenced).toBe(true);
   });
 
+  it("a single-actor filter self-references the crossover-actors tile", () => {
+    const surv = connectedTileSurvival(s, 1000, { actors: ["Tilda Swinton"] });
+    const crossover = surv.find((t) => t.id === "crossover-actors");
+    expect(crossover?.selfReferenced).toBe(true);
+  });
+
   it("a genre filter narrows the pooled corpus", () => {
     const drama = computeConnectedStats(parseConnectedFilters({ genre: "Drama" }));
     expect(drama.headToHead.filmsLogged).toBeLessThan(s.headToHead.filmsLogged);
