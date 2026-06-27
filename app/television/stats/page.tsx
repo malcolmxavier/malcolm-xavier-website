@@ -673,7 +673,7 @@ export default async function TelevisionStatsPage({
 
         {/* ─── Cross-brand handoff ──────────────────────────────── */}
         <Section padding="md" style={{ paddingTop: 0 }}>
-          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: 14 }}>
+          <p style={{ margin: 0, fontFamily: "var(--font-mono)", fontSize: "var(--p-sm-font-size)" }}>
             <Link href={connectedHref}>See how film and television connect →</Link>
           </p>
         </Section>

@@ -14,8 +14,8 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { CSSProperties } from "react";
-import NextLink from "next/link";
 
+import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 
@@ -42,21 +42,24 @@ export function StatsHandoffPanel({
 
   // Empty selection: nothing to chart and nothing to link to — offer a reset.
   // The lead is instructional (verb-first) like the readout/footnote copy.
+  // No role="status": this panel is primary page content reached by a filter
+  // navigation, not an async status message — marking it a live region would
+  // re-announce the whole panel (and flatten the link) on every render.
   if (n === 0) {
     return (
-      <div style={panelStyle} role="status">
+      <div style={panelStyle}>
         <p style={leadStyle}>
           Widen the filters to find matches—no {noun.plural} fit this selection.
         </p>
-        <NextLink href={resetHref} style={linkStyle}>
+        <Link href={resetHref} style={linkStyle}>
           Clear the filters →
-        </NextLink>
+        </Link>
       </div>
     );
   }
 
   return (
-    <div style={panelStyle} role="status">
+    <div style={panelStyle}>
       <p style={leadStyle}>
         Widen the filters for the full breakdown—or read the {n.toLocaleString()}{" "}
         {word} in this selection below.
@@ -67,9 +70,9 @@ export function StatsHandoffPanel({
         event={ANALYTICS_EVENTS.STATS_HANDOFF_CLICK}
         eventData={{ cluster, n }}
       >
-        <NextLink href={href} style={linkStyle}>
+        <Link href={href} style={linkStyle}>
           See the {n.toLocaleString()} {n === 1 ? "review" : "reviews"} →
-        </NextLink>
+        </Link>
       </TrackOnClick>
     </div>
   );
@@ -96,14 +99,18 @@ const leadStyle: CSSProperties = {
   lineHeight: 1.5,
   color: "var(--text-heading)",
   margin: 0,
-  maxWidth: "42ch",
+  // A touch wider than a pure prose measure: the panel spans the full
+  // dashboard grid, so a 42ch lead left a starved column of whitespace on
+  // wide layouts. 52ch keeps the lede readable while filling the frame.
+  maxWidth: "52ch",
 };
 
 // Mono action link carrying the internal-destination arrow per the CTA
-// convention. Colour + underline are deliberately left to the global
-// body-link cascade: inside [data-subbrand] the --text-action alias is
-// unreliable and an inline colour loses to the cascade's !important link
-// rule anyway, so the brand hue + underline come from the cascade.
+// convention. Routed through the Link primitive so it picks up the loud
+// body underline and the sub-brand link color from the .link-loud cascade
+// (an inline color would lose to that rule's !important, and the primitive
+// is the one place that's handled correctly) — the earlier raw next/link
+// dropped the underline entirely.
 const linkStyle: CSSProperties = {
   fontFamily: "var(--font-mono)",
   fontSize: 13,
