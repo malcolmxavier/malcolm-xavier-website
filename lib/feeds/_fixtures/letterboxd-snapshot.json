@@ -1,53 +1,543 @@
 {
-  "capturedAt": "2026-06-19T19:58:04.503Z",
+  "capturedAt": "2026-06-27T13:40:12.436Z",
   "summary": {
-    "totalFilms": 766,
-    "totalReviews": 766,
-    "thisYearCount": 125,
+    "totalFilms": 777,
+    "totalReviews": 777,
+    "thisYearCount": 136,
     "ratingDistribution": {
-      "1": 37,
-      "2": 122,
-      "3": 144,
-      "4": 103,
+      "1": 38,
+      "2": 123,
+      "3": 148,
+      "4": 104,
       "5": 16,
-      "3.5": 152,
-      "1.5": 33,
+      "1.5": 35,
+      "3.5": 154,
       "2.5": 101,
       "4.5": 49,
       "0.5": 9
     },
     "genreDistribution": {
+      "Horror": 131,
+      "Drama": 367,
+      "Thriller": 224,
+      "Crime": 103,
+      "Romance": 90,
+      "Action": 116,
+      "Science Fiction": 115,
+      "History": 42,
+      "War": 17,
+      "Fantasy": 59,
       "Comedy": 221,
       "Family": 21,
       "Mystery": 80,
-      "Thriller": 217,
-      "Drama": 360,
-      "Fantasy": 58,
-      "History": 41,
       "Music": 49,
-      "Horror": 129,
-      "Science Fiction": 113,
-      "Action": 114,
       "Adventure": 83,
-      "Romance": 89,
-      "Crime": 99,
       "Documentary": 59,
       "Animation": 43,
       "TV Movie": 5,
-      "War": 16,
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 574,
-      "2010s": 124,
+      "2010s": 128,
+      "2020s": 580,
+      "2000s": 32,
       "1990s": 16,
       "1980s": 16,
       "1960s": 1,
-      "1970s": 4,
-      "2000s": 31
+      "1970s": 4
     }
   },
   "films": [
+    {
+      "id": "tmdb-73936",
+      "letterboxdSlug": "retreat",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/retreat/",
+      "title": "Retreat",
+      "releaseYear": 2011,
+      "firstWatchedDate": "2026-06-23",
+      "latestWatchedDate": "2026-06-23",
+      "firstReviewDate": "2026-06-24",
+      "latestReviewDate": "2026-06-24",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1367139120",
+          "watchedDate": "2026-06-23",
+          "reviewDate": "2026-06-24",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I know all these people can act, so I’m not entirely sure what happened here…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 73936,
+        "posterPath": "/ttQYNoyqsntARma6EdIDWMSTBGR.jpg",
+        "backdropPath": "/e2lvtGkiLHR92pM4ZFMSHlLvWki.jpg",
+        "genres": [
+          "Horror",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 89,
+        "director": "Carl Tibbetts"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ttQYNoyqsntARma6EdIDWMSTBGR.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ttQYNoyqsntARma6EdIDWMSTBGR.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1008048",
+      "letterboxdSlug": "how-to-blow-up-a-pipeline",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/how-to-blow-up-a-pipeline/",
+      "title": "How to Blow Up a Pipeline",
+      "releaseYear": 2022,
+      "firstWatchedDate": "2026-06-23",
+      "latestWatchedDate": "2026-06-23",
+      "firstReviewDate": "2026-06-24",
+      "latestReviewDate": "2026-06-24",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1367046475",
+          "watchedDate": "2026-06-23",
+          "reviewDate": "2026-06-24",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I appreciate the point of this work, but I think we had one too many characters in the mix. The storyboard decisioning also continually siphoned momentum, so I was very unaffected by the ending.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1008048,
+        "posterPath": "/5HJF47ywTuxxouVdAHAZ7iPzB4T.jpg",
+        "backdropPath": "/2QUrL1jVuTe2eRuyDmHlLwDdAM1.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 104,
+        "director": "Daniel Goldhaber"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5HJF47ywTuxxouVdAHAZ7iPzB4T.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5HJF47ywTuxxouVdAHAZ7iPzB4T.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1564614",
+      "letterboxdSlug": "leviticus",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/leviticus-2026/",
+      "title": "Leviticus",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-22",
+      "latestWatchedDate": "2026-06-22",
+      "firstReviewDate": "2026-06-23",
+      "latestReviewDate": "2026-06-23",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1366020331",
+          "watchedDate": "2026-06-22",
+          "reviewDate": "2026-06-23",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Happy pride! Can’t get over the thought of there being glory in all temperatures. Wishing those boys well on their little gay journey.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1564614,
+        "posterPath": "/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+        "backdropPath": "/ekFr4AyEpwyIHK1R3VOYDXN2PqL.jpg",
+        "genres": [
+          "Horror",
+          "Romance"
+        ],
+        "runtime": 88,
+        "director": "Adrian Chiarella"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1284465",
+      "letterboxdSlug": "the-death-of-robin-hood",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-death-of-robin-hood/",
+      "title": "The Death of Robin Hood",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-18",
+      "latestWatchedDate": "2026-06-18",
+      "firstReviewDate": "2026-06-20",
+      "latestReviewDate": "2026-06-20",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1362292482",
+          "watchedDate": "2026-06-18",
+          "reviewDate": "2026-06-20",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Beautifully shot and pleasantly meandering. Unfortunately, the pace is so slow that the third act sneaks up on you and the ending ends up feeling rushed. In a way, I wish this could’ve been longer. Jodie Comer never misses!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1284465,
+        "posterPath": "/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+        "backdropPath": "/yw8FhuMvhJSy4zotEuCyk5bZ230.jpg",
+        "genres": [
+          "Drama",
+          "Thriller",
+          "Action"
+        ],
+        "runtime": 123,
+        "director": "Michael Sarnoski"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1275779",
+      "letterboxdSlug": "disclosure-day",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/disclosure-day/",
+      "title": "Disclosure Day",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-16",
+      "latestWatchedDate": "2026-06-16",
+      "firstReviewDate": "2026-06-18",
+      "latestReviewDate": "2026-06-18",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1360108313",
+          "watchedDate": "2026-06-16",
+          "reviewDate": "2026-06-18",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Emily Blunt is putting in work, but it doesn’t make up for the general chaos of this film. On the one hand, it’s a very Spielberg film, and I love it for that—it almost gives <i>Jurassic Park</i>, but aliens. That said, I can’t help but feel that it’s actually several films mashed together without any real cohesion. I love that were dropped right into the action, but that never pays off. How did we get so far in with these stakes? Why is Colin Firth playing such a cartoonish character? The news broadcast sequence was the most interesting thing that happened.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1275779,
+        "posterPath": "/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+        "backdropPath": "/s6ly8laenkHWlIBRkLSfIuEMLC6.jpg",
+        "genres": [
+          "Science Fiction",
+          "Thriller"
+        ],
+        "runtime": 145,
+        "director": "Steven Spielberg"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1318413",
+      "letterboxdSlug": "pressure",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/pressure-2026/",
+      "title": "Pressure",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-09",
+      "latestWatchedDate": "2026-06-09",
+      "firstReviewDate": "2026-06-10",
+      "latestReviewDate": "2026-06-10",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1349442125",
+          "watchedDate": "2026-06-09",
+          "reviewDate": "2026-06-10",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Well, I was feeling the pressure, yes. I don’t know that there are really what I would call good war movies, but the subject itself is so heavy that there’s sort of an automatic gravitas. Needed more Kerry Condon and Chris Messina.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1318413,
+        "posterPath": "/gFjEggtrejCN79r6SXRjM269OtG.jpg",
+        "backdropPath": "/apfyLCPVFttB8oXcsLJ7q0NSFLx.jpg",
+        "genres": [
+          "Thriller",
+          "History",
+          "War"
+        ],
+        "runtime": 101,
+        "director": "Anthony Maras"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gFjEggtrejCN79r6SXRjM269OtG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gFjEggtrejCN79r6SXRjM269OtG.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-241239",
+      "letterboxdSlug": "a-most-violent-year",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/a-most-violent-year/",
+      "title": "A Most Violent Year",
+      "releaseYear": 2014,
+      "firstWatchedDate": "2026-06-08",
+      "latestWatchedDate": "2026-06-08",
+      "firstReviewDate": "2026-06-09",
+      "latestReviewDate": "2026-06-09",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1348460695",
+          "watchedDate": "2026-06-08",
+          "reviewDate": "2026-06-09",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Mostly a bunch of great scene studies smashed together without much cohesion or payoff. That chase scene onto the subway had me awake, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 241239,
+        "posterPath": "/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+        "backdropPath": "/wjfJy0jXpbtUuSkFxUeF8W4RrEo.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 125,
+        "director": "J.C. Chandor"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-168672",
+      "letterboxdSlug": "american-hustle",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/american-hustle/",
+      "title": "American Hustle",
+      "releaseYear": 2013,
+      "firstWatchedDate": "2026-06-07",
+      "latestWatchedDate": "2026-06-07",
+      "firstReviewDate": "2026-06-08",
+      "latestReviewDate": "2026-06-08",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1346915703",
+          "watchedDate": "2026-06-07",
+          "reviewDate": "2026-06-08",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I, obviously, was never in any rush to watch this, and I feel so justified. It’s a fine movie, but there's really nothing meaty to bite into or hold onto after you're done watching. Shoutout my hometown as a significant shooting location, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 168672,
+        "posterPath": "/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+        "backdropPath": "/3r2G1vSDf4S3Pl5lJ9BDm9FTxe6.jpg",
+        "genres": [
+          "Drama",
+          "Crime"
+        ],
+        "runtime": 138,
+        "director": "David O. Russell"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-347866",
+      "letterboxdSlug": "hot-summer-nights",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/hot-summer-nights/",
+      "title": "Hot Summer Nights",
+      "releaseYear": 2017,
+      "firstWatchedDate": "2026-06-07",
+      "latestWatchedDate": "2026-06-07",
+      "firstReviewDate": "2026-06-07",
+      "latestReviewDate": "2026-06-07",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1346669830",
+          "watchedDate": "2026-06-07",
+          "reviewDate": "2026-06-07",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I wish I cared about this at any point…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 347866,
+        "posterPath": "/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+        "backdropPath": "/cUp74WEOfyiJS2Q8oZs8wP5IzSr.jpg",
+        "genres": [
+          "Drama",
+          "Crime"
+        ],
+        "runtime": 107,
+        "director": "Elijah Bynum"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-13825",
+      "letterboxdSlug": "the-lazarus-project",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-lazarus-project/",
+      "title": "The Lazarus Project",
+      "releaseYear": 2008,
+      "firstWatchedDate": "2026-06-06",
+      "latestWatchedDate": "2026-06-06",
+      "firstReviewDate": "2026-06-07",
+      "latestReviewDate": "2026-06-07",
+      "primaryRating": 1,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1346432014",
+          "watchedDate": "2026-06-06",
+          "reviewDate": "2026-06-07",
+          "rating": 1,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "<i>Memento</i> nachos. Not even Linda Cardellini could save this.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 13825,
+        "posterPath": "/qxf1AkFJskLrBM2WGwf8FpGcbiu.jpg",
+        "backdropPath": "/g3aLgQI4aw7aCucYSqXM4CzNYMu.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 99,
+        "director": "John Glenn"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/qxf1AkFJskLrBM2WGwf8FpGcbiu.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/qxf1AkFJskLrBM2WGwf8FpGcbiu.jpg",
+      "ratingSet": [
+        1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-454639",
+      "letterboxdSlug": "masters-of-the-universe",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/masters-of-the-universe-2026/",
+      "title": "Masters of the Universe",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-03",
+      "latestWatchedDate": "2026-06-03",
+      "firstReviewDate": "2026-06-07",
+      "latestReviewDate": "2026-06-07",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1345382142",
+          "watchedDate": "2026-06-03",
+          "reviewDate": "2026-06-07",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "A perfect, campy blockbuster until I realized during the credits that [redacted] was playing Skeletor. But boy did I have so much fun enjoying the unbridled comic book comedy. They leaned surprisingly hard into a certain joke, but I wasn’t mad at that? Alison Brie lowkey not the one to play with! And of course, my sweet prince Nicholas looking very my boyfriend throughout.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 454639,
+        "posterPath": "/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+        "backdropPath": "/pSptA1YdHreII6OLAvXbnYytwcz.jpg",
+        "genres": [
+          "Action",
+          "Fantasy",
+          "Science Fiction"
+        ],
+        "runtime": 141,
+        "director": "Travis Knight"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1301421",
       "letterboxdSlug": "the-sheep-detectives",
@@ -33329,6 +33819,496 @@
     }
   ],
   "filmById": {
+    "tmdb-73936": {
+      "id": "tmdb-73936",
+      "letterboxdSlug": "retreat",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/retreat/",
+      "title": "Retreat",
+      "releaseYear": 2011,
+      "firstWatchedDate": "2026-06-23",
+      "latestWatchedDate": "2026-06-23",
+      "firstReviewDate": "2026-06-24",
+      "latestReviewDate": "2026-06-24",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1367139120",
+          "watchedDate": "2026-06-23",
+          "reviewDate": "2026-06-24",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I know all these people can act, so I’m not entirely sure what happened here…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 73936,
+        "posterPath": "/ttQYNoyqsntARma6EdIDWMSTBGR.jpg",
+        "backdropPath": "/e2lvtGkiLHR92pM4ZFMSHlLvWki.jpg",
+        "genres": [
+          "Horror",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 89,
+        "director": "Carl Tibbetts"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ttQYNoyqsntARma6EdIDWMSTBGR.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ttQYNoyqsntARma6EdIDWMSTBGR.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1008048": {
+      "id": "tmdb-1008048",
+      "letterboxdSlug": "how-to-blow-up-a-pipeline",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/how-to-blow-up-a-pipeline/",
+      "title": "How to Blow Up a Pipeline",
+      "releaseYear": 2022,
+      "firstWatchedDate": "2026-06-23",
+      "latestWatchedDate": "2026-06-23",
+      "firstReviewDate": "2026-06-24",
+      "latestReviewDate": "2026-06-24",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1367046475",
+          "watchedDate": "2026-06-23",
+          "reviewDate": "2026-06-24",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I appreciate the point of this work, but I think we had one too many characters in the mix. The storyboard decisioning also continually siphoned momentum, so I was very unaffected by the ending.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1008048,
+        "posterPath": "/5HJF47ywTuxxouVdAHAZ7iPzB4T.jpg",
+        "backdropPath": "/2QUrL1jVuTe2eRuyDmHlLwDdAM1.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 104,
+        "director": "Daniel Goldhaber"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5HJF47ywTuxxouVdAHAZ7iPzB4T.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5HJF47ywTuxxouVdAHAZ7iPzB4T.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1564614": {
+      "id": "tmdb-1564614",
+      "letterboxdSlug": "leviticus",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/leviticus-2026/",
+      "title": "Leviticus",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-22",
+      "latestWatchedDate": "2026-06-22",
+      "firstReviewDate": "2026-06-23",
+      "latestReviewDate": "2026-06-23",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1366020331",
+          "watchedDate": "2026-06-22",
+          "reviewDate": "2026-06-23",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Happy pride! Can’t get over the thought of there being glory in all temperatures. Wishing those boys well on their little gay journey.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1564614,
+        "posterPath": "/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+        "backdropPath": "/ekFr4AyEpwyIHK1R3VOYDXN2PqL.jpg",
+        "genres": [
+          "Horror",
+          "Romance"
+        ],
+        "runtime": 88,
+        "director": "Adrian Chiarella"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/cu0XnXLzJGPeI0msCoJKgnEecKz.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1284465": {
+      "id": "tmdb-1284465",
+      "letterboxdSlug": "the-death-of-robin-hood",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-death-of-robin-hood/",
+      "title": "The Death of Robin Hood",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-18",
+      "latestWatchedDate": "2026-06-18",
+      "firstReviewDate": "2026-06-20",
+      "latestReviewDate": "2026-06-20",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1362292482",
+          "watchedDate": "2026-06-18",
+          "reviewDate": "2026-06-20",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Beautifully shot and pleasantly meandering. Unfortunately, the pace is so slow that the third act sneaks up on you and the ending ends up feeling rushed. In a way, I wish this could’ve been longer. Jodie Comer never misses!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1284465,
+        "posterPath": "/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+        "backdropPath": "/yw8FhuMvhJSy4zotEuCyk5bZ230.jpg",
+        "genres": [
+          "Drama",
+          "Thriller",
+          "Action"
+        ],
+        "runtime": 123,
+        "director": "Michael Sarnoski"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4cD7KeABHyzeJmzdA6QKe36fp2d.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1275779": {
+      "id": "tmdb-1275779",
+      "letterboxdSlug": "disclosure-day",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/disclosure-day/",
+      "title": "Disclosure Day",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-16",
+      "latestWatchedDate": "2026-06-16",
+      "firstReviewDate": "2026-06-18",
+      "latestReviewDate": "2026-06-18",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1360108313",
+          "watchedDate": "2026-06-16",
+          "reviewDate": "2026-06-18",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Emily Blunt is putting in work, but it doesn’t make up for the general chaos of this film. On the one hand, it’s a very Spielberg film, and I love it for that—it almost gives <i>Jurassic Park</i>, but aliens. That said, I can’t help but feel that it’s actually several films mashed together without any real cohesion. I love that were dropped right into the action, but that never pays off. How did we get so far in with these stakes? Why is Colin Firth playing such a cartoonish character? The news broadcast sequence was the most interesting thing that happened.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1275779,
+        "posterPath": "/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+        "backdropPath": "/s6ly8laenkHWlIBRkLSfIuEMLC6.jpg",
+        "genres": [
+          "Science Fiction",
+          "Thriller"
+        ],
+        "runtime": 145,
+        "director": "Steven Spielberg"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3o5YPjDGDTcTDL5ftDA9NwN9dLd.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1318413": {
+      "id": "tmdb-1318413",
+      "letterboxdSlug": "pressure",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/pressure-2026/",
+      "title": "Pressure",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-09",
+      "latestWatchedDate": "2026-06-09",
+      "firstReviewDate": "2026-06-10",
+      "latestReviewDate": "2026-06-10",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1349442125",
+          "watchedDate": "2026-06-09",
+          "reviewDate": "2026-06-10",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Well, I was feeling the pressure, yes. I don’t know that there are really what I would call good war movies, but the subject itself is so heavy that there’s sort of an automatic gravitas. Needed more Kerry Condon and Chris Messina.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1318413,
+        "posterPath": "/gFjEggtrejCN79r6SXRjM269OtG.jpg",
+        "backdropPath": "/apfyLCPVFttB8oXcsLJ7q0NSFLx.jpg",
+        "genres": [
+          "Thriller",
+          "History",
+          "War"
+        ],
+        "runtime": 101,
+        "director": "Anthony Maras"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gFjEggtrejCN79r6SXRjM269OtG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gFjEggtrejCN79r6SXRjM269OtG.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-241239": {
+      "id": "tmdb-241239",
+      "letterboxdSlug": "a-most-violent-year",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/a-most-violent-year/",
+      "title": "A Most Violent Year",
+      "releaseYear": 2014,
+      "firstWatchedDate": "2026-06-08",
+      "latestWatchedDate": "2026-06-08",
+      "firstReviewDate": "2026-06-09",
+      "latestReviewDate": "2026-06-09",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1348460695",
+          "watchedDate": "2026-06-08",
+          "reviewDate": "2026-06-09",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Mostly a bunch of great scene studies smashed together without much cohesion or payoff. That chase scene onto the subway had me awake, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 241239,
+        "posterPath": "/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+        "backdropPath": "/wjfJy0jXpbtUuSkFxUeF8W4RrEo.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 125,
+        "director": "J.C. Chandor"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gYTUNxLcFomCdXe3D4Hq8OLwgv0.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-168672": {
+      "id": "tmdb-168672",
+      "letterboxdSlug": "american-hustle",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/american-hustle/",
+      "title": "American Hustle",
+      "releaseYear": 2013,
+      "firstWatchedDate": "2026-06-07",
+      "latestWatchedDate": "2026-06-07",
+      "firstReviewDate": "2026-06-08",
+      "latestReviewDate": "2026-06-08",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1346915703",
+          "watchedDate": "2026-06-07",
+          "reviewDate": "2026-06-08",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I, obviously, was never in any rush to watch this, and I feel so justified. It’s a fine movie, but there's really nothing meaty to bite into or hold onto after you're done watching. Shoutout my hometown as a significant shooting location, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 168672,
+        "posterPath": "/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+        "backdropPath": "/3r2G1vSDf4S3Pl5lJ9BDm9FTxe6.jpg",
+        "genres": [
+          "Drama",
+          "Crime"
+        ],
+        "runtime": 138,
+        "director": "David O. Russell"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/z6O1KDhfWDTm5ZBr6Ovr0eg8LqO.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-347866": {
+      "id": "tmdb-347866",
+      "letterboxdSlug": "hot-summer-nights",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/hot-summer-nights/",
+      "title": "Hot Summer Nights",
+      "releaseYear": 2017,
+      "firstWatchedDate": "2026-06-07",
+      "latestWatchedDate": "2026-06-07",
+      "firstReviewDate": "2026-06-07",
+      "latestReviewDate": "2026-06-07",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1346669830",
+          "watchedDate": "2026-06-07",
+          "reviewDate": "2026-06-07",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I wish I cared about this at any point…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 347866,
+        "posterPath": "/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+        "backdropPath": "/cUp74WEOfyiJS2Q8oZs8wP5IzSr.jpg",
+        "genres": [
+          "Drama",
+          "Crime"
+        ],
+        "runtime": 107,
+        "director": "Elijah Bynum"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kPfNAax3PbHj5pAYiO9mc9jDvzt.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-13825": {
+      "id": "tmdb-13825",
+      "letterboxdSlug": "the-lazarus-project",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-lazarus-project/",
+      "title": "The Lazarus Project",
+      "releaseYear": 2008,
+      "firstWatchedDate": "2026-06-06",
+      "latestWatchedDate": "2026-06-06",
+      "firstReviewDate": "2026-06-07",
+      "latestReviewDate": "2026-06-07",
+      "primaryRating": 1,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1346432014",
+          "watchedDate": "2026-06-06",
+          "reviewDate": "2026-06-07",
+          "rating": 1,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "<i>Memento</i> nachos. Not even Linda Cardellini could save this.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 13825,
+        "posterPath": "/qxf1AkFJskLrBM2WGwf8FpGcbiu.jpg",
+        "backdropPath": "/g3aLgQI4aw7aCucYSqXM4CzNYMu.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 99,
+        "director": "John Glenn"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/qxf1AkFJskLrBM2WGwf8FpGcbiu.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/qxf1AkFJskLrBM2WGwf8FpGcbiu.jpg",
+      "ratingSet": [
+        1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-454639": {
+      "id": "tmdb-454639",
+      "letterboxdSlug": "masters-of-the-universe",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/masters-of-the-universe-2026/",
+      "title": "Masters of the Universe",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-03",
+      "latestWatchedDate": "2026-06-03",
+      "firstReviewDate": "2026-06-07",
+      "latestReviewDate": "2026-06-07",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1345382142",
+          "watchedDate": "2026-06-03",
+          "reviewDate": "2026-06-07",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "A perfect, campy blockbuster until I realized during the credits that [redacted] was playing Skeletor. But boy did I have so much fun enjoying the unbridled comic book comedy. They leaned surprisingly hard into a certain joke, but I wasn’t mad at that? Alison Brie lowkey not the one to play with! And of course, my sweet prince Nicholas looking very my boyfriend throughout.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 454639,
+        "posterPath": "/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+        "backdropPath": "/pSptA1YdHreII6OLAvXbnYytwcz.jpg",
+        "genres": [
+          "Action",
+          "Fantasy",
+          "Science Fiction"
+        ],
+        "runtime": 141,
+        "director": "Travis Knight"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3YMd9Ogae4rDKLWuAZFuse9xhc5.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1301421": {
       "id": "tmdb-1301421",
       "letterboxdSlug": "the-sheep-detectives",
