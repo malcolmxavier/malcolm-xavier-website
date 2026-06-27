@@ -3,7 +3,7 @@
 **Severity:** non-blocking
 **Unresolved:** 0
 **Accepted (won't-fix):** 0
-**Last regenerated:** 2026-06-02T15:56:11.458Z
+**Last regenerated:** 2026-06-27T13:41:20.145Z
 
 Shows resolved on TMDB but missing one or more enrichment fields (genres / type / status / poster). Card surfaces fall back to Serializd's embedded data; SEO long-tail (genre routes) misses these shows. Usually self-resolves as TMDB metadata firms up.
 
