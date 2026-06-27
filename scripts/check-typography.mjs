@@ -127,9 +127,10 @@ for (const file of files) {
   const lines = content.split("\n");
   lines.forEach((line, i) => {
     if (line.includes("typography-ok")) return; // per-line escape hatch
-    let m;
-    ENTITY_RE.lastIndex = 0;
-    while ((m = ENTITY_RE.exec(line))) {
+    // matchAll clones the regex internally, so the shared global ENTITY_RE's
+    // lastIndex is never mutated across lines — no manual reset to forget and
+    // nothing to leak if an iteration throws.
+    for (const m of line.matchAll(ENTITY_RE)) {
       if (isBanned(m[0])) {
         findings.push({ rel, line: i + 1, col: m.index + 1, raw: m[0] });
       }

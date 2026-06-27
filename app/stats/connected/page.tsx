@@ -155,8 +155,12 @@ export default async function ConnectedStatsPage({
   // readout); `bd` bundles the per-band props every StatsSection takes; `solo`
   // passes a versus tile's surviving-column flag to <Versus solo>. The readout
   // figure is the pooled corpus (films + rated seasons) the selection supports.
-  const dec = (id: string) => s.collapse.tiles.find((t) => t.id === id);
-  const bandDec = (id: string) => s.collapse.bands.find((b) => b.id === id);
+  // Index the decisions by id once: every tile and band resolves its decision
+  // by id (dozens of lookups per render), so a Map beats an Array.find per call.
+  const tileById = new Map(s.collapse.tiles.map((t) => [t.id, t]));
+  const bandById = new Map(s.collapse.bands.map((b) => [b.id, b]));
+  const dec = (id: string) => tileById.get(id);
+  const bandDec = (id: string) => bandById.get(id);
   const pooledCorpus = s.headToHead.filmsLogged + s.headToHead.seasonsLogged;
   const readout = <TileReadout n={pooledCorpus} noun="titles" />;
   const td = (id: string) => ({ decision: dec(id), readout });
