@@ -7,7 +7,7 @@
 //   • SCALE — one large poster, alone, never in a <Grid>. The size
 //     contrast against the 5-up rows below is what signals hierarchy.
 //   • An ACCENT RULE — a 3px left border (top border when stacked) in
-//     the cluster accent (--primary-default → film orange / TV blue).
+//     the cluster accent (--primary-700 → film orange / TV blue).
 //     This is the single rule-break that marks the block as authored.
 //   • PROSE — Now/Favorites carry no body copy at all, so the presence
 //     of Malcolm's 2–4-sentence take is itself the differentiator: it
@@ -65,7 +65,10 @@ export function FeaturedPick({ pick }: { pick: FeaturedPickData }) {
             statement cue survives the responsive collapse. */}
         <div
           className="border-t-[3px] pt-5 lg:border-t-0 lg:border-l-[3px] lg:pl-6 lg:pt-0"
-          style={{ borderColor: "var(--primary-default)" }}
+          // The 700 step (not the default 500) so the 3px rule clears the
+          // WCAG 1.4.11 non-text contrast floor (3:1) on every cluster — the
+          // film orange-500 default measured 2.35:1 on the white page.
+          style={{ borderColor: "var(--primary-700)" }}
         >
           <Stack gap="300">
             <Headline level={2}>{pick.title}</Headline>
