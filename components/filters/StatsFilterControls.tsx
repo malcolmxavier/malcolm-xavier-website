@@ -467,8 +467,9 @@ export function StatsFilterControls({
                     from the chips alone (one tap includes, a second excludes),
                     so the panel spells the interaction out in words. */}
                 <p style={panelHintStyle}>
-                  Select a filter to include it, select again to exclude it
-                  (marked with − and a strike-through), and once more to clear.
+                  Select a filter once to include it, again to exclude it
+                  (marked with − and a strike-through), and a third time to
+                  clear it.
                 </p>
                 {/* Omnibox leads — the only way to reach the high-card
                     dimensions (people / studios / networks). */}

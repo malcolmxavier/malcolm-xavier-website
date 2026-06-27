@@ -167,8 +167,12 @@ export default async function FilmStatsPage({
   // Collapse decisions (§6): resolve a tile's rung / a band's state by id.
   // `td` bundles the per-tile props every Tile takes (its decision + the
   // shared readout); `bd` bundles the per-band props every StatsSection takes.
-  const dec = (id: string) => s.collapse.tiles.find((t) => t.id === id);
-  const bandDec = (id: string) => s.collapse.bands.find((b) => b.id === id);
+  // Index the decisions by id once: every tile and band resolves its decision
+  // by id (dozens of lookups per render), so a Map beats an Array.find per call.
+  const tileById = new Map(s.collapse.tiles.map((t) => [t.id, t]));
+  const bandById = new Map(s.collapse.bands.map((b) => [b.id, b]));
+  const dec = (id: string) => tileById.get(id);
+  const bandDec = (id: string) => bandById.get(id);
   // The generic T2 readout is one shared node for every tile: the narrowed
   // corpus count + a thinning caption (per-tile voice comes later).
   const readout = <TileReadout n={s.lifetime.films} noun="films" />;
