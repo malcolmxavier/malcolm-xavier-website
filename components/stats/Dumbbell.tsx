@@ -53,6 +53,10 @@ export function Dumbbell({ rows }: { rows: GenreDumbbell[] }) {
               key={r.label}
               className="stats-tip"
               style={rowStyle}
+              // role="img" so the row's aria-label reads as a single labelled
+              // graphic; a bare <li> with an aria-label is announced
+              // inconsistently across screen readers.
+              role="img"
               aria-label={`${r.label}: film ${r.filmAvg.toFixed(2)} stars, TV ${r.tvAvg.toFixed(2)} stars`}
             >
               <span aria-hidden="true" style={labelStyle}>

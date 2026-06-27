@@ -10,6 +10,7 @@
 
 "use client";
 
+import { useId } from "react";
 import { Kicker } from "@/components/typography/Kicker";
 import { Chip } from "./Chip";
 import type { ReviewLens } from "@/lib/feeds/review-lenses";
@@ -29,10 +30,15 @@ export function ReviewLensStrip({
   onSelect,
   chipClassName,
 }: ReviewLensStripProps) {
+  // Name the group by its visible "Start here" Kicker (aria-labelledby) so the
+  // accessible name matches what sighted users see, rather than a separate
+  // aria-label string AT users would hear instead (SC 1.3.1 / 2.4.6). useId
+  // runs before the early return below to keep hook order stable.
+  const headingId = `${useId()}-lenses`;
   if (lenses.length === 0) return null;
   return (
-    <div role="group" aria-label="Curated views">
-      <Kicker>Start here</Kicker>
+    <div role="group" aria-labelledby={headingId}>
+      <Kicker id={headingId}>Start here</Kicker>
       <div
         style={{
           display: "flex",

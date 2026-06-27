@@ -39,7 +39,10 @@ export function StatsSection({
   band?: BandDecision;
   tileLabel?: (id: string) => string;
 }) {
-  // A stable id derived from the label links the <section> to its heading.
+  // A stable id derived from the label links the <section> to its heading. The
+  // "band-" prefix keeps it from colliding with Tile's "tile-" ids; uniqueness
+  // within a page then relies on band labels being distinct per dashboard
+  // (they are, by construction).
   const headingId =
     "band-" + label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
