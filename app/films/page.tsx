@@ -230,7 +230,7 @@ export default function FilmsLandingPage() {
                 justifyContent: "space-between",
                 alignItems: "baseline",
                 flexWrap: "wrap",
-                gap: "8px 24px",
+                gap: "var(--scale-200) var(--scale-600)", // 8px 24px
               }}
             >
               <Kicker accent>Films</Kicker>
@@ -416,7 +416,6 @@ export default function FilmsLandingPage() {
           <Section id="lists" className="scroll-mt-28" padding="md" bordered>
             <Stack gap="400">
               <Kicker accent>Lists</Kicker>
-              <Headline level={2}>Ranked shortlists</Headline>
               <Grid cols={3} gap="600">
                 {orderForTeaser(lists, (l) => l.title)
                   .slice(0, 3)

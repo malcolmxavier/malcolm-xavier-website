@@ -942,8 +942,8 @@ function DeltaList({
 const hotColsStyle: CSSProperties = {
   display: "grid",
   gridTemplateColumns: "1fr 1fr",
-  gap: 20,
-  marginTop: 4,
+  gap: "var(--scale-500)", // 20px
+  marginTop: "var(--scale-100)", // 4px
 };
 
 const deltaHeadStyle: CSSProperties = {
@@ -952,8 +952,9 @@ const deltaHeadStyle: CSSProperties = {
   textTransform: "uppercase",
   letterSpacing: "0.08em",
   color: "var(--text-caption)",
-  margin: "0 0 8px",
-  fontWeight: 600,
+  margin: "0 0 var(--scale-200)", // 8px
+  // Weight inherits (matching the canonical Kicker mono-caption register);
+  // an inline 600 here re-split the heading weighting the tile-title fix unified.
 };
 
 const deltaListStyle: CSSProperties = {
@@ -969,7 +970,7 @@ const deltaRowStyle: CSSProperties = {
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  gap: 8,
+  gap: "var(--scale-200)", // 8px
   fontSize: 12,
   fontFamily: "var(--font-mono)",
 };

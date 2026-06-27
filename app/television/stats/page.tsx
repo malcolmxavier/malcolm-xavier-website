@@ -795,7 +795,8 @@ const levelLabelStyle: CSSProperties = {
   textTransform: "uppercase",
   letterSpacing: "0.08em",
   color: "var(--text-caption)",
-  fontWeight: 600,
+  // Weight inherits, matching the canonical Kicker mono-caption register (an
+  // inline 600 re-split the heading weighting the tile-title fix unified).
 };
 
 const levelNumStyle: CSSProperties = {
@@ -818,13 +819,13 @@ const levelSubStyle: CSSProperties = {
 const netTwoColStyle: CSSProperties = {
   display: "grid",
   gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-  gap: "16px 32px",
+  gap: "var(--scale-400) var(--scale-800)", // 16px 32px
 };
 
 const netGroupStyle: CSSProperties = {
   display: "flex",
   flexDirection: "column",
-  gap: 8,
+  gap: "var(--scale-200)", // 8px
   minWidth: 0,
 };
 
@@ -834,7 +835,8 @@ const netHeadStyle: CSSProperties = {
   textTransform: "uppercase",
   letterSpacing: "0.08em",
   color: "var(--text-caption)",
-  fontWeight: 600,
+  // Weight inherits, matching the canonical Kicker mono-caption register (an
+  // inline 600 re-split the heading weighting the tile-title fix unified).
   margin: 0,
 };
 

@@ -41,8 +41,8 @@ export function Bigs({
 const rowStyle: CSSProperties = {
   display: "flex",
   flexWrap: "wrap",
-  gap: 28,
-  rowGap: 16,
+  gap: "var(--scale-700)", // 28px
+  rowGap: "var(--scale-400)", // 16px
 };
 
 const cellStyle: CSSProperties = {
