@@ -1,6 +1,7 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import typographicGlyphs from "./eslint-rules/typographic-glyphs.mjs";
 
 const eslintConfig = defineConfig([
   ...nextVitals,
@@ -29,6 +30,13 @@ const eslintConfig = defineConfig([
         },
       ],
     },
+  },
+  // Local rule: reader-facing prose uses real Unicode glyphs, never HTML
+  // entities or ASCII stand-ins. Covers JSX text, prose attributes, and prose
+  // object-properties (incl. page metadata). See eslint-rules/typographic-glyphs.mjs.
+  {
+    plugins: { local: { rules: { "typographic-glyphs": typographicGlyphs } } },
+    rules: { "local/typographic-glyphs": "error" },
   },
 ]);
 

@@ -56,21 +56,25 @@ function buildDetailHref(
   // Anchor target by card kind:
   //   • "season" → #season-N (lands at the matching season block,
   //     scroll-margin-top clears the sticky nav so the heading
-  //     reads in view).
-  //   • "show"   → #show-review (lands at the "The whole show"
-  //     section, since that's the review-as-completable-unit the
-  //     user clicked into. Beats landing at hero for users who
-  //     have already scrolled past it.)
+  //     reads in view). Season-context links land on the season the
+  //     user clicked — the one piece of detail-page content they
+  //     explicitly asked for.
+  //   • "show"   → no anchor; lands at the hero / top. The hero now
+  //     carries its own value (cast and crew) and the whole-show
+  //     review still peeks above the fold, so a hero landing beats
+  //     jumping past it.
   const anchor =
     cardKind === "season" && seasonNumber !== null
       ? `#season-${seasonNumber}`
-      : "#show-review";
+      : "";
   const base = `/television/${slug}?ref=internal${anchor}`;
   if (!originHref) return base;
-  // Insert `from` before the hash so the URL parser doesn't
-  // mistake the encoded source for a fragment continuation.
+  // Insert `from` before any hash so the URL parser doesn't mistake
+  // the encoded source for a fragment continuation. Show-context
+  // links have no hash, so append `from` straight to the end.
   const hashIdx = base.indexOf("#");
   const fromParam = `&from=${encodeURIComponent(originHref)}`;
+  if (hashIdx === -1) return `${base}${fromParam}`;
   return `${base.slice(0, hashIdx)}${fromParam}${base.slice(hashIdx)}`;
 }
 

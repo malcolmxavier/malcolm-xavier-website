@@ -3,7 +3,7 @@
 **Severity:** non-blocking
 **Unresolved:** 0
 **Accepted (won't-fix):** 0
-**Last regenerated:** 2026-05-12T06:26:30.110Z
+**Last regenerated:** 2026-06-02T15:56:11.461Z
 
 Show- or Season-level entries with `liked === true` but no rating and no prose. Surfaces accidental hearts. Decide: upgrade with a real review, or delete.
 

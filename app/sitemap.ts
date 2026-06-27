@@ -24,11 +24,38 @@
 
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/site-config";
-import { getFilms } from "@/lib/feeds/letterboxd";
+import { getFilms, getFilmLists } from "@/lib/feeds/letterboxd";
 import { slugifyGenre as slugifyFilmGenre } from "@/lib/feeds/letterboxd-utils";
-import { getShows } from "@/lib/feeds/serializd";
+import { getShows, getShowLists } from "@/lib/feeds/serializd";
 import { slugifyGenre as slugifyTvGenre } from "@/lib/feeds/serializd-utils";
+import {
+  getFilmsWithEnrichment,
+  getShowsWithEnrichment,
+} from "@/lib/feeds/review-corpus";
+import {
+  indexableFilmFacetNames,
+  indexableTvFacetNames,
+  indexableFilmCollections,
+  indexableTvCollections,
+  FILM_FACET_BASEPATH,
+  TV_FACET_BASEPATH,
+  type FilmRouteFacet,
+  type TvRouteFacet,
+} from "@/lib/feeds/facet-index";
+import { getCollectionDetails } from "@/lib/feeds/enrichment";
+import { slugifyEntity } from "@/lib/feeds/slug";
 import { CASE_STUDIES } from "@/app/resume/resume-data";
+
+// The WS6b entity-facet route types, in the order their pages list. Each
+// produces one indexed page per floor-clearing value (the same gate
+// generateStaticParams uses — see lib/feeds/facet-index.ts — so the
+// sitemap and the pre-render can't diverge).
+const FILM_FACETS: FilmRouteFacet[] = [
+  "directors", "actors", "writers", "studios", "languages", "countries", "decades",
+];
+const TV_FACETS: TvRouteFacet[] = [
+  "creators", "actors", "networks", "languages", "countries", "types", "decades",
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -42,12 +69,50 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const filmEntries: MetadataRoute.Sitemap = [];
   try {
     const { films, summary } = getFilms();
+    // /films is the editorial landing (cluster front); /films/reviews
+    // is the corpus CollectionPage (canonical for the review set).
+    // Both indexable — the landing is a point of interest in its own
+    // right, the corpus is the deep content.
     filmEntries.push({
       url: `${SITE_URL}/films`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.6,
     });
+    filmEntries.push({
+      url: `${SITE_URL}/films/reviews`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    // /films/stats — the dashboard ("The Stats"). An indexable
+    // portfolio artifact in its own right (see PLAN.md indexation rule).
+    filmEntries.push({
+      url: `${SITE_URL}/films/stats`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    // Lists hub — the curated year × scope × method landing (same
+    // indexed posture as the Collections hub).
+    filmEntries.push({
+      url: `${SITE_URL}/films/lists`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.55,
+    });
+    // Curated list-detail pages — one per public Letterboxd list,
+    // pulled from the snapshot's lists[] (the weekly scrape pass).
+    // Empty/absent until that pass has run, so the optional chain
+    // keeps a pre-scrape snapshot from throwing here.
+    for (const list of getFilmLists()) {
+      filmEntries.push({
+        url: `${SITE_URL}/films/lists/${list.slug}`,
+        lastModified,
+        changeFrequency: "monthly",
+        priority: 0.55,
+      });
+    }
     // Genre routes — one per active genre. Priority sits between
     // the listing and the individual detail pages: these are the
     // long-tail entry surfaces for "malcolm xavier {genre} reviews"
@@ -55,6 +120,48 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const genre of Object.keys(summary.genreDistribution)) {
       filmEntries.push({
         url: `${SITE_URL}/films/genre/${slugifyFilmGenre(genre)}`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.55,
+      });
+    }
+    // Entity-facet routes (WS6b) — one indexed page per floor-clearing
+    // value, across director / actor / writer / studio / language /
+    // country / decade. Enrichment-backed facets need the joined corpus
+    // (the thin snapshot lacks cast/writers/studios/language/country), so
+    // these read getFilmsWithEnrichment rather than the thin getFilms above.
+    const { films: enrichedFilms } = getFilmsWithEnrichment();
+    for (const facet of FILM_FACETS) {
+      const base = FILM_FACET_BASEPATH[facet];
+      for (const name of indexableFilmFacetNames(facet, enrichedFilms)) {
+        filmEntries.push({
+          url: `${SITE_URL}/films/${base}/${slugifyEntity(name)}`,
+          lastModified,
+          changeFrequency: "weekly",
+          priority: 0.55,
+        });
+      }
+    }
+    // Collections core page (WS7) — a curated, indexed landing (the
+    // /television/watching posture), so it earns a sitemap entry alongside
+    // the per-collection leaves below.
+    filmEntries.push({
+      url: `${SITE_URL}/films/collections`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.55,
+    });
+    // Collection (franchise-family) leaf routes (WS7) — one indexed page per
+    // routable family, gated by the same indexableFilmCollections call the
+    // routes use.
+    const filmCurrentYear = new Date().getUTCFullYear();
+    for (const c of indexableFilmCollections(
+      enrichedFilms,
+      getCollectionDetails(),
+      filmCurrentYear,
+    )) {
+      filmEntries.push({
+        url: `${SITE_URL}/films/collections/${slugifyEntity(c.name)}`,
         lastModified,
         changeFrequency: "weekly",
         priority: 0.55,
@@ -84,8 +191,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const tvEntries: MetadataRoute.Sitemap = [];
   try {
     const { shows, summary } = getShows();
+    // /television is the editorial landing; /television/reviews is the
+    // corpus CollectionPage. Both indexable (see the films block).
     tvEntries.push({
       url: `${SITE_URL}/television`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    tvEntries.push({
+      url: `${SITE_URL}/television/reviews`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
+    });
+    // /television/stats — the TV dashboard ("The Stats"), indexable
+    // (see the films block + PLAN.md indexation rule).
+    tvEntries.push({
+      url: `${SITE_URL}/television/stats`,
       lastModified,
       changeFrequency: "weekly",
       priority: 0.6,
@@ -103,6 +226,60 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency: "weekly",
         priority: 0.55,
       });
+    }
+    // Entity-facet routes (WS6b) — creator / actor / network / language /
+    // country / type / decade, one indexed page per floor-clearing value.
+    const { shows: enrichedShows } = getShowsWithEnrichment();
+    for (const facet of TV_FACETS) {
+      const base = TV_FACET_BASEPATH[facet];
+      for (const name of indexableTvFacetNames(facet, enrichedShows)) {
+        tvEntries.push({
+          url: `${SITE_URL}/television/${base}/${slugifyEntity(name)}`,
+          lastModified,
+          changeFrequency: "weekly",
+          priority: 0.55,
+        });
+      }
+    }
+    // Collections core page (WS7) — curated indexed landing (watching
+    // posture), so it's listed alongside the leaves.
+    tvEntries.push({
+      url: `${SITE_URL}/television/collections`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.55,
+    });
+    // Collection (curated franchise-family) leaf routes (WS7) — one indexed
+    // page per routable family, including the nested Bravo-verse parent + its
+    // subcollections. Same gate as the routes (indexableTvCollections).
+    for (const c of indexableTvCollections(enrichedShows)) {
+      tvEntries.push({
+        url: `${SITE_URL}/television/collections/${slugifyEntity(c.name)}`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.55,
+      });
+    }
+    // Lists hub + per-list detail pages (mirrors the films block).
+    // getShowLists() is empty unless the publish-set is populated, so a
+    // pre-population snapshot contributes only the hub — which 404s in
+    // that state, but the sitemap is regenerated on each deploy.
+    const showLists = getShowLists();
+    if (showLists.length > 0) {
+      tvEntries.push({
+        url: `${SITE_URL}/television/lists`,
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.55,
+      });
+      for (const list of showLists) {
+        tvEntries.push({
+          url: `${SITE_URL}/television/lists/${list.slug}`,
+          lastModified,
+          changeFrequency: "monthly",
+          priority: 0.55,
+        });
+      }
     }
     for (const show of shows) {
       tvEntries.push({
@@ -151,6 +328,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       // doesn't restructure, but the underlying playlists shift.
       changeFrequency: "weekly",
       priority: 0.5,
+    },
+    {
+      // /stats/connected — the cross-brand film × TV dashboard. Indexable
+      // portfolio artifact (see PLAN.md); not under a cluster, so it lives
+      // with the static routes rather than the film/TV blocks above.
+      url: `${SITE_URL}/stats/connected`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.6,
     },
     // Case studies — long-form artifacts of past work. Higher
     // priority than Music since recruiters explicitly hunt for

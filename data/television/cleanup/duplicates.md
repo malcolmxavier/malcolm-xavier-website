@@ -3,7 +3,7 @@
 **Severity:** non-blocking
 **Unresolved:** 0
 **Accepted (won't-fix):** 0
-**Last regenerated:** 2026-05-12T06:26:30.112Z
+**Last regenerated:** 2026-06-02T15:56:11.462Z
 
 Multiple entries on the same (showId, seasonNumber, episodeNumber, watchedDate) tuple. Surfaces accidental double-logs and rewatch-vs-original confusion.
 

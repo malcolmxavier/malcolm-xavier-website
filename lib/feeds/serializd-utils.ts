@@ -16,6 +16,18 @@
 // them gets a feature the other should adopt.
 // ─────────────────────────────────────────────────────────────────
 
+import { facetHit, type FacetGroup } from "./slug";
+import { parseDimension } from "./stats/filter-url";
+import { modesForReview } from "./serializd-mode-counts.mjs";
+import { conglomerateOfNet, primaryNetwork } from "./stats/network-canon";
+import { creatorNames, isActingShow, tvActorNames } from "./stats/people";
+import {
+  countryName,
+  languageName,
+  normalizeCountry,
+  normalizeLanguage,
+} from "./stats/provenance";
+
 // ─── Public types ────────────────────────────────────────────────
 
 /**
@@ -198,6 +210,15 @@ export type Show = {
   ratingSet: number[];
   watchedYearSet: number[];
   /**
+   * Enrichment delta (cast, creators, country, language) joined by TMDB
+   * id in lib/feeds/review-corpus.ts. Present only on the corpus the
+   * reviews page filters with; absent on snapshot-only getShows(). Server-
+   * side filtering reads it; strip before serializing cards to the client.
+   * Type-only import (erased at build) so this client-safe module never
+   * pulls in the fixture reader.
+   */
+  enrichment?: import("./enrichment").EnrichedShow;
+  /**
    * Per-season classification (the load-bearing rule from the
    * plan). A season number lands in exactly one of these arrays
    * per show:
@@ -322,6 +343,93 @@ export type TvSummary = {
 };
 
 /**
+ * Recompute a TvSummary from a (narrowed) show array — the request-time
+ * mirror of the snapshot writer's `aggregateSummary`
+ * (scripts/bootstrap-serializd-snapshot.mjs). Pure and client-safe.
+ *
+ * Honours the miniseries double-count rule via the canonical `modesForReview`
+ * (lib/feeds/serializd-mode-counts.mjs) at every per-level count surface (per
+ * the television-double-count memory). The
+ * watched-only totals can't be derived from the reviewed `Show[]` alone, so
+ * they're carried through from the shipped corpus-wide summary — they're not
+ * surfaced in any tile, so a stale value there is invisible (documented).
+ */
+export function summarizeShows(
+  shows: Show[],
+  // The shipped corpus-wide summary, for the watched-only passthrough fields
+  // that can't be derived from the reviewed shows.
+  baseSummary: TvSummary,
+): TvSummary {
+  const currentYear = new Date().getUTCFullYear();
+  let totalShowReviews = 0;
+  let totalSeasonReviews = 0;
+  let totalEpisodeReviews = 0;
+  let showsInProgressCount = 0;
+  let thisYearCount = 0;
+  const ratingDistribution: Record<string, number> = {};
+  const ratingDistributionByLevel = {
+    show: {} as Record<string, number>,
+    season: {} as Record<string, number>,
+    episode: {} as Record<string, number>,
+  };
+  const genreDistribution: Record<string, number> = {};
+  const decadeDistribution: Record<string, number> = {};
+
+  const bump = (b: Record<string, number>, k: string) => {
+    b[k] = (b[k] ?? 0) + 1;
+  };
+
+  for (const show of shows) {
+    if (show.inProgressSeasonNumbers.length > 0) showsInProgressCount++;
+
+    // "Watched this year" = any review activity in the current calendar year
+    // by WATCH date (matches the writer + user intuition).
+    const watchedThisYear = show.reviews.some(
+      (r) =>
+        r.watchedDate &&
+        Number.parseInt(r.watchedDate.slice(0, 4), 10) === currentYear,
+    );
+    if (watchedThisYear) thisYearCount++;
+
+    for (const r of show.reviews) {
+      const ratingKey = r.rating !== null ? String(r.rating) : null;
+      for (const mode of modesForReview(r.level, show.isMiniseries)) {
+        if (mode === "show") totalShowReviews++;
+        else if (mode === "season") totalSeasonReviews++;
+        else if (mode === "episode") totalEpisodeReviews++;
+        if (ratingKey) bump(ratingDistributionByLevel[mode], ratingKey);
+      }
+      // Lifetime distribution is one-count-per-review (no double-count).
+      if (ratingKey) bump(ratingDistribution, ratingKey);
+    }
+
+    if (show.tmdb?.genres) {
+      for (const g of show.tmdb.genres) bump(genreDistribution, g);
+    }
+    if (Number.isFinite(show.premiereYear) && show.premiereYear > 0) {
+      const decade = `${Math.floor(show.premiereYear / 10) * 10}s`;
+      bump(decadeDistribution, decade);
+    }
+  }
+
+  return {
+    totalShows: shows.length,
+    totalShowReviews,
+    totalSeasonReviews,
+    totalEpisodeReviews,
+    ratingDistribution,
+    ratingDistributionByLevel,
+    genreDistribution,
+    decadeDistribution,
+    showsInProgressCount,
+    thisYearCount,
+    // Watched-only totals are corpus-wide and undisplayed; pass through.
+    totalWatchedShows: baseSummary.totalWatchedShows,
+    totalWatchedOnlyShows: baseSummary.totalWatchedOnlyShows,
+  };
+}
+
+/**
  * Watched-only show entry — the user has marked it watched on
  * Serializd but never written any kind of review. Lives on the
  * snapshot's `watchedOnlyShows` array (separate from `shows`,
@@ -341,6 +449,90 @@ export type WatchedOnlyShow = {
   numEpisodes: number;
   watchedSeasonIds: number[];
   dateAdded: string | null;
+};
+
+// ─── Lists + favorites (editorial landing) ───────────────────────
+//
+// Pulled from Serializd's JSON API by the slow-cadence
+// scripts/refresh-tv-lists.mjs pass (NOT the hourly review refresh).
+// The platform is the curation surface — Malcolm arranges his
+// favorites/lists on Serializd, the site reflects them. Both
+// reference the reviewed corpus by `serializdShowId` (= TMDB tv id)
+// so the landing can render rich ShowCards via getShowBySerializdId().
+
+/**
+ * One ranked entry in a Serializd list. Serializd lists are curated at
+ * the SHOW+SEASON level, not the show level: a single list can rank
+ * several seasons of the same show as distinct entries (e.g. three
+ * Real Housewives of Atlanta seasons), and miniseries entries carry no
+ * season at all. So a list item is a (show, season, position) triple,
+ * not a bare show id — `showId` joins to the reviewed corpus for the
+ * rich card, `seasonNumber` deep-links to the season block, and
+ * `position` is the rank (0-based, ascending = better).
+ */
+export type ShowListItem = {
+  /** Serializd show id (= TMDB tv id); joins to the reviewed corpus. */
+  showId: number;
+  /** TMDB season id, or null for a show-level entry (e.g. a miniseries
+   *  ranked as a whole rather than by season). */
+  seasonId: number | null;
+  /** Display season name as Serializd labels it ("Season 6"), or null
+   *  for a show-level entry. */
+  seasonName: string | null;
+  /** Season number for the `#season-{n}` deep link, or null when the
+   *  entry is show-level. */
+  seasonNumber: number | null;
+  /** Rank within the list (0-based, ascending). Meaningful only when
+   *  the parent list `isRanked`. */
+  position: number;
+  /** Show title as Serializd labels it — the standalone fallback for an
+   *  entry whose show isn't in the reviewed corpus. */
+  showName: string;
+};
+
+/**
+ * One of Malcolm's public Serializd lists, fetched by id via
+ * GET /api/list/{id} (the username→lists listing endpoint is dead on
+ * Serializd's backend, so the refresh script pulls a configured set of
+ * list ids). Mirrors FilmList in the /films cluster, but season-aware:
+ * `items` carries the ranked SHOW+SEASON entries (see ShowListItem),
+ * since a TV list ranks seasons, not shows.
+ */
+export type ShowList = {
+  /** Numeric Serializd list id (the publish-set handle, e.g. 451075). */
+  id: number;
+  /** Our own route slug, derived from the list name (not Serializd's). */
+  slug: string;
+  name: string;
+  /** List prose / methodology, if any. May be "". */
+  description: string;
+  /** True when Serializd marks the list as ranked (drives rank numbers
+   *  in the detail render). */
+  isRanked: boolean;
+  /** Ranked SHOW+SEASON entries, in list (position) order. */
+  items: ShowListItem[];
+  /** Canonical Serializd list URL. */
+  url: string;
+};
+
+/**
+ * A Serializd profile favorite show, in the order Malcolm arranged
+ * them. Thin reference — `serializdShowId` joins to the reviewed
+ * corpus for the rich card (poster, rating, review link); `name` is
+ * the standalone fallback label for the rare favorite that isn't in
+ * the corpus.
+ */
+export type ShowFavorite = {
+  serializdShowId: number;
+  name: string;
+  /**
+   * w342 TMDB poster. Resolved at scrape time — from the reviewed
+   * corpus when the show is in it, else a direct TMDB /tv/{id}
+   * lookup (serializdShowId IS the TMDB id), since favorites are
+   * often shows Malcolm loves but hasn't written prose reviews for
+   * and so can't borrow a corpus poster. Null only if TMDB had none.
+   */
+  posterUrl: string | null;
 };
 
 // ─── Genre slug helpers ──────────────────────────────────────────
@@ -505,6 +697,22 @@ export type ShowFilters = {
   /** Empty/undefined = no filter. Otherwise: keep show if show's genres intersect this set. */
   genres?: string[];
   /**
+   * Empty/undefined = no filter. Otherwise: keep show if its
+   * canonical PRIMARY network (canonNet of networks[0]) ∈ this set.
+   * Matching on the primary network — consistent with the stats
+   * primary-network counting rule — means a show appears under
+   * exactly one network filter, never several. Carries canonical
+   * names ("HBO / Max"), so the filter chip and the detail-page
+   * network label agree.
+   */
+  networks?: string[];
+  /**
+   * Empty/undefined = no filter. Otherwise: keep show if its TMDB
+   * series type (Scripted / Miniseries / Reality / Documentary /
+   * etc.) ∈ this set. Low-cardinality facet, so a plain chip rail.
+   */
+  types?: string[];
+  /**
    * Card-kind scope. Undefined = both Show and Season cards
    * surface together (default). "show" / "season" narrows the
    * grid to that level only. Lives as `?cardKind=show|season`
@@ -518,6 +726,45 @@ export type ShowFilters = {
    * the other stable.
    */
   cardKind?: "show" | "season";
+  /** Title search (?title=), length ≥ 2. TV has no director field, so
+   *  title is the only search dimension here. Carried so generateMetadata
+   *  can noindex the search state; the hybrid matching is precomputed
+   *  server-side and passed to the card filter as `matchIds` (keeps this
+   *  client-safe module free of the Fuse dep). */
+  titleQuery?: string;
+  // ── Wave B entity facets (WS6) ──────────────────────────────────
+  // Selected entity SLUGS (slugifyEntity of the canonical display name).
+  // OR within a facet, AND across. Read from `card.show.enrichment` +
+  // the shared canonicalizers, so the vocabulary matches the stats
+  // tiles. network + type (above) are the WS3-era TV facets; these add
+  // the enrichment-backed ones. (TV has no director/writer/studio.)
+  /** Top-billed actor (≥3 eps, acting shows only) name slugs. */
+  actors?: string[];
+  /** Creator name slugs (source authors demoted, matching the stats). */
+  creators?: string[];
+  /** Owning conglomerate (conglomerateOfNet) name slugs. */
+  conglomerates?: string[];
+  /** Original-language display-name slugs (e.g. "japanese"). */
+  languages?: string[];
+  /** Country-of-origin display-name slugs. */
+  countries?: string[];
+  /** Premiere-decade slugs ("2010s", …) — derived from premiereYear. */
+  decades?: string[];
+  // ── Exclusion (NOT) facets — stats-page query model (STATS-FILTERS §2) ──
+  // Mirror each includable dimension. A show is DROPPED if it matches ANY
+  // excluded value in a dimension (AND NOT), composed with the include
+  // logic. Empty/undefined = no exclusion. ADDITIVE and backward-compatible:
+  // the reviews surfaces never set them, so their behaviour is unchanged.
+  excludeRatings?: number[];
+  excludeGenres?: string[];
+  excludeNetworks?: string[];
+  excludeTypes?: string[];
+  excludeActors?: string[];
+  excludeCreators?: string[];
+  excludeConglomerates?: string[];
+  excludeLanguages?: string[];
+  excludeCountries?: string[];
+  excludeDecades?: string[];
 } & WatchedDateFilter;
 
 /**
@@ -649,7 +896,9 @@ export function buildCompletedCards(shows: Show[]): CompletedCard[] {
         review,
         cardKind: review.level,
         seasonNumber:
-          review.level === "season" ? seasonNumberForReview(show, review) : null,
+          review.level === "season"
+            ? seasonNumberForReview(show, review)
+            : null,
       });
     }
   }
@@ -683,10 +932,49 @@ export function buildInProgressCards(shows: Show[]): InProgressCard[] {
  *  case where the seasonId isn't in show.seasons. Exported so the
  *  detail-page route can drop its private re-declaration of the
  *  same logic and stay in lockstep with this utils source. */
-export function seasonNumberForReview(show: Show, review: Review): number | null {
+export function seasonNumberForReview(
+  show: Show,
+  review: Review,
+): number | null {
   if (review.seasonId === null) return null;
   const season = show.seasons.find((s) => s.serializdId === review.seasonId);
   return season ? season.seasonNumber : null;
+}
+
+// ─── Available-facet derivation ──────────────────────────────────
+
+/**
+ * Distinct canonical primary networks across a show set, sorted by
+ * frequency descending so the filter chip rail leads with the
+ * most-common destinations. Routes through primaryNetwork so the chip
+ * vocabulary matches the network filter predicate (and the stats
+ * counts). Shared by /television/reviews and /television/genre/[slug]
+ * so both render the identical rail.
+ */
+export function deriveAvailableNetworks(shows: Show[]): [string, number][] {
+  const counts = new Map<string, number>();
+  for (const show of shows) {
+    const primary = primaryNetwork(show.tmdb?.networks ?? []);
+    if (primary) counts.set(primary, (counts.get(primary) ?? 0) + 1);
+  }
+  // [name, count] tuples, alphabetical — the rail is scanned by name and
+  // the count is the discovery scent shown on each chip.
+  return [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+}
+
+/**
+ * Distinct TMDB series types across a show set, frequency-sorted.
+ * Low cardinality (Scripted / Miniseries / Reality / Documentary / …),
+ * so the UI renders a plain chip rail rather than a typeahead.
+ */
+export function deriveAvailableTypes(shows: Show[]): [string, number][] {
+  const counts = new Map<string, number>();
+  for (const show of shows) {
+    const t = show.tmdb?.type;
+    if (t) counts.set(t, (counts.get(t) ?? 0) + 1);
+  }
+  // [name, count] tuples, alphabetical — see deriveAvailableNetworks.
+  return [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
 }
 
 // ─── Card-level filter + sort ────────────────────────────────────
@@ -703,15 +991,160 @@ export function seasonNumberForReview(show: Show, review: Review): number | null
  * watchedYears, watchedWindow) drop the card when its surfaced
  * review doesn't match.
  */
+/** Premiere-decade label for a year, e.g. 2018 → "2010s". */
+export function showDecadeLabel(year: number): string {
+  return `${Math.floor(year / 10) * 10}s`;
+}
+
+/** The Wave B facet keys a show exposes. */
+export type ShowFacet =
+  | "actors"
+  | "creators"
+  | "conglomerates"
+  | "languages"
+  | "countries"
+  | "decades";
+
+/**
+ * Canonical Wave B facet values for a show — DISPLAY names (pre-slug),
+ * via the same canonicalizers the stats use. The SINGLE source both the
+ * card filter predicate and the available-value derivation read, so the
+ * two vocabularies can't drift. Actor names honour the acting-show gate
+ * the stats apply (reality/talk/doc cast don't count as actors); the
+ * conglomerate comes from the snapshot networks (same as the stats).
+ */
+export function showFacetValues(show: Show): Record<ShowFacet, string[]> {
+  const e = show.enrichment;
+  const acting = isActingShow({
+    type: show.tmdb?.type ?? null,
+    genres: show.tmdb?.genres ?? [],
+  });
+  return {
+    actors: e && acting ? tvActorNames({ cast: e.cast }) : [],
+    creators: e ? creatorNames({ creators: e.creators }) : [],
+    conglomerates: [conglomerateOfNet(show.tmdb?.networks ?? [])],
+    languages: e?.language ? [languageName(normalizeLanguage(e.language))] : [],
+    countries: e?.country ? [countryName(normalizeCountry(e.country))] : [],
+    decades: [showDecadeLabel(show.premiereYear)],
+  };
+}
+
+/**
+ * Per-facet value→count distributions across a show corpus, each sorted
+ * count desc then name asc. One pass via showFacetValues (shared
+ * vocabulary with the filter). `count` is the number of logged shows
+ * carrying that value. Feeds the sidebar chip rails + 6c typeahead.
+ */
+export function showFacetDistributions(
+  shows: Show[],
+): Record<ShowFacet, [string, number][]> {
+  const facets: ShowFacet[] = [
+    "actors",
+    "creators",
+    "conglomerates",
+    "languages",
+    "countries",
+    "decades",
+  ];
+  const maps = new Map<ShowFacet, Map<string, number>>(
+    facets.map((f) => [f, new Map<string, number>()]),
+  );
+  for (const show of shows) {
+    const fv = showFacetValues(show);
+    for (const facet of facets) {
+      const m = maps.get(facet)!;
+      for (const name of fv[facet]) m.set(name, (m.get(name) ?? 0) + 1);
+    }
+  }
+  const out = {} as Record<ShowFacet, [string, number][]>;
+  for (const facet of facets) {
+    out[facet] = [...maps.get(facet)!.entries()].sort(
+      (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+    );
+  }
+  return out;
+}
+
+/**
+ * The low-cardinality facet groups for the TV reviews sidebar, built
+ * from the corpus (shared by the reviews page and the genre route).
+ * Network + type already have their own WS3 controls; actors/creators
+ * are high-cardinality (deep-links now, typeahead in 6c), so the rails
+ * here are language, country, network group (conglomerate), and decade.
+ */
+export function showEntityFacets(shows: Show[]): FacetGroup[] {
+  const d = showFacetDistributions(shows);
+  // Sidebar rails sort alphabetically (scanned by name); the count-desc
+  // ranking in showFacetDistributions stays untouched for stats/sitemap.
+  // Decade labels are "YYYYs", so alpha reads as chronological.
+  const byName = (opts: [string, number][]): [string, number][] =>
+    [...opts].sort((a, b) => a[0].localeCompare(b[0]));
+  return [
+    {
+      key: "languages",
+      param: "language",
+      label: "Language",
+      options: byName(d.languages),
+    },
+    {
+      key: "countries",
+      param: "country",
+      label: "Country",
+      options: byName(d.countries),
+    },
+    {
+      key: "conglomerates",
+      param: "conglomerate",
+      label: "Network group",
+      options: byName(d.conglomerates),
+    },
+    {
+      key: "decades",
+      param: "decade",
+      label: "Decade",
+      options: byName(d.decades),
+    },
+  ];
+}
+
+/** True if any Wave B facet filter is active (gates the per-card work). */
+function anyShowFacetActive(f: ShowFilters): boolean {
+  return Boolean(
+    f.actors?.length ||
+    f.creators?.length ||
+    f.conglomerates?.length ||
+    f.languages?.length ||
+    f.countries?.length ||
+    f.decades?.length ||
+    // Exclusion facets (mirror the includes) also need the enrichment pass.
+    f.excludeActors?.length ||
+    f.excludeCreators?.length ||
+    f.excludeConglomerates?.length ||
+    f.excludeLanguages?.length ||
+    f.excludeCountries?.length ||
+    f.excludeDecades?.length,
+  );
+}
+
 export function applyCompletedCardFilters(
   cards: CompletedCard[],
   filters: ShowFilters,
   sort: ShowSort = DEFAULT_SHOW_SORT,
+  // Precomputed fuzzy-search match set (SHOW ids) for the ?q= filter.
+  // null/undefined = no search active. Matching is done by the caller
+  // via the server-only fuzzy-search helper (over the unique shows, by
+  // title) so this client-safe module stays free of the Fuse dep.
+  matchIds?: Set<string> | null,
 ): CompletedCard[] {
   const twelveMoCutoffMs =
     filters.watchedWindow === "12mo" ? computeTwelveMoCutoffMs() : null;
+  // Skip the per-card enrichment work entirely on the default listing.
+  const waveBActive = anyShowFacetActive(filters);
   const result: CompletedCard[] = [];
   for (const card of cards) {
+    // Search (?q=): drop cards whose parent show isn't in the
+    // fuzzy-match set. Composes (AND) with every predicate below.
+    if (matchIds && !matchIds.has(card.show.id)) continue;
     // Card-kind scope (cheapest predicate first — discriminator
     // check on a 4-byte string vs the per-show numeric / array
     // predicates below).
@@ -734,11 +1167,105 @@ export function applyCompletedCardFilters(
       if (!showGenres) continue;
       if (!filters.genres.some((g) => showGenres.includes(g))) continue;
     }
+    // Genre exclusion (AND NOT): drop if the show's genres intersect the
+    // excluded set. A show with no genres can't match an exclusion.
+    if (filters.excludeGenres && filters.excludeGenres.length > 0) {
+      const showGenres = card.show.tmdb?.genres;
+      if (showGenres && filters.excludeGenres.some((g) => showGenres.includes(g))) {
+        continue;
+      }
+    }
+    if (filters.networks && filters.networks.length > 0) {
+      // Match on the canonical PRIMARY network so a show lands under
+      // exactly one network filter (same rule the stats counts use).
+      const primary = primaryNetwork(card.show.tmdb?.networks ?? []);
+      if (!primary || !filters.networks.includes(primary)) continue;
+    }
+    // Network exclusion (AND NOT): drop if the show's PRIMARY network is in
+    // the excluded set (same primary-network rule as the include above).
+    if (filters.excludeNetworks && filters.excludeNetworks.length > 0) {
+      const primary = primaryNetwork(card.show.tmdb?.networks ?? []);
+      if (primary && filters.excludeNetworks.includes(primary)) continue;
+    }
+    if (filters.types && filters.types.length > 0) {
+      const showType = card.show.tmdb?.type;
+      if (!showType || !filters.types.includes(showType)) continue;
+    }
+    // Type exclusion (AND NOT). A show with no type can't match an exclusion.
+    if (filters.excludeTypes && filters.excludeTypes.length > 0) {
+      const showType = card.show.tmdb?.type;
+      if (showType && filters.excludeTypes.includes(showType)) continue;
+    }
+    // ── Wave B entity facets (enrichment-backed) ────────────
+    // OR within each facet; AND across them. Values come from the shared
+    // showFacetValues (same vocabulary as the stats + the available
+    // lists). A card whose show has no enrichment can't confirm a match
+    // and is dropped when that facet is active. Skipped unless active.
+    if (waveBActive) {
+      const fv = showFacetValues(card.show);
+      if (filters.actors?.length && !facetHit(filters.actors, fv.actors))
+        continue;
+      if (filters.creators?.length && !facetHit(filters.creators, fv.creators))
+        continue;
+      if (
+        filters.conglomerates?.length &&
+        !facetHit(filters.conglomerates, fv.conglomerates)
+      )
+        continue;
+      if (
+        filters.languages?.length &&
+        !facetHit(filters.languages, fv.languages)
+      )
+        continue;
+      if (
+        filters.countries?.length &&
+        !facetHit(filters.countries, fv.countries)
+      )
+        continue;
+      if (filters.decades?.length && !facetHit(filters.decades, fv.decades))
+        continue;
+
+      // ── Exclusion (AND NOT) on the same enrichment facets ──
+      if (filters.excludeActors?.length && facetHit(filters.excludeActors, fv.actors))
+        continue;
+      if (
+        filters.excludeCreators?.length &&
+        facetHit(filters.excludeCreators, fv.creators)
+      )
+        continue;
+      if (
+        filters.excludeConglomerates?.length &&
+        facetHit(filters.excludeConglomerates, fv.conglomerates)
+      )
+        continue;
+      if (
+        filters.excludeLanguages?.length &&
+        facetHit(filters.excludeLanguages, fv.languages)
+      )
+        continue;
+      if (
+        filters.excludeCountries?.length &&
+        facetHit(filters.excludeCountries, fv.countries)
+      )
+        continue;
+      if (filters.excludeDecades?.length && facetHit(filters.excludeDecades, fv.decades))
+        continue;
+    }
     // Per-review predicates apply to the card's surfaced review
     if (filters.ratings && filters.ratings.length > 0) {
       if (
         card.review.rating === null ||
         !filters.ratings.includes(card.review.rating)
+      ) {
+        continue;
+      }
+    }
+    // Rating exclusion (AND NOT): drop a card whose surfaced review carries
+    // an excluded rating. Unrated reviews (null) can't match an exclusion.
+    if (filters.excludeRatings && filters.excludeRatings.length > 0) {
+      if (
+        card.review.rating !== null &&
+        filters.excludeRatings.includes(card.review.rating)
       ) {
         continue;
       }
@@ -756,7 +1283,10 @@ export function applyCompletedCardFilters(
   return sortCompletedCards(result, sort);
 }
 
-function sortCompletedCards(arr: CompletedCard[], sort: ShowSort): CompletedCard[] {
+function sortCompletedCards(
+  arr: CompletedCard[],
+  sort: ShowSort,
+): CompletedCard[] {
   return [...arr].sort((a, b) => {
     switch (sort) {
       case "latest-activity-desc":
@@ -809,8 +1339,16 @@ export function applyShowFilters(
 ): AppliedShow[] {
   const hasPerReviewFilter =
     (filters.ratings && filters.ratings.length > 0) ||
+    (filters.excludeRatings && filters.excludeRatings.length > 0) ||
     (filters.watchedYears && filters.watchedYears.length > 0) ||
     filters.watchedWindow !== undefined;
+
+  // Wave B facet predicates (network / type / enrichment-backed entities +
+  // their exclusions). The Show[] variant historically only filtered
+  // year/genre/ratings — the stats narrowing needs the full facet surface,
+  // so it's added here. No production reviews consumer uses this function
+  // (they all run applyCompletedCardFilters), so this is additive-only.
+  const waveBActive = anyShowFacetActive(filters);
 
   // Anchor the rolling-12mo cutoff to request time, not module-load
   // time — same calendar-year arithmetic as /films to dodge the
@@ -840,14 +1378,84 @@ export function applyShowFilters(
       const intersects = filters.genres.some((g) => showGenres.includes(g));
       if (!intersects) continue;
     }
+    // Genre exclusion (AND NOT).
+    if (filters.excludeGenres && filters.excludeGenres.length > 0) {
+      const showGenres = show.tmdb?.genres;
+      if (showGenres && filters.excludeGenres.some((g) => showGenres.includes(g))) {
+        continue;
+      }
+    }
+    // Primary-network include / exclude (same primary-network rule the stats
+    // counts use, so a show lands under exactly one network).
+    if (filters.networks && filters.networks.length > 0) {
+      const primary = primaryNetwork(show.tmdb?.networks ?? []);
+      if (!primary || !filters.networks.includes(primary)) continue;
+    }
+    if (filters.excludeNetworks && filters.excludeNetworks.length > 0) {
+      const primary = primaryNetwork(show.tmdb?.networks ?? []);
+      if (primary && filters.excludeNetworks.includes(primary)) continue;
+    }
+    // Series-type include / exclude.
+    if (filters.types && filters.types.length > 0) {
+      const showType = show.tmdb?.type;
+      if (!showType || !filters.types.includes(showType)) continue;
+    }
+    if (filters.excludeTypes && filters.excludeTypes.length > 0) {
+      const showType = show.tmdb?.type;
+      if (showType && filters.excludeTypes.includes(showType)) continue;
+    }
+
+    // ── Wave B entity facets (enrichment-backed) ────────────
+    // OR within each facet; AND across; exclusion is AND NOT. A show whose
+    // enrichment can't confirm a match is dropped when an include facet is
+    // active. Skipped entirely unless a facet (include or exclude) is active.
+    if (waveBActive) {
+      const fv = showFacetValues(show);
+      if (filters.actors?.length && !facetHit(filters.actors, fv.actors))
+        continue;
+      if (filters.creators?.length && !facetHit(filters.creators, fv.creators))
+        continue;
+      if (
+        filters.conglomerates?.length &&
+        !facetHit(filters.conglomerates, fv.conglomerates)
+      )
+        continue;
+      if (filters.languages?.length && !facetHit(filters.languages, fv.languages))
+        continue;
+      if (filters.countries?.length && !facetHit(filters.countries, fv.countries))
+        continue;
+      if (filters.decades?.length && !facetHit(filters.decades, fv.decades))
+        continue;
+      // Exclusions
+      if (filters.excludeActors?.length && facetHit(filters.excludeActors, fv.actors))
+        continue;
+      if (
+        filters.excludeCreators?.length &&
+        facetHit(filters.excludeCreators, fv.creators)
+      )
+        continue;
+      if (
+        filters.excludeConglomerates?.length &&
+        facetHit(filters.excludeConglomerates, fv.conglomerates)
+      )
+        continue;
+      if (
+        filters.excludeLanguages?.length &&
+        facetHit(filters.excludeLanguages, fv.languages)
+      )
+        continue;
+      if (
+        filters.excludeCountries?.length &&
+        facetHit(filters.excludeCountries, fv.countries)
+      )
+        continue;
+      if (filters.excludeDecades?.length && facetHit(filters.excludeDecades, fv.decades))
+        continue;
+    }
 
     // ── Per-review filters ──────────────────────────────────
     if (hasPerReviewFilter) {
-      const qualifying = findQualifyingReview(
-        show,
-        filters,
-        twelveMoCutoffMs,
-      );
+      const qualifying = findQualifyingReview(show, filters, twelveMoCutoffMs);
       if (!qualifying) continue;
       result.push({
         show,
@@ -884,6 +1492,13 @@ function findQualifyingReview(
         continue;
       }
     }
+    // Rating exclusion (AND NOT): a review carrying an excluded rating is not
+    // a qualifying review. Unrated reviews (null) can't match an exclusion.
+    if (filters.excludeRatings && filters.excludeRatings.length > 0) {
+      if (review.rating !== null && filters.excludeRatings.includes(review.rating)) {
+        continue;
+      }
+    }
     if (filters.watchedYears && filters.watchedYears.length > 0) {
       const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
       if (!filters.watchedYears.includes(year)) continue;
@@ -917,9 +1532,13 @@ function sortApplied(arr: AppliedShow[], sort: ShowSort): AppliedShow[] {
   return [...arr].sort((a, b) => {
     switch (sort) {
       case "latest-activity-desc":
-        return b.show.latestActivityDate.localeCompare(a.show.latestActivityDate);
+        return b.show.latestActivityDate.localeCompare(
+          a.show.latestActivityDate,
+        );
       case "latest-activity-asc":
-        return a.show.latestActivityDate.localeCompare(b.show.latestActivityDate);
+        return a.show.latestActivityDate.localeCompare(
+          b.show.latestActivityDate,
+        );
       case "premiere-year-desc":
         return b.show.premiereYear - a.show.premiereYear;
       case "premiere-year-asc":
@@ -932,13 +1551,17 @@ function sortApplied(arr: AppliedShow[], sort: ShowSort): AppliedShow[] {
         const ratingCmp =
           (b.cardRating ?? -Infinity) - (a.cardRating ?? -Infinity);
         if (ratingCmp !== 0) return ratingCmp;
-        return b.show.latestActivityDate.localeCompare(a.show.latestActivityDate);
+        return b.show.latestActivityDate.localeCompare(
+          a.show.latestActivityDate,
+        );
       }
       case "rating-asc": {
         const ratingCmp =
           (a.cardRating ?? Infinity) - (b.cardRating ?? Infinity);
         if (ratingCmp !== 0) return ratingCmp;
-        return b.show.latestActivityDate.localeCompare(a.show.latestActivityDate);
+        return b.show.latestActivityDate.localeCompare(
+          a.show.latestActivityDate,
+        );
       }
       case "show-name-asc":
         // Locale-aware alphabetical, with "The"/"A" stripped from
@@ -973,10 +1596,23 @@ const VALID_RATINGS = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
 export function parseShowFilters(
   params: Record<string, string | string[] | undefined>,
 ): ShowFilters {
-  const ratings = parseCsvNumbers(asString(params.rating)).filter((r) =>
-    VALID_RATINGS.includes(r),
-  );
-  const genres = parseCsvStrings(asString(params.genre));
+  // Each dimension splits into include/exclude via the leading-"!"
+  // encoding (STATS-FILTERS §7), shared with the reviews surfaces (§11) —
+  // reviews URLs carry no "!", so this is backward compatible there.
+  const ratingDim = parseDimension(asString(params.rating));
+  const ratings = ratingDim.include
+    .map((s) => Number.parseFloat(s))
+    .filter((r) => Number.isFinite(r) && VALID_RATINGS.includes(r));
+  const excludeRatings = ratingDim.exclude
+    .map((s) => Number.parseFloat(s))
+    .filter((r) => Number.isFinite(r) && VALID_RATINGS.includes(r));
+
+  const genreDim = parseDimension(asString(params.genre));
+  // Networks carry canonical names ("HBO / Max") and types are TMDB
+  // labels ("Scripted"); both are CSV like genre. No allowlist — a
+  // tampered value just matches nothing (same posture as genre).
+  const networkDim = parseDimension(asString(params.network));
+  const typeDim = parseDimension(asString(params.type));
   const premiereYearMin = parsePremiereYear(asString(params.premiereYearMin));
   const premiereYearMax = parsePremiereYear(asString(params.premiereYearMax));
   // Tolerate any other value silently (URL tampering returns to
@@ -992,15 +1628,47 @@ export function parseShowFilters(
   );
   const watchedWindowRaw = asString(params.watchedWindow);
 
-  const base: Pick<
-    ShowFilters,
-    "ratings" | "genres" | "premiereYearMin" | "premiereYearMax" | "cardKind"
-  > = {};
+  // Title search (?title=); active only at length ≥ 2 (single char is a
+  // no-op). Mirrors parseFilmFilters + MIN_QUERY_LENGTH.
+  const titleQuery = asString(params.title)?.trim();
+
+  // Wave B entity facets — CSV of entity slugs, each split into
+  // include/exclude. No allowlist: an unknown slug matches nothing in
+  // applyCompletedCardFilters (corpus constraint).
+  const actorDim = parseDimension(asString(params.actor));
+  const creatorDim = parseDimension(asString(params.creator));
+  const conglomerateDim = parseDimension(asString(params.conglomerate));
+  const languageDim = parseDimension(asString(params.language));
+  const countryDim = parseDimension(asString(params.country));
+  const decadeDim = parseDimension(asString(params.decade));
+
+  const base: Omit<ShowFilters, "watchedYears" | "watchedWindow"> = {};
+  // Include side.
   if (ratings.length > 0) base.ratings = ratings;
-  if (genres.length > 0) base.genres = genres;
+  if (genreDim.include.length > 0) base.genres = genreDim.include;
+  if (networkDim.include.length > 0) base.networks = networkDim.include;
+  if (typeDim.include.length > 0) base.types = typeDim.include;
   if (premiereYearMin !== undefined) base.premiereYearMin = premiereYearMin;
   if (premiereYearMax !== undefined) base.premiereYearMax = premiereYearMax;
   if (cardKind !== undefined) base.cardKind = cardKind;
+  if (titleQuery && titleQuery.length >= 2) base.titleQuery = titleQuery;
+  if (actorDim.include.length > 0) base.actors = actorDim.include;
+  if (creatorDim.include.length > 0) base.creators = creatorDim.include;
+  if (conglomerateDim.include.length > 0) base.conglomerates = conglomerateDim.include;
+  if (languageDim.include.length > 0) base.languages = languageDim.include;
+  if (countryDim.include.length > 0) base.countries = countryDim.include;
+  if (decadeDim.include.length > 0) base.decades = decadeDim.include;
+  // Exclude side (AND NOT). Set only when non-empty.
+  if (excludeRatings.length > 0) base.excludeRatings = excludeRatings;
+  if (genreDim.exclude.length > 0) base.excludeGenres = genreDim.exclude;
+  if (networkDim.exclude.length > 0) base.excludeNetworks = networkDim.exclude;
+  if (typeDim.exclude.length > 0) base.excludeTypes = typeDim.exclude;
+  if (actorDim.exclude.length > 0) base.excludeActors = actorDim.exclude;
+  if (creatorDim.exclude.length > 0) base.excludeCreators = creatorDim.exclude;
+  if (conglomerateDim.exclude.length > 0) base.excludeConglomerates = conglomerateDim.exclude;
+  if (languageDim.exclude.length > 0) base.excludeLanguages = languageDim.exclude;
+  if (countryDim.exclude.length > 0) base.excludeCountries = countryDim.exclude;
+  if (decadeDim.exclude.length > 0) base.excludeDecades = decadeDim.exclude;
 
   if (watchedYearsRaw.length > 0) {
     return { ...base, watchedYears: watchedYearsRaw };
@@ -1034,14 +1702,6 @@ function parseCsvNumbers(raw: string | undefined): number[] {
     .split(",")
     .map((s) => Number.parseFloat(s.trim()))
     .filter((n) => Number.isFinite(n));
-}
-
-function parseCsvStrings(raw: string | undefined): string[] {
-  if (!raw) return [];
-  return raw
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
 }
 
 function parsePositiveInt(raw: string | undefined): number | undefined {
@@ -1151,7 +1811,10 @@ export function resolveSeasonPosterUrl(
 }
 
 /** "Season 1, Episode 2" / "Season 1" / "" — used in card datelines and detail headers. */
-export function formatLevelLabel(review: Review, seasonNumber: number | null): string {
+export function formatLevelLabel(
+  review: Review,
+  seasonNumber: number | null,
+): string {
   switch (review.level) {
     case "show":
       return "";

@@ -145,9 +145,9 @@ function Hero() {
       updatedDate={formatLastUpdated()}
     >
       This page is an overview of two things at once. First and foremost, this is documentation of my
-      first pass at using Claude Code as a building and thinking partner in developing a site. Second, it&apos;s a
+      first pass at using Claude Code as a building and thinking partner in developing a site. Second, it’s a
       case study of a loyalty-program turnaround, using the Basecamp Coffee scenario as a practice space
-      for demonstrating my Growth PM skills and what I&apos;ve learned about using Claude Code as a partner.{' '}
+      for demonstrating my Growth PM skills and what I’ve learned about using Claude Code as a partner.{' '}
       <Link href={QUIZ_HREF}>
         The quiz{' '}
         {/* Surrounding lede is Instrument Serif italic, which
@@ -165,7 +165,7 @@ function Hero() {
         </span>
       </Link>{' '}
       is the prototype that came out of it. What follows is the story of how
-      it got there&mdash;and the divergence that started everything.
+      it got there—and the divergence that started everything.
     </CaseStudyHero>
   );
 }
@@ -182,7 +182,7 @@ function BeatSignal() {
         </p>
         <p>
           The divergence tangibly frames the problem and its criticality. If brand NPS had dropped with program NPS, this might have
-          been a brand crisis. But it didn&apos;t.
+          been a brand crisis. But it didn’t.
         </p>
         <p>
           Customers still loved the coffee, the shops, the baristas. They
@@ -192,7 +192,7 @@ function BeatSignal() {
         <p>
           For context: Basecamp Rewards is a standard points-per-purchase program built around three
           tiers—<Emph>Trailblazer → Explorer → Summit</Emph>. The mechanics are conventional and,
-          for accounting reasons, locked. The program isn&apos;t broken in the plumbing; it&apos;s broken
+          for accounting reasons, locked. The program isn’t broken in the plumbing; it’s broken
           in what customers feel when they use it.
         </p>
       </Body>
@@ -209,7 +209,7 @@ function BeatSignal() {
         a mental map of the corpus; I asked it to highlight what was load-bearing. The NPS
         divergence surfaced from <Code>organized/feedback-synthesis.md</Code> almost immediately.
         <span className="block mt-3 text-[var(--text-heading)] font-medium">
-          Claude didn&apos;t pick the insight; it found the data points that led me to it.
+          Claude didn’t pick the insight; it found the data points that led me to it.
         </span>
       </ClaudeNote>
     </Beat>
@@ -247,7 +247,7 @@ function BeatData() {
         <EvidenceCard eyebrow="Pattern 03" title="Cadence rot">
           Average days between visits: 4.2 → 10.4. Cadence is the leading indicator; retention and
           LTV are lagging. Members who used to come in twice a week were coming in every other week.
-          They weren&apos;t leaving angrily, but they weren&apos;t coming back excited either.
+          They weren’t leaving angrily, but they weren’t coming back excited either.
         </EvidenceCard>
       </div>
 
@@ -289,12 +289,12 @@ function BeatTriangulation() {
       <EvidenceGrid>
         <EvidenceCard eyebrow="Signal 01" title="Member behavior">
           Cadence rotting, tier stagnation (89% stuck at Trailblazer, the first tier of the program), 23-second app sessions. Members
-          weren&apos;t rage-quitting—they were drifting away indifferent. Worse than anger. It&apos;s{' '}
+          weren’t rage-quitting—they were drifting away indifferent. Worse than anger. It’s{' '}
           <Emph>forgetting</Emph>.
         </EvidenceCard>
         <EvidenceCard eyebrow="Signal 02" title="Customer voice">
-          &ldquo;Fine but forgettable&rdquo; showed up in customer feedback for three consecutive months.
-          And: &ldquo;Your coffee has personality. Your rewards program doesn&apos;t.&rdquo;
+          “Fine but forgettable” showed up in customer feedback for three consecutive months.
+          And: “Your coffee has personality. Your rewards program doesn’t.”
         </EvidenceCard>
         <EvidenceCard eyebrow="Signal 03" title="Competitor-by-feature">
           Every failed Basecamp campaign had a competitor who won at the same mechanic. Double Points
@@ -302,7 +302,7 @@ function BeatTriangulation() {
           winners led with <Emph>identity</Emph>, then layered mechanics.
         </EvidenceCard>
         <EvidenceCard eyebrow="Signal 04" title="Market whitespace">
-          Starbucks owns <Emph>convenient</Emph>. Dutch Bros owns <Emph>fun</Emph>. Peet&apos;s owns{' '}
+          Starbucks owns <Emph>convenient</Emph>. Dutch Bros owns <Emph>fun</Emph>. Peet’s owns{' '}
           <Emph>quality</Emph>. Roast &amp; Co. owns <Emph>craft</Emph>. Nobody in the PNW market owned{' '}
           <Emph>coffee identity</Emph>.
         </EvidenceCard>
@@ -316,14 +316,14 @@ function BeatTriangulation() {
         I had Claude spin up three custom sub-agents: an <Emph>Exec (ROI lens)</Emph>, a{' '}
         <Emph>Product Designer (identity/emotion lens)</Emph>, a{' '}
         <Emph>Barista Lead (ground-truth lens)</Emph>. Then, I fed them the synthesis and hypothesis, asking for pressure-testing. They converged from different angles —
-        Exec said &ldquo;numbers or kill it,&rdquo; Designer said &ldquo;identity vacuum, not loyalty
-        problem,&rdquo; Barista said &ldquo;customers ask &lsquo;what should I try?&rsquo; ten times a day
-        and we can&apos;t tell them.&rdquo; Then I built a fourth agent of my own: a{' '}
+        Exec said “numbers or kill it,” Designer said “identity vacuum, not loyalty
+        problem,” Barista said “customers ask ‘what should I try?’ ten times a day
+        and we can’t tell them.” Then I built a fourth agent of my own: a{' '}
         <Emph>Growth Product Strategist</Emph>, tuned for funnel/activation/retention-loop product thinking.
         <span className="block mt-3">
           The three generalists told me whether the synthesis held up from their angles. The growth agent
-          checked for growth levers that formed the hypothesis; that&apos;s the lens that matters most in my day job.
-          I also stored it globally as a reusable agent, which means I can reach for it on my forthcoming projects...
+          checked for growth levers that formed the hypothesis; that’s the lens that matters most in my day job.
+          I also stored it globally as a reusable agent, which means I can reach for it on my forthcoming projects…
         </span>
         <span className="block mt-3">
           Output from the first three agents is in <Code>reviews/synthesis-feedback.md</Code>.
@@ -332,7 +332,7 @@ function BeatTriangulation() {
       </ClaudeNote>
 
       <Pullquote attribution="Product Designer sub-agent">
-        Basecamp doesn&apos;t have a loyalty problem. It has an identity vacuum.
+        Basecamp doesn’t have a loyalty problem. It has an identity vacuum.
       </Pullquote>
     </Beat>
   );
@@ -344,7 +344,7 @@ function BeatBet() {
     <Beat id="bet" number="04" title="The Bet" claudeTag="thinking partner" headline="Personality over points.">
       <Body>
         <p>
-          The mechanics couldn&apos;t change — the points structure is legally locked (accounting
+          The mechanics couldn’t change — the points structure is legally locked (accounting
           reasons). That removed a tempting distraction. The question now was: <Emph>what would make members want to come back, independent
           of the mechanics?</Emph>
         </p>
@@ -354,22 +354,22 @@ function BeatBet() {
           stops bleeding.
         </p>
         <p>
-          That&apos;s testable. And with quality experiment design you must define what success looks like before you run it (which means
+          That’s testable. And with quality experiment design you must define what success looks like before you run it (which means
           you must define failure too). This is where growth and data strategy meet.
         </p>
       </Body>
 
       <Pullquote attribution="Barista Lead sub-agent">
-        People light up when we ask about their coffee preferences. The app doesn&apos;t capture any
+        People light up when we ask about their coffee preferences. The app doesn’t capture any
         of that.
       </Pullquote>
 
       <ClaudeNote>
-        The move from &ldquo;convergent evidence&rdquo; to &ldquo;specific hypothesis&rdquo; is where
+        The move from “convergent evidence” to “specific hypothesis” is where
         Claude earns its keep as a thinking partner. I iterated on what the evidence actually implied —
-        not &ldquo;people want personality in general&rdquo; but specifically{' '}
+        not “people want personality in general” but specifically{' '}
         <Emph>a claimable archetype with a matched drink</Emph>. Decisions and open research questions
-        went into project memory so I wouldn&apos;t re-litigate them tomorrow.
+        went into project memory so I wouldn’t re-litigate them tomorrow.
       </ClaudeNote>
     </Beat>
   );
@@ -408,8 +408,8 @@ function BeatExperiment() {
 
       <ClaudeNote>
         Claude drafted the pilot memo and the success-gate framing, stress-tested against the Exec
-        sub-agent&apos;s &ldquo;show me a number&rdquo; critique, and tightened the success conditions.
-        The research debt—what we <Emph>don&apos;t know</Emph>{' '}but would need to validate post-pilot—lives in a memory file tagged &ldquo;known unknowns&rdquo; so it can&apos;t get lost.
+        sub-agent’s “show me a number” critique, and tightened the success conditions.
+        The research debt—what we <Emph>don’t know</Emph>{' '}but would need to validate post-pilot—lives in a memory file tagged “known unknowns” so it can’t get lost.
       </ClaudeNote>
     </Beat>
   );
@@ -430,7 +430,7 @@ function BeatArtifact() {
         <p>
           <Link href={QUIZ_HREF}>Take the quiz <span aria-hidden="true">↗</span></Link>. Sixty seconds. It maps you to one of 16 archetypes, recommends a drink from the actual
           Basecamp menu, and mints a one-time discount code. The recommender is a pure function—facet
-          state in (from the user&apos;s answers), drink and archetype out. No AI call at runtime. The intelligence is in the facet
+          state in (from the user’s answers), drink and archetype out. No AI call at runtime. The intelligence is in the facet
           system.
         </p>
       </Body>
@@ -464,8 +464,8 @@ function BeatArtifact() {
           </li>
         </ul>
         <p>
-          What you see is the prototype that answers <Emph>&ldquo;could a 60-second identity artifact
-          drive a meaningful visit moment?&rdquo;</Emph> A production version would wire the rest.
+          What you see is the prototype that answers <Emph>“could a 60-second identity artifact
+          drive a meaningful visit moment?”</Emph> A production version would wire the rest.
         </p>
         <p>
           A handful of design/growth/data/architecture decisions from the build are worth pulling
@@ -488,7 +488,7 @@ function BeatArtifact() {
           every archetype points at a drink a customer can order. Size is deliberately excluded.
         </IterationCard>
         <IterationCard lens="Design · Data" title="Oblique prompts, not direct facet questions">
-          Early quiz asked &ldquo;how strong do you like your coffee?&rdquo; Users picked the category
+          Early quiz asked “how strong do you like your coffee?” Users picked the category
           they thought they should, not the one they meant. Rewrote every prompt into sensory/ritual
           framing—<Emph>striking a match</Emph>, <Emph>drawing a bath</Emph>. Answer text never names
           the facet it probes. Lost some directness; gained honest taste signal.
@@ -497,7 +497,7 @@ function BeatArtifact() {
           First cut updated the drink card live as the editor mutated. This was too flickery—every toggle
           felt like the rug moving. Split state: <Code>committedState</Code> drives the displayed
           recommendation, <Code>draftState</Code>{" "}is what the editor mutates. The card re-computes
-          only when the user hits &ldquo;Find my new ritual.&rdquo; Iteration, not chaos.
+          only when the user hits “Find my new ritual.” Iteration, not chaos.
         </IterationCard>
         <IterationCard lens="Data · Growth" title="Session code as measurement">
           Initial draft re-minted the discount code on every preference update. That broke the instrument.
@@ -506,7 +506,7 @@ function BeatArtifact() {
         </IterationCard>
         <IterationCard lens="Growth · UX" title="Editable profile, not one-shot">
           Course requirements end at the quiz and results. I added the editable taste
-          profile from my expertise. A user who hits a result they don&apos;t like can tweak instead of re-taking the
+          profile from my expertise. A user who hits a result they don’t like can tweak instead of re-taking the
           quiz. This sets up the pattern for a persistent profile in production. In theory, there would be a
           separate user profile that also houses the taste profile utility. That gives users a consistent surface to return to, and gives the business a reliable core data stream.
         </IterationCard>
@@ -515,7 +515,7 @@ function BeatArtifact() {
       <ClaudeNote>
         Next.js 16 app, built with Claude Code over a weekend. GitHub → Vercel on every push to{' '}
         <Code>main</Code>. Claude wrote most of the code; I wrote the spec, steered the architecture,
-        reviewed diffs, and caught &ldquo;almost right&rdquo; decisions that matter. (It&apos;s important to note that they were countless throughout the process; AI is fallible still.)
+        reviewed diffs, and caught “almost right” decisions that matter. (It’s important to note that they were countless throughout the process; AI is fallible still.)
         That balance—human sets direction, Claude executes, human reviews—is what I think of as
         the modern PM (Builder) workflow.
       </ClaudeNote>
@@ -546,7 +546,7 @@ function BeatHowBuilt() {
           code was written. Plan mode forces alignment before commitment.
         </HarnessFeature>
         <HarnessFeature name="CLAUDE.md at the repo root">
-          Durable working context — scenario, brand voice, stakeholders, what&apos;s been done, what&apos;s
+          Durable working context — scenario, brand voice, stakeholders, what’s been done, what’s
           next. Claude reads it on every turn.
         </HarnessFeature>
         <HarnessFeature name="Skills and hooks">
@@ -554,14 +554,14 @@ function BeatHowBuilt() {
         </HarnessFeature>
         <HarnessFeature name="The human in the loop">
           Claude wrote the code and drafted the prose. I set direction, wrote the spec, caught the
-          &ldquo;almost right&rdquo; calls, and owned the decisions. None of this works without that
+          “almost right” calls, and owned the decisions. None of this works without that
           part.
         </HarnessFeature>
       </HarnessGrid>
 
       <Body>
         <p className="mt-8">
-          These aren&apos;t novel tools on their own. The workflow is:{' '}
+          These aren’t novel tools on their own. The workflow is:{' '}
           <Emph>treat Claude like a smart junior</Emph>. Give it durable context, lens
           specialization, and structured decision points. Then iterate fast, review everything, own
           the direction.
@@ -586,7 +586,7 @@ function BeatHowBuilt() {
             eventData={{ surface: "case-study-basecamp-coffee-body", destination: "case-study:building-this-site" }}
           >
             <Link href="/case-studies/building-this-site">
-              Building this site &rarr;
+              Building this site →
             </Link>
           </TrackOnClick>
           .
@@ -602,12 +602,12 @@ function BeatHowBuilt() {
             event={ANALYTICS_EVENTS.CASE_STUDY_CTA_CLICK}
             eventData={{ surface: "case-study-basecamp-close", destination: "resume" }}
           >
-            <Link href="/resume">review my resume <span aria-hidden="true">&rarr;</span></Link>
+            <Link href="/resume">review my resume <span aria-hidden="true">→</span></Link>
           </TrackOnClick>
           .
         </p>
         <p className="text-[15px] text-[var(--text-caption)]">
-          Or, if you&apos;re ready to talk,{" "}
+          Or, if you’re ready to talk,{" "}
           <TrackOnClick
             event={ANALYTICS_EVENTS.CALENDLY_CLICK}
             eventData={{ kind: "outbound", surface: "case-study-basecamp-close" }}
@@ -696,7 +696,7 @@ function FacetMatrix() {
       </dl>
       <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)]">
         <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--text-caption)]">
-          Size is deliberately excluded—it&apos;s a volume choice, not a taste signal. Six quiz
+          Size is deliberately excluded—it’s a volume choice, not a taste signal. Six quiz
           questions capture these seven dimensions; the recommender scores every drink in the menu
           against the resulting facet state.
         </p>
@@ -814,12 +814,12 @@ function DrinkMatrix() {
 
       <div className="px-4 py-3 md:px-6 md:py-3.5 bg-[color-mix(in_oklab,var(--text-body)_6%,transparent)] border-t border-[var(--border-default)]">
         <p className="m-0 text-[12px] md:text-[13px] leading-[1.5] text-[var(--text-caption)]">
-          Each drink&apos;s facet profile is the thing the recommender scores against. A user&apos;s
+          Each drink’s facet profile is the thing the recommender scores against. A user’s
           facet state from the quiz returns the closest match on strength, milk, temperature, and
           flavor—filtered first by style family. Every drink maps 1-to-1 to an archetype (shown in italic
           next to each drink), so the recommender returns an identity and an order at the same time. The
-          percentage shows each drink&apos;s share of the {COVERAGE.totalPaths.toLocaleString()}{' '}
-          distinct quiz answer paths—a coverage audit, not a forecast (real users don&apos;t pick
+          percentage shows each drink’s share of the {COVERAGE.totalPaths.toLocaleString()}{' '}
+          distinct quiz answer paths—a coverage audit, not a forecast (real users don’t pick
           answers uniformly at random).
         </p>
       </div>

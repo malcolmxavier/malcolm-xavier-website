@@ -3,7 +3,7 @@
 **Severity:** non-blocking
 **Unresolved:** 0
 **Accepted (won't-fix):** 1
-**Last regenerated:** 2026-05-12T06:26:30.108Z
+**Last regenerated:** 2026-06-02T15:56:11.459Z
 
 Show- or Season-level entries with `rating !== null` but `reviewText === ""`. These are dropped by the level-specific scope filter (Show/Season cards require prose). Either backfill prose in Serializd (preferred) or accept the drop.
 

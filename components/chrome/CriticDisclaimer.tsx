@@ -20,12 +20,15 @@
 import { usePathname } from "next/navigation";
 
 /**
- * URL path prefixes that surface Malcolm-as-critic content. Films
- * lives here today; TV (Serializd-backed, also pulls TMDB metadata)
- * lands next. Append future review surfaces to this list rather than
- * forking the component.
+ * URL path prefixes that surface Malcolm-as-critic content (and pull
+ * TMDB metadata, so they carry the ToS-required attribution). Both the
+ * film and TV clusters qualify. NB: the TV cluster route is
+ * `/television`, not `/tv` — an earlier `/tv` entry silently matched
+ * nothing (no `/television` path starts with `/tv`), so TV pages ran
+ * without the required TMDB attribution. Append future review surfaces
+ * here rather than forking the component.
  */
-export const CRITIC_ROUTE_PREFIXES = ["/films", "/tv"] as const;
+export const CRITIC_ROUTE_PREFIXES = ["/films", "/television"] as const;
 
 export function CriticDisclaimer() {
   const pathname = usePathname();
@@ -52,7 +55,7 @@ export function CriticDisclaimer() {
       }}
     >
       Most art is spiritually 5-star and should be celebrated. My
-      taste shouldn&rsquo;t be misconstrued as disparaging, even
+      taste shouldn’t be misconstrued as disparaging, even
       when the opinion is critical.
     </p>
   );

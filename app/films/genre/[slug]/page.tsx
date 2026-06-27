@@ -38,6 +38,8 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 import { SITE_URL } from "@/lib/site-config";
 import { getFilms } from "@/lib/feeds/letterboxd";
+import { getFilmsWithEnrichment } from "@/lib/feeds/review-corpus";
+import { hybridMatchIds, combineMatchSets } from "@/lib/feeds/fuzzy-search";
 import {
   applyFilters,
   asString,
@@ -47,8 +49,9 @@ import {
   parseFilmSort,
   slugifyGenre,
 } from "@/lib/feeds/letterboxd-utils";
+import { curatedFilmEntityFacets } from "@/lib/feeds/facet-index";
+import { buildOriginHref } from "@/lib/feeds/origin-href";
 import { FilmsShell } from "../../FilmsShell";
-import { SummaryPanel } from "../../SummaryPanel";
 
 const LETTERBOXD_PROFILE_URL =
   ELSEWHERE.find((e) => e.label === "Letterboxd")?.href ??
@@ -111,8 +114,11 @@ export async function generateMetadata({
         filters.genres!.length === 1 &&
         slugifyGenre(filters.genres![0]) === slug
       )) ||
+    Boolean(filters.runtimeBuckets && filters.runtimeBuckets.length > 0) ||
     Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
     filters.watchedWindow !== undefined ||
+    Boolean(filters.titleQuery) ||
+    Boolean(filters.directorQuery) ||
     filters.releaseYearMin !== undefined ||
     filters.releaseYearMax !== undefined;
 
@@ -170,9 +176,13 @@ export default async function FilmGenrePage({
   const saveData = headersList.get("save-data") === "on";
   const sp = await searchParams;
 
-  const { films, summary } = getFilms();
+  // Enriched corpus so Wave B facets compose on a genre route too (e.g.
+  // /films/genre/horror?studio=a24). Enrichment is stripped from the
+  // page slice before it reaches the shell.
+  const { films, summary } = getFilmsWithEnrichment();
   const genre = findGenreBySlug(summary.genreDistribution, slug);
   if (!genre) notFound();
+  const entityFacets = curatedFilmEntityFacets(films);
 
   // Parse filters from the URL, then force-set the genre filter to
   // the route's genre so the page is always scoped. Other URL params
@@ -183,13 +193,12 @@ export default async function FilmGenrePage({
   const filters = { ...baseFilters, genres: [genre] };
   const sort = parseFilmSort(sp);
   const rawPage = Number.parseInt(asString(sp.page) ?? "1", 10);
-  const requestedPage =
-    Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
+  const requestedPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
   const pageSize = saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DEFAULT;
 
-  const availableGenres = Object.entries(summary.genreDistribution)
-    .sort((a, b) => b[1] - a[1])
-    .map(([g]) => g);
+  const availableGenres: [string, number][] = Object.entries(
+    summary.genreDistribution,
+  ).sort((a, b) => a[0].localeCompare(b[0]));
   const watchedYearSetGlobal = new Set<number>();
   for (const film of films) {
     for (const y of film.watchedYearSet) watchedYearSetGlobal.add(y);
@@ -198,21 +207,36 @@ export default async function FilmGenrePage({
     (a, b) => b - a,
   );
 
-  // currentYearCount is derived at request time, not from the
-  // snapshot's frozen summary.thisYearCount — see SummaryPanel's
-  // currentYearCount prop comment for why.
-  const currentYear = new Date().getUTCFullYear();
-  const currentYearCount = films.filter((f) =>
-    f.watchedYearSet.includes(currentYear),
-  ).length;
-
-  const applied = applyFilters(films, filters, sort);
+  // Search (?title= / ?director=) composes with the pinned genre —
+  // match per field (hybrid), intersect, then applyFilters drops the
+  // rest.
+  const titleMatch = hybridMatchIds(
+    films,
+    filters.titleQuery,
+    ["title"],
+    (f) => f.id,
+  );
+  const directorMatch = hybridMatchIds(
+    films,
+    filters.directorQuery,
+    ["tmdb.director"],
+    (f) => f.id,
+  );
+  const matchIds = combineMatchSets(titleMatch, directorMatch);
+  const applied = applyFilters(films, filters, sort, matchIds);
   const {
     current: pageFilms,
     totalPages,
     totalResults,
     page,
   } = paginate(applied, requestedPage, pageSize);
+
+  // Strip the server-only enrichment delta before the slice crosses to
+  // the client shell (the grid renders none of it).
+  const clientFilms = pageFilms.map((a) => ({
+    ...a,
+    film: { ...a.film, enrichment: undefined },
+  }));
 
   // rel=prev/next link tags for crawlers that still consume them
   // (Bing). React 19 hoists <link> rendered in components to <head>.
@@ -274,61 +298,55 @@ export default async function FilmGenrePage({
       {prevHref ? <link rel="prev" href={prevHref} /> : null}
       {nextHref ? <link rel="next" href={nextHref} /> : null}
       <Container size="lg">
+        {/* Single-column hero — the lifetime-stats panel moved to the
+            /films landing's "By the numbers" band. */}
         <Section padding="lg">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
-            <Stack gap="500">
-              <Kicker accent>Films · {genre}</Kicker>
-              {/* Same TV-Movie special-case as the Lede below —
+          <Stack gap="500">
+            <Kicker accent>Films · {genre}</Kicker>
+            {/* Same TV-Movie special-case as the Lede below —
                   "every tv movie film" is a double-noun trip.
                   Renders "Every TV movie, every rating, every
                   reaction." for that one genre, normal "every X
                   film" for the other 18. */}
-              <Display>
-                {genre === "TV Movie"
-                  ? "Every TV movie, every rating, every reaction."
-                  : `Every ${genre.toLowerCase()} film, every rating, every reaction.`}
-              </Display>
-              {/* First-person voice matches /films listing's Lede.
+            <Display>
+              {genre === "TV Movie"
+                ? "Every TV movie, every rating, every reaction."
+                : `Every ${genre.toLowerCase()} film, every rating, every reaction.`}
+            </Display>
+            {/* First-person voice matches /films listing's Lede.
                   The genre name lowercases inside the sentence
                   (sentence-case) like the Display headline above;
                   "TV Movie" is special-cased to "TV movies" so we
                   don't render the awkward double-noun "tv movie
                   films." Count is lifetime via genreDistribution
-                  (mirrors the SummaryPanel's "Lifetime" frame
-                  rather than the filtered totalResults). */}
-              <Lede>
-                I&rsquo;ve logged {summary.genreDistribution[genre] ?? 0}{" "}
-                {genre === "TV Movie"
-                  ? "TV movies"
-                  : `${genre.toLowerCase()} films`}{" "}
-                on Letterboxd. Open any card for the full review.
-              </Lede>
-              <p style={{ margin: 0 }}>
-                <TrackOnClick
-                  event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
-                  eventData={{ kind: "profile-follow", surface: "films-genre-hero" }}
-                >
-                  <Link href={LETTERBOXD_PROFILE_URL}>
-                    Follow along on Letterboxd ↗
-                  </Link>
-                </TrackOnClick>
-              </p>
-            </Stack>
-            {/* SummaryPanel renders alongside the hero only on lg+;
-                below lg it relocates to a "lifetime stats" footer
-                below the grid so the card content lands closer to
-                the fold on mobile and tablet. Same pattern as
-                /films listing. See the listing's panel comment for
-                the duplication-vs-a11y rationale. */}
-            <div className="hidden lg:block">
-              <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
-            </div>
-          </div>
+                  (the genre's whole-corpus total, not the filtered
+                  totalResults). */}
+            <Lede wide>
+              I’ve logged {summary.genreDistribution[genre] ?? 0}{" "}
+              {genre === "TV Movie"
+                ? "TV movies"
+                : `${genre.toLowerCase()} films`}{" "}
+              on Letterboxd. Open any card for the full review.
+            </Lede>
+            <p style={{ margin: 0 }}>
+              <TrackOnClick
+                event={ANALYTICS_EVENTS.LETTERBOXD_CLICK}
+                eventData={{
+                  kind: "profile-follow",
+                  surface: "films-genre-hero",
+                }}
+              >
+                <Link href={LETTERBOXD_PROFILE_URL}>
+                  Follow along on Letterboxd ↗
+                </Link>
+              </TrackOnClick>
+            </p>
+          </Stack>
         </Section>
 
         <Section padding="md" bordered>
           <FilmsShell
-            films={pageFilms}
+            films={clientFilms}
             totalPages={totalPages}
             currentPage={page}
             totalResults={totalResults}
@@ -336,14 +354,10 @@ export default async function FilmGenrePage({
             sort={sort}
             availableGenres={availableGenres}
             availableWatchedYears={availableWatchedYears}
+            entityFacets={entityFacets}
             routeGenre={genre}
+            originHref={buildOriginHref(`/films/genre/${slug}`, sp)}
           />
-        </Section>
-
-        {/* Mobile/tablet panel — same lifetime stats, relocated
-            below the grid at narrow widths. */}
-        <Section padding="md" bordered className="lg:hidden">
-          <SummaryPanel summary={summary} currentYearCount={currentYearCount} />
         </Section>
       </Container>
     </div>

@@ -7,7 +7,7 @@
 //
 // Extracted from what was ~175 lines of repeated inline structure
 // across three near-identical columns. Caption is ReactNode so
-// HTML entities (&mdash;, &nbsp;, &apos;) and inline elements can
+// HTML entities (—, &nbsp;, ’) and inline elements can
 // be passed through; tier is ReactNode for the same reason
 // ("Tier&nbsp;01" needs entity decoding that JSX prop strings
 // don't provide).

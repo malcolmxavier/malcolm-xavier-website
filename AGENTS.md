@@ -42,3 +42,19 @@ Every time you fix a bug, run a 60-second class-audit before closing it out:
 Most "instances of X" sets are fewer than 10 items, so the class-audit is cheap. It dramatically reduces the audit-time discovery rate.
 <!-- END:audit-the-class -->
 
+<!-- BEGIN:typographic-glyphs -->
+# Reader-facing prose uses real Unicode glyphs
+
+Every special character in reader-facing prose is written as its real Unicode glyph — never an HTML entity, never an ASCII stand-in. This is one convention covering ALL special characters, not just apostrophes:
+
+- **Quotes/apostrophes:** `’` `‘` `“` `”` — not `&apos;` `&rsquo;` `&ldquo;` `&rdquo;` `&quot;` `&#39;`, and not a straight `'` or `"`. Apostrophes and contractions are curly (`’`). Quotation pairs open and close (`‘…’`, `“…”`).
+- **Dashes/ellipsis:** `—` `–` `…` — not `&mdash;` `&ndash;` `&hellip;`, and not `--` `---` `...`.
+- **Symbols:** `→` `←` `©` `®` `™` `≥` `≤` `×` — not `&rarr;` `&copy;` `&trade;` `&ge;`, and not `->` `(c)` `(tm)` `>=`.
+
+This applies to JSX text, prose-bearing attributes (`alt`, `title`, `aria-label`, `caption`, `note`, …), and prose object-properties — including page **metadata** (`title`/`description`, the `openGraph`/`twitter` blocks) that render into `<meta>` tags and search results.
+
+**Carve-outs (left alone):** content inside `<Code>`/`<pre>`/`<kbd>` (CLI flags like `--noEmit`, version ranges like `">=22"`, literal header values — ASCII is correct there); the load-bearing entities `&amp;` `&lt;` `&gt;` `&nbsp;`; and data/matching strings used for equality against external sources (e.g. a TMDB title key like `"Grey's Anatomy"` stays straight — curling it breaks the match).
+
+**Enforcement:** the `local/typographic-glyphs` ESLint rule (`eslint-rules/typographic-glyphs.mjs`) flags entities, straight quotes, and ASCII stand-ins in those prose contexts, with safe autofixes (`eslint --fix`). `npm run typography:check` (`scripts/check-typography.mjs`) is the blunt backstop for entities in string literals/arrays the AST can't see; it runs in the pre-commit hook on staged reader-facing source. Straight quotes in JSX *text* remain owned by `react/no-unescaped-entities`. For a legitimate code entity, use a `// typography-ok` line comment or `// typography-check-ignore-file`.
+<!-- END:typographic-glyphs -->
+

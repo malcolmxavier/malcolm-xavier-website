@@ -1,218 +1,121 @@
 // ─────────────────────────────────────────────────────────────────
-// /television — server component.
+// /television — editorial landing (cluster front).
 //
-// Reads URL params, builds the flat CompletedCard[] from the
-// snapshot's shows, runs applyCompletedCardFilters + paginate, and
-// hands the result to TelevisionShell (client) for filter UI +
-// grid + pagination rendering. Filtering is server-side: each
-// control change in the shell calls router.replace, which re-runs
-// this page with new params.
+// TV analog of /films. The review grid moved to /television/reviews;
+// this is the point-of-interest landing — a POV statement, what's
+// mid-watch right now (the in-progress seasons, reusing the /watching
+// data + InProgressCard), the favorite series, and curated lists
+// (dormant until Serializd lists exist), with the corpus one click
+// away via the hero CTA + sticky ClusterRail.
 //
-// Snapshot-only at request time: getShows() reads
-// lib/feeds/_fixtures/serializd-snapshot.json directly. No live
-// API path. Free of rate limits, deterministic latency.
-//
-// Sub-brand: blue. The wrapper applies data-subbrand="tv" so the
-// cluster's tokens (primary blue ramp, Roboto Mono + Roboto Slab)
-// take effect for every descendant link, button, and surface.
+// Server component: reads the snapshot. No searchParams → prerenders
+// static. Copy ships as placeholders for Malcolm to refine.
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
+import { Grid } from "@/components/layout/Grid";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
+import { HeroNote } from "@/components/typography/HeroNote";
+import { Headline } from "@/components/typography/Headline";
 import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { ClusterRail } from "@/components/chrome/ClusterRail";
+import {
+  SectionIndex,
+  type SectionIndexItem,
+} from "@/components/feeds/SectionIndex";
+import { PosterTile } from "@/components/feeds/PosterTile";
+import { FeaturedPick } from "@/components/feeds/FeaturedPick";
+import { ListCard } from "@/components/feeds/ListCard";
+import { CollectionCard } from "@/components/feeds/CollectionCard";
 import { SITE_URL } from "@/lib/site-config";
-import { getShows, getWatchingExclusions } from "@/lib/feeds/serializd";
+import {
+  getShows,
+  getShowFavorites,
+  getShowLists,
+  getShowBySerializdId,
+  getWatchingExclusions,
+  showListCoverPosters,
+} from "@/lib/feeds/serializd";
+import { orderForTeaser } from "@/lib/feeds/list-taxonomy";
+import { getShowFeaturedPick } from "@/lib/feeds/featured-pick";
+import {
+  buildInProgressCards,
+  seasonNumberForReview,
+} from "@/lib/feeds/serializd-utils";
 import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
-  applyCompletedCardFilters,
-  asString,
-  buildCompletedCards,
-  paginate,
-  parseShowFilters,
-  parseShowSort,
-  slugifyGenre,
-} from "@/lib/feeds/serializd-utils";
-import { TelevisionShell } from "./TelevisionShell";
-import { SummaryPanel } from "./SummaryPanel";
+  indexableTvCollections,
+  showsInTvFamily,
+  tvCollectionMemberSort,
+} from "@/lib/feeds/facet-index";
+import { slugifyEntity } from "@/lib/feeds/slug";
+import type { Show } from "@/lib/feeds/serializd-utils";
+import { InProgressCard } from "./InProgressCard";
+import { StatsBand } from "./StatsBand";
 
+const NOW_COUNT = 5;
+
+// Serializd follow URL for the hero note's closing CTA — the canonical
+// profile, kept as a literal here to mirror the films landing's CTA.
 const SERIALIZD_PROFILE_URL = "https://serializd.com/user/malxavi";
 
-/**
- * Build the listing meta description from the live snapshot
- * counts. Same posture as /films — refresh the snapshot, the
- * description updates; no hardcoded literal to forget.
- */
-function buildListingDescription(
-  totalShows: number,
-  totalReviews: number,
-): string {
-  return `${totalShows.toLocaleString()} shows and ${totalReviews.toLocaleString()} reviews and counting, across show, season, and episode levels. Logged on Serializd. Filter by rating, genre, watched year, or review level.`;
+export const metadata: Metadata = {
+  title: "Television",
+  description:
+    "Television as taste, not a catalogue—what Malcolm Xavier is mid-watch on now, the favorite series, and the full reviewed corpus.",
+  alternates: { canonical: "/television" },
+  openGraph: {
+    title: "Television—Malcolm Xavier",
+    description:
+      "What I’m mid-watch on now, my favorite series, and every review.",
+    url: "/television",
+    type: "website",
+    images: ["/opengraph-image"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Television—Malcolm Xavier",
+    description:
+      "What I’m mid-watch on now, my favorite series, and every review.",
+    images: ["/opengraph-image"],
+  },
+};
+
+/** Resolve up to three corpus poster URLs for a collection's cover
+ *  montage — the family's member shows in the hub's canonical order
+ *  (premiere year, then name), so the montage leads with the same titles
+ *  the leaf route opens with. */
+function collectionCoverPosters(shows: Show[], key: string): string[] {
+  return showsInTvFamily(shows, key)
+    .sort(tvCollectionMemberSort)
+    .map((show) => show.posterUrl)
+    .filter((url): url is string => Boolean(url))
+    .slice(0, 3);
 }
 
-type SearchParams = Promise<Record<string, string | string[] | undefined>>;
-
-/**
- * Per-request metadata. Same crawl-directive pattern as /films:
- *   1. /television (no params) — canonical to itself, indexable.
- *   2. /television?genre=Single — canonical hands off to
- *      /television/genre/<slug>.
- *   3. ?<filter combos> or ?page=N>1 — noindex,follow (filters
- *      and pagination are crawlable but kept out of the index
- *      to avoid thin / duplicate content).
- */
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}): Promise<Metadata> {
-  const sp = await searchParams;
-  const filters = parseShowFilters(sp);
-  const page = Number.parseInt(asString(sp.page) ?? "1", 10);
-  const isPagedBeyondFirst = Number.isFinite(page) && page > 1;
-
-  const onlyGenreFilter =
-    filters.genres &&
-    filters.genres.length === 1 &&
-    !filters.ratings &&
-    !filters.watchedYears &&
-    !filters.watchedWindow &&
-    filters.premiereYearMin === undefined &&
-    filters.premiereYearMax === undefined &&
-    !isPagedBeyondFirst;
-
-  const filterCombinationActive =
-    !onlyGenreFilter &&
-    (Boolean(filters.ratings && filters.ratings.length > 0) ||
-      Boolean(filters.genres && filters.genres.length > 0) ||
-      Boolean(filters.watchedYears && filters.watchedYears.length > 0) ||
-      filters.watchedWindow !== undefined ||
-      filters.premiereYearMin !== undefined ||
-      filters.premiereYearMax !== undefined);
-
-  const noindex = filterCombinationActive || isPagedBeyondFirst;
-  const canonical = onlyGenreFilter
-    ? `/television/genre/${slugifyGenre(filters.genres![0])}`
-    : "/television";
-
-  const { summary } = getShows();
-  const totalReviews =
-    summary.totalShowReviews +
-    summary.totalSeasonReviews +
-    summary.totalEpisodeReviews;
-  const description = buildListingDescription(summary.totalShows, totalReviews);
-
-  // When ?genre=Single hands off, surface a genre-scoped social
-  // title so a share of /television?genre=Drama unfurls with
-  // "Drama TV Reviews—Malcolm Xavier" instead of the generic
-  // listing title. Listing-without-params keeps the parent title.
-  const socialTitle = onlyGenreFilter
-    ? `${filters.genres![0]} TV Reviews—Malcolm Xavier`
-    : "Television Reviews—Malcolm Xavier";
-
-  return {
-    title: "Television Reviews",
-    description,
-    alternates: { canonical },
-    robots: noindex ? { index: false, follow: true } : undefined,
-    openGraph: {
-      title: socialTitle,
-      description,
-      // Track the canonical so unfurlers and crawlers receive the
-      // same "true URL" signal: /television on the listing,
-      // /television/genre/<slug> when ?genre=Single hands off.
-      // Without this, og:url stays on /television while canonical
-      // points elsewhere — a contradictory pair flagged by
-      // tv-og-url-genre-redirect-mismatch.
-      url: canonical,
-      type: "website",
-      images: ["/opengraph-image"],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: socialTitle,
-      description,
-      images: ["/opengraph-image"],
-    },
-  };
-}
-
-// 24 — same divisor logic as /films (clean 1/2/3/4/6 columns).
-const PAGE_SIZE_DEFAULT = 24;
-const PAGE_SIZE_SAVE_DATA = 12;
-
-export default async function TelevisionPage({
-  searchParams,
-}: {
-  searchParams: SearchParams;
-}) {
-  const headersList = await headers();
-  const saveData = headersList.get("save-data") === "on";
-  const params = await searchParams;
-
-  const filters = parseShowFilters(params);
-  const sort = parseShowSort(params);
-  const rawPage = Number.parseInt(asString(params.page) ?? "1", 10);
-  const requestedPage =
-    Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
-  const pageSize = saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DEFAULT;
-
+export default function TelevisionLandingPage() {
   const { shows, summary } = getShows();
+  const favorites = getShowFavorites();
+  const lists = getShowLists();
 
-  // Build the flat card list FIRST, then filter. The level-specific
-  // scope filter (Show + Season require prose) is applied inside
-  // buildCompletedCards. Episodes never reach the listing as cards
-  // — they surface only on the detail page nested under their
-  // parent Season.
-  const allCards = buildCompletedCards(shows);
-
-  const availableGenres = Object.entries(summary.genreDistribution)
-    .sort((a, b) => b[1] - a[1])
-    .map(([g]) => g);
-
-  // Watched years across the dataset, derived from each show's
-  // pre-computed watchedYearSet so the chip rail expands as
-  // Malcolm's catalog grows. Sorted desc so the chip rail leads
-  // with the newest year.
-  const watchedYearSetGlobal = new Set<number>();
-  for (const show of shows) {
-    for (const y of show.watchedYearSet) watchedYearSetGlobal.add(y);
-  }
-  const availableWatchedYears = Array.from(watchedYearSetGlobal).sort(
-    (a, b) => b - a,
-  );
-
-  // Per-mode "this year" counts, derived at request time so the
-  // numbers track `new Date()` and stay correct across the year
-  // boundary (snapshot-frozen counts would silently mismatch
-  // `currentYear` between Jan 1 and the next refresh tick).
-  //
-  // Per-mode bucketing routes through modesForReview — the same
-  // helper that drives lifetime totals in aggregateSummary. This
-  // keeps the miniseries double-count rule consistent across both
-  // surfaces (a Show review on a miniseries-pinned show counts in
-  // both Shows and Seasons modes, etc.). Don't increment cybl[r.level]
-  // directly — that path bypasses the double-count rule and produces
-  // in-year totals that under-report relative to the lifetime totals
-  // displayed alongside them. The rule is the editorial source of
-  // truth for /television's per-mode arithmetic; see
-  // lib/feeds/serializd-mode-counts.mjs.
+  // Per-mode "this year" counts + averages for the StatsBand's lead
+  // numbers. Derived at request time so they track `new Date()` and stay
+  // correct across the year boundary, and routed through modesForReview
+  // so the miniseries double-count rule matches the lifetime totals shown
+  // alongside (a Show review on a miniseries-pinned show counts in both
+  // Shows and Seasons modes). This mirrors the derivation that used to
+  // live on /television/reviews when the panel rendered there. Don't
+  // increment cybl[r.level] directly — that bypasses the double-count
+  // rule. See lib/feeds/serializd-mode-counts.mjs.
   const currentYear = new Date().getUTCFullYear();
   const cybl = { show: 0, season: 0, episode: 0 };
-  // Parallel sum + count per mode so the SummaryPanel can render
-  // an in-year average next to the lifetime one. Same modesForReview
-  // routing as the count loop below so the in-year avg honors the
-  // miniseries double-count rule (a miniseries Season's rating
-  // contributes to the Shows-mode average too). Null when a mode
-  // has zero rated reviews this year — SummaryPanel suppresses the
-  // parenthetical in that case rather than displaying NaN★.
   const cyblRatingSums = { show: 0, season: 0, episode: 0 };
   const cyblRatingCounts = { show: 0, season: 0, episode: 0 };
   for (const show of shows) {
@@ -228,245 +131,419 @@ export default async function TelevisionPage({
       }
     }
   }
-  const currentYearAvgByLevel: { show: number | null; season: number | null; episode: number | null } = {
-    show: cyblRatingCounts.show > 0 ? cyblRatingSums.show / cyblRatingCounts.show : null,
-    season: cyblRatingCounts.season > 0 ? cyblRatingSums.season / cyblRatingCounts.season : null,
-    episode: cyblRatingCounts.episode > 0 ? cyblRatingSums.episode / cyblRatingCounts.episode : null,
+  const currentYearAvgByLevel: {
+    show: number | null;
+    season: number | null;
+    episode: number | null;
+  } = {
+    show:
+      cyblRatingCounts.show > 0
+        ? cyblRatingSums.show / cyblRatingCounts.show
+        : null,
+    season:
+      cyblRatingCounts.season > 0
+        ? cyblRatingSums.season / cyblRatingCounts.season
+        : null,
+    episode:
+      cyblRatingCounts.episode > 0
+        ? cyblRatingSums.episode / cyblRatingCounts.episode
+        : null,
   };
+  // Routable franchise collections — drives the "Collections" landing
+  // teaser + its link to the core /television/collections page. The teaser
+  // shows the top-level families only (no nested subcollection like Real
+  // Housewives, whose count already rolls up into its Bravo parent),
+  // biggest first, capped at three so the module entices without
+  // duplicating the full hub.
+  const collections = indexableTvCollections(shows);
+  const collectionTeasers = collections.filter((c) => !c.parent).slice(0, 3);
 
-  // Watching count for the All/Watching toggle badge — must match
-  // what /television/watching renders post-exclusion (perpetual
-  // shows like SNL/WWHL are filtered there). Re-derived from the
-  // same exclusion source so both surfaces stay in sync without
-  // a snapshot rebuild.
-  const watchingExclusions = getWatchingExclusions();
-  const watchingCount = shows.filter(
-    (s) =>
-      !watchingExclusions.has(s.serializdShowId) &&
-      s.inProgressSeasonNumbers.length > 0,
-  ).length;
+  // "Now" — in-progress seasons, same data + exclusions as
+  // /television/watching, newest-episode-review first. Reuses the
+  // shipped InProgressCard so the landing teaser and the full watching
+  // page read identically.
+  const exclusions = getWatchingExclusions();
+  const inProgress = buildInProgressCards(shows)
+    .filter((c) => !exclusions.has(c.show.serializdShowId))
+    .sort((a, b) =>
+      (b.episodeReviews[0]?.reviewDate ?? "").localeCompare(
+        a.episodeReviews[0]?.reviewDate ?? "",
+      ),
+    );
+  const nowCards = inProgress.slice(0, NOW_COUNT);
+  const featured = getShowFeaturedPick();
 
-  const applied = applyCompletedCardFilters(allCards, filters, sort);
-  const {
-    current: pageCards,
-    totalPages,
-    totalResults,
-    page,
-  } = paginate(applied, requestedPage, pageSize);
+  // "Favorite episodes" — the perfect-score (5.0★) episode-level reviews,
+  // newest-reviewed first. Curation that gives the episode tier real value
+  // on-site NOW, while episode-level STATS need ~a year of history before
+  // they mean anything. Episodes have no detail page of their own, so each
+  // card deep-links to the show's season block (#season-N), where the
+  // episode note lives. Shown in full (no cap) — exclusivity is the point,
+  // and the set grows slowly as more episodes get logged.
+  const favoriteEpisodes = shows
+    .flatMap((show) =>
+      show.reviews
+        .filter((r) => r.level === "episode" && r.rating === 5)
+        .map((review) => ({ show, review })),
+    )
+    .sort((a, b) => b.review.reviewDate.localeCompare(a.review.reviewDate));
 
-  // CollectionPage + BreadcrumbList JSON-LD. CollectionPage names
-  // the listing as a curated review corpus so AI-search retrievers
-  // (Perplexity, ChatGPT search) understand /television's role.
-  // Same shape as /films's listing JSON-LD.
-  const listingUrl = `${SITE_URL}/television`;
-  const listingJsonLd = {
+  // Which optional modules render this request — computed ONCE and used for
+  // both the section guards below AND the "On this page" index, so the
+  // wayfinding strip stays in lockstep with what's actually on the page.
+  // The StatsBand is unconditional, so it's always in the index.
+  const hasFeatured = Boolean(featured);
+  const hasNow = nowCards.length > 0;
+  const hasCollections = collections.length > 0;
+  const hasFavorites = favorites.length > 0;
+  const hasFavoriteEpisodes = favoriteEpisodes.length > 0;
+  const hasLists = lists.length > 0;
+  const sectionIndexItems: SectionIndexItem[] = [
+    hasFeatured ? { id: "featured", label: "Featured" } : null,
+    { id: "numbers", label: "Stats at a glance" },
+    hasNow ? { id: "now", label: "Now" } : null,
+    hasCollections ? { id: "collections", label: "Collections" } : null,
+    hasFavorites ? { id: "favorites", label: "Favorites" } : null,
+    hasFavoriteEpisodes ? { id: "episodes", label: "Episodes" } : null,
+    hasLists ? { id: "lists", label: "Lists" } : null,
+  ].filter((item): item is SectionIndexItem => item !== null);
+
+  // Page-level JSON-LD — see the /films landing for the rationale. The
+  // landing carries its own CollectionPage (mirroring /television/reviews),
+  // and the featured pick's hand-written take rides along as a schema.org
+  // Review of a TVSeries (a real critic review of a third-party work, real
+  // rating, no faked aggregateRating).
+  const pageUrl = `${SITE_URL}/television`;
+  const person = {
+    "@type": "Person",
+    name: "Malcolm Xavier",
+    "@id": `${SITE_URL}/#person`,
+  };
+  const landingJsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
         "@type": "CollectionPage",
-        name: "Television Reviews",
-        description: `Television Malcolm Xavier has watched and reviewed across show, season, and episode levels—${summary.totalShows.toLocaleString()} shows logged on Serializd.`,
-        url: listingUrl,
+        name: "Television",
+        description:
+          "Television as taste, not a catalogue—what Malcolm Xavier is mid-watch on now, the favorite series, the curated lists, and a standing recommendation.",
+        url: pageUrl,
         inLanguage: "en-US",
-        // about ties the page to Malcolm's Person entity so AI-search
-        // retrievers (Perplexity, ChatGPT search) constructing answers
-        // about "Malcolm Xavier's television watching" pick up the
-        // entity link. author already covers authorship; about
-        // declares subject.
-        about: { "@id": `${SITE_URL}/#person` },
-        author: {
-          "@type": "Person",
-          name: "Malcolm Xavier",
-          "@id": `${SITE_URL}/#person`,
-        },
+        author: person,
       },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          {
-            "@type": "ListItem",
-            position: 1,
-            name: "Television",
-            item: listingUrl,
-          },
-        ],
-      },
+      ...(featured
+        ? [
+            {
+              "@type": "Review",
+              name: `Currently recommending: ${featured.title}`,
+              url: `${SITE_URL}${featured.href}`,
+              author: person,
+              reviewBody: featured.take,
+              itemReviewed: {
+                "@type": featured.kind,
+                name: featured.title,
+                ...(featured.posterUrl ? { image: featured.posterUrl } : {}),
+              },
+              ...(featured.rating !== null
+                ? {
+                    reviewRating: {
+                      "@type": "Rating",
+                      ratingValue: featured.rating,
+                      bestRating: 5,
+                      worstRating: 0.5,
+                    },
+                  }
+                : {}),
+            },
+          ]
+        : []),
     ],
   };
-
-  // rel=prev/next link tags. React 19 hoists <link> elements
-  // rendered in components to <head> automatically.
-  const prevHref = page > 1 ? buildPageHref(params, page - 1) : null;
-  const nextHref = page < totalPages ? buildPageHref(params, page + 1) : null;
 
   return (
     <div data-subbrand="tv">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(listingJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(landingJsonLd) }}
       />
-      {prevHref ? <link rel="prev" href={prevHref} /> : null}
-      {nextHref ? <link rel="next" href={nextHref} /> : null}
+      {/* ─── Hero ─────────────────────────────────────────────── */}
       <Container size="lg">
-        {/* ─── Hero + Summary ─────────────────────────────────── */}
         <Section padding="lg">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[3fr_2fr] lg:gap-12">
-            <Stack gap="500">
+          <Stack gap="500">
+            {/* Masthead row: the cluster eyebrow on the left, the "On this
+                page" jump strip right-aligned opposite it. Wraps (strip
+                drops below the eyebrow) when there's no room on one line. */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "baseline",
+                flexWrap: "wrap",
+                gap: "8px 24px",
+              }}
+            >
               <Kicker accent>Television</Kicker>
-              {/* textBoxTrim mirrors the landing page Display so
-                  the visual top of the headline (cap-line) sits
-                  flush with the surrounding rhythm. Same modern-
-                  CSS posture as app/page.tsx:154 — older browsers
-                  ignore it and render with the small leading drift
-                  the prior version had. */}
-              <Display
-                style={
-                  {
-                    textBoxTrim: "trim-start",
-                    textBoxEdge: "cap",
-                  } as React.CSSProperties
-                }
-              >
-                Don&apos;t change the channel.
-              </Display>
-              <Lede>
-                I watch 100+ seasons of television a year and log my
-                reviews on Serializd. Open any card for the full review
-                hierarchy. And if you want a recommendation, the
-                filters are there for you.
-              </Lede>
-              {/* Hero CTA — single external link to the Serializd
-                  profile. The "Watching" affordance lives on the
-                  All/Watching toggle above the grid (mirrors
-                  /music's All/Collections display toggle), not in
-                  the hero, so the hero stays clean editorial
-                  copy + one outbound link. */}
-              <p style={{ margin: 0 }}>
+              <SectionIndex
+                items={sectionIndexItems}
+                subbrand="tv"
+                label="Television sections on this page"
+              />
+            </div>
+            <Display>The shows I stay up for.</Display>
+            {/* Full-width lede (the 60ch cap is dropped) so the blurb
+                reads in fewer lines and the modules sit higher on load.
+                The scene-setter stays headline-weight; the "what to do
+                here" line drops below the rail as a quiet HeroNote. */}
+            <Lede wide>
+              I review television at the season, show, and (as of 2026) episode level—the
+              prestige dramas, the comfort comedies, and my fair share of reality. I watch north of 100 new-to-me
+              seasons of television a year and write up nearly all of them.
+            </Lede>
+            {/* Cluster sub-nav, inline in the hero. Overview is the current
+                page; Reviews links to the corpus — the on-site action that
+                replaces the old standalone "Browse all shows reviewed" link.
+                (The Serializd follow link lives on the Reviews page now, not
+                here — the landing keeps recruiters on-site.) */}
+            <ClusterRail
+              base="/television"
+              active="overview"
+              subbrand="tv"
+              label="Television sections"
+              className="mt-2"
+            />
+            {/* The follow CTA closes the note here on the landing page —
+                the cluster's top-level surface — rather than on /reviews.
+                ↗ marks it external per the CTA-arrow convention. */}
+            <HeroNote
+              action={
                 <TrackOnClick
                   event={ANALYTICS_EVENTS.SERIALIZD_CLICK}
-                  eventData={{
-                    kind: "profile-follow",
-                    surface: "listing-hero",
-                  }}
+                  eventData={{ kind: "profile-follow", surface: "television-overview-hero" }}
                 >
                   <Link href={SERIALIZD_PROFILE_URL}>
                     Follow along on Serializd ↗
                   </Link>
                 </TrackOnClick>
-              </p>
-            </Stack>
-            <div className="hidden lg:block">
-              <SummaryPanel
-                summary={summary}
-                currentYearByLevel={cybl}
-                currentYearAvgByLevel={currentYearAvgByLevel}
-              />
-            </div>
-          </div>
+              }
+            >
+              Explore this page for a quick overview of what I’ve watched recently, my
+              recommended picks, and my favorites—click through to search through all
+              my reviews or explore the data behind my taste.
+            </HeroNote>
+          </Stack>
         </Section>
+      </Container>
 
-        {/* ─── Catalog stat-bar + Filter rail + Grid + Pagination ─ */}
-        <Section padding="md" bordered>
-          {/* The catalog kicker surfaces the three-level review
-              system as concrete numbers above the grid. Order
-              (Seasons / Shows / Episodes) matches the SummaryPanel
-              mode toggle's default mode so the cluster's vocabulary
-              stays consistent across surfaces. Renders Kicker-styled
-              (mono uppercase, --text-caption color) so the line
-              reads as an editorial label, not a SaaS stat-bar.
-              Source is titlecase to match the SummaryPanel toggle's
-              source register; CSS textTransform:uppercase renders
-              both surfaces identically at runtime. Source-level
-              alignment from the 2026-05-07 re-review. */}
-          <div style={{ marginBottom: "var(--scale-500)" }}>
-            <Kicker>
-              The catalog:{" "}
-              {summary.totalSeasonReviews.toLocaleString()} Seasons ·{" "}
-              {summary.totalShowReviews.toLocaleString()} Shows ·{" "}
-              {summary.totalEpisodeReviews.toLocaleString()} Episodes
-            </Kicker>
-          </div>
-          <TelevisionShell
-            cards={pageCards}
-            allCount={allCards.length}
-            totalPages={totalPages}
-            currentPage={page}
-            totalResults={totalResults}
-            filters={filters}
-            sort={sort}
-            availableGenres={availableGenres}
-            availableWatchedYears={availableWatchedYears}
-            originHref={buildOriginHref("/television", params)}
-            watchingCount={watchingCount}
-          />
-        </Section>
+      <Container size="lg">
+        {/* ─── Featured pick ──────────────────────────────────── */}
+        {/* The one editorial, hand-curated module — leads the modules as
+            the payoff to the hero's taste thesis. A bordered divider sets
+            it off from the hero so the note's closing follow-CTA reads as
+            the end of the lede, not the top of this section. Hidden when
+            no pick set. */}
+        {featured ? (
+          <Section id="featured" className="scroll-mt-28" padding="md" bordered>
+            <FeaturedPick pick={featured} />
+          </Section>
+        ) : null}
 
-        {/* Mobile/tablet panel — sits as a "lifetime stats" footer
-            below the grid. lg:hidden hides it on desktop. */}
-        <Section padding="md" bordered className="lg:hidden">
-          <SummaryPanel
+        {/* ─── By the numbers ─────────────────────────────────── */}
+        {/* Lifetime stats, relocated here from the old listing-hero
+            panel. Always carries a bordered divider: it follows either
+            the featured pick or (when no pick is set) the hero itself,
+            and both cases want it set off rather than sitting tight. */}
+        <Section id="numbers" className="scroll-mt-28" padding="md" bordered>
+          <StatsBand
             summary={summary}
             currentYearByLevel={cybl}
             currentYearAvgByLevel={currentYearAvgByLevel}
           />
         </Section>
+
+        {/* ─── Now ────────────────────────────────────────────── */}
+        {/* The StatsBand always precedes Now, so Now is never the first
+            module — a bordered divider separates the two (it no longer
+            needs the paddingTop:0 first-module treatment). */}
+        {hasNow ? (
+          <Section id="now" className="scroll-mt-28" padding="md" bordered>
+            <Stack gap="400">
+              <Kicker accent>Now</Kicker>
+              <Headline level={2}>Mid-watch right now</Headline>
+              <Grid cols={5} gap="500">
+                {nowCards.map((card) => (
+                  <InProgressCard
+                    key={`${card.show.id}#s${card.seasonNumber}`}
+                    card={card}
+                    originHref="/television/watching"
+                  />
+                ))}
+              </Grid>
+              <p style={{ margin: 0 }}>
+                <Link href="/television/watching">
+                  See everything in progress →
+                </Link>
+              </p>
+            </Stack>
+          </Section>
+        ) : null}
+
+        {/* ─── Collections ────────────────────────────────────── */}
+        {/* Franchise families (the Bravo-verse, 9-1-1, Grey's, …) — a
+            link into the core /television/collections page, mirroring how
+            "Now" links into /television/watching. */}
+        {hasCollections ? (
+          <Section
+            id="collections"
+            className="scroll-mt-28"
+            padding="md"
+            bordered
+          >
+            <Stack gap="400">
+              <Kicker accent>Collections</Kicker>
+              <Lede>
+                The shows I’ve followed across a franchise or universe,
+                grouped into their own pages—from the Bravo-verse to 9-1-1.
+              </Lede>
+              {/* Teaser cards: the biggest top-level families, each
+                  deep-linking straight to its leaf collection route (not
+                  the hub), so the click lands one step closer to the
+                  reviews. Slug matches the leaf route's
+                  generateStaticParams (slugifyEntity of the family name). */}
+              <Grid cols={3} gap="600">
+                {collectionTeasers.map((collection) => (
+                  <CollectionCard
+                    key={collection.key}
+                    href={`/television/collections/${slugifyEntity(collection.name)}`}
+                    title={collection.name}
+                    count={collection.count}
+                    unit="show"
+                    coverPosterUrls={collectionCoverPosters(shows, collection.key)}
+                  />
+                ))}
+              </Grid>
+              <p style={{ margin: 0 }}>
+                <Link href="/television/collections">
+                  Browse all collections →
+                </Link>
+              </p>
+            </Stack>
+          </Section>
+        ) : null}
+
+        {/* ─── Favorites ──────────────────────────────────────── */}
+        {hasFavorites ? (
+          <Section id="favorites" className="scroll-mt-28" padding="md" bordered>
+            <Stack gap="400">
+              <Kicker accent>Favorites</Kicker>
+              <Headline level={2}>Some of my sacred texts</Headline>
+              <Grid cols={5} gap="500">
+                {favorites.map((fav) => {
+                  // In-corpus favorites link to their on-site detail;
+                  // out-of-corpus favorites (no review yet) render
+                  // display-only — the landing no longer leaks to
+                  // Serializd (that follow link lives on the Reviews page).
+                  const corpusShow = getShowBySerializdId(fav.serializdShowId);
+                  return (
+                    <PosterTile
+                      key={fav.serializdShowId}
+                      href={
+                        corpusShow
+                          ? `/television/${corpusShow.slug}`
+                          : undefined
+                      }
+                      posterUrl={fav.posterUrl}
+                      title={fav.name}
+                      // No year subtitle here: premiere years don't resolve
+                      // consistently across the favorites (some are
+                      // out-of-corpus picks) and aren't meaningful on a
+                      // "sacred texts" shelf — the title carries the card.
+                    />
+                  );
+                })}
+              </Grid>
+            </Stack>
+          </Section>
+        ) : null}
+
+        {/* ─── Favorite episodes ──────────────────────────────── */}
+        {/* The perfect-score (5.0★) episodes — curated standouts that give
+            the episode tier value on-site now, ahead of episode-level
+            stats. Each tile uses the show's poster (episodes have no art of
+            their own) and deep-links to the show's season block, where the
+            episode note lives. Copy is a working placeholder. */}
+        {hasFavoriteEpisodes ? (
+          <Section id="episodes" className="scroll-mt-28" padding="md" bordered>
+            <Stack gap="400">
+              <Kicker accent>Favorite episodes</Kicker>
+              <Headline level={2}>Five stars, no notes</Headline>
+              <Grid cols={5} gap="500">
+                {favoriteEpisodes.map(({ show, review }) => {
+                  // Episodes have no detail page; the finest anchor is the
+                  // season block on the show's page (#season-N).
+                  const seasonNumber = seasonNumberForReview(show, review);
+                  const href =
+                    seasonNumber !== null
+                      ? `/television/${show.slug}#season-${seasonNumber}`
+                      : `/television/${show.slug}`;
+                  // Secondary line: "Show · S# · E#" (each part omitted when
+                  // unknown — episode-level reviews normally have both).
+                  const seLabel =
+                    (seasonNumber !== null ? ` · S${seasonNumber}` : "") +
+                    (review.episodeNumber !== null
+                      ? ` · E${review.episodeNumber}`
+                      : "");
+                  return (
+                    <PosterTile
+                      key={review.id}
+                      href={href}
+                      posterUrl={show.posterUrl}
+                      title={
+                        review.episodeName ??
+                        (review.episodeNumber !== null
+                          ? `Episode ${review.episodeNumber}`
+                          : "Episode")
+                      }
+                      subtitle={`${show.name}${seLabel}`}
+                      rating={5}
+                    />
+                  );
+                })}
+              </Grid>
+            </Stack>
+          </Section>
+        ) : null}
+
+        {/* ─── Lists ──────────────────────────────────────────── */}
+        {/* Teaser only — the full year × scope × method matrix lives on
+            the /television/lists hub. Hidden when the publish-set is
+            empty (no-placeholder rule). */}
+        {hasLists ? (
+          <Section id="lists" className="scroll-mt-28" padding="md" bordered>
+            <Stack gap="400">
+              <Kicker accent>Lists</Kicker>
+              <Headline level={2}>Ranked and themed</Headline>
+              <Grid cols={3} gap="600">
+                {orderForTeaser(lists, (l) => l.name)
+                  .slice(0, 3)
+                  .map((list) => (
+                    <ListCard
+                      key={list.slug}
+                      href={`/television/lists/${list.slug}`}
+                      title={list.name}
+                      count={list.items.length}
+                      unit={{ one: "pick", other: "picks" }}
+                      description={list.description}
+                      coverPosterUrls={showListCoverPosters(list)}
+                    />
+                  ))}
+              </Grid>
+              <p style={{ margin: 0 }}>
+                <Link href="/television/lists">Explore lists →</Link>
+              </p>
+            </Stack>
+          </Section>
+        ) : null}
       </Container>
     </div>
   );
-}
-
-// ─── Helpers ──────────────────────────────────────────────────────
-
-/**
- * Reconstruct the relative URL (pathname + query string) of the
- * current listing — passed to TelevisionShell as originHref so
- * each ShowCard can encode it on its detail-page link. The detail
- * page then knows the user's filter+sort context for
- * adjacent-show navigation.
- *
- * Strips back-nav meta-state markers (`ref`, `from`) so the
- * encoded source URL is always a clean listing URL — never the
- * detail page the user might've arrived from.
- */
-function buildOriginHref(
-  pathname: string,
-  params: Record<string, string | string[] | undefined>,
-): string {
-  const sp = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) {
-    if (k === "ref" || k === "from") continue;
-    if (v === undefined) continue;
-    if (Array.isArray(v)) {
-      if (v[0] !== undefined) sp.set(k, v[0]);
-    } else {
-      sp.set(k, v);
-    }
-  }
-  const qs = sp.toString();
-  return qs ? `${pathname}?${qs}` : pathname;
-}
-
-/**
- * Build a relative href for /television at a specific page,
- * preserving any other query-string filters from the current
- * request. Used by the rel=prev/next link tags so paginated
- * crawls follow the same filter scope.
- */
-function buildPageHref(
-  params: Record<string, string | string[] | undefined>,
-  page: number,
-): string {
-  const sp = new URLSearchParams();
-  for (const [k, v] of Object.entries(params)) {
-    if (k === "page") continue;
-    if (v === undefined) continue;
-    if (Array.isArray(v)) {
-      if (v[0] !== undefined) sp.set(k, v[0]);
-    } else {
-      sp.set(k, v);
-    }
-  }
-  if (page > 1) sp.set("page", String(page));
-  const qs = sp.toString();
-  return qs ? `/television?${qs}` : "/television";
 }

@@ -82,7 +82,7 @@ const SUB_BRAND_TILES: SubBrandTile[] = [
     blurb: (
       <>
         Appointment viewing, binge fodder, channel
-        surfing&mdash;100+ seasons a year on Serializd.
+        surfing—100+ seasons a year on Serializd.
       </>
     ),
     accent: "tv",
@@ -141,25 +141,13 @@ export default function Home() {
               portrait to col 2. lg:gap-y-5 (20px = --scale-500)
               keeps the rhythm consistent with other Stacks. */}
           <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-x-12 lg:gap-y-5 lg:items-start">
-            {/* text-box-trim removes the leading above the cap-line
-                so the visible top of "M" aligns with the box-top of
-                the Display element — which equals the headshot's
-                box-top under items-start. Without trim the line-
-                height-driven leading offsets the text downward by
-                a few px, breaking the visual alignment the layout
-                set up. Modern CSS (Chrome 133+, Safari 18.2+);
-                older browsers ignore it and render with the small
-                visual drift the audit flagged. */}
-            <Display
-              style={
-                {
-                  textBoxTrim: "trim-start",
-                  textBoxEdge: "cap",
-                } as React.CSSProperties
-              }
-            >
-              Malcolm Xavier
-            </Display>
+            {/* The Display component now trims its line-box to the cap
+                line (top) by default, so the visible top of "M" aligns
+                with the box-top of the Display — which equals the
+                headshot's box-top under items-start. (This trim used to
+                live inline here; it moved into the Display component so
+                the alignment holds without a per-page override.) */}
+            <Display>Malcolm Xavier</Display>
 
             {/* Square headshot. 22rem wide on desktop (matches the
                 grid column), 16rem max on mobile. On mobile/tablet
@@ -216,8 +204,8 @@ export default function Home() {
                   from the button row below. */}
               <Stack gap="400">
                 <Lede>
-                  I&rsquo;m a senior product manager who specializes
-                  in building growth and data platforms. I&rsquo;m
+                  I’m a senior product manager who specializes
+                  in building growth and data platforms. I’m
                   AI-native by practice: I built this site with
                   Claude Code as my build partner.
                 </Lede>
@@ -255,7 +243,7 @@ export default function Home() {
                   </Button>
                 </HeroCtaInView>
                 <Button as="a" href="/contact" variant="secondary" size="lg">
-                  Get in touch &rarr;
+                  Get in touch →
                 </Button>
               </div>
             </Stack>
@@ -339,7 +327,7 @@ export default function Home() {
                         eventData={{ tile: tile.accent }}
                       >
                         <Link href={tile.href}>
-                          {tile.cta ?? `Visit ${tile.label}`} &rarr;
+                          {tile.cta ?? `Visit ${tile.label}`} →
                         </Link>
                       </TrackOnClick>
                     </Headline>
@@ -369,18 +357,18 @@ export default function Home() {
           <Kicker>About</Kicker>
           <Headline level={2}>Off the clock.</Headline>
           <Body>
-            Massachusetts &rarr; NYC &rarr; Chicago &rarr; LA.
-            When I&rsquo;m not building, I might be out on a run or
-            playing some video games. But most likely I&rsquo;m
+            Massachusetts → NYC → Chicago → LA.
+            When I’m not building, I might be out on a run or
+            playing some video games. But most likely I’m
             seated at my local AMC or curled up on my couch with
-            some TV. When I want to let loose, I&rsquo;m usually
+            some TV. When I want to let loose, I’m usually
             trying to find a concert.
           </Body>
           {/* "Read more →" goes to /about (the long version).
               TODO(creative-cv): drop a quiet inline link to
               /creative-cv here when that page ships, per the
               talent-scout audience rule. */}
-          <Link href="/about">Get to know me &rarr;</Link>
+          <Link href="/about">Get to know me →</Link>
         </Stack>
       </Section>
 
@@ -388,7 +376,7 @@ export default function Home() {
       <Section padding="md" bordered>
         <Stack gap="400">
           <Kicker>Get in touch</Kicker>
-          <Headline level={2}>Let&rsquo;s talk.</Headline>
+          <Headline level={2}>Let’s talk.</Headline>
           <Body>
             Hiring a senior PM in media or streaming? Want to compare
             notes on growth, data, AI, or anything else above? Pick a

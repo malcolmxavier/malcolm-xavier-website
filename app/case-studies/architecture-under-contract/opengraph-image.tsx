@@ -13,7 +13,7 @@
 //   • A "Case study" eyebrow above the title signals the venue
 //     to a scroller before they parse the words.
 //   • Subtitle is the article's Hero subtitle verbatim — "How three
-//     integrations stay online when their upstreams don't." — so
+//     integrations stay online when their upstreams don’t." — so
 //     the unfurl preview matches the in-article framing.
 //
 // Why this exists as a separate file (App Router convention):
@@ -36,7 +36,7 @@ import { ImageResponse } from "next/og";
 import { loadGoogleFont } from "@/lib/og/load-google-font";
 
 export const alt =
-  "Architecture under contract — Case study. How three integrations stay online when their upstreams don't.";
+  "Architecture under contract — Case study. How three integrations stay online when their upstreams don’t.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -100,7 +100,7 @@ export default async function OpenGraphImage() {
   const eyebrowText = "CASE STUDY";
   const titleLine1 = "Architecture";
   const titleLine2 = "under contract";
-  const subtitleText = "How three integrations stay online when their upstreams don't.";
+  const subtitleText = "How three integrations stay online when their upstreams don’t.";
   const urlText = "malxavi.com";
 
   const [instrumentSerif, dmSans, robotoMono] = await Promise.all([
