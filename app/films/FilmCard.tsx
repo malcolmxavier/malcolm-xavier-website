@@ -191,6 +191,9 @@ export function FilmCard({
                   fontFamily: "var(--font-mono)",
                   fontSize: 10,
                   letterSpacing: "0.06em",
+                  // Intentional fixed-dark scrim (NOT a theme token): the badge
+                  // sits on the poster artwork, so it must stay dark behind the
+                  // white count in both themes to keep contrast over any poster.
                   background: "rgba(0,0,0,0.65)",
                   color: "#fff",
                   padding: "3px 6px",

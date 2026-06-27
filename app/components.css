@@ -1080,6 +1080,22 @@ a.link-accent-pink,
   background: color-mix(in oklab, var(--text-body) 26%, transparent);
 }
 
+/* ─── Cluster back-pills (/stats/connected) ────────────────────
+   The "back to the film / TV stats" pills carry only a thin hue-colored
+   border and text on a transparent fill. A plain opacity hover washed
+   out in dark mode (the pill just faded toward the dark page). A faint
+   currentColor tint — the pill's own hue, since `color` is set to
+   --film-hue / --tv-hue — reads as a hover in both themes; the dark step
+   bumps higher to clear the dark-mode noise floor, mirroring the
+   .code-chip calibration above. */
+.cluster-back-pill:hover {
+  background: color-mix(in oklab, currentColor 10%, transparent);
+}
+
+[data-theme="dark"] .cluster-back-pill:hover {
+  background: color-mix(in oklab, currentColor 18%, transparent);
+}
+
 /* ─── Italic kerning baseline ──────────────────────────────────
    Italic serif glyphs (Instrument Serif italic) read with tight
    built-in rhythm; the browser's default `text-rendering: auto`
