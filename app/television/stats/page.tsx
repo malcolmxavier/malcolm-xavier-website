@@ -65,27 +65,42 @@ import {
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
 
-export const metadata: Metadata = {
-  title: "Television stats",
-  description:
-    "Malcolm Xavier’s TV corpus by the numbers—genres, networks, world cinema, creators, and the rhythm of a watching year, logged by show, season, and episode.",
-  alternates: { canonical: "/television/stats" },
-  openGraph: {
-    title: "Television stats—Malcolm Xavier",
+/**
+ * Per-request metadata. The unfiltered dashboard is the indexable canonical;
+ * every filtered permutation is noindex,follow self-canonical — mirrors the
+ * films-stats and reviews-filter posture so filtered TV URLs don't get
+ * crawled as canonical surfaces. (Static `export const metadata` can't vary
+ * `robots` per request, so this has to be a `generateMetadata` function.)
+ */
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}): Promise<Metadata> {
+  const filtered = hasActiveFilter(parseShowFilters(await searchParams));
+  return {
+    title: "Television stats",
     description:
-      "The stats behind the television corpus: per-level ratings, genres, networks, creators, world cinema, and a watching year’s rhythm.",
-    url: "/television/stats",
-    type: "website",
-    images: ["/opengraph-image"],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Television stats—Malcolm Xavier",
-    description:
-      "The stats behind the television corpus: per-level ratings, genres, networks, creators, and a watching year’s rhythm.",
-    images: ["/opengraph-image"],
-  },
-};
+      "Malcolm Xavier’s TV corpus by the numbers—genres, networks, world cinema, creators, and the rhythm of a watching year, logged by show, season, and episode.",
+    alternates: { canonical: "/television/stats" },
+    robots: filtered ? { index: false, follow: true } : undefined,
+    openGraph: {
+      title: "Television stats—Malcolm Xavier",
+      description:
+        "The stats behind the television corpus: per-level ratings, genres, networks, creators, world cinema, and a watching year’s rhythm.",
+      url: "/television/stats",
+      type: "website",
+      images: ["/opengraph-image"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Television stats—Malcolm Xavier",
+      description:
+        "The stats behind the television corpus: per-level ratings, genres, networks, creators, and a watching year’s rhythm.",
+      images: ["/opengraph-image"],
+    },
+  };
+}
 
 /** Map a Contrast to the Versus tile's left (most-logged) / right (rated) rows. */
 function versusRows(c: Contrast): {
