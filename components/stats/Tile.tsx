@@ -79,7 +79,10 @@ export function Tile({
   const heading = decision?.soloColumn && soloTitle != null ? soloTitle : title;
 
   // A stable id derived from the title links the <section> to its
-  // heading for the aria-labelledby association.
+  // heading for the aria-labelledby association. The "tile-" prefix keeps it
+  // from colliding with StatsSection's "band-" ids; uniqueness within a page
+  // then relies on tile titles being distinct per dashboard (they are, by
+  // construction). A future duplicate-title tile would need an explicit id.
   const headingId =
     "tile-" + title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   return (

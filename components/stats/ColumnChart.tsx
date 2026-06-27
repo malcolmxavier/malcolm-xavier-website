@@ -70,6 +70,12 @@ export function ColumnChart({
               key={l}
               {...tipTrigger(!href)}
               style={colStyle}
+              // role="img" only on the non-linked column: it carries the
+              // aria-label + a focus stop but no interactive role, so the label
+              // reads reliably as a labelled graphic (a bare <li>'s aria-label
+              // is announced inconsistently). Linked columns delegate their
+              // label to the inner Link instead.
+              role={href ? undefined : "img"}
               aria-label={href ? undefined : aria}
             >
               {href ? (

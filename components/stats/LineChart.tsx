@@ -131,6 +131,22 @@ export function LineChart({
           href: hrefFor?.(s.label),
         }))}
       />
+      {/* The day scrubber is pointer-only (aria-hidden), so keyboard and
+          screen-reader users can't read per-day values off it. This
+          visually-hidden list gives them the figure that matters most — each
+          series' final cumulative total — so the chart's payload isn't
+          locked behind a pointer gesture (SC 2.1.1). */}
+      <ul className="sr-only">
+        {series.map((s) => {
+          const last = s.points[s.points.length - 1];
+          return (
+            <li key={s.label}>
+              {s.label}: {last ? Math.round(last[1]) : 0}
+              {valueSuffix} total
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

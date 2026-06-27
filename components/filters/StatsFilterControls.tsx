@@ -356,6 +356,10 @@ export function StatsFilterControls({
             onClick={() => setPanelOpen(true)}
             aria-expanded={panelOpen}
             aria-controls={PANEL_ID}
+            // Spell the count into the accessible name so AT hears "Filter, 3
+            // active" rather than the visual "Filter · 3" (where the middot
+            // reads as "dot" or drops out).
+            aria-label={activeCount > 0 ? `Filter, ${activeCount} active` : "Filter"}
             style={triggerStyle}
             className={`${chipClassName} focus-visible:outline-2 focus-visible:outline-offset-2`}
           >
@@ -412,12 +416,12 @@ export function StatsFilterControls({
       {/* ─── Summoned panel (fly-in desktop / bottom-sheet mobile) ── */}
       {panelOpen ? (
         <>
-          {/* Backdrop — click to dismiss. aria-hidden: the close button +
-              Esc are the labelled dismiss paths. */}
-          <button
-            type="button"
+          {/* Backdrop — click to dismiss. A presentational div, not a button:
+              it's aria-hidden and off the tab order, and the labelled dismiss
+              paths are the close button + Esc, so exposing it as a control was
+              wrong. The pointer-dismiss is a redundant convenience. */}
+          <div
             aria-hidden="true"
-            tabIndex={-1}
             onClick={() => {
               setPanelOpen(false);
               triggerRef.current?.focus();
