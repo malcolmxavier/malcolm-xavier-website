@@ -1,13 +1,13 @@
 {
-  "capturedAt": "2026-06-29T04:00:21.406Z",
+  "capturedAt": "2026-06-29T23:01:03.571Z",
   "summary": {
-    "totalFilms": 780,
-    "totalReviews": 780,
-    "thisYearCount": 139,
+    "totalFilms": 781,
+    "totalReviews": 781,
+    "thisYearCount": 140,
     "ratingDistribution": {
       "1": 38,
       "2": 125,
-      "3": 148,
+      "3": 149,
       "4": 104,
       "5": 16,
       "1.5": 36,
@@ -17,14 +17,14 @@
       "0.5": 9
     },
     "genreDistribution": {
+      "Crime": 104,
+      "Drama": 369,
+      "Thriller": 227,
       "Action": 117,
       "Adventure": 84,
       "Science Fiction": 116,
-      "Thriller": 226,
-      "Drama": 368,
       "Horror": 132,
       "Mystery": 81,
-      "Crime": 103,
       "Romance": 90,
       "History": 42,
       "War": 17,
@@ -38,8 +38,8 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "2010s": 129,
       "2020s": 583,
-      "2010s": 128,
       "2000s": 32,
       "1990s": 16,
       "1980s": 16,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-23168",
+      "letterboxdSlug": "the-town",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-town/",
+      "title": "The Town",
+      "releaseYear": 2010,
+      "firstWatchedDate": "2026-06-29",
+      "latestWatchedDate": "2026-06-29",
+      "firstReviewDate": "2026-06-29",
+      "latestReviewDate": "2026-06-29",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1374721232",
+          "watchedDate": "2026-06-29",
+          "reviewDate": "2026-06-29",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "For the longest time, I thought this was more of a horror, fake town scenario. Not sure why, given who all is involved. I guess points for my relationship to Boston.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 23168,
+        "posterPath": "/3NIzyXkfylsjflRKSz8Fts3lXzm.jpg",
+        "backdropPath": "/owAe5rRStnX7ibVAPmza3NCXjCy.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 125,
+        "director": "Ben Affleck"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3NIzyXkfylsjflRKSz8Fts3lXzm.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3NIzyXkfylsjflRKSz8Fts3lXzm.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1081003",
       "letterboxdSlug": "supergirl",
@@ -33953,6 +33998,51 @@
     }
   ],
   "filmById": {
+    "tmdb-23168": {
+      "id": "tmdb-23168",
+      "letterboxdSlug": "the-town",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-town/",
+      "title": "The Town",
+      "releaseYear": 2010,
+      "firstWatchedDate": "2026-06-29",
+      "latestWatchedDate": "2026-06-29",
+      "firstReviewDate": "2026-06-29",
+      "latestReviewDate": "2026-06-29",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1374721232",
+          "watchedDate": "2026-06-29",
+          "reviewDate": "2026-06-29",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "For the longest time, I thought this was more of a horror, fake town scenario. Not sure why, given who all is involved. I guess points for my relationship to Boston.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 23168,
+        "posterPath": "/3NIzyXkfylsjflRKSz8Fts3lXzm.jpg",
+        "backdropPath": "/owAe5rRStnX7ibVAPmza3NCXjCy.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 125,
+        "director": "Ben Affleck"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3NIzyXkfylsjflRKSz8Fts3lXzm.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3NIzyXkfylsjflRKSz8Fts3lXzm.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1081003": {
       "id": "tmdb-1081003",
       "letterboxdSlug": "supergirl",
