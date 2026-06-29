@@ -1,45 +1,45 @@
 {
-  "capturedAt": "2026-06-27T13:40:12.436Z",
+  "capturedAt": "2026-06-29T04:00:21.406Z",
   "summary": {
-    "totalFilms": 777,
-    "totalReviews": 777,
-    "thisYearCount": 136,
+    "totalFilms": 780,
+    "totalReviews": 780,
+    "thisYearCount": 139,
     "ratingDistribution": {
       "1": 38,
-      "2": 123,
+      "2": 125,
       "3": 148,
       "4": 104,
       "5": 16,
-      "1.5": 35,
+      "1.5": 36,
       "3.5": 154,
       "2.5": 101,
       "4.5": 49,
       "0.5": 9
     },
     "genreDistribution": {
-      "Horror": 131,
-      "Drama": 367,
-      "Thriller": 224,
+      "Action": 117,
+      "Adventure": 84,
+      "Science Fiction": 116,
+      "Thriller": 226,
+      "Drama": 368,
+      "Horror": 132,
+      "Mystery": 81,
       "Crime": 103,
       "Romance": 90,
-      "Action": 116,
-      "Science Fiction": 115,
       "History": 42,
       "War": 17,
       "Fantasy": 59,
       "Comedy": 221,
       "Family": 21,
-      "Mystery": 80,
       "Music": 49,
-      "Adventure": 83,
       "Documentary": 59,
       "Animation": 43,
       "TV Movie": 5,
       "Western": 3
     },
     "decadeDistribution": {
+      "2020s": 583,
       "2010s": 128,
-      "2020s": 580,
       "2000s": 32,
       "1990s": 16,
       "1980s": 16,
@@ -48,6 +48,140 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1081003",
+      "letterboxdSlug": "supergirl",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/supergirl-2026/",
+      "title": "Supergirl",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-25",
+      "latestWatchedDate": "2026-06-25",
+      "firstReviewDate": "2026-06-29",
+      "latestReviewDate": "2026-06-29",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1373745934",
+          "watchedDate": "2026-06-25",
+          "reviewDate": "2026-06-29",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Milly couldn’t save this, I fear. Ruthye was mad annoying, but Lobo had me laughing at loud…so I guess there’s that.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1081003,
+        "posterPath": "/niSvU02l2BONH9ivubV6K1a5QiK.jpg",
+        "backdropPath": "/hBwCiqcaXtxmhv5xZ0H6Uhd2L1E.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 108,
+        "director": "Craig Gillespie"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/niSvU02l2BONH9ivubV6K1a5QiK.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/niSvU02l2BONH9ivubV6K1a5QiK.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1126336",
+      "letterboxdSlug": "anniversary",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/anniversary-2025/",
+      "title": "Anniversary",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-06-25",
+      "latestWatchedDate": "2026-06-25",
+      "firstReviewDate": "2026-06-29",
+      "latestReviewDate": "2026-06-29",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1373743399",
+          "watchedDate": "2026-06-25",
+          "reviewDate": "2026-06-29",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "So much gesturing and hand-waving that it manages to say nothing. And to that end, it’s surprising that this created a mini panic.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1126336,
+        "posterPath": "/sSdpXGBNt3mQzjZZVK6eV5NcPdc.jpg",
+        "backdropPath": "/mNUciC3vHhoskveYsO3hiFypqMz.jpg",
+        "genres": [
+          "Thriller",
+          "Drama"
+        ],
+        "runtime": 111,
+        "director": "Jan Komasa"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/sSdpXGBNt3mQzjZZVK6eV5NcPdc.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sSdpXGBNt3mQzjZZVK6eV5NcPdc.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1330421",
+      "letterboxdSlug": "bone-lake",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/bone-lake/",
+      "title": "Bone Lake",
+      "releaseYear": 2024,
+      "firstWatchedDate": "2026-06-23",
+      "latestWatchedDate": "2026-06-23",
+      "firstReviewDate": "2026-06-29",
+      "latestReviewDate": "2026-06-29",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1373711278",
+          "watchedDate": "2026-06-23",
+          "reviewDate": "2026-06-29",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I wanted something cheekier, based on the trailer. It had its moments, but overall fell flat for me. It wasn’t sure if it was trying to have a comedic undertone or not.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1330421,
+        "posterPath": "/sGo5ti82LlydAZrvcsaj31iPuEI.jpg",
+        "backdropPath": "/168dp7vy3kwOehcMpFaLOfB52NV.jpg",
+        "genres": [
+          "Horror",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 94,
+        "director": "Mercedes Bryce Morgan"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/sGo5ti82LlydAZrvcsaj31iPuEI.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sGo5ti82LlydAZrvcsaj31iPuEI.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-73936",
       "letterboxdSlug": "retreat",
@@ -33819,6 +33953,140 @@
     }
   ],
   "filmById": {
+    "tmdb-1081003": {
+      "id": "tmdb-1081003",
+      "letterboxdSlug": "supergirl",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/supergirl-2026/",
+      "title": "Supergirl",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-25",
+      "latestWatchedDate": "2026-06-25",
+      "firstReviewDate": "2026-06-29",
+      "latestReviewDate": "2026-06-29",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1373745934",
+          "watchedDate": "2026-06-25",
+          "reviewDate": "2026-06-29",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Milly couldn’t save this, I fear. Ruthye was mad annoying, but Lobo had me laughing at loud…so I guess there’s that.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1081003,
+        "posterPath": "/niSvU02l2BONH9ivubV6K1a5QiK.jpg",
+        "backdropPath": "/hBwCiqcaXtxmhv5xZ0H6Uhd2L1E.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 108,
+        "director": "Craig Gillespie"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/niSvU02l2BONH9ivubV6K1a5QiK.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/niSvU02l2BONH9ivubV6K1a5QiK.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1126336": {
+      "id": "tmdb-1126336",
+      "letterboxdSlug": "anniversary",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/anniversary-2025/",
+      "title": "Anniversary",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-06-25",
+      "latestWatchedDate": "2026-06-25",
+      "firstReviewDate": "2026-06-29",
+      "latestReviewDate": "2026-06-29",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1373743399",
+          "watchedDate": "2026-06-25",
+          "reviewDate": "2026-06-29",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "So much gesturing and hand-waving that it manages to say nothing. And to that end, it’s surprising that this created a mini panic.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1126336,
+        "posterPath": "/sSdpXGBNt3mQzjZZVK6eV5NcPdc.jpg",
+        "backdropPath": "/mNUciC3vHhoskveYsO3hiFypqMz.jpg",
+        "genres": [
+          "Thriller",
+          "Drama"
+        ],
+        "runtime": 111,
+        "director": "Jan Komasa"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/sSdpXGBNt3mQzjZZVK6eV5NcPdc.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sSdpXGBNt3mQzjZZVK6eV5NcPdc.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1330421": {
+      "id": "tmdb-1330421",
+      "letterboxdSlug": "bone-lake",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/bone-lake/",
+      "title": "Bone Lake",
+      "releaseYear": 2024,
+      "firstWatchedDate": "2026-06-23",
+      "latestWatchedDate": "2026-06-23",
+      "firstReviewDate": "2026-06-29",
+      "latestReviewDate": "2026-06-29",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1373711278",
+          "watchedDate": "2026-06-23",
+          "reviewDate": "2026-06-29",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I wanted something cheekier, based on the trailer. It had its moments, but overall fell flat for me. It wasn’t sure if it was trying to have a comedic undertone or not.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1330421,
+        "posterPath": "/sGo5ti82LlydAZrvcsaj31iPuEI.jpg",
+        "backdropPath": "/168dp7vy3kwOehcMpFaLOfB52NV.jpg",
+        "genres": [
+          "Horror",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 94,
+        "director": "Mercedes Bryce Morgan"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/sGo5ti82LlydAZrvcsaj31iPuEI.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sGo5ti82LlydAZrvcsaj31iPuEI.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-73936": {
       "id": "tmdb-73936",
       "letterboxdSlug": "retreat",
