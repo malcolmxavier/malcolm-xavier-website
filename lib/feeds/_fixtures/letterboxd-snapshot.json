@@ -1,35 +1,35 @@
 {
-  "capturedAt": "2026-06-29T23:01:03.571Z",
+  "capturedAt": "2026-06-30T03:00:59.468Z",
   "summary": {
-    "totalFilms": 781,
-    "totalReviews": 781,
-    "thisYearCount": 140,
+    "totalFilms": 783,
+    "totalReviews": 783,
+    "thisYearCount": 142,
     "ratingDistribution": {
       "1": 38,
-      "2": 125,
+      "2": 126,
       "3": 149,
       "4": 104,
       "5": 16,
+      "2.5": 102,
       "1.5": 36,
       "3.5": 154,
-      "2.5": 101,
       "4.5": 49,
       "0.5": 9
     },
     "genreDistribution": {
+      "Drama": 370,
+      "Thriller": 228,
+      "Comedy": 222,
+      "Romance": 91,
       "Crime": 104,
-      "Drama": 369,
-      "Thriller": 227,
       "Action": 117,
       "Adventure": 84,
       "Science Fiction": 116,
       "Horror": 132,
       "Mystery": 81,
-      "Romance": 90,
       "History": 42,
       "War": 17,
       "Fantasy": 59,
-      "Comedy": 221,
       "Family": 21,
       "Music": 49,
       "Documentary": 59,
@@ -38,16 +38,104 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "1990s": 17,
+      "2020s": 584,
       "2010s": 129,
-      "2020s": 583,
       "2000s": 32,
-      "1990s": 16,
       "1980s": 16,
       "1960s": 1,
       "1970s": 4
     }
   },
   "films": [
+    {
+      "id": "tmdb-11087",
+      "letterboxdSlug": "the-hand-that-rocks-the-cradle",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hand-that-rocks-the-cradle/",
+      "title": "The Hand That Rocks the Cradle",
+      "releaseYear": 1992,
+      "firstWatchedDate": "2026-06-29",
+      "latestWatchedDate": "2026-06-29",
+      "firstReviewDate": "2026-06-30",
+      "latestReviewDate": "2026-06-30",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1375002428",
+          "watchedDate": "2026-06-29",
+          "reviewDate": "2026-06-30",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Peyton was just so sinister. Hi, Julianne Moore!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 11087,
+        "posterPath": "/1fBnyO3SbNBplck45js6O4pQaLw.jpg",
+        "backdropPath": "/l3qZ3wYF0iRCrWuYTSMsp70qiH9.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 110,
+        "director": "Curtis Hanson"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/1fBnyO3SbNBplck45js6O4pQaLw.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/1fBnyO3SbNBplck45js6O4pQaLw.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-614939",
+      "letterboxdSlug": "bros",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/bros/",
+      "title": "Bros",
+      "releaseYear": 2022,
+      "firstWatchedDate": "2026-06-29",
+      "latestWatchedDate": "2026-06-29",
+      "firstReviewDate": "2026-06-30",
+      "latestReviewDate": "2026-06-30",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1375001546",
+          "watchedDate": "2026-06-29",
+          "reviewDate": "2026-06-30",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "They deserve each other.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 614939,
+        "posterPath": "/op02Hv5i4Z049nGJYmk6BScRqHO.jpg",
+        "backdropPath": "/mezKuuKtAKPENnAVlT3TghkMACv.jpg",
+        "genres": [
+          "Comedy",
+          "Romance"
+        ],
+        "runtime": 115,
+        "director": "Nicholas Stoller"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/op02Hv5i4Z049nGJYmk6BScRqHO.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/op02Hv5i4Z049nGJYmk6BScRqHO.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-23168",
       "letterboxdSlug": "the-town",
@@ -33998,6 +34086,94 @@
     }
   ],
   "filmById": {
+    "tmdb-11087": {
+      "id": "tmdb-11087",
+      "letterboxdSlug": "the-hand-that-rocks-the-cradle",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hand-that-rocks-the-cradle/",
+      "title": "The Hand That Rocks the Cradle",
+      "releaseYear": 1992,
+      "firstWatchedDate": "2026-06-29",
+      "latestWatchedDate": "2026-06-29",
+      "firstReviewDate": "2026-06-30",
+      "latestReviewDate": "2026-06-30",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1375002428",
+          "watchedDate": "2026-06-29",
+          "reviewDate": "2026-06-30",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Peyton was just so sinister. Hi, Julianne Moore!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 11087,
+        "posterPath": "/1fBnyO3SbNBplck45js6O4pQaLw.jpg",
+        "backdropPath": "/l3qZ3wYF0iRCrWuYTSMsp70qiH9.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 110,
+        "director": "Curtis Hanson"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/1fBnyO3SbNBplck45js6O4pQaLw.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/1fBnyO3SbNBplck45js6O4pQaLw.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-614939": {
+      "id": "tmdb-614939",
+      "letterboxdSlug": "bros",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/bros/",
+      "title": "Bros",
+      "releaseYear": 2022,
+      "firstWatchedDate": "2026-06-29",
+      "latestWatchedDate": "2026-06-29",
+      "firstReviewDate": "2026-06-30",
+      "latestReviewDate": "2026-06-30",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1375001546",
+          "watchedDate": "2026-06-29",
+          "reviewDate": "2026-06-30",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "They deserve each other.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 614939,
+        "posterPath": "/op02Hv5i4Z049nGJYmk6BScRqHO.jpg",
+        "backdropPath": "/mezKuuKtAKPENnAVlT3TghkMACv.jpg",
+        "genres": [
+          "Comedy",
+          "Romance"
+        ],
+        "runtime": 115,
+        "director": "Nicholas Stoller"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/op02Hv5i4Z049nGJYmk6BScRqHO.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/op02Hv5i4Z049nGJYmk6BScRqHO.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-23168": {
       "id": "tmdb-23168",
       "letterboxdSlug": "the-town",
