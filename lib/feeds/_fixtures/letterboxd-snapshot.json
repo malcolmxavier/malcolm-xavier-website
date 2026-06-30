@@ -1,30 +1,30 @@
 {
-  "capturedAt": "2026-06-30T05:00:49.125Z",
+  "capturedAt": "2026-06-30T15:00:29.825Z",
   "summary": {
-    "totalFilms": 784,
-    "totalReviews": 784,
-    "thisYearCount": 143,
+    "totalFilms": 785,
+    "totalReviews": 785,
+    "thisYearCount": 144,
     "ratingDistribution": {
       "1": 38,
       "2": 126,
       "3": 149,
       "4": 104,
       "5": 16,
+      "1.5": 37,
       "0.5": 10,
       "2.5": 102,
-      "1.5": 36,
       "3.5": 154,
       "4.5": 49
     },
     "genreDistribution": {
-      "Thriller": 229,
+      "Action": 118,
+      "Drama": 372,
+      "Science Fiction": 117,
+      "Thriller": 230,
       "Crime": 105,
-      "Drama": 371,
       "Comedy": 222,
       "Romance": 91,
-      "Action": 117,
       "Adventure": 84,
-      "Science Fiction": 116,
       "Horror": 132,
       "Mystery": 81,
       "History": 42,
@@ -38,9 +38,9 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "2010s": 130,
       "2020s": 585,
       "1990s": 17,
-      "2010s": 129,
       "2000s": 32,
       "1980s": 16,
       "1960s": 1,
@@ -48,6 +48,52 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-429415",
+      "letterboxdSlug": "extinction",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/extinction/",
+      "title": "Extinction",
+      "releaseYear": 2018,
+      "firstWatchedDate": "2026-06-29",
+      "latestWatchedDate": "2026-06-29",
+      "firstReviewDate": "2026-06-30",
+      "latestReviewDate": "2026-06-30",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1375504449",
+          "watchedDate": "2026-06-29",
+          "reviewDate": "2026-06-30",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I may have liked this more if it weren’t for those annoying ass kids! They also did nothing with the plot twist. A shame, really, because the idea is there and it’s interesting.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 429415,
+        "posterPath": "/qjnNdjrZIdi7d316SjjkgEjJRSg.jpg",
+        "backdropPath": "/mPNGcX1j5SFeDETkvcJA9POaNx8.jpg",
+        "genres": [
+          "Action",
+          "Drama",
+          "Science Fiction",
+          "Thriller"
+        ],
+        "runtime": 96,
+        "director": "Ben Young"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/qjnNdjrZIdi7d316SjjkgEjJRSg.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/qjnNdjrZIdi7d316SjjkgEjJRSg.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-850018",
       "letterboxdSlug": "windfall",
@@ -34131,6 +34177,52 @@
     }
   ],
   "filmById": {
+    "tmdb-429415": {
+      "id": "tmdb-429415",
+      "letterboxdSlug": "extinction",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/extinction/",
+      "title": "Extinction",
+      "releaseYear": 2018,
+      "firstWatchedDate": "2026-06-29",
+      "latestWatchedDate": "2026-06-29",
+      "firstReviewDate": "2026-06-30",
+      "latestReviewDate": "2026-06-30",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1375504449",
+          "watchedDate": "2026-06-29",
+          "reviewDate": "2026-06-30",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I may have liked this more if it weren’t for those annoying ass kids! They also did nothing with the plot twist. A shame, really, because the idea is there and it’s interesting.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 429415,
+        "posterPath": "/qjnNdjrZIdi7d316SjjkgEjJRSg.jpg",
+        "backdropPath": "/mPNGcX1j5SFeDETkvcJA9POaNx8.jpg",
+        "genres": [
+          "Action",
+          "Drama",
+          "Science Fiction",
+          "Thriller"
+        ],
+        "runtime": 96,
+        "director": "Ben Young"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/qjnNdjrZIdi7d316SjjkgEjJRSg.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/qjnNdjrZIdi7d316SjjkgEjJRSg.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-850018": {
       "id": "tmdb-850018",
       "letterboxdSlug": "windfall",
