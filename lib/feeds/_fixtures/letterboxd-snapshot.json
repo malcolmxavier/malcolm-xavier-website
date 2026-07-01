@@ -1,28 +1,28 @@
 {
-  "capturedAt": "2026-06-30T15:00:29.825Z",
+  "capturedAt": "2026-07-01T00:00:41.885Z",
   "summary": {
-    "totalFilms": 785,
-    "totalReviews": 785,
-    "thisYearCount": 144,
+    "totalFilms": 786,
+    "totalReviews": 786,
+    "thisYearCount": 145,
     "ratingDistribution": {
       "1": 38,
       "2": 126,
       "3": 149,
       "4": 104,
       "5": 16,
-      "1.5": 37,
+      "1.5": 38,
       "0.5": 10,
       "2.5": 102,
       "3.5": 154,
       "4.5": 49
     },
     "genreDistribution": {
-      "Action": 118,
+      "Action": 119,
+      "Comedy": 223,
+      "Crime": 106,
       "Drama": 372,
       "Science Fiction": 117,
       "Thriller": 230,
-      "Crime": 105,
-      "Comedy": 222,
       "Romance": 91,
       "Adventure": 84,
       "Horror": 132,
@@ -38,8 +38,8 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "2020s": 586,
       "2010s": 130,
-      "2020s": 585,
       "1990s": 17,
       "2000s": 32,
       "1980s": 16,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-955916",
+      "letterboxdSlug": "lift",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/lift-2024/",
+      "title": "Lift",
+      "releaseYear": 2024,
+      "firstWatchedDate": "2026-06-30",
+      "latestWatchedDate": "2026-06-30",
+      "firstReviewDate": "2026-06-30",
+      "latestReviewDate": "2026-06-30",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1376060950",
+          "watchedDate": "2026-06-30",
+          "reviewDate": "2026-06-30",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "At no point did I know—or, more importantly, care to know—what was going on.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 955916,
+        "posterPath": "/h7wJI6mctrDJ9wMbFfgrBUTn1LT.jpg",
+        "backdropPath": "/AaModY6YpQmEFzG56ALP1PFLPUU.jpg",
+        "genres": [
+          "Action",
+          "Comedy",
+          "Crime"
+        ],
+        "runtime": 107,
+        "director": "F. Gary Gray"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/h7wJI6mctrDJ9wMbFfgrBUTn1LT.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/h7wJI6mctrDJ9wMbFfgrBUTn1LT.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-429415",
       "letterboxdSlug": "extinction",
@@ -34177,6 +34222,51 @@
     }
   ],
   "filmById": {
+    "tmdb-955916": {
+      "id": "tmdb-955916",
+      "letterboxdSlug": "lift",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/lift-2024/",
+      "title": "Lift",
+      "releaseYear": 2024,
+      "firstWatchedDate": "2026-06-30",
+      "latestWatchedDate": "2026-06-30",
+      "firstReviewDate": "2026-06-30",
+      "latestReviewDate": "2026-06-30",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1376060950",
+          "watchedDate": "2026-06-30",
+          "reviewDate": "2026-06-30",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "At no point did I know—or, more importantly, care to know—what was going on.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 955916,
+        "posterPath": "/h7wJI6mctrDJ9wMbFfgrBUTn1LT.jpg",
+        "backdropPath": "/AaModY6YpQmEFzG56ALP1PFLPUU.jpg",
+        "genres": [
+          "Action",
+          "Comedy",
+          "Crime"
+        ],
+        "runtime": 107,
+        "director": "F. Gary Gray"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/h7wJI6mctrDJ9wMbFfgrBUTn1LT.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/h7wJI6mctrDJ9wMbFfgrBUTn1LT.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-429415": {
       "id": "tmdb-429415",
       "letterboxdSlug": "extinction",
