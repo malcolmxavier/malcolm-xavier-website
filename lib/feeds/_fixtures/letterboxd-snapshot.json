@@ -1,14 +1,14 @@
 {
-  "capturedAt": "2026-07-01T00:00:41.885Z",
+  "capturedAt": "2026-07-01T04:01:20.397Z",
   "summary": {
-    "totalFilms": 786,
-    "totalReviews": 786,
-    "thisYearCount": 145,
+    "totalFilms": 787,
+    "totalReviews": 787,
+    "thisYearCount": 146,
     "ratingDistribution": {
       "1": 38,
       "2": 126,
       "3": 149,
-      "4": 104,
+      "4": 105,
       "5": 16,
       "1.5": 38,
       "0.5": 10,
@@ -17,10 +17,10 @@
       "4.5": 49
     },
     "genreDistribution": {
+      "Drama": 373,
+      "Comedy": 224,
       "Action": 119,
-      "Comedy": 223,
       "Crime": 106,
-      "Drama": 372,
       "Science Fiction": 117,
       "Thriller": 230,
       "Romance": 91,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 586,
+      "2020s": 587,
       "2010s": 130,
       "1990s": 17,
       "2000s": 32,
@@ -48,6 +48,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-950028",
+      "letterboxdSlug": "the-invite",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-invite-2026/",
+      "title": "The Invite",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-30",
+      "latestWatchedDate": "2026-06-30",
+      "firstReviewDate": "2026-07-01",
+      "latestReviewDate": "2026-07-01",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1376315406",
+          "watchedDate": "2026-06-30",
+          "reviewDate": "2026-07-01",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Penélope Cruz and Edward Norton put in work! That aside, a great film that loses its edge, in large part, due to Seth Rogen’s insistence on playing characters for whom the idea of queerness is so repulsive that it becomes a punchline. It’s one thing for the character to be uncomfortable in his sexuality—it’s another to observe this as Rogen’s typical register. McCormack and Jones strike again in the screenwriting. And I like this better than Olivia’s prior directing entries.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 950028,
+        "posterPath": "/b7Dr8Chzse8VagexAporUu2RtLx.jpg",
+        "backdropPath": "/kLA1GqiOEyVgXxgNqLoCr7bYcqu.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "runtime": 107,
+        "director": "Olivia Wilde"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/b7Dr8Chzse8VagexAporUu2RtLx.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/b7Dr8Chzse8VagexAporUu2RtLx.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-955916",
       "letterboxdSlug": "lift",
@@ -34222,6 +34266,50 @@
     }
   ],
   "filmById": {
+    "tmdb-950028": {
+      "id": "tmdb-950028",
+      "letterboxdSlug": "the-invite",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-invite-2026/",
+      "title": "The Invite",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-06-30",
+      "latestWatchedDate": "2026-06-30",
+      "firstReviewDate": "2026-07-01",
+      "latestReviewDate": "2026-07-01",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1376315406",
+          "watchedDate": "2026-06-30",
+          "reviewDate": "2026-07-01",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Penélope Cruz and Edward Norton put in work! That aside, a great film that loses its edge, in large part, due to Seth Rogen’s insistence on playing characters for whom the idea of queerness is so repulsive that it becomes a punchline. It’s one thing for the character to be uncomfortable in his sexuality—it’s another to observe this as Rogen’s typical register. McCormack and Jones strike again in the screenwriting. And I like this better than Olivia’s prior directing entries.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 950028,
+        "posterPath": "/b7Dr8Chzse8VagexAporUu2RtLx.jpg",
+        "backdropPath": "/kLA1GqiOEyVgXxgNqLoCr7bYcqu.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "runtime": 107,
+        "director": "Olivia Wilde"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/b7Dr8Chzse8VagexAporUu2RtLx.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/b7Dr8Chzse8VagexAporUu2RtLx.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-955916": {
       "id": "tmdb-955916",
       "letterboxdSlug": "lift",
