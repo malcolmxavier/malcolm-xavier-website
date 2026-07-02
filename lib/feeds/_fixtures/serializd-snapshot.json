@@ -56267,8 +56267,8 @@
   "lists": [
     {
       "id": 451075,
-      "slug": "2025-top-10-fully-editorialized",
-      "name": "2025 Top 10 — Fully Editorialized",
+      "slug": "2025-new-releases-editor-s-cut",
+      "name": "2025 New Releases · Editor’s Cut",
       "description": "The best seasons of television whose finale aired/was made available in 2025. Methodology: star rating disregarded and fully editorialized.",
       "isRanked": true,
       "items": [
@@ -56353,12 +56353,12 @@
           "showName": "Doctor Odyssey"
         }
       ],
-      "url": "https://www.serializd.com/list/2025-Top-10-%E2%80%94-Fully-Editorialized-451075"
+      "url": "https://www.serializd.com/list/2025-New-Releases-%C2%B7-Editor%E2%80%99s-Cut-451075"
     },
     {
       "id": 451063,
-      "slug": "2025-top-10",
-      "name": "2025 Top 10",
+      "slug": "2025-new-releases-ratings-cut",
+      "name": "2025 New Releases · Ratings Cut",
       "description": "The best seasons of television whose finale aired/was made available in 2025. Methodology: by star rating and editorialized within.",
       "isRanked": true,
       "items": [
@@ -56443,12 +56443,12 @@
           "showName": "Brilliant Minds"
         }
       ],
-      "url": "https://www.serializd.com/list/2025-Top-10-451063"
+      "url": "https://www.serializd.com/list/2025-New-Releases-%C2%B7-Ratings-Cut-451063"
     },
     {
       "id": 451111,
-      "slug": "unbiased-2025-top-10-fully-editorialized",
-      "name": "Unbiased 2025 Top 10 — Fully Editorialized",
+      "slug": "2025-backlog-editor-s-cut",
+      "name": "2025 Backlog · Editor’s Cut",
       "description": "The best seasons of television that I watched in 2025 and that didn’t air their season finale/make it available in 2025 — recency bias be damned. Methodology: star rating disregarded and fully editorialized.",
       "isRanked": true,
       "items": [
@@ -56533,12 +56533,12 @@
           "showName": "The Real Housewives of New York City"
         }
       ],
-      "url": "https://www.serializd.com/list/Unbiased-2025-Top-10-%E2%80%94-Fully-Editorialized-451111"
+      "url": "https://www.serializd.com/list/2025-Backlog-%C2%B7-Editor%E2%80%99s-Cut-451111"
     },
     {
       "id": 451095,
-      "slug": "unbiased-2025-top-10",
-      "name": "Unbiased 2025 Top 10",
+      "slug": "2025-backlog-ratings-cut",
+      "name": "2025 Backlog · Ratings Cut",
       "description": "The best seasons of television that I watched in 2025 and that didn’t air their season finale/make it available in 2025 — recency bias be damned. Methodology: by star rating and editorialized within.",
       "isRanked": true,
       "items": [
@@ -56623,7 +56623,7 @@
           "showName": "The Real Housewives of New York City"
         }
       ],
-      "url": "https://www.serializd.com/list/Unbiased-2025-Top-10-451095"
+      "url": "https://www.serializd.com/list/2025-Backlog-%C2%B7-Ratings-Cut-451095"
     }
   ],
   "favorites": [

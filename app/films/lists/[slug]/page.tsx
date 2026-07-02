@@ -32,6 +32,7 @@ import {
   getFilmListBySlug,
   getFilmByLetterboxdSlug,
 } from "@/lib/feeds/letterboxd";
+import { classifyList } from "@/lib/feeds/list-taxonomy";
 
 type Params = Promise<{ slug: string }>;
 
@@ -86,9 +87,12 @@ export default async function FilmListPage({ params }: { params: Params }) {
   const list = getFilmListBySlug(slug);
   if (!list) notFound();
 
-  // Letterboxd doesn't flag ranked-ness in the snapshot, so infer it from
-  // the title — Malcolm's lists are "Top N" / "… Ranked" rankings.
-  const isRanked = /\branked\b|\btop\s*\d+\b/i.test(list.title);
+  // Letterboxd doesn't flag ranked-ness in the snapshot, so infer it: every
+  // matrix cell (Editor's / Ratings Cut) is a ranking, plus any Featured
+  // one-off whose title says so ("… Ranked" / "Top N").
+  const isRanked =
+    classifyList(list.title).kind === "matrix" ||
+    /\branked\b|\btop\s*\d+\b/i.test(list.title);
 
   const landingUrl = `${SITE_URL}/films`;
   const listUrl = `${SITE_URL}/films/lists/${list.slug}`;
@@ -164,8 +168,8 @@ export default async function FilmListPage({ params }: { params: Params }) {
           </Headline>
           <Grid cols={4} gap="500">
             {list.filmSlugs.map((filmSlug, i) => {
-              // Rank shows as a poster badge for ranked lists ("Top N" /
-              // "… Ranked"); the visible title stays clean.
+              // Rank shows as a poster badge for ranked lists (every matrix
+              // cell, plus "… Ranked" one-offs); the visible title stays clean.
               const rank = isRanked ? i + 1 : null;
               const film = getFilmByLetterboxdSlug(filmSlug);
               if (film) {

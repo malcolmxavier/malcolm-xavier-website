@@ -18,18 +18,19 @@
 // hub shows the full labeled 2×2 rather than collapsing them — the
 // labels are what make four similar-titled lists legible at a glance.
 //
-// Classification reads the list TITLE (keyed on "Unbiased" / "Fully
-// Editorialized" / "Top N"). Malcolm will align the Letterboxd/Serializd
-// source titles to this convention at launch; if the title wording
-// changes then, revisit the keywords here — there's deliberately no
-// reconciliation layer between source titles and these labels.
+// Classification reads the list TITLE: "Backlog" sets the scope, "Editor's
+// Cut" / "Ratings Cut" sets the method, and a year plus a cut keyword makes
+// it a grid cell. The Letterboxd/Serializd source titles carry this
+// convention verbatim (e.g. "2025 Backlog • Editor's Cut") — there's
+// deliberately no reconciliation layer between source titles and these
+// labels, so if the source wording changes, revisit the keywords here.
 //
 // Pure + dependency-free, so it's safe to import from client components.
 // ─────────────────────────────────────────────────────────────────
 
-/** Scope axis: a current-year list vs a catalog ("Unbiased") list. */
+/** Scope axis: a current-year "New Releases" list vs a "Backlog" catalog list. */
 export type ListScope = "new" | "backlog";
-/** Method axis: fully editorialized vs ranked by star rating. */
+/** Method axis: "Editor's Cut" (editorialized) vs "Ratings Cut" (by star rating). */
 export type ListMethod = "editorial" | "rating";
 /** Whether a list sits in the year grid or stands alone (topical). */
 export type ListKind = "matrix" | "featured";
@@ -47,23 +48,28 @@ export type ListFacets = {
 
 /**
  * Classify a list from its title. A list joins the year grid only when
- * it both names a year AND reads as a "Top N" ranking; anything else
- * (e.g. "2026 Best Picture Nominees Ranked") is a topical one-off.
+ * it both names a year AND carries a cut keyword ("Editor's Cut" /
+ * "Ratings Cut"); anything else (e.g. "2026 Best Picture Nominees
+ * Ranked") is a topical one-off.
  */
 export function classifyList(title: string): ListFacets {
   const name = (title ?? "").trim();
   const yearMatch = name.match(/\b(20\d{2})\b/);
   const year = yearMatch ? Number(yearMatch[1]) : null;
 
-  const scope: ListScope = /^unbiased\b/i.test(name) ? "backlog" : "new";
-  const method: ListMethod = /fully\s+editorialized/i.test(name)
+  // Scope: a "Backlog" list (watched this year, premiered earlier) vs the
+  // default "New Releases". Method: an "Editor's Cut" (star rating
+  // disregarded) vs the default "Ratings Cut". The apostrophe may be
+  // straight or curly depending on where the source title was typed.
+  const scope: ListScope = /\bbacklog\b/i.test(name) ? "backlog" : "new";
+  const method: ListMethod = /editor['’]?s\s+cut/i.test(name)
     ? "editorial"
     : "rating";
 
-  // Grid membership needs a year and a "Top N" shape; without both the
-  // list can't be placed in a cell, so it's Featured.
-  const isTopN = /\btop\s*\d+\b/i.test(name);
-  const kind: ListKind = year !== null && isTopN ? "matrix" : "featured";
+  // Grid membership needs a year AND a recognized cut keyword; without both
+  // the list can't be placed in a cell, so it's Featured.
+  const isCut = /(?:editor['’]?s|ratings)\s+cut/i.test(name);
+  const kind: ListKind = year !== null && isCut ? "matrix" : "featured";
 
   return { year, scope, method, kind };
 }

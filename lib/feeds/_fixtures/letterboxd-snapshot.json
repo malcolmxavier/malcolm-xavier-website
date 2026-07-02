@@ -68485,82 +68485,8 @@
   },
   "lists": [
     {
-      "slug": "2026-best-picture-nominees-ranked",
-      "title": "2026 Best Picture Nominees Ranked",
-      "description": "Cinema!",
-      "filmSlugs": [
-        "one-battle-after-another",
-        "marty-supreme",
-        "sinners-2025",
-        "sentimental-value-2025",
-        "hamnet",
-        "train-dreams",
-        "bugonia",
-        "frankenstein-2025",
-        "the-secret-agent-2025",
-        "f1"
-      ],
-      "url": "https://letterboxd.com/malxavi/list/2026-best-picture-nominees-ranked/"
-    },
-    {
-      "slug": "unbiased-2025-top-20-fully-editorialized",
-      "title": "Unbiased 2025 Top 20 — Fully Editorialized",
-      "description": "The best of films that I watched in 2025 and that didn’t premiere in 2025 — recency bias be damned. Methodology: star rating disregarded and fully editorialized.",
-      "filmSlugs": [
-        "hundreds-of-beavers",
-        "nickel-boys",
-        "the-brutalist",
-        "im-still-here-2024",
-        "no-other-land",
-        "purple-rain",
-        "grand-theft-hamlet",
-        "jaws",
-        "incident-2023",
-        "the-life-of-chuck",
-        "the-assessment-2024",
-        "julie-keeps-quiet",
-        "presence-2024",
-        "better-man-2024",
-        "anima-2019",
-        "flow-2024",
-        "strange-harvest-2024",
-        "friendship-2024",
-        "architecton-2024",
-        "misericordia-2024"
-      ],
-      "url": "https://letterboxd.com/malxavi/list/unbiased-2025-top-20-fully-editorialized/"
-    },
-    {
-      "slug": "unbiased-2025-top-20",
-      "title": "Unbiased 2025 Top 20",
-      "description": "The best of films that I watched in 2025 and that didn’t premiere in 2025 — recency bias be damned. Methodology: by star rating and editorialized within.",
-      "filmSlugs": [
-        "hundreds-of-beavers",
-        "im-still-here-2024",
-        "nickel-boys",
-        "incident-2023",
-        "purple-rain",
-        "jaws",
-        "the-thing",
-        "no-other-land",
-        "the-brutalist",
-        "princess-mononoke",
-        "anima-2019",
-        "flow-2024",
-        "im-not-a-robot-2023",
-        "kill-bill-the-whole-bloody-affair",
-        "ghost",
-        "hard-truths-2024",
-        "presence-2024",
-        "better-man-2024",
-        "back-to-the-future",
-        "strange-harvest-2024"
-      ],
-      "url": "https://letterboxd.com/malxavi/list/unbiased-2025-top-20/"
-    },
-    {
-      "slug": "2025-top-20-fully-editorialized",
-      "title": "2025 Top 20 — Fully Editorialized",
+      "slug": "2025-new-releases-editors-cut",
+      "title": "2025 New Releases · Editor’s Cut",
       "description": "The best of films that premiered in 2025. Methodology: star rating disregarded and fully editorialized.",
       "filmSlugs": [
         "marty-supreme",
@@ -68584,39 +68510,11 @@
         "eternity-2025-1",
         "the-smashing-machine-2025"
       ],
-      "url": "https://letterboxd.com/malxavi/list/2025-top-20-fully-editorialized/"
+      "url": "https://letterboxd.com/malxavi/list/2025-new-releases-editors-cut/"
     },
     {
-      "slug": "2025-top-20",
-      "title": "2025 Top 20",
-      "description": "The best of films that premiered in 2025. Methodology: by star rating and editorialized within.",
-      "filmSlugs": [
-        "marty-supreme",
-        "one-battle-after-another",
-        "the-plague-2025",
-        "the-testament-of-ann-lee",
-        "eddington",
-        "the-phoenician-scheme",
-        "dead-mans-wire",
-        "weapons-2025",
-        "him-2025",
-        "hamnet",
-        "sentimental-value-2025",
-        "shadow-force-2025",
-        "mission-impossible-the-final-reckoning",
-        "no-other-choice-2025",
-        "frankenstein-2025",
-        "if-i-had-legs-id-kick-you",
-        "lurker-2025",
-        "wake-up-dead-man",
-        "28-years-later",
-        "sorry-baby-2025"
-      ],
-      "url": "https://letterboxd.com/malxavi/list/2025-top-20/"
-    },
-    {
-      "slug": "2024-top-20-fully-editorialized",
-      "title": "2024 Top 20 — Fully Editorialized",
+      "slug": "2024-new-releases-editors-cut",
+      "title": "2024 New Releases · Editor’s Cut",
       "description": "The best of films that premiered in 2024. Methodology: star rating disregarded and fully editorialized.",
       "filmSlugs": [
         "gladiator-ii",
@@ -68640,11 +68538,39 @@
         "i-saw-the-tv-glow",
         "caddo-lake"
       ],
-      "url": "https://letterboxd.com/malxavi/list/2024-top-20-fully-editorialized/"
+      "url": "https://letterboxd.com/malxavi/list/2024-new-releases-editors-cut/"
     },
     {
-      "slug": "unbiased-2024-top-20-fully-editorialized",
-      "title": "Unbiased 2024 Top 20 — Fully Editorialized",
+      "slug": "2025-backlog-editors-cut",
+      "title": "2025 Backlog · Editor’s Cut",
+      "description": "The best of films that I watched in 2025 and that didn’t premiere in 2025 — recency bias be damned. Methodology: star rating disregarded and fully editorialized.",
+      "filmSlugs": [
+        "hundreds-of-beavers",
+        "nickel-boys",
+        "the-brutalist",
+        "im-still-here-2024",
+        "no-other-land",
+        "purple-rain",
+        "grand-theft-hamlet",
+        "jaws",
+        "incident-2023",
+        "the-life-of-chuck",
+        "the-assessment-2024",
+        "julie-keeps-quiet",
+        "presence-2024",
+        "better-man-2024",
+        "anima-2019",
+        "flow-2024",
+        "strange-harvest-2024",
+        "friendship-2024",
+        "architecton-2024",
+        "misericordia-2024"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/2025-backlog-editors-cut/"
+    },
+    {
+      "slug": "2024-backlog-editors-cut",
+      "title": "2024 Backlog · Editor’s Cut",
       "description": "The best of films that I watched in 2024 and that didn’t premiere in 2024 — recency bias be damned. Methodology: star rating disregarded and fully editorialized.",
       "filmSlugs": [
         "velvet-buzzsaw",
@@ -68668,11 +68594,39 @@
         "barb-star-go-to-vista-del-mar",
         "memento"
       ],
-      "url": "https://letterboxd.com/malxavi/list/unbiased-2024-top-20-fully-editorialized/"
+      "url": "https://letterboxd.com/malxavi/list/2024-backlog-editors-cut/"
     },
     {
-      "slug": "unbiased-2024-top-20",
-      "title": "Unbiased 2024 Top 20",
+      "slug": "2025-backlog-ratings-cut",
+      "title": "2025 Backlog · Ratings Cut",
+      "description": "The best of films that I watched in 2025 and that didn’t premiere in 2025 — recency bias be damned. Methodology: by star rating and editorialized within.",
+      "filmSlugs": [
+        "hundreds-of-beavers",
+        "im-still-here-2024",
+        "nickel-boys",
+        "incident-2023",
+        "purple-rain",
+        "jaws",
+        "the-thing",
+        "no-other-land",
+        "the-brutalist",
+        "princess-mononoke",
+        "anima-2019",
+        "flow-2024",
+        "im-not-a-robot-2023",
+        "kill-bill-the-whole-bloody-affair",
+        "ghost",
+        "hard-truths-2024",
+        "presence-2024",
+        "better-man-2024",
+        "back-to-the-future",
+        "strange-harvest-2024"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/2025-backlog-ratings-cut/"
+    },
+    {
+      "slug": "2024-backlog-ratings-cut",
+      "title": "2024 Backlog · Ratings Cut",
       "description": "The best of films that I watched in 2024 and that didn’t premiere in 2024 — recency bias be damned. Methodology: by star rating and editorialized within.",
       "filmSlugs": [
         "problemista",
@@ -68696,11 +68650,39 @@
         "the-feeling-that-the-time-for-doing-something-has-passed",
         "summer-of-85"
       ],
-      "url": "https://letterboxd.com/malxavi/list/unbiased-2024-top-20/"
+      "url": "https://letterboxd.com/malxavi/list/2024-backlog-ratings-cut/"
     },
     {
-      "slug": "2024-top-20",
-      "title": "2024 Top 20",
+      "slug": "2025-new-releases-ratings-cut",
+      "title": "2025 New Releases · Ratings Cut",
+      "description": "The best of films that premiered in 2025. Methodology: by star rating and editorialized within.",
+      "filmSlugs": [
+        "marty-supreme",
+        "one-battle-after-another",
+        "the-plague-2025",
+        "the-testament-of-ann-lee",
+        "eddington",
+        "the-phoenician-scheme",
+        "dead-mans-wire",
+        "weapons-2025",
+        "him-2025",
+        "hamnet",
+        "sentimental-value-2025",
+        "shadow-force-2025",
+        "mission-impossible-the-final-reckoning",
+        "no-other-choice-2025",
+        "frankenstein-2025",
+        "if-i-had-legs-id-kick-you",
+        "lurker-2025",
+        "wake-up-dead-man",
+        "28-years-later",
+        "sorry-baby-2025"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/2025-new-releases-ratings-cut/"
+    },
+    {
+      "slug": "2024-new-releases-ratings-cut",
+      "title": "2024 New Releases · Ratings Cut",
       "description": "The best of films that premiered in 2024.  Methodology: by star rating and editorialized within.",
       "filmSlugs": [
         "blink-twice",
@@ -68724,11 +68706,11 @@
         "september-5",
         "wicked-2024"
       ],
-      "url": "https://letterboxd.com/malxavi/list/2024-top-20/"
+      "url": "https://letterboxd.com/malxavi/list/2024-new-releases-ratings-cut/"
     },
     {
-      "slug": "2023-top-10",
-      "title": "2023 Top 10",
+      "slug": "2023-new-releases-ratings-cut",
+      "title": "2023 New Releases · Ratings Cut",
       "description": "The best of films that premiered in 2023.",
       "filmSlugs": [
         "the-boy-and-the-heron",
@@ -68742,7 +68724,25 @@
         "leave-the-world-behind-2023",
         "robot-dreams"
       ],
-      "url": "https://letterboxd.com/malxavi/list/2023-top-10/"
+      "url": "https://letterboxd.com/malxavi/list/2023-new-releases-ratings-cut/"
+    },
+    {
+      "slug": "2026-best-picture-nominees-ranked",
+      "title": "2026 Best Picture Nominees Ranked",
+      "description": "Cinema!",
+      "filmSlugs": [
+        "one-battle-after-another",
+        "marty-supreme",
+        "sinners-2025",
+        "sentimental-value-2025",
+        "hamnet",
+        "train-dreams",
+        "bugonia",
+        "frankenstein-2025",
+        "the-secret-agent-2025",
+        "f1"
+      ],
+      "url": "https://letterboxd.com/malxavi/list/2026-best-picture-nominees-ranked/"
     }
   ],
   "favorites": [
@@ -68750,14 +68750,14 @@
       "slug": "jurassic-park",
       "title": "Jurassic Park",
       "releaseYear": 1993,
-      "posterUrl": "https://image.tmdb.org/t/p/w342/maFjKnJ62hDQ9E66dKqDZgbUy0H.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fjTU1Bgh3KJu4aatZil3sofR2zC.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/jurassic-park/"
     },
     {
       "slug": "fantastic-mr-fox",
       "title": "Fantastic Mr. Fox",
       "releaseYear": 2009,
-      "posterUrl": "https://image.tmdb.org/t/p/w342/euZyZb6iGreujYKrGyZHRddhUYh.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/hhhJN8aJdTlzGmARCbwWflHXhwI.jpg",
       "letterboxdUrl": "https://letterboxd.com/film/fantastic-mr-fox/"
     },
     {

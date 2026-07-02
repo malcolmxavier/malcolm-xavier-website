@@ -61,14 +61,14 @@ const SITE_BASE = "https://www.serializd.com";
 // This doubles as editorial control: a list appears on the site iff its
 // id is here. The on-site label/grouping (year × scope × method) is
 // derived from each list's NAME by lib/feeds/list-taxonomy.ts — keep the
-// Serializd list titles in the "… Top N [— Fully Editorialized]" /
-// "Unbiased …" shape so the classifier can read them. Edit this array to
-// publish or retire a list, then re-run `npm run television:lists-refresh`.
+// Serializd list titles in the "<year> <New Releases|Backlog> · <Editor's
+// Cut|Ratings Cut>" shape so the classifier can read them. Edit this array
+// to publish or retire a list, then re-run `npm run television:lists-refresh`.
 const LIST_IDS = [
-  451075, // 2025 Top 10 — Fully Editorialized   (New Releases · Editor's Cut)
-  451063, // 2025 Top 10                          (New Releases · Ratings Cut)
-  451111, // Unbiased 2025 Top 10 — Fully Editorialized (Backlog · Editor's Cut)
-  451095, // Unbiased 2025 Top 10                 (Backlog · Ratings Cut)
+  451075, // 2025 New Releases · Editor's Cut
+  451063, // 2025 New Releases · Ratings Cut
+  451111, // 2025 Backlog · Editor's Cut
+  451095, // 2025 Backlog · Ratings Cut
 ];
 
 /** URL-safe route slug from a list name. Strips the em-dash and other
@@ -105,7 +105,10 @@ const HEADERS = {
   "User-Agent":
     "malxavi.com /television cluster - read-only, snapshot-driven, weekly (https://malxavi.com)",
 };
-const FETCH_TIMEOUT_MS = 20_000;
+// Per-request timeout. Overridable via env for runs against a slow /
+// cold-starting Serializd backend (the onrender tier can exceed the
+// default on the first request per list); set TV_FETCH_TIMEOUT_MS higher.
+const FETCH_TIMEOUT_MS = Number(process.env.TV_FETCH_TIMEOUT_MS) || 20_000;
 const PAGE_GAP_MS = 600;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
