@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-07-02T13:45:05.166Z",
+  "capturedAt": "2026-07-02T21:45:11.990Z",
   "meta": {
     "films": 787,
     "shows": 156,
@@ -34277,12 +34277,12 @@
       },
       "writers": [
         {
-          "id": 78500,
-          "name": "Will McCormack"
-        },
-        {
           "id": 1209181,
           "name": "Michael Govier"
+        },
+        {
+          "id": 78500,
+          "name": "Will McCormack"
         }
       ],
       "collection": null
