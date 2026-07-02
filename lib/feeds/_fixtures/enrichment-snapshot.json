@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-02T06:45:41.339Z",
+  "capturedAt": "2026-07-02T07:45:29.908Z",
   "meta": {
-    "films": 782,
+    "films": 787,
     "shows": 156,
     "collections": 74
   },
@@ -7310,6 +7310,127 @@
         "total": 2
       }
     },
+    "13825": {
+      "ratings": {
+        "imdb": 6,
+        "metacritic": null,
+        "metacriticUser": null,
+        "tomatoes": 60,
+        "rtAudience": 44,
+        "letterboxd": 2.8,
+        "trakt": 62
+      },
+      "studios": [
+        "Scion Films",
+        "Be Good Productions",
+        "Mandeville Films",
+        "Inferno Distribution"
+      ],
+      "country": "GB",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 9750000,
+      "revenue": 558000,
+      "cast": [
+        {
+          "id": 8167,
+          "name": "Paul Walker"
+        },
+        {
+          "id": 15555,
+          "name": "Piper Perabo"
+        },
+        {
+          "id": 2192,
+          "name": "Lambert Wilson"
+        },
+        {
+          "id": 1817,
+          "name": "Linda Cardellini"
+        },
+        {
+          "id": 52647,
+          "name": "Shawn Hatosy"
+        },
+        {
+          "id": 4029,
+          "name": "Bob Gunton"
+        },
+        {
+          "id": 57997,
+          "name": "Malcolm Goodwin"
+        },
+        {
+          "id": 39518,
+          "name": "Brooklynn Proulx"
+        },
+        {
+          "id": 2220,
+          "name": "Tony Curran"
+        },
+        {
+          "id": 75812,
+          "name": "Ross McMillan"
+        },
+        {
+          "id": 75813,
+          "name": "Aaron Hughes"
+        },
+        {
+          "id": 75814,
+          "name": "Sean Skene"
+        },
+        {
+          "id": 62917,
+          "name": "John Callander"
+        },
+        {
+          "id": 833,
+          "name": "Alex Sol"
+        },
+        {
+          "id": 67422,
+          "name": "Peter Jordan"
+        },
+        {
+          "id": 54232,
+          "name": "Chuck Robinson"
+        },
+        {
+          "id": 21870,
+          "name": "David Duncan"
+        },
+        {
+          "id": 19576,
+          "name": "Richard Thomas"
+        },
+        {
+          "id": 61162,
+          "name": "Frank Adamson"
+        },
+        {
+          "id": 54213,
+          "name": "Ofield Williams"
+        }
+      ],
+      "writers": [
+        {
+          "id": 59883,
+          "name": "Evan Astrowsky"
+        },
+        {
+          "id": 75823,
+          "name": "John Glenn"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
+    },
     "13938": {
       "ratings": {
         "imdb": 6.8,
@@ -11502,6 +11623,125 @@
         "gap": null
       }
     },
+    "168672": {
+      "ratings": {
+        "imdb": 7.2,
+        "metacritic": 90,
+        "metacriticUser": 7.4,
+        "tomatoes": 92,
+        "rtAudience": 74,
+        "letterboxd": 3.4,
+        "trakt": 70
+      },
+      "studios": [
+        "Annapurna Pictures",
+        "Atlas Entertainment"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 40000000,
+      "revenue": 251171807,
+      "cast": [
+        {
+          "id": 3894,
+          "name": "Christian Bale"
+        },
+        {
+          "id": 51329,
+          "name": "Bradley Cooper"
+        },
+        {
+          "id": 9273,
+          "name": "Amy Adams"
+        },
+        {
+          "id": 17604,
+          "name": "Jeremy Renner"
+        },
+        {
+          "id": 72129,
+          "name": "Jennifer Lawrence"
+        },
+        {
+          "id": 52849,
+          "name": "Louis C.K."
+        },
+        {
+          "id": 54738,
+          "name": "Jack Huston"
+        },
+        {
+          "id": 454,
+          "name": "Michael Peña"
+        },
+        {
+          "id": 74242,
+          "name": "Shea Whigham"
+        },
+        {
+          "id": 4941,
+          "name": "Alessandro Nivola"
+        },
+        {
+          "id": 126932,
+          "name": "Elisabeth Röhm"
+        },
+        {
+          "id": 58535,
+          "name": "Paul Herman"
+        },
+        {
+          "id": 5419,
+          "name": "Saïd Taghmaoui"
+        },
+        {
+          "id": 239111,
+          "name": "Matthew Russell"
+        },
+        {
+          "id": 1710602,
+          "name": "Thomas Matthews"
+        },
+        {
+          "id": 94432,
+          "name": "Adrian Martinez"
+        },
+        {
+          "id": 2516,
+          "name": "Anthony Zerbe"
+        },
+        {
+          "id": 13023,
+          "name": "Colleen Camp"
+        },
+        {
+          "id": 1808040,
+          "name": "Steve Gagliastro"
+        },
+        {
+          "id": 1656520,
+          "name": "Christopher Tarjan"
+        }
+      ],
+      "writers": [
+        {
+          "id": 17883,
+          "name": "David O. Russell"
+        },
+        {
+          "id": 1279644,
+          "name": "Eric Warren Singer"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
+    },
     "172533": {
       "ratings": {
         "imdb": 6.1,
@@ -12275,6 +12515,126 @@
         }
       ],
       "collection": null
+    },
+    "241239": {
+      "ratings": {
+        "imdb": 6.9,
+        "metacritic": 79,
+        "metacriticUser": 6.9,
+        "tomatoes": 89,
+        "rtAudience": 69,
+        "letterboxd": 3.5,
+        "trakt": 68
+      },
+      "studios": [
+        "FilmNation Entertainment",
+        "Before the Door Pictures",
+        "Washington Square Films",
+        "Old Bull Pictures",
+        "CounterNarrative Films",
+        "Participant",
+        "Imagenation Abu Dhabi FZ"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": 20000000,
+      "revenue": 12007070,
+      "cast": [
+        {
+          "id": 25072,
+          "name": "Oscar Isaac"
+        },
+        {
+          "id": 83002,
+          "name": "Jessica Chastain"
+        },
+        {
+          "id": 35013,
+          "name": "David Oyelowo"
+        },
+        {
+          "id": 4941,
+          "name": "Alessandro Nivola"
+        },
+        {
+          "id": 78050,
+          "name": "Elyes Gabel"
+        },
+        {
+          "id": 13,
+          "name": "Albert Brooks"
+        },
+        {
+          "id": 5887,
+          "name": "Catalina Sandino Moreno"
+        },
+        {
+          "id": 1986,
+          "name": "Peter Gerety"
+        },
+        {
+          "id": 984629,
+          "name": "Christopher Abbott"
+        },
+        {
+          "id": 1377670,
+          "name": "Glenn Fleshler"
+        },
+        {
+          "id": 8875,
+          "name": "David Margulies"
+        },
+        {
+          "id": 24292,
+          "name": "Jerry Adler"
+        },
+        {
+          "id": 1088672,
+          "name": "Ben Rosenfield"
+        },
+        {
+          "id": 1370819,
+          "name": "John Procaccino"
+        },
+        {
+          "id": 122888,
+          "name": "Ashley Williams"
+        },
+        {
+          "id": 1417739,
+          "name": "Pico Alexander"
+        },
+        {
+          "id": 1232599,
+          "name": "Matthew Maher"
+        },
+        {
+          "id": 126713,
+          "name": "Elizabeth Marvel"
+        },
+        {
+          "id": 1104136,
+          "name": "Jason Ralph"
+        },
+        {
+          "id": 80002,
+          "name": "Daisy Tahan"
+        }
+      ],
+      "writers": [
+        {
+          "id": 556172,
+          "name": "J.C. Chandor"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
     },
     "245891": {
       "ratings": {
@@ -15853,6 +16213,120 @@
         "id": 399,
         "name": "Predator Collection",
         "total": 6
+      }
+    },
+    "347866": {
+      "ratings": {
+        "imdb": 6.4,
+        "metacritic": 44,
+        "metacriticUser": 6.4,
+        "tomatoes": 46,
+        "rtAudience": 59,
+        "letterboxd": 2.9,
+        "trakt": 64
+      },
+      "studios": [
+        "Imperative Entertainment"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": 246133,
+      "cast": [
+        {
+          "id": 1190668,
+          "name": "Timothée Chalamet"
+        },
+        {
+          "id": 1094091,
+          "name": "Maika Monroe"
+        },
+        {
+          "id": 1167375,
+          "name": "Alex Roe"
+        },
+        {
+          "id": 992366,
+          "name": "Maia Mitchell"
+        },
+        {
+          "id": 11155,
+          "name": "Thomas Jane"
+        },
+        {
+          "id": 1041440,
+          "name": "Emory Cohen"
+        },
+        {
+          "id": 886,
+          "name": "William Fichtner"
+        },
+        {
+          "id": 1292258,
+          "name": "Jack Kesy"
+        },
+        {
+          "id": 1334173,
+          "name": "Thomas Blake, Jr."
+        },
+        {
+          "id": 1473350,
+          "name": "Kimberly Battista"
+        },
+        {
+          "id": 2021815,
+          "name": "Christian James"
+        },
+        {
+          "id": 112562,
+          "name": "Catherine Dyer"
+        },
+        {
+          "id": 1890583,
+          "name": "Caroline Arapoglou"
+        },
+        {
+          "id": 174133,
+          "name": "Rebecca Koon"
+        },
+        {
+          "id": 979432,
+          "name": "Jeanine Serralles"
+        },
+        {
+          "id": 1358965,
+          "name": "Fred Galle"
+        },
+        {
+          "id": 1628095,
+          "name": "Flynn McHugh"
+        },
+        {
+          "id": 1431351,
+          "name": "Brian Kurlander"
+        },
+        {
+          "id": 1445675,
+          "name": "Kate Forbes"
+        },
+        {
+          "id": 1910711,
+          "name": "Rebecca Ray"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1485381,
+          "name": "Elijah Bynum"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
       }
     },
     "353066": {
@@ -20810,6 +21284,142 @@
         }
       ],
       "collection": null
+    },
+    "454639": {
+      "ratings": {
+        "imdb": 6.9,
+        "metacritic": 52,
+        "metacriticUser": 7.6,
+        "tomatoes": 67,
+        "rtAudience": 86,
+        "letterboxd": 3.2,
+        "trakt": 71
+      },
+      "studios": [
+        "Escape Artists",
+        "Mattel Studios",
+        "Amazon MGM Studios"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 200000000,
+      "revenue": 109680646,
+      "cast": [
+        {
+          "id": 1425934,
+          "name": "Nicholas Galitzine"
+        },
+        {
+          "id": 1721740,
+          "name": "Camila Mendes"
+        },
+        {
+          "id": 17605,
+          "name": "Idris Elba"
+        },
+        {
+          "id": 7499,
+          "name": "Jared Leto"
+        },
+        {
+          "id": 88029,
+          "name": "Alison Brie"
+        },
+        {
+          "id": 238164,
+          "name": "Jóhannes Haukur Jóhannesson"
+        },
+        {
+          "id": 2483272,
+          "name": "Jon Xue Zhang"
+        },
+        {
+          "id": 2418119,
+          "name": "Sam C. Wilson"
+        },
+        {
+          "id": 115679,
+          "name": "Charlotte Riley"
+        },
+        {
+          "id": 17648,
+          "name": "James Purefoy"
+        },
+        {
+          "id": 54882,
+          "name": "Morena Baccarin"
+        },
+        {
+          "id": 41091,
+          "name": "Kristen Wiig"
+        },
+        {
+          "id": 1395348,
+          "name": "Sasheer Zamata"
+        },
+        {
+          "id": 3408239,
+          "name": "Christian Vunipola"
+        },
+        {
+          "id": 1526034,
+          "name": "Tom Wilton"
+        },
+        {
+          "id": 3839205,
+          "name": "Artie Wilkinson-Hunt"
+        },
+        {
+          "id": 4135287,
+          "name": "Eire Farrell"
+        },
+        {
+          "id": 2752093,
+          "name": "Christiaan Bettridge"
+        },
+        {
+          "id": 145168,
+          "name": "Gary Martin"
+        },
+        {
+          "id": 2965887,
+          "name": "James Wilkinson"
+        }
+      ],
+      "writers": [
+        {
+          "id": 154705,
+          "name": "Chris Butler"
+        },
+        {
+          "id": 931525,
+          "name": "Aaron Nee"
+        },
+        {
+          "id": 174313,
+          "name": "Adam Nee"
+        },
+        {
+          "id": 57264,
+          "name": "David Callaham"
+        },
+        {
+          "id": 113306,
+          "name": "Alex Litvak"
+        },
+        {
+          "id": 113307,
+          "name": "Michael Finch"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
     },
     "455207": {
       "ratings": {
