@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-06-19T19:58:04.530Z",
+  "capturedAt": "2026-07-02T05:45:22.212Z",
   "meta": {
-    "films": 764,
+    "films": 774,
     "shows": 156,
     "collections": 74
   },
@@ -6146,6 +6146,102 @@
         "total": 2
       }
     },
+    "11087": {
+      "ratings": {
+        "imdb": 6.7,
+        "metacritic": 64,
+        "metacriticUser": 7.2,
+        "tomatoes": 67,
+        "rtAudience": 62,
+        "letterboxd": 3.4,
+        "trakt": 70
+      },
+      "studios": [
+        "Hollywood Pictures",
+        "Interscope Communications",
+        "Nomura Babcock & Brown"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": 11700000,
+      "revenue": 88036683,
+      "cast": [
+        {
+          "id": 18750,
+          "name": "Annabella Sciorra"
+        },
+        {
+          "id": 28412,
+          "name": "Rebecca De Mornay"
+        },
+        {
+          "id": 42206,
+          "name": "Matt McCoy"
+        },
+        {
+          "id": 8874,
+          "name": "Ernie Hudson"
+        },
+        {
+          "id": 84613,
+          "name": "Madeline Zima"
+        },
+        {
+          "id": 1231,
+          "name": "Julianne Moore"
+        },
+        {
+          "id": 11077,
+          "name": "John de Lancie"
+        },
+        {
+          "id": 1224441,
+          "name": "Kevin Skousen"
+        },
+        {
+          "id": 106739,
+          "name": "Mitchell Laurance"
+        },
+        {
+          "id": 108132,
+          "name": "Jane Jones"
+        },
+        {
+          "id": 1612130,
+          "name": "Brian T. Finney"
+        },
+        {
+          "id": 2675181,
+          "name": "Julie Clemmons"
+        },
+        {
+          "id": 163030,
+          "name": "Patrick Ryals"
+        },
+        {
+          "id": 88522,
+          "name": "Charles Lucia"
+        },
+        {
+          "id": 1234122,
+          "name": "Rachel Glenn"
+        }
+      ],
+      "writers": [
+        {
+          "id": 67803,
+          "name": "Amanda Silver"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
+      }
+    },
     "11324": {
       "ratings": {
         "imdb": 8.2,
@@ -7818,6 +7914,131 @@
         "id": 63043,
         "name": "TRON Collection",
         "total": 3
+      }
+    },
+    "23168": {
+      "ratings": {
+        "imdb": 7.5,
+        "metacritic": 74,
+        "metacriticUser": 7.7,
+        "tomatoes": 92,
+        "rtAudience": 85,
+        "letterboxd": 3.7,
+        "trakt": 75
+      },
+      "studios": [
+        "GK Films",
+        "Thunder Road",
+        "Warner Bros. Pictures",
+        "Legendary Entertainment"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 37000000,
+      "revenue": 154026136,
+      "cast": [
+        {
+          "id": 880,
+          "name": "Ben Affleck"
+        },
+        {
+          "id": 17604,
+          "name": "Jeremy Renner"
+        },
+        {
+          "id": 15556,
+          "name": "Rebecca Hall"
+        },
+        {
+          "id": 65717,
+          "name": "Jon Hamm"
+        },
+        {
+          "id": 59175,
+          "name": "Blake Lively"
+        },
+        {
+          "id": 133067,
+          "name": "George Carroll"
+        },
+        {
+          "id": 4935,
+          "name": "Pete Postlethwaite"
+        },
+        {
+          "id": 133068,
+          "name": "Owen Burke"
+        },
+        {
+          "id": 39389,
+          "name": "Titus Welliver"
+        },
+        {
+          "id": 2955,
+          "name": "Chris Cooper"
+        },
+        {
+          "id": 133069,
+          "name": "Dennis McLaughlin"
+        },
+        {
+          "id": 133070,
+          "name": "Corena Chase"
+        },
+        {
+          "id": 64143,
+          "name": "Brian Scannell"
+        },
+        {
+          "id": 133071,
+          "name": "Kerri Dunbar"
+        },
+        {
+          "id": 133072,
+          "name": "Tony V."
+        },
+        {
+          "id": 3882342,
+          "name": "Isaac Bordoy"
+        },
+        {
+          "id": 1291696,
+          "name": "Michael Yebba"
+        },
+        {
+          "id": 3882343,
+          "name": "Daniel Woods"
+        },
+        {
+          "id": 1745915,
+          "name": "Jimmy Joe Maher"
+        },
+        {
+          "id": 3882347,
+          "name": "Joe Lawler"
+        }
+      ],
+      "writers": [
+        {
+          "id": 880,
+          "name": "Ben Affleck"
+        },
+        {
+          "id": 39386,
+          "name": "Aaron Stockard"
+        },
+        {
+          "id": 225633,
+          "name": "Peter Craig"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
       }
     },
     "25113": {
@@ -19771,6 +19992,129 @@
       ],
       "collection": null
     },
+    "429415": {
+      "ratings": {
+        "imdb": 5.8,
+        "metacritic": 40,
+        "metacriticUser": 5.2,
+        "tomatoes": 32,
+        "rtAudience": 47,
+        "letterboxd": 2.5,
+        "trakt": 63
+      },
+      "studios": [
+        "Good Universe",
+        "Mandeville Films"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": 1451864,
+      "cast": [
+        {
+          "id": 454,
+          "name": "Michael Peña"
+        },
+        {
+          "id": 51988,
+          "name": "Lizzy Caplan"
+        },
+        {
+          "id": 969140,
+          "name": "Israel Broussard"
+        },
+        {
+          "id": 450,
+          "name": "Mike Colter"
+        },
+        {
+          "id": 55583,
+          "name": "Lex Shrapnel"
+        },
+        {
+          "id": 105838,
+          "name": "Emma Booth"
+        },
+        {
+          "id": 1538417,
+          "name": "Amelia Crouch"
+        },
+        {
+          "id": 1560380,
+          "name": "Erica Tremblay"
+        },
+        {
+          "id": 1829985,
+          "name": "Lilly Aspell"
+        },
+        {
+          "id": 1389927,
+          "name": "Dan Cade"
+        },
+        {
+          "id": 1831361,
+          "name": "Nikola Kent"
+        },
+        {
+          "id": 1226735,
+          "name": "Michael Absalom"
+        },
+        {
+          "id": 1831362,
+          "name": "Mina Obradović"
+        },
+        {
+          "id": 47702,
+          "name": "Tom Riley"
+        },
+        {
+          "id": 1393981,
+          "name": "Sandra Teles"
+        },
+        {
+          "id": 1874360,
+          "name": "Vladimir Grbić"
+        },
+        {
+          "id": 1561310,
+          "name": "Georgia Goodman"
+        },
+        {
+          "id": 2093329,
+          "name": "Joe Corrigall"
+        },
+        {
+          "id": 2093331,
+          "name": "Olivera Tamindzic"
+        },
+        {
+          "id": 1045437,
+          "name": "Milena Predić"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1651531,
+          "name": "Spenser Cohen"
+        },
+        {
+          "id": 228428,
+          "name": "Brad Kane"
+        },
+        {
+          "id": 115033,
+          "name": "Eric Heisserer"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "streaming",
+        "wide": false,
+        "ltd": false,
+        "gap": null
+      }
+    },
     "429473": {
       "ratings": {
         "imdb": 6.1,
@@ -29567,6 +29911,126 @@
         }
       ],
       "collection": null
+    },
+    "614939": {
+      "ratings": {
+        "imdb": 6.3,
+        "metacritic": 72,
+        "metacriticUser": 4.1,
+        "tomatoes": 88,
+        "rtAudience": 89,
+        "letterboxd": 3,
+        "trakt": 65
+      },
+      "studios": [
+        "Universal Pictures",
+        "Apatow Productions",
+        "Stoller Global Solutions"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": 22000000,
+      "revenue": 14781779,
+      "cast": [
+        {
+          "id": 973651,
+          "name": "Billy Eichner"
+        },
+        {
+          "id": 432040,
+          "name": "Luke Macfarlane"
+        },
+        {
+          "id": 1519685,
+          "name": "Guy Branum"
+        },
+        {
+          "id": 2129564,
+          "name": "Miss Lawrence"
+        },
+        {
+          "id": 2330664,
+          "name": "Ts Madison"
+        },
+        {
+          "id": 1219312,
+          "name": "Dot-Marie Jones"
+        },
+        {
+          "id": 161932,
+          "name": "Jim Rash"
+        },
+        {
+          "id": 1538801,
+          "name": "Eve Lindley"
+        },
+        {
+          "id": 221600,
+          "name": "Monica Raymund"
+        },
+        {
+          "id": 8695,
+          "name": "Guillermo Díaz"
+        },
+        {
+          "id": 200709,
+          "name": "Jai Rodriguez"
+        },
+        {
+          "id": 18981,
+          "name": "Amanda Bearse"
+        },
+        {
+          "id": 23959,
+          "name": "Debra Messing"
+        },
+        {
+          "id": 65143,
+          "name": "Peter Y. Kim"
+        },
+        {
+          "id": 3696117,
+          "name": "Justin Covington"
+        },
+        {
+          "id": 2992580,
+          "name": "Symone"
+        },
+        {
+          "id": 2223359,
+          "name": "Ryan Faucett"
+        },
+        {
+          "id": 1725576,
+          "name": "Becca Blackwell"
+        },
+        {
+          "id": 3095810,
+          "name": "D'Lo"
+        },
+        {
+          "id": 7420,
+          "name": "Harvey Fierstein"
+        }
+      ],
+      "writers": [
+        {
+          "id": 52934,
+          "name": "Nicholas Stoller"
+        },
+        {
+          "id": 973651,
+          "name": "Billy Eichner"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
+      }
     },
     "615469": {
       "ratings": {
@@ -40489,6 +40953,70 @@
       ],
       "collection": null
     },
+    "850018": {
+      "ratings": {
+        "imdb": 5.7,
+        "metacritic": 52,
+        "metacriticUser": 4.8,
+        "tomatoes": 59,
+        "rtAudience": 38,
+        "letterboxd": 2.8,
+        "trakt": 57
+      },
+      "studios": [
+        "High Frequency Entertainment",
+        "Case Study Films",
+        "Mutressa Movies"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 41088,
+          "name": "Jason Segel"
+        },
+        {
+          "id": 112561,
+          "name": "Lily Collins"
+        },
+        {
+          "id": 88124,
+          "name": "Jesse Plemons"
+        },
+        {
+          "id": 205349,
+          "name": "Omar Leyva"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1277089,
+          "name": "Justin Lader"
+        },
+        {
+          "id": 82226,
+          "name": "Charlie McDowell"
+        },
+        {
+          "id": 41088,
+          "name": "Jason Segel"
+        },
+        {
+          "id": 12047,
+          "name": "Andrew Kevin Walker"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "streaming",
+        "wide": false,
+        "ltd": false,
+        "gap": null
+      }
+    },
     "850165": {
       "ratings": {
         "imdb": 7.5,
@@ -46493,6 +47021,62 @@
         "total": 3
       }
     },
+    "950028": {
+      "ratings": {
+        "imdb": 7.7,
+        "metacritic": 81,
+        "metacriticUser": 8.8,
+        "tomatoes": 94,
+        "rtAudience": null,
+        "letterboxd": 4.1,
+        "trakt": 67
+      },
+      "studios": [
+        "FilmNation Entertainment",
+        "Permut Presentations",
+        "Annapurna Pictures"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 19274,
+          "name": "Seth Rogen"
+        },
+        {
+          "id": 59315,
+          "name": "Olivia Wilde"
+        },
+        {
+          "id": 819,
+          "name": "Edward Norton"
+        },
+        {
+          "id": 955,
+          "name": "Penélope Cruz"
+        }
+      ],
+      "writers": [
+        {
+          "id": 80591,
+          "name": "Rashida Jones"
+        },
+        {
+          "id": 78500,
+          "name": "Will McCormack"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
+    },
     "950396": {
       "ratings": {
         "imdb": 6.7,
@@ -46674,6 +47258,122 @@
         }
       ],
       "collection": null
+    },
+    "955916": {
+      "ratings": {
+        "imdb": 5.6,
+        "metacritic": 40,
+        "metacriticUser": 4.3,
+        "tomatoes": 30,
+        "rtAudience": 33,
+        "letterboxd": 2.1,
+        "trakt": 65
+      },
+      "studios": [
+        "Genre Films",
+        "6th & Idaho",
+        "HartBeat Productions"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 55638,
+          "name": "Kevin Hart"
+        },
+        {
+          "id": 1216606,
+          "name": "Gugu Mbatha-Raw"
+        },
+        {
+          "id": 65731,
+          "name": "Sam Worthington"
+        },
+        {
+          "id": 7132,
+          "name": "Vincent D'Onofrio"
+        },
+        {
+          "id": 1042728,
+          "name": "Úrsula Corberó"
+        },
+        {
+          "id": 1003,
+          "name": "Jean Reno"
+        },
+        {
+          "id": 141034,
+          "name": "Billy Magnussen"
+        },
+        {
+          "id": 2754580,
+          "name": "Kim Yun-jee"
+        },
+        {
+          "id": 1968476,
+          "name": "Viveik Kalra"
+        },
+        {
+          "id": 39659,
+          "name": "Burn Gorman"
+        },
+        {
+          "id": 220448,
+          "name": "Paul Anderson"
+        },
+        {
+          "id": 1649152,
+          "name": "Jacob Batalon"
+        },
+        {
+          "id": 965670,
+          "name": "David Proud"
+        },
+        {
+          "id": 3103651,
+          "name": "Oli Green"
+        },
+        {
+          "id": 1374534,
+          "name": "Ross Anderson"
+        },
+        {
+          "id": 1858979,
+          "name": "Stefano Skalkotos"
+        },
+        {
+          "id": 4479540,
+          "name": "Martina Avogadri"
+        },
+        {
+          "id": 88630,
+          "name": "Jess Liaudin"
+        },
+        {
+          "id": 1229186,
+          "name": "Caroline Loncq"
+        },
+        {
+          "id": 1318818,
+          "name": "Alessandro Quattro"
+        }
+      ],
+      "writers": [
+        {
+          "id": 84753,
+          "name": "Daniel Kunka"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "streaming",
+        "wide": false,
+        "ltd": false,
+        "gap": null
+      }
     },
     "956262": {
       "ratings": {
@@ -56882,6 +57582,123 @@
         "id": 1531466,
         "name": "Weapons Collection",
         "total": 2
+      }
+    },
+    "1081003": {
+      "ratings": {
+        "imdb": 6.1,
+        "metacritic": 49,
+        "metacriticUser": 4.6,
+        "tomatoes": 55,
+        "rtAudience": 76,
+        "letterboxd": 3.1,
+        "trakt": 68
+      },
+      "studios": [
+        "DC Studios",
+        "Troll Court Entertainment",
+        "The Safran Company",
+        "Domain Entertainment"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 175000000,
+      "revenue": 62600000,
+      "cast": [
+        {
+          "id": 2046128,
+          "name": "Milly Alcock"
+        },
+        {
+          "id": 4186628,
+          "name": "Eve Ridley"
+        },
+        {
+          "id": 73381,
+          "name": "Matthias Schoenaerts"
+        },
+        {
+          "id": 117642,
+          "name": "Jason Momoa"
+        },
+        {
+          "id": 38582,
+          "name": "David Krumholtz"
+        },
+        {
+          "id": 130414,
+          "name": "Emily Beecham"
+        },
+        {
+          "id": 1785590,
+          "name": "David Corenswet"
+        },
+        {
+          "id": 1411379,
+          "name": "Kadiff Kirwan"
+        },
+        {
+          "id": 2031926,
+          "name": "Thalissa Teixeira"
+        },
+        {
+          "id": 1211873,
+          "name": "Ferdinand Kingsley"
+        },
+        {
+          "id": 1362996,
+          "name": "Emily Piggford"
+        },
+        {
+          "id": 1330044,
+          "name": "Diarmaid Murtagh"
+        },
+        {
+          "id": 1807122,
+          "name": "Alice Hewkin"
+        },
+        {
+          "id": 1815694,
+          "name": "Wil Coban"
+        },
+        {
+          "id": 4833585,
+          "name": "George Montague"
+        },
+        {
+          "id": 6272460,
+          "name": "Bruce Lennox"
+        },
+        {
+          "id": 1481376,
+          "name": "Audrey Brisson-Jutras"
+        },
+        {
+          "id": 2059519,
+          "name": "Avye Leventis"
+        },
+        {
+          "id": 29237,
+          "name": "Leo Bill"
+        },
+        {
+          "id": 1234991,
+          "name": "Keeley Forsyth"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1300711,
+          "name": "Ana Nogueira"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
       }
     },
     "1082938": {
