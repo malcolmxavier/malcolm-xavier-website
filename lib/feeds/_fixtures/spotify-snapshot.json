@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-05-12T06:27:10.398Z",
+  "capturedAt": "2026-07-02T05:42:11.949Z",
   "ownedPlaylists": [
     {
       "id": "0fq7idcIaFTbFfziDVe9VC",
@@ -7,7 +7,7 @@
       "description": "(and daughters)",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84a1d9ef24d7799b59c64af42a",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84a1d9ef24d7799b59c64af42a",
           "height": null,
           "width": null
         }
@@ -33,7 +33,7 @@
       "description": "go ahead, gag the market",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84fcd8c08fef2a0e67b33bce2e",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84fcd8c08fef2a0e67b33bce2e",
           "height": null,
           "width": null
         }
@@ -85,7 +85,7 @@
       "description": "clanker core",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8433446f73d583af99787e0108",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8433446f73d583af99787e0108",
           "height": null,
           "width": null
         }
@@ -163,7 +163,7 @@
       "description": "yesterday&#x27;s price is not today&#x27;s price",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da841dee3328f64fd2e3387a9170",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da841dee3328f64fd2e3387a9170",
           "height": null,
           "width": null
         }
@@ -189,7 +189,7 @@
       "description": "happy high holidaze",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da844c145461d3e8a6719e29e4c7",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da844c145461d3e8a6719e29e4c7",
           "height": null,
           "width": null
         }
@@ -215,7 +215,7 @@
       "description": "et tu, brutè?",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84318b703cd081de6375ebfe80",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84318b703cd081de6375ebfe80",
           "height": null,
           "width": null
         }
@@ -241,7 +241,7 @@
       "description": "martinis at dusk with you rich Black auntie; hold the vermouth 🍸🍸",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da842fdaf7dbf87ea7c72ef1b2fb",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da842fdaf7dbf87ea7c72ef1b2fb",
           "height": null,
           "width": null
         }
@@ -267,7 +267,7 @@
       "description": "you think this just fell out of a coconut tree?",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da849ea76eeebddf8d89622039ec",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da849ea76eeebddf8d89622039ec",
           "height": null,
           "width": null
         }
@@ -293,7 +293,7 @@
       "description": "not a fireable offense, but you better bring the vocals",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84d67712421bffea3fcedfe977",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84d67712421bffea3fcedfe977",
           "height": null,
           "width": null
         }
@@ -345,7 +345,7 @@
       "description": "your new life is going to cost you your old one",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da844b37cb43614f5625dabe9268",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da844b37cb43614f5625dabe9268",
           "height": null,
           "width": null
         }
@@ -371,7 +371,7 @@
       "description": "smoke and sweat",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da848da89eea4b8432d77efb15f2",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da848da89eea4b8432d77efb15f2",
           "height": null,
           "width": null
         }
@@ -392,12 +392,38 @@
       }
     },
     {
+      "id": "6HnLW01XYkplYjEFoGsU9p",
+      "name": "hang 10",
+      "description": "pack your bags—we&#x27;re headed to the beach",
+      "images": [
+        {
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8478124e29ec44748aef5490f9",
+          "height": null,
+          "width": null
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/6HnLW01XYkplYjEFoGsU9p"
+      },
+      "public": true,
+      "collaborative": false,
+      "snapshot_id": "AAAABMX+xJ58qs4PPUamtqRkRC8bBsOz",
+      "owner": {
+        "id": "malcolmxevans",
+        "display_name": "Malcolm Xavier"
+      },
+      "items": {
+        "href": "https://api.spotify.com/v1/playlists/6HnLW01XYkplYjEFoGsU9p/items",
+        "total": 10
+      }
+    },
+    {
       "id": "5UbK2OZWkE2hIjoDx1RyFk",
       "name": "moonroof",
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8445739f7b72a17550f754a3d5",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8445739f7b72a17550f754a3d5",
           "height": null,
           "width": null
         }
@@ -449,7 +475,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da845314a73e0a5bf3071a5138e4",
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da845314a73e0a5bf3071a5138e4",
           "height": null,
           "width": null
         }
@@ -743,7 +769,7 @@
       "description": "are you gonna be good?",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84404da2a25ee5ccfe945f5860",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84404da2a25ee5ccfe945f5860",
           "height": null,
           "width": null
         }
@@ -769,7 +795,7 @@
       "description": "the title is redundant",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da849657eb832c6bd512fc2935f6",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da849657eb832c6bd512fc2935f6",
           "height": null,
           "width": null
         }
@@ -821,7 +847,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84bd5b8a1dceb19188e8d63922",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84bd5b8a1dceb19188e8d63922",
           "height": null,
           "width": null
         }
@@ -847,7 +873,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da843995a51d94e9643072ac4b19",
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da843995a51d94e9643072ac4b19",
           "height": null,
           "width": null
         }
@@ -873,7 +899,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84ef8d2619ec63a98607be0114",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84ef8d2619ec63a98607be0114",
           "height": null,
           "width": null
         }
@@ -925,7 +951,7 @@
       "description": "i love you so much – keep going",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84742e7bcc3de1bf0aebccf3a0",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84742e7bcc3de1bf0aebccf3a0",
           "height": null,
           "width": null
         }
@@ -951,7 +977,7 @@
       "description": "you let it out, honey...put it in the playlist",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8499d137dc0720d6bdf625ddba",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8499d137dc0720d6bdf625ddba",
           "height": null,
           "width": null
         }
@@ -977,7 +1003,7 @@
       "description": "🪞 it’s giving carly simon🪞 ",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84d0a813cc5761b078e2e7f853",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84d0a813cc5761b078e2e7f853",
           "height": null,
           "width": null
         }
@@ -1113,7 +1139,7 @@
       "description": "(and daughters)",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84a1d9ef24d7799b59c64af42a",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84a1d9ef24d7799b59c64af42a",
           "height": null,
           "width": null
         }
@@ -1668,7 +1694,7 @@
       "description": "go ahead, gag the market",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84fcd8c08fef2a0e67b33bce2e",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84fcd8c08fef2a0e67b33bce2e",
           "height": null,
           "width": null
         }
@@ -3835,7 +3861,7 @@
       "description": "clanker core",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8433446f73d583af99787e0108",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8433446f73d583af99787e0108",
           "height": null,
           "width": null
         }
@@ -6879,7 +6905,7 @@
       "description": "yesterday&#x27;s price is not today&#x27;s price",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da841dee3328f64fd2e3387a9170",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da841dee3328f64fd2e3387a9170",
           "height": null,
           "width": null
         }
@@ -7707,7 +7733,7 @@
       "description": "happy high holidaze",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da844c145461d3e8a6719e29e4c7",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da844c145461d3e8a6719e29e4c7",
           "height": null,
           "width": null
         }
@@ -8731,7 +8757,7 @@
       "description": "et tu, brutè?",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84318b703cd081de6375ebfe80",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84318b703cd081de6375ebfe80",
           "height": null,
           "width": null
         }
@@ -9654,17 +9680,17 @@
               "name": "Fine Ho, Stay",
               "images": [
                 {
-                  "url": "https://i.scdn.co/image/ab67616d0000b273eaad604cb3da6a689fd06857",
+                  "url": "https://i.scdn.co/image/ab67616d0000b273ad57f1ed4854b5bd867f1d49",
                   "height": 640,
                   "width": 640
                 },
                 {
-                  "url": "https://i.scdn.co/image/ab67616d00001e02eaad604cb3da6a689fd06857",
+                  "url": "https://i.scdn.co/image/ab67616d00001e02ad57f1ed4854b5bd867f1d49",
                   "height": 300,
                   "width": 300
                 },
                 {
-                  "url": "https://i.scdn.co/image/ab67616d00004851eaad604cb3da6a689fd06857",
+                  "url": "https://i.scdn.co/image/ab67616d00004851ad57f1ed4854b5bd867f1d49",
                   "height": 64,
                   "width": 64
                 }
@@ -9769,7 +9795,7 @@
       "description": "martinis at dusk with you rich Black auntie; hold the vermouth 🍸🍸",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da842fdaf7dbf87ea7c72ef1b2fb",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da842fdaf7dbf87ea7c72ef1b2fb",
           "height": null,
           "width": null
         }
@@ -10324,7 +10350,7 @@
       "description": "you think this just fell out of a coconut tree?",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da849ea76eeebddf8d89622039ec",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da849ea76eeebddf8d89622039ec",
           "height": null,
           "width": null
         }
@@ -10946,17 +10972,17 @@
               "name": "Mr Vegas: The Hits",
               "images": [
                 {
-                  "url": "https://i.scdn.co/image/ab67616d0000b273368b7dc03c13bef284a26ffd",
+                  "url": "https://i.scdn.co/image/ab67616d0000b27332e29133d3aa2561f6ccda3a",
                   "height": 640,
                   "width": 640
                 },
                 {
-                  "url": "https://i.scdn.co/image/ab67616d00001e02368b7dc03c13bef284a26ffd",
+                  "url": "https://i.scdn.co/image/ab67616d00001e0232e29133d3aa2561f6ccda3a",
                   "height": 300,
                   "width": 300
                 },
                 {
-                  "url": "https://i.scdn.co/image/ab67616d00004851368b7dc03c13bef284a26ffd",
+                  "url": "https://i.scdn.co/image/ab67616d0000485132e29133d3aa2561f6ccda3a",
                   "height": 64,
                   "width": 64
                 }
@@ -11446,7 +11472,7 @@
       "description": "not a fireable offense, but you better bring the vocals",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84d67712421bffea3fcedfe977",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84d67712421bffea3fcedfe977",
           "height": null,
           "width": null
         }
@@ -12759,7 +12785,7 @@
       "description": "your new life is going to cost you your old one",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da844b37cb43614f5625dabe9268",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da844b37cb43614f5625dabe9268",
           "height": null,
           "width": null
         }
@@ -13594,7 +13620,7 @@
       "description": "smoke and sweat",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da848da89eea4b8432d77efb15f2",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da848da89eea4b8432d77efb15f2",
           "height": null,
           "width": null
         }
@@ -14171,13 +14197,470 @@
       "total_duration_ms": 2935890,
       "last_added_at_ms": 1772123551000
     },
+    "6HnLW01XYkplYjEFoGsU9p": {
+      "id": "6HnLW01XYkplYjEFoGsU9p",
+      "name": "hang 10",
+      "description": "pack your bags—we&#x27;re headed to the beach",
+      "images": [
+        {
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8478124e29ec44748aef5490f9",
+          "height": null,
+          "width": null
+        }
+      ],
+      "external_urls": {
+        "spotify": "https://open.spotify.com/playlist/6HnLW01XYkplYjEFoGsU9p"
+      },
+      "public": true,
+      "collaborative": false,
+      "snapshot_id": "AAAABMX+xJ58qs4PPUamtqRkRC8bBsOz",
+      "owner": {
+        "id": "malcolmxevans",
+        "display_name": "Malcolm Xavier"
+      },
+      "items": {
+        "href": "https://api.spotify.com/v1/playlists/6HnLW01XYkplYjEFoGsU9p/items",
+        "total": 10
+      },
+      "tracks": [
+        {
+          "added_at": "2026-06-30T18:14:46Z",
+          "track": {
+            "id": "0G2BtoIda45xgezQGQn8JS",
+            "name": "Oh My God (feat. Lily Allen)",
+            "type": "track",
+            "duration_ms": 215253,
+            "artists": [
+              {
+                "id": "3hv9jJF3adDNsBSIQDqcjp",
+                "name": "Mark Ronson",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/3hv9jJF3adDNsBSIQDqcjp"
+                }
+              },
+              {
+                "id": "13saZpZnCDWOI9D4IJhp1f",
+                "name": "Lily Allen",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/13saZpZnCDWOI9D4IJhp1f"
+                }
+              }
+            ],
+            "album": {
+              "id": "15uqXXD0sAdZuxNxTxktlR",
+              "name": "Version",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b2736a5beb0500ad6e3b0f7aea22",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e026a5beb0500ad6e3b0f7aea22",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d000048516a5beb0500ad6e3b0f7aea22",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/0G2BtoIda45xgezQGQn8JS"
+            }
+          }
+        },
+        {
+          "added_at": "2026-06-30T18:14:46Z",
+          "track": {
+            "id": "6aBUnkXuCEQQHAlTokv9or",
+            "name": "This Must Be the Place (Naive Melody) - 2005 Remaster",
+            "type": "track",
+            "duration_ms": 296146,
+            "artists": [
+              {
+                "id": "2x9SpqnPi8rlE9pjHBwmSC",
+                "name": "Talking Heads",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/2x9SpqnPi8rlE9pjHBwmSC"
+                }
+              }
+            ],
+            "album": {
+              "id": "4sLCQxMRfn3gAHrBNZtbTH",
+              "name": "Speaking in Tongues (Deluxe Version)",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b273e35e2e2a4bfa8a30a78fc532",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e02e35e2e2a4bfa8a30a78fc532",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00004851e35e2e2a4bfa8a30a78fc532",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/6aBUnkXuCEQQHAlTokv9or"
+            }
+          }
+        },
+        {
+          "added_at": "2026-06-30T18:14:46Z",
+          "track": {
+            "id": "3SwgDEfGa9xXZuTKcIF2n4",
+            "name": "Further Than The Planes Fly",
+            "type": "track",
+            "duration_ms": 178500,
+            "artists": [
+              {
+                "id": "7MbSdIkdgkwmVxObpCg87e",
+                "name": "Eves Karydas",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/7MbSdIkdgkwmVxObpCg87e"
+                }
+              }
+            ],
+            "album": {
+              "id": "2stJqTA8HdzG3nqdRb2754",
+              "name": "Further Than The Planes Fly",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b27374c8f1e5e620e90d78470e19",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e0274c8f1e5e620e90d78470e19",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000485174c8f1e5e620e90d78470e19",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/3SwgDEfGa9xXZuTKcIF2n4"
+            }
+          }
+        },
+        {
+          "added_at": "2026-06-30T18:14:46Z",
+          "track": {
+            "id": "0D6VCA9ycrkk9kH9F0p0AB",
+            "name": "Roll with Me",
+            "type": "track",
+            "duration_ms": 201755,
+            "artists": [
+              {
+                "id": "25uiPmTg16RbhZWAqwLBy5",
+                "name": "Charli xcx",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/25uiPmTg16RbhZWAqwLBy5"
+                }
+              }
+            ],
+            "album": {
+              "id": "37rI2gAtakAmSFtbIE9THq",
+              "name": "Number 1 Angel",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b2733107626c80c093c70f903206",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e023107626c80c093c70f903206",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d000048513107626c80c093c70f903206",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/0D6VCA9ycrkk9kH9F0p0AB"
+            }
+          }
+        },
+        {
+          "added_at": "2026-06-30T18:14:46Z",
+          "track": {
+            "id": "7ub14NqqyR1MDUTXyFBTzO",
+            "name": "Immaterial",
+            "type": "track",
+            "duration_ms": 232806,
+            "artists": [
+              {
+                "id": "5a2w2tgpLwv26BYJf2qYwu",
+                "name": "SOPHIE",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/5a2w2tgpLwv26BYJf2qYwu"
+                }
+              }
+            ],
+            "album": {
+              "id": "6Rv8V4QeLgfEC01czqJsiI",
+              "name": "OIL OF EVERY PEARL'S UN-INSIDES",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b273e9c0c7255ac40aa40d29bfb3",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e02e9c0c7255ac40aa40d29bfb3",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00004851e9c0c7255ac40aa40d29bfb3",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/7ub14NqqyR1MDUTXyFBTzO"
+            }
+          }
+        },
+        {
+          "added_at": "2026-06-30T18:14:46Z",
+          "track": {
+            "id": "7bkyXSi4GtVfD7itZRUR3e",
+            "name": "Material Girl",
+            "type": "track",
+            "duration_ms": 240706,
+            "artists": [
+              {
+                "id": "6tbjWDEIzxoDsBA1FuhfPW",
+                "name": "Madonna",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/6tbjWDEIzxoDsBA1FuhfPW"
+                }
+              }
+            ],
+            "album": {
+              "id": "2IU9ftOgyRL2caQGWK1jjX",
+              "name": "Like a Virgin",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b27399d424b0873a9a714279a9f3",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e0299d424b0873a9a714279a9f3",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000485199d424b0873a9a714279a9f3",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/7bkyXSi4GtVfD7itZRUR3e"
+            }
+          }
+        },
+        {
+          "added_at": "2026-06-30T18:14:46Z",
+          "track": {
+            "id": "5ucGbZG1Eg3358FICjMVur",
+            "name": "Emotion",
+            "type": "track",
+            "duration_ms": 197346,
+            "artists": [
+              {
+                "id": "6sFIWsNpZYqfjUpaCgueju",
+                "name": "Carly Rae Jepsen",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/6sFIWsNpZYqfjUpaCgueju"
+                }
+              }
+            ],
+            "album": {
+              "id": "0tc6zo8FGuGegfZIicLEwV",
+              "name": "Emotion",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b273554f127136aa7945ce442617",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e02554f127136aa7945ce442617",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00004851554f127136aa7945ce442617",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/5ucGbZG1Eg3358FICjMVur"
+            }
+          }
+        },
+        {
+          "added_at": "2026-06-30T18:14:46Z",
+          "track": {
+            "id": "60dRJjSx9xmfXuK3HXysw0",
+            "name": "V. 3005 (Beach Picnic Version)",
+            "type": "track",
+            "duration_ms": 225860,
+            "artists": [
+              {
+                "id": "73sIBHcqh3Z3NyqHKZ7FOL",
+                "name": "Childish Gambino",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/73sIBHcqh3Z3NyqHKZ7FOL"
+                }
+              }
+            ],
+            "album": {
+              "id": "0G3xqC6L3eKFNSIaF4MIyi",
+              "name": "Kauai",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b273c17df392e8863c69361422c9",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e02c17df392e8863c69361422c9",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00004851c17df392e8863c69361422c9",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/60dRJjSx9xmfXuK3HXysw0"
+            }
+          }
+        },
+        {
+          "added_at": "2026-06-30T18:14:46Z",
+          "track": {
+            "id": "3s7zUGZfft0BeGKgwWs9uS",
+            "name": "Sandcastle Disco",
+            "type": "track",
+            "duration_ms": 268306,
+            "artists": [
+              {
+                "id": "2auiVi8sUZo17dLy1HwrTU",
+                "name": "Solange",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/2auiVi8sUZo17dLy1HwrTU"
+                }
+              }
+            ],
+            "album": {
+              "id": "12Ood0fQtkFIFyAdfd3aGk",
+              "name": "Sandcastle Disco",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b2736ed12f28ecb7ffc2245414ca",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e026ed12f28ecb7ffc2245414ca",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d000048516ed12f28ecb7ffc2245414ca",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/3s7zUGZfft0BeGKgwWs9uS"
+            }
+          }
+        },
+        {
+          "added_at": "2026-06-30T18:14:46Z",
+          "track": {
+            "id": "0XIgZ4iaOieNnKX8IxLPex",
+            "name": "Nothing Can Stop Us",
+            "type": "track",
+            "duration_ms": 241315,
+            "artists": [
+              {
+                "id": "5YYrWH3w4JYijU4JZrOXWA",
+                "name": "Rose Gray",
+                "external_urls": {
+                  "spotify": "https://open.spotify.com/artist/5YYrWH3w4JYijU4JZrOXWA"
+                }
+              }
+            ],
+            "album": {
+              "id": "209eVjx6pqG7nHcdr8rND4",
+              "name": "Dancing, Drinking, Talking, Thinking",
+              "images": [
+                {
+                  "url": "https://i.scdn.co/image/ab67616d0000b2737bdd7b14ec514f45dcb275a8",
+                  "height": 640,
+                  "width": 640
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d00001e027bdd7b14ec514f45dcb275a8",
+                  "height": 300,
+                  "width": 300
+                },
+                {
+                  "url": "https://i.scdn.co/image/ab67616d000048517bdd7b14ec514f45dcb275a8",
+                  "height": 64,
+                  "width": 64
+                }
+              ]
+            },
+            "external_urls": {
+              "spotify": "https://open.spotify.com/track/0XIgZ4iaOieNnKX8IxLPex"
+            }
+          }
+        }
+      ],
+      "total_duration_ms": 2297993,
+      "last_added_at_ms": 1782843286000
+    },
     "5UbK2OZWkE2hIjoDx1RyFk": {
       "id": "5UbK2OZWkE2hIjoDx1RyFk",
       "name": "moonroof",
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8445739f7b72a17550f754a3d5",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8445739f7b72a17550f754a3d5",
           "height": null,
           "width": null
         }
@@ -15294,7 +15777,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da845314a73e0a5bf3071a5138e4",
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da845314a73e0a5bf3071a5138e4",
           "height": null,
           "width": null
         }
@@ -24073,7 +24556,7 @@
       "description": "are you gonna be good?",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84404da2a25ee5ccfe945f5860",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84404da2a25ee5ccfe945f5860",
           "height": null,
           "width": null
         }
@@ -25209,7 +25692,7 @@
       "description": "the title is redundant",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da849657eb832c6bd512fc2935f6",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da849657eb832c6bd512fc2935f6",
           "height": null,
           "width": null
         }
@@ -26536,7 +27019,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84bd5b8a1dceb19188e8d63922",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84bd5b8a1dceb19188e8d63922",
           "height": null,
           "width": null
         }
@@ -27147,7 +27630,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da843995a51d94e9643072ac4b19",
+          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da843995a51d94e9643072ac4b19",
           "height": null,
           "width": null
         }
@@ -28374,7 +28857,7 @@
       "description": "",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84ef8d2619ec63a98607be0114",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84ef8d2619ec63a98607be0114",
           "height": null,
           "width": null
         }
@@ -29911,7 +30394,7 @@
       "description": "i love you so much – keep going",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84742e7bcc3de1bf0aebccf3a0",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84742e7bcc3de1bf0aebccf3a0",
           "height": null,
           "width": null
         }
@@ -30466,7 +30949,7 @@
       "description": "you let it out, honey...put it in the playlist",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8499d137dc0720d6bdf625ddba",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da8499d137dc0720d6bdf625ddba",
           "height": null,
           "width": null
         }
@@ -31770,7 +32253,7 @@
             "artists": [
               {
                 "id": "5JZ7CnR6gTvEMKX4g70Amv",
-                "name": "Lauv",
+                "name": "LAUV",
                 "external_urls": {
                   "spotify": "https://open.spotify.com/artist/5JZ7CnR6gTvEMKX4g70Amv"
                 }
@@ -32820,7 +33303,7 @@
       "description": "🪞 it’s giving carly simon🪞 ",
       "images": [
         {
-          "url": "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da84d0a813cc5761b078e2e7f853",
+          "url": "https://image-cdn-fa.spotifycdn.com/image/ab67706c0000da84d0a813cc5761b078e2e7f853",
           "height": null,
           "width": null
         }

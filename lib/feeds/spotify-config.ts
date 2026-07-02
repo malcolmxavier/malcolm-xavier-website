@@ -66,6 +66,8 @@ export const APPLE_MUSIC_LINKS: Readonly<Record<string, string>> = {
   // Ordered roughly newest-first to match the curation worksheet.
   // To add a mapping, paste the Apple Music share URL keyed by the
   // Spotify playlist ID (find IDs in playlist-curation.md).
+  "6HnLW01XYkplYjEFoGsU9p": // hang 10
+    "https://music.apple.com/us/playlist/hang-10/pl.u-DdANrYNC6grZa",
   "0fq7idcIaFTbFfziDVe9VC": // mothers
     "https://music.apple.com/us/playlist/mothers/pl.u-38oWXm4sEqypP",
   "73ul92F8QeL0r1X4T2hnLC": // settle the score
