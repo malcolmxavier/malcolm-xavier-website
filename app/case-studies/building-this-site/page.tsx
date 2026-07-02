@@ -363,6 +363,31 @@ function BeatArchitecture() {
           and the surface area genuinely shippable on any given day.
         </IterationCard>
         <IterationCard
+          lens="Information architecture"
+          title="One destination, many entry points"
+        >
+          The films and television clusters have a dozen surfaces—landing
+          pages, stats, collections, lists, favorites, faceted
+          routes—and exactly one destination. Every surface is sculpted to
+          drive into a single canonical reviews grid; the individual review
+          is the payoff. I rejected a hub-and-spoke where collections and
+          lists sat as peers of the landing page, because peers compete and
+          a funnel converges. Naming the destination first let the rest of
+          the architecture fall out of it, instead of accreting one page at
+          a time.
+        </IterationCard>
+        <IterationCard
+          lens="Information architecture"
+          title="Lists as a labeled 2×2, not a pile"
+        >
+          The lists could have been a flat stack of near-identical titles.
+          Instead they’re a deliberate three-axis matrix—year, New Releases
+          vs. Backlog, Editor’s Cut vs. Ratings Cut—rendered as a labeled
+          grid. Four same-year lists that share most of their entries stay
+          legible because the axes, not the names, do the work. An
+          editorial decision, surfaced as an information-architecture one.
+        </IterationCard>
+        <IterationCard
           lens="Design system"
           title="One codebase, many sub-brands, zero JS flips"
         >
@@ -392,7 +417,8 @@ function BeatArchitecture() {
       <ClaudeNote>
         None of these were the agent’s instinct. Generic-Next.js
         decisions are the agent’s gravity well; the PM job was naming
-        the constraint (“no placeholders,”{" "}
+        the constraint (“reviews is the one destination,”{" "}
+        “no placeholders,”{" "}
         “sub-brand flip via data attribute, not JS,”{" "}
         “tokens are code now”) and then letting the agent
         execute against it. That’s the part of the workflow that

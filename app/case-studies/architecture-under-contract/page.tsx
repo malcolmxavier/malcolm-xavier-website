@@ -574,10 +574,35 @@ function BeatPolite() {
     >
       <Body>
         <p>
-          The Serializd integration calls an endpoint that no public
-          documentation describes. The endpoint is the same one
-          Serializd’s own React frontend calls; it’s discoverable
-          in two minutes with browser DevTools. The integration includes
+          Not every Serializd endpoint is as cooperative as the one that
+          feeds the reviews. The editorial lists needed a different
+          path—and the obvious one, the user-lists endpoint you’d reach
+          for first, is dead. It answers every request with a silent{" "}
+          <Code>200</Code> and an empty array, for every user, not just
+          mine. A success that returns nothing is worse than an error: it
+          takes a while to trust that the endpoint, not your call, is the
+          problem. Nine-plus probe variants later, the working path turned
+          out to be hiding in plain sight—reverse-engineered from the
+          public list URLs the site already renders:{" "}
+          <Code>{`GET /api/list/{id}`}</Code>, one list at a time.
+        </p>
+        <p>
+          Losing user-level auto-discovery reads as a downgrade until you
+          sit with it. The integration can’t ask “what lists does this
+          user have?”, so it stops asking: a configured publish-set—an
+          explicit <Code>LIST_IDS</Code> array—names the lists worth
+          surfacing. That turns a dead endpoint into editorial control.
+          The site publishes what I curate, not whatever happens to exist
+          upstream. Each entry is a season-aware <Code>ShowListItem</Code>{" "}
+          rather than a bare show id, so a list can point at a single
+          season the way the counting logic elsewhere already does.
+        </p>
+        <p>
+          The Serializd integration calls endpoints that no public
+          documentation describes—the reviews pull and this list-by-id
+          path alike. They’re the same ones Serializd’s own React
+          frontend calls; they’re discoverable in two minutes with
+          browser DevTools. The integration includes
           three deliberate courtesies. First, an identifying{" "}
           <Code>User-Agent</Code>: not a browser-spoof, but{" "}
           <Code>
