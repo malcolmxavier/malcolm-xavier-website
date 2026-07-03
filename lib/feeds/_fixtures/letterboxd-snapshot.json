@@ -1,31 +1,31 @@
 {
-  "capturedAt": "2026-07-01T04:01:20.397Z",
+  "capturedAt": "2026-07-03T23:00:42.038Z",
   "summary": {
-    "totalFilms": 787,
-    "totalReviews": 787,
-    "thisYearCount": 146,
+    "totalFilms": 788,
+    "totalReviews": 788,
+    "thisYearCount": 147,
     "ratingDistribution": {
       "1": 38,
       "2": 126,
       "3": 149,
       "4": 105,
       "5": 16,
-      "1.5": 38,
+      "1.5": 39,
       "0.5": 10,
       "2.5": 102,
       "3.5": 154,
       "4.5": 49
     },
     "genreDistribution": {
+      "Horror": 133,
+      "Thriller": 231,
       "Drama": 373,
       "Comedy": 224,
       "Action": 119,
       "Crime": 106,
       "Science Fiction": 117,
-      "Thriller": 230,
       "Romance": 91,
       "Adventure": 84,
-      "Horror": 132,
       "Mystery": 81,
       "History": 42,
       "War": 17,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 587,
+      "2020s": 588,
       "2010s": 130,
       "1990s": 17,
       "2000s": 32,
@@ -48,6 +48,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1083968",
+      "letterboxdSlug": "locked",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/locked-2025/",
+      "title": "Locked",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-07-03",
+      "latestWatchedDate": "2026-07-03",
+      "firstReviewDate": "2026-07-03",
+      "latestReviewDate": "2026-07-03",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1380251365",
+          "watchedDate": "2026-07-03",
+          "reviewDate": "2026-07-03",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "That was a long 95 minutes of ambient noise.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1083968,
+        "posterPath": "/hhkiqXpfpufwxVrdSftzeKIANl3.jpg",
+        "backdropPath": "/r4X2xRrWleVgx0kahP27xRmm3ia.jpg",
+        "genres": [
+          "Horror",
+          "Thriller"
+        ],
+        "runtime": 95,
+        "director": "David Yarovesky"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/hhkiqXpfpufwxVrdSftzeKIANl3.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/hhkiqXpfpufwxVrdSftzeKIANl3.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-950028",
       "letterboxdSlug": "the-invite",
@@ -34266,6 +34310,50 @@
     }
   ],
   "filmById": {
+    "tmdb-1083968": {
+      "id": "tmdb-1083968",
+      "letterboxdSlug": "locked",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/locked-2025/",
+      "title": "Locked",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-07-03",
+      "latestWatchedDate": "2026-07-03",
+      "firstReviewDate": "2026-07-03",
+      "latestReviewDate": "2026-07-03",
+      "primaryRating": 1.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1380251365",
+          "watchedDate": "2026-07-03",
+          "reviewDate": "2026-07-03",
+          "rating": 1.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "That was a long 95 minutes of ambient noise.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1083968,
+        "posterPath": "/hhkiqXpfpufwxVrdSftzeKIANl3.jpg",
+        "backdropPath": "/r4X2xRrWleVgx0kahP27xRmm3ia.jpg",
+        "genres": [
+          "Horror",
+          "Thriller"
+        ],
+        "runtime": 95,
+        "director": "David Yarovesky"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/hhkiqXpfpufwxVrdSftzeKIANl3.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/hhkiqXpfpufwxVrdSftzeKIANl3.jpg",
+      "ratingSet": [
+        1.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-950028": {
       "id": "tmdb-950028",
       "letterboxdSlug": "the-invite",
