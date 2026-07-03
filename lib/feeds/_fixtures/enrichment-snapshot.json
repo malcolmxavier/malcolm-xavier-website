@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-03T02:45:39.914Z",
+  "capturedAt": "2026-07-03T23:45:04.200Z",
   "meta": {
-    "films": 787,
+    "films": 788,
     "shows": 156,
     "collections": 74
   },
@@ -58969,6 +58969,84 @@
         }
       ],
       "collection": null
+    },
+    "1083968": {
+      "ratings": {
+        "imdb": 5.7,
+        "metacritic": 45,
+        "metacriticUser": 4.8,
+        "tomatoes": 63,
+        "rtAudience": 71,
+        "letterboxd": 2.6,
+        "trakt": 61
+      },
+      "studios": [
+        "ZQ Entertainment",
+        "north.five.six",
+        "R.U. Robot Studios",
+        "Arcana Studio",
+        "Sillen Productions",
+        "BondIt Media Capital",
+        "Exemplary Films",
+        "Magic Button Films",
+        "Blue Rider Pictures",
+        "Raimi Productions",
+        "A-A Productions",
+        "The Avenue Entertainment",
+        "Longevity Pictures"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": 20000000,
+      "revenue": 4647059,
+      "cast": [
+        {
+          "id": 137905,
+          "name": "Bill Skarsgård"
+        },
+        {
+          "id": 4173,
+          "name": "Anthony Hopkins"
+        },
+        {
+          "id": 3361846,
+          "name": "Ashley Cartwright"
+        },
+        {
+          "id": 67979,
+          "name": "Michael Eklund"
+        },
+        {
+          "id": 2528675,
+          "name": "Navid Charkhi"
+        },
+        {
+          "id": 5265180,
+          "name": "Sofia Tesema"
+        },
+        {
+          "id": 4931035,
+          "name": "Emma Kombe"
+        },
+        {
+          "id": 1362816,
+          "name": "Gabrielle Walsh"
+        }
+      ],
+      "writers": [
+        {
+          "id": 59326,
+          "name": "Michael Arlen Ross"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": 32
+      }
     },
     "1084199": {
       "ratings": {
