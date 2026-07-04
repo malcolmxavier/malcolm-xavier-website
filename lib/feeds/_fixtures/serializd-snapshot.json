@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-07-03T04:31:21.460Z",
+  "capturedAt": "2026-07-04T04:31:14.745Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 244,
-    "totalEpisodeReviews": 686,
+    "totalEpisodeReviews": 687,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
       "3": 232,
-      "4": 188,
+      "4": 189,
       "5": 17,
       "3.5": 297,
       "4.5": 52,
@@ -43,7 +43,7 @@
       "episode": {
         "2": 22,
         "3": 171,
-        "4": 141,
+        "4": 142,
         "5": 7,
         "3.5": 231,
         "4.5": 43,
@@ -149,6 +149,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 72148443,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m sick enough to watch this episode and miss my hospitality days, so there’s that.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-04T04:13:29Z",
+          "reviewDate": "2026-07-04T04:13:56Z",
+          "seasonId": 515011,
+          "episodeNumber": 6,
+          "episodeName": "Focaccia",
+          "tags": []
+        },
         {
           "id": 71647838,
           "level": "episode",
@@ -285,7 +301,7 @@
       ],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-03T04:20:23Z",
+      "latestActivityDate": "2026-07-04T04:13:56Z",
       "primaryRating": 4,
       "liked": false
     },
@@ -27159,6 +27175,22 @@
       ],
       "reviews": [
         {
+          "id": 72148443,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m sick enough to watch this episode and miss my hospitality days, so there’s that.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-04T04:13:29Z",
+          "reviewDate": "2026-07-04T04:13:56Z",
+          "seasonId": 515011,
+          "episodeNumber": 6,
+          "episodeName": "Focaccia",
+          "tags": []
+        },
+        {
           "id": 71647838,
           "level": "episode",
           "rating": 4,
@@ -27294,7 +27326,7 @@
       ],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-03T04:20:23Z",
+      "latestActivityDate": "2026-07-04T04:13:56Z",
       "primaryRating": 4,
       "liked": false
     },
@@ -55348,7 +55380,7 @@
       "serializdShowId": 66292,
       "name": "Big Little Lies",
       "premiereDate": "2017-02-19",
-      "bannerImage": "/b4HNJOc2N6SGyEhf2RagdpAKBK6.jpg",
+      "bannerImage": "/zxGkno93ExrTMsJVllH6mzQ652z.jpg",
       "numSeasons": 2,
       "numEpisodes": 14,
       "watchedSeasonIds": [
