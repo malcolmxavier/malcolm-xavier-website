@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-07-04T15:31:58.560Z",
+  "capturedAt": "2026-07-04T16:31:21.098Z",
   "summary": {
     "totalShows": 157,
-    "totalShowReviews": 40,
-    "totalSeasonReviews": 244,
+    "totalShowReviews": 41,
+    "totalSeasonReviews": 245,
     "totalEpisodeReviews": 689,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
       "3": 233,
-      "4": 189,
+      "4": 190,
       "5": 18,
-      "3.5": 297,
+      "3.5": 298,
       "4.5": 52,
       "2.5": 90,
       "1.5": 11,
@@ -24,7 +24,7 @@
         "3": 9,
         "4": 4,
         "5": 1,
-        "3.5": 12,
+        "3.5": 13,
         "4.5": 1,
         "2.5": 4
       },
@@ -32,7 +32,7 @@
         "1": 3,
         "2": 23,
         "3": 59,
-        "4": 46,
+        "4": 47,
         "5": 9,
         "3.5": 64,
         "2.5": 24,
@@ -73,7 +73,7 @@
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 9,
+    "showsInProgressCount": 8,
     "thisYearCount": 53,
     "totalWatchedShows": 343,
     "totalWatchedOnlyShows": 186
@@ -149,6 +149,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 72337112,
+          "level": "show",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Like the Mitchells in the final season, this show stuck around a bit longer than it needed to. That said, we got some rich performances along the way, particularly from the supporting cast, that ameliorated my issues with the back half of the series. In the end, the show (and hospitality) is about a group of people, not one chef. And I think they forgot that in the middle while also trying to communicate that this was the source of tension propelling the story. I did love watching all the characters grow and develop through their side quests, but ultimately it felt unfocused. It all looked beautiful, but tighter story editing would’ve been beneficial—and honestly, it might’ve revealed that this should’ve continued down the path of being a film (or even a film series), rather than a television show.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-03T15:32:00Z",
+          "reviewDate": "2026-07-04T15:39:43Z",
+          "seasonId": null,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 72333841,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "A season that relies heavily on prior development while somewhat working as its own thing. Primarily focusing on the single night of service was a winning move for me—reminded me of my hospitality days and how grit and tenderness go hand in hand in the service industry. I also think there’s something about de-centering Carmy and leaning into the ensemble that works well. Unfortunately, they betray this in the finale and give us a melodramatic monologue that I didn’t care about. I so wish they had just ended with the penultimate episode, as much as I was happy for the quick glimpses of all the characters we’ve come to know. Time for a Richie and Jess spinoff.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-03T15:26:00Z",
+          "reviewDate": "2026-07-04T15:31:38Z",
+          "seasonId": 515011,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
         {
           "id": 72331335,
           "level": "episode",
@@ -323,19 +355,18 @@
       ],
       "reviewedSeasonNumbers": [
         3,
-        4
-      ],
-      "inProgressSeasonNumbers": [
+        4,
         5
       ],
+      "inProgressSeasonNumbers": [],
       "watchedUnreviewedSeasonNumbers": [
         1,
         2
       ],
-      "hasShowReview": false,
+      "hasShowReview": true,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-04T15:25:15Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-07-04T15:39:43Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -27208,6 +27239,38 @@
       ],
       "reviews": [
         {
+          "id": 72337112,
+          "level": "show",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Like the Mitchells in the final season, this show stuck around a bit longer than it needed to. That said, we got some rich performances along the way, particularly from the supporting cast, that ameliorated my issues with the back half of the series. In the end, the show (and hospitality) is about a group of people, not one chef. And I think they forgot that in the middle while also trying to communicate that this was the source of tension propelling the story. I did love watching all the characters grow and develop through their side quests, but ultimately it felt unfocused. It all looked beautiful, but tighter story editing would’ve been beneficial—and honestly, it might’ve revealed that this should’ve continued down the path of being a film (or even a film series), rather than a television show.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-03T15:32:00Z",
+          "reviewDate": "2026-07-04T15:39:43Z",
+          "seasonId": null,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 72333841,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "A season that relies heavily on prior development while somewhat working as its own thing. Primarily focusing on the single night of service was a winning move for me—reminded me of my hospitality days and how grit and tenderness go hand in hand in the service industry. I also think there’s something about de-centering Carmy and leaning into the ensemble that works well. Unfortunately, they betray this in the finale and give us a melodramatic monologue that I didn’t care about. I so wish they had just ended with the penultimate episode, as much as I was happy for the quick glimpses of all the characters we’ve come to know. Time for a Richie and Jess spinoff.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-03T15:26:00Z",
+          "reviewDate": "2026-07-04T15:31:38Z",
+          "seasonId": 515011,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
           "id": 72331335,
           "level": "episode",
           "rating": 3,
@@ -27381,19 +27444,18 @@
       ],
       "reviewedSeasonNumbers": [
         3,
-        4
-      ],
-      "inProgressSeasonNumbers": [
+        4,
         5
       ],
+      "inProgressSeasonNumbers": [],
       "watchedUnreviewedSeasonNumbers": [
         1,
         2
       ],
-      "hasShowReview": false,
+      "hasShowReview": true,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-04T15:25:15Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-07-04T15:39:43Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-323411": {
