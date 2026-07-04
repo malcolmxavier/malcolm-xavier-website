@@ -1,14 +1,14 @@
 {
-  "capturedAt": "2026-07-04T05:31:26.833Z",
+  "capturedAt": "2026-07-04T15:31:58.560Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 244,
-    "totalEpisodeReviews": 688,
+    "totalEpisodeReviews": 689,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
-      "3": 232,
+      "3": 233,
       "4": 189,
       "5": 18,
       "3.5": 297,
@@ -42,7 +42,7 @@
       },
       "episode": {
         "2": 22,
-        "3": 171,
+        "3": 172,
         "4": 142,
         "5": 8,
         "3.5": 231,
@@ -149,6 +149,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 72331335,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I actually found this to be too sentimental after the penultimate episode. Obviously a great place to end the story, but I didn’t need this sappy, soapy hour-long conclusion.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-03T15:25:00Z",
+          "reviewDate": "2026-07-04T15:25:15Z",
+          "seasonId": 515011,
+          "episodeNumber": 8,
+          "episodeName": "The Original Beef of Chicagoland",
+          "tags": []
+        },
         {
           "id": 72159604,
           "level": "episode",
@@ -318,8 +334,8 @@
       ],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-04T05:13:41Z",
-      "primaryRating": 5,
+      "latestActivityDate": "2026-07-04T15:25:15Z",
+      "primaryRating": 3,
       "liked": false
     },
     {
@@ -27192,6 +27208,22 @@
       ],
       "reviews": [
         {
+          "id": 72331335,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I actually found this to be too sentimental after the penultimate episode. Obviously a great place to end the story, but I didn’t need this sappy, soapy hour-long conclusion.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-03T15:25:00Z",
+          "reviewDate": "2026-07-04T15:25:15Z",
+          "seasonId": 515011,
+          "episodeNumber": 8,
+          "episodeName": "The Original Beef of Chicagoland",
+          "tags": []
+        },
+        {
           "id": 72159604,
           "level": "episode",
           "rating": 5,
@@ -27360,8 +27392,8 @@
       ],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-04T05:13:41Z",
-      "primaryRating": 5,
+      "latestActivityDate": "2026-07-04T15:25:15Z",
+      "primaryRating": 3,
       "liked": false
     },
     "tmdb-tv-323411": {
