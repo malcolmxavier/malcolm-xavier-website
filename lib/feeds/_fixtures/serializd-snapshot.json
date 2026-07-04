@@ -1,16 +1,16 @@
 {
-  "capturedAt": "2026-07-04T04:31:14.745Z",
+  "capturedAt": "2026-07-04T05:31:26.833Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 40,
     "totalSeasonReviews": 244,
-    "totalEpisodeReviews": 687,
+    "totalEpisodeReviews": 688,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
       "3": 232,
       "4": 189,
-      "5": 17,
+      "5": 18,
       "3.5": 297,
       "4.5": 52,
       "2.5": 90,
@@ -44,7 +44,7 @@
         "2": 22,
         "3": 171,
         "4": 142,
-        "5": 7,
+        "5": 8,
         "3.5": 231,
         "4.5": 43,
         "2.5": 65,
@@ -149,6 +149,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 72159604,
+          "level": "episode",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "I, too, need a shift drink and a cigarette after that. #RatatouilleMentioned",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-04T05:12:50Z",
+          "reviewDate": "2026-07-04T05:13:41Z",
+          "seasonId": 515011,
+          "episodeNumber": 7,
+          "episodeName": "Caramel",
+          "tags": []
+        },
         {
           "id": 72148443,
           "level": "episode",
@@ -281,7 +297,8 @@
       "ratingSet": [
         3,
         3.5,
-        4
+        4,
+        5
       ],
       "watchedYearSet": [
         2024,
@@ -301,8 +318,8 @@
       ],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-04T04:13:56Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-07-04T05:13:41Z",
+      "primaryRating": 5,
       "liked": false
     },
     {
@@ -27175,6 +27192,22 @@
       ],
       "reviews": [
         {
+          "id": 72159604,
+          "level": "episode",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "I, too, need a shift drink and a cigarette after that. #RatatouilleMentioned",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-04T05:12:50Z",
+          "reviewDate": "2026-07-04T05:13:41Z",
+          "seasonId": 515011,
+          "episodeNumber": 7,
+          "episodeName": "Caramel",
+          "tags": []
+        },
+        {
           "id": 72148443,
           "level": "episode",
           "rating": 4,
@@ -27306,7 +27339,8 @@
       "ratingSet": [
         3,
         3.5,
-        4
+        4,
+        5
       ],
       "watchedYearSet": [
         2024,
@@ -27326,8 +27360,8 @@
       ],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-04T04:13:56Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-07-04T05:13:41Z",
+      "primaryRating": 5,
       "liked": false
     },
     "tmdb-tv-323411": {
