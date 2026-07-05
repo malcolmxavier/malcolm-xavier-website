@@ -1,11 +1,11 @@
 {
-  "capturedAt": "2026-07-05T05:01:34.989Z",
+  "capturedAt": "2026-07-05T14:00:04.977Z",
   "summary": {
-    "totalFilms": 790,
-    "totalReviews": 790,
-    "thisYearCount": 149,
+    "totalFilms": 791,
+    "totalReviews": 791,
+    "thisYearCount": 150,
     "ratingDistribution": {
-      "1": 38,
+      "1": 39,
       "2": 128,
       "3": 149,
       "4": 105,
@@ -17,12 +17,12 @@
       "4.5": 49
     },
     "genreDistribution": {
+      "Drama": 374,
+      "Science Fiction": 119,
       "Thriller": 233,
-      "Science Fiction": 118,
       "Mystery": 83,
       "Crime": 107,
       "Horror": 133,
-      "Drama": 373,
       "Comedy": 224,
       "Action": 119,
       "Romance": 91,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2010s": 131,
+      "2010s": 132,
       "2020s": 589,
       "1990s": 17,
       "2000s": 32,
@@ -48,6 +48,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-86820",
+      "letterboxdSlug": "4-44-last-day-on-earth",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/4-44-last-day-on-earth/",
+      "title": "4:44 Last Day on Earth",
+      "releaseYear": 2011,
+      "firstWatchedDate": "2026-07-04",
+      "latestWatchedDate": "2026-07-04",
+      "firstReviewDate": "2026-07-05",
+      "latestReviewDate": "2026-07-05",
+      "primaryRating": 1,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1382651812",
+          "watchedDate": "2026-07-04",
+          "reviewDate": "2026-07-05",
+          "rating": 1,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Interesting premise, but overwritten and overacted.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 86820,
+        "posterPath": "/vSeQ7eXy1tmig0jkX63wACDiLM4.jpg",
+        "backdropPath": "/7TiPld4fBYY20aOquQJpOVuntgg.jpg",
+        "genres": [
+          "Drama",
+          "Science Fiction"
+        ],
+        "runtime": 82,
+        "director": "Abel Ferrara"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vSeQ7eXy1tmig0jkX63wACDiLM4.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vSeQ7eXy1tmig0jkX63wACDiLM4.jpg",
+      "ratingSet": [
+        1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-37686",
       "letterboxdSlug": "super-8",
@@ -34400,6 +34444,50 @@
     }
   ],
   "filmById": {
+    "tmdb-86820": {
+      "id": "tmdb-86820",
+      "letterboxdSlug": "4-44-last-day-on-earth",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/4-44-last-day-on-earth/",
+      "title": "4:44 Last Day on Earth",
+      "releaseYear": 2011,
+      "firstWatchedDate": "2026-07-04",
+      "latestWatchedDate": "2026-07-04",
+      "firstReviewDate": "2026-07-05",
+      "latestReviewDate": "2026-07-05",
+      "primaryRating": 1,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1382651812",
+          "watchedDate": "2026-07-04",
+          "reviewDate": "2026-07-05",
+          "rating": 1,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Interesting premise, but overwritten and overacted.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 86820,
+        "posterPath": "/vSeQ7eXy1tmig0jkX63wACDiLM4.jpg",
+        "backdropPath": "/7TiPld4fBYY20aOquQJpOVuntgg.jpg",
+        "genres": [
+          "Drama",
+          "Science Fiction"
+        ],
+        "runtime": 82,
+        "director": "Abel Ferrara"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vSeQ7eXy1tmig0jkX63wACDiLM4.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vSeQ7eXy1tmig0jkX63wACDiLM4.jpg",
+      "ratingSet": [
+        1
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-37686": {
       "id": "tmdb-37686",
       "letterboxdSlug": "super-8",
