@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-03T23:45:04.200Z",
+  "capturedAt": "2026-07-05T02:45:07.187Z",
   "meta": {
-    "films": 788,
+    "films": 789,
     "shows": 156,
     "collections": 74
   },
@@ -23451,6 +23451,127 @@
         "wide": true,
         "ltd": true,
         "gap": 81
+      }
+    },
+    "505026": {
+      "ratings": {
+        "imdb": 6.3,
+        "metacritic": 52,
+        "metacriticUser": 5.7,
+        "tomatoes": 62,
+        "rtAudience": 82,
+        "letterboxd": 2.7,
+        "trakt": 65
+      },
+      "studios": [
+        "Genre Films",
+        "20th Century Studios",
+        "Scott Free Productions",
+        "Mark Gordon Pictures"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 90000000,
+      "revenue": 137307235,
+      "cast": [
+        {
+          "id": 11181,
+          "name": "Kenneth Branagh"
+        },
+        {
+          "id": 1364004,
+          "name": "Tom Bateman"
+        },
+        {
+          "id": 516,
+          "name": "Annette Bening"
+        },
+        {
+          "id": 59919,
+          "name": "Russell Brand"
+        },
+        {
+          "id": 492791,
+          "name": "Ali Fazal"
+        },
+        {
+          "id": 5539,
+          "name": "Dawn French"
+        },
+        {
+          "id": 90633,
+          "name": "Gal Gadot"
+        },
+        {
+          "id": 53807,
+          "name": "Armie Hammer"
+        },
+        {
+          "id": 1223793,
+          "name": "Rose Leslie"
+        },
+        {
+          "id": 2201315,
+          "name": "Emma Mackey"
+        },
+        {
+          "id": 2598,
+          "name": "Sophie Okonedo"
+        },
+        {
+          "id": 12094,
+          "name": "Jennifer Saunders"
+        },
+        {
+          "id": 1083010,
+          "name": "Letitia Wright"
+        },
+        {
+          "id": 59079,
+          "name": "Michael Rouse"
+        },
+        {
+          "id": 126802,
+          "name": "Alaa Safi"
+        },
+        {
+          "id": 83405,
+          "name": "Orlando Seale"
+        },
+        {
+          "id": 578939,
+          "name": "Charlie Anson"
+        },
+        {
+          "id": 2772174,
+          "name": "Danny Hughes"
+        },
+        {
+          "id": 3486069,
+          "name": "Sam Mac"
+        },
+        {
+          "id": 3325358,
+          "name": "James Schofield"
+        }
+      ],
+      "writers": [
+        {
+          "id": 191937,
+          "name": "Michael Green"
+        }
+      ],
+      "collection": {
+        "id": 735384,
+        "name": "Hercule Poirot (Kenneth Branagh) Collection",
+        "total": 3
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": 46
       }
     },
     "507089": {
