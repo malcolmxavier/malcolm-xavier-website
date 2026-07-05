@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-05T05:45:09.265Z",
+  "capturedAt": "2026-07-05T14:45:46.198Z",
   "meta": {
-    "films": 790,
+    "films": 791,
     "shows": 156,
     "collections": 74
   },
@@ -10653,6 +10653,123 @@
         }
       ],
       "collection": null
+    },
+    "86820": {
+      "ratings": {
+        "imdb": 4.7,
+        "metacritic": 54,
+        "metacriticUser": null,
+        "tomatoes": 48,
+        "rtAudience": 19,
+        "letterboxd": 3.2,
+        "trakt": 46
+      },
+      "studios": [
+        "Wild Bunch",
+        "Funny Balloons",
+        "Fabula",
+        "Bullet Pictures"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": 17801,
+      "cast": [
+        {
+          "id": 5293,
+          "name": "Willem Dafoe"
+        },
+        {
+          "id": 1012144,
+          "name": "Shanyn Leigh"
+        },
+        {
+          "id": 3178547,
+          "name": "Toni Redman"
+        },
+        {
+          "id": 1480047,
+          "name": "Pat Kiernan"
+        },
+        {
+          "id": 1095529,
+          "name": "Francis Kuipers"
+        },
+        {
+          "id": 1617366,
+          "name": "Selena Mars"
+        },
+        {
+          "id": 2802746,
+          "name": "Justin Restivo"
+        },
+        {
+          "id": 3524831,
+          "name": "Bojana Vasik"
+        },
+        {
+          "id": 3441350,
+          "name": "Trung Nguyen"
+        },
+        {
+          "id": 3524832,
+          "name": "Triana Jackson"
+        },
+        {
+          "id": 2871664,
+          "name": "Dierdra McDowell"
+        },
+        {
+          "id": 10871,
+          "name": "Natasha Lyonne"
+        },
+        {
+          "id": 53768,
+          "name": "Anita Pallenberg"
+        },
+        {
+          "id": 54041,
+          "name": "Paul Hipp"
+        },
+        {
+          "id": 1225845,
+          "name": "José Solano"
+        },
+        {
+          "id": 3524833,
+          "name": "Judith Salazar"
+        },
+        {
+          "id": 59882,
+          "name": "Paz de la Huerta"
+        },
+        {
+          "id": 1315514,
+          "name": "Frank Aquilino"
+        },
+        {
+          "id": 2868869,
+          "name": "Maria Grazia Schirripa"
+        },
+        {
+          "id": 3524834,
+          "name": "Muriel Sprissler Dafoe"
+        }
+      ],
+      "writers": [
+        {
+          "id": 39104,
+          "name": "Abel Ferrara"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 0
+      }
     },
     "94725": {
       "ratings": {
