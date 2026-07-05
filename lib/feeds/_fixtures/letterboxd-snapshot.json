@@ -1,12 +1,12 @@
 {
-  "capturedAt": "2026-07-03T23:00:42.038Z",
+  "capturedAt": "2026-07-05T02:00:28.921Z",
   "summary": {
-    "totalFilms": 788,
-    "totalReviews": 788,
-    "thisYearCount": 147,
+    "totalFilms": 789,
+    "totalReviews": 789,
+    "thisYearCount": 148,
     "ratingDistribution": {
       "1": 38,
-      "2": 126,
+      "2": 127,
       "3": 149,
       "4": 105,
       "5": 16,
@@ -17,16 +17,16 @@
       "4.5": 49
     },
     "genreDistribution": {
+      "Mystery": 82,
+      "Crime": 107,
+      "Thriller": 232,
       "Horror": 133,
-      "Thriller": 231,
       "Drama": 373,
       "Comedy": 224,
       "Action": 119,
-      "Crime": 106,
       "Science Fiction": 117,
       "Romance": 91,
       "Adventure": 84,
-      "Mystery": 81,
       "History": 42,
       "War": 17,
       "Fantasy": 59,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 588,
+      "2020s": 589,
       "2010s": 130,
       "1990s": 17,
       "2000s": 32,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-505026",
+      "letterboxdSlug": "death-on-the-nile",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/death-on-the-nile-2022/",
+      "title": "Death on the Nile",
+      "releaseYear": 2022,
+      "firstWatchedDate": "2026-07-04",
+      "latestWatchedDate": "2026-07-04",
+      "firstReviewDate": "2026-07-05",
+      "latestReviewDate": "2026-07-05",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1381951623",
+          "watchedDate": "2026-07-04",
+          "reviewDate": "2026-07-05",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "<i>Titanic</i>, but with the problematic cast dial turned up to 85.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 505026,
+        "posterPath": "/kVr5zIAFSPRQ57Y1zE7KzmhzdMQ.jpg",
+        "backdropPath": "/lRbDyjI7HEaXxflFQbYpqHRGFBJ.jpg",
+        "genres": [
+          "Mystery",
+          "Crime",
+          "Thriller"
+        ],
+        "runtime": 127,
+        "director": "Kenneth Branagh"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kVr5zIAFSPRQ57Y1zE7KzmhzdMQ.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kVr5zIAFSPRQ57Y1zE7KzmhzdMQ.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1083968",
       "letterboxdSlug": "locked",
@@ -34310,6 +34355,51 @@
     }
   ],
   "filmById": {
+    "tmdb-505026": {
+      "id": "tmdb-505026",
+      "letterboxdSlug": "death-on-the-nile",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/death-on-the-nile-2022/",
+      "title": "Death on the Nile",
+      "releaseYear": 2022,
+      "firstWatchedDate": "2026-07-04",
+      "latestWatchedDate": "2026-07-04",
+      "firstReviewDate": "2026-07-05",
+      "latestReviewDate": "2026-07-05",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1381951623",
+          "watchedDate": "2026-07-04",
+          "reviewDate": "2026-07-05",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "<i>Titanic</i>, but with the problematic cast dial turned up to 85.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 505026,
+        "posterPath": "/kVr5zIAFSPRQ57Y1zE7KzmhzdMQ.jpg",
+        "backdropPath": "/lRbDyjI7HEaXxflFQbYpqHRGFBJ.jpg",
+        "genres": [
+          "Mystery",
+          "Crime",
+          "Thriller"
+        ],
+        "runtime": 127,
+        "director": "Kenneth Branagh"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kVr5zIAFSPRQ57Y1zE7KzmhzdMQ.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kVr5zIAFSPRQ57Y1zE7KzmhzdMQ.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1083968": {
       "id": "tmdb-1083968",
       "letterboxdSlug": "locked",
