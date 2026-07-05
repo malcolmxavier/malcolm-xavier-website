@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-05T02:45:07.187Z",
+  "capturedAt": "2026-07-05T05:45:09.265Z",
   "meta": {
-    "films": 789,
+    "films": 790,
     "shows": 156,
     "collections": 74
   },
@@ -8339,6 +8339,122 @@
         "id": 399,
         "name": "Predator Collection",
         "total": 6
+      }
+    },
+    "37686": {
+      "ratings": {
+        "imdb": 7,
+        "metacritic": 72,
+        "metacriticUser": 7.3,
+        "tomatoes": 81,
+        "rtAudience": 75,
+        "letterboxd": 3.5,
+        "trakt": 71
+      },
+      "studios": [
+        "Bad Robot",
+        "Amblin Entertainment",
+        "Paramount"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 50000000,
+      "revenue": 260100000,
+      "cast": [
+        {
+          "id": 518627,
+          "name": "Joel Courtney"
+        },
+        {
+          "id": 18050,
+          "name": "Elle Fanning"
+        },
+        {
+          "id": 518628,
+          "name": "Riley Griffiths"
+        },
+        {
+          "id": 3497,
+          "name": "Kyle Chandler"
+        },
+        {
+          "id": 11315,
+          "name": "Noah Emmerich"
+        },
+        {
+          "id": 113926,
+          "name": "AJ Michalka"
+        },
+        {
+          "id": 456066,
+          "name": "Ryan Lee"
+        },
+        {
+          "id": 12260,
+          "name": "Ron Eldard"
+        },
+        {
+          "id": 222122,
+          "name": "Gabriel Basso"
+        },
+        {
+          "id": 21089,
+          "name": "Bruce Greenwood"
+        },
+        {
+          "id": 23533,
+          "name": "Zach Mills"
+        },
+        {
+          "id": 156689,
+          "name": "Jessica Tuck"
+        },
+        {
+          "id": 88950,
+          "name": "Joel McKinnon Miller"
+        },
+        {
+          "id": 484293,
+          "name": "Britt Flatmo"
+        },
+        {
+          "id": 114674,
+          "name": "Glynn Turman"
+        },
+        {
+          "id": 55755,
+          "name": "Richard T. Jones"
+        },
+        {
+          "id": 1115118,
+          "name": "Tom Quinn"
+        },
+        {
+          "id": 147056,
+          "name": "Caitríona Balfe"
+        },
+        {
+          "id": 13024,
+          "name": "Amanda Foreman"
+        },
+        {
+          "id": 59451,
+          "name": "David Gallagher"
+        }
+      ],
+      "writers": [
+        {
+          "id": 15344,
+          "name": "J.J. Abrams"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
       }
     },
     "38050": {
