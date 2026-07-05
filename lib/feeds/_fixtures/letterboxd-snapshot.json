@@ -1,12 +1,12 @@
 {
-  "capturedAt": "2026-07-05T02:00:28.921Z",
+  "capturedAt": "2026-07-05T05:01:34.989Z",
   "summary": {
-    "totalFilms": 789,
-    "totalReviews": 789,
-    "thisYearCount": 148,
+    "totalFilms": 790,
+    "totalReviews": 790,
+    "thisYearCount": 149,
     "ratingDistribution": {
       "1": 38,
-      "2": 127,
+      "2": 128,
       "3": 149,
       "4": 105,
       "5": 16,
@@ -17,14 +17,14 @@
       "4.5": 49
     },
     "genreDistribution": {
-      "Mystery": 82,
+      "Thriller": 233,
+      "Science Fiction": 118,
+      "Mystery": 83,
       "Crime": 107,
-      "Thriller": 232,
       "Horror": 133,
       "Drama": 373,
       "Comedy": 224,
       "Action": 119,
-      "Science Fiction": 117,
       "Romance": 91,
       "Adventure": 84,
       "History": 42,
@@ -38,8 +38,8 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "2010s": 131,
       "2020s": 589,
-      "2010s": 130,
       "1990s": 17,
       "2000s": 32,
       "1980s": 16,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-37686",
+      "letterboxdSlug": "super-8",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/super-8/",
+      "title": "Super 8",
+      "releaseYear": 2011,
+      "firstWatchedDate": "2026-07-04",
+      "latestWatchedDate": "2026-07-04",
+      "firstReviewDate": "2026-07-05",
+      "latestReviewDate": "2026-07-05",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1382143205",
+          "watchedDate": "2026-07-04",
+          "reviewDate": "2026-07-05",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "In some ways, this walker so <i>Stranger Things</i> could run. Obsessed with these kids being serious filmmakers, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 37686,
+        "posterPath": "/pUWIjaMMYJjeBm5bJyE3mIXdQ62.jpg",
+        "backdropPath": "/x6Dr9i6vhWICxs7hnX2BakcMtPd.jpg",
+        "genres": [
+          "Thriller",
+          "Science Fiction",
+          "Mystery"
+        ],
+        "runtime": 112,
+        "director": "J.J. Abrams"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/pUWIjaMMYJjeBm5bJyE3mIXdQ62.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/pUWIjaMMYJjeBm5bJyE3mIXdQ62.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-505026",
       "letterboxdSlug": "death-on-the-nile",
@@ -34355,6 +34400,51 @@
     }
   ],
   "filmById": {
+    "tmdb-37686": {
+      "id": "tmdb-37686",
+      "letterboxdSlug": "super-8",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/super-8/",
+      "title": "Super 8",
+      "releaseYear": 2011,
+      "firstWatchedDate": "2026-07-04",
+      "latestWatchedDate": "2026-07-04",
+      "firstReviewDate": "2026-07-05",
+      "latestReviewDate": "2026-07-05",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1382143205",
+          "watchedDate": "2026-07-04",
+          "reviewDate": "2026-07-05",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "In some ways, this walker so <i>Stranger Things</i> could run. Obsessed with these kids being serious filmmakers, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 37686,
+        "posterPath": "/pUWIjaMMYJjeBm5bJyE3mIXdQ62.jpg",
+        "backdropPath": "/x6Dr9i6vhWICxs7hnX2BakcMtPd.jpg",
+        "genres": [
+          "Thriller",
+          "Science Fiction",
+          "Mystery"
+        ],
+        "runtime": 112,
+        "director": "J.J. Abrams"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/pUWIjaMMYJjeBm5bJyE3mIXdQ62.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/pUWIjaMMYJjeBm5bJyE3mIXdQ62.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-505026": {
       "id": "tmdb-505026",
       "letterboxdSlug": "death-on-the-nile",
