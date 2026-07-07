@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-07-06T14:31:38.959Z",
+  "capturedAt": "2026-07-07T00:31:49.903Z",
   "summary": {
     "totalShows": 157,
     "totalShowReviews": 41,
     "totalSeasonReviews": 245,
-    "totalEpisodeReviews": 691,
+    "totalEpisodeReviews": 695,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
-      "3": 233,
+      "3": 234,
       "4": 192,
       "5": 18,
+      "2.5": 93,
       "3.5": 298,
       "4.5": 52,
-      "2.5": 90,
       "1.5": 11,
       "0.5": 1
     },
@@ -42,20 +42,20 @@
       },
       "episode": {
         "2": 22,
-        "3": 172,
+        "3": 173,
         "4": 144,
         "5": 8,
+        "2.5": 68,
         "3.5": 231,
         "4.5": 43,
-        "2.5": 65,
         "1.5": 5
       }
     },
     "genreDistribution": {
+      "Comedy": 57,
       "Drama": 97,
       "Sci-Fi & Fantasy": 24,
       "Action & Adventure": 17,
-      "Comedy": 57,
       "Reality": 27,
       "Talk": 1,
       "Mystery": 32,
@@ -74,11 +74,160 @@
       "1990s": 1
     },
     "showsInProgressCount": 8,
-    "thisYearCount": 53,
+    "thisYearCount": 54,
     "totalWatchedShows": 343,
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-227139",
+      "serializdShowId": 227139,
+      "slug": "survival-of-the-thickest-2023",
+      "name": "Survival of the Thickest",
+      "premiereYear": 2023,
+      "premiereDate": "2023-07-13",
+      "serializdUrl": "https://serializd.com/show/227139",
+      "tmdb": {
+        "id": 227139,
+        "name": "Survival of the Thickest",
+        "posterPath": "/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
+        "backdropPath": "/8SfliXoBxhrzVgjCIhvkDDOOTmm.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Netflix"
+        ],
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 16
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
+      "seasons": [
+        {
+          "serializdId": 342359,
+          "showId": 227139,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/opEFnbxE7SPxB1XNaQDDRY4Orm6.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 378988,
+          "showId": 227139,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/stCZfeHU2IpH7zzvSrYReVVhkZi.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 73433137,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Get my girl out of this hostel.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-06T23:45:06Z",
+          "reviewDate": "2026-07-06T23:45:25Z",
+          "seasonId": 515140,
+          "episodeNumber": 4,
+          "episodeName": "Episode 4",
+          "tags": []
+        },
+        {
+          "id": 73428346,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-06T23:29:05Z",
+          "reviewDate": "2026-07-06T23:29:21Z",
+          "seasonId": 515140,
+          "episodeNumber": 3,
+          "episodeName": "Episode 3",
+          "tags": []
+        },
+        {
+          "id": 73420185,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-06T23:01:45Z",
+          "reviewDate": "2026-07-06T23:01:45Z",
+          "seasonId": 515140,
+          "episodeNumber": 2,
+          "episodeName": "Episode 2",
+          "tags": []
+        },
+        {
+          "id": 73412575,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "No Tasha Smith? No amount of iconic cameos will make me forget!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-06T22:35:27Z",
+          "reviewDate": "2026-07-06T22:36:08Z",
+          "seasonId": 515140,
+          "episodeNumber": 1,
+          "episodeName": "Episode 1",
+          "tags": []
+        },
+        {
+          "id": 30736121,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "There is something so satisfying about this show and I think it’s honestly because it feels like people I know. A large part of that is about the stage of life these people are in. And honestly I prefer to see Garcelle here over RHOBH. Also, everyone is hot?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-03-31T20:28:00Z",
+          "reviewDate": "2025-04-01T20:31:34Z",
+          "seasonId": 378988,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        2
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [
+        1
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-06T23:45:25Z",
+      "primaryRating": 2.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-323411",
       "serializdShowId": 323411,
@@ -294,7 +443,7 @@
           "reviewDate": "2026-07-06T02:13:32Z",
           "seasonId": 449260,
           "episodeNumber": 3,
-          "episodeName": "Episode 3",
+          "episodeName": "Rhaenyra Triumphant",
           "tags": []
         },
         {
@@ -22165,88 +22314,6 @@
       "liked": false
     },
     {
-      "id": "tmdb-tv-227139",
-      "serializdShowId": 227139,
-      "slug": "survival-of-the-thickest-2023",
-      "name": "Survival of the Thickest",
-      "premiereYear": 2023,
-      "premiereDate": "2023-07-13",
-      "serializdUrl": "https://serializd.com/show/227139",
-      "tmdb": {
-        "id": 227139,
-        "name": "Survival of the Thickest",
-        "posterPath": "/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
-        "backdropPath": "/8SfliXoBxhrzVgjCIhvkDDOOTmm.jpg",
-        "genres": [
-          "Comedy",
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Netflix"
-        ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 16
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
-      "seasons": [
-        {
-          "serializdId": 342359,
-          "showId": 227139,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/opEFnbxE7SPxB1XNaQDDRY4Orm6.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 378988,
-          "showId": 227139,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/stCZfeHU2IpH7zzvSrYReVVhkZi.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 30736121,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "There is something so satisfying about this show and I think it’s honestly because it feels like people I know. A large part of that is about the stage of life these people are in. And honestly I prefer to see Garcelle here over RHOBH. Also, everyone is hot?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-03-31T20:28:00Z",
-          "reviewDate": "2025-04-01T20:31:34Z",
-          "seasonId": 378988,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5
-      ],
-      "watchedYearSet": [
-        2025
-      ],
-      "reviewedSeasonNumbers": [
-        2
-      ],
-      "inProgressSeasonNumbers": [],
-      "watchedUnreviewedSeasonNumbers": [
-        1
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2025-04-01T20:31:34Z",
-      "primaryRating": 3.5,
-      "liked": false
-    },
-    {
       "id": "tmdb-tv-249042",
       "serializdShowId": 249042,
       "slug": "adolescence-2025",
@@ -27201,6 +27268,155 @@
     }
   ],
   "showById": {
+    "tmdb-tv-227139": {
+      "id": "tmdb-tv-227139",
+      "serializdShowId": 227139,
+      "slug": "survival-of-the-thickest-2023",
+      "name": "Survival of the Thickest",
+      "premiereYear": 2023,
+      "premiereDate": "2023-07-13",
+      "serializdUrl": "https://serializd.com/show/227139",
+      "tmdb": {
+        "id": 227139,
+        "name": "Survival of the Thickest",
+        "posterPath": "/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
+        "backdropPath": "/8SfliXoBxhrzVgjCIhvkDDOOTmm.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Netflix"
+        ],
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 16
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
+      "seasons": [
+        {
+          "serializdId": 342359,
+          "showId": 227139,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/opEFnbxE7SPxB1XNaQDDRY4Orm6.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 378988,
+          "showId": 227139,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/stCZfeHU2IpH7zzvSrYReVVhkZi.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 73433137,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Get my girl out of this hostel.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-06T23:45:06Z",
+          "reviewDate": "2026-07-06T23:45:25Z",
+          "seasonId": 515140,
+          "episodeNumber": 4,
+          "episodeName": "Episode 4",
+          "tags": []
+        },
+        {
+          "id": 73428346,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-06T23:29:05Z",
+          "reviewDate": "2026-07-06T23:29:21Z",
+          "seasonId": 515140,
+          "episodeNumber": 3,
+          "episodeName": "Episode 3",
+          "tags": []
+        },
+        {
+          "id": 73420185,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-06T23:01:45Z",
+          "reviewDate": "2026-07-06T23:01:45Z",
+          "seasonId": 515140,
+          "episodeNumber": 2,
+          "episodeName": "Episode 2",
+          "tags": []
+        },
+        {
+          "id": 73412575,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "No Tasha Smith? No amount of iconic cameos will make me forget!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-06T22:35:27Z",
+          "reviewDate": "2026-07-06T22:36:08Z",
+          "seasonId": 515140,
+          "episodeNumber": 1,
+          "episodeName": "Episode 1",
+          "tags": []
+        },
+        {
+          "id": 30736121,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "There is something so satisfying about this show and I think it’s honestly because it feels like people I know. A large part of that is about the stage of life these people are in. And honestly I prefer to see Garcelle here over RHOBH. Also, everyone is hot?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-03-31T20:28:00Z",
+          "reviewDate": "2025-04-01T20:31:34Z",
+          "seasonId": 378988,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        2
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [
+        1
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-06T23:45:25Z",
+      "primaryRating": 2.5,
+      "liked": false
+    },
     "tmdb-tv-323411": {
       "id": "tmdb-tv-323411",
       "serializdShowId": 323411,
@@ -27416,7 +27632,7 @@
           "reviewDate": "2026-07-06T02:13:32Z",
           "seasonId": 449260,
           "episodeNumber": 3,
-          "episodeName": "Episode 3",
+          "episodeName": "Rhaenyra Triumphant",
           "tags": []
         },
         {
@@ -49284,88 +49500,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2025-04-12T17:26:25Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    "tmdb-tv-227139": {
-      "id": "tmdb-tv-227139",
-      "serializdShowId": 227139,
-      "slug": "survival-of-the-thickest-2023",
-      "name": "Survival of the Thickest",
-      "premiereYear": 2023,
-      "premiereDate": "2023-07-13",
-      "serializdUrl": "https://serializd.com/show/227139",
-      "tmdb": {
-        "id": 227139,
-        "name": "Survival of the Thickest",
-        "posterPath": "/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
-        "backdropPath": "/8SfliXoBxhrzVgjCIhvkDDOOTmm.jpg",
-        "genres": [
-          "Comedy",
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Netflix"
-        ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 16
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
-      "seasons": [
-        {
-          "serializdId": 342359,
-          "showId": 227139,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/opEFnbxE7SPxB1XNaQDDRY4Orm6.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 378988,
-          "showId": 227139,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/stCZfeHU2IpH7zzvSrYReVVhkZi.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 30736121,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "There is something so satisfying about this show and I think it’s honestly because it feels like people I know. A large part of that is about the stage of life these people are in. And honestly I prefer to see Garcelle here over RHOBH. Also, everyone is hot?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-03-31T20:28:00Z",
-          "reviewDate": "2025-04-01T20:31:34Z",
-          "seasonId": 378988,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5
-      ],
-      "watchedYearSet": [
-        2025
-      ],
-      "reviewedSeasonNumbers": [
-        2
-      ],
-      "inProgressSeasonNumbers": [],
-      "watchedUnreviewedSeasonNumbers": [
-        1
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2025-04-01T20:31:34Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-249042": {
