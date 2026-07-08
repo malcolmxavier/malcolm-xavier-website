@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-07-07T02:31:08.517Z",
+  "capturedAt": "2026-07-08T06:31:21.391Z",
   "summary": {
-    "totalShows": 157,
+    "totalShows": 158,
     "totalShowReviews": 42,
     "totalSeasonReviews": 246,
-    "totalEpisodeReviews": 699,
+    "totalEpisodeReviews": 701,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
       "3": 236,
-      "4": 192,
+      "4": 194,
       "5": 18,
       "2.5": 96,
       "3.5": 299,
@@ -43,7 +43,7 @@
       "episode": {
         "2": 22,
         "3": 174,
-        "4": 144,
+        "4": 146,
         "5": 8,
         "2.5": 70,
         "3.5": 232,
@@ -52,7 +52,8 @@
       }
     },
     "genreDistribution": {
-      "Comedy": 57,
+      "Comedy": 58,
+      "Documentary": 13,
       "Drama": 97,
       "Sci-Fi & Fantasy": 24,
       "Action & Adventure": 17,
@@ -60,25 +61,144 @@
       "Talk": 1,
       "Mystery": 32,
       "Crime": 28,
-      "Documentary": 12,
       "News": 1,
       "Animation": 5,
       "Family": 3,
       "War & Politics": 2
     },
     "decadeDistribution": {
+      "2010s": 22,
       "2020s": 128,
       "2000s": 6,
-      "2010s": 21,
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 8,
-    "thisYearCount": 54,
-    "totalWatchedShows": 343,
+    "showsInProgressCount": 9,
+    "thisYearCount": 55,
+    "totalWatchedShows": 344,
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-58957",
+      "serializdShowId": 58957,
+      "slug": "nathan-for-you-2013",
+      "name": "Nathan for You",
+      "premiereYear": 2013,
+      "premiereDate": "2013-02-28",
+      "serializdUrl": "https://serializd.com/show/58957",
+      "tmdb": {
+        "id": 58957,
+        "name": "Nathan for You",
+        "posterPath": "/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+        "backdropPath": "/5ix5qtVlLR2O0sgAJp5urHLbGZe.jpg",
+        "genres": [
+          "Comedy",
+          "Documentary"
+        ],
+        "type": "Reality",
+        "status": "Ended",
+        "networks": [
+          "Comedy Central"
+        ],
+        "numberOfSeasons": 4,
+        "numberOfEpisodes": 31
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+      "seasons": [
+        {
+          "serializdId": 121803,
+          "showId": 58957,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/qaNkOdWN1Fo2AeqLNXlX9QLie1w.jpg",
+          "episodeCount": 1
+        },
+        {
+          "serializdId": 62356,
+          "showId": 58957,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/yxsH3BIEgiO4feFsjkBwdHXDInF.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 62357,
+          "showId": 58957,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/j9LF7lNGelcuegjF71oF99DnfLU.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 70990,
+          "showId": 58957,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/vZLGWhCF2dGj6vvPeYE3Gg2FN7y.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 91677,
+          "showId": 58957,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/wR6lIIaqmZPOdtnQrvQV9XjbzDq.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 74161883,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Nathan as an elf…why he kinda…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-08T04:58:25Z",
+          "reviewDate": "2026-07-08T04:58:25Z",
+          "seasonId": 62356,
+          "episodeNumber": 2,
+          "episodeName": "Santa / Petting Zoo",
+          "tags": []
+        },
+        {
+          "id": 74149856,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m genuinely amazed this show was greenlit. But honestly it’s so perfectly 2013.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-08T04:37:08Z",
+          "reviewDate": "2026-07-08T04:37:23Z",
+          "seasonId": 62356,
+          "episodeNumber": 1,
+          "episodeName": "Yogurt Shop / Pizzeria",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-08T04:58:25Z",
+      "primaryRating": 4,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-227139",
       "serializdShowId": 227139,
@@ -27364,6 +27484,126 @@
     }
   ],
   "showById": {
+    "tmdb-tv-58957": {
+      "id": "tmdb-tv-58957",
+      "serializdShowId": 58957,
+      "slug": "nathan-for-you-2013",
+      "name": "Nathan for You",
+      "premiereYear": 2013,
+      "premiereDate": "2013-02-28",
+      "serializdUrl": "https://serializd.com/show/58957",
+      "tmdb": {
+        "id": 58957,
+        "name": "Nathan for You",
+        "posterPath": "/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+        "backdropPath": "/5ix5qtVlLR2O0sgAJp5urHLbGZe.jpg",
+        "genres": [
+          "Comedy",
+          "Documentary"
+        ],
+        "type": "Reality",
+        "status": "Ended",
+        "networks": [
+          "Comedy Central"
+        ],
+        "numberOfSeasons": 4,
+        "numberOfEpisodes": 31
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+      "seasons": [
+        {
+          "serializdId": 121803,
+          "showId": 58957,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/qaNkOdWN1Fo2AeqLNXlX9QLie1w.jpg",
+          "episodeCount": 1
+        },
+        {
+          "serializdId": 62356,
+          "showId": 58957,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/yxsH3BIEgiO4feFsjkBwdHXDInF.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 62357,
+          "showId": 58957,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/j9LF7lNGelcuegjF71oF99DnfLU.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 70990,
+          "showId": 58957,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/vZLGWhCF2dGj6vvPeYE3Gg2FN7y.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 91677,
+          "showId": 58957,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/wR6lIIaqmZPOdtnQrvQV9XjbzDq.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 74161883,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Nathan as an elf…why he kinda…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-08T04:58:25Z",
+          "reviewDate": "2026-07-08T04:58:25Z",
+          "seasonId": 62356,
+          "episodeNumber": 2,
+          "episodeName": "Santa / Petting Zoo",
+          "tags": []
+        },
+        {
+          "id": 74149856,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m genuinely amazed this show was greenlit. But honestly it’s so perfectly 2013.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-08T04:37:08Z",
+          "reviewDate": "2026-07-08T04:37:23Z",
+          "seasonId": 62356,
+          "episodeNumber": 1,
+          "episodeName": "Yogurt Shop / Pizzeria",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-08T04:58:25Z",
+      "primaryRating": 4,
+      "liked": false
+    },
     "tmdb-tv-227139": {
       "id": "tmdb-tv-227139",
       "serializdShowId": 227139,
