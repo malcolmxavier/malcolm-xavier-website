@@ -154,6 +154,11 @@ export function ShareBar({
   const [feedback, setFeedback] = useState<string | null>(null);
   // Whether the "More" overflow popover is open.
   const [moreOpen, setMoreOpen] = useState(false);
+  // Which way the popover opens. Default "down"; flipped to "up" at open
+  // time when there isn't room below the trigger (e.g. the share bar
+  // pinned near the bottom of the case-study TOC rail), so the menu never
+  // opens off the bottom edge of the viewport.
+  const [menuPlacement, setMenuPlacement] = useState<"down" | "up">("down");
 
   const feedbackTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const moreWrapRef = useRef<HTMLDivElement>(null);
@@ -435,6 +440,28 @@ export function ShareBar({
   // people's share mental model; it's a nicety kept a tap away).
   const hasMore = overflow.length > 0 || hasImage;
 
+  /** Open the "More" popover, choosing the side with room. We estimate
+   *  the menu's height from its contents (each channel row ~40px, plus
+   *  the card-image group when present) rather than measuring after
+   *  render, so the menu paints on the correct side with no flip flicker.
+   *  Falls back to opening downward when the trigger ref isn't available
+   *  or there's room below. */
+  const openMore = () => {
+    const trigger = moreTriggerRef.current;
+    if (trigger) {
+      const rect = trigger.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      const estMenuHeight = overflow.length * 40 + (hasImage ? 150 : 0) + 24;
+      // Only flip up when below is too tight AND above genuinely has more
+      // room — so a bar mid-viewport still opens downward as expected.
+      setMenuPlacement(
+        spaceBelow < estMenuHeight && spaceAbove > spaceBelow ? "up" : "down",
+      );
+    }
+    setMoreOpen(true);
+  };
+
   // Label can sit inline with the pills (default) or on its own line
   // above them ("block") — the narrow case-study TOC rail uses block so
   // the pills group cleanly under the "Share" header instead of
@@ -501,7 +528,7 @@ export function ShareBar({
           <button
             ref={moreTriggerRef}
             type="button"
-            onClick={() => setMoreOpen((v) => !v)}
+            onClick={() => (moreOpen ? setMoreOpen(false) : openMore())}
             aria-expanded={moreOpen}
             aria-controls={menuId}
             className={
@@ -533,7 +560,11 @@ export function ShareBar({
               style={{
                 position: "absolute",
                 insetInlineStart: 0,
-                top: "calc(100% + 6px)",
+                // Opens below the trigger by default, or above it when
+                // openMore() found more room there (bottom-of-rail case).
+                ...(menuPlacement === "up"
+                  ? { bottom: "calc(100% + 6px)" }
+                  : { top: "calc(100% + 6px)" }),
                 zIndex: 50,
                 minWidth: 200,
                 padding: 4,
@@ -541,6 +572,14 @@ export function ShareBar({
                 background: "var(--surface-default)",
                 border: "1px solid var(--border-interactive)",
                 boxShadow: "var(--shadow-popup)",
+                // When the menu is tall (professional overflow is six
+                // items) and opens near the top of the viewport, cap its
+                // height and let it scroll internally. overscroll-behavior
+                // keeps a scroll gesture inside the menu from chaining to
+                // the page once the menu's own scroll hits its end.
+                maxHeight: "min(60vh, 420px)",
+                overflowY: "auto",
+                overscrollBehavior: "contain",
               }}
             >
               {overflow.map(renderMenuChannel)}

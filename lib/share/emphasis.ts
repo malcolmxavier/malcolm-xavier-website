@@ -40,16 +40,20 @@ export const PINNED: Record<EmphasisProfile, ShareChannelId[]> = {
 /** Canonical order for the full menu (the "More" list shows every
  *  channel here that isn't already pinned for the active profile).
  *  Bluesky sits before X (Malcolm's platform over the de-emphasized
- *  one); LinkedIn sits directly above Email so they read as the
- *  professional pair at the tail of the personal profile's "More" list. */
+ *  one), and Reddit sits directly after Bluesky so the two high-reach
+ *  social destinations read as a pair at the top of the professional
+ *  profile's "More" list (Reddit is pinned in the personal profile, so
+ *  its position here only affects professional). LinkedIn sits directly
+ *  above Email so they read as the professional pair at the tail of the
+ *  personal profile's "More" list. */
 export const FULL_ORDER: ShareChannelId[] = [
   "copy",
   "messages",
   "whatsapp",
   "bluesky",
+  "reddit",
   "x",
   "facebook",
-  "reddit",
   "linkedin",
   "email",
 ];

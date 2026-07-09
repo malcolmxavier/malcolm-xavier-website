@@ -55,9 +55,9 @@ describe("FULL_ORDER menu", () => {
       "messages",
       "whatsapp",
       "bluesky",
+      "reddit",
       "x",
       "facebook",
-      "reddit",
       "linkedin",
       "email",
     ];
@@ -68,6 +68,10 @@ describe("FULL_ORDER menu", () => {
 
   it("orders Bluesky before X (own platform over the de-emphasized one)", () => {
     expect(FULL_ORDER.indexOf("bluesky")).toBeLessThan(FULL_ORDER.indexOf("x"));
+  });
+
+  it("orders Reddit directly after Bluesky (the two high-reach social destinations, paired at the top of the professional 'More' list)", () => {
+    expect(FULL_ORDER.indexOf("reddit")).toBe(FULL_ORDER.indexOf("bluesky") + 1);
   });
 
   it("orders LinkedIn directly above Email (the professional pair at the tail)", () => {

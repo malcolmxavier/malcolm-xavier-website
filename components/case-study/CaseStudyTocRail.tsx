@@ -76,7 +76,9 @@ export function CaseStudyTocRail({
     ? CASE_STUDIES.find((s) => s.slug === shareSlug)
     : undefined;
   const share = study ? (
-    <div className="mt-6 border-t border-[var(--border-default)] pt-5">
+    // flex-none so a long TOC scroll region never squeezes the share bar
+    // out — the TOC list shrinks and scrolls, the share stays put.
+    <div className="mt-6 flex-none border-t border-[var(--border-default)] pt-5">
       <ShareBar
         path={study.href}
         title={study.title}
@@ -120,8 +122,18 @@ export function CaseStudyTocRail({
       <aside
         className="hidden xl:block absolute top-0 bottom-8 left-0 w-[180px] 2xl:w-[220px] z-30 pointer-events-none"
       >
-        <div className="sticky top-32 ml-4 2xl:ml-8 pointer-events-auto">
-          <TableOfContents items={items} ariaLabel={ariaLabel} activeId={activeId} />
+        {/* Bounded to the viewport (top-32 = 8rem offset, ~2rem bottom
+            gap) and laid out as a flex column so a long TOC + the share
+            bar can't overflow past the fold: the TOC list becomes the
+            scroll region (min-h-0 lets it shrink below its content;
+            overscroll-contain stops its scroll from chaining to the
+            page) while the share bar stays pinned and reachable at the
+            bottom. Short case studies never hit the cap, so they render
+            exactly as before. */}
+        <div className="sticky top-32 ml-4 2xl:ml-8 pointer-events-auto flex max-h-[calc(100vh-10rem)] flex-col">
+          <div className="min-h-0 overflow-y-auto overscroll-contain">
+            <TableOfContents items={items} ariaLabel={ariaLabel} activeId={activeId} />
+          </div>
           {share}
         </div>
       </aside>
@@ -131,8 +143,14 @@ export function CaseStudyTocRail({
           height = the article's height. No special handling needed —
           this variant already clamped correctly before. */}
       <aside className="hidden lg:block xl:hidden">
-        <div className="sticky top-24 pl-4">
-          <TableOfContents items={items} ariaLabel={ariaLabel} activeId={activeId} />
+        {/* Same viewport-bounded flex-column treatment as the xl rail
+            (top-24 = 6rem offset here), so the TOC list scrolls and the
+            share bar stays pinned rather than being pushed below the fold
+            on a long TOC. */}
+        <div className="sticky top-24 pl-4 flex max-h-[calc(100vh-8rem)] flex-col">
+          <div className="min-h-0 overflow-y-auto overscroll-contain">
+            <TableOfContents items={items} ariaLabel={ariaLabel} activeId={activeId} />
+          </div>
           {share}
         </div>
       </aside>
