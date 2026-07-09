@@ -221,6 +221,16 @@ export function ShareBar({
     setFeedback(message);
   };
 
+  /** Close the "More" popover AND return focus to its trigger — the
+   *  keyboard-correct dismissal every in-menu action uses, so activating
+   *  a channel or a card-image item doesn't strand focus on <body>.
+   *  Mirrors the Escape handler; outside-click intentionally skips the
+   *  refocus (the user's focus is already elsewhere). */
+  const closeMore = () => {
+    setMoreOpen(false);
+    moreTriggerRef.current?.focus();
+  };
+
   /** Copy the UTM-tagged share URL and flash inline confirmation. */
   const handleCopy = async () => {
     const shareUrl = buildShareUrl(path, "copy", campaign);
@@ -296,7 +306,7 @@ export function ShareBar({
     height: buttonSize,
     color: "var(--text-body)",
     background: "var(--surface-default)",
-    borderColor: "var(--border-default)",
+    borderColor: "var(--border-interactive)",
     outlineColor: "var(--border-focus)",
     cursor: "pointer",
   };
@@ -314,7 +324,7 @@ export function ShareBar({
     border: "none",
     outlineColor: "var(--border-focus)",
     fontFamily: "var(--font-mono)",
-    fontSize: 13,
+    fontSize: "var(--p-xs-font-size)",
     letterSpacing: "0.02em",
     cursor: "pointer",
   };
@@ -371,9 +381,9 @@ export function ShareBar({
     const Icon = channel.icon;
 
     const onActivate = (id2: ShareChannelId) => {
-      // Close the popover after any selection so focus can return to
-      // the page flow rather than stranding it in a dismissed menu.
-      setMoreOpen(false);
+      // Close the popover and return focus to the trigger after any
+      // selection, so a keyboard user isn't stranded in a dismissed menu.
+      closeMore();
       fireShare(id2);
     };
 
@@ -383,7 +393,7 @@ export function ShareBar({
           key={id}
           type="button"
           onClick={() => {
-            setMoreOpen(false);
+            closeMore();
             handleCopy();
           }}
           className={menuItemClass}
@@ -436,9 +446,12 @@ export function ShareBar({
       role="group"
       aria-label="Share this page"
       className={
+        // "share-bar" is the hook the components.css sub-brand override
+        // targets, so channel <a>s stay neutral chrome instead of
+        // inheriting the loud editorial-link color on film/tv surfaces.
         isBlockLabel
-          ? "flex flex-col items-start gap-2"
-          : "inline-flex flex-wrap items-center gap-2"
+          ? "share-bar flex flex-col items-start gap-2"
+          : "share-bar inline-flex flex-wrap items-center gap-2"
       }
     >
       {label ? (
@@ -489,7 +502,6 @@ export function ShareBar({
             ref={moreTriggerRef}
             type="button"
             onClick={() => setMoreOpen((v) => !v)}
-            aria-haspopup="true"
             aria-expanded={moreOpen}
             aria-controls={menuId}
             className={
@@ -502,7 +514,7 @@ export function ShareBar({
               padding: "0 12px",
               color: "var(--text-body)",
               background: "var(--surface-default)",
-              borderColor: "var(--border-default)",
+              borderColor: "var(--border-interactive)",
               outlineColor: "var(--border-focus)",
               fontFamily: "var(--font-mono)",
               fontSize: "var(--p-xs-font-size)",
@@ -527,8 +539,8 @@ export function ShareBar({
                 padding: 4,
                 borderRadius: "var(--border-radius-md)",
                 background: "var(--surface-default)",
-                border: "1px solid var(--border-default)",
-                boxShadow: "0 8px 24px rgba(0,0,0,0.18)",
+                border: "1px solid var(--border-interactive)",
+                boxShadow: "var(--shadow-popup)",
               }}
             >
               {overflow.map(renderMenuChannel)}
@@ -545,7 +557,7 @@ export function ShareBar({
                       style={{
                         margin: "4px 0",
                         border: "none",
-                        borderTop: "1px solid var(--border-default)",
+                        borderTop: "1px solid var(--border-interactive)",
                       }}
                     />
                   ) : null}
@@ -553,7 +565,7 @@ export function ShareBar({
                     style={{
                       padding: "6px 12px 2px",
                       fontFamily: "var(--font-mono)",
-                      fontSize: 11,
+                      fontSize: "var(--p-xs-font-size)",
                       textTransform: "uppercase",
                       letterSpacing: "0.08em",
                       color: "var(--text-caption)",
@@ -568,7 +580,7 @@ export function ShareBar({
                     href={landscapeHref}
                     download={`${imageFilenameStem}.png`}
                     onClick={() => {
-                      setMoreOpen(false);
+                      closeMore();
                       trackImageDownload("landscape");
                     }}
                     className={menuItemClass}
@@ -581,7 +593,7 @@ export function ShareBar({
                     href={storyHref}
                     download={`${imageFilenameStem}-story.png`}
                     onClick={() => {
-                      setMoreOpen(false);
+                      closeMore();
                       trackImageDownload("story");
                     }}
                     className={menuItemClass}
@@ -598,7 +610,7 @@ export function ShareBar({
                     <button
                       type="button"
                       onClick={() => {
-                        setMoreOpen(false);
+                        closeMore();
                         shareImageFile();
                       }}
                       className={menuItemClass}
@@ -623,7 +635,7 @@ export function ShareBar({
         aria-atomic="true"
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: 12,
+          fontSize: "var(--p-xs-font-size)",
           letterSpacing: "0.04em",
           color: "var(--text-caption)",
           marginInlineStart: 2,

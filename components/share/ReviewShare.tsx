@@ -35,6 +35,11 @@ type ReviewShareProps = {
   surface: string;
   /** Filename stem for downloads (".png" / "-story.png" appended). */
   filenameStem: string;
+  /** Distinguishing label for this take (e.g. "Season 1") — appended to
+   *  the summary's accessible name so multiple "Share this take" controls
+   *  on one page are individually identifiable to a screen reader
+   *  browsing by control (the visible text stays "Share this take"). */
+  takeLabel?: string;
 };
 
 export function ReviewShare({
@@ -44,11 +49,13 @@ export function ReviewShare({
   text,
   surface,
   filenameStem,
+  takeLabel,
 }: ReviewShareProps) {
   return (
     <details className="review-share">
       <summary
         className="review-share-summary focus-visible:outline-2 focus-visible:outline-offset-2"
+        aria-label={takeLabel ? `Share this take — ${takeLabel}` : undefined}
         style={{
           display: "inline-flex",
           alignItems: "center",
@@ -75,7 +82,7 @@ export function ReviewShare({
         style={{
           marginTop: "var(--scale-300)",
           paddingInlineStart: "var(--scale-400)",
-          borderInlineStart: "2px solid var(--border-default)",
+          borderInlineStart: "2px solid var(--border-interactive)",
         }}
       >
         <ShareBar

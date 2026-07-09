@@ -684,9 +684,26 @@ a[data-subbrand="film"] {
    via <details>. */
 .review-share-summary {
   list-style: none;
+  /* WCAG 2.2 SC 2.5.8 (Target Size, Minimum) — the <summary> is the tap
+     target, but its native line box is only ~18px tall. Floor it to the
+     24px minimum; the summary is already inline-flex + centered inline. */
+  min-height: 24px;
 }
 .review-share-summary::-webkit-details-marker {
   display: none;
+}
+
+/* ShareBar renders each channel — and the card-image download links — as
+   an <a>, so inside a sub-branded surface (film/tv/…) they'd inherit the
+   loud editorial-link color, which is set !important. The bar is neutral
+   chrome, not prose: pin its links to body color. The extra class in the
+   selector lifts specificity above the [data-subbrand] a rule so this
+   wins with !important regardless of source order — same technique the
+   genre-chip overrides below use. */
+[data-subbrand] .share-bar a,
+[data-subbrand] .share-bar a:hover,
+[data-subbrand] .share-bar a:focus-visible {
+  color: var(--text-body) !important;
 }
 
 [data-subbrand="tv"] a,

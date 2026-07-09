@@ -878,6 +878,7 @@ function ReviewBlock({
   show,
   review,
   anchorId,
+  takeLabel,
   enableShareBreakout = true,
 }: {
   /** Parent show — supplies the slug/name/year for the share control
@@ -886,6 +887,10 @@ function ReviewBlock({
   show: Show;
   review: Review;
   anchorId: string;
+  /** Distinguishing label for this take (e.g. "Season 1"), threaded to
+   *  the ReviewShare summary's accessible name so sibling "Share this
+   *  take" controls are individually identifiable to a screen reader. */
+  takeLabel?: string;
   /** Whether to render the per-review "share this take" breakout.
    *  False for the whole-show take (baked into the hero share);
    *  true (default) for season-level takes, which the hero doesn't
@@ -952,6 +957,7 @@ function ReviewBlock({
             title={`${show.name} (${show.premiereYear})`}
             surface={`${review.level}-review`}
             filenameStem={`${show.slug}-${anchorId}`}
+            takeLabel={takeLabel}
           />
         ) : null}
       </Stack>
@@ -1175,6 +1181,7 @@ function SeasonBlock({
                 show={show}
                 review={seasonReview}
                 anchorId={`season-${season.seasonNumber}-review`}
+                takeLabel={heading}
               />
             ) : null}
             {episodeReviews.length > 0 ? (

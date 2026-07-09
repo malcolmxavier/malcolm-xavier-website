@@ -27,7 +27,13 @@ export type EmphasisProfile = "professional" | "personal";
 
 /** Channels pinned above the "More" fold, in display order. */
 export const PINNED: Record<EmphasisProfile, ShareChannelId[]> = {
-  professional: ["copy", "linkedin", "email", "reddit"],
+  // Professional is recruiter-facing: Copy, LinkedIn, and Email are the
+  // three a hiring manager or peer actually uses. Reddit is a "reach
+  // play" that only fits the personal (film/TV/music) audience, so it
+  // stays in "More" here rather than spending a scarce pinned slot on a
+  // near-zero-intent action for this audience. On mobile the ShareBar
+  // prepends Native as the de-facto fourth pinned control.
+  professional: ["copy", "linkedin", "email"],
   personal: ["copy", "messages", "whatsapp", "reddit"],
 };
 

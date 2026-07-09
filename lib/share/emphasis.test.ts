@@ -18,8 +18,11 @@ import type { ShareChannelId } from "./build-share-url";
 const PROFILES: EmphasisProfile[] = ["professional", "personal"];
 
 describe("PINNED profiles", () => {
-  it("professional pins the recruiter-facing set in order", () => {
-    expect(PINNED.professional).toEqual(["copy", "linkedin", "email", "reddit"]);
+  it("professional pins the recruiter-facing set in order (no Reddit)", () => {
+    // Reddit is intentionally NOT pinned for the professional audience —
+    // a recruiter won't Reddit-share a case study, so it lives under
+    // "More" here (see emphasis.ts). Native prepends on mobile.
+    expect(PINNED.professional).toEqual(["copy", "linkedin", "email"]);
   });
 
   it("personal pins the messaging-first set in order", () => {
