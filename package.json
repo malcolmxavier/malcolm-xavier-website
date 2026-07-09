@@ -40,6 +40,8 @@
     "demo:record": "node scripts/record-demo.mjs",
     "demo:record:sketch": "node scripts/record-demo.mjs --clip=01",
     "demo:record:tour": "node scripts/record-demo.mjs --tour",
+    "demo:record:mobile": "node scripts/record-demo.mjs --mobile",
+    "demo:record:mobile:tour": "node scripts/record-demo.mjs --mobile --tour",
     "prebuild": "npm run tokens:build"
   },
   "dependencies": {
