@@ -287,6 +287,14 @@ async function pushSnapshotToGitHub(
       content: Buffer.from(newContent, "utf-8").toString("base64"),
       sha: fileMeta.sha,
       branch: GITHUB_BRANCH,
+      // Author = Malcolm's GitHub noreply alias, so these automated
+      // refreshes credit his contribution graph (GitHub attributes the
+      // graph by AUTHOR email, which must be one linked to his account).
+      // Committer stays the bot to mark the commit as machine-made.
+      author: {
+        name: "Malcolm Xavier",
+        email: "63060255+malcolmxavier@users.noreply.github.com",
+      },
       committer: {
         name: "vercel-cron[bot]",
         email: "vercel-cron@users.noreply.github.com",
