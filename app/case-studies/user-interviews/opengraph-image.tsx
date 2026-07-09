@@ -9,7 +9,7 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "Steering leading indicators — Case study. Targeting, retention, and marketplace mechanics.";
+  "Steering leading indicators—Case study. Targeting, retention, and marketplace mechanics.";
 
 export default function OpenGraphImage() {
   // Short title holds the 128px default for full presence.

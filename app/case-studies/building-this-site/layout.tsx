@@ -80,12 +80,14 @@ const ARTICLE_SCHEMA = {
       headline: ARTICLE_HEADLINE,
       description: ARTICLE_DESCRIPTION,
       // image is a required field for Google Article rich results.
-      // Mirrors the OG image URL declared in metadata.openGraph.images;
-      // dimensions match the Satori-rendered /opengraph-image route.
+      // Points at THIS article's own opengraph-image route (its
+      // route-specific Satori card, via file convention), NOT the
+      // sitewide /opengraph-image — so the Article rich result shows the
+      // case-study card, not the recruiter-hero canvas. 1200x630.
       image: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/opengraph-image`,
-        contentUrl: `${SITE_URL}/opengraph-image`,
+        url: `${ARTICLE_URL}/opengraph-image`,
+        contentUrl: `${ARTICLE_URL}/opengraph-image`,
         caption: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
         width: 1200,
         height: 630,

@@ -9,7 +9,7 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "Infrastructure enables personalization — Case study. Driving a multi-year roadmap for identity, registration, and onboarding.";
+  "Infrastructure enables personalization—Case study. Driving a multi-year roadmap for identity, registration, and onboarding.";
 
 export default function OpenGraphImage() {
   // Medium title stepped to 104px so "Infrastructure enables" fits.

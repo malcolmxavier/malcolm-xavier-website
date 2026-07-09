@@ -113,7 +113,8 @@ export const metadata: Metadata = {
 // they're currently there. Mirrors the resume's role dates.
 //
 // `image` is a required field for Google Article rich results.
-// Mirrors the OG image URL declared in metadata.openGraph.images.
+// Points at this article's own opengraph-image route (its route-specific
+// Satori card, via file convention), not the sitewide /opengraph-image.
 
 const ARTICLE_SCHEMA = {
   "@context": "https://schema.org",
@@ -125,8 +126,8 @@ const ARTICLE_SCHEMA = {
       description: DESCRIPTION,
       image: {
         "@type": "ImageObject",
-        url: `${SITE_URL}/opengraph-image`,
-        contentUrl: `${SITE_URL}/opengraph-image`,
+        url: `${ARTICLE_URL}/opengraph-image`,
+        contentUrl: `${ARTICLE_URL}/opengraph-image`,
         caption: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
         width: 1200,
         height: 630,

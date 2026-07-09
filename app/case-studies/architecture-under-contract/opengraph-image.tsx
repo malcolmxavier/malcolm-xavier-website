@@ -11,7 +11,7 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "Architecture under contract — Case study. How three integrations stay online when their upstreams don’t.";
+  "Architecture under contract—Case study. How three integrations stay online when their upstreams don’t.";
 
 export default function OpenGraphImage() {
   // Subtitle matches the in-article Hero subtitle verbatim so a reader

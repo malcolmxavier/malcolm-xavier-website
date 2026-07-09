@@ -9,7 +9,7 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "Claude x Growth PM — Case study. Basecamp Rewards: A Turnaround.";
+  "Claude x Growth PM—Case study. Basecamp Rewards: A Turnaround.";
 
 export default function OpenGraphImage() {
   // Short title holds the 128px default for full presence.

@@ -9,7 +9,7 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "An AI‑Native Portfolio — Case study. Built brick by brick, just like my FYP.";
+  "An AI‑Native Portfolio—Case study. Built brick by brick, just like my FYP.";
 
 export default function OpenGraphImage() {
   // Title keeps the article's non-breaking hyphen in "AI‑Native" (U+2011)

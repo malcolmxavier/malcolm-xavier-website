@@ -9,7 +9,7 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "Content and data platforms: quality over quantity — Case study. Translating data quality work into the volume metric a sales-led org trusted.";
+  "Content and data platforms: quality over quantity—Case study. Translating data quality work into the volume metric a sales-led org trusted.";
 
 export default function OpenGraphImage() {
   // Long title split at its colon into two semantic halves; stepped down
