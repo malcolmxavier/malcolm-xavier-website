@@ -16,6 +16,8 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { ShareBar } from "@/components/share/ShareBar";
+import { twitterAttribution } from "@/lib/site-config";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Headline } from "@/components/typography/Headline";
@@ -141,6 +143,7 @@ export async function generateMetadata(
     },
     twitter: {
       card: "summary_large_image",
+      ...twitterAttribution,
       title: playlist.name,
       description,
       images: cover ? [cover.url] : undefined,
@@ -261,6 +264,17 @@ export default async function PlaylistDetailPage(
                     </Button>
                   ) : null}
                 </div>
+
+                {/* Share this playlist. Personal emphasis — sits below
+                    the Spotify / Apple Music actions since those are the
+                    primary CTAs. */}
+                <ShareBar
+                  path={`/music/${playlist.id}`}
+                  title={`${playlist.name}, a playlist by Malcolm Xavier`}
+                  emphasis="personal"
+                  surface="music"
+                  label="Share"
+                />
               </Stack>
             </div>
           </div>

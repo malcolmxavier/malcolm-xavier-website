@@ -39,18 +39,27 @@
 
 "use client";
 
+import { CASE_STUDIES } from "@/app/resume/resume-data";
 import { TableOfContents, type TocItem } from "@/components/chrome/TableOfContents";
 import { useScrollSpy } from "@/components/chrome/useScrollSpy";
+import { ShareBar } from "@/components/share/ShareBar";
 
 interface CaseStudyTocRailProps {
   items: TocItem[];
   /** Forwarded to TableOfContents. Defaults to "Article sections". */
   ariaLabel?: string;
+  /** Slug of the current case study. When set, a compact share
+   *  affordance renders under the TOC inside the sticky rail — so a
+   *  reader can share from any scroll position (this is a desktop-only
+   *  surface; the rail isn't rendered below lg, where the page's
+   *  under-hero fallback ShareBar covers mobile/tablet instead). */
+  shareSlug?: string;
 }
 
 export function CaseStudyTocRail({
   items,
   ariaLabel = "Article sections",
+  shareSlug,
 }: CaseStudyTocRailProps) {
   // Single scroll-spy listener shared across both breakpoint-
   // conditional TOC variants. CSS `hidden` removes one variant from
@@ -58,6 +67,28 @@ export function CaseStudyTocRail({
   // child TableOfContents would register its own rAF-throttled scroll
   // listener and race the other's activeId state at lg+ viewports.
   const activeId = useScrollSpy(items);
+
+  // Resolve the case study to share from its slug (same registry the
+  // rest of the case-study chrome reads). One share element, rendered
+  // inside both breakpoint variants below (only one aside is visible at
+  // a time, so only one is exposed to AT — same pattern as the TOC).
+  const study = shareSlug
+    ? CASE_STUDIES.find((s) => s.slug === shareSlug)
+    : undefined;
+  const share = study ? (
+    <div className="mt-6 border-t border-[var(--border-default)] pt-5">
+      <ShareBar
+        path={study.href}
+        title={study.title}
+        emphasis="professional"
+        surface="case-study"
+        campaign={`case-study-${study.slug}`}
+        variant="compact"
+        label="Share"
+        labelPlacement="block"
+      />
+    </div>
+  ) : null;
 
   return (
     <>
@@ -91,6 +122,7 @@ export function CaseStudyTocRail({
       >
         <div className="sticky top-32 ml-4 2xl:ml-8 pointer-events-auto">
           <TableOfContents items={items} ariaLabel={ariaLabel} activeId={activeId} />
+          {share}
         </div>
       </aside>
 
@@ -101,6 +133,7 @@ export function CaseStudyTocRail({
       <aside className="hidden lg:block xl:hidden">
         <div className="sticky top-24 pl-4">
           <TableOfContents items={items} ariaLabel={ariaLabel} activeId={activeId} />
+          {share}
         </div>
       </aside>
     </>

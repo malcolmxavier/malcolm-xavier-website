@@ -15,6 +15,7 @@ import type { Metadata } from "next";
 import type { CSSProperties } from "react";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { ShareBar } from "@/components/share/ShareBar";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
@@ -39,7 +40,7 @@ import { Donut } from "@/components/stats/Donut";
 import { LineChart } from "@/components/stats/LineChart";
 import { StackedBars } from "@/components/stats/StackedBars";
 import { RatingByLevelTabs } from "@/components/stats/RatingByLevelTabs";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
 import { computeTvStats } from "@/lib/feeds/stats/tv-stats";
 import { carryConnectedParams } from "@/lib/feeds/stats/connected-stats";
 import {
@@ -94,6 +95,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      ...twitterAttribution,
       title: "Television stats—Malcolm Xavier",
       description:
         "The stats behind the television corpus: per-level ratings, genres, networks, creators, and a watching year’s rhythm.",
@@ -352,6 +354,15 @@ export default async function TelevisionStatsPage({
               taken over to the search experience to discover the reviews behind
               the data.
             </HeroNote>
+            {/* Share the television-stats dashboard. Personal emphasis. */}
+            <ShareBar
+              path="/television/stats"
+              title="Television stats by Malcolm Xavier"
+              emphasis="personal"
+              surface="stats"
+              campaign="tv-stats"
+              label="Share"
+            />
           </Stack>
         </Section>
       </Container>

@@ -16,7 +16,6 @@
 // manually. Acceptable approximation for a site this size.
 //
 // Excluded from the sitemap (and disallowed in robots):
-//   - /banner/*  — LinkedIn banner export artifacts, not navigation
 //   - /api/*     — internal API routes (Spotify integration, etc.)
 //
 // Reference: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap

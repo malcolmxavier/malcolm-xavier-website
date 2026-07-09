@@ -27,6 +27,7 @@ import type { CSSProperties } from "react";
 import NextLink from "next/link";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { ShareBar } from "@/components/share/ShareBar";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
@@ -46,7 +47,7 @@ import { Versus } from "@/components/stats/Versus";
 import { Dumbbell } from "@/components/stats/Dumbbell";
 import { StackedBars } from "@/components/stats/StackedBars";
 import { GroupedStackedBars } from "@/components/stats/GroupedStackedBars";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
 import {
   computeConnectedStats,
   parseConnectedFilters,
@@ -89,6 +90,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      ...twitterAttribution,
       title: "Film × Television—Malcolm Xavier",
       description:
         "Where the film and television logs connect: head-to-head, crossover actors, genre film-vs-TV, and a shared watching year.",
@@ -271,6 +273,17 @@ export default async function ConnectedStatsPage({
               reviews behind a visualization, head to the individual film or
               television stats pages above.
             </HeroNote>
+            {/* Share the connected film × television dashboard. Personal
+                emphasis. This page carries no sub-brand wrapper, so the
+                bar renders in the neutral palette. */}
+            <ShareBar
+              path="/stats/connected"
+              title="Film × Television stats by Malcolm Xavier"
+              emphasis="personal"
+              surface="stats"
+              campaign="connected-stats"
+              label="Share"
+            />
           </Stack>
         </Section>
       </Container>

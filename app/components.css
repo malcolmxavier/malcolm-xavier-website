@@ -677,6 +677,18 @@ a[data-subbrand="film"] {
   }
 }
 
+/* Per-review "share this take" disclosure (film + TV detail pages).
+   Same quiet native-<details> idiom as the Cast & Crew disclosure: we
+   drop the default triangle marker and let the summary's own inline
+   IconShare + label carry the affordance. Keyboard-operable for free
+   via <details>. */
+.review-share-summary {
+  list-style: none;
+}
+.review-share-summary::-webkit-details-marker {
+  display: none;
+}
+
 [data-subbrand="tv"] a,
 a[data-subbrand="tv"] {
   color: var(--blue-700) !important;

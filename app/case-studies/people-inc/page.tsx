@@ -27,6 +27,7 @@ import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
 import { CaseStudyNav } from "@/components/case-study/CaseStudyNav";
+import { CaseStudyShareBar } from "@/components/case-study/CaseStudyShareBar";
 import {
   Beat,
   BeatSeparator,
@@ -101,9 +102,14 @@ export default function PeopleIncCaseStudy() {
             absolutely-positioned column; lg-but-not-xl uses sticky
             inside the grid column. Both clamp naturally to the
             article's bottom. */}
-        <CaseStudyTocRail items={TOC_ITEMS} ariaLabel="Article sections" />
+        <CaseStudyTocRail
+          items={TOC_ITEMS}
+          ariaLabel="Article sections"
+          shareSlug={SLUG}
+        />
         <article>
           <Hero />
+          <CaseStudyShareBar currentSlug={SLUG} />
           <BeatSeparator />
           <BeatContext />
           <BeatSeparator />

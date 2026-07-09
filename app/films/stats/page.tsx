@@ -17,6 +17,7 @@ import type { CSSProperties } from "react";
 import NextLink from "next/link";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { ShareBar } from "@/components/share/ShareBar";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Kicker } from "@/components/typography/Kicker";
@@ -39,7 +40,7 @@ import { Heatmap } from "@/components/stats/Heatmap";
 import { LineChart } from "@/components/stats/LineChart";
 import { TileReadout } from "@/components/stats/TileReadout";
 import { StatsHandoffPanel } from "@/components/stats/StatsHandoffPanel";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
 import { computeFilmStats } from "@/lib/feeds/stats/film-stats";
 import { carryConnectedParams } from "@/lib/feeds/stats/connected-stats";
 import {
@@ -93,6 +94,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      ...twitterAttribution,
       title: "Film stats—Malcolm Xavier",
       description:
         "The stats behind the film corpus: genres, world cinema, studios, franchises, and a watching year’s rhythm.",
@@ -425,6 +427,15 @@ export default async function FilmStatsPage({
               taken over to the search experience to discover the reviews behind
               the data.
             </HeroNote>
+            {/* Share the film-stats dashboard. Personal emphasis. */}
+            <ShareBar
+              path="/films/stats"
+              title="Film stats by Malcolm Xavier"
+              emphasis="personal"
+              surface="stats"
+              campaign="film-stats"
+              label="Share"
+            />
           </Stack>
         </Section>
       </Container>

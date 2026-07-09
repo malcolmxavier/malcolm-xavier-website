@@ -33,7 +33,7 @@ import { PosterTile } from "@/components/feeds/PosterTile";
 import { FeaturedPick } from "@/components/feeds/FeaturedPick";
 import { ListCard } from "@/components/feeds/ListCard";
 import { CollectionCard } from "@/components/feeds/CollectionCard";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
 import {
   getFilms,
   getFilmFavorites,
@@ -43,6 +43,7 @@ import {
 } from "@/lib/feeds/letterboxd";
 import { orderForTeaser } from "@/lib/feeds/list-taxonomy";
 import { Link } from "@/components/primitives/Link";
+import { ShareBar } from "@/components/share/ShareBar";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
@@ -84,6 +85,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    ...twitterAttribution,
     title: "Films—Malcolm Xavier",
     description:
       "What I’m watching now, my all-time favorites, my ranked lists, and every review.",
@@ -282,6 +284,16 @@ export default function FilmsLandingPage() {
               recommended picks, and my favorites—click through to search through all
               my reviews or explore the data behind my taste.
             </HeroNote>
+            {/* Share the films landing. Personal emphasis — this is a
+                cultural surface, not recruiter-facing. */}
+            <ShareBar
+              path="/films"
+              title="Films by Malcolm Xavier"
+              emphasis="personal"
+              surface="films-landing"
+              campaign="films-landing"
+              label="Share"
+            />
           </Stack>
         </Section>
       </Container>

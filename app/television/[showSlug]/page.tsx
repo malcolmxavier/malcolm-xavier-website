@@ -42,7 +42,9 @@ import { Link } from "@/components/primitives/Link";
 import { StarRating } from "@/components/primitives/StarRating";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
+import { ShareBar } from "@/components/share/ShareBar";
+import { ReviewShare } from "@/components/share/ReviewShare";
 import {
   getShowBySlug,
   getShowNeighbors,
@@ -171,6 +173,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      ...twitterAttribution,
       title: `${show.name} (${show.premiereYear})—Reviews by Malcolm Xavier`,
       description,
       images: ogImages?.map((img) => img.url),
@@ -379,6 +382,19 @@ export default async function TelevisionDetailPage({
       : miniSeasonReview
         ? [miniSeasonReview]
         : [];
+  // The hero share bakes in the whole-show take's card. Its flat index
+  // into show.reviews keys the review-image route; undefined when the
+  // show has no show-level (or promoted miniseries) review — a
+  // season-only show, where the hero shares link-only and each season
+  // breakout carries its own card instead.
+  const heroReviewIndex =
+    wholeShowReviews.length > 0
+      ? show.reviews.indexOf(wholeShowReviews[0])
+      : -1;
+  const heroImageBasePath =
+    heroReviewIndex >= 0
+      ? `/television/${show.slug}/review-image/${heroReviewIndex}`
+      : undefined;
   // Where the non-season placements go:
   //   • Miniseries — the whole PAGE is the show, so its placements sit in
   //     the hero (alongside collection membership), the original position.
@@ -701,6 +717,24 @@ export default async function TelevisionDetailPage({
                 {appearsInBlock}
                 {viewOnSerializd}
               </div>
+              {/* Share sits in the hero header itself — no dedicated
+                  section, so it doesn't add page height. Personal
+                  emphasis. This bar shares the whole page; per-review
+                  "share this take" controls sit at the foot of each
+                  show- and season-level review below. */}
+              <ShareBar
+                path={`/television/${show.slug}`}
+                title={`${show.name} (${show.premiereYear})`}
+                emphasis="personal"
+                surface="show"
+                label="Share"
+                // Bake the whole-show take's card into the page share
+                // (undefined on season-only shows → link-only hero).
+                imageBasePath={heroImageBasePath}
+                imageFilenameStem={
+                  heroImageBasePath ? `${show.slug}-review` : undefined
+                }
+              />
             </Stack>
           </div>
         </Section>
@@ -726,8 +760,12 @@ export default async function TelevisionDetailPage({
                   {wholeShowReviews.map((review, i) => (
                     <ReviewBlock
                       key={`show-${i}`}
+                      show={show}
                       review={review}
                       anchorId={`show-review-${i}`}
+                      // The whole-show take is shared from the hero, so
+                      // no per-review breakout here (would duplicate it).
+                      enableShareBreakout={false}
                     />
                   ))}
                   <ListPlacements placements={wholeShowPlacements} />
@@ -837,16 +875,34 @@ export default async function TelevisionDetailPage({
 // ─── Sub-components ──────────────────────────────────────────────
 
 function ReviewBlock({
+  show,
   review,
   anchorId,
+  enableShareBreakout = true,
 }: {
+  /** Parent show — supplies the slug/name/year for the share control
+   *  and lets us resolve this review's flat index into show.reviews
+   *  (the key the review-image route uses). */
+  show: Show;
   review: Review;
   anchorId: string;
+  /** Whether to render the per-review "share this take" breakout.
+   *  False for the whole-show take (baked into the hero share);
+   *  true (default) for season-level takes, which the hero doesn't
+   *  cover. */
+  enableShareBreakout?: boolean;
 }) {
   const paragraphs = review.reviewText
     .split(/\n\s*\n/)
     .map((p) => p.trim())
     .filter(Boolean);
+  // Flat index into the show's pre-sorted reviews array — the key the
+  // review-image route resolves. indexOf is by object identity, which
+  // is stable: the show/season review objects passed here are the same
+  // references held in show.reviews. -1 (unreachable in practice)
+  // suppresses the share control rather than pointing at a bad card.
+  const flatIndex = show.reviews.indexOf(review);
+  const detailPath = `/television/${show.slug}`;
   return (
     <article id={anchorId}>
       <Stack gap="400">
@@ -884,6 +940,20 @@ function ReviewBlock({
             ))
           ) : null}
         </div>
+        {/* Per-review "share this take" — deep link to this review's
+            on-page anchor plus the downloadable/shareable card image.
+            The image route keys off the flat index; the deep link uses
+            the level-specific anchor (#season-N-review). Suppressed for
+            the whole-show take, which the hero share already covers. */}
+        {enableShareBreakout && flatIndex >= 0 ? (
+          <ReviewShare
+            imageBasePath={`${detailPath}/review-image/${flatIndex}`}
+            sharePath={`${detailPath}#${anchorId}`}
+            title={`${show.name} (${show.premiereYear})`}
+            surface={`${review.level}-review`}
+            filenameStem={`${show.slug}-${anchorId}`}
+          />
+        ) : null}
       </Stack>
     </article>
   );
@@ -1102,6 +1172,7 @@ function SeasonBlock({
                 section. */}
             {reviewHasProse && seasonReview ? (
               <ReviewBlock
+                show={show}
                 review={seasonReview}
                 anchorId={`season-${season.seasonNumber}-review`}
               />

@@ -6,7 +6,7 @@
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, LINKEDIN_PROFILE_URL, twitterAttribution } from "@/lib/site-config";
 import { BUILD_TIMESTAMP } from "@/lib/build-meta";
 import { getCaseStudyAccent } from "@/app/resume/resume-data";
 import "@/components/case-study/case-glass.css";
@@ -85,21 +85,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     publishedTime: PUBLISHED,
     modifiedTime: MODIFIED,
-    authors: ["Malcolm Xavier"],
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
-      },
-    ],
+    // Readable name for general consumers; the LinkedIn profile URL is
+    // the article:author target LinkedIn resolves to link the byline.
+    authors: ["Malcolm Xavier", LINKEDIN_PROFILE_URL],
+    // No explicit `images` array — the App Router file convention
+    // resolves `opengraph-image.tsx` at this route segment to the
+    // article-specific card, auto-populating og:image / og:image:width
+    // / og:image:height / og:image:alt. An explicit array here would
+    // either fight or duplicate the file-convention output. See
+    // ./opengraph-image.tsx for the article-specific render.
   },
   twitter: {
     card: "summary_large_image",
+    ...twitterAttribution,
     title: SOCIAL_TITLE,
     description: DESCRIPTION,
-    images: ["/opengraph-image"],
+    // Same rationale as openGraph.images above — the file convention
+    // auto-populates twitter:image from opengraph-image.tsx.
   },
 };
 
@@ -129,7 +131,7 @@ const ARTICLE_SCHEMA = {
         "@type": "ImageObject",
         url: `${SITE_URL}/opengraph-image`,
         contentUrl: `${SITE_URL}/opengraph-image`,
-        caption: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+        caption: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
         width: 1200,
         height: 630,
       },

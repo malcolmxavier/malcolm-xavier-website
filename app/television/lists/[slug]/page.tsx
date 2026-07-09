@@ -15,6 +15,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { ShareBar } from "@/components/share/ShareBar";
 import { Stack } from "@/components/layout/Stack";
 import { Grid } from "@/components/layout/Grid";
 import { Display } from "@/components/typography/Display";
@@ -23,7 +24,7 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
 import { PosterTile } from "@/components/feeds/PosterTile";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
 import {
   getShowLists,
   getShowListBySlug,
@@ -67,6 +68,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
+      ...twitterAttribution,
       title: `${list.name}—Malcolm Xavier`,
       description,
       images: ["/opengraph-image"],
@@ -149,6 +151,14 @@ export default async function TvListPage({ params }: { params: Params }) {
             <p style={{ margin: 0 }}>
               <Link href={list.url}>View the list on Serializd ↗</Link>
             </p>
+            {/* Share this ranked/themed list. Personal emphasis. */}
+            <ShareBar
+              path={`/television/lists/${list.slug}`}
+              title={list.name}
+              emphasis="personal"
+              surface="list"
+              label="Share"
+            />
           </Stack>
         </Section>
 

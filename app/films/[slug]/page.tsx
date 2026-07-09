@@ -87,7 +87,8 @@ import {
 } from "@/lib/feeds/film-neighbors";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
+import { ShareBar } from "@/components/share/ShareBar";
 import { BackToFilms } from "./BackToFilms";
 
 type Params = { slug: string };
@@ -182,6 +183,7 @@ export async function generateMetadata({
     // Closes films-detail-twitter-card-wrong.
     twitter: {
       card: "summary_large_image",
+      ...twitterAttribution,
       title: `${film.title} (${film.releaseYear})`,
       description,
       images: ogImages?.map((img) => img.url),
@@ -663,6 +665,23 @@ export default async function FilmDetailPage({
                 {appearsInBlock}
                 {viewOnLetterboxd}
               </div>
+              {/* Share sits in the hero header itself — no dedicated
+                  section, so it doesn't add page height. Personal
+                  emphasis. This bar shares the whole page; per-review
+                  "share this take" controls (deep link + card image)
+                  sit at the foot of each review below. */}
+              <ShareBar
+                path={`/films/${film.letterboxdSlug}-${film.releaseYear}`}
+                title={`${film.title} (${film.releaseYear})`}
+                emphasis="personal"
+                surface="film"
+                label="Share"
+                // Bake the review card into the page share. A film's
+                // take is the primary (most recent) review — index 0,
+                // the same review that drives the page description.
+                imageBasePath={`/films/${film.letterboxdSlug}-${film.releaseYear}/review-image/0`}
+                imageFilenameStem={`${film.letterboxdSlug}-${film.releaseYear}-review`}
+              />
             </Stack>
           </div>
         </Section>

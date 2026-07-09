@@ -146,6 +146,17 @@ export const ANALYTICS_EVENTS = {
    *   - `cluster`: "films" | "television"
    *   - `n`:       the matched-corpus size handed off. */
   STATS_HANDOFF_CLICK: "stats_handoff_click",
+  /** Click on a ShareBar control (any channel). Pair with:
+   *   - `channel`: the share channel id ("copy" | "native" | "x" |
+   *                "bluesky" | "linkedin" | "whatsapp" | "messages" |
+   *                "facebook" | "reddit" | "email").
+   *   - `surface`: the content surface shared from ("case-study" |
+   *                "film" | "show" | "review" | "films-landing" |
+   *                "tv-landing" | "stats" | "list" | "music").
+   *   - `path`:    the site-relative path being shared.
+   *  The share-loop analogue of the funnel events above — measures which
+   *  content gets shared and through which channels. */
+  SHARE_CLICK: "share_click",
 } as const;
 
 export type AnalyticsEvent =

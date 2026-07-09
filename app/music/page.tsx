@@ -27,6 +27,8 @@ import { Suspense } from "react";
 import { headers } from "next/headers";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
+import { ShareBar } from "@/components/share/ShareBar";
+import { twitterAttribution } from "@/lib/site-config";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Lede } from "@/components/typography/Lede";
@@ -73,12 +75,13 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+        alt: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
+    ...twitterAttribution,
     title: MUSIC_OG_TITLE,
     description: MUSIC_DESCRIPTION,
     images: ["/opengraph-image"],
@@ -131,6 +134,15 @@ export default async function MusicPage() {
               the full track list. And click through to listen on Spotify
               or Apple Music. Check back in each month to see what’s new.
             </Lede>
+            {/* Share the music landing. Personal emphasis. */}
+            <ShareBar
+              path="/music"
+              title="Playlists by Malcolm Xavier"
+              emphasis="personal"
+              surface="music"
+              campaign="music-landing"
+              label="Share"
+            />
           </Stack>
         </Section>
 

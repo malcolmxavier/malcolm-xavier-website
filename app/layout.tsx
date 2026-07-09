@@ -9,7 +9,6 @@ import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/next";
 import { Nav } from "@/components/chrome/Nav";
 import { Footer } from "@/components/chrome/Footer";
-import { ChromeGate } from "@/components/chrome/ChromeGate";
 import "./globals.css";
 // Loaded AFTER globals.css so unlayered component overrides beat
 // any Tailwind utility rules in @layer utilities.
@@ -93,7 +92,7 @@ const robotoMono = Roboto_Mono({
 // `app/opengraph-image.tsx` — we don't need to repeat them here.
 // Same for icons (auto-populated from `app/icon.tsx`).
 // ─────────────────────────────────────────────────────────────────
-import { SITE_URL, SITE_NAME } from "@/lib/site-config";
+import { SITE_URL, SITE_NAME, twitterAttribution } from "@/lib/site-config";
 
 const SITE_DESCRIPTION =
   "Senior product manager with an artist’s eye. Growth and data in tech, media, and streaming. AI-native, MS in Law, plus a theater background that shows.";
@@ -118,6 +117,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    // @malxavi credited as site + creator; see twitterAttribution.
+    ...twitterAttribution,
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
   },
@@ -251,12 +252,7 @@ export default function RootLayout({
             Skip to content
           </a>
 
-          {/* ChromeGate hides Nav + Footer on chrome-free routes
-              (e.g. /banner/* — the LinkedIn banner export view). All
-              other routes see Nav and Footer as normal. */}
-          <ChromeGate>
-            <Nav />
-          </ChromeGate>
+          <Nav />
 
           {/* Main landmark — single source of <main> sitewide. Pages
               return their own content (no inner <main>) so the
@@ -267,9 +263,7 @@ export default function RootLayout({
             {children}
           </main>
 
-          <ChromeGate>
-            <Footer />
-          </ChromeGate>
+          <Footer />
         </ThemeProvider>
 
         {/* Vercel Web Analytics — page-view counts sent to the

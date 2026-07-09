@@ -23,6 +23,7 @@ import { Lede } from "@/components/typography/Lede";
 import { HeroNote } from "@/components/typography/HeroNote";
 import { Headline } from "@/components/typography/Headline";
 import { Link } from "@/components/primitives/Link";
+import { ShareBar } from "@/components/share/ShareBar";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ClusterRail } from "@/components/chrome/ClusterRail";
@@ -34,7 +35,7 @@ import { PosterTile } from "@/components/feeds/PosterTile";
 import { FeaturedPick } from "@/components/feeds/FeaturedPick";
 import { ListCard } from "@/components/feeds/ListCard";
 import { CollectionCard } from "@/components/feeds/CollectionCard";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
 import {
   getShows,
   getShowFavorites,
@@ -81,6 +82,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    ...twitterAttribution,
     title: "Television—Malcolm Xavier",
     description:
       "What I’m mid-watch on now, my favorite series, and every review.",
@@ -330,6 +332,15 @@ export default function TelevisionLandingPage() {
               recommended picks, and my favorites—click through to search through all
               my reviews or explore the data behind my taste.
             </HeroNote>
+            {/* Share the television landing. Personal emphasis. */}
+            <ShareBar
+              path="/television"
+              title="Television by Malcolm Xavier"
+              emphasis="personal"
+              surface="tv-landing"
+              campaign="tv-landing"
+              label="Share"
+            />
           </Stack>
         </Section>
       </Container>

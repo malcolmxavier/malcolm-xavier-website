@@ -21,7 +21,7 @@
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, LINKEDIN_PROFILE_URL, twitterAttribution } from "@/lib/site-config";
 import { BUILD_TIMESTAMP } from "@/lib/build-meta";
 
 const ARTICLE_URL = `${SITE_URL}/case-studies/architecture-under-contract`;
@@ -44,7 +44,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     publishedTime: "2026-05-12",
     modifiedTime: BUILD_TIMESTAMP,
-    authors: ["Malcolm Xavier"],
+    // Readable name for general consumers; the LinkedIn profile URL is
+    // the article:author target LinkedIn resolves to link the byline.
+    authors: ["Malcolm Xavier", LINKEDIN_PROFILE_URL],
     // No explicit `images` array — the App Router file convention
     // resolves `opengraph-image.tsx` at this route segment to the
     // article-specific card, auto-populating og:image / og:image:width
@@ -54,6 +56,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    ...twitterAttribution,
     title: ARTICLE_HEADLINE,
     description: ARTICLE_DESCRIPTION,
     // Same rationale as openGraph.images above — the file convention
@@ -83,7 +86,7 @@ const ARTICLE_SCHEMA = {
         "@type": "ImageObject",
         url: `${ARTICLE_URL}/opengraph-image`,
         contentUrl: `${ARTICLE_URL}/opengraph-image`,
-        caption: "Malcolm Xavier—Senior product manager. Tech, media, streaming.",
+        caption: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
         width: 1200,
         height: 630,
       },
