@@ -82,11 +82,14 @@ const ACCENT_HEX: Record<ReviewCardSubBrand, string> = {
   tv: "#6e78e1", // blue-300 (lifted from blue-500 for on-black contrast)
 };
 
-// Rating star color. The site renders rating stars in green
+// Rating star colors. The site renders rating stars in green
 // (.star-rating-fill → --green-400 on dark surfaces), independent of
 // sub-brand — so the card matches on-site rating semantics rather than
 // the cluster accent. green-400 reads cleanly on the black canvas.
-const STAR_HEX = "#3dfd53";
+// Empty/half-star ghost slots use the muted neutral (matching the year
+// grey elsewhere on the card) so the unfilled scale reads as backdrop.
+const STAR_HEX = "#3dfd53"; // green-400 — filled
+const STAR_EMPTY_HEX = "#737373"; // neutral — unfilled ghost
 
 // Per-format excerpt budgets (characters). Deliberately conservative:
 // the copy must fit ABOVE the Story reply-bar overlay on the tall
@@ -119,12 +122,96 @@ function truncateExcerpt(text: string, budget: number): string {
   return `${base.trimEnd()}…`;
 }
 
-/** A single filled 5-point star, sized to sit inline with the rating. */
-function StarGlyph({ size }: { size: number }) {
+// Shared 5-point star path (viewBox 0–24), rendered filled or outlined.
+const STAR_PATH =
+  "M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.402 8.174L12 18.896l-7.336 3.868 1.402-8.174L.132 9.21l8.2-1.192z";
+
+/** A solid star in the given color. */
+function SolidStar({ size, color }: { size: number; color: string }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill={STAR_HEX}>
-      <path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.786 1.402 8.174L12 18.896l-7.336 3.868 1.402-8.174L.132 9.21l8.2-1.192z" />
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+      <path d={STAR_PATH} />
     </svg>
+  );
+}
+
+/** An outlined (unfilled) star in the given color. */
+function OutlineStar({ size, color }: { size: number; color: string }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke={color}
+      strokeWidth={1.6}
+      strokeLinejoin="round"
+    >
+      <path d={STAR_PATH} />
+    </svg>
+  );
+}
+
+/** A left-half-filled star: a muted outline with the solid green fill
+ *  clipped to the left half via an overflow-hidden overlay — the same
+ *  technique the on-site StarRating uses, and one Satori supports. */
+function HalfStar({ size }: { size: number }) {
+  return (
+    <div style={{ position: "relative", width: size, height: size, display: "flex" }}>
+      <div style={{ position: "absolute", top: 0, left: 0, display: "flex" }}>
+        <OutlineStar size={size} color={STAR_EMPTY_HEX} />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: size / 2,
+          height: size,
+          overflow: "hidden",
+          display: "flex",
+        }}
+      >
+        <SolidStar size={size} color={STAR_HEX} />
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The full 5-slot rating strip, half-step, matching the on-site
+ * StarRating: full slots solid green, a half slot left-filled, empty
+ * slots muted outlines. Shows all five slots (the scale reference) so a
+ * viewer who meets the card out of context — dropped into a Story or a
+ * group chat — reads "3.5 out of 5" from the shape alone, no number
+ * needed.
+ */
+function StarStrip({
+  rating,
+  size,
+  gap,
+}: {
+  rating: number;
+  size: number;
+  gap: number;
+}) {
+  // Clamp to [0, 5] in 0.5 steps so a stray decimal renders cleanly.
+  const clamped = Math.min(5, Math.max(0, Math.round(rating * 2) / 2));
+  const slots = [1, 2, 3, 4, 5].map((slot) =>
+    clamped >= slot ? "full" : clamped >= slot - 0.5 ? "half" : "empty",
+  );
+  return (
+    <div style={{ display: "flex", gap }}>
+      {slots.map((state, i) =>
+        state === "full" ? (
+          <SolidStar key={`slot-${i + 1}`} size={size} color={STAR_HEX} />
+        ) : state === "half" ? (
+          <HalfStar key={`slot-${i + 1}`} size={size} />
+        ) : (
+          <OutlineStar key={`slot-${i + 1}`} size={size} color={STAR_EMPTY_HEX} />
+        ),
+      )}
+    </div>
   );
 }
 
@@ -151,9 +238,9 @@ export async function renderReviewCard(
     : baseKicker;
   const excerpt = truncateExcerpt(input.excerpt, EXCERPT_BUDGET[format]);
   const yearText = year !== null && year !== "" ? String(year) : "";
-  // House rating convention is "4.5★"; the star is drawn as an SVG
-  // (see StarGlyph) so the number-only string is what the font renders.
-  const ratingText = rating !== null ? String(rating) : "";
+  // The rating renders as the 5-slot star strip (see StarStrip) — the
+  // same visual language as the on-site StarRating — so no numeric
+  // string is drawn on the card.
   const wordmark = "malxavi.com";
 
   // Subset each font to exactly the glyphs it renders (keeps the
@@ -161,7 +248,7 @@ export async function renderReviewCard(
   // appears in a given family MUST be included, or its glyphs render
   // blank.
   const serifText = title;
-  const sansText = `${excerpt}${yearText}${ratingText}`;
+  const sansText = `${excerpt}${yearText}`;
   const monoText = `${kicker}${wordmark}`;
 
   const [instrumentSerif, dmSans, robotoMono] = await Promise.all([
@@ -255,21 +342,8 @@ export async function renderReviewCard(
   );
 
   const ratingRow =
-    ratingText !== "" ? (
-      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-        <StarGlyph size={isStory ? 40 : 30} />
-        <span
-          style={{
-            fontFamily: "DM Sans",
-            fontSize: isStory ? 40 : 30,
-            fontWeight: 500,
-            color: "#e5e5e5",
-            display: "flex",
-          }}
-        >
-          {ratingText}
-        </span>
-      </div>
+    rating !== null ? (
+      <StarStrip rating={rating} size={isStory ? 46 : 34} gap={isStory ? 7 : 5} />
     ) : null;
 
   const excerptBlock = (
