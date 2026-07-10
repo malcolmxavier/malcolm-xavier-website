@@ -5,10 +5,12 @@ import {
   Roboto_Slab,
   Roboto_Mono,
 } from "next/font/google";
+import { Suspense } from "react";
 import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/next";
 import { Nav } from "@/components/chrome/Nav";
 import { Footer } from "@/components/chrome/Footer";
+import { ShareLoopCloser } from "@/components/growth/ShareLoopCloser";
 import "./globals.css";
 // Loaded AFTER globals.css so unlayered component overrides beat
 // any Tailwind utility rules in @layer utilities.
@@ -264,6 +266,15 @@ export default function RootLayout({
           </main>
 
           <Footer />
+
+          {/* Share-loop closer — a "follow along" nudge shown only to
+              warm share-arrivals (utm_medium=share) on the personal
+              clusters. Renders null for every other visit. Suspense-
+              wrapped because it reads useSearchParams(), which would
+              otherwise opt the whole app out of static rendering. */}
+          <Suspense fallback={null}>
+            <ShareLoopCloser />
+          </Suspense>
         </ThemeProvider>
 
         {/* Vercel Web Analytics — page-view counts sent to the

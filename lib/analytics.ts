@@ -157,6 +157,22 @@ export const ANALYTICS_EVENTS = {
    *  The share-loop analogue of the funnel events above — measures which
    *  content gets shared and through which channels. */
   SHARE_CLICK: "share_click",
+  /** The share-loop *closer* — the return arc of the share loop. Fires
+   *  from the personal-cluster "follow along" nudge shown only to warm
+   *  share-arrivals (utm_medium=share). Three-part funnel; all three
+   *  pair with the same dimensions:
+   *   - `section`: "films" | "television" | "music" (cluster arrived on).
+   *   - `channel`: the share channel the visitor came through (utm_source,
+   *                e.g. "reddit" | "messages"), or "unknown".
+   *   - `path`:    the site-relative path they landed on.
+   *  LOOP_CLOSER_VIEW fires once when the card is revealed (post-
+   *  engagement); LOOP_CLOSER_CLICK when they take the follow CTA;
+   *  LOOP_CLOSER_DISMISS when they close it. VIEW is the denominator,
+   *  CLICK the conversion — a real closed-loop follow rate, segmentable
+   *  by the share channel that delivered the visitor. */
+  LOOP_CLOSER_VIEW: "loop_closer_view",
+  LOOP_CLOSER_CLICK: "loop_closer_click",
+  LOOP_CLOSER_DISMISS: "loop_closer_dismiss",
 } as const;
 
 export type AnalyticsEvent =
