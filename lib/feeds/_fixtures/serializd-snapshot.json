@@ -1,5 +1,5 @@
 {
-  "capturedAt": "2026-07-09T06:31:33.346Z",
+  "capturedAt": "2026-07-11T18:44:53.039Z",
   "summary": {
     "totalShows": 158,
     "totalShowReviews": 42,
@@ -73,7 +73,7 @@
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 9,
+    "showsInProgressCount": 10,
     "thisYearCount": 55,
     "totalWatchedShows": 344,
     "totalWatchedOnlyShows": 186
@@ -998,6 +998,14 @@
           "name": "Season 1",
           "posterPath": "/iTJTSdqTWDb3D04m6cUo4ShO7Xi.jpg",
           "episodeCount": 8
+        },
+        {
+          "serializdId": 516299,
+          "showId": 288453,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
+          "episodeCount": null
         }
       ],
       "reviews": [
@@ -1078,7 +1086,9 @@
       "reviewedSeasonNumbers": [
         1
       ],
-      "inProgressSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        2
+      ],
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
@@ -1608,6 +1618,14 @@
           "name": "Season 2",
           "posterPath": "/stCZfeHU2IpH7zzvSrYReVVhkZi.jpg",
           "episodeCount": 8
+        },
+        {
+          "serializdId": 515140,
+          "showId": 227139,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/rH7vBJKpX04GWnp1Zw5iR2DM9qe.jpg",
+          "episodeCount": null
         }
       ],
       "reviews": [
@@ -1798,7 +1816,8 @@
         2026
       ],
       "reviewedSeasonNumbers": [
-        2
+        2,
+        3
       ],
       "inProgressSeasonNumbers": [],
       "watchedUnreviewedSeasonNumbers": [
@@ -28452,6 +28471,14 @@
           "name": "Season 1",
           "posterPath": "/iTJTSdqTWDb3D04m6cUo4ShO7Xi.jpg",
           "episodeCount": 8
+        },
+        {
+          "serializdId": 516299,
+          "showId": 288453,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
+          "episodeCount": null
         }
       ],
       "reviews": [
@@ -28532,7 +28559,9 @@
       "reviewedSeasonNumbers": [
         1
       ],
-      "inProgressSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        2
+      ],
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
@@ -29062,6 +29091,14 @@
           "name": "Season 2",
           "posterPath": "/stCZfeHU2IpH7zzvSrYReVVhkZi.jpg",
           "episodeCount": 8
+        },
+        {
+          "serializdId": 515140,
+          "showId": 227139,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/rH7vBJKpX04GWnp1Zw5iR2DM9qe.jpg",
+          "episodeCount": null
         }
       ],
       "reviews": [
@@ -29252,7 +29289,8 @@
         2026
       ],
       "reviewedSeasonNumbers": [
-        2
+        2,
+        3
       ],
       "inProgressSeasonNumbers": [],
       "watchedUnreviewedSeasonNumbers": [
@@ -57428,8 +57466,8 @@
       "name": "American Horror Story",
       "premiereDate": "2011-10-05",
       "bannerImage": "/yQu2pNkGSROjaMHnhOy1dcMndUp.jpg",
-      "numSeasons": 12,
-      "numEpisodes": 132,
+      "numSeasons": 13,
+      "numEpisodes": 133,
       "watchedSeasonIds": [
         333606,
         90503,
@@ -57563,7 +57601,7 @@
       "serializdShowId": 246,
       "name": "Avatar: The Last Airbender",
       "premiereDate": "2005-02-21",
-      "bannerImage": "/yaGt4GIutpbXHsv48tWceWg6s56.jpg",
+      "bannerImage": "/9RQhVb3r3mCMqYVhLoCu4EvuipP.jpg",
       "numSeasons": 3,
       "numEpisodes": 61,
       "watchedSeasonIds": [

@@ -253,6 +253,16 @@ async function fetchAllReviews() {
 function buildSkeletonShows(rawReviews) {
   const showMap = new Map(); // showId -> Show
   const seenReviewIds = new Set(); // dedupe by Serializd review.id
+  // Serializd embeds the show's CURRENT season list (`showSeasons`)
+  // in every diary review. initShow only reads it from the FIRST
+  // review it encounters for a show, which can predate a just-aired
+  // season. We union it across ALL of a show's reviews here so the
+  // newest embed's seasons are captured too, and stash the union in
+  // a side map — deliberately NOT on the show object, because the
+  // snapshot serializes the `shows` array verbatim and this is
+  // internal scaffolding. reconcileOrphanSeasons consumes it after
+  // enrichment to restore seasons TMDB hasn't listed yet.
+  const serializdSeasonsByShow = new Map(); // showId -> Map<seasonId, {seasonNumber,name,posterPath}>
 
   for (const r of rawReviews) {
     if (seenReviewIds.has(r.id)) continue;
@@ -263,9 +273,24 @@ function buildSkeletonShows(rawReviews) {
       showMap.set(r.showId, initShow(r));
     }
     showMap.get(r.showId).reviews.push(review);
+
+    // Union this review's embedded showSeasons into the side map.
+    // First id wins (they're identical across a show's reviews in
+    // the common case; we just need coverage of every season any
+    // review mentions).
+    const seasonMap = serializdSeasonsByShow.get(r.showId) ?? new Map();
+    for (const s of r.showSeasons ?? []) {
+      if (s?.id == null || seasonMap.has(s.id)) continue;
+      seasonMap.set(s.id, {
+        seasonNumber: s.seasonNumber,
+        name: s.name ?? `Season ${s.seasonNumber}`,
+        posterPath: s.posterPath ?? null,
+      });
+    }
+    serializdSeasonsByShow.set(r.showId, seasonMap);
   }
 
-  return [...showMap.values()];
+  return { shows: [...showMap.values()], serializdSeasonsByShow };
 }
 
 /** Transform a raw API review into our snapshot Review shape. */
@@ -520,6 +545,106 @@ function seasonNumberFor(show, review) {
   if (review.seasonId === null) return null;
   const season = show.seasons.find((s) => s.serializdId === review.seasonId);
   return season ? season.seasonNumber : null;
+}
+
+/**
+ * Restore seasons that Serializd knows about but TMDB hasn't listed
+ * yet. TMDB metadata lags real-world air dates (especially for
+ * reality / unscripted shows); when a just-aired season isn't in
+ * TMDB's `details.seasons`, the TMDB-derived `show.seasons` array
+ * omits it, and every review logged against that season fails to
+ * resolve in `seasonNumberFor` (returns null). Those reviews then
+ * fall out of every classification bucket silently — the season
+ * never reaches /television/watching or the show's detail page.
+ *
+ * Runs AFTER enrichment (which sets the TMDB seasons) and BEFORE
+ * classification. For each seasonId a show's reviews reference that
+ * isn't already in `show.seasons`, it looks up the season's number
+ * in the Serializd `showSeasons` embed (unioned across the show's
+ * reviews by buildSkeletonShows), then:
+ *
+ *   • New season number — TMDB genuinely hasn't listed it: append a
+ *     synthesized season with `episodeCount: null`. The /watching
+ *     card and detail page null-check the denominator, so a card
+ *     reads "3 episodes watched" (no "of N") until TMDB catches up
+ *     and a full-enrich fills the count.
+ *
+ *   • Number already present under a DIFFERENT serializdId — Serializd
+ *     and TMDB issued different ids for the same season: canonicalize
+ *     the orphan reviews onto the existing season's id instead of
+ *     adding a duplicate-numbered season (which would double-render
+ *     the season block on the detail page).
+ *
+ *   • Number unknown — the embed didn't carry it either: leave the
+ *     reviews unresolved so the `unresolved-seasons` cleanup category
+ *     surfaces them. Never a silent drop.
+ *
+ * Returns { reconciled, aliased, unresolved } counts for the log.
+ */
+function reconcileOrphanSeasons(shows, serializdSeasonsByShow) {
+  let reconciled = 0;
+  let aliased = 0;
+  let unresolved = 0;
+
+  for (const show of shows) {
+    const unionForShow = serializdSeasonsByShow.get(show.serializdShowId);
+    const existingIds = new Set(show.seasons.map((s) => s.serializdId));
+    const seasonByNumber = new Map(
+      show.seasons.map((s) => [s.seasonNumber, s]),
+    );
+
+    // Distinct seasonIds this show's reviews reference that aren't
+    // already represented in show.seasons.
+    const orphanIds = new Set();
+    for (const r of show.reviews) {
+      if (r.seasonId != null && !existingIds.has(r.seasonId)) {
+        orphanIds.add(r.seasonId);
+      }
+    }
+    if (orphanIds.size === 0) continue;
+
+    let mutated = false;
+    for (const seasonId of orphanIds) {
+      const meta = unionForShow?.get(seasonId);
+      if (!meta || typeof meta.seasonNumber !== "number") {
+        // Serializd's embed didn't carry this season either — can't
+        // place it. Left for the unresolved-seasons cleanup report.
+        unresolved++;
+        continue;
+      }
+
+      const existing = seasonByNumber.get(meta.seasonNumber);
+      if (existing) {
+        // Same season number, different id — canonicalize the orphan
+        // reviews onto the id already in show.seasons.
+        for (const r of show.reviews) {
+          if (r.seasonId === seasonId) r.seasonId = existing.serializdId;
+        }
+        aliased++;
+      } else {
+        // A season TMDB hasn't listed yet — synthesize it.
+        const synthesized = {
+          serializdId: seasonId,
+          showId: show.tmdb ? show.tmdb.id : show.serializdShowId,
+          seasonNumber: meta.seasonNumber,
+          name: meta.name ?? `Season ${meta.seasonNumber}`,
+          posterPath: meta.posterPath ?? null,
+          episodeCount: null,
+        };
+        show.seasons.push(synthesized);
+        seasonByNumber.set(meta.seasonNumber, synthesized);
+        existingIds.add(seasonId);
+        mutated = true;
+        reconciled++;
+      }
+    }
+
+    // Keep seasons in seasonNumber-ascending order — the detail page
+    // and card builders assume it. Only re-sort if we appended.
+    if (mutated) show.seasons.sort((a, b) => a.seasonNumber - b.seasonNumber);
+  }
+
+  return { reconciled, aliased, unresolved };
 }
 
 // ─── Aggregate summary ────────────────────────────────────────────
@@ -848,7 +973,7 @@ export async function bootstrapSnapshot(options = {}) {
   );
 
   console.log("\n[2/5] Building show skeleton + deduping reviews…");
-  const shows = buildSkeletonShows(rawReviews);
+  const { shows, serializdSeasonsByShow } = buildSkeletonShows(rawReviews);
   console.log(`      Grouped into ${shows.length} unique shows.`);
 
   const prev = injectedPrev ?? readPreviousSnapshot();
@@ -883,6 +1008,22 @@ export async function bootstrapSnapshot(options = {}) {
     for (const f of stats.failed) {
       console.log(`        • ${f.name} (showId=${f.serializdShowId})  ${f.error}`);
     }
+  }
+
+  // Restore seasons Serializd knows about but TMDB hasn't listed yet
+  // (e.g. a just-aired reality-show season). Runs after enrich sets
+  // the TMDB seasons and before classification reads them, so orphaned
+  // episode logs resolve into the right season bucket instead of being
+  // silently dropped. See reconcileOrphanSeasons.
+  const seasonRecon = reconcileOrphanSeasons(shows, serializdSeasonsByShow);
+  if (seasonRecon.reconciled || seasonRecon.aliased || seasonRecon.unresolved) {
+    console.log(
+      `      Reconciled ${seasonRecon.reconciled} TMDB-missing season(s), ` +
+        `canonicalized ${seasonRecon.aliased} id-aliased season(s)` +
+        (seasonRecon.unresolved
+          ? `, ${seasonRecon.unresolved} unresolved (see unresolved-seasons.md).`
+          : "."),
+    );
   }
 
   console.log("\n[4/5] Computing per-show classification + aggregates…");
