@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-13T09:45:50.261Z",
+  "capturedAt": "2026-07-15T03:45:48.324Z",
   "meta": {
-    "films": 791,
+    "films": 793,
     "shows": 156,
     "collections": 74
   },
@@ -30690,6 +30690,107 @@
         }
       ],
       "collection": null
+    },
+    "614911": {
+      "ratings": {
+        "imdb": 5.7,
+        "metacritic": 58,
+        "metacriticUser": 4.7,
+        "tomatoes": 50,
+        "rtAudience": 27,
+        "letterboxd": 2.5,
+        "trakt": 59
+      },
+      "studios": [
+        "Syndicate Films",
+        "Anonymous Content",
+        "Truenorth Productions",
+        "Smoke House Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": null,
+      "revenue": 70018,
+      "cast": [
+        {
+          "id": 1461,
+          "name": "George Clooney"
+        },
+        {
+          "id": 72855,
+          "name": "Felicity Jones"
+        },
+        {
+          "id": 35013,
+          "name": "David Oyelowo"
+        },
+        {
+          "id": 2424535,
+          "name": "Caoilinn Springall"
+        },
+        {
+          "id": 3497,
+          "name": "Kyle Chandler"
+        },
+        {
+          "id": 76961,
+          "name": "Demián Bichir"
+        },
+        {
+          "id": 1074676,
+          "name": "Tiffany Boone"
+        },
+        {
+          "id": 1088620,
+          "name": "Sophie Rundle"
+        },
+        {
+          "id": 119586,
+          "name": "Ethan Peck"
+        },
+        {
+          "id": 55538,
+          "name": "Tim Russ"
+        },
+        {
+          "id": 18273,
+          "name": "Miriam Shor"
+        },
+        {
+          "id": 42669,
+          "name": "Lilja Nótt Þórarinsdóttir"
+        },
+        {
+          "id": 67811,
+          "name": "Hanna María Karlsdóttir"
+        },
+        {
+          "id": 545129,
+          "name": "Atli Óskar Fjalarsson"
+        },
+        {
+          "id": 2118669,
+          "name": "Tia Bannon"
+        },
+        {
+          "id": 1718377,
+          "name": "Grant Crookes"
+        }
+      ],
+      "writers": [
+        {
+          "id": 64785,
+          "name": "Mark L. Smith"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 12
+      }
     },
     "614917": {
       "ratings": {
@@ -67531,6 +67632,126 @@
       },
       "writers": [],
       "collection": null
+    },
+    "1177767": {
+      "ratings": {
+        "imdb": 6.2,
+        "metacritic": 77,
+        "metacriticUser": 6.4,
+        "tomatoes": 86,
+        "rtAudience": 60,
+        "letterboxd": 3.2,
+        "trakt": 63
+      },
+      "studios": [
+        "Zapruder Films",
+        "Banner House Productions",
+        "XYZ Films",
+        "IPR.VC",
+        "Rhombus Media",
+        "Entract Studios",
+        "Elevation Pictures"
+      ],
+      "country": "ca",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": 543238,
+      "cast": [
+        {
+          "id": 2340185,
+          "name": "Barbie Ferreira"
+        },
+        {
+          "id": 90498,
+          "name": "Devon Bostick"
+        },
+        {
+          "id": 2394927,
+          "name": "Stanley Simons"
+        },
+        {
+          "id": 2028132,
+          "name": "Juliette Gariépy"
+        },
+        {
+          "id": 449,
+          "name": "Jay Baruchel"
+        },
+        {
+          "id": 450366,
+          "name": "Robert Naylor"
+        },
+        {
+          "id": 1980485,
+          "name": "Isaiah Lehtinen"
+        },
+        {
+          "id": 1216463,
+          "name": "Aurora Browne"
+        },
+        {
+          "id": 21292,
+          "name": "Alain Goulem"
+        },
+        {
+          "id": 1236344,
+          "name": "Sabrina Jalees"
+        },
+        {
+          "id": 209819,
+          "name": "Pat Kiely"
+        },
+        {
+          "id": 3056995,
+          "name": "Emma Cheuk"
+        },
+        {
+          "id": 522169,
+          "name": "Brent Skagford"
+        },
+        {
+          "id": 73609,
+          "name": "Nicolas Wright"
+        },
+        {
+          "id": 6230756,
+          "name": "Martin Besnard Jean"
+        },
+        {
+          "id": 1906040,
+          "name": "Emily Lê"
+        },
+        {
+          "id": 4522324,
+          "name": "Micheala Snoyer"
+        },
+        {
+          "id": 5691343,
+          "name": "Audrey Ann Boucher"
+        },
+        {
+          "id": 5691341,
+          "name": "Magi Merlin"
+        },
+        {
+          "id": 6230762,
+          "name": "Laura Mota-Juang"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1879567,
+          "name": "Chandler Levack"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 32
+      }
     },
     "1178556": {
       "ratings": {
