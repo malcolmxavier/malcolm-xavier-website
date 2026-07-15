@@ -25,6 +25,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
+import { twitterAttribution } from "@/lib/site-config";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
@@ -84,6 +85,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    // Re-spread because App Router REPLACES the root twitter block per
+    // route; without it, /contact dropped @malxavi site + creator
+    // attribution. /contact is an actively-promoted share surface, so it
+    // belongs here per the twitterAttribution doc comment in
+    // lib/site-config.ts.
+    ...twitterAttribution,
     title: "Contact Malcolm Xavier",
     description: CONTACT_DESCRIPTION,
     images: ["/opengraph-image"],

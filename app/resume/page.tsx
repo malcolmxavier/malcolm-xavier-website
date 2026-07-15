@@ -43,7 +43,7 @@ import { Button } from "@/components/primitives/Button";
 import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import { SITE_URL } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
 import { formatLastUpdated } from "@/lib/case-studies/basecamp-coffee/last-updated";
 import {
   TableOfContents,
@@ -114,6 +114,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    // Re-spread because App Router REPLACES the root twitter block per
+    // route; without it, /resume dropped @malxavi site + creator
+    // attribution that the root and case studies carry. /resume is an
+    // actively-promoted share surface, so it belongs here per the
+    // twitterAttribution doc comment in lib/site-config.ts.
+    ...twitterAttribution,
     title: RESUME_OG_TITLE,
     description: RESUME_DESCRIPTION,
     images: ["/opengraph-image"],
