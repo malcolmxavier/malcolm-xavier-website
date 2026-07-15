@@ -56,6 +56,15 @@ export function InProgressCard({
     resolveSeasonPosterUrl(show, seasonNumber) ?? show.posterUrl;
   const totalEpisodes = season?.episodeCount ?? null;
   const watchedEpisodes = episodeReviews.length;
+  // Only surface the "of Y" denominator when TMDB's episode count is
+  // credible — i.e. at least as large as what we've logged. A
+  // currently-airing season's TMDB count routinely lags our Serializd
+  // logs (episodes get logged next-day, before TMDB adds the episode
+  // records), which would otherwise render a nonsensical "15 of 9".
+  // When the count is behind, drop the denominator and show just the
+  // watched tally until the snapshot's TMDB data catches up.
+  const showDenominator =
+    totalEpisodes !== null && totalEpisodes >= watchedEpisodes;
   // Most-recent episode dateline — episodeReviews comes pre-
   // sorted reviewDate desc by buildInProgressCards, so [0] is
   // newest. Date strips to day precision for display since
@@ -220,7 +229,7 @@ export function InProgressCard({
                 }}
               >
                 {watchedEpisodes}
-                {totalEpisodes !== null ? ` of ${totalEpisodes}` : ""}{" "}
+                {showDenominator ? ` of ${totalEpisodes}` : ""}{" "}
                 {watchedEpisodes === 1 ? "episode" : "episodes"} watched
               </span>
               {lastWatchedDate ? (

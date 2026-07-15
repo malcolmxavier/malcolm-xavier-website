@@ -3,7 +3,7 @@
 **Severity:** non-blocking
 **Unresolved:** 0
 **Accepted (won't-fix):** 0
-**Last regenerated:** 2026-07-11T18:44:53.044Z
+**Last regenerated:** 2026-07-15T23:49:15.196Z
 
 Candidates for the miniseries classifier (single-season scripted shows ≤6 episodes, with a Show-level review existing or a long stuck-watching pattern). Pin via `data/television/overrides.json#isMiniseries[showId] = true|false`.
 

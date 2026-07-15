@@ -905,18 +905,27 @@ function printDiff(prev, next) {
  *   1. --full-enrich / TV_FULL_ENRICH=1 drops carryover entirely
  *   2. If overrides.tmdbId[showId] changed since last snapshot,
  *      drop carryover for that show so the new override lands
+ *   3. If the show had an in-progress (currently-airing) season in
+ *      the previous snapshot, drop carryover so TMDB is re-fetched.
+ *      This is the one case where TMDB metadata is still moving —
+ *      episode counts on an airing season climb week to week — so
+ *      freezing it strands the "X of Y episodes" denominator (e.g.
+ *      logging 15 episodes against a season TMDB listed as 9 when
+ *      the season began). Re-enriching these shows every tick keeps
+ *      the denominator live; the stable back-catalog stays cheap.
  */
 function applyCarryover(shows, prev, overrides) {
   if (!prev?.shows || FULL_ENRICH) {
     if (FULL_ENRICH) {
       console.log("        --full-enrich set: skipping carryover.");
     }
-    return { carriedOver: 0, overrideDriftSkips: 0 };
+    return { carriedOver: 0, overrideDriftSkips: 0, inProgressReenrich: 0 };
   }
   const prevById = new Map();
   for (const s of prev.shows) prevById.set(s.serializdShowId, s);
   let carriedOver = 0;
   let overrideDriftSkips = 0;
+  let inProgressReenrich = 0;
   for (const show of shows) {
     const prevShow = prevById.get(show.serializdShowId);
     if (!prevShow?.tmdb) continue;
@@ -925,13 +934,22 @@ function applyCarryover(shows, prev, overrides) {
       overrideDriftSkips++;
       continue;
     }
+    // Guard 3: an airing season's TMDB episode count is still
+    // climbing, so don't freeze it — leave show.tmdb unset and let
+    // enrichShows re-fetch. (A season that starts airing *this* tick
+    // won't be flagged in prevShow yet; reconcileOrphanSeasons and
+    // the InProgressCard denominator clamp cover that one-tick gap.)
+    if (prevShow.inProgressSeasonNumbers?.length > 0) {
+      inProgressReenrich++;
+      continue;
+    }
     show.tmdb = prevShow.tmdb;
     show.seasons = prevShow.seasons;
     show.posterUrl = prevShow.posterUrl;
     show.posterFallbackUrl = prevShow.posterFallbackUrl;
     carriedOver++;
   }
-  return { carriedOver, overrideDriftSkips };
+  return { carriedOver, overrideDriftSkips, inProgressReenrich };
 }
 
 // ─── Orchestrator ─────────────────────────────────────────────────
@@ -984,6 +1002,9 @@ export async function bootstrapSnapshot(options = {}) {
       `      Carried over ${carry.carriedOver} TMDB enrichments from previous snapshot.` +
         (carry.overrideDriftSkips > 0
           ? ` Re-enriching ${carry.overrideDriftSkips} show(s) where overrides.json changed.`
+          : "") +
+        (carry.inProgressReenrich > 0
+          ? ` Re-enriching ${carry.inProgressReenrich} show(s) with an in-progress season.`
           : ""),
     );
   }

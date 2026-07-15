@@ -3,7 +3,7 @@
 **Severity:** non-blocking
 **Unresolved:** 0
 **Accepted (won't-fix):** 0
-**Last regenerated:** 2026-07-11T18:44:53.045Z
+**Last regenerated:** 2026-07-15T23:49:15.196Z
 
 Seasons with episode entries but no Season-level review where the most-recent episode entry is >180 days old. Likely finished IRL but missing the Season write-up. Either write the Season review or accept perpetual /television/watching placement.
 

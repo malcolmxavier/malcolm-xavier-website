@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-07-15T21:31:22.728Z",
+  "capturedAt": "2026-07-15T23:49:15.192Z",
   "summary": {
     "totalShows": 159,
     "totalShowReviews": 42,
     "totalSeasonReviews": 246,
-    "totalEpisodeReviews": 711,
+    "totalEpisodeReviews": 713,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
-      "3": 239,
+      "3": 240,
       "4": 199,
       "5": 18,
+      "3.5": 301,
       "2.5": 97,
-      "3.5": 300,
       "4.5": 52,
       "1.5": 11,
       "0.5": 1
@@ -42,11 +42,11 @@
       },
       "episode": {
         "2": 22,
-        "3": 177,
+        "3": 178,
         "4": 151,
         "5": 8,
+        "3.5": 234,
         "2.5": 71,
-        "3.5": 233,
         "4.5": 43,
         "1.5": 5
       }
@@ -59,8 +59,8 @@
       "Reality": 27,
       "Action & Adventure": 17,
       "Documentary": 13,
-      "Mystery": 32,
-      "Crime": 28,
+      "Mystery": 33,
+      "Crime": 29,
       "News": 1,
       "Animation": 5,
       "Family": 3,
@@ -134,6 +134,38 @@
       ],
       "reviews": [
         {
+          "id": 78390640,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "The political thriller in here isn’t really doing it. I know it’s kind of essential, but something about how it’s lensed isn’t sitting with me.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-15T23:40:31Z",
+          "reviewDate": "2026-07-15T23:41:10Z",
+          "seasonId": 196076,
+          "episodeNumber": 5,
+          "episodeName": "The Janitor's Boy",
+          "tags": []
+        },
+        {
+          "id": 78390508,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-15T23:40:11Z",
+          "reviewDate": "2026-07-15T23:40:23Z",
+          "seasonId": 196076,
+          "episodeNumber": 4,
+          "episodeName": "Truth",
+          "tags": []
+        },
+        {
           "id": 78334094,
           "level": "episode",
           "rating": 4,
@@ -185,6 +217,7 @@
       "ratingSet": [
         2.5,
         3,
+        3.5,
         4
       ],
       "watchedYearSet": [
@@ -197,8 +230,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-15T21:11:49Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-07-15T23:41:10Z",
+      "primaryRating": 3,
       "liked": false
     },
     {
@@ -378,8 +411,8 @@
         "networks": [
           "Bravo"
         ],
-        "numberOfSeasons": 23,
-        "numberOfEpisodes": 3112
+        "numberOfSeasons": 24,
+        "numberOfEpisodes": 3179
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/onSD9UXfJwrMXWhq7UY7hGF2S1h.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/onSD9UXfJwrMXWhq7UY7hGF2S1h.jpg",
@@ -574,7 +607,15 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 79
+          "episodeCount": 118
+        },
+        {
+          "serializdId": 518119,
+          "showId": 22980,
+          "seasonNumber": 24,
+          "name": "Season 24",
+          "posterPath": null,
+          "episodeCount": 4
         }
       ],
       "reviews": [
@@ -1279,7 +1320,7 @@
           "Bravo"
         ],
         "numberOfSeasons": 17,
-        "numberOfEpisodes": 363
+        "numberOfEpisodes": 365
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/h5HYOsyc1sJQYjqevaWEaLRjd6E.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/h5HYOsyc1sJQYjqevaWEaLRjd6E.jpg",
@@ -1426,7 +1467,7 @@
           "seasonNumber": 17,
           "name": "Season 17",
           "posterPath": "/zS8xeLgPJklx6WRl1BW7LVVitfg.jpg",
-          "episodeCount": 16
+          "episodeCount": 18
         }
       ],
       "reviews": [
@@ -5258,8 +5299,8 @@
       "tmdb": {
         "id": 94997,
         "name": "House of the Dragon",
-        "posterPath": "/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
-        "backdropPath": "/2xGcSLyTAzConiHAByWqhfLiatT.jpg",
+        "posterPath": "/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+        "backdropPath": "/577eXC8wFQT0eUrJcgznSiFPRmk.jpg",
         "genres": [
           "Sci-Fi & Fantasy",
           "Drama",
@@ -5273,8 +5314,8 @@
         "numberOfSeasons": 3,
         "numberOfEpisodes": 26
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
       "seasons": [
         {
           "serializdId": 309556,
@@ -5305,7 +5346,7 @@
           "showId": 94997,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/5OfQpVSXRZnKcJH9cpk76NhOp96.jpg",
+          "posterPath": "/wSvDQN6tZR4VzDDZD3MUPIghVjC.jpg",
           "episodeCount": 8
         }
       ],
@@ -5425,8 +5466,8 @@
       "tmdb": {
         "id": 288453,
         "name": "Next Gen NYC",
-        "posterPath": "/iTJTSdqTWDb3D04m6cUo4ShO7Xi.jpg",
-        "backdropPath": "/wxlGZZge4QpjLoZa7M3ZMBDNZyz.jpg",
+        "posterPath": "/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
+        "backdropPath": "/hLa1alBNswGaTk3lu5s4qGxqLb2.jpg",
         "genres": [
           "Reality"
         ],
@@ -5435,11 +5476,11 @@
         "networks": [
           "Bravo"
         ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 13
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/iTJTSdqTWDb3D04m6cUo4ShO7Xi.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iTJTSdqTWDb3D04m6cUo4ShO7Xi.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
       "seasons": [
         {
           "serializdId": 450505,
@@ -5455,7 +5496,7 @@
           "seasonNumber": 2,
           "name": "Season 2",
           "posterPath": "/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
-          "episodeCount": null
+          "episodeCount": 7
         }
       ],
       "reviews": [
@@ -5557,7 +5598,7 @@
       "tmdb": {
         "id": 247758,
         "name": "The Valley",
-        "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+        "posterPath": "/iHlns2igeXlt2Gmz3cubTUOIQfa.jpg",
         "backdropPath": "/nGBWSonchWojfZMV1eLOYoaq2R3.jpg",
         "genres": [
           "Reality"
@@ -5568,10 +5609,10 @@
           "Bravo"
         ],
         "numberOfSeasons": 3,
-        "numberOfEpisodes": 39
+        "numberOfEpisodes": 44
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/iHlns2igeXlt2Gmz3cubTUOIQfa.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iHlns2igeXlt2Gmz3cubTUOIQfa.jpg",
       "seasons": [
         {
           "serializdId": 455076,
@@ -5602,8 +5643,8 @@
           "showId": 247758,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-          "episodeCount": 9
+          "posterPath": "/iHlns2igeXlt2Gmz3cubTUOIQfa.jpg",
+          "episodeCount": 18
         }
       ],
       "reviews": [
@@ -6043,12 +6084,12 @@
           "Drama"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "Netflix"
         ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 16
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 24
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
@@ -6075,7 +6116,7 @@
           "seasonNumber": 3,
           "name": "Season 3",
           "posterPath": "/rH7vBJKpX04GWnp1Zw5iR2DM9qe.jpg",
-          "episodeCount": null
+          "episodeCount": 8
         }
       ],
       "reviews": [
@@ -6291,13 +6332,13 @@
         "id": 136315,
         "name": "The Bear",
         "posterPath": "/eKfVzzEazSIjJMrw9ADa2x8ksLz.jpg",
-        "backdropPath": "/wHNwlE6ftEpgjVbdhLXOtv1hLs0.jpg",
+        "backdropPath": "/aJtG4txtmiRHwAAqENQHZvBs6kY.jpg",
         "genres": [
           "Drama",
           "Comedy"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "Hulu"
         ],
@@ -6343,8 +6384,8 @@
           "serializdId": 515011,
           "showId": 136315,
           "seasonNumber": 5,
-          "name": "The Final Season",
-          "posterPath": "/vE8rW5E8evCUKfZR4y8PvNrsU3.jpg",
+          "name": "Season 5",
+          "posterPath": "/slheIKz2Xxw6ISUhRqlaT7q1Tpn.jpg",
           "episodeCount": 8
         }
       ],
@@ -6852,7 +6893,7 @@
           "Bravo"
         ],
         "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
+        "numberOfEpisodes": 14
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/sIA2Ul3LwyvjSAukKCZS3VH4Az1.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sIA2Ul3LwyvjSAukKCZS3VH4Az1.jpg",
@@ -6862,8 +6903,8 @@
           "showId": 290883,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/jD8UjVWX4CqhzNT8cs5GwUX2DbS.jpg",
-          "episodeCount": 10
+          "posterPath": "/vekfYAnUC7OIj4iL2nlzFu29epq.jpg",
+          "episodeCount": 14
         }
       ],
       "reviews": [
@@ -7139,31 +7180,39 @@
       "tmdb": {
         "id": 270476,
         "name": "Widow's Bay",
-        "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-        "backdropPath": "/u6XtMg9Ai9siEbEs0UudPS3EaZY.jpg",
+        "posterPath": "/vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg",
+        "backdropPath": "/yx0sfeYOoXol2fjT22SXo9YyviI.jpg",
         "genres": [
           "Drama",
-          "Mystery",
-          "Comedy"
+          "Comedy",
+          "Mystery"
         ],
         "type": "Scripted",
         "status": "Returning Series",
         "networks": [
           "Apple TV"
         ],
-        "numberOfSeasons": 1,
+        "numberOfSeasons": 2,
         "numberOfEpisodes": 10
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg",
       "seasons": [
         {
           "serializdId": 416679,
           "showId": 270476,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+          "posterPath": "/bsBFjzR5GSkaKpBsIzs0iMnKufD.jpg",
           "episodeCount": 10
+        },
+        {
+          "serializdId": 522103,
+          "showId": 270476,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": null,
+          "episodeCount": 0
         }
       ],
       "reviews": [
@@ -7578,21 +7627,21 @@
       "tmdb": {
         "id": 85552,
         "name": "Euphoria",
-        "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-        "backdropPath": "/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg",
+        "posterPath": "/ypmtwojDd751Peszi62DVLytqqC.jpg",
+        "backdropPath": "/GN2KFXiHPVV6sIw4v2P2pqCJty.jpg",
         "genres": [
           "Drama"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "HBO"
         ],
         "numberOfSeasons": 3,
         "numberOfEpisodes": 24
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ypmtwojDd751Peszi62DVLytqqC.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ypmtwojDd751Peszi62DVLytqqC.jpg",
       "seasons": [
         {
           "serializdId": 166250,
@@ -7825,13 +7874,12 @@
         "id": 257994,
         "name": "Half Man",
         "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
+        "backdropPath": "/loZCtN8s1yjSBD75rbHsRisWfUc.jpg",
         "genres": [
-          "Drama",
-          "Mystery"
+          "Drama"
         ],
         "type": "Miniseries",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "BBC One"
         ],
@@ -8001,7 +8049,7 @@
           "Drama"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "HBO Max",
           "Max",
@@ -8034,7 +8082,7 @@
           "showId": 124101,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/lba4WOJ5tUFhgc5Uo2jWhIZG5SO.jpg",
+          "posterPath": "/p6nHSSHo2MI8qvhOxKbVL7ppTF4.jpg",
           "episodeCount": 9
         },
         {
@@ -8050,7 +8098,7 @@
           "showId": 124101,
           "seasonNumber": 5,
           "name": "Season 5",
-          "posterPath": "/eerCQAUkogIQfRjNugG7qiRcNSG.jpg",
+          "posterPath": "/5vPFfd4cqkHCOHY3BsE0E5bbJTG.jpg",
           "episodeCount": 10
         }
       ],
@@ -8683,7 +8731,7 @@
         "networks": [
           "ABC"
         ],
-        "numberOfSeasons": 23,
+        "numberOfSeasons": 22,
         "numberOfEpisodes": 465
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
@@ -8872,14 +8920,6 @@
           "name": "Season 22",
           "posterPath": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
           "episodeCount": 18
-        },
-        {
-          "serializdId": 514232,
-          "showId": 1416,
-          "seasonNumber": 23,
-          "name": "Season 23",
-          "posterPath": null,
-          "episodeCount": 0
         }
       ],
       "reviews": [
@@ -10622,7 +10662,7 @@
       "tmdb": {
         "id": 108181,
         "name": "Imperfect Women",
-        "posterPath": "/pIR9b3gFNyhhV9QRHexJyZcEhut.jpg",
+        "posterPath": "/wW7rimhnokiQ8V6ha6VKIwHg8IV.jpg",
         "backdropPath": "/1RejXo8s6ot7ZbrgR8J16DVaaTi.jpg",
         "genres": [
           "Drama",
@@ -10637,8 +10677,8 @@
         "numberOfSeasons": 1,
         "numberOfEpisodes": 8
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/pIR9b3gFNyhhV9QRHexJyZcEhut.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/pIR9b3gFNyhhV9QRHexJyZcEhut.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/wW7rimhnokiQ8V6ha6VKIwHg8IV.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/wW7rimhnokiQ8V6ha6VKIwHg8IV.jpg",
       "seasons": [
         {
           "serializdId": 160296,
@@ -10825,12 +10865,13 @@
       "tmdb": {
         "id": 302074,
         "name": "R.J. Decker",
-        "posterPath": "/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg",
+        "posterPath": "/zXAWr4gSWmD3iWEZziLCPeW3osS.jpg",
         "backdropPath": "/1bGWVysGyy7iTd0cwSZH7OVKaeb.jpg",
         "genres": [
           "Drama",
           "Comedy",
-          "Crime"
+          "Crime",
+          "Mystery"
         ],
         "type": "Scripted",
         "status": "Returning Series",
@@ -10840,8 +10881,8 @@
         "numberOfSeasons": 1,
         "numberOfEpisodes": 9
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/zXAWr4gSWmD3iWEZziLCPeW3osS.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/zXAWr4gSWmD3iWEZziLCPeW3osS.jpg",
       "seasons": [
         {
           "serializdId": 478070,
@@ -11509,7 +11550,7 @@
         "id": 125935,
         "name": "Abbott Elementary",
         "posterPath": "/nBe1e3JJEZ6veGrVXNF0fRoLu56.jpg",
-        "backdropPath": "/asDINJT3b7tEa76uWI1rZ5TWdJF.jpg",
+        "backdropPath": "/7UJ2rNqDTTw36b38KN2MpYhCm1r.jpg",
         "genres": [
           "Comedy"
         ],
@@ -12239,7 +12280,7 @@
           "showId": 233815,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/A1A8H0HN8UJvcONMqNHkusEvSDp.jpg",
+          "posterPath": "/vDoQjjHhHB8JoMUSzlVhV9VoDTf.jpg",
           "episodeCount": 10
         }
       ],
@@ -12503,7 +12544,7 @@
           "showId": 154385,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/xB8rbOS4Nne7SdZ72d1efmpfCVS.jpg",
+          "posterPath": "/25ih0Xq2zWbxhhKxwhvswKYQyEr.jpg",
           "episodeCount": 8
         }
       ],
@@ -13164,7 +13205,7 @@
           "Comedy"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "Prime Video"
         ],
@@ -13782,7 +13823,7 @@
         "id": 226637,
         "name": "High Potential",
         "posterPath": "/xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg",
-        "backdropPath": "/fGZH7czsIFgf291AI0RLkHnGsRY.jpg",
+        "backdropPath": "/yVP12H81dwaay5B7GVqgO893q2c.jpg",
         "genres": [
           "Drama",
           "Crime",
@@ -13793,8 +13834,8 @@
         "networks": [
           "ABC"
         ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 31
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 32
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg",
@@ -13814,6 +13855,14 @@
           "name": "Season 2",
           "posterPath": "/xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg",
           "episodeCount": 18
+        },
+        {
+          "serializdId": 523229,
+          "showId": 226637,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": null,
+          "episodeCount": 1
         }
       ],
       "reviews": [
@@ -14182,8 +14231,8 @@
       "tmdb": {
         "id": 131142,
         "name": "Love Story",
-        "posterPath": "/7WU3cXD0rip5ONc7owI2dBWAVjW.jpg",
-        "backdropPath": "/58TgKra21gmqJ77dke2Ys1d0fJe.jpg",
+        "posterPath": "/qp67ixTkVd4MEhMZhGorFoOXRxl.jpg",
+        "backdropPath": "/3wKkceyLaScXvCznxFOytBJBCjP.jpg",
         "genres": [
           "Drama"
         ],
@@ -14196,8 +14245,8 @@
         "numberOfSeasons": 1,
         "numberOfEpisodes": 9
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/7WU3cXD0rip5ONc7owI2dBWAVjW.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7WU3cXD0rip5ONc7owI2dBWAVjW.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/qp67ixTkVd4MEhMZhGorFoOXRxl.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/qp67ixTkVd4MEhMZhGorFoOXRxl.jpg",
       "seasons": [
         {
           "serializdId": 205791,
@@ -16232,8 +16281,8 @@
         "networks": [
           "Peacock"
         ],
-        "numberOfSeasons": 4,
-        "numberOfEpisodes": 47
+        "numberOfSeasons": 5,
+        "numberOfEpisodes": 48
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/xWK9tLH2UGgzuAI6P3cHeTKopfj.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/xWK9tLH2UGgzuAI6P3cHeTKopfj.jpg",
@@ -16269,6 +16318,14 @@
           "name": "Season 4",
           "posterPath": "/xWK9tLH2UGgzuAI6P3cHeTKopfj.jpg",
           "episodeCount": 12
+        },
+        {
+          "serializdId": 523331,
+          "showId": 215943,
+          "seasonNumber": 5,
+          "name": "New Blood",
+          "posterPath": null,
+          "episodeCount": 1
         }
       ],
       "reviews": [
@@ -16590,7 +16647,7 @@
           "showId": 224372,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/3jXrxH6E7Znw2CU2DGzZCAYlpPV.jpg",
+          "posterPath": "/2Zfw5Pe8Ztgzs0vFxy7LeC1wARE.jpg",
           "episodeCount": 6
         }
       ],
@@ -16933,7 +16990,7 @@
           "Mystery"
         ],
         "type": "Scripted",
-        "status": "Planned",
+        "status": "Returning Series",
         "networks": [
           "Prime Video"
         ],
@@ -18268,9 +18325,9 @@
         "posterPath": "/uOOtwVbSr4QDjAGIifLDwpb2Pdl.jpg",
         "backdropPath": "/56v2KjBlU4XaOv9rVYEQypROD7P.jpg",
         "genres": [
-          "Sci-Fi & Fantasy",
+          "Action & Adventure",
           "Mystery",
-          "Action & Adventure"
+          "Sci-Fi & Fantasy"
         ],
         "type": "Scripted",
         "status": "Ended",
@@ -18320,7 +18377,7 @@
           "showId": 66732,
           "seasonNumber": 5,
           "name": "Stranger Things 5",
-          "posterPath": "/5i5Fg549J27knMvhI5NRM2FT3Gn.jpg",
+          "posterPath": "/grFHRwBSlRDM7NvleNQYBCWAgRI.jpg",
           "episodeCount": 8
         }
       ],
@@ -18464,7 +18521,7 @@
         "id": 216386,
         "name": "Break Point",
         "posterPath": "/62QQG1qdCds8c0tslzaGib1wiuK.jpg",
-        "backdropPath": "/fQf5C81dbmezGVHfu5mPDP6XPee.jpg",
+        "backdropPath": "/39UO0CyPGDGOCFeZ6gssSCu251S.jpg",
         "genres": [
           "Documentary"
         ],
@@ -18559,8 +18616,8 @@
       "tmdb": {
         "id": 301507,
         "name": "Heated Rivalry",
-        "posterPath": "/3YCKbtAkYWCMDLHvkUjGhG7eWoS.jpg",
-        "backdropPath": "/QbRbCULZVBcrN2uydpmIOQLV5O.jpg",
+        "posterPath": "/epgr7n61vVIniyAghz2GYj22DkC.jpg",
+        "backdropPath": "/iS76c29IrS3lKI2X5CFySguiAWU.jpg",
         "genres": [
           "Drama"
         ],
@@ -18572,8 +18629,8 @@
         "numberOfSeasons": 1,
         "numberOfEpisodes": 6
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/3YCKbtAkYWCMDLHvkUjGhG7eWoS.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3YCKbtAkYWCMDLHvkUjGhG7eWoS.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/epgr7n61vVIniyAghz2GYj22DkC.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/epgr7n61vVIniyAghz2GYj22DkC.jpg",
       "seasons": [
         {
           "serializdId": 476908,
@@ -18631,7 +18688,7 @@
         "id": 225171,
         "name": "Pluribus",
         "posterPath": "/z7Nga7Q9IGFWs5OEduY2gGFxnX3.jpg",
-        "backdropPath": "/vNCNUxNHHgP0WsA19hxztUsG3yG.jpg",
+        "backdropPath": "/ulm1ex4JFYJByyaPyqTr47MFyEQ.jpg",
         "genres": [
           "Drama",
           "Sci-Fi & Fantasy"
@@ -18712,7 +18769,7 @@
         "networks": [
           "HBO"
         ],
-        "numberOfSeasons": 1,
+        "numberOfSeasons": 2,
         "numberOfEpisodes": 8
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/6xrLXEQABvoVwGka9KDDAOt4lFs.jpg",
@@ -18725,6 +18782,14 @@
           "name": "Season 1",
           "posterPath": "/6xrLXEQABvoVwGka9KDDAOt4lFs.jpg",
           "episodeCount": 8
+        },
+        {
+          "serializdId": 523943,
+          "showId": 271053,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": null,
+          "episodeCount": 0
         }
       ],
       "reviews": [
@@ -18795,7 +18860,7 @@
           "showId": 82596,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/xfoZfck4QOxVtRKffBfQAhTDWzb.jpg",
+          "posterPath": "/kwMqIYOC4U9eK4NZnmmyD8pDEOi.jpg",
           "episodeCount": 10
         },
         {
@@ -18920,7 +18985,7 @@
         "networks": [
           "HBO"
         ],
-        "numberOfSeasons": 1,
+        "numberOfSeasons": 2,
         "numberOfEpisodes": 8
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/2VktdoGvR0Pv6qj9P7vDsTIfw1l.jpg",
@@ -18933,6 +18998,14 @@
           "name": "Season 1",
           "posterPath": "/xZgftEXZXTM47k2rZlXo8kr8HZF.jpg",
           "episodeCount": 8
+        },
+        {
+          "serializdId": 523944,
+          "showId": 271267,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": null,
+          "episodeCount": 0
         }
       ],
       "reviews": [
@@ -19448,22 +19521,22 @@
       "tmdb": {
         "id": 128098,
         "name": "Interview with the Vampire",
-        "posterPath": "/Afv4pPhqVMg2wOmhuDLiGUw4r4O.jpg",
-        "backdropPath": "/r5RoeEWuslP6svlZsHsCKo7TZs7.jpg",
+        "posterPath": "/mQ0fbfc5ELwb2zjFZM4uwAnN3ee.jpg",
+        "backdropPath": "/1tADVruLbywl7P3TOVQmNza3aAO.jpg",
         "genres": [
           "Drama",
           "Sci-Fi & Fantasy"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "AMC"
         ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 21
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 15
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/Afv4pPhqVMg2wOmhuDLiGUw4r4O.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/Afv4pPhqVMg2wOmhuDLiGUw4r4O.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/mQ0fbfc5ELwb2zjFZM4uwAnN3ee.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/mQ0fbfc5ELwb2zjFZM4uwAnN3ee.jpg",
       "seasons": [
         {
           "serializdId": 200240,
@@ -19478,16 +19551,8 @@
           "showId": 128098,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/Afv4pPhqVMg2wOmhuDLiGUw4r4O.jpg",
+          "posterPath": "/6Xq6F5Qy7BP1GcLhNPnH1aCDYeF.jpg",
           "episodeCount": 8
-        },
-        {
-          "serializdId": 404715,
-          "showId": 128098,
-          "seasonNumber": 3,
-          "name": "The Vampire Lestat",
-          "posterPath": "/bZFcPFhuuL0ec3IW37fxbZI1eE5.jpg",
-          "episodeCount": 7
         }
       ],
       "reviews": [
@@ -19745,7 +19810,7 @@
           "showId": 243861,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/gyUKo6ILKVwuiVq4EWv1avEXpBp.jpg",
+          "posterPath": "/mdNBcrhj50aPIgJtyyJEyx3KpKO.jpg",
           "episodeCount": 5
         },
         {
@@ -20098,7 +20163,7 @@
           "Reality"
         ],
         "type": "Reality",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "Netflix"
         ],
@@ -20619,7 +20684,7 @@
           "showId": 120998,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/nsOtuGh2psp0aRnUBQgePlLCfM6.jpg",
+          "posterPath": "/8Xm5dyMQC9whMJKnGdFugUAW73C.jpg",
           "episodeCount": 10
         },
         {
@@ -20749,7 +20814,7 @@
       "tmdb": {
         "id": 95480,
         "name": "Slow Horses",
-        "posterPath": "/dnpatlJrEPiDSn5fzgzvxtiSnMo.jpg",
+        "posterPath": "/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
         "backdropPath": "/bDfboQUb45Cv9MYyVBDZw8M8xSM.jpg",
         "genres": [
           "Crime",
@@ -20761,11 +20826,11 @@
         "networks": [
           "Apple TV"
         ],
-        "numberOfSeasons": 5,
-        "numberOfEpisodes": 30
+        "numberOfSeasons": 6,
+        "numberOfEpisodes": 36
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/dnpatlJrEPiDSn5fzgzvxtiSnMo.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dnpatlJrEPiDSn5fzgzvxtiSnMo.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
       "seasons": [
         {
           "serializdId": 135858,
@@ -20805,6 +20870,14 @@
           "seasonNumber": 5,
           "name": "Season 5",
           "posterPath": "/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 521992,
+          "showId": 95480,
+          "seasonNumber": 6,
+          "name": "Season 6",
+          "posterPath": "/pJLqDNMhVIdLgBTBdNjV0C9CeYQ.jpg",
           "episodeCount": 6
         }
       ],
@@ -20935,7 +21008,7 @@
         "networks": [
           "HBO"
         ],
-        "numberOfSeasons": 1,
+        "numberOfSeasons": 2,
         "numberOfEpisodes": 7
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/9JdL1aQdAQiyYYQ2xCqbHaEcZt8.jpg",
@@ -20948,6 +21021,14 @@
           "name": "Season 1",
           "posterPath": "/cMWin1QGWiP23chn8GpDlSyaxsJ.jpg",
           "episodeCount": 7
+        },
+        {
+          "serializdId": 523942,
+          "showId": 228305,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": null,
+          "episodeCount": 0
         }
       ],
       "reviews": [
@@ -21070,7 +21151,7 @@
         "id": 157239,
         "name": "Alien: Earth",
         "posterPath": "/yueXS3q8BtoWekcHOATFHicLl3e.jpg",
-        "backdropPath": "/biIBy2LPOOtGCgUYOls3dUEWU3v.jpg",
+        "backdropPath": "/sVxit4vKQZnrHejeQupBYadP22g.jpg",
         "genres": [
           "Sci-Fi & Fantasy",
           "Drama"
@@ -21222,7 +21303,7 @@
       "tmdb": {
         "id": 14808,
         "name": "The Real Housewives of New York City",
-        "posterPath": "/dzy5nUc4MfTdQFBdbUFAT1FRPLQ.jpg",
+        "posterPath": "/8RyKqPXef4YqkT40ZEr1wbP0dmk.jpg",
         "backdropPath": "/cowrSDpkCkNcmg5fO7gstaZLR1B.jpg",
         "genres": [
           "Reality"
@@ -21235,8 +21316,8 @@
         "numberOfSeasons": 16,
         "numberOfEpisodes": 292
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/dzy5nUc4MfTdQFBdbUFAT1FRPLQ.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dzy5nUc4MfTdQFBdbUFAT1FRPLQ.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/8RyKqPXef4YqkT40ZEr1wbP0dmk.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8RyKqPXef4YqkT40ZEr1wbP0dmk.jpg",
       "seasons": [
         {
           "serializdId": 26363,
@@ -21675,7 +21756,7 @@
         "networks": [
           "Netflix"
         ],
-        "numberOfSeasons": 1,
+        "numberOfSeasons": 2,
         "numberOfEpisodes": 8
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/knR0tDKgFwsUMxe0MqZSWQYhwpL.jpg",
@@ -21687,6 +21768,14 @@
           "seasonNumber": 1,
           "name": "Season 1",
           "posterPath": "/mtpM2eh6fgvYUwwmgFow1EHr0lX.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 526876,
+          "showId": 244447,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": null,
           "episodeCount": 8
         }
       ],
@@ -21982,10 +22071,10 @@
         "status": "Returning Series",
         "networks": [
           "FX",
-          "Hulu"
+          "FXX"
         ],
         "numberOfSeasons": 2,
-        "numberOfEpisodes": 8
+        "numberOfEpisodes": 16
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/lypznNe82xNRw6O9580JvpnUkN6.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lypznNe82xNRw6O9580JvpnUkN6.jpg",
@@ -22003,8 +22092,8 @@
           "showId": 260458,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/8XzZmYaaGXXw81A929xZ7q1KKqv.jpg",
-          "episodeCount": 0
+          "posterPath": null,
+          "episodeCount": 8
         }
       ],
       "reviews": [
@@ -22526,7 +22615,9 @@
         "posterPath": "/cJZbg425I9LF3SlJVQDOg4nJEvq.jpg",
         "backdropPath": "/rhwN3mIN89zlDveR0gv0VkrspXa.jpg",
         "genres": [
-          "Comedy"
+          "Comedy",
+          "Crime",
+          "Mystery"
         ],
         "type": "Scripted",
         "status": "Canceled",
@@ -22641,7 +22732,7 @@
           "showId": 117488,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/xRnGrn7Z7SC0KIBodocoU1QgDZF.jpg",
+          "posterPath": "/agBOgS5q1QxvaiM8TDzNTnq2EIs.jpg",
           "episodeCount": 10
         },
         {
@@ -22649,7 +22740,7 @@
           "showId": 117488,
           "seasonNumber": 4,
           "name": "Season 4",
-          "posterPath": null,
+          "posterPath": "/gCQuqv4B6ymQPA0pmS1FP2CjwkC.jpg",
           "episodeCount": 0
         }
       ],
@@ -22725,7 +22816,7 @@
           "showId": 111803,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/jJXV3H1SAvQpjSTIKZBUyAGica3.jpg",
+          "posterPath": "/4gBYNDdczkFOqjR4dgYamqbp6cS.jpg",
           "episodeCount": 6
         },
         {
@@ -22733,7 +22824,7 @@
           "showId": 111803,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/zqcvTkB9k6uO7Q3uiEFdD7BOc9x.jpg",
+          "posterPath": "/gH5i3JbnLsyTvcImlofNvXtH3i5.jpg",
           "episodeCount": 7
         },
         {
@@ -24883,7 +24974,7 @@
           "Reality"
         ],
         "type": "Reality",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "HBO"
         ],
@@ -25211,7 +25302,7 @@
         "id": 220564,
         "name": "The Perfect Couple",
         "posterPath": "/weyR73iYr1lWg17Q2r4sc7aEr2p.jpg",
-        "backdropPath": "/8SSZiqgUUUtqhZB2KuWle5q9lxg.jpg",
+        "backdropPath": "/wgJjIvSo169WKg4c1O4oBNnoTs4.jpg",
         "genres": [
           "Drama",
           "Mystery",
@@ -25294,7 +25385,7 @@
         "networks": [
           "Netflix"
         ],
-        "numberOfSeasons": 2,
+        "numberOfSeasons": 3,
         "numberOfEpisodes": 20
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/cUpIceeJJoRqUHSCzh6jRSmlpkA.jpg",
@@ -25314,6 +25405,14 @@
           "seasonNumber": 2,
           "name": "Season 2",
           "posterPath": "/cUpIceeJJoRqUHSCzh6jRSmlpkA.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 528679,
+          "showId": 250923,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": null,
           "episodeCount": 10
         }
       ],
@@ -25795,8 +25894,8 @@
         "networks": [
           "Netflix"
         ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 14
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 21
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/dM3fGD2uDhE9Z5HDieeWXhpXyG0.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dM3fGD2uDhE9Z5HDieeWXhpXyG0.jpg",
@@ -25806,7 +25905,7 @@
           "showId": 252257,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/46A4V55nWAVx5IGrUgpabfoUQzD.jpg",
+          "posterPath": "/fllOIxjBZrH8Xxm1gjp2dGj06um.jpg",
           "episodeCount": 7
         },
         {
@@ -25814,7 +25913,15 @@
           "showId": 252257,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/eR2XffmtygVj9K0qvMEVqEgqlZp.jpg",
+          "posterPath": "/kWuGeXP61oaSQKVcj4GkSLE6R1W.jpg",
+          "episodeCount": 7
+        },
+        {
+          "serializdId": 517349,
+          "showId": 252257,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/fWPf44ePi83ZjHO13h58D512e8H.jpg",
           "episodeCount": 7
         }
       ],
@@ -26375,8 +26482,8 @@
       "tmdb": {
         "id": 60625,
         "name": "Rick and Morty",
-        "posterPath": "/WGRQ8FpjkDTzivQJ43t94bOuY0.jpg",
-        "backdropPath": "/Ao5pBFuWY32cVuh6iYjEjZMEscN.jpg",
+        "posterPath": "/owhkU6KRqdXoUQpjV8uyZGPtX58.jpg",
+        "backdropPath": "/5BDNWWHweQL0q1fmTv7gmRXfnl4.jpg",
         "genres": [
           "Animation",
           "Comedy",
@@ -26391,15 +26498,15 @@
         "numberOfSeasons": 9,
         "numberOfEpisodes": 91
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/WGRQ8FpjkDTzivQJ43t94bOuY0.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/WGRQ8FpjkDTzivQJ43t94bOuY0.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/owhkU6KRqdXoUQpjV8uyZGPtX58.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/owhkU6KRqdXoUQpjV8uyZGPtX58.jpg",
       "seasons": [
         {
           "serializdId": 106178,
           "showId": 60625,
           "seasonNumber": 0,
           "name": "Specials",
-          "posterPath": "/3my0MrOKCSYMw8VfLiiM9k00bdF.jpg",
+          "posterPath": "/rpmXDlPVhUQ2HY1I8Xw0tAtz3pj.jpg",
           "episodeCount": 37
         },
         {
@@ -26423,7 +26530,7 @@
           "showId": 60625,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/rX55zDxWkNuG4wyQyfMBkSk75df.jpg",
+          "posterPath": "/xOSKU3rvKiKFdKgIs0y6n3zscBJ.jpg",
           "episodeCount": 10
         },
         {
@@ -26471,7 +26578,7 @@
           "showId": 60625,
           "seasonNumber": 9,
           "name": "Season 9",
-          "posterPath": "/qo07tk7mF3c63G7MktMVA2GApZt.jpg",
+          "posterPath": "/owhkU6KRqdXoUQpjV8uyZGPtX58.jpg",
           "episodeCount": 10
         }
       ],
@@ -26913,7 +27020,7 @@
       "tmdb": {
         "id": 46648,
         "name": "True Detective",
-        "posterPath": "/zYqVTiHK5ZajYcNzAW7qWte5NWS.jpg",
+        "posterPath": "/dC7jkj2g1aU8sxKqM6D4g44xA6w.jpg",
         "backdropPath": "/v8YFr8BbU9qsO8PYIulzTeM6Qk.jpg",
         "genres": [
           "Drama",
@@ -26927,8 +27034,8 @@
         "numberOfSeasons": 4,
         "numberOfEpisodes": 30
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/zYqVTiHK5ZajYcNzAW7qWte5NWS.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/zYqVTiHK5ZajYcNzAW7qWte5NWS.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/dC7jkj2g1aU8sxKqM6D4g44xA6w.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dC7jkj2g1aU8sxKqM6D4g44xA6w.jpg",
       "seasons": [
         {
           "serializdId": 177275,
@@ -27125,7 +27232,7 @@
           "showId": 118642,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": null,
+          "posterPath": "/kZp7ObxLqEPBMQzZirlrOc1A0gr.jpg",
           "episodeCount": 0
         }
       ],
@@ -27394,7 +27501,7 @@
       "tmdb": {
         "id": 2388,
         "name": "Queer as Folk",
-        "posterPath": "/15A6uzdd7hnBJ6bm1OBX7TP38yT.jpg",
+        "posterPath": "/asVFDQxnHIsYRXiaMTPji19NqPh.jpg",
         "backdropPath": "/bDHpVZhQxXIWnKBXGPS46mcnE6f.jpg",
         "genres": [
           "Drama"
@@ -27407,8 +27514,8 @@
         "numberOfSeasons": 2,
         "numberOfEpisodes": 10
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/15A6uzdd7hnBJ6bm1OBX7TP38yT.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/15A6uzdd7hnBJ6bm1OBX7TP38yT.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/asVFDQxnHIsYRXiaMTPji19NqPh.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/asVFDQxnHIsYRXiaMTPji19NqPh.jpg",
       "seasons": [
         {
           "serializdId": 7439,
@@ -27602,7 +27709,7 @@
         "id": 134095,
         "name": "A Murder at the End of the World",
         "posterPath": "/1mWCXJefbNU1E2XPJVM2vejMSZO.jpg",
-        "backdropPath": "/nX3mNxSNgtVbzDFaqLW9sroqSkc.jpg",
+        "backdropPath": "/f9AqBIAjibUfPtGwOqbJ240cADt.jpg",
         "genres": [
           "Mystery",
           "Drama",
@@ -27793,6 +27900,38 @@
       ],
       "reviews": [
         {
+          "id": 78390640,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "The political thriller in here isn’t really doing it. I know it’s kind of essential, but something about how it’s lensed isn’t sitting with me.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-15T23:40:31Z",
+          "reviewDate": "2026-07-15T23:41:10Z",
+          "seasonId": 196076,
+          "episodeNumber": 5,
+          "episodeName": "The Janitor's Boy",
+          "tags": []
+        },
+        {
+          "id": 78390508,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-15T23:40:11Z",
+          "reviewDate": "2026-07-15T23:40:23Z",
+          "seasonId": 196076,
+          "episodeNumber": 4,
+          "episodeName": "Truth",
+          "tags": []
+        },
+        {
           "id": 78334094,
           "level": "episode",
           "rating": 4,
@@ -27844,6 +27983,7 @@
       "ratingSet": [
         2.5,
         3,
+        3.5,
         4
       ],
       "watchedYearSet": [
@@ -27856,8 +27996,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-15T21:11:49Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-07-15T23:41:10Z",
+      "primaryRating": 3,
       "liked": false
     },
     "tmdb-tv-323411": {
@@ -28037,8 +28177,8 @@
         "networks": [
           "Bravo"
         ],
-        "numberOfSeasons": 23,
-        "numberOfEpisodes": 3112
+        "numberOfSeasons": 24,
+        "numberOfEpisodes": 3179
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/onSD9UXfJwrMXWhq7UY7hGF2S1h.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/onSD9UXfJwrMXWhq7UY7hGF2S1h.jpg",
@@ -28233,7 +28373,15 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 79
+          "episodeCount": 118
+        },
+        {
+          "serializdId": 518119,
+          "showId": 22980,
+          "seasonNumber": 24,
+          "name": "Season 24",
+          "posterPath": null,
+          "episodeCount": 4
         }
       ],
       "reviews": [
@@ -28938,7 +29086,7 @@
           "Bravo"
         ],
         "numberOfSeasons": 17,
-        "numberOfEpisodes": 363
+        "numberOfEpisodes": 365
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/h5HYOsyc1sJQYjqevaWEaLRjd6E.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/h5HYOsyc1sJQYjqevaWEaLRjd6E.jpg",
@@ -29085,7 +29233,7 @@
           "seasonNumber": 17,
           "name": "Season 17",
           "posterPath": "/zS8xeLgPJklx6WRl1BW7LVVitfg.jpg",
-          "episodeCount": 16
+          "episodeCount": 18
         }
       ],
       "reviews": [
@@ -32917,8 +33065,8 @@
       "tmdb": {
         "id": 94997,
         "name": "House of the Dragon",
-        "posterPath": "/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
-        "backdropPath": "/2xGcSLyTAzConiHAByWqhfLiatT.jpg",
+        "posterPath": "/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+        "backdropPath": "/577eXC8wFQT0eUrJcgznSiFPRmk.jpg",
         "genres": [
           "Sci-Fi & Fantasy",
           "Drama",
@@ -32932,8 +33080,8 @@
         "numberOfSeasons": 3,
         "numberOfEpisodes": 26
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7QMsOTMUswlwxJP0rTTZfmz2tX2.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
       "seasons": [
         {
           "serializdId": 309556,
@@ -32964,7 +33112,7 @@
           "showId": 94997,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/5OfQpVSXRZnKcJH9cpk76NhOp96.jpg",
+          "posterPath": "/wSvDQN6tZR4VzDDZD3MUPIghVjC.jpg",
           "episodeCount": 8
         }
       ],
@@ -33084,8 +33232,8 @@
       "tmdb": {
         "id": 288453,
         "name": "Next Gen NYC",
-        "posterPath": "/iTJTSdqTWDb3D04m6cUo4ShO7Xi.jpg",
-        "backdropPath": "/wxlGZZge4QpjLoZa7M3ZMBDNZyz.jpg",
+        "posterPath": "/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
+        "backdropPath": "/hLa1alBNswGaTk3lu5s4qGxqLb2.jpg",
         "genres": [
           "Reality"
         ],
@@ -33094,11 +33242,11 @@
         "networks": [
           "Bravo"
         ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 13
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/iTJTSdqTWDb3D04m6cUo4ShO7Xi.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iTJTSdqTWDb3D04m6cUo4ShO7Xi.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
       "seasons": [
         {
           "serializdId": 450505,
@@ -33114,7 +33262,7 @@
           "seasonNumber": 2,
           "name": "Season 2",
           "posterPath": "/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
-          "episodeCount": null
+          "episodeCount": 7
         }
       ],
       "reviews": [
@@ -33216,7 +33364,7 @@
       "tmdb": {
         "id": 247758,
         "name": "The Valley",
-        "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+        "posterPath": "/iHlns2igeXlt2Gmz3cubTUOIQfa.jpg",
         "backdropPath": "/nGBWSonchWojfZMV1eLOYoaq2R3.jpg",
         "genres": [
           "Reality"
@@ -33227,10 +33375,10 @@
           "Bravo"
         ],
         "numberOfSeasons": 3,
-        "numberOfEpisodes": 39
+        "numberOfEpisodes": 44
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/iHlns2igeXlt2Gmz3cubTUOIQfa.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iHlns2igeXlt2Gmz3cubTUOIQfa.jpg",
       "seasons": [
         {
           "serializdId": 455076,
@@ -33261,8 +33409,8 @@
           "showId": 247758,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/8CnDkyevooH4OneksUTBO9OQ8UU.jpg",
-          "episodeCount": 9
+          "posterPath": "/iHlns2igeXlt2Gmz3cubTUOIQfa.jpg",
+          "episodeCount": 18
         }
       ],
       "reviews": [
@@ -33702,12 +33850,12 @@
           "Drama"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "Netflix"
         ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 16
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 24
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sD8RToyFl1oMF3kXgkeSmSsJIpa.jpg",
@@ -33734,7 +33882,7 @@
           "seasonNumber": 3,
           "name": "Season 3",
           "posterPath": "/rH7vBJKpX04GWnp1Zw5iR2DM9qe.jpg",
-          "episodeCount": null
+          "episodeCount": 8
         }
       ],
       "reviews": [
@@ -33950,13 +34098,13 @@
         "id": 136315,
         "name": "The Bear",
         "posterPath": "/eKfVzzEazSIjJMrw9ADa2x8ksLz.jpg",
-        "backdropPath": "/wHNwlE6ftEpgjVbdhLXOtv1hLs0.jpg",
+        "backdropPath": "/aJtG4txtmiRHwAAqENQHZvBs6kY.jpg",
         "genres": [
           "Drama",
           "Comedy"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "Hulu"
         ],
@@ -34002,8 +34150,8 @@
           "serializdId": 515011,
           "showId": 136315,
           "seasonNumber": 5,
-          "name": "The Final Season",
-          "posterPath": "/vE8rW5E8evCUKfZR4y8PvNrsU3.jpg",
+          "name": "Season 5",
+          "posterPath": "/slheIKz2Xxw6ISUhRqlaT7q1Tpn.jpg",
           "episodeCount": 8
         }
       ],
@@ -34511,7 +34659,7 @@
           "Bravo"
         ],
         "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
+        "numberOfEpisodes": 14
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/sIA2Ul3LwyvjSAukKCZS3VH4Az1.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sIA2Ul3LwyvjSAukKCZS3VH4Az1.jpg",
@@ -34521,8 +34669,8 @@
           "showId": 290883,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/jD8UjVWX4CqhzNT8cs5GwUX2DbS.jpg",
-          "episodeCount": 10
+          "posterPath": "/vekfYAnUC7OIj4iL2nlzFu29epq.jpg",
+          "episodeCount": 14
         }
       ],
       "reviews": [
@@ -34798,31 +34946,39 @@
       "tmdb": {
         "id": 270476,
         "name": "Widow's Bay",
-        "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-        "backdropPath": "/u6XtMg9Ai9siEbEs0UudPS3EaZY.jpg",
+        "posterPath": "/vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg",
+        "backdropPath": "/yx0sfeYOoXol2fjT22SXo9YyviI.jpg",
         "genres": [
           "Drama",
-          "Mystery",
-          "Comedy"
+          "Comedy",
+          "Mystery"
         ],
         "type": "Scripted",
         "status": "Returning Series",
         "networks": [
           "Apple TV"
         ],
-        "numberOfSeasons": 1,
+        "numberOfSeasons": 2,
         "numberOfEpisodes": 10
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vKq8XEJKxQTHd2Bm5zZMFPUrke7.jpg",
       "seasons": [
         {
           "serializdId": 416679,
           "showId": 270476,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/5lcxWLVAEICkFpuAiV1aMy7ZZj3.jpg",
+          "posterPath": "/bsBFjzR5GSkaKpBsIzs0iMnKufD.jpg",
           "episodeCount": 10
+        },
+        {
+          "serializdId": 522103,
+          "showId": 270476,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": null,
+          "episodeCount": 0
         }
       ],
       "reviews": [
@@ -35237,21 +35393,21 @@
       "tmdb": {
         "id": 85552,
         "name": "Euphoria",
-        "posterPath": "/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-        "backdropPath": "/mez2Z3WqlPKNXpi7mWoiiE5guE9.jpg",
+        "posterPath": "/ypmtwojDd751Peszi62DVLytqqC.jpg",
+        "backdropPath": "/GN2KFXiHPVV6sIw4v2P2pqCJty.jpg",
         "genres": [
           "Drama"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "HBO"
         ],
         "numberOfSeasons": 3,
         "numberOfEpisodes": 24
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aJrG7OkoTMPWG5c8opz8a93AZPY.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ypmtwojDd751Peszi62DVLytqqC.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ypmtwojDd751Peszi62DVLytqqC.jpg",
       "seasons": [
         {
           "serializdId": 166250,
@@ -35484,13 +35640,12 @@
         "id": 257994,
         "name": "Half Man",
         "posterPath": "/fV1XBxZSl0nxiMIhDuorIbfW8kG.jpg",
-        "backdropPath": "/uvmn7g7G0cVj7OVeDRrklky4NfF.jpg",
+        "backdropPath": "/loZCtN8s1yjSBD75rbHsRisWfUc.jpg",
         "genres": [
-          "Drama",
-          "Mystery"
+          "Drama"
         ],
         "type": "Miniseries",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "BBC One"
         ],
@@ -35660,7 +35815,7 @@
           "Drama"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "HBO Max",
           "Max",
@@ -35693,7 +35848,7 @@
           "showId": 124101,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/lba4WOJ5tUFhgc5Uo2jWhIZG5SO.jpg",
+          "posterPath": "/p6nHSSHo2MI8qvhOxKbVL7ppTF4.jpg",
           "episodeCount": 9
         },
         {
@@ -35709,7 +35864,7 @@
           "showId": 124101,
           "seasonNumber": 5,
           "name": "Season 5",
-          "posterPath": "/eerCQAUkogIQfRjNugG7qiRcNSG.jpg",
+          "posterPath": "/5vPFfd4cqkHCOHY3BsE0E5bbJTG.jpg",
           "episodeCount": 10
         }
       ],
@@ -36342,7 +36497,7 @@
         "networks": [
           "ABC"
         ],
-        "numberOfSeasons": 23,
+        "numberOfSeasons": 22,
         "numberOfEpisodes": 465
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
@@ -36531,14 +36686,6 @@
           "name": "Season 22",
           "posterPath": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
           "episodeCount": 18
-        },
-        {
-          "serializdId": 514232,
-          "showId": 1416,
-          "seasonNumber": 23,
-          "name": "Season 23",
-          "posterPath": null,
-          "episodeCount": 0
         }
       ],
       "reviews": [
@@ -38281,7 +38428,7 @@
       "tmdb": {
         "id": 108181,
         "name": "Imperfect Women",
-        "posterPath": "/pIR9b3gFNyhhV9QRHexJyZcEhut.jpg",
+        "posterPath": "/wW7rimhnokiQ8V6ha6VKIwHg8IV.jpg",
         "backdropPath": "/1RejXo8s6ot7ZbrgR8J16DVaaTi.jpg",
         "genres": [
           "Drama",
@@ -38296,8 +38443,8 @@
         "numberOfSeasons": 1,
         "numberOfEpisodes": 8
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/pIR9b3gFNyhhV9QRHexJyZcEhut.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/pIR9b3gFNyhhV9QRHexJyZcEhut.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/wW7rimhnokiQ8V6ha6VKIwHg8IV.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/wW7rimhnokiQ8V6ha6VKIwHg8IV.jpg",
       "seasons": [
         {
           "serializdId": 160296,
@@ -38484,12 +38631,13 @@
       "tmdb": {
         "id": 302074,
         "name": "R.J. Decker",
-        "posterPath": "/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg",
+        "posterPath": "/zXAWr4gSWmD3iWEZziLCPeW3osS.jpg",
         "backdropPath": "/1bGWVysGyy7iTd0cwSZH7OVKaeb.jpg",
         "genres": [
           "Drama",
           "Comedy",
-          "Crime"
+          "Crime",
+          "Mystery"
         ],
         "type": "Scripted",
         "status": "Returning Series",
@@ -38499,8 +38647,8 @@
         "numberOfSeasons": 1,
         "numberOfEpisodes": 9
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/zXAWr4gSWmD3iWEZziLCPeW3osS.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/zXAWr4gSWmD3iWEZziLCPeW3osS.jpg",
       "seasons": [
         {
           "serializdId": 478070,
@@ -39168,7 +39316,7 @@
         "id": 125935,
         "name": "Abbott Elementary",
         "posterPath": "/nBe1e3JJEZ6veGrVXNF0fRoLu56.jpg",
-        "backdropPath": "/asDINJT3b7tEa76uWI1rZ5TWdJF.jpg",
+        "backdropPath": "/7UJ2rNqDTTw36b38KN2MpYhCm1r.jpg",
         "genres": [
           "Comedy"
         ],
@@ -39898,7 +40046,7 @@
           "showId": 233815,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/A1A8H0HN8UJvcONMqNHkusEvSDp.jpg",
+          "posterPath": "/vDoQjjHhHB8JoMUSzlVhV9VoDTf.jpg",
           "episodeCount": 10
         }
       ],
@@ -40162,7 +40310,7 @@
           "showId": 154385,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/xB8rbOS4Nne7SdZ72d1efmpfCVS.jpg",
+          "posterPath": "/25ih0Xq2zWbxhhKxwhvswKYQyEr.jpg",
           "episodeCount": 8
         }
       ],
@@ -40823,7 +40971,7 @@
           "Comedy"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "Prime Video"
         ],
@@ -41441,7 +41589,7 @@
         "id": 226637,
         "name": "High Potential",
         "posterPath": "/xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg",
-        "backdropPath": "/fGZH7czsIFgf291AI0RLkHnGsRY.jpg",
+        "backdropPath": "/yVP12H81dwaay5B7GVqgO893q2c.jpg",
         "genres": [
           "Drama",
           "Crime",
@@ -41452,8 +41600,8 @@
         "networks": [
           "ABC"
         ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 31
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 32
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg",
@@ -41473,6 +41621,14 @@
           "name": "Season 2",
           "posterPath": "/xCtaUDBUP1iKqtoqpHfeH1T2pWF.jpg",
           "episodeCount": 18
+        },
+        {
+          "serializdId": 523229,
+          "showId": 226637,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": null,
+          "episodeCount": 1
         }
       ],
       "reviews": [
@@ -41841,8 +41997,8 @@
       "tmdb": {
         "id": 131142,
         "name": "Love Story",
-        "posterPath": "/7WU3cXD0rip5ONc7owI2dBWAVjW.jpg",
-        "backdropPath": "/58TgKra21gmqJ77dke2Ys1d0fJe.jpg",
+        "posterPath": "/qp67ixTkVd4MEhMZhGorFoOXRxl.jpg",
+        "backdropPath": "/3wKkceyLaScXvCznxFOytBJBCjP.jpg",
         "genres": [
           "Drama"
         ],
@@ -41855,8 +42011,8 @@
         "numberOfSeasons": 1,
         "numberOfEpisodes": 9
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/7WU3cXD0rip5ONc7owI2dBWAVjW.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7WU3cXD0rip5ONc7owI2dBWAVjW.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/qp67ixTkVd4MEhMZhGorFoOXRxl.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/qp67ixTkVd4MEhMZhGorFoOXRxl.jpg",
       "seasons": [
         {
           "serializdId": 205791,
@@ -43891,8 +44047,8 @@
         "networks": [
           "Peacock"
         ],
-        "numberOfSeasons": 4,
-        "numberOfEpisodes": 47
+        "numberOfSeasons": 5,
+        "numberOfEpisodes": 48
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/xWK9tLH2UGgzuAI6P3cHeTKopfj.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/xWK9tLH2UGgzuAI6P3cHeTKopfj.jpg",
@@ -43928,6 +44084,14 @@
           "name": "Season 4",
           "posterPath": "/xWK9tLH2UGgzuAI6P3cHeTKopfj.jpg",
           "episodeCount": 12
+        },
+        {
+          "serializdId": 523331,
+          "showId": 215943,
+          "seasonNumber": 5,
+          "name": "New Blood",
+          "posterPath": null,
+          "episodeCount": 1
         }
       ],
       "reviews": [
@@ -44249,7 +44413,7 @@
           "showId": 224372,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/3jXrxH6E7Znw2CU2DGzZCAYlpPV.jpg",
+          "posterPath": "/2Zfw5Pe8Ztgzs0vFxy7LeC1wARE.jpg",
           "episodeCount": 6
         }
       ],
@@ -44592,7 +44756,7 @@
           "Mystery"
         ],
         "type": "Scripted",
-        "status": "Planned",
+        "status": "Returning Series",
         "networks": [
           "Prime Video"
         ],
@@ -45927,9 +46091,9 @@
         "posterPath": "/uOOtwVbSr4QDjAGIifLDwpb2Pdl.jpg",
         "backdropPath": "/56v2KjBlU4XaOv9rVYEQypROD7P.jpg",
         "genres": [
-          "Sci-Fi & Fantasy",
+          "Action & Adventure",
           "Mystery",
-          "Action & Adventure"
+          "Sci-Fi & Fantasy"
         ],
         "type": "Scripted",
         "status": "Ended",
@@ -45979,7 +46143,7 @@
           "showId": 66732,
           "seasonNumber": 5,
           "name": "Stranger Things 5",
-          "posterPath": "/5i5Fg549J27knMvhI5NRM2FT3Gn.jpg",
+          "posterPath": "/grFHRwBSlRDM7NvleNQYBCWAgRI.jpg",
           "episodeCount": 8
         }
       ],
@@ -46123,7 +46287,7 @@
         "id": 216386,
         "name": "Break Point",
         "posterPath": "/62QQG1qdCds8c0tslzaGib1wiuK.jpg",
-        "backdropPath": "/fQf5C81dbmezGVHfu5mPDP6XPee.jpg",
+        "backdropPath": "/39UO0CyPGDGOCFeZ6gssSCu251S.jpg",
         "genres": [
           "Documentary"
         ],
@@ -46218,8 +46382,8 @@
       "tmdb": {
         "id": 301507,
         "name": "Heated Rivalry",
-        "posterPath": "/3YCKbtAkYWCMDLHvkUjGhG7eWoS.jpg",
-        "backdropPath": "/QbRbCULZVBcrN2uydpmIOQLV5O.jpg",
+        "posterPath": "/epgr7n61vVIniyAghz2GYj22DkC.jpg",
+        "backdropPath": "/iS76c29IrS3lKI2X5CFySguiAWU.jpg",
         "genres": [
           "Drama"
         ],
@@ -46231,8 +46395,8 @@
         "numberOfSeasons": 1,
         "numberOfEpisodes": 6
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/3YCKbtAkYWCMDLHvkUjGhG7eWoS.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3YCKbtAkYWCMDLHvkUjGhG7eWoS.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/epgr7n61vVIniyAghz2GYj22DkC.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/epgr7n61vVIniyAghz2GYj22DkC.jpg",
       "seasons": [
         {
           "serializdId": 476908,
@@ -46290,7 +46454,7 @@
         "id": 225171,
         "name": "Pluribus",
         "posterPath": "/z7Nga7Q9IGFWs5OEduY2gGFxnX3.jpg",
-        "backdropPath": "/vNCNUxNHHgP0WsA19hxztUsG3yG.jpg",
+        "backdropPath": "/ulm1ex4JFYJByyaPyqTr47MFyEQ.jpg",
         "genres": [
           "Drama",
           "Sci-Fi & Fantasy"
@@ -46371,7 +46535,7 @@
         "networks": [
           "HBO"
         ],
-        "numberOfSeasons": 1,
+        "numberOfSeasons": 2,
         "numberOfEpisodes": 8
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/6xrLXEQABvoVwGka9KDDAOt4lFs.jpg",
@@ -46384,6 +46548,14 @@
           "name": "Season 1",
           "posterPath": "/6xrLXEQABvoVwGka9KDDAOt4lFs.jpg",
           "episodeCount": 8
+        },
+        {
+          "serializdId": 523943,
+          "showId": 271053,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": null,
+          "episodeCount": 0
         }
       ],
       "reviews": [
@@ -46454,7 +46626,7 @@
           "showId": 82596,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/xfoZfck4QOxVtRKffBfQAhTDWzb.jpg",
+          "posterPath": "/kwMqIYOC4U9eK4NZnmmyD8pDEOi.jpg",
           "episodeCount": 10
         },
         {
@@ -46579,7 +46751,7 @@
         "networks": [
           "HBO"
         ],
-        "numberOfSeasons": 1,
+        "numberOfSeasons": 2,
         "numberOfEpisodes": 8
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/2VktdoGvR0Pv6qj9P7vDsTIfw1l.jpg",
@@ -46592,6 +46764,14 @@
           "name": "Season 1",
           "posterPath": "/xZgftEXZXTM47k2rZlXo8kr8HZF.jpg",
           "episodeCount": 8
+        },
+        {
+          "serializdId": 523944,
+          "showId": 271267,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": null,
+          "episodeCount": 0
         }
       ],
       "reviews": [
@@ -47107,22 +47287,22 @@
       "tmdb": {
         "id": 128098,
         "name": "Interview with the Vampire",
-        "posterPath": "/Afv4pPhqVMg2wOmhuDLiGUw4r4O.jpg",
-        "backdropPath": "/r5RoeEWuslP6svlZsHsCKo7TZs7.jpg",
+        "posterPath": "/mQ0fbfc5ELwb2zjFZM4uwAnN3ee.jpg",
+        "backdropPath": "/1tADVruLbywl7P3TOVQmNza3aAO.jpg",
         "genres": [
           "Drama",
           "Sci-Fi & Fantasy"
         ],
         "type": "Scripted",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "AMC"
         ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 21
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 15
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/Afv4pPhqVMg2wOmhuDLiGUw4r4O.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/Afv4pPhqVMg2wOmhuDLiGUw4r4O.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/mQ0fbfc5ELwb2zjFZM4uwAnN3ee.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/mQ0fbfc5ELwb2zjFZM4uwAnN3ee.jpg",
       "seasons": [
         {
           "serializdId": 200240,
@@ -47137,16 +47317,8 @@
           "showId": 128098,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/Afv4pPhqVMg2wOmhuDLiGUw4r4O.jpg",
+          "posterPath": "/6Xq6F5Qy7BP1GcLhNPnH1aCDYeF.jpg",
           "episodeCount": 8
-        },
-        {
-          "serializdId": 404715,
-          "showId": 128098,
-          "seasonNumber": 3,
-          "name": "The Vampire Lestat",
-          "posterPath": "/bZFcPFhuuL0ec3IW37fxbZI1eE5.jpg",
-          "episodeCount": 7
         }
       ],
       "reviews": [
@@ -47404,7 +47576,7 @@
           "showId": 243861,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/gyUKo6ILKVwuiVq4EWv1avEXpBp.jpg",
+          "posterPath": "/mdNBcrhj50aPIgJtyyJEyx3KpKO.jpg",
           "episodeCount": 5
         },
         {
@@ -47757,7 +47929,7 @@
           "Reality"
         ],
         "type": "Reality",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "Netflix"
         ],
@@ -48278,7 +48450,7 @@
           "showId": 120998,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/nsOtuGh2psp0aRnUBQgePlLCfM6.jpg",
+          "posterPath": "/8Xm5dyMQC9whMJKnGdFugUAW73C.jpg",
           "episodeCount": 10
         },
         {
@@ -48408,7 +48580,7 @@
       "tmdb": {
         "id": 95480,
         "name": "Slow Horses",
-        "posterPath": "/dnpatlJrEPiDSn5fzgzvxtiSnMo.jpg",
+        "posterPath": "/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
         "backdropPath": "/bDfboQUb45Cv9MYyVBDZw8M8xSM.jpg",
         "genres": [
           "Crime",
@@ -48420,11 +48592,11 @@
         "networks": [
           "Apple TV"
         ],
-        "numberOfSeasons": 5,
-        "numberOfEpisodes": 30
+        "numberOfSeasons": 6,
+        "numberOfEpisodes": 36
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/dnpatlJrEPiDSn5fzgzvxtiSnMo.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dnpatlJrEPiDSn5fzgzvxtiSnMo.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
       "seasons": [
         {
           "serializdId": 135858,
@@ -48464,6 +48636,14 @@
           "seasonNumber": 5,
           "name": "Season 5",
           "posterPath": "/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 521992,
+          "showId": 95480,
+          "seasonNumber": 6,
+          "name": "Season 6",
+          "posterPath": "/pJLqDNMhVIdLgBTBdNjV0C9CeYQ.jpg",
           "episodeCount": 6
         }
       ],
@@ -48594,7 +48774,7 @@
         "networks": [
           "HBO"
         ],
-        "numberOfSeasons": 1,
+        "numberOfSeasons": 2,
         "numberOfEpisodes": 7
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/9JdL1aQdAQiyYYQ2xCqbHaEcZt8.jpg",
@@ -48607,6 +48787,14 @@
           "name": "Season 1",
           "posterPath": "/cMWin1QGWiP23chn8GpDlSyaxsJ.jpg",
           "episodeCount": 7
+        },
+        {
+          "serializdId": 523942,
+          "showId": 228305,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": null,
+          "episodeCount": 0
         }
       ],
       "reviews": [
@@ -48729,7 +48917,7 @@
         "id": 157239,
         "name": "Alien: Earth",
         "posterPath": "/yueXS3q8BtoWekcHOATFHicLl3e.jpg",
-        "backdropPath": "/biIBy2LPOOtGCgUYOls3dUEWU3v.jpg",
+        "backdropPath": "/sVxit4vKQZnrHejeQupBYadP22g.jpg",
         "genres": [
           "Sci-Fi & Fantasy",
           "Drama"
@@ -48881,7 +49069,7 @@
       "tmdb": {
         "id": 14808,
         "name": "The Real Housewives of New York City",
-        "posterPath": "/dzy5nUc4MfTdQFBdbUFAT1FRPLQ.jpg",
+        "posterPath": "/8RyKqPXef4YqkT40ZEr1wbP0dmk.jpg",
         "backdropPath": "/cowrSDpkCkNcmg5fO7gstaZLR1B.jpg",
         "genres": [
           "Reality"
@@ -48894,8 +49082,8 @@
         "numberOfSeasons": 16,
         "numberOfEpisodes": 292
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/dzy5nUc4MfTdQFBdbUFAT1FRPLQ.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dzy5nUc4MfTdQFBdbUFAT1FRPLQ.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/8RyKqPXef4YqkT40ZEr1wbP0dmk.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8RyKqPXef4YqkT40ZEr1wbP0dmk.jpg",
       "seasons": [
         {
           "serializdId": 26363,
@@ -49334,7 +49522,7 @@
         "networks": [
           "Netflix"
         ],
-        "numberOfSeasons": 1,
+        "numberOfSeasons": 2,
         "numberOfEpisodes": 8
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/knR0tDKgFwsUMxe0MqZSWQYhwpL.jpg",
@@ -49346,6 +49534,14 @@
           "seasonNumber": 1,
           "name": "Season 1",
           "posterPath": "/mtpM2eh6fgvYUwwmgFow1EHr0lX.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 526876,
+          "showId": 244447,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": null,
           "episodeCount": 8
         }
       ],
@@ -49641,10 +49837,10 @@
         "status": "Returning Series",
         "networks": [
           "FX",
-          "Hulu"
+          "FXX"
         ],
         "numberOfSeasons": 2,
-        "numberOfEpisodes": 8
+        "numberOfEpisodes": 16
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/lypznNe82xNRw6O9580JvpnUkN6.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lypznNe82xNRw6O9580JvpnUkN6.jpg",
@@ -49662,8 +49858,8 @@
           "showId": 260458,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/8XzZmYaaGXXw81A929xZ7q1KKqv.jpg",
-          "episodeCount": 0
+          "posterPath": null,
+          "episodeCount": 8
         }
       ],
       "reviews": [
@@ -50185,7 +50381,9 @@
         "posterPath": "/cJZbg425I9LF3SlJVQDOg4nJEvq.jpg",
         "backdropPath": "/rhwN3mIN89zlDveR0gv0VkrspXa.jpg",
         "genres": [
-          "Comedy"
+          "Comedy",
+          "Crime",
+          "Mystery"
         ],
         "type": "Scripted",
         "status": "Canceled",
@@ -50300,7 +50498,7 @@
           "showId": 117488,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/xRnGrn7Z7SC0KIBodocoU1QgDZF.jpg",
+          "posterPath": "/agBOgS5q1QxvaiM8TDzNTnq2EIs.jpg",
           "episodeCount": 10
         },
         {
@@ -50308,7 +50506,7 @@
           "showId": 117488,
           "seasonNumber": 4,
           "name": "Season 4",
-          "posterPath": null,
+          "posterPath": "/gCQuqv4B6ymQPA0pmS1FP2CjwkC.jpg",
           "episodeCount": 0
         }
       ],
@@ -50384,7 +50582,7 @@
           "showId": 111803,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/jJXV3H1SAvQpjSTIKZBUyAGica3.jpg",
+          "posterPath": "/4gBYNDdczkFOqjR4dgYamqbp6cS.jpg",
           "episodeCount": 6
         },
         {
@@ -50392,7 +50590,7 @@
           "showId": 111803,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/zqcvTkB9k6uO7Q3uiEFdD7BOc9x.jpg",
+          "posterPath": "/gH5i3JbnLsyTvcImlofNvXtH3i5.jpg",
           "episodeCount": 7
         },
         {
@@ -52542,7 +52740,7 @@
           "Reality"
         ],
         "type": "Reality",
-        "status": "Returning Series",
+        "status": "Ended",
         "networks": [
           "HBO"
         ],
@@ -52870,7 +53068,7 @@
         "id": 220564,
         "name": "The Perfect Couple",
         "posterPath": "/weyR73iYr1lWg17Q2r4sc7aEr2p.jpg",
-        "backdropPath": "/8SSZiqgUUUtqhZB2KuWle5q9lxg.jpg",
+        "backdropPath": "/wgJjIvSo169WKg4c1O4oBNnoTs4.jpg",
         "genres": [
           "Drama",
           "Mystery",
@@ -52953,7 +53151,7 @@
         "networks": [
           "Netflix"
         ],
-        "numberOfSeasons": 2,
+        "numberOfSeasons": 3,
         "numberOfEpisodes": 20
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/cUpIceeJJoRqUHSCzh6jRSmlpkA.jpg",
@@ -52973,6 +53171,14 @@
           "seasonNumber": 2,
           "name": "Season 2",
           "posterPath": "/cUpIceeJJoRqUHSCzh6jRSmlpkA.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 528679,
+          "showId": 250923,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": null,
           "episodeCount": 10
         }
       ],
@@ -53454,8 +53660,8 @@
         "networks": [
           "Netflix"
         ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 14
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 21
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/dM3fGD2uDhE9Z5HDieeWXhpXyG0.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dM3fGD2uDhE9Z5HDieeWXhpXyG0.jpg",
@@ -53465,7 +53671,7 @@
           "showId": 252257,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/46A4V55nWAVx5IGrUgpabfoUQzD.jpg",
+          "posterPath": "/fllOIxjBZrH8Xxm1gjp2dGj06um.jpg",
           "episodeCount": 7
         },
         {
@@ -53473,7 +53679,15 @@
           "showId": 252257,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/eR2XffmtygVj9K0qvMEVqEgqlZp.jpg",
+          "posterPath": "/kWuGeXP61oaSQKVcj4GkSLE6R1W.jpg",
+          "episodeCount": 7
+        },
+        {
+          "serializdId": 517349,
+          "showId": 252257,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/fWPf44ePi83ZjHO13h58D512e8H.jpg",
           "episodeCount": 7
         }
       ],
@@ -54034,8 +54248,8 @@
       "tmdb": {
         "id": 60625,
         "name": "Rick and Morty",
-        "posterPath": "/WGRQ8FpjkDTzivQJ43t94bOuY0.jpg",
-        "backdropPath": "/Ao5pBFuWY32cVuh6iYjEjZMEscN.jpg",
+        "posterPath": "/owhkU6KRqdXoUQpjV8uyZGPtX58.jpg",
+        "backdropPath": "/5BDNWWHweQL0q1fmTv7gmRXfnl4.jpg",
         "genres": [
           "Animation",
           "Comedy",
@@ -54050,15 +54264,15 @@
         "numberOfSeasons": 9,
         "numberOfEpisodes": 91
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/WGRQ8FpjkDTzivQJ43t94bOuY0.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/WGRQ8FpjkDTzivQJ43t94bOuY0.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/owhkU6KRqdXoUQpjV8uyZGPtX58.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/owhkU6KRqdXoUQpjV8uyZGPtX58.jpg",
       "seasons": [
         {
           "serializdId": 106178,
           "showId": 60625,
           "seasonNumber": 0,
           "name": "Specials",
-          "posterPath": "/3my0MrOKCSYMw8VfLiiM9k00bdF.jpg",
+          "posterPath": "/rpmXDlPVhUQ2HY1I8Xw0tAtz3pj.jpg",
           "episodeCount": 37
         },
         {
@@ -54082,7 +54296,7 @@
           "showId": 60625,
           "seasonNumber": 3,
           "name": "Season 3",
-          "posterPath": "/rX55zDxWkNuG4wyQyfMBkSk75df.jpg",
+          "posterPath": "/xOSKU3rvKiKFdKgIs0y6n3zscBJ.jpg",
           "episodeCount": 10
         },
         {
@@ -54130,7 +54344,7 @@
           "showId": 60625,
           "seasonNumber": 9,
           "name": "Season 9",
-          "posterPath": "/qo07tk7mF3c63G7MktMVA2GApZt.jpg",
+          "posterPath": "/owhkU6KRqdXoUQpjV8uyZGPtX58.jpg",
           "episodeCount": 10
         }
       ],
@@ -54572,7 +54786,7 @@
       "tmdb": {
         "id": 46648,
         "name": "True Detective",
-        "posterPath": "/zYqVTiHK5ZajYcNzAW7qWte5NWS.jpg",
+        "posterPath": "/dC7jkj2g1aU8sxKqM6D4g44xA6w.jpg",
         "backdropPath": "/v8YFr8BbU9qsO8PYIulzTeM6Qk.jpg",
         "genres": [
           "Drama",
@@ -54586,8 +54800,8 @@
         "numberOfSeasons": 4,
         "numberOfEpisodes": 30
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/zYqVTiHK5ZajYcNzAW7qWte5NWS.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/zYqVTiHK5ZajYcNzAW7qWte5NWS.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/dC7jkj2g1aU8sxKqM6D4g44xA6w.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dC7jkj2g1aU8sxKqM6D4g44xA6w.jpg",
       "seasons": [
         {
           "serializdId": 177275,
@@ -54784,7 +54998,7 @@
           "showId": 118642,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": null,
+          "posterPath": "/kZp7ObxLqEPBMQzZirlrOc1A0gr.jpg",
           "episodeCount": 0
         }
       ],
@@ -55053,7 +55267,7 @@
       "tmdb": {
         "id": 2388,
         "name": "Queer as Folk",
-        "posterPath": "/15A6uzdd7hnBJ6bm1OBX7TP38yT.jpg",
+        "posterPath": "/asVFDQxnHIsYRXiaMTPji19NqPh.jpg",
         "backdropPath": "/bDHpVZhQxXIWnKBXGPS46mcnE6f.jpg",
         "genres": [
           "Drama"
@@ -55066,8 +55280,8 @@
         "numberOfSeasons": 2,
         "numberOfEpisodes": 10
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/15A6uzdd7hnBJ6bm1OBX7TP38yT.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/15A6uzdd7hnBJ6bm1OBX7TP38yT.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/asVFDQxnHIsYRXiaMTPji19NqPh.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/asVFDQxnHIsYRXiaMTPji19NqPh.jpg",
       "seasons": [
         {
           "serializdId": 7439,
@@ -55261,7 +55475,7 @@
         "id": 134095,
         "name": "A Murder at the End of the World",
         "posterPath": "/1mWCXJefbNU1E2XPJVM2vejMSZO.jpg",
-        "backdropPath": "/nX3mNxSNgtVbzDFaqLW9sroqSkc.jpg",
+        "backdropPath": "/f9AqBIAjibUfPtGwOqbJ240cADt.jpg",
         "genres": [
           "Mystery",
           "Drama",
