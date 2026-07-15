@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-07-14T05:32:39.517Z",
+  "capturedAt": "2026-07-15T17:31:35.940Z",
   "summary": {
-    "totalShows": 158,
+    "totalShows": 159,
     "totalShowReviews": 42,
     "totalSeasonReviews": 246,
-    "totalEpisodeReviews": 708,
+    "totalEpisodeReviews": 709,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
       "3": 238,
       "4": 198,
       "5": 18,
+      "2.5": 97,
       "3.5": 300,
       "4.5": 52,
-      "2.5": 96,
       "1.5": 11,
       "0.5": 1
     },
@@ -45,15 +45,15 @@
         "3": 176,
         "4": 150,
         "5": 8,
+        "2.5": 71,
         "3.5": 233,
         "4.5": 43,
-        "2.5": 70,
         "1.5": 5
       }
     },
     "genreDistribution": {
-      "Drama": 97,
-      "Sci-Fi & Fantasy": 24,
+      "Sci-Fi & Fantasy": 25,
+      "Drama": 98,
       "Talk": 1,
       "Comedy": 58,
       "Reality": 27,
@@ -67,18 +67,106 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
-      "2020s": 128,
+      "2020s": 129,
       "2000s": 6,
       "2010s": 22,
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 10,
-    "thisYearCount": 55,
-    "totalWatchedShows": 344,
+    "showsInProgressCount": 11,
+    "thisYearCount": 56,
+    "totalWatchedShows": 345,
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-125988",
+      "serializdShowId": 125988,
+      "slug": "silo-2023",
+      "name": "Silo",
+      "premiereYear": 2023,
+      "premiereDate": "2023-05-04",
+      "serializdUrl": "https://serializd.com/show/125988",
+      "tmdb": {
+        "id": 125988,
+        "name": "Silo",
+        "posterPath": "/gMYZZvnkVNTqSVnVCphWbPXwWwb.jpg",
+        "backdropPath": "/uTWhbLc7Bj4qNSdW3ZvZKL8cOHv.jpg",
+        "genres": [
+          "Sci-Fi & Fantasy",
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 30
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gMYZZvnkVNTqSVnVCphWbPXwWwb.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gMYZZvnkVNTqSVnVCphWbPXwWwb.jpg",
+      "seasons": [
+        {
+          "serializdId": 196076,
+          "showId": 125988,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/1HRefFJKqneGWCmV1tq68xirCsu.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 404198,
+          "showId": 125988,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/wuNxRmBF1OJDtbcs9d14hZxg8WL.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 512220,
+          "showId": 125988,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/gMYZZvnkVNTqSVnVCphWbPXwWwb.jpg",
+          "episodeCount": 10
+        }
+      ],
+      "reviews": [
+        {
+          "id": 78273927,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Maybe I let this show be overhyped for me. The world building felt rushed, inconsistent, and also incomplete in a way that feels lazy more than intentional. I’m not intrigued as much as I’m irritated, but I will push through. Also, these people’s biggest issue is wanting to have a child? Please! Where are the gays of the silo?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-14T17:20:00Z",
+          "reviewDate": "2026-07-15T17:23:04Z",
+          "seasonId": 196076,
+          "episodeNumber": 1,
+          "episodeName": "Freedom Day",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-15T17:23:04Z",
+      "primaryRating": 2.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-323411",
       "serializdShowId": 323411,
@@ -27616,6 +27704,94 @@
     }
   ],
   "showById": {
+    "tmdb-tv-125988": {
+      "id": "tmdb-tv-125988",
+      "serializdShowId": 125988,
+      "slug": "silo-2023",
+      "name": "Silo",
+      "premiereYear": 2023,
+      "premiereDate": "2023-05-04",
+      "serializdUrl": "https://serializd.com/show/125988",
+      "tmdb": {
+        "id": 125988,
+        "name": "Silo",
+        "posterPath": "/gMYZZvnkVNTqSVnVCphWbPXwWwb.jpg",
+        "backdropPath": "/uTWhbLc7Bj4qNSdW3ZvZKL8cOHv.jpg",
+        "genres": [
+          "Sci-Fi & Fantasy",
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 30
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gMYZZvnkVNTqSVnVCphWbPXwWwb.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gMYZZvnkVNTqSVnVCphWbPXwWwb.jpg",
+      "seasons": [
+        {
+          "serializdId": 196076,
+          "showId": 125988,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/1HRefFJKqneGWCmV1tq68xirCsu.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 404198,
+          "showId": 125988,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/wuNxRmBF1OJDtbcs9d14hZxg8WL.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 512220,
+          "showId": 125988,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/gMYZZvnkVNTqSVnVCphWbPXwWwb.jpg",
+          "episodeCount": 10
+        }
+      ],
+      "reviews": [
+        {
+          "id": 78273927,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Maybe I let this show be overhyped for me. The world building felt rushed, inconsistent, and also incomplete in a way that feels lazy more than intentional. I’m not intrigued as much as I’m irritated, but I will push through. Also, these people’s biggest issue is wanting to have a child? Please! Where are the gays of the silo?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-14T17:20:00Z",
+          "reviewDate": "2026-07-15T17:23:04Z",
+          "seasonId": 196076,
+          "episodeNumber": 1,
+          "episodeName": "Freedom Day",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-15T17:23:04Z",
+      "primaryRating": 2.5,
+      "liked": false
+    },
     "tmdb-tv-323411": {
       "id": "tmdb-tv-323411",
       "serializdShowId": 323411,
@@ -56855,7 +57031,7 @@
       "serializdShowId": 54344,
       "name": "The Leftovers",
       "premiereDate": "2014-06-29",
-      "bannerImage": "/NKJdryIFHr245Umq6gXsf7oULW.jpg",
+      "bannerImage": "/ri8xr223xBb2TeHX3GKypvQPV2B.jpg",
       "numSeasons": 3,
       "numEpisodes": 28,
       "watchedSeasonIds": [
