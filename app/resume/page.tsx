@@ -103,14 +103,11 @@ export const metadata: Metadata = {
     url: "/resume",
     siteName: "Malcolm Xavier",
     locale: "en_US",
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
-      },
-    ],
+    // No explicit `images` — the App Router file convention resolves
+    // ./opengraph-image.tsx at this segment to the resume's own card,
+    // auto-populating og:image / :type / :width / :height / :alt. An
+    // explicit array would override it; it previously pinned the generic
+    // sitewide card here, so a /resume link unfurled identically to home.
   },
   twitter: {
     card: "summary_large_image",
@@ -122,7 +119,8 @@ export const metadata: Metadata = {
     ...twitterAttribution,
     title: RESUME_OG_TITLE,
     description: RESUME_DESCRIPTION,
-    images: ["/opengraph-image"],
+    // twitter:image auto-populates from ./opengraph-image.tsx via the
+    // file convention (same as the case studies) — no explicit array.
   },
 };
 

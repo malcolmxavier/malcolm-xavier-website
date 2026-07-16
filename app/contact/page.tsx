@@ -77,6 +77,10 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/opengraph-image",
+        // Explicit MIME so the unfurl emits og:image:type. /contact keeps
+        // the generic sitewide card (no tailored card), so it references
+        // the root /opengraph-image directly rather than via file convention.
+        type: "image/png",
         width: 1200,
         height: 630,
         alt: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
