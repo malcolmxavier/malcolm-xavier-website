@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-07-16T22:32:07.238Z",
+  "capturedAt": "2026-07-16T23:31:07.802Z",
   "summary": {
     "totalShows": 159,
     "totalShowReviews": 42,
     "totalSeasonReviews": 247,
-    "totalEpisodeReviews": 723,
+    "totalEpisodeReviews": 724,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
       "3": 243,
       "4": 201,
       "5": 18,
+      "3.5": 307,
       "2.5": 98,
-      "3.5": 306,
       "4.5": 52,
       "1.5": 11,
       "0.5": 1
@@ -45,8 +45,8 @@
         "3": 181,
         "4": 153,
         "5": 8,
+        "3.5": 239,
         "2.5": 72,
-        "3.5": 238,
         "4.5": 43,
         "1.5": 5
       }
@@ -133,6 +133,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 78657105,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-16T22:37:39Z",
+          "reviewDate": "2026-07-16T22:37:43Z",
+          "seasonId": 404198,
+          "episodeNumber": 3,
+          "episodeName": "Solo",
+          "tags": []
+        },
         {
           "id": 78644447,
           "level": "episode",
@@ -360,8 +376,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-16T21:40:07Z",
-      "primaryRating": 2.5,
+      "latestActivityDate": "2026-07-16T22:37:43Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -28078,6 +28094,22 @@
       ],
       "reviews": [
         {
+          "id": 78657105,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-16T22:37:39Z",
+          "reviewDate": "2026-07-16T22:37:43Z",
+          "seasonId": 404198,
+          "episodeNumber": 3,
+          "episodeName": "Solo",
+          "tags": []
+        },
+        {
           "id": 78644447,
           "level": "episode",
           "rating": 2.5,
@@ -28304,8 +28336,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-16T21:40:07Z",
-      "primaryRating": 2.5,
+      "latestActivityDate": "2026-07-16T22:37:43Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-22980": {
