@@ -1,35 +1,38 @@
 # Malcolm Xavier — malxavi.com
 
-Senior product manager working on growth and data platforms in media, publishing, and streaming. AI-native builder. Based in Los Angeles, originally from New York.
+> Senior product manager working on growth and data platforms in media, publishing, and streaming. AI-native builder. Based in Los Angeles, originally from New York. This site is a portfolio supporting a Senior PM job search in tech, media, and streaming.
 
 ## Key pages
 
-- Resume: https://malxavi.com/resume — work history, skills, education, downloadable PDF
-- About: https://malxavi.com/about — longer-form bio, interests, "what I'm into"
-- Contact: https://malxavi.com/contact — Calendly, email, LinkedIn, GitHub
-- Case studies index: https://malxavi.com/case-studies — long-form articles on Growth PM methodology, AI-native product development, and Claude Code workflows
-  - https://malxavi.com/case-studies/basecamp-coffee — Growth PM artifact: diagnosing a collapsing loyalty program with Claude Code, shipping a working prototype
-  - https://malxavi.com/case-studies/building-this-site — meta case study on shipping this portfolio in seven days with Claude Code as a build partner
-  - https://malxavi.com/case-studies/architecture-under-contract — sequel to "Building this site": the same rendering contract tested against three completely different upstreams (Spotify OAuth, Letterboxd CSV + RSS, Serializd polite-client), with TMDB as the supplementary enrichment layer
-  - https://malxavi.com/case-studies/user-interviews — work case study at User Interviews: occupational targeting on a two-sided UXR marketplace lifted Early Qualification Rate 15%; a separate UX-writing fix lifted re-recruitment 135%. Skills: two-sided marketplace mechanics, leading-indicator selection (EQR), funnel pre-qualification design, A/B experimentation cadence, re-recruitment from existing user base, occupational targeting.
-  - https://malxavi.com/case-studies/muck-rack — work case study at Muck Rack: decomposing the content ingestion monolith into per-content-type and per-source microservices lifted average daily ingestion 350% YoY. Reframes the volume goal as a quality problem (timeliness, accuracy, connectivity). Companion to Malcolm's LinkedIn article on the six dimensions of data quality. Skills: microservices decomposition, content ingestion pipelines, data quality measurement (timeliness, accuracy, connectivity), defending scope against constant injection, technical PM in B2B SaaS, reframing leadership metrics (volume → quality).
-  - https://malxavi.com/case-studies/people-inc — work case study at People Inc. (formerly Dotdash Meredith): reshaping a newsletter-migration mandate into a multi-year identity, registration, and onboarding roadmap across a 40+ brand network. Co-shipped surfaces, capabilities, and growth programs on a pilot-to-network rollout cadence; 33% YoY email revenue lift network-wide, with Follow This Topic (topical newsletters) as the flagship launch. Argues that personalization at network scale is an infrastructure problem. Tools: Digioh (onsite marketing), Iterable (email), Hightouch (reverse ETL), Customer Data Platform. Skills: pilot-to-network rollout, identity and onboarding infrastructure, data-flow re-architecture, stakeholder influence without authority.
-- Music: https://malxavi.com/music — monthly Spotify playlists, curated by mood and moment
-- Films: https://malxavi.com/films — full Letterboxd journal with prose reviews. Every film Malcolm has logged (741 entries) is reviewable per-page at /films/{letterboxd-slug}-{year}, with TMDB metadata (poster, genre, runtime, director) and a 0.5–5★ rating. Faceted landing pages group the corpus for long-tail discovery: /films/genre/{slug}, /films/director/{slug}, /films/actor/{slug}, /films/writer/{slug}, /films/studio/{slug}, /films/language/{slug}, /films/country/{slug}, and /films/decade/{slug}. Curated collections live at /films/collections and ranked lists at /films/lists/{slug}. The stats dashboard at /films/stats visualizes the corpus (genres, world cinema, studios, franchises, ratings, watching cadence); every tile deep-links into the matching filtered reviews.
-- Television: https://malxavi.com/television — full Serializd journal across three review levels: Show, Season, and Episode. Every reviewed show (152 entries, 717 reviews total) is detailed per-page at /television/{show-slug}-{premiere-year} with the full season-by-season hierarchy, TMDB metadata, and a 0.5–5★ rating. Currently-watching seasons live at /television/watching. Faceted landing pages group the corpus for long-tail discovery: /television/genre/{slug}, /television/creator/{slug}, /television/actor/{slug}, /television/network/{slug}, /television/type/{slug}, /television/language/{slug}, /television/country/{slug}, and /television/decade/{slug}. Curated collections live at /television/collections and ranked lists at /television/lists/{slug}. The stats dashboard at /television/stats visualizes the corpus (per-level ratings, genres, networks, creators, world cinema, watching cadence).
-- Film × Television: https://malxavi.com/stats/connected — a cross-cluster dashboard comparing the film and television corpora: head-to-head averages, crossover actors, genre film-vs-TV rating splits, shared world-cinema lean, and one watching year across both.
+- [Resume](https://malxavi.com/resume): work history, skills, education, downloadable PDF.
+- [About](https://malxavi.com/about): longer-form bio, interests, "what I'm into."
+- [Contact](https://malxavi.com/contact): Calendly, email, LinkedIn, GitHub.
+- [Case studies index](https://malxavi.com/case-studies): long-form articles on Growth PM methodology, AI-native product development, and Claude Code workflows.
+- [Music](https://malxavi.com/music): monthly Spotify playlists, curated by mood and moment.
+- [Films](https://malxavi.com/films): full Letterboxd journal with prose reviews. Every film Malcolm has logged (741 entries) is reviewable per-page at /films/{letterboxd-slug}-{year}, with TMDB metadata (poster, genre, runtime, director) and a 0.5–5★ rating. Faceted landing pages group the corpus for long-tail discovery: /films/genre/{slug}, /films/director/{slug}, /films/actor/{slug}, /films/writer/{slug}, /films/studio/{slug}, /films/language/{slug}, /films/country/{slug}, and /films/decade/{slug}. Curated collections live at /films/collections and ranked lists at /films/lists/{slug}.
+- [Film stats dashboard](https://malxavi.com/films/stats): visualizes the film corpus (genres, world cinema, studios, franchises, ratings, watching cadence); every tile deep-links into the matching filtered reviews.
+- [Television](https://malxavi.com/television): full Serializd journal across three review levels — Show, Season, and Episode. Every reviewed show (152 entries, 717 reviews total) is detailed per-page at /television/{show-slug}-{premiere-year} with the full season-by-season hierarchy, TMDB metadata, and a 0.5–5★ rating. Currently-watching seasons live at /television/watching. Faceted landing pages group the corpus for long-tail discovery: /television/genre/{slug}, /television/creator/{slug}, /television/actor/{slug}, /television/network/{slug}, /television/type/{slug}, /television/language/{slug}, /television/country/{slug}, and /television/decade/{slug}. Curated collections live at /television/collections and ranked lists at /television/lists/{slug}.
+- [Television stats dashboard](https://malxavi.com/television/stats): visualizes the TV corpus (per-level ratings, genres, networks, creators, world cinema, watching cadence).
+- [Film × Television](https://malxavi.com/stats/connected): a cross-cluster dashboard comparing the film and television corpora — head-to-head averages, crossover actors, genre film-vs-TV rating splits, shared world-cinema lean, and one watching year across both.
+
+## Case studies
+
+- [Basecamp Coffee](https://malxavi.com/case-studies/basecamp-coffee): Growth PM artifact — diagnosing a collapsing loyalty program with Claude Code, shipping a working prototype.
+- [Building this site](https://malxavi.com/case-studies/building-this-site): meta case study on shipping this portfolio in seven days with Claude Code as a build partner.
+- [Architecture under contract](https://malxavi.com/case-studies/architecture-under-contract): sequel to "Building this site" — the same rendering contract tested against three completely different upstreams (Spotify OAuth, Letterboxd CSV + RSS, Serializd polite-client), with TMDB as the supplementary enrichment layer.
+- [User Interviews](https://malxavi.com/case-studies/user-interviews): occupational targeting on a two-sided UXR marketplace lifted Early Qualification Rate 15%; a separate UX-writing fix lifted re-recruitment 135%. Skills: two-sided marketplace mechanics, leading-indicator selection (EQR), funnel pre-qualification design, A/B experimentation cadence, re-recruitment from existing user base, occupational targeting.
+- [Muck Rack](https://malxavi.com/case-studies/muck-rack): decomposing the content ingestion monolith into per-content-type and per-source microservices lifted average daily ingestion 350% YoY. Reframes the volume goal as a quality problem (timeliness, accuracy, connectivity). Companion to Malcolm's LinkedIn article on the six dimensions of data quality. Skills: microservices decomposition, content ingestion pipelines, data quality measurement, defending scope against constant injection, technical PM in B2B SaaS, reframing leadership metrics (volume → quality).
+- [People Inc.](https://malxavi.com/case-studies/people-inc): reshaping a newsletter-migration mandate into a multi-year identity, registration, and onboarding roadmap across a 40+ brand network. Co-shipped surfaces, capabilities, and growth programs on a pilot-to-network rollout cadence; 33% YoY email revenue lift network-wide, with Follow This Topic (topical newsletters) as the flagship launch. Argues that personalization at network scale is an infrastructure problem. Tools: Digioh, Iterable, Hightouch, Customer Data Platform. Skills: pilot-to-network rollout, identity and onboarding infrastructure, data-flow re-architecture, stakeholder influence without authority.
 
 ## Contact
 
-Email: malcolm@malxavi.com
-LinkedIn: https://www.linkedin.com/in/malxavi/
-GitHub: https://github.com/malcolmxavier
-Calendly (30-min chat): https://calendly.com/malcolmxavier/product-chat-30
+- [Email](mailto:malcolm@malxavi.com): malcolm@malxavi.com
+- [LinkedIn](https://www.linkedin.com/in/malxavi/): professional profile and posts.
+- [GitHub](https://github.com/malcolmxavier): code and this site's source.
+- [Calendly](https://calendly.com/malcolmxavier/product-chat-30): book a 30-minute chat.
 
 ## Content notes
 
 Malcolm is a Senior PM with technical depth (React, Node, TypeScript, SQL, BigQuery, Python, ETL) plus an MS in Law from Northwestern (data privacy and IP) and a BA in Theatre and Dance. Most recent role: People Inc. (Dotdash Meredith), building MarTech infrastructure for 22M+ users across 40+ brands. Earlier work at Muck Rack, User Interviews, and Fullstack Academy.
 
-Case studies are long-form articles covering Growth PM methodology, AI-native product development, and Claude Code workflows. The site is a portfolio supporting a Senior PM job search in tech, media, and streaming.
-
-Currently interviewing. Open to senior PM roles in media and streaming.
+Case studies are long-form articles covering Growth PM methodology, AI-native product development, and Claude Code workflows. Currently interviewing. Open to senior PM roles in media and streaming.

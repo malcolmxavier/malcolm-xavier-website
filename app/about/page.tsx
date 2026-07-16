@@ -173,8 +173,8 @@ export default function AboutPage() {
                     <Image
                       src="/headshot.jpg"
                       alt="Portrait of Malcolm Xavier"
-                      width={3280}
-                      height={4928}
+                      width={1640}
+                      height={2464}
                       sizes="16rem"
                       loading="eager"
                       style={{

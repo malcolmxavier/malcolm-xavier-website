@@ -20,6 +20,28 @@ export type LineSeries = { label: string; points: [number, number][] };
 const MONTH_STARTS = [1, 32, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335];
 const MONTH_INITIALS = "JFMAMJJASOND".split("");
 
+// Day-of-year of each month's final day, and full-ish month names — used
+// only by the visually-hidden data table below (the a11y-tree fallback).
+// A cumulative series is monotonic, so its value at each month-end is the
+// running pace, month by month.
+const MONTH_END_DAYS = [31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334, 365];
+const MONTH_NAMES = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+];
+
+/** Cumulative value of a series as of `day` — the last point on or before
+    it (0 if the series hasn't started). Points are day-ascending, so we
+    take the last qualifying value and stop once we pass `day`. */
+function cumulativeAtDay(points: [number, number][], day: number): number {
+  let value = 0;
+  for (const [d, v] of points) {
+    if (d <= day) value = v;
+    else break;
+  }
+  return value;
+}
+
 export function LineChart({
   series,
   ariaLabel,
@@ -131,22 +153,39 @@ export function LineChart({
           href: hrefFor?.(s.label),
         }))}
       />
-      {/* The day scrubber is pointer-only (aria-hidden), so keyboard and
-          screen-reader users can't read per-day values off it. This
-          visually-hidden list gives them the figure that matters most — each
-          series' final cumulative total — so the chart's payload isn't
-          locked behind a pointer gesture (SC 2.1.1). */}
-      <ul className="sr-only">
-        {series.map((s) => {
-          const last = s.points[s.points.length - 1];
-          return (
-            <li key={s.label}>
-              {s.label}: {last ? Math.round(last[1]) : 0}
-              {valueSuffix} total
-            </li>
-          );
-        })}
-      </ul>
+      {/* The day scrubber is pointer-only (aria-hidden), so keyboard,
+          screen-reader, and agentic-browser users can't read values off it.
+          This visually-hidden table gives them the chart's actual payload —
+          each series' cumulative total at every month-end, so the *pace*
+          (fast climb vs. flat stretch) is legible, not just the endpoint.
+          The December column is the final total. Mirrors the sr-only table
+          pattern in StackedBars (SC 1.1.1 / 2.1.1). */}
+      <table className="sr-only">
+        <caption>{ariaLabel} — cumulative total at the end of each month.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Series</th>
+            {MONTH_NAMES.map((m) => (
+              <th key={m} scope="col">
+                {m}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {series.map((s) => (
+            <tr key={s.label}>
+              <th scope="row">{s.label}</th>
+              {MONTH_END_DAYS.map((day, i) => (
+                <td key={i}>
+                  {Math.round(cumulativeAtDay(s.points, day))}
+                  {valueSuffix}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

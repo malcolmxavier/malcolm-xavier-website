@@ -2,6 +2,17 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
+    // Serve AVIF first, then WebP, then fall back to the original.
+    // AVIF is opt-in (Next's default is WebP-only); it's ~20-30%
+    // smaller at equal quality, which trims the LCP headshot on the
+    // homepage and every TMDB poster across /films and /television.
+    // Order matters: the browser gets the first format it accepts.
+    formats: ["image/avif", "image/webp"],
+    // These sources (the headshot, TMDB posters) change rarely, so
+    // hold optimized variants in the cache for 31 days rather than
+    // the Next 16 default of 4 hours. Fewer re-optimizations = less
+    // edge CPU and a warmer cache for the LCP image.
+    minimumCacheTTL: 60 * 60 * 24 * 31,
     // Spotify's image CDN domains. Album / track art comes from
     // i.scdn.co; auto-mosaic playlist covers come from one of the
     // image-cdn-*.spotifycdn.com hosts (varies by region).

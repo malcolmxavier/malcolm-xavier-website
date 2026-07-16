@@ -345,7 +345,7 @@ export default async function TelevisionStatsPage({
               subbrand="tv"
               label="Television sections"
               className="mt-2"
-              extra={{ label: "Connected Stats", href: connectedHref }}
+              extra={{ label: "Film × Television", href: connectedHref }}
             />
             {/* The "how to use this page" note drops below the rail as a
                 quiet footnote rather than a second headline-weight lede. */}
