@@ -14,7 +14,7 @@ export const alt =
 export default function OpenGraphImage() {
   // Short title holds the 128px default for full presence.
   return renderCaseStudyCard({
-    titleLines: ["Claude x", "Growth PM"],
+    titleLines: ["Claude ×", "Growth PM"],
     subtitle: "Basecamp Rewards: A Turnaround",
   });
 }

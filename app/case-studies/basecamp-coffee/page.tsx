@@ -145,7 +145,7 @@ export default function BasecampCoffeeCaseStudy() {
 function Hero() {
   return (
     <CaseStudyHero
-      title="Claude x Growth PM"
+      title="Claude × Growth PM"
       subtitle="Basecamp Rewards: A Turnaround"
       readMin={10}
       updatedDate={formatLastUpdated()}

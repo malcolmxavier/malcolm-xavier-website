@@ -5,7 +5,7 @@
 // Usage:
 //
 //     <CaseStudyHero
-//       title="Claude x Growth PM"
+//       title="Claude × Growth PM"
 //       subtitle="Basecamp Rewards: A Turnaround"
 //       readMin={10}
 //       updatedDate={formatLastUpdated()}
