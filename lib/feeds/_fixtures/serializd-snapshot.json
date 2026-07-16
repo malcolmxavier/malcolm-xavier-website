@@ -1,14 +1,14 @@
 {
-  "capturedAt": "2026-07-15T23:49:15.192Z",
+  "capturedAt": "2026-07-16T00:32:28.961Z",
   "summary": {
     "totalShows": 159,
     "totalShowReviews": 42,
     "totalSeasonReviews": 246,
-    "totalEpisodeReviews": 713,
+    "totalEpisodeReviews": 714,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
-      "3": 240,
+      "3": 241,
       "4": 199,
       "5": 18,
       "3.5": 301,
@@ -42,7 +42,7 @@
       },
       "episode": {
         "2": 22,
-        "3": 178,
+        "3": 179,
         "4": 151,
         "5": 8,
         "3.5": 234,
@@ -133,6 +133,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 78399707,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-16T00:27:01Z",
+          "reviewDate": "2026-07-16T00:27:05Z",
+          "seasonId": 196076,
+          "episodeNumber": 6,
+          "episodeName": "The Relic",
+          "tags": []
+        },
         {
           "id": 78390640,
           "level": "episode",
@@ -230,7 +246,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-15T23:41:10Z",
+      "latestActivityDate": "2026-07-16T00:27:05Z",
       "primaryRating": 3,
       "liked": false
     },
@@ -27900,6 +27916,22 @@
       ],
       "reviews": [
         {
+          "id": 78399707,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-16T00:27:01Z",
+          "reviewDate": "2026-07-16T00:27:05Z",
+          "seasonId": 196076,
+          "episodeNumber": 6,
+          "episodeName": "The Relic",
+          "tags": []
+        },
+        {
           "id": 78390640,
           "level": "episode",
           "rating": 3,
@@ -27996,7 +28028,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-15T23:41:10Z",
+      "latestActivityDate": "2026-07-16T00:27:05Z",
       "primaryRating": 3,
       "liked": false
     },
