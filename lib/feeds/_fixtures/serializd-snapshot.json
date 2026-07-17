@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-07-16T23:31:07.802Z",
+  "capturedAt": "2026-07-17T05:31:20.363Z",
   "summary": {
     "totalShows": 159,
     "totalShowReviews": 42,
     "totalSeasonReviews": 247,
-    "totalEpisodeReviews": 724,
+    "totalEpisodeReviews": 725,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
       "3": 243,
       "4": 201,
       "5": 18,
-      "3.5": 307,
+      "3.5": 308,
       "2.5": 98,
       "4.5": 52,
       "1.5": 11,
@@ -45,7 +45,7 @@
         "3": 181,
         "4": 153,
         "5": 8,
-        "3.5": 239,
+        "3.5": 240,
         "2.5": 72,
         "4.5": 43,
         "1.5": 5
@@ -133,6 +133,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 78734820,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I don’t know if this was a good episode as much as fascinating. The performances inside the main silo are so overacted on the surface, but then somehow give way to the reality of the world? I’m just really struck by the Judge and Mayor narrative and the multitude of the Judge’s dispositions that Tanya Moodie conveys. That performance really created the space for Common’s performance to work. And then there’s Solo’s silo—I’m obsessed with the Metroid Prime vibes and whatever Steve Zahn is doing. Something in the lorecraft still feels forced to me, but I am locked in, so I guess it’s working.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-17T04:52:21Z",
+          "reviewDate": "2026-07-17T04:52:21Z",
+          "seasonId": 404198,
+          "episodeNumber": 4,
+          "episodeName": "The Harmonium",
+          "tags": []
+        },
         {
           "id": 78657105,
           "level": "episode",
@@ -376,7 +392,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-16T22:37:43Z",
+      "latestActivityDate": "2026-07-17T04:52:21Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -1327,7 +1343,7 @@
           "Bravo"
         ],
         "numberOfSeasons": 2,
-        "numberOfEpisodes": 13
+        "numberOfEpisodes": 15
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
@@ -28094,6 +28110,22 @@
       ],
       "reviews": [
         {
+          "id": 78734820,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I don’t know if this was a good episode as much as fascinating. The performances inside the main silo are so overacted on the surface, but then somehow give way to the reality of the world? I’m just really struck by the Judge and Mayor narrative and the multitude of the Judge’s dispositions that Tanya Moodie conveys. That performance really created the space for Common’s performance to work. And then there’s Solo’s silo—I’m obsessed with the Metroid Prime vibes and whatever Steve Zahn is doing. Something in the lorecraft still feels forced to me, but I am locked in, so I guess it’s working.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-17T04:52:21Z",
+          "reviewDate": "2026-07-17T04:52:21Z",
+          "seasonId": 404198,
+          "episodeNumber": 4,
+          "episodeName": "The Harmonium",
+          "tags": []
+        },
+        {
           "id": 78657105,
           "level": "episode",
           "rating": 3.5,
@@ -28336,7 +28368,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-16T22:37:43Z",
+      "latestActivityDate": "2026-07-17T04:52:21Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -29287,7 +29319,7 @@
           "Bravo"
         ],
         "numberOfSeasons": 2,
-        "numberOfEpisodes": 13
+        "numberOfEpisodes": 15
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/quiTd4vvJMAOSq5oncG31Q4cmo.jpg",
@@ -56125,7 +56157,7 @@
       "premiereDate": "2022-04-06",
       "bannerImage": "/igy0O7ru88ozHPtQVi9IylSzZ6g.jpg",
       "numSeasons": 4,
-      "numEpisodes": 30,
+      "numEpisodes": 40,
       "watchedSeasonIds": [
         257206
       ],
