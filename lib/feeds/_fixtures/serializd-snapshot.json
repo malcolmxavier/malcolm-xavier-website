@@ -1,14 +1,14 @@
 {
-  "capturedAt": "2026-07-17T06:31:22.885Z",
+  "capturedAt": "2026-07-17T15:31:32.336Z",
   "summary": {
     "totalShows": 159,
     "totalShowReviews": 42,
     "totalSeasonReviews": 247,
-    "totalEpisodeReviews": 726,
+    "totalEpisodeReviews": 727,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
-      "3": 243,
+      "3": 244,
       "4": 201,
       "5": 18,
       "3.5": 309,
@@ -42,7 +42,7 @@
       },
       "episode": {
         "2": 22,
-        "3": 181,
+        "3": 182,
         "4": 153,
         "5": 8,
         "3.5": 241,
@@ -133,6 +133,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 78825432,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "It’s always some fool Bernard going HAM.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-17T15:16:51Z",
+          "reviewDate": "2026-07-17T15:17:11Z",
+          "seasonId": 404198,
+          "episodeNumber": 6,
+          "episodeName": "Barricades",
+          "tags": []
+        },
         {
           "id": 78740817,
           "level": "episode",
@@ -408,8 +424,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-17T05:46:46Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-07-17T15:17:11Z",
+      "primaryRating": 3,
       "liked": false
     },
     {
@@ -630,7 +646,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 119
+          "episodeCount": 120
         },
         {
           "serializdId": 518119,
@@ -28126,6 +28142,22 @@
       ],
       "reviews": [
         {
+          "id": 78825432,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "It’s always some fool Bernard going HAM.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-17T15:16:51Z",
+          "reviewDate": "2026-07-17T15:17:11Z",
+          "seasonId": 404198,
+          "episodeNumber": 6,
+          "episodeName": "Barricades",
+          "tags": []
+        },
+        {
           "id": 78740817,
           "level": "episode",
           "rating": 3.5,
@@ -28400,8 +28432,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-17T05:46:46Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-07-17T15:17:11Z",
+      "primaryRating": 3,
       "liked": false
     },
     "tmdb-tv-22980": {
@@ -28622,7 +28654,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 119
+          "episodeCount": 120
         },
         {
           "serializdId": 518119,
