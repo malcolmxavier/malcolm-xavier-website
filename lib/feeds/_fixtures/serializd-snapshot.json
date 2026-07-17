@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-07-17T05:31:20.363Z",
+  "capturedAt": "2026-07-17T06:31:22.885Z",
   "summary": {
     "totalShows": 159,
     "totalShowReviews": 42,
     "totalSeasonReviews": 247,
-    "totalEpisodeReviews": 725,
+    "totalEpisodeReviews": 726,
     "ratingDistribution": {
       "1": 3,
       "2": 45,
       "3": 243,
       "4": 201,
       "5": 18,
-      "3.5": 308,
+      "3.5": 309,
       "2.5": 98,
       "4.5": 52,
       "1.5": 11,
@@ -45,7 +45,7 @@
         "3": 181,
         "4": 153,
         "5": 8,
-        "3.5": 240,
+        "3.5": 241,
         "2.5": 72,
         "4.5": 43,
         "1.5": 5
@@ -133,6 +133,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 78740817,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Solo makes me feel so nauseous (complimentary).",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-17T05:46:46Z",
+          "reviewDate": "2026-07-17T05:46:46Z",
+          "seasonId": 404198,
+          "episodeNumber": 5,
+          "episodeName": "Descent",
+          "tags": []
+        },
         {
           "id": 78734820,
           "level": "episode",
@@ -392,7 +408,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-17T04:52:21Z",
+      "latestActivityDate": "2026-07-17T05:46:46Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -28110,6 +28126,22 @@
       ],
       "reviews": [
         {
+          "id": 78740817,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Solo makes me feel so nauseous (complimentary).",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-17T05:46:46Z",
+          "reviewDate": "2026-07-17T05:46:46Z",
+          "seasonId": 404198,
+          "episodeNumber": 5,
+          "episodeName": "Descent",
+          "tags": []
+        },
+        {
           "id": 78734820,
           "level": "episode",
           "rating": 3.5,
@@ -28368,7 +28400,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-17T04:52:21Z",
+      "latestActivityDate": "2026-07-17T05:46:46Z",
       "primaryRating": 3.5,
       "liked": false
     },
