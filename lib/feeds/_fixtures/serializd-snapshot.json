@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-07-18T05:31:37.215Z",
+  "capturedAt": "2026-07-18T06:31:09.331Z",
   "summary": {
     "totalShows": 159,
     "totalShowReviews": 42,
     "totalSeasonReviews": 247,
-    "totalEpisodeReviews": 729,
+    "totalEpisodeReviews": 730,
     "ratingDistribution": {
       "1": 3,
       "2": 46,
       "3": 244,
       "4": 201,
       "5": 18,
-      "3.5": 310,
+      "3.5": 311,
       "2.5": 98,
       "4.5": 52,
       "1.5": 11,
@@ -45,7 +45,7 @@
         "3": 182,
         "4": 153,
         "5": 8,
-        "3.5": 242,
+        "3.5": 243,
         "2.5": 72,
         "4.5": 43,
         "1.5": 5
@@ -133,6 +133,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 78962129,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "That ending? I’m throwing up!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-18T05:31:03Z",
+          "reviewDate": "2026-07-18T05:31:03Z",
+          "seasonId": 404198,
+          "episodeNumber": 9,
+          "episodeName": "The Safeguard",
+          "tags": []
+        },
         {
           "id": 78957684,
           "level": "episode",
@@ -457,7 +473,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-18T04:37:24Z",
+      "latestActivityDate": "2026-07-18T05:31:03Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -28175,6 +28191,22 @@
       ],
       "reviews": [
         {
+          "id": 78962129,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "That ending? I’m throwing up!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-18T05:31:03Z",
+          "reviewDate": "2026-07-18T05:31:03Z",
+          "seasonId": 404198,
+          "episodeNumber": 9,
+          "episodeName": "The Safeguard",
+          "tags": []
+        },
+        {
           "id": 78957684,
           "level": "episode",
           "rating": 3.5,
@@ -28498,7 +28530,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-18T04:37:24Z",
+      "latestActivityDate": "2026-07-18T05:31:03Z",
       "primaryRating": 3.5,
       "liked": false
     },
