@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-17T23:45:29.972Z",
+  "capturedAt": "2026-07-18T01:45:43.272Z",
   "meta": {
-    "films": 793,
+    "films": 794,
     "shows": 156,
     "collections": 74
   },
@@ -81999,6 +81999,121 @@
         }
       ],
       "collection": null
+    },
+    "1368337": {
+      "ratings": {
+        "imdb": null,
+        "metacritic": 88,
+        "metacriticUser": null,
+        "tomatoes": 96,
+        "rtAudience": null,
+        "letterboxd": 4.2,
+        "trakt": 74
+      },
+      "studios": [
+        "Universal Pictures",
+        "Syncopy"
+      ],
+      "country": "GB",
+      "language": "en",
+      "certification": "R",
+      "budget": 250000000,
+      "revenue": 39800000,
+      "cast": [
+        {
+          "id": 1892,
+          "name": "Matt Damon"
+        },
+        {
+          "id": 1136406,
+          "name": "Tom Holland"
+        },
+        {
+          "id": 1813,
+          "name": "Anne Hathaway"
+        },
+        {
+          "id": 11288,
+          "name": "Robert Pattinson"
+        },
+        {
+          "id": 1267329,
+          "name": "Lupita Nyong'o"
+        },
+        {
+          "id": 6885,
+          "name": "Charlize Theron"
+        },
+        {
+          "id": 505710,
+          "name": "Zendaya"
+        },
+        {
+          "id": 227564,
+          "name": "Benny Safdie"
+        },
+        {
+          "id": 19498,
+          "name": "Jon Bernthal"
+        },
+        {
+          "id": 5723,
+          "name": "John Leguizamo"
+        },
+        {
+          "id": 1227717,
+          "name": "Himesh Patel"
+        },
+        {
+          "id": 1137824,
+          "name": "Mia Goth"
+        },
+        {
+          "id": 10884,
+          "name": "Will Yun Lee"
+        },
+        {
+          "id": 1091423,
+          "name": "Jimmy Gonzáles"
+        },
+        {
+          "id": 27578,
+          "name": "Elliot Page"
+        },
+        {
+          "id": 58549,
+          "name": "Bill Irwin"
+        },
+        {
+          "id": 2206,
+          "name": "Samantha Morton"
+        },
+        {
+          "id": 66525,
+          "name": "Jesse García"
+        },
+        {
+          "id": 21660,
+          "name": "Rafi Gavron"
+        },
+        {
+          "id": 79795,
+          "name": "Shiloh Fernandez"
+        }
+      ],
+      "writers": [
+        {
+          "id": 525,
+          "name": "Christopher Nolan"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
+      }
     },
     "1368881": {
       "ratings": {
