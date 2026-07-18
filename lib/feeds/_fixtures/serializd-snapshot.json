@@ -1,13 +1,13 @@
 {
-  "capturedAt": "2026-07-17T15:31:32.336Z",
+  "capturedAt": "2026-07-18T02:31:40.145Z",
   "summary": {
     "totalShows": 159,
     "totalShowReviews": 42,
     "totalSeasonReviews": 247,
-    "totalEpisodeReviews": 727,
+    "totalEpisodeReviews": 728,
     "ratingDistribution": {
       "1": 3,
-      "2": 45,
+      "2": 46,
       "3": 244,
       "4": 201,
       "5": 18,
@@ -41,7 +41,7 @@
         "0.5": 1
       },
       "episode": {
-        "2": 22,
+        "2": 23,
         "3": 182,
         "4": 153,
         "5": 8,
@@ -133,6 +133,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 78939840,
+          "level": "episode",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-18T02:19:42Z",
+          "reviewDate": "2026-07-18T02:19:47Z",
+          "seasonId": 404198,
+          "episodeNumber": 7,
+          "episodeName": "The Dive",
+          "tags": []
+        },
         {
           "id": 78825432,
           "level": "episode",
@@ -407,6 +423,7 @@
         }
       ],
       "ratingSet": [
+        2,
         2.5,
         3,
         3.5,
@@ -424,8 +441,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-17T15:17:11Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-07-18T02:19:47Z",
+      "primaryRating": 2,
       "liked": false
     },
     {
@@ -2042,7 +2059,7 @@
       "tmdb": {
         "id": 17380,
         "name": "The Real Housewives of Atlanta",
-        "posterPath": "/h5HYOsyc1sJQYjqevaWEaLRjd6E.jpg",
+        "posterPath": "/zS8xeLgPJklx6WRl1BW7LVVitfg.jpg",
         "backdropPath": "/pMCckm5nwNFDXkQDdWukxEqyMSp.jpg",
         "genres": [
           "Reality"
@@ -2053,10 +2070,10 @@
           "Bravo"
         ],
         "numberOfSeasons": 17,
-        "numberOfEpisodes": 365
+        "numberOfEpisodes": 356
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/h5HYOsyc1sJQYjqevaWEaLRjd6E.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/h5HYOsyc1sJQYjqevaWEaLRjd6E.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/zS8xeLgPJklx6WRl1BW7LVVitfg.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/zS8xeLgPJklx6WRl1BW7LVVitfg.jpg",
       "seasons": [
         {
           "serializdId": 61194,
@@ -2112,7 +2129,7 @@
           "seasonNumber": 6,
           "name": "Season 6",
           "posterPath": "/zEtXuPkWNK5tgVEefd0BF3x43UV.jpg",
-          "episodeCount": 30
+          "episodeCount": 27
         },
         {
           "serializdId": 63417,
@@ -2120,7 +2137,7 @@
           "seasonNumber": 7,
           "name": "Season 7",
           "posterPath": "/bdwkXLQrRbq5TMX67oakdPTVYpi.jpg",
-          "episodeCount": 28
+          "episodeCount": 25
         },
         {
           "serializdId": 67304,
@@ -2152,7 +2169,7 @@
           "seasonNumber": 11,
           "name": "Season 11",
           "posterPath": "/mzOQPqUTUrO2WFA4zpiACbqSZYL.jpg",
-          "episodeCount": 26
+          "episodeCount": 23
         },
         {
           "serializdId": 135301,
@@ -6056,7 +6073,7 @@
           "seasonNumber": 0,
           "name": "Specials",
           "posterPath": "/n9z5p7psbfhLsaRyUrv0jrNCbh0.jpg",
-          "episodeCount": 73
+          "episodeCount": 81
         },
         {
           "serializdId": 134965,
@@ -28142,6 +28159,22 @@
       ],
       "reviews": [
         {
+          "id": 78939840,
+          "level": "episode",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-18T02:19:42Z",
+          "reviewDate": "2026-07-18T02:19:47Z",
+          "seasonId": 404198,
+          "episodeNumber": 7,
+          "episodeName": "The Dive",
+          "tags": []
+        },
+        {
           "id": 78825432,
           "level": "episode",
           "rating": 3,
@@ -28415,6 +28448,7 @@
         }
       ],
       "ratingSet": [
+        2,
         2.5,
         3,
         3.5,
@@ -28432,8 +28466,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-17T15:17:11Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-07-18T02:19:47Z",
+      "primaryRating": 2,
       "liked": false
     },
     "tmdb-tv-22980": {
@@ -30050,7 +30084,7 @@
       "tmdb": {
         "id": 17380,
         "name": "The Real Housewives of Atlanta",
-        "posterPath": "/h5HYOsyc1sJQYjqevaWEaLRjd6E.jpg",
+        "posterPath": "/zS8xeLgPJklx6WRl1BW7LVVitfg.jpg",
         "backdropPath": "/pMCckm5nwNFDXkQDdWukxEqyMSp.jpg",
         "genres": [
           "Reality"
@@ -30061,10 +30095,10 @@
           "Bravo"
         ],
         "numberOfSeasons": 17,
-        "numberOfEpisodes": 365
+        "numberOfEpisodes": 356
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/h5HYOsyc1sJQYjqevaWEaLRjd6E.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/h5HYOsyc1sJQYjqevaWEaLRjd6E.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/zS8xeLgPJklx6WRl1BW7LVVitfg.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/zS8xeLgPJklx6WRl1BW7LVVitfg.jpg",
       "seasons": [
         {
           "serializdId": 61194,
@@ -30120,7 +30154,7 @@
           "seasonNumber": 6,
           "name": "Season 6",
           "posterPath": "/zEtXuPkWNK5tgVEefd0BF3x43UV.jpg",
-          "episodeCount": 30
+          "episodeCount": 27
         },
         {
           "serializdId": 63417,
@@ -30128,7 +30162,7 @@
           "seasonNumber": 7,
           "name": "Season 7",
           "posterPath": "/bdwkXLQrRbq5TMX67oakdPTVYpi.jpg",
-          "episodeCount": 28
+          "episodeCount": 25
         },
         {
           "serializdId": 67304,
@@ -30160,7 +30194,7 @@
           "seasonNumber": 11,
           "name": "Season 11",
           "posterPath": "/mzOQPqUTUrO2WFA4zpiACbqSZYL.jpg",
-          "episodeCount": 26
+          "episodeCount": 23
         },
         {
           "serializdId": 135301,
@@ -34064,7 +34098,7 @@
           "seasonNumber": 0,
           "name": "Specials",
           "posterPath": "/n9z5p7psbfhLsaRyUrv0jrNCbh0.jpg",
-          "episodeCount": 73
+          "episodeCount": 81
         },
         {
           "serializdId": 134965,
