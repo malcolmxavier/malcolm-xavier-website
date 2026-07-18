@@ -1,14 +1,14 @@
 {
-  "capturedAt": "2026-07-15T03:00:05.027Z",
+  "capturedAt": "2026-07-18T01:01:22.482Z",
   "summary": {
-    "totalFilms": 793,
-    "totalReviews": 793,
-    "thisYearCount": 152,
+    "totalFilms": 794,
+    "totalReviews": 794,
+    "thisYearCount": 153,
     "ratingDistribution": {
       "1": 40,
       "2": 128,
       "3": 150,
-      "4": 105,
+      "4": 106,
       "5": 16,
       "1.5": 39,
       "0.5": 10,
@@ -17,6 +17,9 @@
       "4.5": 49
     },
     "genreDistribution": {
+      "Adventure": 85,
+      "Action": 120,
+      "Fantasy": 60,
       "Comedy": 225,
       "Romance": 92,
       "Music": 50,
@@ -26,11 +29,8 @@
       "Mystery": 83,
       "Crime": 107,
       "Horror": 133,
-      "Action": 119,
-      "Adventure": 84,
       "History": 42,
       "War": 17,
-      "Fantasy": 59,
       "Family": 21,
       "Documentary": 59,
       "Animation": 43,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 591,
+      "2020s": 592,
       "2010s": 132,
       "1990s": 17,
       "2000s": 32,
@@ -48,6 +48,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1368337",
+      "letterboxdSlug": "the-odyssey",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-odyssey-2026/",
+      "title": "The Odyssey",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-07-17",
+      "latestWatchedDate": "2026-07-17",
+      "firstReviewDate": "2026-07-18",
+      "latestReviewDate": "2026-07-18",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1400858810",
+          "watchedDate": "2026-07-17",
+          "reviewDate": "2026-07-18",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "My biggest note is that we deserved to observe more of the relationship between Odysseus and the gods. Making them almost wholly mythical, outside of Athena, feels unfaithful to the story. Aside from that, I will just say that this movie doesn’t feel extraordinary as much as it feels like a solid hero’s journey. We’re so used to getting scraps in this day and age that I think people are overrating this.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1368337,
+        "posterPath": "/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg",
+        "backdropPath": "/r57L2UBLPKcHdZQYg8tagv9XqK2.jpg",
+        "genres": [
+          "Adventure",
+          "Action",
+          "Fantasy"
+        ],
+        "runtime": 173,
+        "director": "Christopher Nolan"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1177767",
       "letterboxdSlug": "mile-end-kicks",
@@ -34534,6 +34579,51 @@
     }
   ],
   "filmById": {
+    "tmdb-1368337": {
+      "id": "tmdb-1368337",
+      "letterboxdSlug": "the-odyssey",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-odyssey-2026/",
+      "title": "The Odyssey",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-07-17",
+      "latestWatchedDate": "2026-07-17",
+      "firstReviewDate": "2026-07-18",
+      "latestReviewDate": "2026-07-18",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1400858810",
+          "watchedDate": "2026-07-17",
+          "reviewDate": "2026-07-18",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "My biggest note is that we deserved to observe more of the relationship between Odysseus and the gods. Making them almost wholly mythical, outside of Athena, feels unfaithful to the story. Aside from that, I will just say that this movie doesn’t feel extraordinary as much as it feels like a solid hero’s journey. We’re so used to getting scraps in this day and age that I think people are overrating this.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1368337,
+        "posterPath": "/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg",
+        "backdropPath": "/r57L2UBLPKcHdZQYg8tagv9XqK2.jpg",
+        "genres": [
+          "Adventure",
+          "Action",
+          "Fantasy"
+        ],
+        "runtime": 173,
+        "director": "Christopher Nolan"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1177767": {
       "id": "tmdb-1177767",
       "letterboxdSlug": "mile-end-kicks",
