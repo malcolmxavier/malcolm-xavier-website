@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-07-18T23:31:35.380Z",
+  "capturedAt": "2026-07-19T00:31:24.253Z",
   "summary": {
     "totalShows": 159,
     "totalShowReviews": 42,
     "totalSeasonReviews": 248,
-    "totalEpisodeReviews": 732,
+    "totalEpisodeReviews": 734,
     "ratingDistribution": {
       "1": 3,
       "2": 46,
       "3": 244,
       "4": 203,
       "5": 18,
-      "2.5": 99,
-      "3.5": 311,
+      "2.5": 100,
+      "3.5": 312,
       "4.5": 52,
       "1.5": 11,
       "0.5": 1
@@ -45,8 +45,8 @@
         "3": 182,
         "4": 154,
         "5": 8,
-        "2.5": 73,
-        "3.5": 243,
+        "2.5": 74,
+        "3.5": 244,
         "4.5": 43,
         "1.5": 5
       }
@@ -133,6 +133,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 79134009,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "We’re back in slog territory. I miss Solo.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-19T00:29:52Z",
+          "reviewDate": "2026-07-19T00:30:08Z",
+          "seasonId": 512220,
+          "episodeNumber": 3,
+          "episodeName": "A Dark Web",
+          "tags": []
+        },
+        {
+          "id": 79126961,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Proof that an amnesia plot kills momentum and energy. No one is giving!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-18T23:40:40Z",
+          "reviewDate": "2026-07-18T23:40:41Z",
+          "seasonId": 512220,
+          "episodeNumber": 2,
+          "episodeName": "It's All Good",
+          "tags": []
+        },
         {
           "id": 79117666,
           "level": "episode",
@@ -522,7 +554,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-18T22:32:49Z",
+      "latestActivityDate": "2026-07-19T00:30:08Z",
       "primaryRating": 2.5,
       "liked": false
     },
@@ -28240,6 +28272,38 @@
       ],
       "reviews": [
         {
+          "id": 79134009,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "We’re back in slog territory. I miss Solo.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-19T00:29:52Z",
+          "reviewDate": "2026-07-19T00:30:08Z",
+          "seasonId": 512220,
+          "episodeNumber": 3,
+          "episodeName": "A Dark Web",
+          "tags": []
+        },
+        {
+          "id": 79126961,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Proof that an amnesia plot kills momentum and energy. No one is giving!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-18T23:40:40Z",
+          "reviewDate": "2026-07-18T23:40:41Z",
+          "seasonId": 512220,
+          "episodeNumber": 2,
+          "episodeName": "It's All Good",
+          "tags": []
+        },
+        {
           "id": 79117666,
           "level": "episode",
           "rating": 2.5,
@@ -28628,7 +28692,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-07-18T22:32:49Z",
+      "latestActivityDate": "2026-07-19T00:30:08Z",
       "primaryRating": 2.5,
       "liked": false
     },
