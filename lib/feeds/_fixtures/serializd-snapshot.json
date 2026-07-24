@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-07-24T16:31:23.478Z",
+  "capturedAt": "2026-07-24T21:31:31.226Z",
   "summary": {
     "totalShows": 160,
     "totalShowReviews": 42,
     "totalSeasonReviews": 249,
-    "totalEpisodeReviews": 746,
+    "totalEpisodeReviews": 747,
     "ratingDistribution": {
       "1": 3,
       "2": 46,
       "3": 249,
       "4": 205,
       "5": 18,
+      "3.5": 318,
       "2.5": 100,
-      "3.5": 317,
       "1.5": 12,
       "4.5": 52,
       "0.5": 1
@@ -45,19 +45,19 @@
         "3": 187,
         "4": 156,
         "5": 8,
+        "3.5": 249,
         "2.5": 74,
-        "3.5": 248,
         "1.5": 6,
         "4.5": 43
       }
     },
     "genreDistribution": {
+      "Action & Adventure": 18,
       "Sci-Fi & Fantasy": 25,
       "Drama": 98,
       "Talk": 1,
       "Comedy": 58,
       "Reality": 27,
-      "Action & Adventure": 18,
       "Documentary": 13,
       "Mystery": 33,
       "Crime": 29,
@@ -79,6 +79,142 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-241882",
+      "serializdShowId": 241882,
+      "slug": "ride-or-die-2026",
+      "name": "Ride or Die",
+      "premiereYear": 2026,
+      "premiereDate": "2026-07-15",
+      "serializdUrl": "https://serializd.com/show/241882",
+      "tmdb": {
+        "id": 241882,
+        "name": "Ride or Die",
+        "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+        "backdropPath": "/jwCXxvbLno5GrGDA9KvQ22uLziM.jpg",
+        "genres": [
+          "Action & Adventure"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Prime Video"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+      "seasons": [
+        {
+          "serializdId": 370527,
+          "showId": 241882,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 80255968,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-24T20:41:43Z",
+          "reviewDate": "2026-07-24T20:41:52Z",
+          "seasonId": 370527,
+          "episodeNumber": 5,
+          "episodeName": "The Count of Monte Carlo",
+          "tags": []
+        },
+        {
+          "id": 80108349,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-21T23:39:00Z",
+          "reviewDate": "2026-07-23T23:39:40Z",
+          "seasonId": 370527,
+          "episodeNumber": 4,
+          "episodeName": "The Spanish Prisoner",
+          "tags": []
+        },
+        {
+          "id": 80108305,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-21T23:39:00Z",
+          "reviewDate": "2026-07-23T23:39:18Z",
+          "seasonId": 370527,
+          "episodeNumber": 3,
+          "episodeName": "Strangers on a Train",
+          "tags": []
+        },
+        {
+          "id": 80108279,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The adult female friendship of it all is making me so emotional.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-20T23:38:00Z",
+          "reviewDate": "2026-07-23T23:39:07Z",
+          "seasonId": 370527,
+          "episodeNumber": 2,
+          "episodeName": "The Yellow Wood",
+          "tags": []
+        },
+        {
+          "id": 80108200,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-20T23:38:00Z",
+          "reviewDate": "2026-07-23T23:38:35Z",
+          "seasonId": 370527,
+          "episodeNumber": 1,
+          "episodeName": "The Book of Judith",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-24T20:41:52Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-125988",
       "serializdShowId": 125988,
@@ -6091,126 +6227,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-07-24T00:36:01Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-241882",
-      "serializdShowId": 241882,
-      "slug": "ride-or-die-2026",
-      "name": "Ride or Die",
-      "premiereYear": 2026,
-      "premiereDate": "2026-07-15",
-      "serializdUrl": "https://serializd.com/show/241882",
-      "tmdb": {
-        "id": 241882,
-        "name": "Ride or Die",
-        "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
-        "backdropPath": "/jwCXxvbLno5GrGDA9KvQ22uLziM.jpg",
-        "genres": [
-          "Action & Adventure"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Prime Video"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
-      "seasons": [
-        {
-          "serializdId": 370527,
-          "showId": 241882,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 80108349,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-21T23:39:00Z",
-          "reviewDate": "2026-07-23T23:39:40Z",
-          "seasonId": 370527,
-          "episodeNumber": 4,
-          "episodeName": "The Spanish Prisoner",
-          "tags": []
-        },
-        {
-          "id": 80108305,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-21T23:39:00Z",
-          "reviewDate": "2026-07-23T23:39:18Z",
-          "seasonId": 370527,
-          "episodeNumber": 3,
-          "episodeName": "Strangers on a Train",
-          "tags": []
-        },
-        {
-          "id": 80108279,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "The adult female friendship of it all is making me so emotional.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-20T23:38:00Z",
-          "reviewDate": "2026-07-23T23:39:07Z",
-          "seasonId": 370527,
-          "episodeNumber": 2,
-          "episodeName": "The Yellow Wood",
-          "tags": []
-        },
-        {
-          "id": 80108200,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-20T23:38:00Z",
-          "reviewDate": "2026-07-23T23:38:35Z",
-          "seasonId": 370527,
-          "episodeNumber": 1,
-          "episodeName": "The Book of Judith",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-07-23T23:39:40Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -28483,6 +28499,142 @@
     }
   ],
   "showById": {
+    "tmdb-tv-241882": {
+      "id": "tmdb-tv-241882",
+      "serializdShowId": 241882,
+      "slug": "ride-or-die-2026",
+      "name": "Ride or Die",
+      "premiereYear": 2026,
+      "premiereDate": "2026-07-15",
+      "serializdUrl": "https://serializd.com/show/241882",
+      "tmdb": {
+        "id": 241882,
+        "name": "Ride or Die",
+        "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+        "backdropPath": "/jwCXxvbLno5GrGDA9KvQ22uLziM.jpg",
+        "genres": [
+          "Action & Adventure"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Prime Video"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+      "seasons": [
+        {
+          "serializdId": 370527,
+          "showId": 241882,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 80255968,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-24T20:41:43Z",
+          "reviewDate": "2026-07-24T20:41:52Z",
+          "seasonId": 370527,
+          "episodeNumber": 5,
+          "episodeName": "The Count of Monte Carlo",
+          "tags": []
+        },
+        {
+          "id": 80108349,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-21T23:39:00Z",
+          "reviewDate": "2026-07-23T23:39:40Z",
+          "seasonId": 370527,
+          "episodeNumber": 4,
+          "episodeName": "The Spanish Prisoner",
+          "tags": []
+        },
+        {
+          "id": 80108305,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-21T23:39:00Z",
+          "reviewDate": "2026-07-23T23:39:18Z",
+          "seasonId": 370527,
+          "episodeNumber": 3,
+          "episodeName": "Strangers on a Train",
+          "tags": []
+        },
+        {
+          "id": 80108279,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The adult female friendship of it all is making me so emotional.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-20T23:38:00Z",
+          "reviewDate": "2026-07-23T23:39:07Z",
+          "seasonId": 370527,
+          "episodeNumber": 2,
+          "episodeName": "The Yellow Wood",
+          "tags": []
+        },
+        {
+          "id": 80108200,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-20T23:38:00Z",
+          "reviewDate": "2026-07-23T23:38:35Z",
+          "seasonId": 370527,
+          "episodeNumber": 1,
+          "episodeName": "The Book of Judith",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-24T20:41:52Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     "tmdb-tv-125988": {
       "id": "tmdb-tv-125988",
       "serializdShowId": 125988,
@@ -34495,126 +34647,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-07-24T00:36:01Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    "tmdb-tv-241882": {
-      "id": "tmdb-tv-241882",
-      "serializdShowId": 241882,
-      "slug": "ride-or-die-2026",
-      "name": "Ride or Die",
-      "premiereYear": 2026,
-      "premiereDate": "2026-07-15",
-      "serializdUrl": "https://serializd.com/show/241882",
-      "tmdb": {
-        "id": 241882,
-        "name": "Ride or Die",
-        "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
-        "backdropPath": "/jwCXxvbLno5GrGDA9KvQ22uLziM.jpg",
-        "genres": [
-          "Action & Adventure"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Prime Video"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
-      "seasons": [
-        {
-          "serializdId": 370527,
-          "showId": 241882,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 80108349,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-21T23:39:00Z",
-          "reviewDate": "2026-07-23T23:39:40Z",
-          "seasonId": 370527,
-          "episodeNumber": 4,
-          "episodeName": "The Spanish Prisoner",
-          "tags": []
-        },
-        {
-          "id": 80108305,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-21T23:39:00Z",
-          "reviewDate": "2026-07-23T23:39:18Z",
-          "seasonId": 370527,
-          "episodeNumber": 3,
-          "episodeName": "Strangers on a Train",
-          "tags": []
-        },
-        {
-          "id": 80108279,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "The adult female friendship of it all is making me so emotional.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-20T23:38:00Z",
-          "reviewDate": "2026-07-23T23:39:07Z",
-          "seasonId": 370527,
-          "episodeNumber": 2,
-          "episodeName": "The Yellow Wood",
-          "tags": []
-        },
-        {
-          "id": 80108200,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-20T23:38:00Z",
-          "reviewDate": "2026-07-23T23:38:35Z",
-          "seasonId": 370527,
-          "episodeNumber": 1,
-          "episodeName": "The Book of Judith",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-07-23T23:39:40Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-323411": {
