@@ -58,3 +58,21 @@ This applies to JSX text, prose-bearing attributes (`alt`, `title`, `aria-label`
 **Enforcement:** the `local/typographic-glyphs` ESLint rule (`eslint-rules/typographic-glyphs.mjs`) flags entities, straight quotes, and ASCII stand-ins in those prose contexts, with safe autofixes (`eslint --fix`). `npm run typography:check` (`scripts/check-typography.mjs`) is the blunt backstop for entities in string literals/arrays the AST can't see; it runs in the pre-commit hook on staged reader-facing source. Straight quotes in JSX *text* remain owned by `react/no-unescaped-entities`. For a legitimate code entity, use a `// typography-ok` line comment or `// typography-check-ignore-file`.
 <!-- END:typographic-glyphs -->
 
+<!-- BEGIN:structured-data -->
+# Structured data follows a fixed entity-graph pattern
+
+JSON-LD on this site is not authored ad hoc. There is a deliberate two-tier
+entity graph: a sitewide `WebSite`+`Person` `@graph` (`app/layout.tsx`) plus
+per-page nodes (`ProfilePage`, `AboutPage`, `CollectionPage`, `ContactPage`,
+and `Article`+`BreadcrumbList` on case studies) that connect back to it by
+`@id`. Every primary page node carries `isPartOf → #website` and
+`mainEntity → #person` (or `about → #person` for a collection).
+
+Before adding or reviewing structured data, or extending the graph for the
+Fourth Unit brand split, read `STRUCTURED-DATA.md` at the repo root. It covers
+the two tiers, the `@id` scheme, the connectivity rule, why separate `<script>`
+blocks still merge into one graph, and which validator to use (Rich Results
+Test for `Article`/`BreadcrumbList`; validator.schema.org for everything else).
+Do not improvise a one-off schema block that skips the connectivity pair.
+<!-- END:structured-data -->
+

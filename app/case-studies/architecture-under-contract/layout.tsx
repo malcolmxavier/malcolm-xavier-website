@@ -108,6 +108,11 @@ const ARTICLE_SCHEMA = {
         "@id": `${SITE_URL}/#person`,
         name: "Malcolm Xavier",
       },
+      // isPartOf ties this Article to the sitewide WebSite entity—the
+      // same @id the ProfilePage/AboutPage/ContactPage nodes use. Without
+      // it the Article linked the Person (via author/publisher) but not
+      // the site, a half-orphan. See STRUCTURED-DATA.md, connectivity rule.
+      isPartOf: { "@id": `${SITE_URL}/#website` },
       mainEntityOfPage: ARTICLE_URL,
     },
     {

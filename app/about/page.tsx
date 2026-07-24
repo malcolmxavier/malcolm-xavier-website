@@ -45,7 +45,7 @@ import { CONTACT } from "../resume/resume-data";
 // the page's own positioning. (2026-04-29 /full-review,
 // a-per-page-og-twitter.)
 const ABOUT_DESCRIPTION =
-  "Senior PM building growth, data, and MarTech platforms in media and streaming—AI-native, with degrees in theater and law. Creative by trade, a child of the Internet.";
+  "Senior PM building growth, data, and MarTech platforms in media and streaming—AI-native, theater and law degrees. Creative by trade, a child of the Internet.";
 const ABOUT_OG_TITLE =
   "About Malcolm Xavier · Senior PM, Media and Streaming";
 
