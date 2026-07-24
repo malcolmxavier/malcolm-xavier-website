@@ -29,7 +29,7 @@ const TITLE = "Infrastructure enables personalization";
 const SOCIAL_TITLE =
   "Operationalizing personalization at People Inc.";
 const DESCRIPTION =
-  "How a newsletter-migration mandate became a multi-year identity and onboarding roadmap—driving 33% YoY email revenue growth across People Inc.'s 40+ brands.";
+  "How a newsletter-migration mandate became a multi-year identity and onboarding roadmap—driving 33% YoY email revenue growth across People Inc.’s 40+ brands.";
 const EMPLOYER = "People Inc.";
 const EMPLOYER_URL = "https://people.inc";
 // Role period covered by the case study. These dates are the

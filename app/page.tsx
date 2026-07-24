@@ -177,7 +177,18 @@ export default function Home() {
                 alt="Portrait of Malcolm Xavier"
                 fill
                 sizes="(min-width: 1024px) 22rem, 16rem"
-                priority
+                // This headshot is the homepage LCP element. Next 16
+                // deprecated the old `priority` prop; the explicit
+                // replacement is `preload` (inserts the <link rel=preload>
+                // in <head> so the browser discovers the image before it
+                // parses the body) plus `fetchPriority="high"` (tells the
+                // browser to fetch it ahead of other resources). The
+                // deprecated `priority` emitted the preload link but not
+                // the fetchpriority hint — this pair restores both, the
+                // canonical web.dev pattern for a single above-the-fold
+                // LCP image.
+                preload
+                fetchPriority="high"
                 style={{
                   objectFit: "cover",
                   // Keep the face in frame after zoom-in. 22% from

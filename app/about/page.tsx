@@ -35,6 +35,7 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { SITE_URL } from "@/lib/site-config";
 import { CONTACT } from "../resume/resume-data";
 
 // Per-page openGraph + twitter blocks because Next.js App Router
@@ -44,7 +45,7 @@ import { CONTACT } from "../resume/resume-data";
 // the page's own positioning. (2026-04-29 /full-review,
 // a-per-page-og-twitter.)
 const ABOUT_DESCRIPTION =
-  "The long version: senior product manager, sometime artist, full-time New Yorker living in Los Angeles.";
+  "Senior PM building growth, data, and MarTech platforms in media and streaming—AI-native, with degrees in theater and law. Creative by trade, a child of the Internet.";
 const ABOUT_OG_TITLE =
   "About Malcolm Xavier · Senior PM, Media and Streaming";
 
@@ -70,21 +71,32 @@ export const metadata: Metadata = {
     url: "/about",
     siteName: "Malcolm Xavier",
     locale: "en_US",
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
-      },
-    ],
+    // No explicit `images` — ./opengraph-image.tsx resolves this route's
+    // own card via the App Router file convention, auto-populating
+    // og:image / width / height / alt. An explicit array here would
+    // fight the file-convention output.
   },
   twitter: {
     card: "summary_large_image",
     title: ABOUT_OG_TITLE,
     description: ABOUT_DESCRIPTION,
-    images: ["/opengraph-image"],
+    // twitter:image is auto-populated from ./opengraph-image.tsx too.
   },
+};
+
+// ─── JSON-LD: AboutPage ───────────────────────────────────────────
+// /about is an AboutPage whose mainEntity is the sitewide Person node
+// declared once in app/layout.tsx. Same rationale as the resume's
+// ProfilePage: point at the canonical Person `@id` so retrievers
+// resolve one entity for "who is Malcolm Xavier" rather than treating
+// this page's prose as a second, competing person description.
+const ABOUT_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "@id": `${SITE_URL}/about/#aboutpage`,
+  url: `${SITE_URL}/about`,
+  name: ABOUT_OG_TITLE,
+  mainEntity: { "@id": `${SITE_URL}/#person` },
 };
 
 // "What I'm into" sidebar items. Each entry is a {kicker, label, href}
@@ -115,7 +127,13 @@ export default function AboutPage() {
   const mailHref = `mailto:${CONTACT.email}`;
 
   return (
-    <Container size="md">
+    <>
+      {/* AboutPage JSON-LD — see ABOUT_SCHEMA above. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ABOUT_SCHEMA) }}
+      />
+      <Container size="md">
       <Section padding="lg">
         <Stack gap="600">
           {/* Page title row — kicker + Display, full-bleed across the
@@ -350,5 +368,6 @@ export default function AboutPage() {
         </Stack>
       </Section>
     </Container>
+    </>
   );
 }

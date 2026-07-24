@@ -36,6 +36,7 @@ import {
   type ResumeCaseStudy,
   sortedCaseStudiesNewestFirst,
 } from "../resume/resume-data";
+import { SITE_URL } from "@/lib/site-config";
 
 // Per-page openGraph + twitter blocks because Next.js App Router
 // REPLACES (does not merge) parent-layout OG blocks when a page
@@ -43,7 +44,7 @@ import {
 // would unfurl with the sitewide stub. (2026-04-29 /full-review,
 // a-per-page-og-twitter.)
 const INDEX_DESCRIPTION =
-  "Long-form case studies from Malcolm Xavier on PM craft, AI-native shipping, and growth experiments. All written with Claude Code as build partner.";
+  "Long-form case studies from Malcolm Xavier on PM craft, AI-native shipping, and growth in media and streaming. Written with Claude Code as build partner.";
 const INDEX_OG_TITLE = "Case Studies · Malcolm Xavier";
 
 export const metadata: Metadata = {
@@ -59,20 +60,15 @@ export const metadata: Metadata = {
     url: "/case-studies",
     siteName: "Malcolm Xavier",
     locale: "en_US",
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
-      },
-    ],
+    // No explicit `images` — ./opengraph-image.tsx resolves this hub's
+    // own card via the App Router file convention, auto-populating
+    // og:image / width / height / alt. An explicit array would fight it.
   },
   twitter: {
     card: "summary_large_image",
     title: INDEX_OG_TITLE,
     description: INDEX_DESCRIPTION,
-    images: ["/opengraph-image"],
+    // twitter:image is auto-populated from ./opengraph-image.tsx too.
   },
 };
 
@@ -125,8 +121,43 @@ export default function CaseStudiesIndex() {
   const projectStudies = sorted.filter((s) => !s.employer);
   const workStudies = sorted.filter((s) => s.employer);
 
+  // CollectionPage + ItemList JSON-LD. CollectionPage tells crawlers
+  // and AI retrievers this route is the hub for the case-study set;
+  // the ItemList enumerates the studies with stable positions so the
+  // relationship between the index and its children is machine-legible
+  // (rather than inferred from prose links alone). The list is ordered
+  // work-first, then project — mirroring the on-page section order a
+  // crawler reads in the DOM. isPartOf/about wire the page back to the
+  // sitewide WebSite and Person nodes from app/layout.tsx by `@id`.
+  const orderedStudies = [...workStudies, ...projectStudies];
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${SITE_URL}/case-studies/#collectionpage`,
+    url: `${SITE_URL}/case-studies`,
+    name: "Case Studies",
+    description: INDEX_DESCRIPTION,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": `${SITE_URL}/#person` },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: orderedStudies.map((study, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        url: `${SITE_URL}${study.href}`,
+        name: study.title,
+      })),
+    },
+  };
+
   return (
-    <Container size="lg">
+    <>
+      {/* CollectionPage + ItemList JSON-LD — see collectionSchema above. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+      <Container size="lg">
       {/* Two-column on desktop: TOC in the left gutter, content on the
           right. Below lg, the TOC is hidden and the content reverts to
           a single readable column constrained to ~64rem. Mirrors the
@@ -187,6 +218,7 @@ export default function CaseStudiesIndex() {
         </div>
       </div>
     </Container>
+    </>
   );
 }
 
@@ -225,7 +257,7 @@ function CaseStudyCard({ study }: { study: ResumeCaseStudy }) {
             quiet
             aria-label={`Visit the live project: ${study.title}`}
           >
-            Visit the live project &#8599;
+            Visit the live project ↗
           </Link>
         )}
       </Stack>

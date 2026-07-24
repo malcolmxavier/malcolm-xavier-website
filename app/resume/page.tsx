@@ -44,6 +44,7 @@ import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL, twitterAttribution } from "@/lib/site-config";
+import { BUILD_TIMESTAMP } from "@/lib/build-meta";
 import { formatLastUpdated } from "@/lib/case-studies/basecamp-coffee/last-updated";
 import {
   TableOfContents,
@@ -122,6 +123,26 @@ export const metadata: Metadata = {
     // twitter:image auto-populates from ./opengraph-image.tsx via the
     // file convention (same as the case studies) — no explicit array.
   },
+};
+
+// ─── JSON-LD: ProfilePage ─────────────────────────────────────────
+// /resume is, in schema.org terms, a ProfilePage whose mainEntity is
+// the sitewide Person node declared once in app/layout.tsx. Pointing
+// mainEntity at that `@id` — rather than re-declaring the Person here —
+// gives Google and AI-search retrievers a single canonical entity to
+// resolve when they crawl the resume for "who is Malcolm Xavier,"
+// instead of a second, competing person description. dateModified
+// rides the build timestamp (the same "re-crawl me" freshness signal
+// the case-study Articles use), so a redeploy tells crawlers the page
+// changed. Emitted as its own <script> in the page body below.
+const PROFILE_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "@id": `${SITE_URL}/resume/#profilepage`,
+  url: `${SITE_URL}/resume`,
+  name: RESUME_OG_TITLE,
+  dateModified: BUILD_TIMESTAMP,
+  mainEntity: { "@id": `${SITE_URL}/#person` },
 };
 
 // ─── Helper sub-components ─────────────────────────────────────────
@@ -461,7 +482,15 @@ export default function ResumePage() {
   const sectionAnchorStyle: React.CSSProperties = { scrollMarginTop: "6rem" };
 
   return (
-    <Container size="lg">
+    <>
+      {/* ProfilePage JSON-LD — see PROFILE_SCHEMA above. In the page
+          body (not <head>) is fine: crawlers and AI retrievers parse
+          ld+json wherever it sits in the document. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(PROFILE_SCHEMA) }}
+      />
+      <Container size="lg">
       {/* Two-column on desktop: TOC in the left gutter, content on the
           right. Below lg, the TOC is hidden and the content reverts to
           a single readable column constrained to ~64rem. */}
@@ -730,5 +759,6 @@ export default function ResumePage() {
         </div>
       </div>
     </Container>
+    </>
   );
 }

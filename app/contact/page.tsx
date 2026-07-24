@@ -55,7 +55,7 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 // portfolio walk if added later. (2026-04-29 /full-review,
 // a-calendly-widget-url-and-tracking — copy half of the fix.)
 const CONTACT_DESCRIPTION =
-  "Book a chat with Malcolm Xavier, send an email, or find him elsewhere on the internet. Currently interviewing in media + streaming.";
+  "Reach Malcolm Xavier—senior PM in growth, data, and MarTech across media and streaming. Book a call or send an email. Currently interviewing.";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -74,18 +74,9 @@ export const metadata: Metadata = {
     url: "/contact",
     siteName: "Malcolm Xavier",
     locale: "en_US",
-    images: [
-      {
-        url: "/opengraph-image",
-        // Explicit MIME so the unfurl emits og:image:type. /contact keeps
-        // the generic sitewide card (no tailored card), so it references
-        // the root /opengraph-image directly rather than via file convention.
-        type: "image/png",
-        width: 1200,
-        height: 630,
-        alt: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
-      },
-    ],
+    // No explicit `images` — ./opengraph-image.tsx resolves this route's
+    // own tailored card via the App Router file convention, which
+    // auto-populates og:image / og:image:type / width / height / alt.
   },
   twitter: {
     card: "summary_large_image",
@@ -97,7 +88,7 @@ export const metadata: Metadata = {
     ...twitterAttribution,
     title: "Contact Malcolm Xavier",
     description: CONTACT_DESCRIPTION,
-    images: ["/opengraph-image"],
+    // twitter:image is auto-populated from ./opengraph-image.tsx too.
   },
 };
 
