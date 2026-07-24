@@ -96,6 +96,10 @@ const ABOUT_SCHEMA = {
   "@id": `${SITE_URL}/about/#aboutpage`,
   url: `${SITE_URL}/about`,
   name: ABOUT_OG_TITLE,
+  // Declare this page as part of the sitewide WebSite node (same link
+  // the /case-studies CollectionPage carries), so the graph is fully
+  // connected: AboutPage → WebSite, AboutPage → Person.
+  isPartOf: { "@id": `${SITE_URL}/#website` },
   mainEntity: { "@id": `${SITE_URL}/#person` },
 };
 

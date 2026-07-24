@@ -142,6 +142,10 @@ const PROFILE_SCHEMA = {
   url: `${SITE_URL}/resume`,
   name: RESUME_OG_TITLE,
   dateModified: BUILD_TIMESTAMP,
+  // Declare this page as part of the sitewide WebSite node (same link
+  // the /case-studies CollectionPage carries), so the graph is fully
+  // connected: ProfilePage → WebSite, ProfilePage → Person.
+  isPartOf: { "@id": `${SITE_URL}/#website` },
   mainEntity: { "@id": `${SITE_URL}/#person` },
 };
 
