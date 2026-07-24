@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-07-19T00:31:24.253Z",
+  "capturedAt": "2026-07-24T00:31:18.188Z",
   "summary": {
-    "totalShows": 159,
+    "totalShows": 160,
     "totalShowReviews": 42,
-    "totalSeasonReviews": 248,
-    "totalEpisodeReviews": 734,
+    "totalSeasonReviews": 249,
+    "totalEpisodeReviews": 740,
     "ratingDistribution": {
       "1": 3,
       "2": 46,
-      "3": 244,
-      "4": 203,
+      "3": 246,
+      "4": 204,
       "5": 18,
-      "2.5": 100,
-      "3.5": 312,
+      "3.5": 316,
       "4.5": 52,
+      "2.5": 100,
       "1.5": 11,
       "0.5": 1
     },
@@ -34,7 +34,7 @@
         "3": 59,
         "4": 48,
         "5": 9,
-        "3.5": 65,
+        "3.5": 66,
         "2.5": 25,
         "4.5": 9,
         "1.5": 6,
@@ -42,22 +42,22 @@
       },
       "episode": {
         "2": 23,
-        "3": 182,
-        "4": 154,
+        "3": 184,
+        "4": 155,
         "5": 8,
-        "2.5": 74,
-        "3.5": 244,
+        "3.5": 247,
         "4.5": 43,
+        "2.5": 74,
         "1.5": 5
       }
     },
     "genreDistribution": {
-      "Sci-Fi & Fantasy": 25,
+      "Action & Adventure": 18,
       "Drama": 98,
+      "Sci-Fi & Fantasy": 25,
       "Talk": 1,
       "Comedy": 58,
       "Reality": 27,
-      "Action & Adventure": 17,
       "Documentary": 13,
       "Mystery": 33,
       "Crime": 29,
@@ -67,18 +67,509 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
-      "2020s": 129,
+      "2020s": 130,
       "2000s": 6,
       "2010s": 22,
       "1970s": 1,
       "1990s": 1
     },
     "showsInProgressCount": 11,
-    "thisYearCount": 56,
-    "totalWatchedShows": 345,
+    "thisYearCount": 57,
+    "totalWatchedShows": 346,
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-241882",
+      "serializdShowId": 241882,
+      "slug": "ride-or-die-2026",
+      "name": "Ride or Die",
+      "premiereYear": 2026,
+      "premiereDate": "2026-07-15",
+      "serializdUrl": "https://serializd.com/show/241882",
+      "tmdb": {
+        "id": 241882,
+        "name": "Ride or Die",
+        "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+        "backdropPath": "/jwCXxvbLno5GrGDA9KvQ22uLziM.jpg",
+        "genres": [
+          "Action & Adventure"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Prime Video"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+      "seasons": [
+        {
+          "serializdId": 370527,
+          "showId": 241882,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 80108349,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-21T23:39:00Z",
+          "reviewDate": "2026-07-23T23:39:40Z",
+          "seasonId": 370527,
+          "episodeNumber": 4,
+          "episodeName": "The Spanish Prisoner",
+          "tags": []
+        },
+        {
+          "id": 80108305,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-21T23:39:00Z",
+          "reviewDate": "2026-07-23T23:39:18Z",
+          "seasonId": 370527,
+          "episodeNumber": 3,
+          "episodeName": "Strangers on a Train",
+          "tags": []
+        },
+        {
+          "id": 80108279,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The adult female friendship of it all is making me so emotional.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-20T23:38:00Z",
+          "reviewDate": "2026-07-23T23:39:07Z",
+          "seasonId": 370527,
+          "episodeNumber": 2,
+          "episodeName": "The Yellow Wood",
+          "tags": []
+        },
+        {
+          "id": 80108200,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-20T23:38:00Z",
+          "reviewDate": "2026-07-23T23:38:35Z",
+          "seasonId": 370527,
+          "episodeNumber": 1,
+          "episodeName": "The Book of Judith",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-23T23:39:40Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-323411",
+      "serializdShowId": 323411,
+      "slug": "the-vampire-lestat-2026",
+      "name": "The Vampire Lestat",
+      "premiereYear": 2026,
+      "premiereDate": "2026-06-07",
+      "serializdUrl": "https://serializd.com/show/323411",
+      "tmdb": {
+        "id": 323411,
+        "name": "The Vampire Lestat",
+        "posterPath": "/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
+        "backdropPath": "/iw1knpC8Jg5davMn2MPxNVxBF8N.jpg",
+        "genres": [
+          "Drama",
+          "Sci-Fi & Fantasy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "AMC"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 7
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
+      "seasons": [
+        {
+          "serializdId": 518147,
+          "showId": 323411,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/Apu7qMx09KhDzpoDUTT8i9Ax3Ym.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 80108120,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Lots of great performances, but so much whiplash between differently amazing moments. I guess I wish this were less frenetic, as much as that’s what it is to be inside Lestat’s point of view. This feels like seeing the show paint itself into a corner, but the team seems unfazed by this…so I guess not?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-19T23:36:00Z",
+          "reviewDate": "2026-07-23T23:37:56Z",
+          "seasonId": 518147,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 80107954,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "As a standalone episode, this was amazing. You can see everyone firing on all cylinders to deliver this work. But I don’t know that it works outside of its runtime, which is a problem of the season as much as of the episode.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-19T23:34:00Z",
+          "reviewDate": "2026-07-23T23:36:15Z",
+          "seasonId": 518147,
+          "episodeNumber": 7,
+          "episodeName": "The Failures",
+          "tags": []
+        },
+        {
+          "id": 77527273,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Yikes!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-14T05:25:04Z",
+          "reviewDate": "2026-07-14T05:25:04Z",
+          "seasonId": 518147,
+          "episodeNumber": 6,
+          "episodeName": "Montreal",
+          "tags": []
+        },
+        {
+          "id": 73198994,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Scoop.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-05T13:41:00Z",
+          "reviewDate": "2026-07-06T13:41:56Z",
+          "seasonId": 518147,
+          "episodeNumber": 5,
+          "episodeName": "New York",
+          "tags": []
+        },
+        {
+          "id": 71591282,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "It gets to a point…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-03T01:17:59Z",
+          "reviewDate": "2026-07-03T01:17:59Z",
+          "seasonId": 518147,
+          "episodeNumber": 4,
+          "episodeName": "The Devil's Road",
+          "tags": []
+        },
+        {
+          "id": 71544571,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-02T23:12:47Z",
+          "reviewDate": "2026-07-02T23:12:57Z",
+          "seasonId": 518147,
+          "episodeNumber": 3,
+          "episodeName": "Toronto",
+          "tags": []
+        },
+        {
+          "id": 69352689,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The family that slays together. And Moses Sumney.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-15T19:48:51Z",
+          "reviewDate": "2026-06-15T19:51:28Z",
+          "seasonId": 518147,
+          "episodeNumber": 2,
+          "episodeName": "Toledo",
+          "tags": []
+        },
+        {
+          "id": 68495872,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "We are so back! There’s so much richness in here that I wish I could binge this entire season already. The energy and breakneck pace (no pun intended) is so seductive that it becomes easy to disregard the fact that it’s maybe moving a bit too quickly. Absolutely living for Lestat pushing that child—and we’re gonna need to talk about the tour bus setup.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-08T02:53:44Z",
+          "reviewDate": "2026-06-08T02:56:07Z",
+          "seasonId": 518147,
+          "episodeNumber": 1,
+          "episodeName": "Detroit",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-23T23:37:56Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-94997",
+      "serializdShowId": 94997,
+      "slug": "house-of-the-dragon-2022",
+      "name": "House of the Dragon",
+      "premiereYear": 2022,
+      "premiereDate": "2022-08-21",
+      "serializdUrl": "https://serializd.com/show/94997",
+      "tmdb": {
+        "id": 94997,
+        "name": "House of the Dragon",
+        "posterPath": "/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+        "backdropPath": "/577eXC8wFQT0eUrJcgznSiFPRmk.jpg",
+        "genres": [
+          "Sci-Fi & Fantasy",
+          "Drama",
+          "Action & Adventure"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 26
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+      "seasons": [
+        {
+          "serializdId": 309556,
+          "showId": 94997,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/n9z5p7psbfhLsaRyUrv0jrNCbh0.jpg",
+          "episodeCount": 81
+        },
+        {
+          "serializdId": 134965,
+          "showId": 94997,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/lx6hsqWXq4aVrXPjCqnMHFrGL5u.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 368014,
+          "showId": 94997,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/lZwxqNWnT1dRl76ry6BM0FPqCUg.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 449260,
+          "showId": 94997,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/wSvDQN6tZR4VzDDZD3MUPIghVjC.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 80107599,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A bit of a sleepy episode to me, but the last 10 minutes had motion!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-19T23:33:00Z",
+          "reviewDate": "2026-07-23T23:33:37Z",
+          "seasonId": 449260,
+          "episodeNumber": 5,
+          "episodeName": "Unbowed and Unbent",
+          "tags": []
+        },
+        {
+          "id": 77183453,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Ormund Hightower is terrifying. Seeing the dead dragons was depressing for a Sunday evening.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-12T15:59:00Z",
+          "reviewDate": "2026-07-13T16:00:30Z",
+          "seasonId": 449260,
+          "episodeNumber": 4,
+          "episodeName": "Tumbleton",
+          "tags": []
+        },
+        {
+          "id": 72944200,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Corlys snapped! I cannot believe they have Jace serving from the grave. It feels like the chess pieces are finally in an interesting position on the board.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-06T02:12:21Z",
+          "reviewDate": "2026-07-06T02:13:32Z",
+          "seasonId": 449260,
+          "episodeNumber": 3,
+          "episodeName": "Rhaenyra Triumphant",
+          "tags": []
+        },
+        {
+          "id": 70820885,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "There’s some pacing mismatch going on between the plot and the performances, but I’m glad to finally be in the heart of the series.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-29T03:37:05Z",
+          "reviewDate": "2026-06-29T03:37:44Z",
+          "seasonId": 449260,
+          "episodeNumber": 2,
+          "episodeName": "Queen's Landing",
+          "tags": []
+        },
+        {
+          "id": 70017465,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Like watching a train crash in slow-mo. Something felt not as rich in the battle look and feel, but the choreography is there. Gotta listen to your mother, kids!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-22T03:08:03Z",
+          "reviewDate": "2026-06-22T03:08:03Z",
+          "seasonId": 449260,
+          "episodeNumber": 1,
+          "episodeName": "Salt and Sea, Fire and Blood",
+          "tags": []
+        },
+        {
+          "id": 19832559,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I enjoyed most of this season, but I still need them to pick up the pace. The stakes seem appropriately set, but then the characters are not set up to action on them in any meaningful way. Or at least the audience does not see enough of those actions. The scene with Rhaenyra and Alicent in the sept, revealing how much is misunderstood between them, sticks out. As does the fourth episode. Melys and Rhaenys forever.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-08-04T18:34:00Z",
+          "reviewDate": "2024-08-25T18:37:08Z",
+          "seasonId": 368014,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2024,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        2
+      ],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        1
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-23T23:33:37Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-125988",
       "serializdShowId": 125988,
@@ -776,7 +1267,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 122
+          "episodeCount": 124
         },
         {
           "serializdId": 518119,
@@ -1688,7 +2179,7 @@
           "seasonNumber": 3,
           "name": "Season 3",
           "posterPath": "/iHlns2igeXlt2Gmz3cubTUOIQfa.jpg",
-          "episodeCount": 18
+          "episodeCount": 20
         }
       ],
       "reviews": [
@@ -2003,161 +2494,6 @@
       "hasShowReview": false,
       "isMiniseries": false,
       "latestActivityDate": "2026-07-16T04:05:35Z",
-      "primaryRating": 3,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-323411",
-      "serializdShowId": 323411,
-      "slug": "the-vampire-lestat-2026",
-      "name": "The Vampire Lestat",
-      "premiereYear": 2026,
-      "premiereDate": "2026-06-07",
-      "serializdUrl": "https://serializd.com/show/323411",
-      "tmdb": {
-        "id": 323411,
-        "name": "The Vampire Lestat",
-        "posterPath": "/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
-        "backdropPath": "/iw1knpC8Jg5davMn2MPxNVxBF8N.jpg",
-        "genres": [
-          "Drama",
-          "Sci-Fi & Fantasy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "AMC"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 7
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
-      "seasons": [
-        {
-          "serializdId": 518147,
-          "showId": 323411,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/Apu7qMx09KhDzpoDUTT8i9Ax3Ym.jpg",
-          "episodeCount": 7
-        }
-      ],
-      "reviews": [
-        {
-          "id": 77527273,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Yikes!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-14T05:25:04Z",
-          "reviewDate": "2026-07-14T05:25:04Z",
-          "seasonId": 518147,
-          "episodeNumber": 6,
-          "episodeName": "Montreal",
-          "tags": []
-        },
-        {
-          "id": 73198994,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Scoop.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-05T13:41:00Z",
-          "reviewDate": "2026-07-06T13:41:56Z",
-          "seasonId": 518147,
-          "episodeNumber": 5,
-          "episodeName": "New York",
-          "tags": []
-        },
-        {
-          "id": 71591282,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "It gets to a point…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-03T01:17:59Z",
-          "reviewDate": "2026-07-03T01:17:59Z",
-          "seasonId": 518147,
-          "episodeNumber": 4,
-          "episodeName": "The Devil's Road",
-          "tags": []
-        },
-        {
-          "id": 71544571,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-02T23:12:47Z",
-          "reviewDate": "2026-07-02T23:12:57Z",
-          "seasonId": 518147,
-          "episodeNumber": 3,
-          "episodeName": "Toronto",
-          "tags": []
-        },
-        {
-          "id": 69352689,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "The family that slays together. And Moses Sumney.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-15T19:48:51Z",
-          "reviewDate": "2026-06-15T19:51:28Z",
-          "seasonId": 518147,
-          "episodeNumber": 2,
-          "episodeName": "Toledo",
-          "tags": []
-        },
-        {
-          "id": 68495872,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "We are so back! There’s so much richness in here that I wish I could binge this entire season already. The energy and breakneck pace (no pun intended) is so seductive that it becomes easy to disregard the fact that it’s maybe moving a bit too quickly. Absolutely living for Lestat pushing that child—and we’re gonna need to talk about the tour bus setup.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-08T02:53:44Z",
-          "reviewDate": "2026-06-08T02:56:07Z",
-          "seasonId": 518147,
-          "episodeNumber": 1,
-          "episodeName": "Detroit",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-07-14T05:25:04Z",
       "primaryRating": 3,
       "liked": false
     },
@@ -6149,173 +6485,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-07-14T01:13:51Z",
       "primaryRating": 4,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-94997",
-      "serializdShowId": 94997,
-      "slug": "house-of-the-dragon-2022",
-      "name": "House of the Dragon",
-      "premiereYear": 2022,
-      "premiereDate": "2022-08-21",
-      "serializdUrl": "https://serializd.com/show/94997",
-      "tmdb": {
-        "id": 94997,
-        "name": "House of the Dragon",
-        "posterPath": "/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
-        "backdropPath": "/577eXC8wFQT0eUrJcgznSiFPRmk.jpg",
-        "genres": [
-          "Sci-Fi & Fantasy",
-          "Drama",
-          "Action & Adventure"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 26
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
-      "seasons": [
-        {
-          "serializdId": 309556,
-          "showId": 94997,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/n9z5p7psbfhLsaRyUrv0jrNCbh0.jpg",
-          "episodeCount": 81
-        },
-        {
-          "serializdId": 134965,
-          "showId": 94997,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/lx6hsqWXq4aVrXPjCqnMHFrGL5u.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 368014,
-          "showId": 94997,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/lZwxqNWnT1dRl76ry6BM0FPqCUg.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 449260,
-          "showId": 94997,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/wSvDQN6tZR4VzDDZD3MUPIghVjC.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 77183453,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Ormund Hightower is terrifying. Seeing the dead dragons was depressing for a Sunday evening.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-12T15:59:00Z",
-          "reviewDate": "2026-07-13T16:00:30Z",
-          "seasonId": 449260,
-          "episodeNumber": 4,
-          "episodeName": "Tumbleton",
-          "tags": []
-        },
-        {
-          "id": 72944200,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Corlys snapped! I cannot believe they have Jace serving from the grave. It feels like the chess pieces are finally in an interesting position on the board.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-06T02:12:21Z",
-          "reviewDate": "2026-07-06T02:13:32Z",
-          "seasonId": 449260,
-          "episodeNumber": 3,
-          "episodeName": "Rhaenyra Triumphant",
-          "tags": []
-        },
-        {
-          "id": 70820885,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "There’s some pacing mismatch going on between the plot and the performances, but I’m glad to finally be in the heart of the series.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-29T03:37:05Z",
-          "reviewDate": "2026-06-29T03:37:44Z",
-          "seasonId": 449260,
-          "episodeNumber": 2,
-          "episodeName": "Queen's Landing",
-          "tags": []
-        },
-        {
-          "id": 70017465,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Like watching a train crash in slow-mo. Something felt not as rich in the battle look and feel, but the choreography is there. Gotta listen to your mother, kids!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-22T03:08:03Z",
-          "reviewDate": "2026-06-22T03:08:03Z",
-          "seasonId": 449260,
-          "episodeNumber": 1,
-          "episodeName": "Salt and Sea, Fire and Blood",
-          "tags": []
-        },
-        {
-          "id": 19832559,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I enjoyed most of this season, but I still need them to pick up the pace. The stakes seem appropriately set, but then the characters are not set up to action on them in any meaningful way. Or at least the audience does not see enough of those actions. The scene with Rhaenyra and Alicent in the sept, revealing how much is misunderstood between them, sticks out. As does the fourth episode. Melys and Rhaenys forever.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-08-04T18:34:00Z",
-          "reviewDate": "2024-08-25T18:37:08Z",
-          "seasonId": 368014,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2024,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        2
-      ],
-      "inProgressSeasonNumbers": [
-        3
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        1
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-07-13T16:00:30Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -28217,6 +28386,497 @@
     }
   ],
   "showById": {
+    "tmdb-tv-241882": {
+      "id": "tmdb-tv-241882",
+      "serializdShowId": 241882,
+      "slug": "ride-or-die-2026",
+      "name": "Ride or Die",
+      "premiereYear": 2026,
+      "premiereDate": "2026-07-15",
+      "serializdUrl": "https://serializd.com/show/241882",
+      "tmdb": {
+        "id": 241882,
+        "name": "Ride or Die",
+        "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+        "backdropPath": "/jwCXxvbLno5GrGDA9KvQ22uLziM.jpg",
+        "genres": [
+          "Action & Adventure"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Prime Video"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+      "seasons": [
+        {
+          "serializdId": 370527,
+          "showId": 241882,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/uWqEnvpwa2U28QheMdUdEcr4U0M.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 80108349,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-21T23:39:00Z",
+          "reviewDate": "2026-07-23T23:39:40Z",
+          "seasonId": 370527,
+          "episodeNumber": 4,
+          "episodeName": "The Spanish Prisoner",
+          "tags": []
+        },
+        {
+          "id": 80108305,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-21T23:39:00Z",
+          "reviewDate": "2026-07-23T23:39:18Z",
+          "seasonId": 370527,
+          "episodeNumber": 3,
+          "episodeName": "Strangers on a Train",
+          "tags": []
+        },
+        {
+          "id": 80108279,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The adult female friendship of it all is making me so emotional.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-20T23:38:00Z",
+          "reviewDate": "2026-07-23T23:39:07Z",
+          "seasonId": 370527,
+          "episodeNumber": 2,
+          "episodeName": "The Yellow Wood",
+          "tags": []
+        },
+        {
+          "id": 80108200,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-20T23:38:00Z",
+          "reviewDate": "2026-07-23T23:38:35Z",
+          "seasonId": 370527,
+          "episodeNumber": 1,
+          "episodeName": "The Book of Judith",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-23T23:39:40Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
+    "tmdb-tv-323411": {
+      "id": "tmdb-tv-323411",
+      "serializdShowId": 323411,
+      "slug": "the-vampire-lestat-2026",
+      "name": "The Vampire Lestat",
+      "premiereYear": 2026,
+      "premiereDate": "2026-06-07",
+      "serializdUrl": "https://serializd.com/show/323411",
+      "tmdb": {
+        "id": 323411,
+        "name": "The Vampire Lestat",
+        "posterPath": "/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
+        "backdropPath": "/iw1knpC8Jg5davMn2MPxNVxBF8N.jpg",
+        "genres": [
+          "Drama",
+          "Sci-Fi & Fantasy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "AMC"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 7
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
+      "seasons": [
+        {
+          "serializdId": 518147,
+          "showId": 323411,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/Apu7qMx09KhDzpoDUTT8i9Ax3Ym.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 80108120,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Lots of great performances, but so much whiplash between differently amazing moments. I guess I wish this were less frenetic, as much as that’s what it is to be inside Lestat’s point of view. This feels like seeing the show paint itself into a corner, but the team seems unfazed by this…so I guess not?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-19T23:36:00Z",
+          "reviewDate": "2026-07-23T23:37:56Z",
+          "seasonId": 518147,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 80107954,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "As a standalone episode, this was amazing. You can see everyone firing on all cylinders to deliver this work. But I don’t know that it works outside of its runtime, which is a problem of the season as much as of the episode.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-19T23:34:00Z",
+          "reviewDate": "2026-07-23T23:36:15Z",
+          "seasonId": 518147,
+          "episodeNumber": 7,
+          "episodeName": "The Failures",
+          "tags": []
+        },
+        {
+          "id": 77527273,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Yikes!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-14T05:25:04Z",
+          "reviewDate": "2026-07-14T05:25:04Z",
+          "seasonId": 518147,
+          "episodeNumber": 6,
+          "episodeName": "Montreal",
+          "tags": []
+        },
+        {
+          "id": 73198994,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Scoop.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-05T13:41:00Z",
+          "reviewDate": "2026-07-06T13:41:56Z",
+          "seasonId": 518147,
+          "episodeNumber": 5,
+          "episodeName": "New York",
+          "tags": []
+        },
+        {
+          "id": 71591282,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "It gets to a point…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-03T01:17:59Z",
+          "reviewDate": "2026-07-03T01:17:59Z",
+          "seasonId": 518147,
+          "episodeNumber": 4,
+          "episodeName": "The Devil's Road",
+          "tags": []
+        },
+        {
+          "id": 71544571,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-02T23:12:47Z",
+          "reviewDate": "2026-07-02T23:12:57Z",
+          "seasonId": 518147,
+          "episodeNumber": 3,
+          "episodeName": "Toronto",
+          "tags": []
+        },
+        {
+          "id": 69352689,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The family that slays together. And Moses Sumney.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-15T19:48:51Z",
+          "reviewDate": "2026-06-15T19:51:28Z",
+          "seasonId": 518147,
+          "episodeNumber": 2,
+          "episodeName": "Toledo",
+          "tags": []
+        },
+        {
+          "id": 68495872,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "We are so back! There’s so much richness in here that I wish I could binge this entire season already. The energy and breakneck pace (no pun intended) is so seductive that it becomes easy to disregard the fact that it’s maybe moving a bit too quickly. Absolutely living for Lestat pushing that child—and we’re gonna need to talk about the tour bus setup.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-08T02:53:44Z",
+          "reviewDate": "2026-06-08T02:56:07Z",
+          "seasonId": 518147,
+          "episodeNumber": 1,
+          "episodeName": "Detroit",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-23T23:37:56Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
+    "tmdb-tv-94997": {
+      "id": "tmdb-tv-94997",
+      "serializdShowId": 94997,
+      "slug": "house-of-the-dragon-2022",
+      "name": "House of the Dragon",
+      "premiereYear": 2022,
+      "premiereDate": "2022-08-21",
+      "serializdUrl": "https://serializd.com/show/94997",
+      "tmdb": {
+        "id": 94997,
+        "name": "House of the Dragon",
+        "posterPath": "/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+        "backdropPath": "/577eXC8wFQT0eUrJcgznSiFPRmk.jpg",
+        "genres": [
+          "Sci-Fi & Fantasy",
+          "Drama",
+          "Action & Adventure"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO"
+        ],
+        "numberOfSeasons": 3,
+        "numberOfEpisodes": 26
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
+      "seasons": [
+        {
+          "serializdId": 309556,
+          "showId": 94997,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/n9z5p7psbfhLsaRyUrv0jrNCbh0.jpg",
+          "episodeCount": 81
+        },
+        {
+          "serializdId": 134965,
+          "showId": 94997,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/lx6hsqWXq4aVrXPjCqnMHFrGL5u.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 368014,
+          "showId": 94997,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/lZwxqNWnT1dRl76ry6BM0FPqCUg.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 449260,
+          "showId": 94997,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/wSvDQN6tZR4VzDDZD3MUPIghVjC.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 80107599,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A bit of a sleepy episode to me, but the last 10 minutes had motion!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-19T23:33:00Z",
+          "reviewDate": "2026-07-23T23:33:37Z",
+          "seasonId": 449260,
+          "episodeNumber": 5,
+          "episodeName": "Unbowed and Unbent",
+          "tags": []
+        },
+        {
+          "id": 77183453,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Ormund Hightower is terrifying. Seeing the dead dragons was depressing for a Sunday evening.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-12T15:59:00Z",
+          "reviewDate": "2026-07-13T16:00:30Z",
+          "seasonId": 449260,
+          "episodeNumber": 4,
+          "episodeName": "Tumbleton",
+          "tags": []
+        },
+        {
+          "id": 72944200,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Corlys snapped! I cannot believe they have Jace serving from the grave. It feels like the chess pieces are finally in an interesting position on the board.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-06T02:12:21Z",
+          "reviewDate": "2026-07-06T02:13:32Z",
+          "seasonId": 449260,
+          "episodeNumber": 3,
+          "episodeName": "Rhaenyra Triumphant",
+          "tags": []
+        },
+        {
+          "id": 70820885,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "There’s some pacing mismatch going on between the plot and the performances, but I’m glad to finally be in the heart of the series.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-29T03:37:05Z",
+          "reviewDate": "2026-06-29T03:37:44Z",
+          "seasonId": 449260,
+          "episodeNumber": 2,
+          "episodeName": "Queen's Landing",
+          "tags": []
+        },
+        {
+          "id": 70017465,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Like watching a train crash in slow-mo. Something felt not as rich in the battle look and feel, but the choreography is there. Gotta listen to your mother, kids!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-06-22T03:08:03Z",
+          "reviewDate": "2026-06-22T03:08:03Z",
+          "seasonId": 449260,
+          "episodeNumber": 1,
+          "episodeName": "Salt and Sea, Fire and Blood",
+          "tags": []
+        },
+        {
+          "id": 19832559,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I enjoyed most of this season, but I still need them to pick up the pace. The stakes seem appropriately set, but then the characters are not set up to action on them in any meaningful way. Or at least the audience does not see enough of those actions. The scene with Rhaenyra and Alicent in the sept, revealing how much is misunderstood between them, sticks out. As does the fourth episode. Melys and Rhaenys forever.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-08-04T18:34:00Z",
+          "reviewDate": "2024-08-25T18:37:08Z",
+          "seasonId": 368014,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2024,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        2
+      ],
+      "inProgressSeasonNumbers": [
+        3
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        1
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-07-23T23:33:37Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     "tmdb-tv-125988": {
       "id": "tmdb-tv-125988",
       "serializdShowId": 125988,
@@ -28914,7 +29574,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 122
+          "episodeCount": 124
         },
         {
           "serializdId": 518119,
@@ -29826,7 +30486,7 @@
           "seasonNumber": 3,
           "name": "Season 3",
           "posterPath": "/iHlns2igeXlt2Gmz3cubTUOIQfa.jpg",
-          "episodeCount": 18
+          "episodeCount": 20
         }
       ],
       "reviews": [
@@ -30141,161 +30801,6 @@
       "hasShowReview": false,
       "isMiniseries": false,
       "latestActivityDate": "2026-07-16T04:05:35Z",
-      "primaryRating": 3,
-      "liked": false
-    },
-    "tmdb-tv-323411": {
-      "id": "tmdb-tv-323411",
-      "serializdShowId": 323411,
-      "slug": "the-vampire-lestat-2026",
-      "name": "The Vampire Lestat",
-      "premiereYear": 2026,
-      "premiereDate": "2026-06-07",
-      "serializdUrl": "https://serializd.com/show/323411",
-      "tmdb": {
-        "id": 323411,
-        "name": "The Vampire Lestat",
-        "posterPath": "/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
-        "backdropPath": "/iw1knpC8Jg5davMn2MPxNVxBF8N.jpg",
-        "genres": [
-          "Drama",
-          "Sci-Fi & Fantasy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "AMC"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 7
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gZcmNUcDDR1nR7lmroOJTCrhrhK.jpg",
-      "seasons": [
-        {
-          "serializdId": 518147,
-          "showId": 323411,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/Apu7qMx09KhDzpoDUTT8i9Ax3Ym.jpg",
-          "episodeCount": 7
-        }
-      ],
-      "reviews": [
-        {
-          "id": 77527273,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Yikes!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-14T05:25:04Z",
-          "reviewDate": "2026-07-14T05:25:04Z",
-          "seasonId": 518147,
-          "episodeNumber": 6,
-          "episodeName": "Montreal",
-          "tags": []
-        },
-        {
-          "id": 73198994,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Scoop.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-05T13:41:00Z",
-          "reviewDate": "2026-07-06T13:41:56Z",
-          "seasonId": 518147,
-          "episodeNumber": 5,
-          "episodeName": "New York",
-          "tags": []
-        },
-        {
-          "id": 71591282,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "It gets to a point…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-03T01:17:59Z",
-          "reviewDate": "2026-07-03T01:17:59Z",
-          "seasonId": 518147,
-          "episodeNumber": 4,
-          "episodeName": "The Devil's Road",
-          "tags": []
-        },
-        {
-          "id": 71544571,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-02T23:12:47Z",
-          "reviewDate": "2026-07-02T23:12:57Z",
-          "seasonId": 518147,
-          "episodeNumber": 3,
-          "episodeName": "Toronto",
-          "tags": []
-        },
-        {
-          "id": 69352689,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "The family that slays together. And Moses Sumney.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-15T19:48:51Z",
-          "reviewDate": "2026-06-15T19:51:28Z",
-          "seasonId": 518147,
-          "episodeNumber": 2,
-          "episodeName": "Toledo",
-          "tags": []
-        },
-        {
-          "id": 68495872,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "We are so back! There’s so much richness in here that I wish I could binge this entire season already. The energy and breakneck pace (no pun intended) is so seductive that it becomes easy to disregard the fact that it’s maybe moving a bit too quickly. Absolutely living for Lestat pushing that child—and we’re gonna need to talk about the tour bus setup.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-08T02:53:44Z",
-          "reviewDate": "2026-06-08T02:56:07Z",
-          "seasonId": 518147,
-          "episodeNumber": 1,
-          "episodeName": "Detroit",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-07-14T05:25:04Z",
       "primaryRating": 3,
       "liked": false
     },
@@ -34287,173 +34792,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-07-14T01:13:51Z",
       "primaryRating": 4,
-      "liked": false
-    },
-    "tmdb-tv-94997": {
-      "id": "tmdb-tv-94997",
-      "serializdShowId": 94997,
-      "slug": "house-of-the-dragon-2022",
-      "name": "House of the Dragon",
-      "premiereYear": 2022,
-      "premiereDate": "2022-08-21",
-      "serializdUrl": "https://serializd.com/show/94997",
-      "tmdb": {
-        "id": 94997,
-        "name": "House of the Dragon",
-        "posterPath": "/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
-        "backdropPath": "/577eXC8wFQT0eUrJcgznSiFPRmk.jpg",
-        "genres": [
-          "Sci-Fi & Fantasy",
-          "Drama",
-          "Action & Adventure"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO"
-        ],
-        "numberOfSeasons": 3,
-        "numberOfEpisodes": 26
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7V0Ebks0GgpKvQ7QbLAIdX5dos4.jpg",
-      "seasons": [
-        {
-          "serializdId": 309556,
-          "showId": 94997,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/n9z5p7psbfhLsaRyUrv0jrNCbh0.jpg",
-          "episodeCount": 81
-        },
-        {
-          "serializdId": 134965,
-          "showId": 94997,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/lx6hsqWXq4aVrXPjCqnMHFrGL5u.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 368014,
-          "showId": 94997,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/lZwxqNWnT1dRl76ry6BM0FPqCUg.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 449260,
-          "showId": 94997,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/wSvDQN6tZR4VzDDZD3MUPIghVjC.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 77183453,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Ormund Hightower is terrifying. Seeing the dead dragons was depressing for a Sunday evening.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-12T15:59:00Z",
-          "reviewDate": "2026-07-13T16:00:30Z",
-          "seasonId": 449260,
-          "episodeNumber": 4,
-          "episodeName": "Tumbleton",
-          "tags": []
-        },
-        {
-          "id": 72944200,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Corlys snapped! I cannot believe they have Jace serving from the grave. It feels like the chess pieces are finally in an interesting position on the board.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-06T02:12:21Z",
-          "reviewDate": "2026-07-06T02:13:32Z",
-          "seasonId": 449260,
-          "episodeNumber": 3,
-          "episodeName": "Rhaenyra Triumphant",
-          "tags": []
-        },
-        {
-          "id": 70820885,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "There’s some pacing mismatch going on between the plot and the performances, but I’m glad to finally be in the heart of the series.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-29T03:37:05Z",
-          "reviewDate": "2026-06-29T03:37:44Z",
-          "seasonId": 449260,
-          "episodeNumber": 2,
-          "episodeName": "Queen's Landing",
-          "tags": []
-        },
-        {
-          "id": 70017465,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Like watching a train crash in slow-mo. Something felt not as rich in the battle look and feel, but the choreography is there. Gotta listen to your mother, kids!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-06-22T03:08:03Z",
-          "reviewDate": "2026-06-22T03:08:03Z",
-          "seasonId": 449260,
-          "episodeNumber": 1,
-          "episodeName": "Salt and Sea, Fire and Blood",
-          "tags": []
-        },
-        {
-          "id": 19832559,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I enjoyed most of this season, but I still need them to pick up the pace. The stakes seem appropriately set, but then the characters are not set up to action on them in any meaningful way. Or at least the audience does not see enough of those actions. The scene with Rhaenyra and Alicent in the sept, revealing how much is misunderstood between them, sticks out. As does the fourth episode. Melys and Rhaenys forever.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-08-04T18:34:00Z",
-          "reviewDate": "2024-08-25T18:37:08Z",
-          "seasonId": 368014,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2024,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        2
-      ],
-      "inProgressSeasonNumbers": [
-        3
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        1
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-07-13T16:00:30Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-58957": {
@@ -56925,7 +57263,7 @@
       "serializdShowId": 88512,
       "name": "Bonding",
       "premiereDate": "2019-04-24",
-      "bannerImage": "/kLGU1UerWYj6DMB7jRhpJCgak6b.jpg",
+      "bannerImage": "/uNLh6LhYajpXHkklMnTOe3oNaAt.jpg",
       "numSeasons": 2,
       "numEpisodes": 15,
       "watchedSeasonIds": [
@@ -58931,7 +59269,7 @@
       "serializdShowId": 246,
       "name": "Avatar: The Last Airbender",
       "premiereDate": "2005-02-21",
-      "bannerImage": "/9RQhVb3r3mCMqYVhLoCu4EvuipP.jpg",
+      "bannerImage": "/yaGt4GIutpbXHsv48tWceWg6s56.jpg",
       "numSeasons": 3,
       "numEpisodes": 61,
       "watchedSeasonIds": [
