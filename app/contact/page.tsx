@@ -25,7 +25,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
-import { twitterAttribution } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
@@ -92,6 +92,25 @@ export const metadata: Metadata = {
   },
 };
 
+// ─── JSON-LD: ContactPage ─────────────────────────────────────────
+// /contact is a ContactPage — the last of the four primary recruiter
+// pages to get its own page-type node, so all four (ProfilePage,
+// AboutPage, CollectionPage, ContactPage) connect into the sitewide
+// graph identically. isPartOf points at the WebSite `@id`; mainEntity
+// points at the canonical Person `@id` declared once in app/layout.tsx,
+// so a retriever landing here resolves "this is the contact surface for
+// that one person" rather than treating the page as orphaned. Not a
+// rich-result type — pure graph-completeness / AEO hygiene.
+const CONTACT_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "@id": `${SITE_URL}/contact/#contactpage`,
+  url: `${SITE_URL}/contact`,
+  name: "Contact Malcolm Xavier",
+  isPartOf: { "@id": `${SITE_URL}/#website` },
+  mainEntity: { "@id": `${SITE_URL}/#person` },
+};
+
 // "Direct" methods — the right column on desktop. Each row is an
 // icon + a single visible value (the platform name, or the email
 // address). Per the "no handles on platform links" rule, only email
@@ -128,7 +147,13 @@ export default function ContactPage() {
   ];
 
   return (
-    <Container size="md">
+    <>
+      {/* ContactPage JSON-LD — see CONTACT_SCHEMA above. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(CONTACT_SCHEMA) }}
+      />
+      <Container size="md">
       {/* ─── Hero ──────────────────────────────────────────────── */}
       <Section padding="lg">
         <Stack gap="500">
@@ -316,5 +341,6 @@ export default function ContactPage() {
         </div>
       </Section>
     </Container>
+    </>
   );
 }
