@@ -808,6 +808,33 @@ const MAX_CONCURRENT_REQUESTS = 3;
 const RATE_LIMIT_MAX_RETRIES = 4;
 
 /**
+ * Statuses we treat as "Spotify's edge blipped, try again" rather
+ * than "this request is wrong". Observed 2026-07-26: api.spotify.com
+ * intermittently returns 503 with a completely empty body (no
+ * Retry-After, no JSON error envelope) on perfectly valid requests —
+ * roughly 1 call in 10-20 during an episode. It's edge load-shedding,
+ * not rate limiting, which is why it carries none of a 429's signals.
+ *
+ * Without a retry these are fatal to any multi-request flow: a
+ * snapshot capture makes ~100 calls, so even a 5% per-call failure
+ * rate means the capture almost never completes. 429 is deliberately
+ * NOT in this set — it has its own handling above with Spotify's own
+ * Retry-After timing, which we must honor rather than guess at.
+ */
+const TRANSIENT_STATUSES = new Set([500, 502, 503, 504]);
+
+/** Number of times to retry a transient 5xx before giving up. */
+const TRANSIENT_MAX_RETRIES = 3;
+
+/**
+ * Base delay for transient-5xx backoff, doubled per attempt
+ * (500ms → 1s → 2s; 3.5s worst case per request). Deliberately short:
+ * these blips clear in well under a second, and the capture path
+ * multiplies any delay by ~100 requests.
+ */
+const TRANSIENT_BASE_DELAY_MS = 500;
+
+/**
  * Threshold (seconds) above which we treat the Retry-After header
  * as "this is a multi-minute / multi-hour cool-down, give up now".
  * For short bursts (a few seconds) it's worth sleeping and retrying;
@@ -890,8 +917,13 @@ export function endpointFamily(url: string): string {
 /**
  * Fetch wrapper that adds the Authorization header, throttles
  * concurrent requests via a tiny semaphore, retries on short 429s
- * honoring Spotify's Retry-After header, and short-circuits when
- * we're already in a tracked cool-down for the endpoint family.
+ * honoring Spotify's Retry-After header, retries transient 5xx edge
+ * blips on its own backoff, and short-circuits when we're already in
+ * a tracked cool-down for the endpoint family.
+ *
+ * Transient 5xx (500/502/504 and especially 503) are a separate mode
+ * from rate limiting: no Retry-After, usually an empty body, and they
+ * clear in under a second. See TRANSIENT_STATUSES for the full note.
  *
  * Three distinct 429 paths:
  *   0. KNOWN cool-down (cooldown map): throw immediately without
@@ -939,8 +971,17 @@ async function spotifyFetch(url: string): Promise<Response> {
     // 2026-04-29 /full-review.
     let lastStatus: number | null = null;
     let token401Retries = 0;
+    let rateLimitRetries = 0;
+    let transientRetries = 0;
     const MAX_TOKEN_401_RETRIES = 2;
-    for (let attempt = 0; attempt <= RATE_LIMIT_MAX_RETRIES; attempt++) {
+    // Each failure mode carries its own budget (above) so one can't
+    // starve another — a couple of token re-mints must not consume
+    // the 429 allowance, and neither must a transient-5xx retry. The
+    // loop bound is therefore just a safety net: the sum of every
+    // budget, so no combination of modes can spin forever.
+    const MAX_TOTAL_ATTEMPTS =
+      RATE_LIMIT_MAX_RETRIES + TRANSIENT_MAX_RETRIES + MAX_TOKEN_401_RETRIES;
+    for (let attempt = 0; attempt <= MAX_TOTAL_ATTEMPTS; attempt++) {
       const res = await fetch(url, {
         headers: { Authorization: `Bearer ${token}` },
         // Defer caching to Next.js at the call-site.
@@ -984,11 +1025,25 @@ async function spotifyFetch(url: string): Promise<Response> {
         // Short cool-down — sleep and retry. Cap at 30s per attempt
         // so even an unexpectedly long short-burst Retry-After
         // doesn't hang the request.
-        if (attempt < RATE_LIMIT_MAX_RETRIES) {
+        if (rateLimitRetries < RATE_LIMIT_MAX_RETRIES) {
+          rateLimitRetries++;
           const waitMs = Math.min(Math.max(retryAfter, 1), 30) * 1000;
           await new Promise((r) => setTimeout(r, waitMs));
           continue;
         }
+      }
+      // Transient edge failure — back off briefly and retry. These
+      // carry no Retry-After (and usually no body at all), so we pick
+      // our own escalating delay rather than honoring Spotify's.
+      if (TRANSIENT_STATUSES.has(res.status)) {
+        if (transientRetries < TRANSIENT_MAX_RETRIES) {
+          const waitMs = TRANSIENT_BASE_DELAY_MS * 2 ** transientRetries;
+          transientRetries++;
+          await new Promise((r) => setTimeout(r, waitMs));
+          continue;
+        }
+        // Budget spent — fall through to the throw below, which
+        // reports the real status and an empty body verbatim.
       }
       if (!res.ok) {
         throw new Error(
@@ -1069,6 +1124,7 @@ export type SpotifyHealth = {
  */
 async function probeSpotifyEndpoint(
   pathWithQuery: string,
+  isRetry = false,
 ): Promise<SpotifyProbeResult> {
   const token = await getAccessToken();
   const url = `${API_BASE}${pathWithQuery}`;
@@ -1095,6 +1151,17 @@ async function probeSpotifyEndpoint(
       retryAfterSeconds,
       clearAt,
     };
+  }
+
+  // A transient edge blip would otherwise fail the whole gate closed
+  // and — because the refresh script reads any non-ok probe as
+  // trouble — get reported as a rate limit, which sends the operator
+  // off waiting for a cool-down that was never running. Re-probe once
+  // before believing it. Exactly one retry: a genuine outage still
+  // surfaces honestly rather than being papered over.
+  if (TRANSIENT_STATUSES.has(res.status) && !isRetry) {
+    await new Promise((r) => setTimeout(r, TRANSIENT_BASE_DELAY_MS));
+    return probeSpotifyEndpoint(pathWithQuery, true);
   }
 
   // Trim any other error body so JSON responses stay sane.

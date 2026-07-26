@@ -7,13 +7,15 @@
 //   • endpointFamily() — Spotify URL bucket-grouping heuristic
 //   • cooldown map — set/get/expire/delete behavior
 //   • getMusicData() — snapshot fallback (offline-mode path)
+//   • transient 5xx retry — spotifyFetch's backoff and the health
+//     probe's single re-probe (added 2026-07-26; mocks global fetch
+//     including the token mint)
 //
 // What's NOT covered (left as known unknowns):
-//   • Live spotifyFetch path — would require mocking global fetch
-//     plus the access-token mint plus the semaphore. The cooldown
-//     test below covers the OBSERVABLE state-management surface
-//     directly via __testCooldowns, which is the part that matters
-//     for the rate-limit hardening shipped 2026-04-28.
+//   • The 429 branch of spotifyFetch — the cooldown test below
+//     covers the OBSERVABLE state-management surface directly via
+//     __testCooldowns, which is the part that matters for the
+//     rate-limit hardening shipped 2026-04-28.
 //   • PreviewRow rendering, JSX components — no jsdom configured.
 // ─────────────────────────────────────────────────────────────────
 
@@ -22,6 +24,8 @@ import {
   endpointFamily,
   __testCooldowns,
   getMusicData,
+  getOwnedPlaylists,
+  pingSpotifyHealth,
 } from "./spotify";
 
 describe("endpointFamily", () => {
@@ -195,5 +199,132 @@ describe("getMusicData (snapshot fallback path)", () => {
       [],
     );
     expect(reordered.playlists[0].id).toBe(wantedFirst);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────
+// Transient 5xx retry (added 2026-07-26).
+//
+// Spotify's edge intermittently returns 503 with a completely empty
+// body on valid requests — no Retry-After, no error envelope. Before
+// this handling, one such blip anywhere in a ~100-request snapshot
+// capture aborted the whole run, and the refresh script reported it
+// as a rate limit, sending the operator off to wait out a cool-down
+// that was never running.
+//
+// These tests DO mock global fetch (both the token mint and the API
+// call), which the header note above previously listed as not-covered.
+// ─────────────────────────────────────────────────────────────────
+
+describe("transient 5xx handling", () => {
+  const savedEnv = { ...process.env };
+
+  /** A well-formed token-mint response, so getAccessToken() succeeds. */
+  const tokenResponse = () =>
+    new Response(
+      JSON.stringify({
+        access_token: "test-access-token",
+        token_type: "Bearer",
+        expires_in: 3600,
+      }),
+      { status: 200, headers: { "content-type": "application/json" } },
+    );
+
+  /** An empty-body 503 — exactly the shape observed from Spotify. */
+  const transient503 = () => new Response("", { status: 503 });
+
+  /** A valid single-page /me/playlists listing with no items. */
+  const emptyListing = () =>
+    new Response(JSON.stringify({ items: [], next: null }), {
+      status: 200,
+      headers: { "content-type": "application/json" },
+    });
+
+  beforeEach(() => {
+    // Live path only — offline mode short-circuits before any fetch.
+    delete process.env.SPOTIFY_OFFLINE;
+    process.env.SPOTIFY_CLIENT_ID = "test-id";
+    process.env.SPOTIFY_CLIENT_SECRET = "test-secret";
+    process.env.SPOTIFY_REFRESH_TOKEN = "test-refresh";
+    __testCooldowns.clear();
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    vi.useRealTimers();
+    process.env = { ...savedEnv };
+    __testCooldowns.clear();
+  });
+
+  /**
+   * Stub global fetch: token mints always succeed; API calls replay
+   * the supplied queue of responses in order. Returns the recorded
+   * API URLs so a test can assert how many real attempts happened.
+   */
+  function stubFetch(apiResponses: Array<() => Response>) {
+    const apiCalls: string[] = [];
+    let i = 0;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (input: RequestInfo | URL) => {
+        const url = String(input);
+        if (url.includes("accounts.spotify.com")) return tokenResponse();
+        apiCalls.push(url);
+        const next = apiResponses[Math.min(i, apiResponses.length - 1)];
+        i++;
+        return next();
+      }),
+    );
+    return apiCalls;
+  }
+
+  it("retries a 503 and succeeds when the blip clears", async () => {
+    const apiCalls = stubFetch([transient503, emptyListing]);
+
+    const result = await getOwnedPlaylists("malcolmxevans");
+
+    expect(result).toEqual([]);
+    // One failed attempt plus one successful retry.
+    expect(apiCalls).toHaveLength(2);
+  });
+
+  it("retries a 503 up to the budget, then throws with the real status", async () => {
+    const apiCalls = stubFetch([transient503]);
+
+    await expect(getOwnedPlaylists("malcolmxevans")).rejects.toThrow(/503/);
+
+    // Initial attempt + TRANSIENT_MAX_RETRIES (3) = 4 total. Asserting
+    // the exact count is the point: an unbounded retry would hang the
+    // capture instead of failing it.
+    expect(apiCalls).toHaveLength(4);
+  });
+
+  it("does not retry a 404 — only transient statuses get a second chance", async () => {
+    const apiCalls = stubFetch([() => new Response("", { status: 404 })]);
+
+    await expect(getOwnedPlaylists("malcolmxevans")).rejects.toThrow(/404/);
+    expect(apiCalls).toHaveLength(1);
+  });
+
+  it("health re-probes once on a 503 and reports ok when it clears", async () => {
+    // /me blips then clears; /me/playlists is clean on first try.
+    stubFetch([transient503, emptyListing, emptyListing]);
+
+    const health = await pingSpotifyHealth();
+
+    expect(health.ok).toBe(true);
+    expect(health.probes.every((p) => p.ok)).toBe(true);
+  });
+
+  it("health reports a persistent 503 honestly rather than papering over it", async () => {
+    stubFetch([transient503]);
+
+    const health = await pingSpotifyHealth();
+
+    expect(health.ok).toBe(false);
+    const failed = health.probes.find((p) => !p.ok);
+    expect(failed?.status).toBe(503);
+    // Not a rate limit — nothing should suggest a cool-down to wait out.
+    expect(health.worstRetryAfterSeconds).toBe(0);
   });
 });
