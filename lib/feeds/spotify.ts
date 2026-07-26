@@ -78,7 +78,6 @@ export type {
 import type {
   EnrichedPlaylist,
   SpotifyPlaylistSummary,
-  SpotifyPlaylistItemsPage,
   SpotifyTrack,
 } from "./spotify-utils";
 
