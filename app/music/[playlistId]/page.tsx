@@ -20,7 +20,6 @@ import { ShareBar } from "@/components/share/ShareBar";
 import { twitterAttribution } from "@/lib/site-config";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
-import { Headline } from "@/components/typography/Headline";
 import { Lede } from "@/components/typography/Lede";
 import { Kicker } from "@/components/typography/Kicker";
 import { Button } from "@/components/primitives/Button";
@@ -283,10 +282,10 @@ export default async function PlaylistDetailPage(
         {/* ─── Track list ─────────────────────────────────────── */}
         <Section padding="md" bordered>
           <Stack gap="500">
-            <Stack gap="200">
-              <Kicker>Tracks</Kicker>
-              <Headline level={2}>The whole list.</Headline>
-            </Stack>
+            {/* The kicker carries the section heading on its own — it's
+                the h2 the track list hangs off, so screen-reader users
+                still get a heading to navigate to. */}
+            <Kicker as="h2">Tracks</Kicker>
 
             <ol
               // Numbered list in source order — the playlist's own order.
