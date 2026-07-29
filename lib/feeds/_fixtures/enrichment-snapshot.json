@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-07-29T14:45:38.836Z",
+  "capturedAt": "2026-07-29T21:45:08.594Z",
   "meta": {
-    "films": 794,
+    "films": 796,
     "shows": 156,
     "collections": 74
   },
@@ -72950,6 +72950,121 @@
       ],
       "collection": null
     },
+    "1240889": {
+      "ratings": {
+        "imdb": 6.8,
+        "metacritic": 91,
+        "metacriticUser": null,
+        "tomatoes": 100,
+        "rtAudience": null,
+        "letterboxd": null,
+        "trakt": 80
+      },
+      "studios": [
+        "Plan B Entertainment",
+        "MUBI"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": 10000000,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 2559506,
+          "name": "Hannah Einbinder"
+        },
+        {
+          "id": 12214,
+          "name": "Gillian Anderson"
+        },
+        {
+          "id": 3054663,
+          "name": "Amanda Fix"
+        },
+        {
+          "id": 3706720,
+          "name": "Arthur Conti"
+        },
+        {
+          "id": 2425998,
+          "name": "Eva Victor"
+        },
+        {
+          "id": 1838225,
+          "name": "Zach Cherry"
+        },
+        {
+          "id": 2198504,
+          "name": "Sarah Sherman"
+        },
+        {
+          "id": 52801,
+          "name": "Patrick Fischler"
+        },
+        {
+          "id": 19152,
+          "name": "Dylan Baker"
+        },
+        {
+          "id": 1508653,
+          "name": "Jasmin Savoy Brown"
+        },
+        {
+          "id": 2042690,
+          "name": "Quintessa Swindell"
+        },
+        {
+          "id": 58955,
+          "name": "Kevin McDonald"
+        },
+        {
+          "id": 1637781,
+          "name": "Jack Haven"
+        },
+        {
+          "id": 1292115,
+          "name": "Aren Buchholz"
+        },
+        {
+          "id": 1867030,
+          "name": "Florence Barrett"
+        },
+        {
+          "id": 3523597,
+          "name": "Jordana Summer"
+        },
+        {
+          "id": 4002063,
+          "name": "Ryan McEwen"
+        },
+        {
+          "id": 1287152,
+          "name": "William Vaughan"
+        },
+        {
+          "id": 1882895,
+          "name": "Hunter Dillon"
+        },
+        {
+          "id": 3191901,
+          "name": "Nikki Bryce"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1827119,
+          "name": "Jane Schoenbrun"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
+    },
     "1241436": {
       "ratings": {
         "imdb": 7.1,
@@ -81810,6 +81925,121 @@
         }
       ],
       "collection": null
+    },
+    "1361774": {
+      "ratings": {
+        "imdb": null,
+        "metacritic": 57,
+        "metacriticUser": 6.8,
+        "tomatoes": 71,
+        "rtAudience": 54,
+        "letterboxd": 2.9,
+        "trakt": 66
+      },
+      "studios": [
+        "Red Hour",
+        "Rivulet Media"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 543505,
+          "name": "Jake Johnson"
+        },
+        {
+          "id": 2453,
+          "name": "Mary Steenburgen"
+        },
+        {
+          "id": 2000658,
+          "name": "Chloe Fineman"
+        },
+        {
+          "id": 929121,
+          "name": "Aaron Chen"
+        },
+        {
+          "id": 10872,
+          "name": "Patton Oswalt"
+        },
+        {
+          "id": 1224927,
+          "name": "Andy Roddick"
+        },
+        {
+          "id": 215157,
+          "name": "John McEnroe"
+        },
+        {
+          "id": 7399,
+          "name": "Ben Stiller"
+        },
+        {
+          "id": 228,
+          "name": "Ed Harris"
+        },
+        {
+          "id": 7574,
+          "name": "Cleo King"
+        },
+        {
+          "id": 1232417,
+          "name": "Lynne Marie Stewart"
+        },
+        {
+          "id": 27530,
+          "name": "Don Lake"
+        },
+        {
+          "id": 1216179,
+          "name": "Wayne Wilderson"
+        },
+        {
+          "id": 111684,
+          "name": "Lennon Parham"
+        },
+        {
+          "id": 51382,
+          "name": "Chris Parnell"
+        },
+        {
+          "id": 56117,
+          "name": "Martin Kove"
+        },
+        {
+          "id": 15286,
+          "name": "Christine Taylor"
+        },
+        {
+          "id": 1183672,
+          "name": "Fortune Feimster"
+        },
+        {
+          "id": 206311,
+          "name": "Steve Berg"
+        },
+        {
+          "id": 6364608,
+          "name": "River Beier"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1698795,
+          "name": "Sean Clements"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "streaming",
+        "wide": false,
+        "ltd": false,
+        "gap": null
+      }
     },
     "1364608": {
       "ratings": {
