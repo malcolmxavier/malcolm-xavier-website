@@ -1,26 +1,27 @@
 {
-  "capturedAt": "2026-07-18T01:01:22.482Z",
+  "capturedAt": "2026-07-29T21:00:41.039Z",
   "summary": {
-    "totalFilms": 794,
-    "totalReviews": 794,
-    "thisYearCount": 153,
+    "totalFilms": 796,
+    "totalReviews": 797,
+    "thisYearCount": 155,
     "ratingDistribution": {
       "1": 40,
       "2": 128,
       "3": 150,
-      "4": 106,
+      "4": 107,
       "5": 16,
+      "4.5": 50,
+      "2.5": 103,
       "1.5": 39,
       "0.5": 10,
-      "2.5": 102,
-      "3.5": 154,
-      "4.5": 49
+      "3.5": 154
     },
     "genreDistribution": {
+      "Horror": 134,
+      "Comedy": 227,
       "Adventure": 85,
       "Action": 120,
       "Fantasy": 60,
-      "Comedy": 225,
       "Romance": 92,
       "Music": 50,
       "Drama": 376,
@@ -28,7 +29,6 @@
       "Thriller": 233,
       "Mystery": 83,
       "Crime": 107,
-      "Horror": 133,
       "History": 42,
       "War": 17,
       "Family": 21,
@@ -38,7 +38,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 592,
+      "2020s": 594,
       "2010s": 132,
       "1990s": 17,
       "2000s": 32,
@@ -49,18 +49,115 @@
   },
   "films": [
     {
+      "id": "tmdb-1240889",
+      "letterboxdSlug": "teenage-sex-and-death-at-camp-miasma",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/teenage-sex-and-death-at-camp-miasma/",
+      "title": "Teenage Sex and Death at Camp Miasma",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-07-27",
+      "latestWatchedDate": "2026-07-27",
+      "firstReviewDate": "2026-07-29",
+      "latestReviewDate": "2026-07-29",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1421636821",
+          "watchedDate": "2026-07-27",
+          "reviewDate": "2026-07-29",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I was in a group of over-serious zillennials, and when the lights came up I knew this mostly because everyone around me didn’t like it. Marketing got people in the seats, but not anyone who was media literate—mind you, this was for an industry early screening…meanwhile, I had a great time! I think there’s something so tender to how it all comes together while also being deeply funny. The artistry of the set design is something I’ll be thinking about for a while.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1240889,
+        "posterPath": "/nLsFnXifieSTqSeWxjXSS8RvaUZ.jpg",
+        "backdropPath": "/d1n2ySWSanU34eEsluRjfrjRq52.jpg",
+        "genres": [
+          "Horror",
+          "Comedy"
+        ],
+        "runtime": 112,
+        "director": "Jane Schoenbrun"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/nLsFnXifieSTqSeWxjXSS8RvaUZ.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/nLsFnXifieSTqSeWxjXSS8RvaUZ.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1361774",
+      "letterboxdSlug": "the-dink",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-dink/",
+      "title": "The Dink",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-07-27",
+      "latestWatchedDate": "2026-07-27",
+      "firstReviewDate": "2026-07-29",
+      "latestReviewDate": "2026-07-29",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1421614964",
+          "watchedDate": "2026-07-27",
+          "reviewDate": "2026-07-29",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "In a way this is effective pickleball propaganda aimed at tennis fans—mostly because of how John McEnroe finds a way to be annoying even in a scripted role. This was cute and charming, in the end, but I won’t fall for the marketing.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1361774,
+        "posterPath": "/8dq7vaUkXPqwqKxBFW4qJNBWeop.jpg",
+        "backdropPath": "/tJQhL95q63ITeBy5OTGPx51sFks.jpg",
+        "genres": [
+          "Comedy"
+        ],
+        "runtime": 103,
+        "director": "Josh Greenbaum"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/8dq7vaUkXPqwqKxBFW4qJNBWeop.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8dq7vaUkXPqwqKxBFW4qJNBWeop.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
       "id": "tmdb-1368337",
       "letterboxdSlug": "the-odyssey",
       "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-odyssey-2026/",
       "title": "The Odyssey",
       "releaseYear": 2026,
       "firstWatchedDate": "2026-07-17",
-      "latestWatchedDate": "2026-07-17",
+      "latestWatchedDate": "2026-07-27",
       "firstReviewDate": "2026-07-18",
-      "latestReviewDate": "2026-07-18",
+      "latestReviewDate": "2026-07-29",
       "primaryRating": 4,
       "liked": false,
       "reviews": [
+        {
+          "guid": "letterboxd-review-1421609920",
+          "watchedDate": "2026-07-27",
+          "reviewDate": "2026-07-29",
+          "rating": 4,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "Some deeper thoughts on a second viewing from a better seat. I think the thing about most Nolan films is that they rely on star power more than star performances. Nolan is far more interested in the visual element of film and that craft than any other element. There is still an art to casting for him, but it makes it so that performances are more prone to seeming uneven, both across the cast and across a work itself. Throughout the whole of this film, but mostly in the first act, you can feel the majority of the actors struggling with the more poetic parts of the script—if there’s a problem to be had with the language modernization, it’s that it puts this issue on full display. \n\nHere’s a shortlist of standout moments/performances for me:<br />1. Back to your disguises.<br />2. John Leguizamo<br />3. BEGGARS.<br />4. Zendaya, particularly that last sequence.<br />5. Anne Hathaway, especially when she realizes Odysseus is home.<br />6. Lupita, duh!<br />7. That one deer.<br />8. The progressive reveal of the taking of Troy—something really powerful about us not getting it all at once.",
+          "tags": []
+        },
         {
           "guid": "letterboxd-review-1400858810",
           "watchedDate": "2026-07-17",
@@ -34579,6 +34676,93 @@
     }
   ],
   "filmById": {
+    "tmdb-1240889": {
+      "id": "tmdb-1240889",
+      "letterboxdSlug": "teenage-sex-and-death-at-camp-miasma",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/teenage-sex-and-death-at-camp-miasma/",
+      "title": "Teenage Sex and Death at Camp Miasma",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-07-27",
+      "latestWatchedDate": "2026-07-27",
+      "firstReviewDate": "2026-07-29",
+      "latestReviewDate": "2026-07-29",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1421636821",
+          "watchedDate": "2026-07-27",
+          "reviewDate": "2026-07-29",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I was in a group of over-serious zillennials, and when the lights came up I knew this mostly because everyone around me didn’t like it. Marketing got people in the seats, but not anyone who was media literate—mind you, this was for an industry early screening…meanwhile, I had a great time! I think there’s something so tender to how it all comes together while also being deeply funny. The artistry of the set design is something I’ll be thinking about for a while.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1240889,
+        "posterPath": "/nLsFnXifieSTqSeWxjXSS8RvaUZ.jpg",
+        "backdropPath": "/d1n2ySWSanU34eEsluRjfrjRq52.jpg",
+        "genres": [
+          "Horror",
+          "Comedy"
+        ],
+        "runtime": 112,
+        "director": "Jane Schoenbrun"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/nLsFnXifieSTqSeWxjXSS8RvaUZ.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/nLsFnXifieSTqSeWxjXSS8RvaUZ.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1361774": {
+      "id": "tmdb-1361774",
+      "letterboxdSlug": "the-dink",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-dink/",
+      "title": "The Dink",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-07-27",
+      "latestWatchedDate": "2026-07-27",
+      "firstReviewDate": "2026-07-29",
+      "latestReviewDate": "2026-07-29",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1421614964",
+          "watchedDate": "2026-07-27",
+          "reviewDate": "2026-07-29",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "In a way this is effective pickleball propaganda aimed at tennis fans—mostly because of how John McEnroe finds a way to be annoying even in a scripted role. This was cute and charming, in the end, but I won’t fall for the marketing.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1361774,
+        "posterPath": "/8dq7vaUkXPqwqKxBFW4qJNBWeop.jpg",
+        "backdropPath": "/tJQhL95q63ITeBy5OTGPx51sFks.jpg",
+        "genres": [
+          "Comedy"
+        ],
+        "runtime": 103,
+        "director": "Josh Greenbaum"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/8dq7vaUkXPqwqKxBFW4qJNBWeop.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8dq7vaUkXPqwqKxBFW4qJNBWeop.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1368337": {
       "id": "tmdb-1368337",
       "letterboxdSlug": "the-odyssey",
@@ -34586,12 +34770,22 @@
       "title": "The Odyssey",
       "releaseYear": 2026,
       "firstWatchedDate": "2026-07-17",
-      "latestWatchedDate": "2026-07-17",
+      "latestWatchedDate": "2026-07-27",
       "firstReviewDate": "2026-07-18",
-      "latestReviewDate": "2026-07-18",
+      "latestReviewDate": "2026-07-29",
       "primaryRating": 4,
       "liked": false,
       "reviews": [
+        {
+          "guid": "letterboxd-review-1421609920",
+          "watchedDate": "2026-07-27",
+          "reviewDate": "2026-07-29",
+          "rating": 4,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "Some deeper thoughts on a second viewing from a better seat. I think the thing about most Nolan films is that they rely on star power more than star performances. Nolan is far more interested in the visual element of film and that craft than any other element. There is still an art to casting for him, but it makes it so that performances are more prone to seeming uneven, both across the cast and across a work itself. Throughout the whole of this film, but mostly in the first act, you can feel the majority of the actors struggling with the more poetic parts of the script—if there’s a problem to be had with the language modernization, it’s that it puts this issue on full display. \n\nHere’s a shortlist of standout moments/performances for me:<br />1. Back to your disguises.<br />2. John Leguizamo<br />3. BEGGARS.<br />4. Zendaya, particularly that last sequence.<br />5. Anne Hathaway, especially when she realizes Odysseus is home.<br />6. Lupita, duh!<br />7. That one deer.<br />8. The progressive reveal of the taking of Troy—something really powerful about us not getting it all at once.",
+          "tags": []
+        },
         {
           "guid": "letterboxd-review-1400858810",
           "watchedDate": "2026-07-17",
