@@ -146,14 +146,44 @@ const SUMMARY =
 // and "&" → "and" per Malcolm's voice rules).
 const ROLES = [
   {
-    company: "Freelance",
-    title: "Prompt Engineer (via DataAnnotation.tech)",
-    titleUrl: "https://www.dataannotation.tech",
-    dates: "Sep 2023 – Present",
+    // Consolidated practice entry — mirrors the resume/site Malcolm
+    // Xavier Consulting role. Absorbs the retired "Freelance / Prompt
+    // Engineer" and "Freelance / Consultant" entries plus the Artist
+    // Growth engagement, so every consulting-era bullet stays available
+    // as drafting inventory in one place. Named engagements lead their
+    // bullets with a linked client name for retrieval; bold stays
+    // reserved for metric phrases per the bank convention.
+    company: "Malcolm Xavier Consulting",
+    location: "Los Angeles, CA · Remote",
+    title: "Principal Consultant",
+    dates: "Feb 2022 – Present",
     bullets: [
-      "Train LLM models (GPT-5, Gemini 2.5 Pro, etc.) across various agentic, RAG use cases",
-      "Write prompts, criteria, and rubrics; and evaluate responses across various legal topics",
-      "Review, evaluate, and revise the work of other freelancers to ensure proper model training",
+      "Build and operate my own products—malxavi.com and the editorial operation behind my published writing—on an AI-native setup, with agentic workflows in the loop from roadmap to ship",
+      [
+        { text: "Fleet", url: "https://www.fleetai.com" },
+        { text: " (2026–present): AI training and evaluation—prompting techniques, evaluation rubrics, and agent-behavior assessment for simulated-environment research" },
+      ],
+      [
+        { text: "DataAnnotation", url: "https://www.dataannotation.tech" },
+        { text: " (2023–2026): trained LLM models (GPT-5, Gemini 2.5 Pro, etc.) across various agentic and RAG use cases" },
+      ],
+      "Wrote prompts, criteria, and rubrics; and evaluated responses across various legal topics",
+      "Reviewed, evaluated, and revised the work of other contributors to ensure proper model training",
+      [
+        { text: "Created content marketing strategy for " },
+        { text: "New England Foundation for the Arts", url: "https://www.nefa.org" },
+        { text: " (2022)" },
+      ],
+      "Developed analytics system architecture, data strategy, and dashboards for a private client (2022)",
+      "Leveraged PM expertise to provide holistic consultation on specific business operations",
+      [
+        { text: "Artist Growth", url: "https://www.artistgrowth.com" },
+        { text: " (2022, music-industry SaaS): drafted user stories and product requirement documents for web and mobile applications" },
+      ],
+      "Launched feature request and bug report processes via integrations with Asana and Slack",
+      "Performed heuristic analysis of marketing site and presented findings to leadership team",
+      "Prospected various tools for the organization, and procured Productboard, Mode, Mixpanel",
+      "Initiated organization-wide investigation to achieve GDPR and CCPA compliance",
     ],
   },
   {
@@ -231,38 +261,6 @@ const ROLES = [
       "Established standard evaluation process for broadcast content providers to scale procurement",
       "Enabled search and reporting teams by implementing critical content/data processes and features",
       "Partnered with data science team to implement content and data enrichment models (AI/ML)",
-    ],
-  },
-  {
-    company: "Freelance",
-    title: "Consultant",
-    dates: "Aug 2022 – Oct 2022",
-    bullets: [
-      // NEFA stays clickable as a segment-with-url; matches the resume's
-      // contextSegments treatment for the same engagement.
-      [
-        { text: "Created content marketing strategy for " },
-        {
-          text: "New England Foundation for the Arts",
-          url: "https://www.nefa.org",
-        },
-      ],
-      "Developed analytics system architecture, data strategy, and dashboards for a private client",
-      "Leveraged PM expertise to provide holistic consultation on specific business operations",
-    ],
-  },
-  {
-    company: "Artist Growth",
-    url: "https://www.artistgrowth.com",
-    location: "Remote",
-    title: "Product Manager",
-    dates: "Mar 2022 – May 2022",
-    bullets: [
-      "Drafted user stories and product requirement documents for web and mobile applications",
-      "Launched feature request and bug report processes via integrations with Asana and Slack",
-      "Performed heuristic analysis of marketing site and presented findings to leadership team",
-      "Prospected various tools for the organization, and procured Productboard, Mode, Mixpanel",
-      "Initiated organization-wide investigation to achieve GDPR and CCPA compliance",
     ],
   },
   {

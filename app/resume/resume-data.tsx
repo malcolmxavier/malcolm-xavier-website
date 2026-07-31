@@ -78,7 +78,12 @@ export type ResumeEducation = {
   credential: string;
   honors?: string;
   context?: string;
-  details: string[];
+  /**
+   * Education detail lines. Typed as React.ReactNode (not just string)
+   * so a line can embed an inline <Link> — e.g. a presentation title
+   * that links to its /projects detail page — mirroring `bullets` above.
+   */
+  details: React.ReactNode[];
 };
 
 export type ResumeCaseStudy = {
@@ -163,6 +168,44 @@ export const SUMMARY =
 
 export const ROLES: ResumeRole[] = [
   {
+    // Consolidated practice entry — replaces the former "Freelance /
+    // Prompt Engineer" and "Independent Consulting" entries. Sits at
+    // the top of the list because it's the only open-ended (Present)
+    // role; its Feb 2022 start makes the concurrency with People Inc.
+    // and Muck Rack visible on the timeline. No accent override, so the
+    // company name takes the default brand green — fitting for the
+    // practice that owns this very site.
+    company: "Malcolm Xavier Consulting",
+    // Remote-only for the practice; the LA reference stays on the top-level
+    // contact block, not the role, so the entry reads as location-agnostic.
+    location: "Remote",
+    title: "Principal Consultant",
+    dates: "Feb 2022 – Present",
+    context:
+      "Independent product, data, and content-strategy practice—growth systems, MarTech and customer data platforms, privacy-aware data governance, and AI-native product and content operations.",
+    bullets: [
+      <>Build and operate my own products—malxavi.com and the editorial operation behind my published writing—on an AI-native setup, with agentic workflows in the loop from roadmap to ship</>,
+      <><strong><Link href="https://www.fleetai.com">Fleet</Link></strong> (2026–present): AI training and evaluation—prompting techniques, evaluation rubrics, and agent-behavior assessment for simulated-environment research</>,
+      <><strong><Link href="https://www.dataannotation.tech">DataAnnotation</Link></strong> (2023–2026): LLM and agent training—CoT and meta-prompting, evaluation rubrics and criteria, and peer review of model outputs</>,
+      <>
+        <strong>
+          <Link href="https://www.artistgrowth.com">Artist Growth</Link>
+        </strong>{" "}
+        (2022): product operations and GDPR/CCPA compliance for
+        music-industry SaaS
+      </>,
+      <>
+        <strong>
+          <Link href="https://www.nefa.org">
+            New England Foundation for the Arts
+          </Link>
+        </strong>{" "}
+        (2022): content strategy
+      </>,
+      "Analytics architecture and data strategy for a private client (2022)",
+    ],
+  },
+  {
     company: "People Inc.",
     url: "https://people.inc",
     accent: "yellow",
@@ -180,21 +223,8 @@ export const ROLES: ResumeRole[] = [
       "Built models in SQL, BigQuery, and Connected Sheets to identify achievable outcomes that informed the AI-based personalization strategy",
       <>Facilitated <strong>80+ member community of practice</strong> focused on product discovery skills</>,
       <>Enabled onsite transactions to <strong>increase print subscription revenue 115% YoY</strong></>,
-      "Concurrently developed LLM prompt engineering and RAG workflow expertise (see freelance Prompt Engineer role, below)",
     ],
     relatedCaseStudies: ["people-inc"],
-  },
-  {
-    company: "Freelance",
-    title: "Prompt Engineer",
-    dates: "Sep 2023 – Oct 2025",
-    context:
-      "Trained LLM models (GPT-5, Gemini 2.5 Pro, etc.) across various agentic and RAG use cases.",
-    bullets: [
-      "Applied prompting techniques (CoT, meta-prompting, etc.) to fine-tune models for legal use cases",
-      "Developed and used complex criteria and rubrics to evaluate LLM and agent performance",
-      "Peer-reviewed and revised work submissions to maintain optimal model performance",
-    ],
   },
   {
     company: "Muck Rack",
@@ -214,27 +244,6 @@ export const ROLES: ResumeRole[] = [
       "Liaised with external content vendors and developers to ensure data-processing compliance",
     ],
     relatedCaseStudies: ["muck-rack"],
-  },
-  {
-    company: "Independent Consulting",
-    title: "Product & Data Consultant",
-    dates: "Feb 2022 – Oct 2022",
-    context:
-      "Transition period bridging User Interviews and Muck Rack.",
-    bullets: [
-      <>
-        Product consulting for{" "}
-        <Link href="https://www.artistgrowth.com">Artist Growth</Link>{" "}
-        (SaaS, music industry), focused on product operations and GDPR/CCPA compliance
-      </>,
-      <>
-        Developed content strategy for the{" "}
-        <Link href="https://www.nefa.org">
-          New England Foundation for the Arts
-        </Link>
-      </>,
-      "Built analytics architecture and data strategy for a private client",
-    ],
   },
   {
     company: "User Interviews",
@@ -309,7 +318,26 @@ export const EDUCATION: ResumeEducation[] = [
     details: [
       "Teaching Assistant: Negotiations Skills and Strategies (Professor Lynn Cohn)",
       "Relevant courses: Privacy Law and Regulation; IP Strategy and Management",
-      "Presentation: \"The Revolution Will Not Be Live Streamed: Privacy Law in the Social Media Era\"",
+      // Both presentation titles link to their project detail pages. The
+      // second-year (privacy) paper leads; the first-year (video-sharing
+      // ethics) paper follows. Onsite carries both MSL presentations; the
+      // docx keeps only the first — an intentional divergence documented
+      // in SURFACES.md (the onsite surface has hypertext room, the docx is
+      // ATS- and page-bound).
+      <>
+        Presentation:{" "}
+        <Link href="/projects/privacy-law-social-media-era">
+          “The Revolution Will Not Be Live Streamed: Privacy Law in the Social
+          Media Era”
+        </Link>
+      </>,
+      <>
+        Presentation:{" "}
+        <Link href="/projects/ethics-video-sharing-apps">
+          “When You Hear Some Feedback, Keep Going Take It Higher: Legal,
+          Technical, and Ethical Notes for the Future of Video-Sharing Apps”
+        </Link>
+      </>,
     ],
   },
   {
@@ -320,7 +348,13 @@ export const EDUCATION: ResumeEducation[] = [
     honors: "Honors · Johnson & Johnson Distinguished Scholar",
     details: [
       "Relevant technologies: Python, Pandas, Jupyter Notebook, Google Data Studio",
-      "Presentation: \"Oceans Rise, Properties Fall\"",
+      // Presentation title links to its project detail page.
+      <>
+        Presentation:{" "}
+        <Link href="/projects/sea-level-rise-florida">
+          “Oceans Rise, Properties Fall”
+        </Link>
+      </>,
     ],
   },
   {
@@ -459,6 +493,26 @@ export function slugifyRoleAnchor(role: Pick<ResumeRole, "company" | "dates">): 
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
   return `role-${slug}`;
+}
+
+/**
+ * Stable per-education anchor id used by /resume's EducationBlock and
+ * by /projects pages that backlink to the credential a project came
+ * out of ("DS4A · 2021", where DS4A jumps to the resume entry).
+ *
+ * Mirrors slugifyRoleAnchor: derived from institution + dates so it
+ * survives ordering changes. Kept distinct from the role scheme by the
+ * `edu-` prefix so the two anchor namespaces never collide.
+ */
+export function slugifyEducationAnchor(
+  entry: Pick<ResumeEducation, "institution" | "dates">,
+): string {
+  const base = `${entry.institution}-${entry.dates}`;
+  const slug = base
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `edu-${slug}`;
 }
 
 /**

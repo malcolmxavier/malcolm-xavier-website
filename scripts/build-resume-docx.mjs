@@ -81,6 +81,14 @@ const RoleSchema = z.object({
   context: z.string().optional(),
   contextSegments: z.array(ContextSegmentSchema).optional(),
   bullets: z.array(BulletSchema),
+  // Optional linked reference to the role's case study on malxavi.com.
+  // Rendered as a separated "Case study: <title>" line under the
+  // bullets, mirroring the /resume role-footer link. Employer studies
+  // ride their role here; the two editorial/meta studies stay in the
+  // standalone Case Studies section at the bottom.
+  caseStudy: z
+    .object({ title: z.string().min(1), url: z.string().url() })
+    .optional(),
 });
 
 const EducationSchema = z.object({
@@ -141,6 +149,36 @@ const SUMMARY =
 // so metric phrases bold inside an otherwise plain bullet sentence).
 const ROLES = [
   {
+    // Consolidated practice entry — mirrors the site's Malcolm Xavier
+    // Consulting role (replaces the former Freelance / Prompt Engineer
+    // and Independent Consulting entries). Org names are linked but not
+    // bold: the docx reserves bold for metric phrases, so an
+    // engagement list with no hero metrics carries no bold runs.
+    company: "Malcolm Xavier Consulting",
+    // Remote-only for the practice; matches the site. LA stays on the
+    // top-level contact block, not the role.
+    location: "Remote",
+    title: "Principal Consultant",
+    dates: "Feb 2022 – Present",
+    context:
+      "Independent product, data, and content-strategy practice—growth systems, MarTech and customer data platforms, privacy-aware data governance, and AI-native product and content operations.",
+    bullets: [
+      "Build and operate my own products—malxavi.com and the editorial operation behind my published writing—on an AI-native setup, with agentic workflows in the loop from roadmap to ship",
+      [
+        { text: "Fleet", url: "https://www.fleetai.com" },
+        { text: " (2026–present): AI training and evaluation—prompting techniques, evaluation rubrics, and agent-behavior assessment for simulated-environment research" },
+      ],
+      [
+        { text: "DataAnnotation", url: "https://www.dataannotation.tech" },
+        { text: " (2023–2026): LLM and agent training—CoT and meta-prompting, evaluation rubrics and criteria, and peer review of model outputs" },
+      ],
+      [
+        { text: "Artist Growth", url: "https://www.artistgrowth.com" },
+        { text: " (2022): product operations and GDPR/CCPA compliance for music-industry SaaS" },
+      ],
+    ],
+  },
+  {
     company: "People Inc.",
     url: "https://people.inc",
     location: "Remote",
@@ -163,20 +201,11 @@ const ROLES = [
       ],
       "Operationalized experiments to enable AI-based personalized acquisition and engagement",
       "Built models in SQL, BigQuery, and Connected Sheets to identify achievable outcomes that informed the AI-based personalization strategy",
-      "Concurrently developed LLM prompt engineering and RAG workflow expertise (see freelance Prompt Engineer role, below)",
     ],
-  },
-  {
-    company: "Freelance",
-    title: "Prompt Engineer",
-    dates: "Sep 2023 – Oct 2025",
-    context:
-      "Trained LLM models (GPT-5, Gemini 2.5 Pro, etc.) across various agentic and RAG use cases.",
-    bullets: [
-      "Applied prompting techniques (CoT, meta-prompting, etc.) to fine-tune models for legal use cases",
-      "Developed and used complex criteria and rubrics to evaluate LLM and agent performance",
-      "Peer-reviewed and revised work submissions to maintain optimal model performance",
-    ],
+    caseStudy: {
+      title: "Infrastructure enables personalization",
+      url: "https://malxavi.com/case-studies/people-inc",
+    },
   },
   {
     company: "Muck Rack",
@@ -202,30 +231,10 @@ const ROLES = [
       "Led the initiative to decompose the ingestion monolith, improving ETL cost, scalability, and reliability",
       "Liaised with external content vendors and developers to ensure data-processing compliance",
     ],
-  },
-  {
-    company: "Independent Consulting",
-    title: "Product & Data Consultant",
-    dates: "Feb 2022 – Oct 2022",
-    // Inline-link context — Artist Growth + NEFA stay clickable.
-    contextSegments: [
-      { text: "Product consulting for " },
-      {
-        text: "Artist Growth",
-        url: "https://www.artistgrowth.com",
-      },
-      {
-        text: " (SaaS, music industry); developed content strategy for ",
-      },
-      {
-        text: "New England Foundation for the Arts",
-        url: "https://www.nefa.org",
-      },
-      {
-        text: "; and developed analytics architecture/data strategy for private client.",
-      },
-    ],
-    bullets: [],
+    caseStudy: {
+      title: "Data platforms: quality over quantity",
+      url: "https://malxavi.com/case-studies/muck-rack",
+    },
   },
   {
     company: "User Interviews",
@@ -247,6 +256,10 @@ const ROLES = [
       "Designed, analyzed, and reported on A/B tests for email-notification system model updates",
       "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations",
     ],
+    caseStudy: {
+      title: "Steering leading indicators",
+      url: "https://malxavi.com/case-studies/user-interviews",
+    },
   },
   {
     company: "Fullstack Academy",
@@ -288,11 +301,17 @@ const EDUCATION = [
     credential: "Master of Science in Law",
     honors: "Honors",
     context:
-      "Applied privacy law and IP strategy frameworks to PM work in data platforms, AI personalization, and user-data governance.",
+      "Applied privacy law frameworks to PM work in data platforms, AI personalization, and user-data governance.",
     details: [
       "Teaching Assistant: Negotiations Skills and Strategies (Professor Lynn Cohn)",
-      "Relevant courses: Privacy Law and Regulation; IP Strategy and Management",
-      'Presentation: "The Revolution Will Not Be Live Streamed: Privacy Law in the Social Media Era"',
+      // Presentation title links to its project detail page on malxavi.com.
+      [
+        { text: "Presentation: " },
+        {
+          text: '"The Revolution Will Not Be Live Streamed: Privacy Law in the Social Media Era"',
+          url: "https://malxavi.com/projects/privacy-law-social-media-era",
+        },
+      ],
     ],
   },
   {
@@ -303,7 +322,14 @@ const EDUCATION = [
     honors: "Honors · Johnson & Johnson Distinguished Scholar",
     details: [
       "Relevant technologies: Python, Pandas, Jupyter Notebook, Google Data Studio",
-      'Presentation: "Oceans Rise, Properties Fall"',
+      // Presentation title links to its project detail page on malxavi.com.
+      [
+        { text: "Presentation: " },
+        {
+          text: '"Oceans Rise, Properties Fall"',
+          url: "https://malxavi.com/projects/sea-level-rise-florida",
+        },
+      ],
     ],
   },
   {
@@ -335,13 +361,13 @@ const CASE_STUDIES = [
     title: "Building my personal website, malxavi.com",
     url: "https://malxavi.com/case-studies/building-this-site",
     description:
-      "A meta case study on shipping my personal website with Claude Code as build partner. Architecture bets, production incidents, and what AI-native PM work looks like when the human stays in the loop.",
+      "Shipping this site with Claude Code as build partner—architecture bets, production incidents, and what AI-native PM work looks like with a human in the loop.",
   },
   {
     title: "Architecture under contract",
     url: "https://malxavi.com/case-studies/architecture-under-contract",
     description:
-      "One architectural rule that keeps three integrations online when their upstreams break. Polite-client posture for the one with no API, TMDB enrichment for two. Sequel to building my personal website.",
+      "One architectural rule that keeps three integrations online when their upstreams break—polite-client posture for the one with no API, enrichment for the rest.",
   },
 ];
 
@@ -622,6 +648,24 @@ ROLES.forEach((role, idx) => {
     });
   });
 
+  // Case-study reference line (employer studies only). Sits under the
+  // bullets with extra space-before for visual separation, no bullet
+  // marker, aligned to the bullet-text indent. "Case study:" is plain;
+  // the title is an italic underlined link that carries the affordance.
+  if (role.caseStudy) {
+    entryParas.push({
+      spacing: { before: 90, after: 0 },
+      indent: { left: convertInchesToTwip(0.2) },
+      children: [
+        run("Case study: ", { size: SIZE.bullet }),
+        linkRun(role.caseStudy.title, role.caseStudy.url, {
+          size: SIZE.bullet,
+          italics: true,
+        }),
+      ],
+    });
+  }
+
   // Apply keepNext to all paragraphs except the last so the engine
   // treats the entry as a single keep-together block.
   pushKeptTogether(children, entryParas);
@@ -665,13 +709,15 @@ EDUCATION.forEach((entry, idx) => {
     });
   }
 
-  // Detail bullets
+  // Detail bullets. bulletChildren() accepts either a plain string or an
+  // array of {text, url?} segments, so a presentation line can link its
+  // title to the matching /projects page on malxavi.com.
   entry.details.forEach((detail) => {
     entryParas.push({
       spacing: { before: 0, after: 40 },
       bullet: { level: 0 },
       indent: { left: convertInchesToTwip(0.2) },
-      children: [run(detail, { size: SIZE.bullet })],
+      children: bulletChildren(detail),
     });
   });
 
