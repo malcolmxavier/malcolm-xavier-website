@@ -22,6 +22,7 @@ import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
 import { CaseStudyNav } from "@/components/case-study/CaseStudyNav";
 import { CaseStudyShareBar } from "@/components/case-study/CaseStudyShareBar";
+import { TocDisclosure } from "@/components/chrome/TocDisclosure";
 import {
   Beat,
   BeatSeparator,
@@ -90,6 +91,12 @@ export default function FeedTrilogyCaseStudy() {
         <article>
           <Hero />
           <CaseStudyShareBar currentSlug="architecture-under-contract" />
+          {/* Mobile jump-nav: the desktop rail is hidden below lg, so a
+              collapsible Contents disclosure gives phones/tablets the
+              same section access. Reuses the article's reading column. */}
+          <div className={`${CASE_STUDY_WIDTH} lg:hidden mb-8 md:mb-10`}>
+            <TocDisclosure items={TOC_ITEMS} ariaLabel="Article sections" />
+          </div>
           <BeatSeparator />
           <CaseStudyTLDR />
           <BeatSeparator />

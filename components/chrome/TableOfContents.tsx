@@ -27,6 +27,7 @@
 
 import { type MouseEvent as ReactMouseEvent } from "react";
 import { useScrollSpy } from "./useScrollSpy";
+import { scrollToHash } from "./scrollToHash";
 import "./TableOfContents.css";
 
 export type TocItem = {
@@ -85,26 +86,11 @@ export function TableOfContents({
     e: ReactMouseEvent<HTMLAnchorElement>,
     href: string,
   ): void {
-    const id = href.replace(/^#/, "");
-    const el = document.getElementById(id);
-    if (!el) return;
-    e.preventDefault();
-    // Honor prefers-reduced-motion. The CSS reduced-motion media
-    // query doesn't apply to scrollIntoView (it's a JS API), so we
-    // check matchMedia explicitly. Closes m-scroll-into-view-prm
-    // from the 2026-04-29 /full-review.
-    const reduceMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    el.scrollIntoView({
-      behavior: reduceMotion ? "instant" : "smooth",
-      block: "start",
-    });
-    // Keep the URL in sync without triggering another browser-managed
-    // jump (which would override our smooth scroll above).
-    if (typeof window !== "undefined" && window.history?.replaceState) {
-      window.history.replaceState(null, "", href);
-    }
+    // Smooth-scroll (reduced-motion aware) and sync the URL hash via the
+    // shared helper — the same one the mobile TocDisclosure uses, so the
+    // two TOC surfaces can't drift. Only suppress the browser's default
+    // jump when the helper actually found and handled the target.
+    if (scrollToHash(href)) e.preventDefault();
   }
 
   return (
