@@ -14,6 +14,9 @@
 //     the same "don't burn crawl budget on JSON" bucket as /api/* —
 //     they just live outside the /api/ prefix by route convention.
 //
+//   - /logo/ — generated brand assets (the MX monogram avatar).
+//     Image responses with no navigational content; same bucket.
+//
 // Reference: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots
 // ─────────────────────────────────────────────────────────────────
 
@@ -29,6 +32,7 @@ export default function robots(): MetadataRoute.Robots {
         "/films/reviews/facet-search",
         "/television/reviews/facet-search",
         "/stats/connected/facet-search",
+        "/logo/",
       ],
     },
     // Point crawlers at the sitemap so they don't have to discover
