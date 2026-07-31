@@ -58,6 +58,8 @@ import {
 } from "@/app/resume/resume-data";
 import type { TocItem } from "@/components/chrome/TableOfContents";
 import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
+import { TocDisclosure } from "@/components/chrome/TocDisclosure";
+import { CASE_STUDY_WIDTH } from "@/components/case-study/primitives";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
 import {
@@ -129,6 +131,14 @@ export default function WorkCaseStudyTemplate() {
         <CaseStudyTocRail items={TOC_ITEMS} ariaLabel="Article sections" />
         <article id="top">
           <Hero />
+          {/* Mobile jump-nav: the desktop rail is hidden below lg, so a
+              collapsible Contents disclosure gives phones/tablets the
+              same section access. Reuses the article's reading column.
+              (If this case study adds a CaseStudyShareBar under the
+              hero, place this just after it, as the shipped studies do.) */}
+          <div className={`${CASE_STUDY_WIDTH} lg:hidden mb-8 md:mb-10`}>
+            <TocDisclosure items={TOC_ITEMS} ariaLabel="Article sections" />
+          </div>
           <BeatSeparator />
           <BeatContext />
           <BeatSeparator />

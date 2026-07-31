@@ -1163,6 +1163,25 @@ a.link-accent-pink,
   padding-inline-end: 0.04em;
 }
 
+/* ─── Drop cap for a /writing essay's opening paragraph ─────────
+   Applied to the first <p> of an essay body (class `essay-dropcap`).
+   ::first-letter keeps the glyph as real, in-flow text — screen
+   readers read it once, in place, so no decorative ARIA is needed.
+   Instrument Serif (the recruiter cluster's display face, pinned
+   directly rather than via --font-primary so a sub-brand remap can't
+   swap it to a mono face). The negative-ish line-height + float sinks
+   the cap about three lines into the paragraph. */
+.essay-dropcap::first-letter {
+  float: left;
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-style: normal;
+  font-size: 3.1em;
+  line-height: 0.72;
+  padding-inline-end: 0.09em;
+  margin-block-start: 0.06em;
+  color: var(--text-heading);
+}
+
 /* ─── Math operator in body / display prose ────────────────────
    Math operators (≠, ≈, ≤, ≥, ±, ×, ÷, etc.) frequently lack
    italic glyphs in serif fonts (Instrument Serif italic
