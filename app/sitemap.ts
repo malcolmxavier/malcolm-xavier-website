@@ -44,6 +44,7 @@ import {
 import { getCollectionDetails } from "@/lib/feeds/enrichment";
 import { slugifyEntity } from "@/lib/feeds/slug";
 import { CASE_STUDIES } from "@/app/resume/resume-data";
+import { ESSAYS, activePillars } from "@/lib/writing/essays";
 
 // The WS6b entity-facet route types, in the order their pages list. Each
 // produces one indexed page per floor-clearing value (the same gate
@@ -358,6 +359,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
       // both shapes without forcing a per-entry override.
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    // Writing — the essays hub, its active pillar landings, and every
+    // essay. Pillars and essays iterate the registry (lib/writing/
+    // essays.ts) so a new essay lands here automatically. Essay
+    // lastModified uses the post's original publish date (postDate),
+    // the same canonical sort key the hub/pillar ordering uses.
+    {
+      url: `${SITE_URL}/writing`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    ...activePillars().map((pillar) => ({
+      url: `${SITE_URL}/writing/${pillar}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.55,
+    })),
+    ...ESSAYS.map((essay) => ({
+      url: `${SITE_URL}/writing/${essay.pillar}/${essay.slug}`,
+      lastModified: new Date(`${essay.postDate}T12:00:00-07:00`),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
     })),
     ...filmEntries,
     ...tvEntries,
