@@ -134,21 +134,30 @@ describe("needs-enrichment predicates (resumability)", () => {
     expect(filmNeedsMdb({ ratings: null })).toBe(true);
     expect(filmNeedsMdb({ ratings: { imdb: 8 } })).toBe(false);
 
-    expect(filmNeedsCredits({ cast: [], writers: [], collection: null })).toBe(true);
+    expect(filmNeedsCredits(undefined)).toBe(true);
     expect(filmNeedsCredits({ cast: [{ id: 1, name: "x" }], writers: [] })).toBe(true); // collection undefined
+    expect(filmNeedsCredits({ cast: [{ id: 1, name: "x" }], collection: null })).toBe(true); // writers undefined
     expect(
       filmNeedsCredits({ cast: [{ id: 1, name: "x" }], writers: [], collection: null }),
     ).toBe(false);
+    // An empty cast is a FACT for shorts/docs (TMDB bills no one), not a
+    // gap. Gating on cast length made these permanently needy, so the cron
+    // re-fetched them every tick forever and starved the show queue.
+    expect(filmNeedsCredits({ cast: [], writers: [], collection: null })).toBe(false);
 
     expect(filmNeedsRelease({})).toBe(true);
     expect(filmNeedsRelease({ release: { cls: "theatrical" } })).toBe(false);
   });
   it("shows", () => {
     expect(showNeedsMdb({ ratings: null })).toBe(true);
+    expect(showNeedsCredits(undefined)).toBe(true);
     expect(showNeedsCredits({ cast: [{ id: 1, name: "x", eps: 5 }] })).toBe(true); // creators undefined
     expect(showNeedsCredits({ cast: [{ id: 1, name: "x", eps: 5 }], creators: [] })).toBe(
       false,
     );
+    // Same empty-cast rule as films — a show with no billed aggregate cast
+    // is done, not pending.
+    expect(showNeedsCredits({ cast: [], creators: [] })).toBe(false);
   });
 });
 

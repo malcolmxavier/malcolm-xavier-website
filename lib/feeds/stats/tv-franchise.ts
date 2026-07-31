@@ -107,9 +107,8 @@ export const TV_FAMILY_BY_SHOW: Record<number, string[]> = {
   224372: ["game-of-thrones"], // A Knight of the Seven Kingdoms
 
   // Interview with the Vampire (Anne Rice's Immortal Universe). The Vampire
-  // Lestat premiered 2026-06-07 — its first-episode review lands in the next
-  // snapshot refresh, at which point this family clears the 2-show floor and
-  // its route + hub card light up automatically.
+  // Lestat premiered 2026-06-07; its reviews landed in July 2026, so the
+  // family now clears the 2-show floor and its route + hub card are live.
   128098: ["interview-with-the-vampire"], // Interview with the Vampire
   323411: ["interview-with-the-vampire"], // The Vampire Lestat
 };

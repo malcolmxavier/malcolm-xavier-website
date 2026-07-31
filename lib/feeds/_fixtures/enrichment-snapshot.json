@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-07-31T10:45:24.983Z",
+  "capturedAt": "2026-07-31T20:54:44.692Z",
   "meta": {
     "films": 796,
-    "shows": 156,
+    "shows": 160,
     "collections": 74
   },
   "films": {
@@ -88692,6 +88692,149 @@
         }
       ]
     },
+    "58957": {
+      "ratings": {
+        "imdb": 8.9,
+        "metacritic": null,
+        "metacriticUser": 8.7,
+        "tomatoes": 97,
+        "rtAudience": 92,
+        "letterboxd": null,
+        "trakt": 85
+      },
+      "country": "us",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1,
+          "avg": 84
+        },
+        {
+          "n": 2,
+          "avg": 85
+        },
+        {
+          "n": 3,
+          "avg": 88
+        },
+        {
+          "n": 4,
+          "avg": 84
+        }
+      ],
+      "cast": [
+        {
+          "id": 1212667,
+          "name": "Nathan Fielder",
+          "eps": 31
+        },
+        {
+          "id": 1519721,
+          "name": "Victoria Hogan",
+          "eps": 1
+        },
+        {
+          "id": 185773,
+          "name": "H. Jon Benjamin",
+          "eps": 1
+        },
+        {
+          "id": 1929339,
+          "name": "Trisha Paytas",
+          "eps": 1
+        },
+        {
+          "id": 1516155,
+          "name": "William Heath",
+          "eps": 4
+        },
+        {
+          "id": 2273126,
+          "name": "Anthony Napoli",
+          "eps": 1
+        },
+        {
+          "id": 3638839,
+          "name": "Ronnie Rodriguez",
+          "eps": 1
+        },
+        {
+          "id": 3638841,
+          "name": "John Kim",
+          "eps": 1
+        },
+        {
+          "id": 1207888,
+          "name": "Jessee Foudray",
+          "eps": 1
+        },
+        {
+          "id": 3638843,
+          "name": "Cesar Davila",
+          "eps": 1
+        },
+        {
+          "id": 3638842,
+          "name": "Anthony Filosa",
+          "eps": 2
+        },
+        {
+          "id": 3638844,
+          "name": "Tessa Freberg",
+          "eps": 1
+        },
+        {
+          "id": 1710222,
+          "name": "Mark Paskell",
+          "eps": 1
+        },
+        {
+          "id": 2834454,
+          "name": "Jakob Skrzypa",
+          "eps": 1
+        },
+        {
+          "id": 2004635,
+          "name": "Gabriel Guillen",
+          "eps": 1
+        },
+        {
+          "id": 1568613,
+          "name": "Shannon Freyer",
+          "eps": 1
+        },
+        {
+          "id": 1231079,
+          "name": "Amy Tolsky",
+          "eps": 1
+        },
+        {
+          "id": 1510823,
+          "name": "Healy Lange",
+          "eps": 1
+        },
+        {
+          "id": 2047165,
+          "name": "Brianna Kellum",
+          "eps": 1
+        },
+        {
+          "id": 3468325,
+          "name": "Jamario McClain",
+          "eps": 1
+        }
+      ],
+      "creators": [
+        {
+          "id": 1212667,
+          "name": "Nathan Fielder"
+        },
+        {
+          "id": 1236869,
+          "name": "Michael Koman"
+        }
+      ]
+    },
     "60625": {
       "ratings": {
         "imdb": 9,
@@ -94576,6 +94719,141 @@
         }
       ]
     },
+    "125988": {
+      "ratings": {
+        "imdb": 8.1,
+        "metacritic": 77,
+        "metacriticUser": 6.9,
+        "tomatoes": 93,
+        "rtAudience": 64,
+        "letterboxd": null,
+        "trakt": 83
+      },
+      "country": "US",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1,
+          "avg": 80
+        },
+        {
+          "n": 2,
+          "avg": 76
+        },
+        {
+          "n": 3,
+          "avg": 64
+        }
+      ],
+      "cast": [
+        {
+          "id": 933238,
+          "name": "Rebecca Ferguson",
+          "eps": 30
+        },
+        {
+          "id": 4238,
+          "name": "Common",
+          "eps": 30
+        },
+        {
+          "id": 1717255,
+          "name": "Chinaza Uche",
+          "eps": 30
+        },
+        {
+          "id": 219960,
+          "name": "Ashley Zukerman",
+          "eps": 11
+        },
+        {
+          "id": 83222,
+          "name": "Shane McRae",
+          "eps": 24
+        },
+        {
+          "id": 1211873,
+          "name": "Ferdinand Kingsley",
+          "eps": 6
+        },
+        {
+          "id": 2298156,
+          "name": "Remmie Milner",
+          "eps": 25
+        },
+        {
+          "id": 2189998,
+          "name": "Alexandria Riley",
+          "eps": 21
+        },
+        {
+          "id": 163774,
+          "name": "Reed Birney",
+          "eps": 10
+        },
+        {
+          "id": 454973,
+          "name": "Laura Innes",
+          "eps": 10
+        },
+        {
+          "id": 20508,
+          "name": "Iain Glen",
+          "eps": 12
+        },
+        {
+          "id": 567269,
+          "name": "Jessica Brown Findlay",
+          "eps": 10
+        },
+        {
+          "id": 1642036,
+          "name": "Billy Postlethwaite",
+          "eps": 26
+        },
+        {
+          "id": 147884,
+          "name": "Morven Christie",
+          "eps": 10
+        },
+        {
+          "id": 13525,
+          "name": "Matt Craven",
+          "eps": 10
+        },
+        {
+          "id": 504,
+          "name": "Tim Robbins",
+          "eps": 30
+        },
+        {
+          "id": 1147904,
+          "name": "Clare Perkins",
+          "eps": 11
+        },
+        {
+          "id": 17477,
+          "name": "Harriet Walter",
+          "eps": 20
+        },
+        {
+          "id": 18324,
+          "name": "Steve Zahn",
+          "eps": 11
+        },
+        {
+          "id": 1617697,
+          "name": "Avi Nash",
+          "eps": 20
+        }
+      ],
+      "creators": [
+        {
+          "id": 21206,
+          "name": "Graham Yost"
+        }
+      ]
+    },
     "126308": {
       "ratings": {
         "imdb": 8.6,
@@ -99268,6 +99546,58 @@
         {
           "id": 3289,
           "name": "Paul Weitz"
+        }
+      ]
+    },
+    "241882": {
+      "ratings": {
+        "imdb": 7.5,
+        "metacritic": 72,
+        "metacriticUser": 6.3,
+        "tomatoes": 97,
+        "rtAudience": 84,
+        "letterboxd": null,
+        "trakt": 77
+      },
+      "country": "us",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1,
+          "avg": 69
+        }
+      ],
+      "cast": [
+        {
+          "id": 1278487,
+          "name": "Hannah Waddingham",
+          "eps": 8
+        },
+        {
+          "id": 6944,
+          "name": "Octavia Spencer",
+          "eps": 8
+        },
+        {
+          "id": 2440,
+          "name": "Bill Nighy",
+          "eps": 8
+        },
+        {
+          "id": 1047649,
+          "name": "Ed Skrein",
+          "eps": 8
+        },
+        {
+          "id": 3671470,
+          "name": "Nova Foueillis-Mosé",
+          "eps": 8
+        }
+      ],
+      "creators": [
+        {
+          "id": 2563859,
+          "name": "Tessa Coates"
         }
       ]
     },
@@ -106062,6 +106392,133 @@
         {
           "id": 84417,
           "name": "Lee Eisenberg"
+        }
+      ]
+    },
+    "323411": {
+      "ratings": {
+        "imdb": null,
+        "metacritic": null,
+        "metacriticUser": null,
+        "tomatoes": 96,
+        "rtAudience": 85,
+        "letterboxd": null,
+        "trakt": 83
+      },
+      "country": "US",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1,
+          "avg": 49
+        }
+      ],
+      "cast": [
+        {
+          "id": 589650,
+          "name": "Sam Reid",
+          "eps": 7
+        },
+        {
+          "id": 964792,
+          "name": "Jacob Anderson",
+          "eps": 7
+        },
+        {
+          "id": 1780975,
+          "name": "Assad Zaman",
+          "eps": 7
+        },
+        {
+          "id": 3542158,
+          "name": "Joseph Potter",
+          "eps": 7
+        },
+        {
+          "id": 2414422,
+          "name": "Delainey Hayles",
+          "eps": 7
+        },
+        {
+          "id": 49971,
+          "name": "Jennifer Ehle",
+          "eps": 7
+        },
+        {
+          "id": 10866,
+          "name": "Eric Bogosian",
+          "eps": 7
+        },
+        {
+          "id": 20301,
+          "name": "Justin Kirk",
+          "eps": 3
+        },
+        {
+          "id": 1851642,
+          "name": "Sheila Atim",
+          "eps": 2
+        },
+        {
+          "id": 979432,
+          "name": "Jeanine Serralles",
+          "eps": 4
+        },
+        {
+          "id": 2524466,
+          "name": "Gopal Divan",
+          "eps": 5
+        },
+        {
+          "id": 199586,
+          "name": "Noah Reid",
+          "eps": 5
+        },
+        {
+          "id": 1799783,
+          "name": "Ryan Kattner",
+          "eps": 7
+        },
+        {
+          "id": 1469491,
+          "name": "Seamus Patterson",
+          "eps": 7
+        },
+        {
+          "id": 1648898,
+          "name": "Sarah Swire",
+          "eps": 7
+        },
+        {
+          "id": 32887,
+          "name": "Christopher Heyerdahl",
+          "eps": 3
+        },
+        {
+          "id": 3576225,
+          "name": "Amaka Umeh",
+          "eps": 4
+        },
+        {
+          "id": 1031824,
+          "name": "Damien Atkins",
+          "eps": 3
+        },
+        {
+          "id": 1130510,
+          "name": "Ella Ballentine",
+          "eps": 2
+        },
+        {
+          "id": 4737510,
+          "name": "Christopher Geary",
+          "eps": 4
+        }
+      ],
+      "creators": [
+        {
+          "id": 1214405,
+          "name": "Rolin Jones"
         }
       ]
     }

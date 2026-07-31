@@ -154,8 +154,15 @@ export async function GET(request: Request) {
     return Response.json({ ok: true, stage: "reconcile", action: "no-op" });
   }
 
-  // Cap the per-tick work (films first); the rest heals next tick.
-  const capFilms = needyFilms.slice(0, PER_TICK_CAP);
+  // Cap the per-tick work; the rest heals next tick. Each cluster gets a
+  // reserved half of the cap so neither can starve the other — films used
+  // to be taken first and fill the whole cap, which meant a film backlog
+  // of PER_TICK_CAP or more left shows permanently unenriched. Whatever
+  // one cluster doesn't use is handed to the other, so a tick is never
+  // under-filled when there is work available.
+  const half = Math.floor(PER_TICK_CAP / 2);
+  const filmSlots = half + Math.max(0, half - needyShows.length);
+  const capFilms = needyFilms.slice(0, filmSlots);
   const capShows = needyShows.slice(0, Math.max(0, PER_TICK_CAP - capFilms.length));
 
   // ─── Keys: skip gracefully if unset (data stays untouched) ──────

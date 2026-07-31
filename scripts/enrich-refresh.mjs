@@ -165,14 +165,20 @@ export function seasonsOf(m) {
 export function filmNeedsMdb(entry) {
   return !entry || entry.ratings == null;
 }
-/** A film needs the TMDB-credits pass when cast/writers/collection is unfilled. */
+/**
+ * A film needs the TMDB-credits pass when that pass has never run for it.
+ *
+ * Pass B writes `cast`, `writers`, and `collection` together from a single
+ * TMDB response, so `writers` and `collection` both being defined is proof
+ * the pass ran. We deliberately do NOT gate on `cast.length`: shorts and
+ * documentaries routinely have no billed cast in TMDB, so an empty array is
+ * a real fact about the title, not a gap. Gating on it made those titles
+ * permanently "needy" — the cron re-fetched the same ones every tick,
+ * never changed the fixture, and never reached the shows queued behind
+ * them (see the per-tick split in app/api/cron/enrich-refresh/route.ts).
+ */
 export function filmNeedsCredits(entry) {
-  return (
-    !entry ||
-    !(entry.cast?.length) ||
-    entry.writers === undefined ||
-    entry.collection === undefined
-  );
+  return !entry || entry.writers === undefined || entry.collection === undefined;
 }
 /** A film needs release classification when it has none. */
 export function filmNeedsRelease(entry) {
@@ -182,9 +188,14 @@ export function filmNeedsRelease(entry) {
 export function showNeedsMdb(entry) {
   return !entry || entry.ratings == null;
 }
-/** A show needs the TMDB-credits pass when cast/creators is unfilled. */
+/**
+ * A show needs the TMDB-credits pass when that pass has never run for it.
+ * Same reasoning as `filmNeedsCredits`: Pass E writes `cast` and `creators`
+ * together, so a defined `creators` proves the pass ran, and an empty cast
+ * (older or unbilled series) is a fact rather than a gap.
+ */
 export function showNeedsCredits(entry) {
-  return !entry || !(entry.cast?.length) || entry.creators === undefined;
+  return !entry || entry.creators === undefined;
 }
 
 // ─── Network (fetch with one 429 backoff) ────────────────────────

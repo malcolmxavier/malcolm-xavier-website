@@ -64,6 +64,23 @@ export type Review = {
   tags: string[];
 };
 
+/**
+ * True when a review represents a FIRST watch — i.e. the film was new
+ * to Malcolm at that moment.
+ *
+ * This is the discovery predicate. Tiles that answer “what did I watch”
+ * in the sense of “what was new to me” (the temporal / watch-pace band)
+ * filter on it, so a rewatch never plots a second discovery event.
+ *
+ * Deliberately NOT applied to `lifetime.hours`, which is a time-spent
+ * measure: sitting through a film a second time really is a second
+ * block of hours. That asymmetry is intentional — see the comment on
+ * the hours accumulator in `stats/film-stats.ts` before “fixing” it.
+ */
+export function isFirstWatch(review: Review): boolean {
+  return !review.rewatch;
+}
+
 export type TmdbMeta = {
   /** TMDB movie id. Sticky across refreshes once resolved — used as canonical join key for the Film. */
   id: number;
@@ -136,9 +153,6 @@ export type Film = {
 export type FilmsSummary = {
   totalFilms: number;
   totalReviews: number;
-  /** Films with at least one watch in the current calendar year
-   *  (computed from latestWatchedDate at snapshot-write time). */
-  thisYearCount: number;
   /** Per-review rating buckets keyed as "0.5", "1", ..., "5". */
   ratingDistribution: Record<string, number>;
   /** Per-film genre counts. A film with two genres adds to both. */
@@ -157,23 +171,23 @@ export type FilmsSummary = {
  * distributions inside each stats tile, the stats entrypoints narrow the
  * corpus, call this once, and feed the result through the same compute path
  * the unfiltered dashboard uses. The counting rules match the writer EXACTLY
- * (per-review ratings, per-film genres/decades, thisYear off latestWatchedDate)
- * so a no-filter narrowing reproduces the shipped summary byte-for-byte.
+ * (per-review ratings, per-film genres/decades) so a no-filter narrowing
+ * reproduces the shipped summary byte-for-byte.
+ *
+ * No "this year" count lives here. It used to, keyed off latestWatchedDate,
+ * which counted a film into whatever year it was LAST watched — so a rewatch
+ * moved an old film into the current year. The dashboards now compute a
+ * first-watch (discovery) count live in film-stats.ts / tv-stats.ts instead,
+ * which also avoids the staleness of a figure baked at snapshot-write time.
  */
 export function summarizeFilms(films: Film[]): FilmsSummary {
-  const currentYear = new Date().getUTCFullYear();
   let totalReviews = 0;
-  let thisYearCount = 0;
   const ratingDistribution: Record<string, number> = {};
   const genreDistribution: Record<string, number> = {};
   const decadeDistribution: Record<string, number> = {};
 
   for (const film of films) {
     totalReviews += film.reviews.length;
-    // "This year" is keyed off the most-recent WATCH date (the user-facing
-    // event), same as the writer — not the review-publication date.
-    const watchedYear = Number.parseInt(film.latestWatchedDate.slice(0, 4), 10);
-    if (watchedYear === currentYear) thisYearCount++;
     // Ratings are per-review (a rewatch with two ratings counts twice);
     // unrated reviews (null) contribute nothing.
     for (const r of film.reviews) {
@@ -197,7 +211,6 @@ export function summarizeFilms(films: Film[]): FilmsSummary {
   return {
     totalFilms: films.length,
     totalReviews,
-    thisYearCount,
     ratingDistribution,
     genreDistribution,
     decadeDistribution,
@@ -1001,48 +1014,89 @@ function findQualifyingReview(
   twelveMoCutoffMs: number | null,
 ): Review | null {
   for (const review of film.reviews) {
-    // Rating filter: review's rating must be in the selected set.
-    // Unrated reviews (rating === null) are filtered out when the
-    // ratings filter is active — they have no rating to match.
-    if (filters.ratings && filters.ratings.length > 0) {
-      if (review.rating === null || !filters.ratings.includes(review.rating)) {
-        continue;
-      }
-    }
-    // Rating exclusion (AND NOT): skip a review whose rating is in the
-    // excluded set. A rated review carrying an excluded rating is not a
-    // qualifying review; the film survives only via another (non-excluded)
-    // qualifying review. Unrated reviews (null) can't match an exclusion.
-    if (filters.excludeRatings && filters.excludeRatings.length > 0) {
-      if (review.rating !== null && filters.excludeRatings.includes(review.rating)) {
-        continue;
-      }
-    }
-    // WatchedYears filter: the review's watchedDate year must be
-    // in the selected set. Multi-select — any year in the chip
-    // rail counts as a match.
-    if (filters.watchedYears && filters.watchedYears.length > 0) {
-      const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
-      if (!filters.watchedYears.includes(year)) continue;
-    }
-    // WatchedYear exclusion (AND NOT): skip a review watched in any excluded
-    // year. A review surviving this gate (watched in a non-excluded year) is
-    // what keeps the film — so a film watched in both an excluded and a
-    // non-excluded year stays, qualified by the non-excluded watch.
-    if (filters.excludeWatchedYears && filters.excludeWatchedYears.length > 0) {
-      const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
-      if (filters.excludeWatchedYears.includes(year)) continue;
-    }
-    // WatchedWindow filter (rolling 12 months from now, anchored to
-    // watch date — when Malcolm actually saw the film, not when he
-    // typed up the review).
-    if (twelveMoCutoffMs !== null) {
-      const watchedMs = new Date(review.watchedDate).getTime();
-      if (!Number.isFinite(watchedMs) || watchedMs < twelveMoCutoffMs) continue;
-    }
-    return review;
+    if (reviewPassesPerReviewFilters(review, filters, twelveMoCutoffMs)) return review;
   }
   return null;
+}
+
+/**
+ * Does ONE review satisfy every active per-review filter?
+ *
+ * Extracted from `findQualifyingReview` (which returns only the most
+ * recent match) so callers that need EVERY matching review can reuse
+ * the identical predicate instead of reimplementing it. The two must
+ * never drift: a film's presence in a filtered result set and the
+ * watch events plotted for it are the same question asked twice.
+ *
+ * Returns true for every review when no per-review filter is active.
+ */
+function reviewPassesPerReviewFilters(
+  review: Review,
+  filters: FilmFilters,
+  twelveMoCutoffMs: number | null,
+): boolean {
+  // Rating filter: review's rating must be in the selected set.
+  // Unrated reviews (rating === null) are filtered out when the
+  // ratings filter is active — they have no rating to match.
+  if (filters.ratings && filters.ratings.length > 0) {
+    if (review.rating === null || !filters.ratings.includes(review.rating)) {
+      return false;
+    }
+  }
+  // Rating exclusion (AND NOT): skip a review whose rating is in the
+  // excluded set. A rated review carrying an excluded rating is not a
+  // qualifying review; the film survives only via another (non-excluded)
+  // qualifying review. Unrated reviews (null) can't match an exclusion.
+  if (filters.excludeRatings && filters.excludeRatings.length > 0) {
+    if (review.rating !== null && filters.excludeRatings.includes(review.rating)) {
+      return false;
+    }
+  }
+  // WatchedYears filter: the review's watchedDate year must be
+  // in the selected set. Multi-select — any year in the chip
+  // rail counts as a match.
+  if (filters.watchedYears && filters.watchedYears.length > 0) {
+    const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
+    if (!filters.watchedYears.includes(year)) return false;
+  }
+  // WatchedYear exclusion (AND NOT): skip a review watched in any excluded
+  // year. A review surviving this gate (watched in a non-excluded year) is
+  // what keeps the film — so a film watched in both an excluded and a
+  // non-excluded year stays, qualified by the non-excluded watch.
+  if (filters.excludeWatchedYears && filters.excludeWatchedYears.length > 0) {
+    const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
+    if (filters.excludeWatchedYears.includes(year)) return false;
+  }
+  // WatchedWindow filter (rolling 12 months from now, anchored to
+  // watch date — when Malcolm actually saw the film, not when he
+  // typed up the review).
+  if (twelveMoCutoffMs !== null) {
+    const watchedMs = new Date(review.watchedDate).getTime();
+    if (!Number.isFinite(watchedMs) || watchedMs < twelveMoCutoffMs) return false;
+  }
+  return true;
+}
+
+/**
+ * Build a reusable “does this review survive the active filters?”
+ * predicate for a whole compute pass.
+ *
+ * Returned as a closure rather than a plain function so the rolling
+ * 12-month cutoff is computed ONCE per pass instead of once per film
+ * — and, more importantly, so every film in the pass is measured
+ * against the same instant. Recomputing `Date.now()` mid-loop could
+ * put two films on opposite sides of the window boundary.
+ *
+ * Callers that also want first-watches-only compose this with
+ * `isFirstWatch`; the two predicates are deliberately separate because
+ * “in scope for the current filters” and “was new to me” are different
+ * questions and not every tile asks both.
+ */
+export function makeReviewFilter(filters?: FilmFilters): (review: Review) => boolean {
+  if (!filters) return () => true;
+  const twelveMoCutoffMs =
+    filters.watchedWindow === "12mo" ? computeTwelveMoCutoffMs() : null;
+  return (review) => reviewPassesPerReviewFilters(review, filters, twelveMoCutoffMs);
 }
 
 /**

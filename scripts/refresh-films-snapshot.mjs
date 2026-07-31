@@ -13,7 +13,7 @@
 // human-in-the-loop, intentional refresh, no cron):
 //   1. Parse latest export under data/letterboxd-export/ → Film[]
 //   2. Enrich via TMDB → 739/741 typical match rate
-//   3. Aggregate summary (totalFilms, totalReviews, thisYearCount,
+//   3. Aggregate summary (totalFilms, totalReviews,
 //      rating/genre/decade distributions)
 //   4. Diff against previous snapshot (if one exists)
 //   5. Write snapshot.json, print summary
@@ -81,9 +81,7 @@ function loadOverrides() {
  * has to scan the films array.
  */
 function aggregateSummary(films) {
-  const currentYear = new Date().getUTCFullYear();
   let totalReviews = 0;
-  let thisYearCount = 0;
   const ratingDist = {};
   const genreDist = {};
   const decadeDist = {};
@@ -91,17 +89,10 @@ function aggregateSummary(films) {
   for (const film of films) {
     totalReviews += film.reviews.length;
 
-    // Watched-this-year? Uses the calendar year of latestWatchedDate
-    // — i.e. did Malcolm watch this film at any point this year? Aligns
-    // with the grid's primary sort dimension and matches the user-
-    // facing label ("Watched this year"). For non-rewatched films this
-    // equals firstWatchedDate; for rewatches it counts a recent watch
-    // even if the original viewing was years ago.
-    const watchedYear = Number.parseInt(
-      film.latestWatchedDate.slice(0, 4),
-      10,
-    );
-    if (watchedYear === currentYear) thisYearCount++;
+    // No "watched this year" count is written here any more. It used to be
+    // keyed off latestWatchedDate, so a rewatch moved an old film into the
+    // current year. The stats dashboard now computes a first-watch
+    // (discovery) count at request time — see lib/feeds/stats/film-stats.ts.
 
     // Rating distribution is per-REVIEW (not per-film) so a film
     // with 3 reviews counts 3 times. Matches Letterboxd's profile-
@@ -131,7 +122,6 @@ function aggregateSummary(films) {
   return {
     totalFilms: films.length,
     totalReviews,
-    thisYearCount,
     ratingDistribution: ratingDist,
     genreDistribution: genreDist,
     decadeDistribution: decadeDist,

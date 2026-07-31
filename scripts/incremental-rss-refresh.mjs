@@ -469,20 +469,13 @@ function resortFilms(snapshot) {
  * runtime layer doesn't notice the difference.
  */
 function recomputeSummary(snapshot) {
-  const currentYear = new Date().getUTCFullYear();
   let totalReviews = 0;
-  let thisYearCount = 0;
   const ratingDist = {};
   const genreDist = {};
   const decadeDist = {};
 
   for (const film of snapshot.films) {
     totalReviews += film.reviews.length;
-    const watchedYear = Number.parseInt(
-      film.latestWatchedDate.slice(0, 4),
-      10,
-    );
-    if (watchedYear === currentYear) thisYearCount++;
     for (const r of film.reviews) {
       if (r.rating !== null) {
         const key = String(r.rating);
@@ -503,7 +496,6 @@ function recomputeSummary(snapshot) {
   snapshot.summary = {
     totalFilms: snapshot.films.length,
     totalReviews,
-    thisYearCount,
     ratingDistribution: ratingDist,
     genreDistribution: genreDist,
     decadeDistribution: decadeDist,

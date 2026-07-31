@@ -139,9 +139,12 @@ const TV_TILE_LABELS: Record<string, string> = {
   networks: "Networks",
   "by-conglomerate": "Network groups",
   "shows-across-networks": "Shows across networks",
-  "season-pace": "Season pace",
-  "seasons-by-month": "Seasons by month",
-  "seasons-by-weekday": "Seasons by weekday",
+  // Display labels only — the KEYS are load-bearing (they drive the collapse
+  // config and the deep-link tile state), so renaming a tile changes the
+  // string on the right of the colon and never the left.
+  "season-pace": "First season-watch pace",
+  "seasons-by-month": "First season-watches by month",
+  "seasons-by-weekday": "First season-watches by weekday",
   "episodes-by-month": "Episodes by month",
 };
 const tvTileLabel = (id: string) => TV_TILE_LABELS[id] ?? id;
@@ -419,7 +422,7 @@ export default async function TelevisionStatsPage({
               {...td("lifetime")}
               title="Lifetime"
               span={12}
-              note={`Across ${s.lifetime.shows.toLocaleString()} total shows, ${s.lifetime.thisYear} of which I've actively watched at some point this year.`}
+              note={`Across ${s.lifetime.shows.toLocaleString()} total shows, with ${s.lifetime.thisYear} seasons watched for the first time this year.`}
             >
               {/* Per-level breakout: each level gets its own count + average
                   rather than mixing shows and seasons into one figure. This
@@ -632,34 +635,34 @@ export default async function TelevisionStatsPage({
           <StatsSection label="When I watch" {...bd("When I watch")}>
             <Tile
               {...td("season-pace")}
-              title="Season pace by day of year"
+              title="First season-watch pace by day of year"
               span={12}
               linkDimension="watched-year"
-              note="Cumulative seasons finished by each date of the year, per year."
+              note="Cumulative seasons finished for the first time by each date of the year, per year. Rewatches aren’t counted."
             >
               <LineChart
                 series={s.temporal.seasonPaceByDay.map((c) => ({
                   label: c.year,
                   points: c.points,
                 }))}
-                ariaLabel="Cumulative seasons finished by day of year, per year"
+                ariaLabel="Cumulative first season-watches by day of year, per year"
                 hrefFor={watchedYearHref}
               />
             </Tile>
 
-            <Tile {...td("seasons-by-month")} title="Seasons by month" span={6} linkDimension="watched-year">
+            <Tile {...td("seasons-by-month")} title="First season-watches by month" span={6} linkDimension="watched-year">
               <StackedBars
                 data={s.temporal.seasonMonthMatrix}
-                ariaLabel="Seasons finished by month, stacked by year"
+                ariaLabel="First season-watches by month, stacked by year"
                 averageLine="month"
                 segmentHref={watchedYearHref}
               />
             </Tile>
 
-            <Tile {...td("seasons-by-weekday")} title="Seasons by weekday" span={6} linkDimension="watched-year">
+            <Tile {...td("seasons-by-weekday")} title="First season-watches by weekday" span={6} linkDimension="watched-year">
               <StackedBars
                 data={s.temporal.seasonWeekdayMatrix}
-                ariaLabel="Seasons finished by weekday, stacked by year"
+                ariaLabel="First season-watches by weekday, stacked by year"
                 averageLine="weekday"
                 segmentHref={watchedYearHref}
               />

@@ -19,10 +19,14 @@
 // Server-only.
 // ─────────────────────────────────────────────────────────────────
 
-import { getShows } from "../serializd";
 import { getShowsWithEnrichment } from "../review-corpus";
-import { applyShowFilters, summarizeShows } from "../serializd-utils";
-import type { ShowFilters, TvSummary } from "../serializd-utils";
+import {
+  applyShowFilters,
+  isFirstWatch,
+  makeShowReviewFilter,
+  summarizeShows,
+} from "../serializd-utils";
+import type { Show, ShowFilters, TvSummary } from "../serializd-utils";
 import { getEnrichedShows } from "../enrichment";
 import type { EnrichedShow } from "../enrichment";
 import { avgFromDist, contrastE, meanOf, rank, type Contrast } from "./shrinkage";
@@ -201,6 +205,9 @@ export type TvStats = {
     shows: number;
     seasonReviews: number;
     episodeReviews: number;
+    /** Seasons watched for the first time in the current calendar year —
+        the season is TV's unit of new viewing, so a new season of a show
+        watched years ago still counts. Rewatched seasons never do. */
     thisYear: number;
     /** The reconciled headline rating — the season-review average (equals
         the distribution chart's Seasons mean). The page's "avg season
@@ -245,6 +252,17 @@ export type TvStats = {
  */
 type TvCorpus = {
   enrichedShows: EnrichedShow[];
+  /**
+   * The full snapshot corpus (enrichment-joined but never enrichment-GATED),
+   * which drives the watch-cadence tiles. Separate from `enrichedShows`
+   * because `getEnrichedShows()` drops any show without ratings or a cast —
+   * correct for analytical tiles that need those fields, wrong for "when did
+   * I watch things," where a freshly logged show would silently vanish from
+   * the charts until the enrichment cron caught up. /films has always split
+   * these two corpora (`snapFilms` vs `films` in film-stats.ts); this is the
+   * TV side of the same split.
+   */
+  snapShows: Show[];
   summary: TvSummary;
 };
 
@@ -260,7 +278,8 @@ type TvCorpus = {
  */
 function resolveTvCorpus(filters?: ShowFilters): TvCorpus {
   if (!filters || !hasActiveFilter(filters)) {
-    return { enrichedShows: getEnrichedShows(), summary: getShows().summary };
+    const { shows: snapShows, summary } = getShowsWithEnrichment();
+    return { enrichedShows: getEnrichedShows(), snapShows, summary };
   }
 
   const { shows: enrichedSnap, summary: baseSummary } = getShowsWithEnrichment();
@@ -275,7 +294,7 @@ function resolveTvCorpus(filters?: ShowFilters): TvCorpus {
   );
   const summary = summarizeShows(surviving, baseSummary);
 
-  return { enrichedShows, summary };
+  return { enrichedShows, snapShows: surviving, summary };
 }
 
 /**
@@ -285,7 +304,7 @@ function resolveTvCorpus(filters?: ShowFilters): TvCorpus {
  * filter behaviour. Provided → the predicate-narrowed corpus (§9).
  */
 export function computeTvStats(filters?: ShowFilters): TvStats {
-  const { enrichedShows, summary } = resolveTvCorpus(filters);
+  const { enrichedShows, snapShows, summary } = resolveTvCorpus(filters);
   // Canonical rating = the season signal. Remapping `mine` to seasonRating
   // here moves every analytical tile (genres, people, networks, provenance,
   // world lean, diverging) AND the baseline onto season ratings at once,
@@ -302,16 +321,55 @@ export function computeTvStats(filters?: ShowFilters): TvStats {
 
   // Review dates split by level (season = the multi-year unit; episode
   // dates are current-year-only by how Serializd logging began).
-  const seasonDates = shows.flatMap((s) =>
-    (s.reviews || [])
-      .filter((r) => r.level === "season" && r.watchedDate)
-      .map((r) => r.watchedDate),
-  );
-  const episodeDates = shows.flatMap((s) =>
-    (s.reviews || [])
-      .filter((r) => r.level === "episode" && r.watchedDate)
-      .map((r) => r.watchedDate),
-  );
+  //
+  // Read `snapShows`, NOT the enrichment-gated `shows` — a show logged
+  // before the enrichment cron reaches it still belongs on a "when did I
+  // watch" chart. See the TvCorpus comment.
+  //
+  // Two gates beyond the level split, matching /films:
+  // - `isFirstWatch` — these are discovery tiles, so a rewatched season
+  //   doesn't plot a second point.
+  // - `reviewMatchesFilters` — only watch events that actually satisfy
+  //   the active filters count, so a show surviving `?watchedYear=2025`
+  //   on one review can't leak an out-of-filter 2023 review into the
+  //   cadence charts.
+  const reviewMatchesFilters = makeShowReviewFilter(filters);
+  const datesAtLevel = (level: "season" | "episode") =>
+    snapShows.flatMap((s) =>
+      (s.reviews || [])
+        .filter(
+          (r) =>
+            r.level === level &&
+            r.watchedDate &&
+            isFirstWatch(r) &&
+            reviewMatchesFilters(r),
+        )
+        .map((r) => r.watchedDate),
+    );
+  const seasonDates = datesAtLevel("season");
+  const episodeDates = datesAtLevel("episode");
+
+  // "New this year" on TV = SEASONS watched for the first time this year.
+  // The season is the unit of new television, not the show: returning to a
+  // long-running series for a new season is new viewing, and it counts. So
+  // this is deliberately NOT a show-discovery metric (which would drop every
+  // continuing series) and NOT `summary.thisYearCount` (which counted any
+  // show with review activity this year — a rewatch alone pulled a show in).
+  // /films counts titles because a film has no season grain; the shared rule
+  // is "count first watches of the unit," and the unit differs by cluster.
+  //
+  // Reads `seasonDates`, so it is the same event set the cadence tiles plot
+  // — one definition, no chance of the headline and the charts disagreeing.
+  //
+  // Computed here rather than in `summarizeShows` because the persisted
+  // summary is written by the refresh scripts (a separate implementation),
+  // so the unfiltered page would read the old number while the filtered path
+  // recomputed. Computing live keeps both paths on one definition and drops
+  // the staleness of a count baked at cron-write time.
+  const currentYear = String(new Date().getUTCFullYear());
+  const newSeasonsThisYear = seasonDates.filter((d) =>
+    d.startsWith(currentYear),
+  ).length;
 
   const byLevel = summary.ratingDistributionByLevel;
 
@@ -339,7 +397,9 @@ export function computeTvStats(filters?: ShowFilters): TvStats {
       shows: summary.totalShows,
       seasonReviews: summary.totalSeasonReviews,
       episodeReviews: summary.totalEpisodeReviews,
-      thisYear: summary.thisYearCount,
+      // Seasons watched for the first time this year (see above) — NOT the
+      // persisted summary's activity-based show count.
+      thisYear: newSeasonsThisYear,
       // The reconciled headline = the season-review average (same number
       // the distribution chart's Seasons view shows), not the per-title
       // mean — so the two never read as a discrepancy.

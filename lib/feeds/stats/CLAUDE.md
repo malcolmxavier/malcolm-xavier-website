@@ -48,7 +48,7 @@ Studio is the only type where a pure count floor fails at every N: TMDB lists pr
 - Per-collection **leaf routes are indexed**—`/{cluster}/collections/[slug]`, self-canonical and in the sitemap. Film floor N≥3 (guards TMDB announced-sequel padding); TV floor N≥2 (curated map, nothing to pad).
 - The **hub** `/{cluster}/collections` is **indexed** (reversed from noindex on 2026-06-13): it's a curated watching-pattern landing with unique editorial value—the franchise hierarchy plus show grids—like `/television/watching`, not a thin auto-directory, so it earns indexation and feeds crawl equity to the leaves.
 - Collection pages render one card per title (PosterTile), not the filterable reviews grid, so a show appears even when only reviewed at the season or episode level.
-- TV has no native show-family concept, so families are hand-curated in `tv-franchise.ts` (9-1-1, Bravo-verse incl. Real Housewives/Vanderpump Rules, Grey's Anatomy, Selling, Game of Thrones; Interview with the Vampire seeded but dormant until the Lestat review lands). `npm run tv:collection-audit` surfaces uncurated shows that look like they belong to a family.
+- TV has no native show-family concept, so families are hand-curated in `tv-franchise.ts` (9-1-1, Bravo-verse incl. Real Housewives/Vanderpump Rules, Grey's Anatomy, Selling, Game of Thrones, Interview with the Vampire—live since the Lestat reviews landed in July 2026). `npm run tv:collection-audit` surfaces uncurated shows that look like they belong to a family.
 
 ## What is NOT here
 

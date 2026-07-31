@@ -18,12 +18,23 @@ import type { EnrichedFilm, EnrichedShow } from "../enrichment";
 import { getFilms } from "../letterboxd";
 import { getShows } from "../serializd";
 import { getFilmsWithEnrichment, getShowsWithEnrichment } from "../review-corpus";
-import { applyFilters, parseFilmFilters } from "../letterboxd-utils";
+// Both libraries export an `isFirstWatch` with the same discovery
+// semantics over different field names (`rewatch` vs. `isRewatch`);
+// aliased on import so the two grains stay visibly distinct at the
+// call sites below.
+import {
+  applyFilters,
+  parseFilmFilters,
+  isFirstWatch as isFirstFilmWatch,
+  makeReviewFilter,
+} from "../letterboxd-utils";
 import type { FilmFilters, Film } from "../letterboxd-utils";
 import {
   applyShowFilters,
   summarizeShows,
   parseShowFilters,
+  isFirstWatch as isFirstShowWatch,
+  makeShowReviewFilter,
 } from "../serializd-utils";
 import type { ShowFilters, Show, TvSummary } from "../serializd-utils";
 import { avgFromDist, contrastE, meanOf, type Contrast } from "./shrinkage";
@@ -356,12 +367,29 @@ export function computeConnectedStats(filters?: ConnectedFilters): ConnectedStat
   const seasonAvg = avgFromDist(seasonDist);
 
   // Cadence dates: film watch dates (full corpus) vs season completions.
+  // Both sides are DISCOVERY series — first watches only, and only the
+  // watch events that satisfy the active filters (a title can survive a
+  // filter on one review while carrying others outside it). Same rule
+  // as the /films and /television temporal bands, so the three pages
+  // can't disagree about what a plotted point means.
+  const filmReviewMatchesFilters = makeReviewFilter(filters);
+  const showReviewMatchesFilters = makeShowReviewFilter(filters);
   const filmDates = snapFilms.flatMap((f) =>
-    (f.reviews || []).map((r) => r.watchedDate).filter(Boolean),
+    (f.reviews || [])
+      .filter(
+        (r) => r.watchedDate && isFirstFilmWatch(r) && filmReviewMatchesFilters(r),
+      )
+      .map((r) => r.watchedDate),
   );
   const seasonDates = corpus.snapShows.flatMap((s) =>
     (s.reviews || [])
-      .filter((r) => r.level === "season" && r.watchedDate)
+      .filter(
+        (r) =>
+          r.level === "season" &&
+          r.watchedDate &&
+          isFirstShowWatch(r) &&
+          showReviewMatchesFilters(r),
+      )
       .map((r) => r.watchedDate),
   );
 

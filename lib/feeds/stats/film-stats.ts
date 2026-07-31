@@ -13,7 +13,12 @@
 import { getFilms } from "../letterboxd";
 import { getFilmsWithEnrichment } from "../review-corpus";
 import { hybridMatchIds, combineMatchSets } from "../fuzzy-search";
-import { applyFilters, summarizeFilms } from "../letterboxd-utils";
+import {
+  applyFilters,
+  isFirstWatch,
+  makeReviewFilter,
+  summarizeFilms,
+} from "../letterboxd-utils";
 import type { FilmFilters, FilmsSummary, Film } from "../letterboxd-utils";
 import { getCollectionDetails, getEnrichedFilms } from "../enrichment";
 import type { EnrichedFilm } from "../enrichment";
@@ -592,24 +597,73 @@ export function computeFilmStats(filters?: FilmFilters): FilmStats {
   // Film prior = the corpus-wide average rating (over all 766 films).
   const fAvg = avgFromDist(summary.ratingDistribution);
 
-  // Hours watched: snapshot runtimes (all films), not just enriched.
-  const hours = Math.round(
-    snapFilms.reduce((s, f) => s + (f.tmdb?.runtime || 0), 0) / 60,
-  );
+  const currentYear = new Date().getUTCFullYear();
+
+  // One pass over the corpus's watch events feeds three numbers that
+  // deliberately count DIFFERENT things:
+  //
+  // - `hours` is time spent. Every qualifying watch adds the film's
+  //   runtime, rewatches included — sitting through a film a second
+  //   time really is a second block of hours.
+  // - `watchDates` is discovery. Only first watches count, so the
+  //   watch-pace band answers “what was new to me,” and a rewatch
+  //   never plots a second point.
+  // - `thisYearFirstWatches` is discovery too, counted per TITLE: a
+  //   film belongs to the year it was NEW to Malcolm, so rewatching an
+  //   old favourite doesn't drag it into this year's count, and a film
+  //   whose only logged watch is a rewatch belongs to no year at all.
+  //
+  // All three read the FILTER-QUALIFYING reviews, not all of a
+  // surviving film's reviews. A film can survive `?watchedYear=2025`
+  // on one review while carrying another from 2023; counting that 2023
+  // watch would leak an out-of-filter event into a filtered chart.
+  //
+  // Note this counter is computed live rather than read from
+  // `summary.thisYearCount`. The persisted summary counts a film by its
+  // LATEST watch date (rewatches included), which is the behaviour
+  // being corrected here — and being persisted, it is also baked at
+  // cron-write time rather than at read time.
+  const reviewMatchesFilters = makeReviewFilter(filters);
+  let runtimeMinutes = 0;
+  let thisYearFirstWatches = 0;
+  const watchDates: string[] = [];
+  for (const film of snapFilms) {
+    // Snapshot runtimes cover all films, not just the enriched subset;
+    // a film with no TMDB runtime contributes 0 minutes but still
+    // contributes its watch dates.
+    const runtime = film.tmdb?.runtime || 0;
+    // Earliest qualifying FIRST watch = the moment this film became new
+    // to him. Tracked per film so the year attribution below is a title
+    // count, not a watch-event count. Dates are day-precision ISO
+    // (YYYY-MM-DD), so lexicographic comparison is chronological.
+    let discoveredOn: string | null = null;
+    for (const review of film.reviews || []) {
+      if (!reviewMatchesFilters(review)) continue;
+      runtimeMinutes += runtime;
+      if (isFirstWatch(review) && review.watchedDate) {
+        watchDates.push(review.watchedDate);
+        if (discoveredOn === null || review.watchedDate < discoveredOn) {
+          discoveredOn = review.watchedDate;
+        }
+      }
+    }
+    if (
+      discoveredOn !== null &&
+      Number.parseInt(discoveredOn.slice(0, 4), 10) === currentYear
+    ) {
+      thisYearFirstWatches++;
+    }
+  }
+  const hours = Math.round(runtimeMinutes / 60);
 
   // Franchise table (released-count qualification) for the franchise +
   // people-deskew rankings.
-  const currentYear = new Date().getUTCFullYear();
   const releasedTotal = releasedTotalFromCollectionDetails(
     collectionDetails,
     currentYear,
   );
   const familyInfo = buildFamilies(films, releasedTotal);
 
-  // Every watch date across the corpus (temporal tiles).
-  const watchDates = snapFilms.flatMap((f) =>
-    (f.reviews || []).map((r) => r.watchedDate).filter(Boolean),
-  );
   // Recent years drive the stacked-by-year weekday/month tiles.
   const years = recentYears(watchDates);
   const yearLabels = years.map(String);
@@ -624,7 +678,9 @@ export function computeFilmStats(filters?: FilmFilters): FilmStats {
   const stats: Omit<FilmStats, "collapse"> = {
     lifetime: {
       films: summary.totalFilms,
-      thisYear: summary.thisYearCount,
+      // First watches only — see the accumulator above. NOT
+      // summary.thisYearCount, which counts by latest watch date.
+      thisYear: thisYearFirstWatches,
       hours,
       avgRating: fAvg,
     },

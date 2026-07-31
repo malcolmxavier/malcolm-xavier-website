@@ -136,9 +136,11 @@ const FILM_TILE_LABELS: Record<string, string> = {
   "budget-tier-by-year": "Budget tier by year",
   "release-type-x-era": "Release type by era",
   "budget-tier-x-era": "Budget tier by era",
-  "watch-pace": "Watch pace",
-  "watched-by-month": "Watched by month",
-  "watched-by-weekday": "Watched by weekday",
+  // Tile IDs are load-bearing (collapse config + deep-link state), so
+  // only the display labels change here — the keys stay put.
+  "watch-pace": "First watch pace",
+  "watched-by-month": "First watches by month",
+  "watched-by-weekday": "First watches by weekday",
 };
 const filmTileLabel = (id: string) => FILM_TILE_LABELS[id] ?? id;
 
@@ -500,7 +502,11 @@ export default async function FilmStatsPage({
               <Bigs
                 items={[
                   { n: s.lifetime.films.toLocaleString(), label: "films logged" },
-                  { n: s.lifetime.thisYear, label: "this year" },
+                  // Discovery, not activity: films seen for the first
+                  // time this year. Labelled "new this year" so it can't
+                  // read as "films logged this year" beside the counter
+                  // to its left.
+                  { n: s.lifetime.thisYear, label: "new this year" },
                   { n: s.lifetime.hours.toLocaleString(), label: "hours watched" },
                   { n: `${s.lifetime.avgRating.toFixed(2)}★`, label: "average rating" },
                 ]}
@@ -840,34 +846,34 @@ export default async function FilmStatsPage({
 
           <StatsSection label="When I watch" {...bd("When I watch")}>
             <Tile
-              title="Watch pace by day of year" {...td("watch-pace")}
+              title="First watch pace by day of year" {...td("watch-pace")}
               span={12}
               linkDimension="watched-year"
-              note="Cumulative films watched by each date of the year, per year."
+              note="Cumulative films seen for the first time by each date of the year, per year. Rewatches aren’t counted."
             >
               <LineChart
                 series={s.temporal.paceByDay.map((c) => ({
                   label: c.year,
                   points: c.points,
                 }))}
-                ariaLabel="Cumulative films watched by day of year, per year"
+                ariaLabel="Cumulative first watches by day of year, per year"
                 hrefFor={watchedYearHref}
               />
             </Tile>
 
-            <Tile title="Watched by month" {...td("watched-by-month")} span={6} linkDimension="watched-year">
+            <Tile title="First watches by month" {...td("watched-by-month")} span={6} linkDimension="watched-year">
               <StackedBars
                 data={s.temporal.monthMatrix}
-                ariaLabel="Films watched by month, stacked by year"
+                ariaLabel="First watches by month, stacked by year"
                 averageLine="month"
                 segmentHref={watchedYearHref}
               />
             </Tile>
 
-            <Tile title="Watched by weekday" {...td("watched-by-weekday")} span={6} linkDimension="watched-year">
+            <Tile title="First watches by weekday" {...td("watched-by-weekday")} span={6} linkDimension="watched-year">
               <StackedBars
                 data={s.temporal.weekdayMatrix}
-                ariaLabel="Films watched by weekday, stacked by year"
+                ariaLabel="First watches by weekday, stacked by year"
                 averageLine="weekday"
                 segmentHref={watchedYearHref}
               />

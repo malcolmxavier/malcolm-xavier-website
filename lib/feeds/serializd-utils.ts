@@ -104,6 +104,18 @@ export type Review = {
   tags: string[];
 };
 
+/**
+ * True when a review represents a FIRST watch of that season/episode.
+ *
+ * TV counterpart to the /films `isFirstWatch` — same discovery
+ * semantics, different field name (Serializd calls it `isRewatch`).
+ * The temporal / cadence tiles filter on it so a rewatched season
+ * doesn't plot a second discovery event.
+ */
+export function isFirstWatch(review: Review): boolean {
+  return !review.isRewatch;
+}
+
 export type Season = {
   /**
    * Serializd's seasonId. Verified to equal TMDB's seasonId (the
@@ -321,8 +333,6 @@ export type TvSummary = {
   decadeDistribution: Record<string, number>;
   /** Shows with any in-progress season. Surfaced as a CTA to /television/watching. */
   showsInProgressCount: number;
-  /** Unique shows with any review activity in the current calendar year. */
-  thisYearCount: number;
   /**
    * Total shows the user has tracked on Serializd as watched —
    * includes both the reviewed catalog (`shows.length`) AND the
@@ -353,6 +363,11 @@ export type TvSummary = {
  * watched-only totals can't be derived from the reviewed `Show[]` alone, so
  * they're carried through from the shipped corpus-wide summary — they're not
  * surfaced in any tile, so a stale value there is invisible (documented).
+ *
+ * No "this year" count lives here. It used to mean "any review activity this
+ * calendar year," which answers "did I touch this show this year" rather than
+ * "did I start it this year." The dashboard now computes a first-watch
+ * (discovery) count live in tv-stats.ts, matching /films.
  */
 export function summarizeShows(
   shows: Show[],
@@ -360,12 +375,10 @@ export function summarizeShows(
   // that can't be derived from the reviewed shows.
   baseSummary: TvSummary,
 ): TvSummary {
-  const currentYear = new Date().getUTCFullYear();
   let totalShowReviews = 0;
   let totalSeasonReviews = 0;
   let totalEpisodeReviews = 0;
   let showsInProgressCount = 0;
-  let thisYearCount = 0;
   const ratingDistribution: Record<string, number> = {};
   const ratingDistributionByLevel = {
     show: {} as Record<string, number>,
@@ -381,15 +394,6 @@ export function summarizeShows(
 
   for (const show of shows) {
     if (show.inProgressSeasonNumbers.length > 0) showsInProgressCount++;
-
-    // "Watched this year" = any review activity in the current calendar year
-    // by WATCH date (matches the writer + user intuition).
-    const watchedThisYear = show.reviews.some(
-      (r) =>
-        r.watchedDate &&
-        Number.parseInt(r.watchedDate.slice(0, 4), 10) === currentYear,
-    );
-    if (watchedThisYear) thisYearCount++;
 
     for (const r of show.reviews) {
       const ratingKey = r.rating !== null ? String(r.rating) : null;
@@ -422,7 +426,6 @@ export function summarizeShows(
     genreDistribution,
     decadeDistribution,
     showsInProgressCount,
-    thisYearCount,
     // Watched-only totals are corpus-wide and undisplayed; pass through.
     totalWatchedShows: baseSummary.totalWatchedShows,
     totalWatchedOnlyShows: baseSummary.totalWatchedOnlyShows,
@@ -1487,29 +1490,62 @@ function findQualifyingReview(
   // (`show.reviews[0]` is newest), so the first match is the most
   // recent qualifying review by definition.
   for (const review of show.reviews) {
-    if (filters.ratings && filters.ratings.length > 0) {
-      if (review.rating === null || !filters.ratings.includes(review.rating)) {
-        continue;
-      }
-    }
-    // Rating exclusion (AND NOT): a review carrying an excluded rating is not
-    // a qualifying review. Unrated reviews (null) can't match an exclusion.
-    if (filters.excludeRatings && filters.excludeRatings.length > 0) {
-      if (review.rating !== null && filters.excludeRatings.includes(review.rating)) {
-        continue;
-      }
-    }
-    if (filters.watchedYears && filters.watchedYears.length > 0) {
-      const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
-      if (!filters.watchedYears.includes(year)) continue;
-    }
-    if (twelveMoCutoffMs !== null) {
-      const watchedMs = new Date(review.watchedDate).getTime();
-      if (!Number.isFinite(watchedMs) || watchedMs < twelveMoCutoffMs) continue;
-    }
-    return review;
+    if (reviewPassesPerReviewFilters(review, filters, twelveMoCutoffMs)) return review;
   }
   return null;
+}
+
+/**
+ * Does ONE review satisfy every active per-review filter?
+ *
+ * TV mirror of the /films predicate of the same name. Extracted from
+ * `findQualifyingReview` (which returns only the most recent match) so
+ * callers needing EVERY matching review reuse the identical logic
+ * rather than reimplementing it.
+ *
+ * Returns true for every review when no per-review filter is active.
+ */
+function reviewPassesPerReviewFilters(
+  review: Review,
+  filters: ShowFilters,
+  twelveMoCutoffMs: number | null,
+): boolean {
+  if (filters.ratings && filters.ratings.length > 0) {
+    if (review.rating === null || !filters.ratings.includes(review.rating)) {
+      return false;
+    }
+  }
+  // Rating exclusion (AND NOT): a review carrying an excluded rating is not
+  // a qualifying review. Unrated reviews (null) can't match an exclusion.
+  if (filters.excludeRatings && filters.excludeRatings.length > 0) {
+    if (review.rating !== null && filters.excludeRatings.includes(review.rating)) {
+      return false;
+    }
+  }
+  if (filters.watchedYears && filters.watchedYears.length > 0) {
+    const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
+    if (!filters.watchedYears.includes(year)) return false;
+  }
+  if (twelveMoCutoffMs !== null) {
+    const watchedMs = new Date(review.watchedDate).getTime();
+    if (!Number.isFinite(watchedMs) || watchedMs < twelveMoCutoffMs) return false;
+  }
+  return true;
+}
+
+/**
+ * Build a reusable “does this review survive the active filters?”
+ * predicate for a whole compute pass. TV mirror of the /films
+ * `makeReviewFilter` — see that function for why this is a closure
+ * (one rolling-window cutoff, shared by every show in the pass).
+ */
+export function makeShowReviewFilter(
+  filters?: ShowFilters,
+): (review: Review) => boolean {
+  if (!filters) return () => true;
+  const twelveMoCutoffMs =
+    filters.watchedWindow === "12mo" ? computeTwelveMoCutoffMs() : null;
+  return (review) => reviewPassesPerReviewFilters(review, filters, twelveMoCutoffMs);
 }
 
 function positionDateForSort(show: Show, sort: ShowSort): string {

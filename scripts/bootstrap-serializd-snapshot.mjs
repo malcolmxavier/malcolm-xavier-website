@@ -673,12 +673,10 @@ function reconcileOrphanSeasons(shows, serializdSeasonsByShow) {
  * grid-vs-summary split.
  */
 function aggregateSummary(shows) {
-  const currentYear = new Date().getUTCFullYear();
   let totalShowReviews = 0;
   let totalSeasonReviews = 0;
   let totalEpisodeReviews = 0;
   let showsInProgressCount = 0;
-  let thisYearCount = 0;
   const ratingDist = {};
   const ratingDistByLevel = { show: {}, season: {}, episode: {} };
   const genreDist = {};
@@ -687,16 +685,11 @@ function aggregateSummary(shows) {
   for (const show of shows) {
     if (show.inProgressSeasonNumbers.length > 0) showsInProgressCount++;
 
-    // "Watched this year" = any review activity in current calendar
-    // year. Uses watchedDate (not reviewDate) so the count matches
-    // user intuition — Malcolm watched it this year, even if he
-    // typed up the review later.
-    const watchedThisYear = show.reviews.some(
-      (r) =>
-        r.watchedDate &&
-        Number.parseInt(r.watchedDate.slice(0, 4), 10) === currentYear,
-    );
-    if (watchedThisYear) thisYearCount++;
+    // No "watched this year" count is written here any more. It used to mean
+    // "any review activity this calendar year," which answers a different
+    // question than the dashboard asks. /television now computes a
+    // first-watch (discovery) count at request time — see
+    // lib/feeds/stats/tv-stats.ts.
 
     for (const r of show.reviews) {
       const ratingKey = r.rating !== null ? String(r.rating) : null;
@@ -742,7 +735,6 @@ function aggregateSummary(shows) {
     genreDistribution: genreDist,
     decadeDistribution: decadeDist,
     showsInProgressCount,
-    thisYearCount,
   };
 }
 
