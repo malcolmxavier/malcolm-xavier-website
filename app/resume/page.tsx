@@ -67,6 +67,7 @@ import {
   EDUCATION,
   CASE_STUDIES,
   slugifyRoleAnchor,
+  slugifyEducationAnchor,
   type ResumeRole,
   type ResumeEducation,
 } from "./resume-data";
@@ -356,8 +357,15 @@ function RoleCaseStudyLink({ role }: { role: ResumeRole }) {
  * institution is the anchor, credential rides below.
  */
 function EducationBlock({ entry }: { entry: ResumeEducation }) {
+  // Stable per-entry anchor so /projects pages can deep-link back to
+  // the credential a project came out of (e.g. the DS4A chip on
+  // "Oceans Rise, Properties Fall"). scrollMarginTop clears the sticky
+  // nav so the jump lands the heading in view, matching RoleBlock.
   return (
-    <article>
+    <article
+      id={slugifyEducationAnchor(entry)}
+      style={{ scrollMarginTop: "6rem" }}
+    >
       <Stack gap="200">
         <Headline
           level={3}
@@ -420,9 +428,10 @@ function EducationBlock({ entry }: { entry: ResumeEducation }) {
           <ul className="list-disc" style={{ paddingInlineStart: "1.25rem" }}>
             {entry.details.map((d, i) => (
               <li
-                // Stable composite key (institution-anchor + text prefix
-                // + index). Same reasoning as the role-bullet keys above.
-                key={`${entry.institution}-${i}-${d.slice(0, 24)}`}
+                // Stable composite key (institution-anchor + index). Detail
+                // lines can be ReactNode (inline <Link>s), so the array
+                // position is the stable identifier — the list is static.
+                key={`${entry.institution}-detail-${i}`}
                 style={{
                   fontFamily: "var(--font-secondary)",
                   fontSize: "var(--p-sm-font-size)",
