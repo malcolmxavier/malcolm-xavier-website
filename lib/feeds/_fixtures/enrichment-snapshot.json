@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-07-31T20:54:44.692Z",
+  "capturedAt": "2026-08-05T02:45:50.202Z",
   "meta": {
     "films": 796,
-    "shows": 160,
+    "shows": 161,
     "collections": 74
   },
   "films": {
@@ -89287,6 +89287,169 @@
         {
           "id": 79886,
           "name": "David Farr"
+        }
+      ]
+    },
+    "65300": {
+      "ratings": {
+        "imdb": 5.7,
+        "metacritic": null,
+        "metacriticUser": 4.4,
+        "tomatoes": null,
+        "rtAudience": null,
+        "letterboxd": null,
+        "trakt": 60
+      },
+      "country": "US",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1,
+          "avg": 74
+        },
+        {
+          "n": 2,
+          "avg": 75
+        },
+        {
+          "n": 3,
+          "avg": 80
+        },
+        {
+          "n": 4,
+          "avg": 79
+        },
+        {
+          "n": 5,
+          "avg": 82
+        },
+        {
+          "n": 6,
+          "avg": 75
+        },
+        {
+          "n": 7,
+          "avg": 75
+        },
+        {
+          "n": 8,
+          "avg": 70
+        },
+        {
+          "n": 9,
+          "avg": 79
+        },
+        {
+          "n": 10,
+          "avg": 65
+        }
+      ],
+      "cast": [
+        {
+          "id": 1581238,
+          "name": "Gizelle Bryant",
+          "eps": 193
+        },
+        {
+          "id": 1581240,
+          "name": "Karen Huger",
+          "eps": 176
+        },
+        {
+          "id": 1581243,
+          "name": "Ashley Darby",
+          "eps": 193
+        },
+        {
+          "id": 1581242,
+          "name": "Robyn Dixon",
+          "eps": 153
+        },
+        {
+          "id": 1581239,
+          "name": "Katie Rost",
+          "eps": 26
+        },
+        {
+          "id": 1800312,
+          "name": "Monique Samuels",
+          "eps": 88
+        },
+        {
+          "id": 2013348,
+          "name": "Candiace Dillard Bassett",
+          "eps": 127
+        },
+        {
+          "id": 3157137,
+          "name": "Mia Thornton",
+          "eps": 84
+        },
+        {
+          "id": 2829182,
+          "name": "Wendy Osefo",
+          "eps": 126
+        },
+        {
+          "id": 1581241,
+          "name": "Charrisse Jackson-Jordan",
+          "eps": 82
+        },
+        {
+          "id": 5045259,
+          "name": "Keiarna Stewart",
+          "eps": 52
+        },
+        {
+          "id": 5045260,
+          "name": "Stacey Rusch",
+          "eps": 40
+        },
+        {
+          "id": 4506728,
+          "name": "Nneka Ihim",
+          "eps": 21
+        },
+        {
+          "id": 5662900,
+          "name": "Tia Glover",
+          "eps": 20
+        },
+        {
+          "id": 5662902,
+          "name": "Angel Massie",
+          "eps": 20
+        },
+        {
+          "id": 4366769,
+          "name": "Xiomi",
+          "eps": 1
+        },
+        {
+          "id": 3037839,
+          "name": "Justin Terry",
+          "eps": 1
+        },
+        {
+          "id": 5045262,
+          "name": "Jacqueline Blake",
+          "eps": 35
+        },
+        {
+          "id": 5045263,
+          "name": "Jassi Rideaux",
+          "eps": 30
+        },
+        {
+          "id": 6382549,
+          "name": "Askale Davis",
+          "eps": 18
+        }
+      ],
+      "creators": [
+        {
+          "id": 1242502,
+          "name": "Scott Dunlop"
         }
       ]
     },
