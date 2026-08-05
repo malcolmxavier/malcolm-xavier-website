@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-08-05T03:31:30.591Z",
+  "capturedAt": "2026-08-05T04:31:09.685Z",
   "summary": {
     "totalShows": 161,
     "totalShowReviews": 42,
     "totalSeasonReviews": 252,
-    "totalEpisodeReviews": 795,
+    "totalEpisodeReviews": 796,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 274,
       "4": 211,
       "5": 18,
-      "2.5": 108,
+      "2.5": 109,
       "3.5": 327,
       "4.5": 53,
       "1.5": 12,
@@ -45,7 +45,7 @@
         "3": 211,
         "4": 160,
         "5": 8,
-        "2.5": 82,
+        "2.5": 83,
         "3.5": 258,
         "4.5": 44,
         "1.5": 6
@@ -195,6 +195,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 82165747,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-08-05T04:23:25Z",
+          "reviewDate": "2026-08-05T04:23:28Z",
+          "seasonId": 101752,
+          "episodeNumber": 7,
+          "episodeName": "Blue Skies and Blue Eyes",
+          "tags": []
+        },
         {
           "id": 82156934,
           "level": "episode",
@@ -760,7 +776,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-08-05T02:38:11Z",
+      "latestActivityDate": "2026-08-05T04:23:28Z",
       "primaryRating": 2.5,
       "liked": false
     },
@@ -29596,6 +29612,22 @@
       ],
       "reviews": [
         {
+          "id": 82165747,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-08-05T04:23:25Z",
+          "reviewDate": "2026-08-05T04:23:28Z",
+          "seasonId": 101752,
+          "episodeNumber": 7,
+          "episodeName": "Blue Skies and Blue Eyes",
+          "tags": []
+        },
+        {
           "id": 82156934,
           "level": "episode",
           "rating": 2.5,
@@ -30160,7 +30192,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-08-05T02:38:11Z",
+      "latestActivityDate": "2026-08-05T04:23:28Z",
       "primaryRating": 2.5,
       "liked": false
     },
