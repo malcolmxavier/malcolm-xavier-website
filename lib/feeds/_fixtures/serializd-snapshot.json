@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-08-06T04:31:39.097Z",
+  "capturedAt": "2026-08-06T05:31:59.892Z",
   "summary": {
     "totalShows": 161,
     "totalShowReviews": 42,
     "totalSeasonReviews": 252,
-    "totalEpisodeReviews": 797,
+    "totalEpisodeReviews": 798,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 274,
       "4": 211,
       "5": 18,
+      "2.5": 110,
       "3.5": 328,
-      "2.5": 109,
       "4.5": 53,
       "1.5": 12,
       "0.5": 1
@@ -45,8 +45,8 @@
         "3": 211,
         "4": 160,
         "5": 8,
+        "2.5": 84,
         "3.5": 259,
-        "2.5": 83,
         "4.5": 44,
         "1.5": 6
       }
@@ -195,6 +195,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 82322254,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-08-06T05:10:25Z",
+          "reviewDate": "2026-08-06T05:10:28Z",
+          "seasonId": 101752,
+          "episodeNumber": 9,
+          "episodeName": "A Happy Medium",
+          "tags": []
+        },
         {
           "id": 82318190,
           "level": "episode",
@@ -792,8 +808,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-08-06T04:21:27Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-08-06T05:10:28Z",
+      "primaryRating": 2.5,
       "liked": false
     },
     {
@@ -29628,6 +29644,22 @@
       ],
       "reviews": [
         {
+          "id": 82322254,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-08-06T05:10:25Z",
+          "reviewDate": "2026-08-06T05:10:28Z",
+          "seasonId": 101752,
+          "episodeNumber": 9,
+          "episodeName": "A Happy Medium",
+          "tags": []
+        },
+        {
           "id": 82318190,
           "level": "episode",
           "rating": 3.5,
@@ -30224,8 +30256,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-08-06T04:21:27Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-08-06T05:10:28Z",
+      "primaryRating": 2.5,
       "liked": false
     },
     "tmdb-tv-22980": {
