@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-08-08T05:31:11.817Z",
+  "capturedAt": "2026-08-08T06:31:13.019Z",
   "summary": {
     "totalShows": 161,
     "totalShowReviews": 42,
     "totalSeasonReviews": 252,
-    "totalEpisodeReviews": 800,
+    "totalEpisodeReviews": 802,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 274,
-      "4": 211,
+      "4": 212,
       "5": 18,
+      "3.5": 330,
       "2.5": 111,
-      "3.5": 329,
       "4.5": 53,
       "1.5": 12,
       "0.5": 1
@@ -43,10 +43,10 @@
       "episode": {
         "2": 25,
         "3": 211,
-        "4": 160,
+        "4": 161,
         "5": 8,
+        "3.5": 261,
         "2.5": 85,
-        "3.5": 260,
         "4.5": 44,
         "1.5": 6
       }
@@ -195,6 +195,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 82642530,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "SZA ➡️ Charrisse ➡️ Chaka Khan",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-08-08T06:17:42Z",
+          "reviewDate": "2026-08-08T06:18:34Z",
+          "seasonId": 101752,
+          "episodeNumber": 13,
+          "episodeName": "Mime Your Own Business",
+          "tags": []
+        },
+        {
+          "id": 82638989,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m lowk throwing up?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-08-08T05:37:40Z",
+          "reviewDate": "2026-08-08T05:37:40Z",
+          "seasonId": 101752,
+          "episodeNumber": 12,
+          "episodeName": "Can't Hide From These Green Eyes",
+          "tags": []
+        },
         {
           "id": 82635393,
           "level": "episode",
@@ -824,8 +856,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-08-08T04:56:03Z",
-      "primaryRating": 2.5,
+      "latestActivityDate": "2026-08-08T06:18:34Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -29676,6 +29708,38 @@
       ],
       "reviews": [
         {
+          "id": 82642530,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "SZA ➡️ Charrisse ➡️ Chaka Khan",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-08-08T06:17:42Z",
+          "reviewDate": "2026-08-08T06:18:34Z",
+          "seasonId": 101752,
+          "episodeNumber": 13,
+          "episodeName": "Mime Your Own Business",
+          "tags": []
+        },
+        {
+          "id": 82638989,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m lowk throwing up?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-08-08T05:37:40Z",
+          "reviewDate": "2026-08-08T05:37:40Z",
+          "seasonId": 101752,
+          "episodeNumber": 12,
+          "episodeName": "Can't Hide From These Green Eyes",
+          "tags": []
+        },
+        {
           "id": 82635393,
           "level": "episode",
           "rating": 2.5,
@@ -30304,8 +30368,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-08-08T04:56:03Z",
-      "primaryRating": 2.5,
+      "latestActivityDate": "2026-08-08T06:18:34Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-125988": {
