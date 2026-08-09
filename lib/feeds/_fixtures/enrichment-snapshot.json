@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-08-05T02:45:50.202Z",
+  "capturedAt": "2026-08-09T02:45:51.286Z",
   "meta": {
-    "films": 796,
+    "films": 797,
     "shows": 161,
-    "collections": 74
+    "collections": 75
   },
   "films": {
     "18": {
@@ -2490,6 +2490,126 @@
         "id": 115762,
         "name": "AVP Collection",
         "total": 2
+      }
+    },
+    "557": {
+      "ratings": {
+        "imdb": 7.4,
+        "metacritic": 73,
+        "metacriticUser": 8.3,
+        "tomatoes": 90,
+        "rtAudience": 67,
+        "letterboxd": 3.9,
+        "trakt": 78
+      },
+      "studios": [
+        "Marvel Enterprises",
+        "Laura Ziskin Productions",
+        "Columbia Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 139000000,
+      "revenue": 821708551,
+      "cast": [
+        {
+          "id": 2219,
+          "name": "Tobey Maguire"
+        },
+        {
+          "id": 5293,
+          "name": "Willem Dafoe"
+        },
+        {
+          "id": 205,
+          "name": "Kirsten Dunst"
+        },
+        {
+          "id": 17051,
+          "name": "James Franco"
+        },
+        {
+          "id": 19153,
+          "name": "Cliff Robertson"
+        },
+        {
+          "id": 18998,
+          "name": "Rosemary Harris"
+        },
+        {
+          "id": 18999,
+          "name": "J.K. Simmons"
+        },
+        {
+          "id": 20580,
+          "name": "Joe Manganiello"
+        },
+        {
+          "id": 19468,
+          "name": "Gerry Becker"
+        },
+        {
+          "id": 5502,
+          "name": "Bill Nunn"
+        },
+        {
+          "id": 20581,
+          "name": "Jack Betts"
+        },
+        {
+          "id": 15253,
+          "name": "Stanley Anderson"
+        },
+        {
+          "id": 125024,
+          "name": "Ron Perkins"
+        },
+        {
+          "id": 20582,
+          "name": "Michael Papajohn"
+        },
+        {
+          "id": 6945,
+          "name": "K.K. Dodds"
+        },
+        {
+          "id": 11769,
+          "name": "Ted Raimi"
+        },
+        {
+          "id": 11357,
+          "name": "Bruce Campbell"
+        },
+        {
+          "id": 9281,
+          "name": "Elizabeth Banks"
+        },
+        {
+          "id": 19326,
+          "name": "John Paxton"
+        },
+        {
+          "id": 956719,
+          "name": "Tim DeZarn"
+        }
+      ],
+      "writers": [
+        {
+          "id": 508,
+          "name": "David Koepp"
+        }
+      ],
+      "collection": {
+        "id": 556,
+        "name": "Spider-Man Collection",
+        "total": 3
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 7658
       }
     },
     "578": {
@@ -106834,6 +106954,30 @@
           "title": "Predator: Badlands",
           "year": "2025",
           "watched": true
+        }
+      ]
+    },
+    "556": {
+      "name": "Spider-Man Collection",
+      "total": 3,
+      "parts": [
+        {
+          "id": 557,
+          "title": "Spider-Man",
+          "year": "2002",
+          "watched": true
+        },
+        {
+          "id": 558,
+          "title": "Spider-Man 2",
+          "year": "2004",
+          "watched": false
+        },
+        {
+          "id": 559,
+          "title": "Spider-Man 3",
+          "year": "2007",
+          "watched": false
         }
       ]
     },
