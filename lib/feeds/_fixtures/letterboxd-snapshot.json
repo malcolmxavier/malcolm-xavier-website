@@ -69652,34 +69652,5 @@
       "url": "https://letterboxd.com/malxavi/list/2026-best-picture-nominees-ranked/"
     }
   ],
-  "favorites": [
-    {
-      "slug": "jurassic-park",
-      "title": "Jurassic Park",
-      "releaseYear": 1993,
-      "posterUrl": "https://image.tmdb.org/t/p/w342/fjTU1Bgh3KJu4aatZil3sofR2zC.jpg",
-      "letterboxdUrl": "https://letterboxd.com/film/jurassic-park/"
-    },
-    {
-      "slug": "fantastic-mr-fox",
-      "title": "Fantastic Mr. Fox",
-      "releaseYear": 2009,
-      "posterUrl": "https://image.tmdb.org/t/p/w342/hhhJN8aJdTlzGmARCbwWflHXhwI.jpg",
-      "letterboxdUrl": "https://letterboxd.com/film/fantastic-mr-fox/"
-    },
-    {
-      "slug": "jumanji",
-      "title": "Jumanji",
-      "releaseYear": 1995,
-      "posterUrl": "https://image.tmdb.org/t/p/w342/iWV47r6kFneCiApgrMII5HSkfHw.jpg",
-      "letterboxdUrl": "https://letterboxd.com/film/jumanji/"
-    },
-    {
-      "slug": "anastasia-1997",
-      "title": "Anastasia",
-      "releaseYear": 1997,
-      "posterUrl": "https://image.tmdb.org/t/p/w342/bppGWGA8zq1sRvTdDJnUzVW9GcH.jpg",
-      "letterboxdUrl": "https://letterboxd.com/film/anastasia-1997/"
-    }
-  ]
+  "favorites": []
 }
