@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-08-10T06:45:22.243Z",
+  "capturedAt": "2026-08-10T19:45:40.244Z",
   "meta": {
-    "films": 798,
+    "films": 799,
     "shows": 162,
     "collections": 75
   },
@@ -2718,6 +2718,134 @@
         {
           "id": 7630,
           "name": "Alvin Sargent"
+        }
+      ],
+      "collection": {
+        "id": 556,
+        "name": "Spider-Man Collection",
+        "total": 3
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
+    },
+    "559": {
+      "ratings": {
+        "imdb": 6.3,
+        "metacritic": 59,
+        "metacriticUser": 6.6,
+        "tomatoes": 62,
+        "rtAudience": 51,
+        "letterboxd": 3.3,
+        "trakt": 68
+      },
+      "studios": [
+        "Laura Ziskin Productions",
+        "Marvel Studios",
+        "Columbia Pictures"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 258000000,
+      "revenue": 894983373,
+      "cast": [
+        {
+          "id": 2219,
+          "name": "Tobey Maguire"
+        },
+        {
+          "id": 205,
+          "name": "Kirsten Dunst"
+        },
+        {
+          "id": 17051,
+          "name": "James Franco"
+        },
+        {
+          "id": 19159,
+          "name": "Thomas Haden Church"
+        },
+        {
+          "id": 17052,
+          "name": "Topher Grace"
+        },
+        {
+          "id": 18997,
+          "name": "Bryce Dallas Howard"
+        },
+        {
+          "id": 18998,
+          "name": "Rosemary Harris"
+        },
+        {
+          "id": 18999,
+          "name": "J.K. Simmons"
+        },
+        {
+          "id": 2505,
+          "name": "James Cromwell"
+        },
+        {
+          "id": 19152,
+          "name": "Dylan Baker"
+        },
+        {
+          "id": 9207,
+          "name": "Theresa Russell"
+        },
+        {
+          "id": 5502,
+          "name": "Bill Nunn"
+        },
+        {
+          "id": 11357,
+          "name": "Bruce Campbell"
+        },
+        {
+          "id": 9281,
+          "name": "Elizabeth Banks"
+        },
+        {
+          "id": 11769,
+          "name": "Ted Raimi"
+        },
+        {
+          "id": 6585,
+          "name": "Perla Haney-Jardine"
+        },
+        {
+          "id": 5293,
+          "name": "Willem Dafoe"
+        },
+        {
+          "id": 19153,
+          "name": "Cliff Robertson"
+        },
+        {
+          "id": 2368,
+          "name": "Elya Baskin"
+        },
+        {
+          "id": 20645,
+          "name": "Mageina Tovah"
+        }
+      ],
+      "writers": [
+        {
+          "id": 7630,
+          "name": "Alvin Sargent"
+        },
+        {
+          "id": 7623,
+          "name": "Sam Raimi"
+        },
+        {
+          "id": 7629,
+          "name": "Ivan Raimi"
         }
       ],
       "collection": {
