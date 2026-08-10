@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-08-09T02:45:51.286Z",
+  "capturedAt": "2026-08-10T04:46:09.030Z",
   "meta": {
-    "films": 797,
+    "films": 798,
     "shows": 161,
     "collections": 75
   },
@@ -2610,6 +2610,126 @@
         "wide": true,
         "ltd": true,
         "gap": 7658
+      }
+    },
+    "558": {
+      "ratings": {
+        "imdb": 7.5,
+        "metacritic": 83,
+        "metacriticUser": 8.7,
+        "tomatoes": 93,
+        "rtAudience": 82,
+        "letterboxd": 3.9,
+        "trakt": 78
+      },
+      "studios": [
+        "Marvel Enterprises",
+        "Laura Ziskin Productions",
+        "Columbia Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 200000000,
+      "revenue": 788976453,
+      "cast": [
+        {
+          "id": 2219,
+          "name": "Tobey Maguire"
+        },
+        {
+          "id": 205,
+          "name": "Kirsten Dunst"
+        },
+        {
+          "id": 17051,
+          "name": "James Franco"
+        },
+        {
+          "id": 658,
+          "name": "Alfred Molina"
+        },
+        {
+          "id": 18998,
+          "name": "Rosemary Harris"
+        },
+        {
+          "id": 18999,
+          "name": "J.K. Simmons"
+        },
+        {
+          "id": 2517,
+          "name": "Donna Murphy"
+        },
+        {
+          "id": 19154,
+          "name": "Daniel Gillies"
+        },
+        {
+          "id": 19152,
+          "name": "Dylan Baker"
+        },
+        {
+          "id": 5502,
+          "name": "Bill Nunn"
+        },
+        {
+          "id": 20491,
+          "name": "Vanessa Ferlito"
+        },
+        {
+          "id": 20644,
+          "name": "Aasif Mandvi"
+        },
+        {
+          "id": 5293,
+          "name": "Willem Dafoe"
+        },
+        {
+          "id": 19153,
+          "name": "Cliff Robertson"
+        },
+        {
+          "id": 11769,
+          "name": "Ted Raimi"
+        },
+        {
+          "id": 9281,
+          "name": "Elizabeth Banks"
+        },
+        {
+          "id": 11357,
+          "name": "Bruce Campbell"
+        },
+        {
+          "id": 17179,
+          "name": "Gregg Edelman"
+        },
+        {
+          "id": 2368,
+          "name": "Elya Baskin"
+        },
+        {
+          "id": 20645,
+          "name": "Mageina Tovah"
+        }
+      ],
+      "writers": [
+        {
+          "id": 7630,
+          "name": "Alvin Sargent"
+        }
+      ],
+      "collection": {
+        "id": 556,
+        "name": "Spider-Man Collection",
+        "total": 3
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
       }
     },
     "578": {
