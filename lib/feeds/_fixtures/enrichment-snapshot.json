@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-08-10T04:46:09.030Z",
+  "capturedAt": "2026-08-10T06:45:22.243Z",
   "meta": {
     "films": 798,
-    "shows": 161,
+    "shows": 162,
     "collections": 75
   },
   "films": {
@@ -96044,6 +96044,149 @@
         {
           "id": 2299451,
           "name": "Justin Noble"
+        }
+      ]
+    },
+    "136105": {
+      "ratings": {
+        "imdb": 7.1,
+        "metacritic": null,
+        "metacriticUser": null,
+        "tomatoes": null,
+        "rtAudience": 70,
+        "letterboxd": null,
+        "trakt": 64
+      },
+      "country": "US",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1,
+          "avg": 75
+        },
+        {
+          "n": 2,
+          "avg": 79
+        },
+        {
+          "n": 3,
+          "avg": 69
+        },
+        {
+          "n": 4,
+          "avg": 80
+        },
+        {
+          "n": 5,
+          "avg": null
+        }
+      ],
+      "cast": [
+        {
+          "id": 192653,
+          "name": "Cynthia Bailey",
+          "eps": 7
+        },
+        {
+          "id": 49276,
+          "name": "Kenya Moore",
+          "eps": 7
+        },
+        {
+          "id": 15503,
+          "name": "Kyle Richards",
+          "eps": 16
+        },
+        {
+          "id": 1249269,
+          "name": "Luann de Lesseps",
+          "eps": 22
+        },
+        {
+          "id": 1818982,
+          "name": "Melissa Gorga",
+          "eps": 7
+        },
+        {
+          "id": 1790620,
+          "name": "Ramona Singer",
+          "eps": 13
+        },
+        {
+          "id": 1818984,
+          "name": "Teresa Giudice",
+          "eps": 16
+        },
+        {
+          "id": 1823245,
+          "name": "Victoria Gunvalson",
+          "eps": 16
+        },
+        {
+          "id": 1823243,
+          "name": "Tamra Judge",
+          "eps": 7
+        },
+        {
+          "id": 1455762,
+          "name": "Jill Zarin",
+          "eps": 7
+        },
+        {
+          "id": 1790618,
+          "name": "Dorinda Medley",
+          "eps": 13
+        },
+        {
+          "id": 1801703,
+          "name": "Phaedra Parks",
+          "eps": 7
+        },
+        {
+          "id": 302415,
+          "name": "Eva Marcille",
+          "eps": 7
+        },
+        {
+          "id": 1607348,
+          "name": "Taylor Armstrong",
+          "eps": 7
+        },
+        {
+          "id": 1686599,
+          "name": "Brandi Glanville",
+          "eps": 7
+        },
+        {
+          "id": 1581238,
+          "name": "Gizelle Bryant",
+          "eps": 16
+        },
+        {
+          "id": 2013348,
+          "name": "Candiace Dillard Bassett",
+          "eps": 7
+        },
+        {
+          "id": 3414693,
+          "name": "Marysol Patton",
+          "eps": 7
+        },
+        {
+          "id": 3414692,
+          "name": "Alexia Nepola",
+          "eps": 7
+        },
+        {
+          "id": 1801704,
+          "name": "Porsha Williams",
+          "eps": 16
+        }
+      ],
+      "creators": [
+        {
+          "id": 1242502,
+          "name": "Scott Dunlop"
         }
       ]
     },
