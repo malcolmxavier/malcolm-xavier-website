@@ -1,24 +1,24 @@
 {
-  "capturedAt": "2026-08-10T04:00:35.703Z",
+  "capturedAt": "2026-08-10T19:00:33.865Z",
   "summary": {
-    "totalFilms": 798,
-    "totalReviews": 799,
+    "totalFilms": 799,
+    "totalReviews": 800,
     "ratingDistribution": {
       "1": 40,
       "2": 128,
       "3": 152,
       "4": 107,
       "5": 16,
+      "2.5": 104,
       "4.5": 50,
-      "2.5": 103,
       "1.5": 39,
       "0.5": 10,
       "3.5": 154
     },
     "genreDistribution": {
-      "Action": 122,
-      "Adventure": 86,
-      "Science Fiction": 122,
+      "Action": 123,
+      "Adventure": 87,
+      "Science Fiction": 123,
       "Horror": 134,
       "Comedy": 227,
       "Fantasy": 60,
@@ -37,7 +37,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2000s": 34,
+      "2000s": 35,
       "2020s": 594,
       "2010s": 132,
       "1990s": 17,
@@ -47,6 +47,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-559",
+      "letterboxdSlug": "spider-man-3",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/spider-man-3/",
+      "title": "Spider-Man 3",
+      "releaseYear": 2007,
+      "firstWatchedDate": "2026-08-10",
+      "latestWatchedDate": "2026-08-10",
+      "firstReviewDate": "2026-08-10",
+      "latestReviewDate": "2026-08-10",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1443981895",
+          "watchedDate": "2026-08-10",
+          "reviewDate": "2026-08-10",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Somehow I had never seen this one. But it lived up to everything I’ve heard. Thomas Haden Church was a nice bonus. Otherwise, the emo hair sequence was just about all I could concern myself with.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 559,
+        "posterPath": "/sJMTTGjtjvrMZ7G0oP9D13wNUum.jpg",
+        "backdropPath": "/xslNxb3T3HW8dt70ybbR5lrBJRj.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 139,
+        "director": "Sam Raimi"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/sJMTTGjtjvrMZ7G0oP9D13wNUum.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sJMTTGjtjvrMZ7G0oP9D13wNUum.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-558",
       "letterboxdSlug": "spider-man-2",
@@ -34764,6 +34809,51 @@
     }
   ],
   "filmById": {
+    "tmdb-559": {
+      "id": "tmdb-559",
+      "letterboxdSlug": "spider-man-3",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/spider-man-3/",
+      "title": "Spider-Man 3",
+      "releaseYear": 2007,
+      "firstWatchedDate": "2026-08-10",
+      "latestWatchedDate": "2026-08-10",
+      "firstReviewDate": "2026-08-10",
+      "latestReviewDate": "2026-08-10",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1443981895",
+          "watchedDate": "2026-08-10",
+          "reviewDate": "2026-08-10",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Somehow I had never seen this one. But it lived up to everything I’ve heard. Thomas Haden Church was a nice bonus. Otherwise, the emo hair sequence was just about all I could concern myself with.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 559,
+        "posterPath": "/sJMTTGjtjvrMZ7G0oP9D13wNUum.jpg",
+        "backdropPath": "/xslNxb3T3HW8dt70ybbR5lrBJRj.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 139,
+        "director": "Sam Raimi"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/sJMTTGjtjvrMZ7G0oP9D13wNUum.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/sJMTTGjtjvrMZ7G0oP9D13wNUum.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-558": {
       "id": "tmdb-558",
       "letterboxdSlug": "spider-man-2",
