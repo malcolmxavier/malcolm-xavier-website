@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-08-10T07:31:25.496Z",
+  "capturedAt": "2026-08-10T18:31:08.892Z",
   "summary": {
     "totalShows": 162,
     "totalShowReviews": 42,
     "totalSeasonReviews": 253,
-    "totalEpisodeReviews": 808,
+    "totalEpisodeReviews": 809,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 276,
       "4": 213,
       "5": 18,
+      "3.5": 333,
       "2.5": 113,
-      "3.5": 332,
       "4.5": 53,
       "1.5": 12,
       "0.5": 1
@@ -45,8 +45,8 @@
         "3": 213,
         "4": 161,
         "5": 8,
+        "3.5": 264,
         "2.5": 87,
-        "3.5": 263,
         "4.5": 44,
         "1.5": 6
       }
@@ -195,6 +195,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 83041938,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-08-10T17:42:55Z",
+          "reviewDate": "2026-08-10T17:42:59Z",
+          "seasonId": 101752,
+          "episodeNumber": 16,
+          "episodeName": "Au Revoir Drama",
+          "tags": []
+        },
         {
           "id": 82969236,
           "level": "episode",
@@ -888,8 +904,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-08-10T07:15:14Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-08-10T17:42:59Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -1979,7 +1995,7 @@
           "showId": 136105,
           "seasonNumber": 5,
           "name": "Roaring 20th",
-          "posterPath": "/iuQPOVpNbI3ttHSrhwfdMpZUhmy.jpg",
+          "posterPath": "/44auxoBEfg05Pa65pifPFIgZVFa.jpg",
           "episodeCount": 9
         }
       ],
@@ -6164,7 +6180,7 @@
           "reviewDate": "2026-08-10T03:34:15Z",
           "seasonId": 449260,
           "episodeNumber": 8,
-          "episodeName": "Episode 8",
+          "episodeName": "The Treasons at Tumbleton",
           "tags": []
         },
         {
@@ -29907,6 +29923,22 @@
       ],
       "reviews": [
         {
+          "id": 83041938,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-08-10T17:42:55Z",
+          "reviewDate": "2026-08-10T17:42:59Z",
+          "seasonId": 101752,
+          "episodeNumber": 16,
+          "episodeName": "Au Revoir Drama",
+          "tags": []
+        },
+        {
           "id": 82969236,
           "level": "episode",
           "rating": 3,
@@ -30599,8 +30631,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-08-10T07:15:14Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-08-10T17:42:59Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-22980": {
@@ -31690,7 +31722,7 @@
           "showId": 136105,
           "seasonNumber": 5,
           "name": "Roaring 20th",
-          "posterPath": "/iuQPOVpNbI3ttHSrhwfdMpZUhmy.jpg",
+          "posterPath": "/44auxoBEfg05Pa65pifPFIgZVFa.jpg",
           "episodeCount": 9
         }
       ],
@@ -35875,7 +35907,7 @@
           "reviewDate": "2026-08-10T03:34:15Z",
           "seasonId": 449260,
           "episodeNumber": 8,
-          "episodeName": "Episode 8",
+          "episodeName": "The Treasons at Tumbleton",
           "tags": []
         },
         {
@@ -61942,7 +61974,7 @@
       "premiereDate": "2011-10-05",
       "bannerImage": "/yQu2pNkGSROjaMHnhOy1dcMndUp.jpg",
       "numSeasons": 13,
-      "numEpisodes": 133,
+      "numEpisodes": 145,
       "watchedSeasonIds": [
         333606,
         90503,
