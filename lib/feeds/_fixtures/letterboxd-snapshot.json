@@ -1,12 +1,12 @@
 {
-  "capturedAt": "2026-08-09T02:01:16.242Z",
+  "capturedAt": "2026-08-10T04:00:35.703Z",
   "summary": {
-    "totalFilms": 797,
-    "totalReviews": 798,
+    "totalFilms": 798,
+    "totalReviews": 799,
     "ratingDistribution": {
       "1": 40,
       "2": 128,
-      "3": 151,
+      "3": 152,
       "4": 107,
       "5": 16,
       "4.5": 50,
@@ -16,11 +16,11 @@
       "3.5": 154
     },
     "genreDistribution": {
-      "Action": 121,
-      "Science Fiction": 121,
+      "Action": 122,
+      "Adventure": 86,
+      "Science Fiction": 122,
       "Horror": 134,
       "Comedy": 227,
-      "Adventure": 85,
       "Fantasy": 60,
       "Romance": 92,
       "Music": 50,
@@ -37,7 +37,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2000s": 33,
+      "2000s": 34,
       "2020s": 594,
       "2010s": 132,
       "1990s": 17,
@@ -47,6 +47,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-558",
+      "letterboxdSlug": "spider-man-2",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/spider-man-2/",
+      "title": "Spider-Man 2",
+      "releaseYear": 2004,
+      "firstWatchedDate": "2026-08-09",
+      "latestWatchedDate": "2026-08-09",
+      "firstReviewDate": "2026-08-10",
+      "latestReviewDate": "2026-08-10",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1442923070",
+          "watchedDate": "2026-08-09",
+          "reviewDate": "2026-08-10",
+          "rating": 3,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "I watched the train sequence in a fugue state during a couch nap like a month ago. And that honestly is the exact vibe of this whole thing. Very tripped out.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 558,
+        "posterPath": "/aGuvNAaaZuWXYQQ6N2v7DeuP6mB.jpg",
+        "backdropPath": "/6al048Lat3eLVQOuKtc9h6Tu94d.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 127,
+        "director": "Sam Raimi"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/aGuvNAaaZuWXYQQ6N2v7DeuP6mB.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aGuvNAaaZuWXYQQ6N2v7DeuP6mB.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-557",
       "letterboxdSlug": "spider-man",
@@ -34719,6 +34764,51 @@
     }
   ],
   "filmById": {
+    "tmdb-558": {
+      "id": "tmdb-558",
+      "letterboxdSlug": "spider-man-2",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/spider-man-2/",
+      "title": "Spider-Man 2",
+      "releaseYear": 2004,
+      "firstWatchedDate": "2026-08-09",
+      "latestWatchedDate": "2026-08-09",
+      "firstReviewDate": "2026-08-10",
+      "latestReviewDate": "2026-08-10",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1442923070",
+          "watchedDate": "2026-08-09",
+          "reviewDate": "2026-08-10",
+          "rating": 3,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "I watched the train sequence in a fugue state during a couch nap like a month ago. And that honestly is the exact vibe of this whole thing. Very tripped out.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 558,
+        "posterPath": "/aGuvNAaaZuWXYQQ6N2v7DeuP6mB.jpg",
+        "backdropPath": "/6al048Lat3eLVQOuKtc9h6Tu94d.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 127,
+        "director": "Sam Raimi"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/aGuvNAaaZuWXYQQ6N2v7DeuP6mB.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/aGuvNAaaZuWXYQQ6N2v7DeuP6mB.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-557": {
       "id": "tmdb-557",
       "letterboxdSlug": "spider-man",
