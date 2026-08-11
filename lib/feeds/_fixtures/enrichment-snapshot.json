@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-08-10T19:45:40.244Z",
+  "capturedAt": "2026-08-11T05:45:28.627Z",
   "meta": {
-    "films": 799,
+    "films": 800,
     "shows": 162,
-    "collections": 75
+    "collections": 76
   },
   "films": {
     "18": {
@@ -4460,6 +4460,136 @@
         "id": 109076,
         "name": "Lost Boys Collection",
         "total": 3
+      }
+    },
+    "1930": {
+      "ratings": {
+        "imdb": 7,
+        "metacritic": 66,
+        "metacriticUser": 7,
+        "tomatoes": 71,
+        "rtAudience": 77,
+        "letterboxd": 3.6,
+        "trakt": 74
+      },
+      "studios": [
+        "Marvel Entertainment",
+        "Laura Ziskin Productions",
+        "Columbia Pictures",
+        "Matt Tolmach Productions",
+        "Arad Productions"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 215000000,
+      "revenue": 758725893,
+      "cast": [
+        {
+          "id": 37625,
+          "name": "Andrew Garfield"
+        },
+        {
+          "id": 54693,
+          "name": "Emma Stone"
+        },
+        {
+          "id": 7026,
+          "name": "Rhys Ifans"
+        },
+        {
+          "id": 5724,
+          "name": "Denis Leary"
+        },
+        {
+          "id": 8349,
+          "name": "Martin Sheen"
+        },
+        {
+          "id": 35,
+          "name": "Sally Field"
+        },
+        {
+          "id": 76793,
+          "name": "Irrfan Khan"
+        },
+        {
+          "id": 55152,
+          "name": "Campbell Scott"
+        },
+        {
+          "id": 6368,
+          "name": "Embeth Davidtz"
+        },
+        {
+          "id": 231547,
+          "name": "Chris Zylka"
+        },
+        {
+          "id": 558928,
+          "name": "Max Charles"
+        },
+        {
+          "id": 2878,
+          "name": "C. Thomas Howell"
+        },
+        {
+          "id": 1315833,
+          "name": "Jake Keiffer"
+        },
+        {
+          "id": 156989,
+          "name": "Kari Coleman"
+        },
+        {
+          "id": 1338023,
+          "name": "Michael Barra"
+        },
+        {
+          "id": 1111328,
+          "name": "Leif Gantvoort"
+        },
+        {
+          "id": 1232365,
+          "name": "Andy Pessoa"
+        },
+        {
+          "id": 59261,
+          "name": "Hannah Marks"
+        },
+        {
+          "id": 205976,
+          "name": "Kelsey Asbille"
+        },
+        {
+          "id": 91658,
+          "name": "Kevin McCorkle"
+        }
+      ],
+      "writers": [
+        {
+          "id": 20204,
+          "name": "James Vanderbilt"
+        },
+        {
+          "id": 7630,
+          "name": "Alvin Sargent"
+        },
+        {
+          "id": 10967,
+          "name": "Steve Kloves"
+        }
+      ],
+      "collection": {
+        "id": 125574,
+        "name": "The Amazing Spider-Man Collection",
+        "total": 2
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
       }
     },
     "2034": {
@@ -107717,6 +107847,24 @@
           "title": "Aliens vs Predator: Requiem",
           "year": "2007",
           "watched": true
+        }
+      ]
+    },
+    "125574": {
+      "name": "The Amazing Spider-Man Collection",
+      "total": 2,
+      "parts": [
+        {
+          "id": 1930,
+          "title": "The Amazing Spider-Man",
+          "year": "2012",
+          "watched": true
+        },
+        {
+          "id": 102382,
+          "title": "The Amazing Spider-Man 2",
+          "year": "2014",
+          "watched": false
         }
       ]
     },
