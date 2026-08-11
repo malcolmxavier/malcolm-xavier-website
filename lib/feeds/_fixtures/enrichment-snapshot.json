@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-08-11T05:45:28.627Z",
+  "capturedAt": "2026-08-11T07:45:49.217Z",
   "meta": {
-    "films": 800,
+    "films": 801,
     "shows": 162,
     "collections": 76
   },
@@ -11491,6 +11491,139 @@
         }
       ],
       "collection": null
+    },
+    "102382": {
+      "ratings": {
+        "imdb": 6.6,
+        "metacritic": 53,
+        "metacriticUser": 6.4,
+        "tomatoes": 50,
+        "rtAudience": 64,
+        "letterboxd": 3.2,
+        "trakt": 70
+      },
+      "studios": [
+        "Marvel Entertainment",
+        "Columbia Pictures",
+        "Matt Tolmach Productions",
+        "Arad Productions"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 200000000,
+      "revenue": 716934779,
+      "cast": [
+        {
+          "id": 37625,
+          "name": "Andrew Garfield"
+        },
+        {
+          "id": 54693,
+          "name": "Emma Stone"
+        },
+        {
+          "id": 134,
+          "name": "Jamie Foxx"
+        },
+        {
+          "id": 122889,
+          "name": "Dane DeHaan"
+        },
+        {
+          "id": 10132,
+          "name": "Colm Feore"
+        },
+        {
+          "id": 72855,
+          "name": "Felicity Jones"
+        },
+        {
+          "id": 13242,
+          "name": "Paul Giamatti"
+        },
+        {
+          "id": 35,
+          "name": "Sally Field"
+        },
+        {
+          "id": 6368,
+          "name": "Embeth Davidtz"
+        },
+        {
+          "id": 55152,
+          "name": "Campbell Scott"
+        },
+        {
+          "id": 20982,
+          "name": "Marton Csokas"
+        },
+        {
+          "id": 163731,
+          "name": "Louis Cancelmi"
+        },
+        {
+          "id": 558928,
+          "name": "Max Charles"
+        },
+        {
+          "id": 107770,
+          "name": "B.J. Novak"
+        },
+        {
+          "id": 190895,
+          "name": "Sarah Gadon"
+        },
+        {
+          "id": 9289,
+          "name": "Michael Massee"
+        },
+        {
+          "id": 1650216,
+          "name": "Jorge Vega"
+        },
+        {
+          "id": 963767,
+          "name": "Bill Heck"
+        },
+        {
+          "id": 1232538,
+          "name": "Teddy Coluca"
+        },
+        {
+          "id": 1657458,
+          "name": "Helen Stern"
+        }
+      ],
+      "writers": [
+        {
+          "id": 15345,
+          "name": "Alex Kurtzman"
+        },
+        {
+          "id": 168309,
+          "name": "Jeff Pinkner"
+        },
+        {
+          "id": 15346,
+          "name": "Roberto Orci"
+        },
+        {
+          "id": 20204,
+          "name": "James Vanderbilt"
+        }
+      ],
+      "collection": {
+        "id": 125574,
+        "name": "The Amazing Spider-Man Collection",
+        "total": 2
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
     },
     "103663": {
       "ratings": {
