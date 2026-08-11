@@ -1,24 +1,24 @@
 {
-  "capturedAt": "2026-08-11T05:00:31.733Z",
+  "capturedAt": "2026-08-11T07:00:50.912Z",
   "summary": {
-    "totalFilms": 800,
-    "totalReviews": 801,
+    "totalFilms": 801,
+    "totalReviews": 802,
     "ratingDistribution": {
       "1": 40,
       "2": 128,
       "3": 153,
       "4": 107,
       "5": 16,
+      "3.5": 155,
       "2.5": 104,
       "4.5": 50,
       "1.5": 39,
-      "0.5": 10,
-      "3.5": 154
+      "0.5": 10
     },
     "genreDistribution": {
-      "Action": 124,
-      "Adventure": 88,
-      "Science Fiction": 124,
+      "Action": 125,
+      "Adventure": 89,
+      "Science Fiction": 125,
       "Horror": 134,
       "Comedy": 227,
       "Fantasy": 60,
@@ -37,7 +37,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2010s": 133,
+      "2010s": 134,
       "2000s": 35,
       "2020s": 594,
       "1990s": 17,
@@ -47,6 +47,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-102382",
+      "letterboxdSlug": "the-amazing-spider-man-2",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-amazing-spider-man-2/",
+      "title": "The Amazing Spider-Man 2",
+      "releaseYear": 2014,
+      "firstWatchedDate": "2026-08-10",
+      "latestWatchedDate": "2026-08-10",
+      "firstReviewDate": "2026-08-11",
+      "latestReviewDate": "2026-08-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1444963605",
+          "watchedDate": "2026-08-10",
+          "reviewDate": "2026-08-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I understand why this put an end to this run. It’s not even bad, but it’s bloated and kills off a main character. Not sure the intended outcome when you do that in a franchise like this…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 102382,
+        "posterPath": "/dGjoPttcbKR5VWg1jQuNFB247KL.jpg",
+        "backdropPath": "/k0hlAzTryCYX1O1LyC6P8tAa8s0.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 141,
+        "director": "Marc Webb"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/dGjoPttcbKR5VWg1jQuNFB247KL.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dGjoPttcbKR5VWg1jQuNFB247KL.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1930",
       "letterboxdSlug": "the-amazing-spider-man",
@@ -34854,6 +34899,51 @@
     }
   ],
   "filmById": {
+    "tmdb-102382": {
+      "id": "tmdb-102382",
+      "letterboxdSlug": "the-amazing-spider-man-2",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-amazing-spider-man-2/",
+      "title": "The Amazing Spider-Man 2",
+      "releaseYear": 2014,
+      "firstWatchedDate": "2026-08-10",
+      "latestWatchedDate": "2026-08-10",
+      "firstReviewDate": "2026-08-11",
+      "latestReviewDate": "2026-08-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1444963605",
+          "watchedDate": "2026-08-10",
+          "reviewDate": "2026-08-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I understand why this put an end to this run. It’s not even bad, but it’s bloated and kills off a main character. Not sure the intended outcome when you do that in a franchise like this…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 102382,
+        "posterPath": "/dGjoPttcbKR5VWg1jQuNFB247KL.jpg",
+        "backdropPath": "/k0hlAzTryCYX1O1LyC6P8tAa8s0.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 141,
+        "director": "Marc Webb"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/dGjoPttcbKR5VWg1jQuNFB247KL.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dGjoPttcbKR5VWg1jQuNFB247KL.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1930": {
       "id": "tmdb-1930",
       "letterboxdSlug": "the-amazing-spider-man",
