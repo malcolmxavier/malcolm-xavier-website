@@ -1,12 +1,12 @@
 {
-  "capturedAt": "2026-08-10T19:00:33.865Z",
+  "capturedAt": "2026-08-11T05:00:31.733Z",
   "summary": {
-    "totalFilms": 799,
-    "totalReviews": 800,
+    "totalFilms": 800,
+    "totalReviews": 801,
     "ratingDistribution": {
       "1": 40,
       "2": 128,
-      "3": 152,
+      "3": 153,
       "4": 107,
       "5": 16,
       "2.5": 104,
@@ -16,9 +16,9 @@
       "3.5": 154
     },
     "genreDistribution": {
-      "Action": 123,
-      "Adventure": 87,
-      "Science Fiction": 123,
+      "Action": 124,
+      "Adventure": 88,
+      "Science Fiction": 124,
       "Horror": 134,
       "Comedy": 227,
       "Fantasy": 60,
@@ -37,9 +37,9 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "2010s": 133,
       "2000s": 35,
       "2020s": 594,
-      "2010s": 132,
       "1990s": 17,
       "1980s": 16,
       "1960s": 1,
@@ -47,6 +47,51 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1930",
+      "letterboxdSlug": "the-amazing-spider-man",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-amazing-spider-man/",
+      "title": "The Amazing Spider-Man",
+      "releaseYear": 2012,
+      "firstWatchedDate": "2026-08-10",
+      "latestWatchedDate": "2026-08-10",
+      "firstReviewDate": "2026-08-11",
+      "latestReviewDate": "2026-08-11",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1444839141",
+          "watchedDate": "2026-08-10",
+          "reviewDate": "2026-08-11",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I kinda like this dickish Spider-Man, but I don’t know that anything memorable is going on in here.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1930,
+        "posterPath": "/jexoNYnPd6vVrmygwF6QZmWPFdu.jpg",
+        "backdropPath": "/HVcza6tJtWFrLriuh3Ano4Vt46.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 136,
+        "director": "Marc Webb"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/jexoNYnPd6vVrmygwF6QZmWPFdu.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/jexoNYnPd6vVrmygwF6QZmWPFdu.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-559",
       "letterboxdSlug": "spider-man-3",
@@ -34809,6 +34854,51 @@
     }
   ],
   "filmById": {
+    "tmdb-1930": {
+      "id": "tmdb-1930",
+      "letterboxdSlug": "the-amazing-spider-man",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-amazing-spider-man/",
+      "title": "The Amazing Spider-Man",
+      "releaseYear": 2012,
+      "firstWatchedDate": "2026-08-10",
+      "latestWatchedDate": "2026-08-10",
+      "firstReviewDate": "2026-08-11",
+      "latestReviewDate": "2026-08-11",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1444839141",
+          "watchedDate": "2026-08-10",
+          "reviewDate": "2026-08-11",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I kinda like this dickish Spider-Man, but I don’t know that anything memorable is going on in here.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1930,
+        "posterPath": "/jexoNYnPd6vVrmygwF6QZmWPFdu.jpg",
+        "backdropPath": "/HVcza6tJtWFrLriuh3Ano4Vt46.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 136,
+        "director": "Marc Webb"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/jexoNYnPd6vVrmygwF6QZmWPFdu.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/jexoNYnPd6vVrmygwF6QZmWPFdu.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-559": {
       "id": "tmdb-559",
       "letterboxdSlug": "spider-man-3",
