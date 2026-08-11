@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-08-11T07:45:49.217Z",
+  "capturedAt": "2026-08-11T19:45:22.338Z",
   "meta": {
-    "films": 801,
+    "films": 802,
     "shows": 162,
-    "collections": 76
+    "collections": 77
   },
   "films": {
     "18": {
@@ -15868,6 +15868,147 @@
         }
       ],
       "collection": null
+    },
+    "315635": {
+      "ratings": {
+        "imdb": 7.4,
+        "metacritic": 73,
+        "metacriticUser": 7.4,
+        "tomatoes": 92,
+        "rtAudience": 87,
+        "letterboxd": 3.5,
+        "trakt": 77
+      },
+      "studios": [
+        "Marvel Studios",
+        "Pascal Pictures",
+        "LStar Capital",
+        "Columbia Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 175000000,
+      "revenue": 880978185,
+      "cast": [
+        {
+          "id": 1136406,
+          "name": "Tom Holland"
+        },
+        {
+          "id": 2232,
+          "name": "Michael Keaton"
+        },
+        {
+          "id": 3223,
+          "name": "Robert Downey Jr."
+        },
+        {
+          "id": 3141,
+          "name": "Marisa Tomei"
+        },
+        {
+          "id": 15277,
+          "name": "Jon Favreau"
+        },
+        {
+          "id": 12052,
+          "name": "Gwyneth Paltrow"
+        },
+        {
+          "id": 505710,
+          "name": "Zendaya"
+        },
+        {
+          "id": 119589,
+          "name": "Donald Glover"
+        },
+        {
+          "id": 1649152,
+          "name": "Jacob Batalon"
+        },
+        {
+          "id": 1606394,
+          "name": "Laura Harrier"
+        },
+        {
+          "id": 1291350,
+          "name": "Tony Revolori"
+        },
+        {
+          "id": 71913,
+          "name": "Bokeem Woodbine"
+        },
+        {
+          "id": 66221,
+          "name": "Tyne Daly"
+        },
+        {
+          "id": 1421427,
+          "name": "Abraham Attah"
+        },
+        {
+          "id": 500427,
+          "name": "Hannibal Buress"
+        },
+        {
+          "id": 41561,
+          "name": "Kenneth Choi"
+        },
+        {
+          "id": 162503,
+          "name": "Selenis Leyva"
+        },
+        {
+          "id": 1265629,
+          "name": "Angourie Rice"
+        },
+        {
+          "id": 41089,
+          "name": "Martin Starr"
+        },
+        {
+          "id": 31647,
+          "name": "Garcelle Beauvais"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1236679,
+          "name": "Jonathan Goldstein"
+        },
+        {
+          "id": 52935,
+          "name": "John Francis Daley"
+        },
+        {
+          "id": 1293994,
+          "name": "Jon Watts"
+        },
+        {
+          "id": 101814,
+          "name": "Christopher Ford"
+        },
+        {
+          "id": 1246890,
+          "name": "Chris McKenna"
+        },
+        {
+          "id": 1350918,
+          "name": "Erik Sommers"
+        }
+      ],
+      "collection": {
+        "id": 531241,
+        "name": "Spider-Man (MCU) Collection",
+        "total": 4
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 81
+      }
     },
     "324552": {
       "ratings": {
@@ -108238,6 +108379,36 @@
           "title": "Doctor Sleep",
           "year": "2019",
           "watched": true
+        }
+      ]
+    },
+    "531241": {
+      "name": "Spider-Man (MCU) Collection",
+      "total": 4,
+      "parts": [
+        {
+          "id": 315635,
+          "title": "Spider-Man: Homecoming",
+          "year": "2017",
+          "watched": true
+        },
+        {
+          "id": 429617,
+          "title": "Spider-Man: Far From Home",
+          "year": "2019",
+          "watched": false
+        },
+        {
+          "id": 634649,
+          "title": "Spider-Man: No Way Home",
+          "year": "2021",
+          "watched": false
+        },
+        {
+          "id": 969681,
+          "title": "Spider-Man: Brand New Day",
+          "year": "2026",
+          "watched": false
         }
       ]
     },
