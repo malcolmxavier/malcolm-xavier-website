@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-08-12T01:45:13.297Z",
+  "capturedAt": "2026-08-12T06:45:48.270Z",
   "meta": {
-    "films": 804,
+    "films": 805,
     "shows": 162,
     "collections": 77
   },
@@ -50698,6 +50698,131 @@
         "id": 968080,
         "name": "Wicked Collection",
         "total": 2
+      }
+    },
+    "969681": {
+      "ratings": {
+        "imdb": 8.1,
+        "metacritic": 66,
+        "metacriticUser": 8,
+        "tomatoes": 90,
+        "rtAudience": 98,
+        "letterboxd": 4.1,
+        "trakt": 87
+      },
+      "studios": [
+        "Marvel Studios",
+        "Columbia Pictures",
+        "Pascal Pictures",
+        "TSG Entertainment"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 225000000,
+      "revenue": 1665089000,
+      "cast": [
+        {
+          "id": 1136406,
+          "name": "Tom Holland"
+        },
+        {
+          "id": 505710,
+          "name": "Zendaya"
+        },
+        {
+          "id": 103,
+          "name": "Mark Ruffalo"
+        },
+        {
+          "id": 19498,
+          "name": "Jon Bernthal"
+        },
+        {
+          "id": 1649152,
+          "name": "Jacob Batalon"
+        },
+        {
+          "id": 1590797,
+          "name": "Sadie Sink"
+        },
+        {
+          "id": 1373737,
+          "name": "Florence Pugh"
+        },
+        {
+          "id": 59693,
+          "name": "Liza Colón-Zayas"
+        },
+        {
+          "id": 2028037,
+          "name": "Tramell Tillman"
+        },
+        {
+          "id": 3141,
+          "name": "Marisa Tomei"
+        },
+        {
+          "id": 3489,
+          "name": "Naomi Watts"
+        },
+        {
+          "id": 829372,
+          "name": "Michael Mando"
+        },
+        {
+          "id": 65827,
+          "name": "Keith David"
+        },
+        {
+          "id": 1962692,
+          "name": "Marvin Jones III"
+        },
+        {
+          "id": 3226127,
+          "name": "Olivia Booth-Ford"
+        },
+        {
+          "id": 6375680,
+          "name": "Taryn Marie Butler"
+        },
+        {
+          "id": 1855744,
+          "name": "Johnny Myers"
+        },
+        {
+          "id": 2423284,
+          "name": "Billy Clements"
+        },
+        {
+          "id": 171955,
+          "name": "Zabryna Guevara"
+        },
+        {
+          "id": 3651143,
+          "name": "Nina Rose Galano"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1350918,
+          "name": "Erik Sommers"
+        },
+        {
+          "id": 1246890,
+          "name": "Chris McKenna"
+        }
+      ],
+      "collection": {
+        "id": 531241,
+        "name": "Spider-Man (MCU) Collection",
+        "total": 4
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
       }
     },
     "970947": {
