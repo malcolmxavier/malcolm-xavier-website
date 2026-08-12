@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-08-11T19:45:22.338Z",
+  "capturedAt": "2026-08-12T01:45:13.297Z",
   "meta": {
-    "films": 802,
+    "films": 804,
     "shows": 162,
     "collections": 77
   },
@@ -21744,6 +21744,130 @@
       ],
       "collection": null
     },
+    "429617": {
+      "ratings": {
+        "imdb": 7.3,
+        "metacritic": 69,
+        "metacriticUser": 7.2,
+        "tomatoes": 91,
+        "rtAudience": 95,
+        "letterboxd": 3.4,
+        "trakt": 77
+      },
+      "studios": [
+        "Marvel Studios",
+        "Columbia Pictures",
+        "Pascal Pictures"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 160000000,
+      "revenue": 1132723226,
+      "cast": [
+        {
+          "id": 1136406,
+          "name": "Tom Holland"
+        },
+        {
+          "id": 131,
+          "name": "Jake Gyllenhaal"
+        },
+        {
+          "id": 2231,
+          "name": "Samuel L. Jackson"
+        },
+        {
+          "id": 3141,
+          "name": "Marisa Tomei"
+        },
+        {
+          "id": 15277,
+          "name": "Jon Favreau"
+        },
+        {
+          "id": 505710,
+          "name": "Zendaya"
+        },
+        {
+          "id": 1649152,
+          "name": "Jacob Batalon"
+        },
+        {
+          "id": 1291350,
+          "name": "Tony Revolori"
+        },
+        {
+          "id": 1265629,
+          "name": "Angourie Rice"
+        },
+        {
+          "id": 1347947,
+          "name": "Remy Hii"
+        },
+        {
+          "id": 41089,
+          "name": "Martin Starr"
+        },
+        {
+          "id": 65920,
+          "name": "JB Smoove"
+        },
+        {
+          "id": 1563266,
+          "name": "Jorge Lendeborg Jr."
+        },
+        {
+          "id": 71189,
+          "name": "Cobie Smulders"
+        },
+        {
+          "id": 35434,
+          "name": "Numan Acar"
+        },
+        {
+          "id": 2351636,
+          "name": "Zach Barack"
+        },
+        {
+          "id": 2351637,
+          "name": "Zoha Rahman"
+        },
+        {
+          "id": 1472668,
+          "name": "Yasmin Mwanza"
+        },
+        {
+          "id": 2351611,
+          "name": "Joshua Sinclair-Evans"
+        },
+        {
+          "id": 2351639,
+          "name": "Tyler Luke Cunningham"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1246890,
+          "name": "Chris McKenna"
+        },
+        {
+          "id": 1350918,
+          "name": "Erik Sommers"
+        }
+      ],
+      "collection": {
+        "id": 531241,
+        "name": "Spider-Man (MCU) Collection",
+        "total": 4
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 77
+      }
+    },
     "437342": {
       "ratings": {
         "imdb": 6.5,
@@ -33017,6 +33141,130 @@
         }
       ],
       "collection": null
+    },
+    "634649": {
+      "ratings": {
+        "imdb": 8.1,
+        "metacritic": 71,
+        "metacriticUser": 8.4,
+        "tomatoes": 93,
+        "rtAudience": 97,
+        "letterboxd": 3.9,
+        "trakt": 85
+      },
+      "studios": [
+        "Marvel Studios",
+        "Pascal Pictures",
+        "Columbia Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 200000000,
+      "revenue": 1921426073,
+      "cast": [
+        {
+          "id": 1136406,
+          "name": "Tom Holland"
+        },
+        {
+          "id": 505710,
+          "name": "Zendaya"
+        },
+        {
+          "id": 71580,
+          "name": "Benedict Cumberbatch"
+        },
+        {
+          "id": 1649152,
+          "name": "Jacob Batalon"
+        },
+        {
+          "id": 15277,
+          "name": "Jon Favreau"
+        },
+        {
+          "id": 134,
+          "name": "Jamie Foxx"
+        },
+        {
+          "id": 5293,
+          "name": "Willem Dafoe"
+        },
+        {
+          "id": 658,
+          "name": "Alfred Molina"
+        },
+        {
+          "id": 30082,
+          "name": "Benedict Wong"
+        },
+        {
+          "id": 1291350,
+          "name": "Tony Revolori"
+        },
+        {
+          "id": 3141,
+          "name": "Marisa Tomei"
+        },
+        {
+          "id": 37625,
+          "name": "Andrew Garfield"
+        },
+        {
+          "id": 2219,
+          "name": "Tobey Maguire"
+        },
+        {
+          "id": 1265629,
+          "name": "Angourie Rice"
+        },
+        {
+          "id": 457386,
+          "name": "Arian Moayed"
+        },
+        {
+          "id": 17420,
+          "name": "Paula Newsome"
+        },
+        {
+          "id": 500427,
+          "name": "Hannibal Buress"
+        },
+        {
+          "id": 41089,
+          "name": "Martin Starr"
+        },
+        {
+          "id": 65920,
+          "name": "JB Smoove"
+        },
+        {
+          "id": 18999,
+          "name": "J.K. Simmons"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1246890,
+          "name": "Chris McKenna"
+        },
+        {
+          "id": 1350918,
+          "name": "Erik Sommers"
+        }
+      ],
+      "collection": {
+        "id": 531241,
+        "name": "Spider-Man (MCU) Collection",
+        "total": 4
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 88
+      }
     },
     "635731": {
       "ratings": {
