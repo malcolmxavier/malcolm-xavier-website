@@ -1,24 +1,24 @@
 {
-  "capturedAt": "2026-08-11T19:01:16.671Z",
+  "capturedAt": "2026-08-12T01:01:09.854Z",
   "summary": {
-    "totalFilms": 802,
-    "totalReviews": 803,
+    "totalFilms": 804,
+    "totalReviews": 805,
     "ratingDistribution": {
       "1": 40,
       "2": 128,
       "3": 154,
       "4": 107,
       "5": 16,
-      "3.5": 155,
+      "3.5": 157,
       "2.5": 104,
       "4.5": 50,
       "1.5": 39,
       "0.5": 10
     },
     "genreDistribution": {
-      "Action": 126,
-      "Adventure": 90,
-      "Science Fiction": 126,
+      "Action": 128,
+      "Adventure": 92,
+      "Science Fiction": 128,
       "Horror": 134,
       "Comedy": 227,
       "Fantasy": 60,
@@ -37,9 +37,9 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2010s": 135,
+      "2020s": 595,
+      "2010s": 136,
       "2000s": 35,
-      "2020s": 594,
       "1990s": 17,
       "1980s": 16,
       "1960s": 1,
@@ -47,6 +47,96 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-634649",
+      "letterboxdSlug": "spider-man-no-way-home",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/spider-man-no-way-home/",
+      "title": "Spider-Man: No Way Home",
+      "releaseYear": 2021,
+      "firstWatchedDate": "2026-08-11",
+      "latestWatchedDate": "2026-08-11",
+      "firstReviewDate": "2026-08-12",
+      "latestReviewDate": "2026-08-12",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1446200788",
+          "watchedDate": "2026-08-11",
+          "reviewDate": "2026-08-12",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Not sure if the fan service was as tight as I wanted it to be. Kinda savage for Andrew Garfield to come and do that in Tom Holland’s face…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 634649,
+        "posterPath": "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+        "backdropPath": "/14QbnygCuTO0vl7CAFmPf1fgZfV.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 148,
+        "director": "Jon Watts"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-429617",
+      "letterboxdSlug": "spider-man-far-from-home",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/spider-man-far-from-home/",
+      "title": "Spider-Man: Far From Home",
+      "releaseYear": 2019,
+      "firstWatchedDate": "2026-08-11",
+      "latestWatchedDate": "2026-08-11",
+      "firstReviewDate": "2026-08-12",
+      "latestReviewDate": "2026-08-12",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1446198557",
+          "watchedDate": "2026-08-11",
+          "reviewDate": "2026-08-12",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I really felt like we were thrust into the MCU in a way the first entry avoids. Not sure if I liked that…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 429617,
+        "posterPath": "/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg",
+        "backdropPath": "/vamhMTvh9m9zFHDoR0v1nRtf6T4.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 129,
+        "director": "Jon Watts"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-315635",
       "letterboxdSlug": "spider-man-homecoming",
@@ -34944,6 +35034,96 @@
     }
   ],
   "filmById": {
+    "tmdb-634649": {
+      "id": "tmdb-634649",
+      "letterboxdSlug": "spider-man-no-way-home",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/spider-man-no-way-home/",
+      "title": "Spider-Man: No Way Home",
+      "releaseYear": 2021,
+      "firstWatchedDate": "2026-08-11",
+      "latestWatchedDate": "2026-08-11",
+      "firstReviewDate": "2026-08-12",
+      "latestReviewDate": "2026-08-12",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1446200788",
+          "watchedDate": "2026-08-11",
+          "reviewDate": "2026-08-12",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Not sure if the fan service was as tight as I wanted it to be. Kinda savage for Andrew Garfield to come and do that in Tom Holland’s face…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 634649,
+        "posterPath": "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+        "backdropPath": "/14QbnygCuTO0vl7CAFmPf1fgZfV.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 148,
+        "director": "Jon Watts"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-429617": {
+      "id": "tmdb-429617",
+      "letterboxdSlug": "spider-man-far-from-home",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/spider-man-far-from-home/",
+      "title": "Spider-Man: Far From Home",
+      "releaseYear": 2019,
+      "firstWatchedDate": "2026-08-11",
+      "latestWatchedDate": "2026-08-11",
+      "firstReviewDate": "2026-08-12",
+      "latestReviewDate": "2026-08-12",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1446198557",
+          "watchedDate": "2026-08-11",
+          "reviewDate": "2026-08-12",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I really felt like we were thrust into the MCU in a way the first entry avoids. Not sure if I liked that…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 429617,
+        "posterPath": "/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg",
+        "backdropPath": "/vamhMTvh9m9zFHDoR0v1nRtf6T4.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 129,
+        "director": "Jon Watts"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4q2NNj4S5dG2RLF9CpXsej7yXl.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-315635": {
       "id": "tmdb-315635",
       "letterboxdSlug": "spider-man-homecoming",
