@@ -53,8 +53,20 @@ const FIELDS = [
   {
     label: "Headline",
     value:
-      "Senior Product Manager · Growth and Data Platform · Media, Publishing, and Streaming · AI-Native",
+      "Senior Product Manager · Growth, MarTech, and Customer Data Platforms · AI-Native Operations · Media, Publishing, and Streaming",
     in: ["site", "resumeDocx", "bulletBank", "coverLetter"],
+  },
+
+  {
+    // The summary sits directly under the headline on every surface, so a
+    // mismatch here reads as two different people. It went unchecked until
+    // 2026-08-19, by which point the bullet bank had silently drifted in
+    // three places ("growth, experimentation, and data platforms",
+    // "growth infrastructure", "Applied MS in Law").
+    label: "Summary",
+    value:
+      "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops—roadmapping, outcome measurement, and documentation.",
+    in: ["site", "resumeDocx", "bulletBank"],
   },
 
   // ─── Contact block ───────────────────────────────────────────────

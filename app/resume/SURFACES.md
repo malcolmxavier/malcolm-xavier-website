@@ -4,6 +4,8 @@ The resume has five surfaces inside this repo plus one external (LinkedIn). Each
 
 The shared-field expectations are enforced by `npm run resume:check`, which lives at `scripts/check-resume-sync.mjs` and fails loudly if any listed field drifts between surfaces.
 
+**Scope of the check, stated honestly (corrected 2026-08-19).** It covers the four builder/data files listed in its `SURFACES` map — `resume-data.tsx` and the three docx scripts — and only the fields in its `FIELDS` list. It does **not** cover the site's other positioning surfaces: `app/layout.tsx` (site description and the JSON-LD `Person.jobTitle`, `description`, and `knowsAbout`), `public/llms.txt`, per-page metadata and OG images, the repeated alt/caption strings, `app/styles/page.tsx`, or `_private/cover-letter/build-apollo.mjs`. Those carry the same positioning and drift silently; they are tracked as the `headline-rollout` node in the Booth backlog. Earlier revisions of this file implied the check covered everything, which is how the bullet bank's summary drifted in three places unnoticed.
+
 ## Surfaces in this repo
 
 | Surface | Source | Output | Audience |
@@ -11,7 +13,7 @@ The shared-field expectations are enforced by `npm run resume:check`, which live
 | `/resume` page | `app/resume/resume-data.tsx` | rendered React page | recruiters, hiring managers, human readers |
 | Public PDF download | `scripts/build-resume-docx.mjs` → `scripts/build-resume-pdf.mjs` (LibreOffice) | `public/resume/malcolm-xavier-resume.pdf` | recruiters who download to save or forward |
 | Public .docx template | `scripts/build-resume-docx.mjs` | `public/resume/malcolm-xavier-resume-template.docx` | Malcolm's per-application tailoring workflow (Drive → Docs → tailor → PDF) |
-| Bullet bank | `scripts/build-bullet-bank-docx.mjs` | generated locally, not committed | Malcolm's reference document when drafting bullets per-application |
+| Bullet bank | `scripts/build-bullet-bank-docx.mjs` | `public/resume/malcolm-xavier-bullet-bank-template.docx` — **committed and web-reachable**, despite what this row used to claim | Malcolm's reference document when drafting bullets per-application |
 | Cover letter | `scripts/build-cover-letter-docx.mjs` | generated locally, not committed | Malcolm's per-application cover letter header |
 
 ## External surface

@@ -159,10 +159,10 @@ export const STATUS = "Currently interviewing · Open to senior PM roles in medi
 // hyphenation rules are different from CSS line-breaking, and the
 // resume-data file ships site-only per the project rule.
 export const HEADLINE =
-  "Senior Product Manager · Growth and Data Platform · Media, Publishing, and Streaming · AI‑Native";
+  "Senior Product Manager · Growth, MarTech, and Customer Data Platforms · AI‑Native Operations · Media, Publishing, and Streaming";
 
 export const SUMMARY =
-  "Senior Product Manager with 7+ years scaling growth and data platforms across consumer and B2B SaaS products. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Operationalized AI-native discovery/delivery loops, including roadmapping, outcome measurement, and documentation.";
+  "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops—roadmapping, outcome measurement, and documentation.";
 
 // ─── Work experience (most recent first) ───────────────────────────
 

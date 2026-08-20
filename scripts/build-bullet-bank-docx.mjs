@@ -123,7 +123,7 @@ const CONTACT = {
   // PDF source had a two-line title + tagline treatment; collapsed
   // here to match the resume's single-line positioning.
   headline:
-    "Senior Product Manager · Growth and Data Platform · Media, Publishing, and Streaming · AI-Native",
+    "Senior Product Manager · Growth, MarTech, and Customer Data Platforms · AI-Native Operations · Media, Publishing, and Streaming",
   email: "malcolm@malxavi.com",
   phone: "(774) 262-2606",
   location: "Los Angeles, CA",
@@ -132,7 +132,7 @@ const CONTACT = {
 };
 
 const SUMMARY =
-  "Senior Product Manager with 7+ years scaling growth, experimentation, and data platforms across consumer and B2B SaaS products. Built and operated growth infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Operationalized AI-native discovery/delivery loops, including roadmapping, outcome measurement, and documentation.";
+  "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops—roadmapping, outcome measurement, and documentation.";
 
 // Each role mirrors the resume script's shape:
 //   { company, url?, location?, title, dates, context?, bullets[] }
