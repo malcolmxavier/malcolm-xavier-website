@@ -17,7 +17,7 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "Malcolm Xavier—Senior PM resume. Growth, data, and AI across media and streaming.";
+  "Malcolm Xavier—Senior PM resume. Growth, marketing, and data platforms, AI-native.";
 
 export default function OpenGraphImage() {
   // Name as the nameplate (bumped to 140 to match the flagship home
@@ -29,6 +29,6 @@ export default function OpenGraphImage() {
     eyebrow: "RESUME",
     titleLines: ["Malcolm Xavier"],
     titleSize: 140,
-    subtitle: "Senior PM—growth, data, and AI across media and streaming.",
+    subtitle: "Senior PM—growth, marketing, and data platforms. AI-native.",
   });
 }

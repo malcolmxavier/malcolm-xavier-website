@@ -28,7 +28,7 @@ import { headers } from "next/headers";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { ShareBar } from "@/components/share/ShareBar";
-import { twitterAttribution } from "@/lib/site-config";
+import { SOCIAL_CARD_ALT, twitterAttribution } from "@/lib/site-config";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
 import { Lede } from "@/components/typography/Lede";
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
         url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
+        alt: SOCIAL_CARD_ALT,
       },
     ],
   },

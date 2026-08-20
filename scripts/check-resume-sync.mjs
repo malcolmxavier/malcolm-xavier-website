@@ -51,22 +51,18 @@ const normalize = (s) => s.replace(/‑/g, "-");
 const FIELDS = [
   // ─── Top-of-page positioning ─────────────────────────────────────
   {
-    // The headline deliberately differs between the web page and the
-    // documents. At 10.5pt the four-segment version wraps to a second line
-    // in the docx/PDF, and the domain segment is the one worth losing there:
-    // the summary immediately below it opens "in media, publishing, and B2B
-    // SaaS", so the claim survives. The site has no width constraint and
-    // keeps all four. Split into two checked values 2026-08-19.
-    label: "Headline (site)",
-    value:
-      "Senior Product Manager · Growth, MarTech, and Customer Data Platforms · AI-Native Operations · Media, Publishing, and Streaming",
-    in: ["site"],
-  },
-  {
-    label: "Headline (documents)",
+    // One headline across every surface in this repo. A four-segment version
+    // carrying "Media, Publishing, and Streaming" was tried on 2026-08-19 and
+    // reverted the same day: it wrapped to a second line in the docx at 10.5pt
+    // AND on the web page, whose content column caps at 864px and stops growing
+    // — so no viewport rendered it on one line. The domain claim survives
+    // regardless, because the summary directly beneath opens "in media,
+    // publishing, and B2B SaaS". LinkedIn is the one surface that does carry
+    // the longer form; it is manually maintained and out of this check.
+    label: "Headline",
     value:
       "Senior Product Manager · Growth, MarTech, and Customer Data Platforms · AI-Native Operations",
-    in: ["resumeDocx", "bulletBank", "coverLetter"],
+    in: ["site", "resumeDocx", "bulletBank", "coverLetter"],
   },
 
   {

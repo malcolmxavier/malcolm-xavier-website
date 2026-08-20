@@ -14,7 +14,7 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "Contact Malcolm Xavier—Senior PM in media and streaming. Book a call or send an email.";
+  "Contact Malcolm Xavier—Senior PM in growth, marketing, and data platforms. Book a call or send an email.";
 
 export default function OpenGraphImage() {
   // Name as the nameplate (140 to match the other name-cards); CONTACT
@@ -25,6 +25,6 @@ export default function OpenGraphImage() {
     eyebrow: "CONTACT",
     titleLines: ["Malcolm Xavier"],
     titleSize: 140,
-    subtitle: "Senior PM in media and streaming—book a call or send an email.",
+    subtitle: "Senior PM in growth, marketing, and data platforms—book a call.",
   });
 }

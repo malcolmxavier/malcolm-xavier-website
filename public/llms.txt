@@ -1,6 +1,6 @@
 # Malcolm Xavier — malxavi.com
 
-> Senior product manager working on growth and data platforms in media, publishing, and streaming. AI-native builder. Based in Los Angeles, originally from New York. This site is a portfolio supporting a Senior PM job search in tech, media, and streaming.
+> Senior product manager working on growth, marketing, and data platforms—MarTech infrastructure, customer data platforms, and lifecycle programs—in media, publishing, and B2B SaaS. AI-native builder. Based in Los Angeles, originally from New York. This site is a portfolio supporting a Senior PM job search.
 
 ## Key pages
 
@@ -35,4 +35,4 @@
 
 Malcolm is a Senior PM with technical depth (React, Node, TypeScript, SQL, BigQuery, Python, ETL) plus an MS in Law from Northwestern (data privacy and IP) and a BA in Theatre and Dance. Most recent role: People Inc. (Dotdash Meredith), building MarTech infrastructure for 22M+ users across 40+ brands. Earlier work at Muck Rack, User Interviews, and Fullstack Academy.
 
-Case studies are long-form articles covering Growth PM methodology, AI-native product development, and Claude Code workflows. Currently interviewing. Open to senior PM roles in media and streaming.
+Case studies are long-form articles covering Growth PM methodology, AI-native product development, and Claude Code workflows. Currently interviewing. Open to senior PM roles in growth, marketing, and data platforms.

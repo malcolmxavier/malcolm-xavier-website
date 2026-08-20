@@ -55,7 +55,7 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 // portfolio walk if added later. (2026-04-29 /full-review,
 // a-calendly-widget-url-and-tracking — copy half of the fix.)
 const CONTACT_DESCRIPTION =
-  "Reach Malcolm Xavier—senior PM in growth, data, and MarTech across media and streaming. Book a call or send an email. Currently interviewing.";
+  "Reach Malcolm Xavier—senior PM in growth, marketing, and data platforms. Book a call or send an email. Currently interviewing.";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -160,11 +160,12 @@ export default function ContactPage() {
           <Kicker>Contact</Kicker>
           <Display>Let’s talk.</Display>
           <Lede>
-            Hiring a senior PM in media or streaming? Want to
-            compare notes on growth, data, AI, or anything I’ve
-            written about? Pick a slot below, send a note, or find
-            me elsewhere on the internet. I reply within a day or two—faster
-            if there’s a job at the end of it.
+            Hiring a senior PM to build growth, marketing, or data
+            platforms? Want to compare notes on product, AI, or
+            privacy? Pick a slot below, send a
+            note, or find me elsewhere on the internet. I reply
+            within a day or two—faster if there’s a job at the end
+            of it.
           </Lede>
         </Stack>
       </Section>

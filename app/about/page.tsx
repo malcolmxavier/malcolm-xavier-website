@@ -45,9 +45,9 @@ import { CONTACT } from "../resume/resume-data";
 // the page's own positioning. (2026-04-29 /full-review,
 // a-per-page-og-twitter.)
 const ABOUT_DESCRIPTION =
-  "Senior PM building growth, data, and MarTech platforms in media and streaming—AI-native, theater and law degrees. Creative by trade, a child of the Internet.";
+  "Senior PM building growth, marketing, and data platforms—AI-native, theater and law degrees. Creative by trade, a child of the Internet.";
 const ABOUT_OG_TITLE =
-  "About Malcolm Xavier · Senior PM, Media and Streaming";
+  "About Malcolm Xavier · Senior PM, Growth and MarTech";
 
 export const metadata: Metadata = {
   // Title surfaces the role + domain keywords recruiters Google
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   // `%s—Malcolm Xavier` template appends the brand name once; not
   // duplicating it here. Closes h-titles-underdeveloped from the
   // 2026-04-29 /full-review.
-  title: "About · Senior PM in Media and Streaming",
+  title: "About · Senior PM, Growth and MarTech",
   description: ABOUT_DESCRIPTION,
   // Explicit canonical override — without it, /about inherits the
   // root layout's canonical-of-"/" and Googlebot treats it as a
@@ -231,10 +231,10 @@ export default function AboutPage() {
                 </Body>
 
                 <Body>
-                  Right now I’m interviewing—looking
-                  for senior PM roles in media and streaming,
-                  ideally somewhere that takes both the growth side
-                  and the editorial side seriously. If that sounds
+                  Right now I’m interviewing—looking for senior PM
+                  roles building growth, marketing, and data
+                  platforms, ideally somewhere that takes both the
+                  growth side and the editorial side seriously. If that sounds
                   like your team, I’d love to{" "}
                   <Link href={CONTACT.linkedin}>connect</Link>.
                 </Body>

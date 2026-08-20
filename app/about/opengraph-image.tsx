@@ -15,7 +15,7 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "About Malcolm Xavier—Senior PM in media and streaming. Creative by trade, a child of the Internet.";
+  "About Malcolm Xavier—Senior PM in growth, marketing, and data platforms. Creative by trade, a child of the Internet.";
 
 export default function OpenGraphImage() {
   // Name as the nameplate (140 to match the flagship home and resume
@@ -26,6 +26,6 @@ export default function OpenGraphImage() {
     eyebrow: "ABOUT",
     titleLines: ["Malcolm Xavier"],
     titleSize: 140,
-    subtitle: "Senior PM in media and streaming—creative by trade, a child of the Internet.",
+    subtitle: "Senior PM in growth, marketing, and data platforms—creative by trade.",
   });
 }

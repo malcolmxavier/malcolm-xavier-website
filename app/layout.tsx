@@ -97,7 +97,7 @@ const robotoMono = Roboto_Mono({
 import { SITE_URL, SITE_NAME, twitterAttribution } from "@/lib/site-config";
 
 const SITE_DESCRIPTION =
-  "Senior product manager with an artist’s eye. Growth and data in tech, media, and streaming. AI-native, MS in Law, plus a theater background that shows.";
+  "Senior product manager with an artist’s eye. Growth, marketing, and data platforms—AI-native, an MS in Law, and a theater background that shows.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -171,7 +171,7 @@ const STRUCTURED_DATA = {
       jobTitle: "Senior Product Manager",
       url: SITE_URL,
       description:
-        "Senior product manager specializing in growth and data platforms in media, publishing, and streaming. AI-native builder with an MS in Law and a BA in theater.",
+        "Senior product manager specializing in growth, marketing, and data platforms—MarTech infrastructure, customer data platforms, lifecycle programs, and experimentation—across media, publishing, and B2B SaaS. AI-native builder with an MS in Law focused on data privacy and IP, and a BA in theater.",
       sameAs: [
         "https://www.linkedin.com/in/malxavi/",
         "https://github.com/malcolmxavier",
@@ -182,13 +182,17 @@ const STRUCTURED_DATA = {
       knowsAbout: [
         "Product Management",
         "Growth",
+        "Marketing Technology",
+        "Customer Data Platforms",
         "Data Platforms",
-        "Media",
-        "Streaming",
-        "AI",
-        "MarTech",
         "Lifecycle Marketing",
         "Experimentation",
+        "Personalization",
+        "Data Privacy",
+        "Artificial Intelligence",
+        "Media",
+        "Publishing",
+        "Streaming",
       ],
       alumniOf: [
         {

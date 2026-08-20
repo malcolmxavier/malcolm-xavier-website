@@ -26,9 +26,10 @@ import {
   OG_SIZE,
   OG_CONTENT_TYPE,
 } from "@/lib/og/case-study-card";
+import { SOCIAL_CARD_ALT } from "@/lib/site-config";
 
 export const alt =
-  "Malcolm Xavier—Senior product manager. Tech, media, and streaming.";
+  SOCIAL_CARD_ALT;
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 
@@ -41,6 +42,6 @@ export default function OpenGraphImage() {
     eyebrow: "PORTFOLIO",
     titleLines: ["Malcolm Xavier"],
     titleSize: 140,
-    subtitle: "Senior product manager—tech, media, and streaming.",
+    subtitle: "Senior product manager—growth, marketing, and data platforms.",
   });
 }

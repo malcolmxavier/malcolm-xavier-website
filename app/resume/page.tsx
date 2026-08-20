@@ -85,7 +85,7 @@ import { CaseStudyCarousel } from "./CaseStudyCarousel";
 // on LinkedIn unfurled with the sitewide stub title and no per-page
 // description. (2026-04-29 /full-review, a-per-page-og-twitter.)
 const RESUME_DESCRIPTION =
-  "Malcolm Xavier’s web resume. Senior PM with growth, data, and AI work across media and streaming. Currently interviewing. Download PDF or book a call.";
+  "Malcolm Xavier’s web resume. Senior PM in growth, marketing, and data platforms, AI-native. Currently interviewing. Download PDF or book a call.";
 const RESUME_OG_TITLE = "Malcolm Xavier · Senior PM Resume";
 
 export const metadata: Metadata = {
@@ -739,9 +739,9 @@ export default function ResumePage() {
           <Stack gap="400" align="start">
             <Headline level={2}>Let’s talk.</Headline>
             <Body>
-              If you’re hiring for a Senior PM in media, publishing, or
-              streaming—or you’d just like to compare notes—LinkedIn
-              is fastest. Or send an{" "}
+              If you’re hiring a Senior PM to build growth, marketing,
+              or data platforms—or you’d just like to compare
+              notes—LinkedIn is fastest. Or send an{" "}
               <TrackOnClick
                 event={ANALYTICS_EVENTS.EMAIL_CLICK}
                 eventData={{ kind: "direct", surface: "resume-closing" }}

@@ -44,7 +44,7 @@ import { SITE_URL } from "@/lib/site-config";
 // would unfurl with the sitewide stub. (2026-04-29 /full-review,
 // a-per-page-og-twitter.)
 const INDEX_DESCRIPTION =
-  "Long-form case studies from Malcolm Xavier on PM craft, AI-native shipping, and growth in media and streaming. Written with Claude Code as build partner.";
+  "Long-form case studies on PM craft, AI-native shipping, and growth, marketing, and data platforms. Written with Claude Code as build partner.";
 const INDEX_OG_TITLE = "Case Studies · Malcolm Xavier";
 
 export const metadata: Metadata = {

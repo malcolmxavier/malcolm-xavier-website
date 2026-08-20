@@ -15,7 +15,7 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "Case studies by Malcolm Xavier—PM craft, AI-native shipping, and growth in media and streaming.";
+  "Case studies by Malcolm Xavier—PM craft, AI-native shipping, and growth, marketing, and data platforms.";
 
 export default function OpenGraphImage() {
   // Name as the nameplate (140 to match the other name-cards); CASE

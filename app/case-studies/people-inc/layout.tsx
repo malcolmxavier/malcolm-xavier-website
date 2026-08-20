@@ -7,7 +7,7 @@
 
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { SITE_URL, LINKEDIN_PROFILE_URL, twitterAttribution } from "@/lib/site-config";
+import { LINKEDIN_PROFILE_URL, SITE_URL, SOCIAL_CARD_ALT, twitterAttribution } from "@/lib/site-config";
 import { BUILD_TIMESTAMP } from "@/lib/build-meta";
 import { getCaseStudyAccent } from "@/app/resume/resume-data";
 import "@/components/case-study/case-glass.css";
@@ -128,7 +128,7 @@ const ARTICLE_SCHEMA = {
         "@type": "ImageObject",
         url: `${ARTICLE_URL}/opengraph-image`,
         contentUrl: `${ARTICLE_URL}/opengraph-image`,
-        caption: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
+        caption: SOCIAL_CARD_ALT,
         width: 1200,
         height: 630,
       },

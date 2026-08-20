@@ -31,7 +31,7 @@ import {
   getProject,
   formatByline,
 } from "@/lib/projects/projects";
-import { SITE_URL, twitterAttribution } from "@/lib/site-config";
+import { SITE_URL, SOCIAL_CARD_ALT, twitterAttribution } from "@/lib/site-config";
 import { BUILD_TIMESTAMP } from "@/lib/build-meta";
 
 type Params = { slug: string };
@@ -83,7 +83,7 @@ export async function generateMetadata({
           url: "/opengraph-image",
           width: 1200,
           height: 630,
-          alt: "Malcolm Xavier—Senior product manager. Tech, media, and streaming.",
+          alt: SOCIAL_CARD_ALT,
         },
       ],
     },

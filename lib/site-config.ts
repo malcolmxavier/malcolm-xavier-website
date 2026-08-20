@@ -13,6 +13,15 @@ export const SITE_URL = "https://malxavi.com";
 /** Display name — shown in the title template, OG site_name, etc. */
 export const SITE_NAME = "Malcolm Xavier";
 
+/** Alt text for the sitewide social card — the identity unfurl that every
+ *  surface without its own bespoke card falls back to. It was hardcoded in
+ *  nine files until 2026-08-19, which is why it still said "Tech, media, and
+ *  streaming" three weeks after the positioning changed. One string, one
+ *  place: the OG image route, the JSON-LD ImageObject captions on all six
+ *  case studies, /music, /projects, and the work-case-study template. */
+export const SOCIAL_CARD_ALT =
+  "Malcolm Xavier—Senior product manager. Growth, marketing, and data platforms.";
+
 /** Canonical LinkedIn profile. Used as the OG `article:author` target on
  *  case studies (so a LinkedIn unfurl can attribute the byline back to the
  *  profile) and mirrored in the sitewide Person `sameAs` in app/layout.tsx. */

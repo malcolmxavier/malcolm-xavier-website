@@ -216,9 +216,9 @@ export default function Home() {
               <Stack gap="400">
                 <Lede>
                   I’m a senior product manager who specializes
-                  in building growth and data platforms. I’m
-                  AI-native by practice: I built this site with
-                  Claude Code as my build partner.
+                  in building growth, marketing, and data
+                  platforms. I’m AI-native by practice: I built
+                  this site with Claude Code as my build partner.
                 </Lede>
 
                 <Lede>
@@ -389,9 +389,9 @@ export default function Home() {
           <Kicker>Get in touch</Kicker>
           <Headline level={2}>Let’s talk.</Headline>
           <Body>
-            Hiring a senior PM in media or streaming? Want to compare
-            notes on growth, data, AI, or anything else above? Pick a
-            slot or drop a note.
+            Hiring a senior PM to build growth, marketing, or data
+            platforms? Want to compare notes on product, AI, or
+            privacy? Pick a slot or drop a note.
           </Body>
 
           <div className="flex flex-wrap gap-3 pt-2">
