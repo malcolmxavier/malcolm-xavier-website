@@ -30,7 +30,8 @@ The `npm run resume:check` script verifies these. Update the script's `FIELDS` l
 
 | Field | `resume-data.tsx` | `build-resume-docx.mjs` | `build-bullet-bank-docx.mjs` | `build-cover-letter-docx.mjs` |
 |---|:-:|:-:|:-:|:-:|
-| Headline | • (U+2011) | • | • | • |
+| Headline (site) | • (U+2011, 4 segments) | — | — | — |
+| Headline (documents) | — | • (3 segments) | • | • |
 | Name | — (rendered from `page.tsx`) | • | • | • |
 | Email | • | • | • | • |
 | Phone | • | • | • | • |
@@ -47,6 +48,7 @@ These differences are by design. The check script normalizes them out where appl
 
 - **Bullets**: site uses inline JSX `<Link>`s for cross-references; docx scripts hardcode ATS-friendly plain text. Each script's bullets can differ in wording, ordering, and count. Edits default to site-only — mirror to docx only when explicitly asked.
 - **Headline hyphen**: site uses U+2011 (non-breaking hyphen) in `AI‑Native` so the term wraps as a single word at narrow viewports. Docx scripts use a regular hyphen because Word hyphenation rules differ from CSS line-breaking.
+- **Headline segments** (2026-08-19): the site carries four segments and the documents carry three. At 10.5pt the fourth segment—`Media, Publishing, and Streaming`—wrapped the headline onto a second line in the docx and PDF. It is the right one to drop there because the summary directly beneath it opens "in media, publishing, and B2B SaaS," and the body evidences the domain twice more (People Inc. as "America's largest publisher," Muck Rack as a PR tool); the other segments have no backup above the fold. The web page has no width constraint and keeps all four. So does LinkedIn, but for a different reason: its headline is Boolean-searchable by recruiters and is rendered **detached from the About section** everywhere except the profile page itself—search results, the feed, comments, messages—so the domain keywords have to live in the headline rather than lean on the summary. The check enforces both values separately as `Headline (site)` and `Headline (documents)`—do not collapse them back into one field.
 - **Color and formatting**: site uses sub-brand accent colors and rich typography. Docx uses black text only, DM Sans throughout, single column — clean ATS extraction.
 - **`SUMMARY` section header**: site renders a SUMMARY label above the paragraph. Docx omits the label; the paragraph sits between contact and EXPERIENCE.
 - **LinkedIn vs resume title**: LinkedIn carries `Senior Product Manager, Audience Relationships (Growth, MarTech, and Data Platform)` for Boolean search. The repo carries the clean form. The bullets on the resume already establish scope; the parenthetical just causes line wraps. (Memory: `feedback_linkedin_vs_resume_keyword_strategy.md`.)

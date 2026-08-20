@@ -51,10 +51,22 @@ const normalize = (s) => s.replace(/‑/g, "-");
 const FIELDS = [
   // ─── Top-of-page positioning ─────────────────────────────────────
   {
-    label: "Headline",
+    // The headline deliberately differs between the web page and the
+    // documents. At 10.5pt the four-segment version wraps to a second line
+    // in the docx/PDF, and the domain segment is the one worth losing there:
+    // the summary immediately below it opens "in media, publishing, and B2B
+    // SaaS", so the claim survives. The site has no width constraint and
+    // keeps all four. Split into two checked values 2026-08-19.
+    label: "Headline (site)",
     value:
       "Senior Product Manager · Growth, MarTech, and Customer Data Platforms · AI-Native Operations · Media, Publishing, and Streaming",
-    in: ["site", "resumeDocx", "bulletBank", "coverLetter"],
+    in: ["site"],
+  },
+  {
+    label: "Headline (documents)",
+    value:
+      "Senior Product Manager · Growth, MarTech, and Customer Data Platforms · AI-Native Operations",
+    in: ["resumeDocx", "bulletBank", "coverLetter"],
   },
 
   {
