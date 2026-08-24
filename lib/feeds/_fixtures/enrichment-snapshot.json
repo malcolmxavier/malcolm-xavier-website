@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-08-12T06:45:48.270Z",
+  "capturedAt": "2026-08-24T16:46:29.868Z",
   "meta": {
-    "films": 805,
+    "films": 808,
     "shows": 162,
     "collections": 77
   },
@@ -62315,6 +62315,123 @@
         "total": 5
       }
     },
+    "1101383": {
+      "ratings": {
+        "imdb": 6.6,
+        "metacritic": 69,
+        "metacriticUser": 6.1,
+        "tomatoes": 86,
+        "rtAudience": 77,
+        "letterboxd": 3.1,
+        "trakt": 68
+      },
+      "studios": [
+        "Jackson Pictures",
+        "Bad Robot",
+        "Warner Bros. Pictures",
+        "Domain Entertainment"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 80000000,
+      "revenue": 47010488,
+      "cast": [
+        {
+          "id": 1813,
+          "name": "Anne Hathaway"
+        },
+        {
+          "id": 3061,
+          "name": "Ewan McGregor"
+        },
+        {
+          "id": 1721268,
+          "name": "Christian Convery"
+        },
+        {
+          "id": 1104567,
+          "name": "Maisy Stella"
+        },
+        {
+          "id": 1900828,
+          "name": "Jordan Alexa Davis"
+        },
+        {
+          "id": 1211946,
+          "name": "P.J. Byrne"
+        },
+        {
+          "id": 1254367,
+          "name": "Bethany Anne Lind"
+        },
+        {
+          "id": 156511,
+          "name": "Emily Kuroda"
+        },
+        {
+          "id": 1985574,
+          "name": "Denitra Isler"
+        },
+        {
+          "id": 1488908,
+          "name": "Hudson Meek"
+        },
+        {
+          "id": 156395,
+          "name": "Anne Gee Byrd"
+        },
+        {
+          "id": 4043926,
+          "name": "Michael-Christian Moore"
+        },
+        {
+          "id": 5582587,
+          "name": "Hugo Silver"
+        },
+        {
+          "id": 4019851,
+          "name": "Simms May"
+        },
+        {
+          "id": 1935905,
+          "name": "Grayson Thorne Kilpatrick"
+        },
+        {
+          "id": 4586397,
+          "name": "Johann Mikaiel"
+        },
+        {
+          "id": 2277859,
+          "name": "Savanna Renee"
+        },
+        {
+          "id": 2557619,
+          "name": "Pilot Bunch"
+        },
+        {
+          "id": 5582592,
+          "name": "Douglas R. Weiss"
+        },
+        {
+          "id": 587438,
+          "name": "Chris Coy"
+        }
+      ],
+      "writers": [
+        {
+          "id": 558929,
+          "name": "David Robert Mitchell"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
+      }
+    },
     "1102493": {
       "ratings": {
         "imdb": 6.7,
@@ -72314,6 +72431,124 @@
         "total": 2
       }
     },
+    "1226699": {
+      "ratings": {
+        "imdb": 6.1,
+        "metacritic": 59,
+        "metacriticUser": 3.5,
+        "tomatoes": 61,
+        "rtAudience": 65,
+        "letterboxd": 3.3,
+        "trakt": 65
+      },
+      "studios": [
+        "Nevermind",
+        "Point Grey Pictures",
+        "Savage Rose Films",
+        "Neon",
+        "100 Zeros"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 37917,
+          "name": "Kristen Stewart"
+        },
+        {
+          "id": 61178,
+          "name": "Alia Shawkat"
+        },
+        {
+          "id": 1200864,
+          "name": "LaKeith Stanfield"
+        },
+        {
+          "id": 2220282,
+          "name": "Zack Fox"
+        },
+        {
+          "id": 25147,
+          "name": "Tony Hale"
+        },
+        {
+          "id": 2743857,
+          "name": "Chris Estrada"
+        },
+        {
+          "id": 2800617,
+          "name": "Thomas La Barbera Christensen"
+        },
+        {
+          "id": 1590291,
+          "name": "Thor Knai"
+        },
+        {
+          "id": 2048719,
+          "name": "Thomas Nicholson"
+        },
+        {
+          "id": 19274,
+          "name": "Seth Rogen"
+        },
+        {
+          "id": 466505,
+          "name": "Kumail Nanjiani"
+        },
+        {
+          "id": 1240487,
+          "name": "Kate McKinnon"
+        },
+        {
+          "id": 16935,
+          "name": "Geena Davis"
+        },
+        {
+          "id": 112,
+          "name": "Cate Blanchett"
+        },
+        {
+          "id": 2938269,
+          "name": "Taj Cross"
+        },
+        {
+          "id": 1090375,
+          "name": "Morgan Krantz"
+        },
+        {
+          "id": 1281758,
+          "name": "Sugar Lyn Beard"
+        },
+        {
+          "id": 1260966,
+          "name": "Zed Cutsinger"
+        },
+        {
+          "id": 5314303,
+          "name": "Marisa Dabice"
+        },
+        {
+          "id": 5330359,
+          "name": "Kaleen Reading"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1492313,
+          "name": "Dylan Meyer"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
+      }
+    },
     "1227877": {
       "ratings": {
         "imdb": 7.3,
@@ -77900,6 +78135,117 @@
         }
       ],
       "collection": null
+    },
+    "1284041": {
+      "ratings": {
+        "imdb": 5.5,
+        "metacritic": 42,
+        "metacriticUser": 4.1,
+        "tomatoes": 21,
+        "rtAudience": 27,
+        "letterboxd": 2.1,
+        "trakt": 64
+      },
+      "studios": [
+        "Chernin Entertainment",
+        "3 Arts Entertainment"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 1260481,
+          "name": "Greta Lee"
+        },
+        {
+          "id": 52583,
+          "name": "Wagner Moura"
+        },
+        {
+          "id": 4434705,
+          "name": "Riley Chung"
+        },
+        {
+          "id": 3294227,
+          "name": "Noah Alexander Sosnowski"
+        },
+        {
+          "id": 2482368,
+          "name": "Emma Ho"
+        },
+        {
+          "id": 3878582,
+          "name": "Gabriel Barbosa"
+        },
+        {
+          "id": 144279,
+          "name": "Arden Cho"
+        },
+        {
+          "id": 6395909,
+          "name": "Audrey Anderson"
+        },
+        {
+          "id": 5081871,
+          "name": "Sid Edwards"
+        },
+        {
+          "id": 3595024,
+          "name": "Eveline Reynolds-Boison"
+        },
+        {
+          "id": 2782104,
+          "name": "Lewis Goody"
+        },
+        {
+          "id": 71072,
+          "name": "Nancy Baldwin"
+        },
+        {
+          "id": 5578328,
+          "name": "Tawny Fontana"
+        },
+        {
+          "id": 1945377,
+          "name": "Jed Aukin"
+        },
+        {
+          "id": 5069589,
+          "name": "Felicity Bown"
+        },
+        {
+          "id": 4430514,
+          "name": "Oliver Henry Arnold"
+        },
+        {
+          "id": 40838,
+          "name": "Damian Anderson"
+        },
+        {
+          "id": 550308,
+          "name": "Mark Noble"
+        },
+        {
+          "id": 6395958,
+          "name": "Nick Bond"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1551346,
+          "name": "Matthew Robinson"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "streaming",
+        "wide": false,
+        "ltd": false,
+        "gap": null
+      }
     },
     "1284120": {
       "ratings": {
