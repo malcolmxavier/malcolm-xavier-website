@@ -1,13 +1,13 @@
 {
-  "capturedAt": "2026-08-12T06:01:17.547Z",
+  "capturedAt": "2026-08-24T16:01:33.687Z",
   "summary": {
-    "totalFilms": 805,
-    "totalReviews": 806,
+    "totalFilms": 808,
+    "totalReviews": 809,
     "ratingDistribution": {
       "1": 40,
-      "2": 128,
+      "2": 129,
       "3": 155,
-      "4": 107,
+      "4": 109,
       "5": 16,
       "3.5": 157,
       "2.5": 104,
@@ -16,18 +16,18 @@
       "0.5": 10
     },
     "genreDistribution": {
-      "Science Fiction": 129,
+      "Horror": 135,
+      "Science Fiction": 132,
+      "Thriller": 235,
+      "Mystery": 84,
+      "Comedy": 228,
+      "Crime": 108,
       "Action": 129,
       "Adventure": 93,
-      "Horror": 134,
-      "Comedy": 227,
       "Fantasy": 60,
       "Romance": 92,
       "Music": 50,
       "Drama": 376,
-      "Thriller": 233,
-      "Mystery": 83,
-      "Crime": 107,
       "History": 42,
       "War": 17,
       "Family": 21,
@@ -37,7 +37,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 596,
+      "2020s": 599,
       "2010s": 136,
       "2000s": 35,
       "1990s": 17,
@@ -47,6 +47,141 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1284041",
+      "letterboxdSlug": "the-last-house",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-last-house-2026/",
+      "title": "The Last House",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-08-22",
+      "latestWatchedDate": "2026-08-22",
+      "firstReviewDate": "2026-08-24",
+      "latestReviewDate": "2026-08-24",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1466372029",
+          "watchedDate": "2026-08-22",
+          "reviewDate": "2026-08-24",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Free Greta and Wagner from these annoying kids!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1284041,
+        "posterPath": "/6JU7E8Vv2M11egkctWVOScxWR75.jpg",
+        "backdropPath": "/1RhfevWmWCVHtEqxWBEjPOC5KG1.jpg",
+        "genres": [
+          "Horror",
+          "Science Fiction",
+          "Thriller"
+        ],
+        "runtime": 110,
+        "director": "Louis Leterrier"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/6JU7E8Vv2M11egkctWVOScxWR75.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6JU7E8Vv2M11egkctWVOScxWR75.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1101383",
+      "letterboxdSlug": "the-end-of-oak-street",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-end-of-oak-street/",
+      "title": "The End of Oak Street",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-08-19",
+      "latestWatchedDate": "2026-08-19",
+      "firstReviewDate": "2026-08-24",
+      "latestReviewDate": "2026-08-24",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1466370646",
+          "watchedDate": "2026-08-19",
+          "reviewDate": "2026-08-24",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "My favorite part was how it refreshed half of the movies in my top 4. I wasn’t ready for it to be a period piece, but I liked how they used that. I’m sold on a sequel.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1101383,
+        "posterPath": "/fYXqpgPmHMphSF2W30GbTeJVIa5.jpg",
+        "backdropPath": "/b9q9VmbXDvJmTziRqkwdEmFdwhr.jpg",
+        "genres": [
+          "Science Fiction",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 99,
+        "director": "David Robert Mitchell"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fYXqpgPmHMphSF2W30GbTeJVIa5.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fYXqpgPmHMphSF2W30GbTeJVIa5.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1226699",
+      "letterboxdSlug": "the-wrong-girls",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-wrong-girls/",
+      "title": "The Wrong Girls",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-08-18",
+      "latestWatchedDate": "2026-08-18",
+      "firstReviewDate": "2026-08-24",
+      "latestReviewDate": "2026-08-24",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1466367963",
+          "watchedDate": "2026-08-18",
+          "reviewDate": "2026-08-24",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "That was so fun! Drugs, science, and girl friendship? And surprisingly emotional.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1226699,
+        "posterPath": "/iEJshwO6g4WKTP4HJgCHRTJMWEd.jpg",
+        "backdropPath": "/opubkXrPWbXKXIv8hBsiamTmKoM.jpg",
+        "genres": [
+          "Comedy",
+          "Crime",
+          "Science Fiction"
+        ],
+        "runtime": 99,
+        "director": "Dylan Meyer"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/iEJshwO6g4WKTP4HJgCHRTJMWEd.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iEJshwO6g4WKTP4HJgCHRTJMWEd.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-969681",
       "letterboxdSlug": "spider-man-brand-new-day",
@@ -35079,6 +35214,141 @@
     }
   ],
   "filmById": {
+    "tmdb-1284041": {
+      "id": "tmdb-1284041",
+      "letterboxdSlug": "the-last-house",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-last-house-2026/",
+      "title": "The Last House",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-08-22",
+      "latestWatchedDate": "2026-08-22",
+      "firstReviewDate": "2026-08-24",
+      "latestReviewDate": "2026-08-24",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1466372029",
+          "watchedDate": "2026-08-22",
+          "reviewDate": "2026-08-24",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Free Greta and Wagner from these annoying kids!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1284041,
+        "posterPath": "/6JU7E8Vv2M11egkctWVOScxWR75.jpg",
+        "backdropPath": "/1RhfevWmWCVHtEqxWBEjPOC5KG1.jpg",
+        "genres": [
+          "Horror",
+          "Science Fiction",
+          "Thriller"
+        ],
+        "runtime": 110,
+        "director": "Louis Leterrier"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/6JU7E8Vv2M11egkctWVOScxWR75.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6JU7E8Vv2M11egkctWVOScxWR75.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1101383": {
+      "id": "tmdb-1101383",
+      "letterboxdSlug": "the-end-of-oak-street",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-end-of-oak-street/",
+      "title": "The End of Oak Street",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-08-19",
+      "latestWatchedDate": "2026-08-19",
+      "firstReviewDate": "2026-08-24",
+      "latestReviewDate": "2026-08-24",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1466370646",
+          "watchedDate": "2026-08-19",
+          "reviewDate": "2026-08-24",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "My favorite part was how it refreshed half of the movies in my top 4. I wasn’t ready for it to be a period piece, but I liked how they used that. I’m sold on a sequel.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1101383,
+        "posterPath": "/fYXqpgPmHMphSF2W30GbTeJVIa5.jpg",
+        "backdropPath": "/b9q9VmbXDvJmTziRqkwdEmFdwhr.jpg",
+        "genres": [
+          "Science Fiction",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 99,
+        "director": "David Robert Mitchell"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fYXqpgPmHMphSF2W30GbTeJVIa5.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fYXqpgPmHMphSF2W30GbTeJVIa5.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1226699": {
+      "id": "tmdb-1226699",
+      "letterboxdSlug": "the-wrong-girls",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-wrong-girls/",
+      "title": "The Wrong Girls",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-08-18",
+      "latestWatchedDate": "2026-08-18",
+      "firstReviewDate": "2026-08-24",
+      "latestReviewDate": "2026-08-24",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1466367963",
+          "watchedDate": "2026-08-18",
+          "reviewDate": "2026-08-24",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "That was so fun! Drugs, science, and girl friendship? And surprisingly emotional.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1226699,
+        "posterPath": "/iEJshwO6g4WKTP4HJgCHRTJMWEd.jpg",
+        "backdropPath": "/opubkXrPWbXKXIv8hBsiamTmKoM.jpg",
+        "genres": [
+          "Comedy",
+          "Crime",
+          "Science Fiction"
+        ],
+        "runtime": 99,
+        "director": "Dylan Meyer"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/iEJshwO6g4WKTP4HJgCHRTJMWEd.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iEJshwO6g4WKTP4HJgCHRTJMWEd.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-969681": {
       "id": "tmdb-969681",
       "letterboxdSlug": "spider-man-brand-new-day",
