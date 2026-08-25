@@ -315,6 +315,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      // /consulting — the services page for the consulting practice.
+      // Priority sits level with /about and above /contact: it is a
+      // destination people search for and land on directly, not just
+      // a step on the way to getting in touch.
+      url: `${SITE_URL}/consulting`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: `${SITE_URL}/contact`,
       lastModified,
       changeFrequency: "monthly",

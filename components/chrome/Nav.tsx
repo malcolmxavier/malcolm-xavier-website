@@ -75,13 +75,17 @@ const SUB_BRAND_ROUTES: NavRoute[] = [
 ];
 
 // Main brand routes — recruiter-facing pages (default grey alias).
-// Order: About (who) → Resume (what) → Case studies (proof) → Contact (action).
-// Case studies sits between Resume and Contact so the funnel reads
-// as introduce → claim → evidence → next step.
+// Order: About (who) → Resume (what) → Case studies (proof) →
+// Consulting (offer) → Contact (action). The funnel reads as
+// introduce → claim → evidence → offer → next step; Consulting sits
+// after the evidence because the case studies are what qualify the
+// offer, and immediately before Contact because booking a call is
+// the action the consulting page asks for.
 const MAIN_ROUTES: NavRoute[] = [
   { label: "About", href: "/about" },
   { label: "Resume", href: "/resume" },
   { label: "Case studies", href: "/case-studies" },
+  { label: "Consulting", href: "/consulting" },
   { label: "Contact", href: "/contact" },
 ];
 
