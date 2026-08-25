@@ -6,6 +6,11 @@
 // card. The kicker reads CONSULTING; the subtitle leads with what is
 // actually for sale, since this card's job is to qualify a buyer
 // before they click, not to introduce Malcolm.
+//
+// The title is the page's own headline, verbatim. An unfurl and the
+// page behind it disagreeing about what the practice is called is the
+// cheapest kind of credibility to lose, so this tracks the Display
+// line on /consulting and should be re-checked whenever that moves.
 import {
   renderCaseStudyCard,
   OG_SIZE,
@@ -15,14 +20,14 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "Consulting with Malcolm Xavier—growth systems, customer data platforms, and AI-native operations. Fixed-scope audits, project builds, and retainers.";
+  "Growth consulting for the AI era, with Malcolm Xavier—AEO and lifecycle audits, website and MarTech builds, and AI-native operations, sold as fixed-scope audits, projects, and retainers.";
 
 export default function OpenGraphImage() {
   return renderCaseStudyCard({
     eyebrow: "CONSULTING",
-    titleLines: ["Product and", "data consulting"],
+    titleLines: ["Growth consulting", "for the AI era"],
     titleSize: 96,
     subtitle:
-      "Growth systems, customer data platforms, and AI-native operations.",
+      "Audits, builds, and retainers—AEO, lifecycle, MarTech, and AI-native operations.",
   });
 }

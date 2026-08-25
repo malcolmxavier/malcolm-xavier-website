@@ -4,12 +4,12 @@
 // Structure is a three-rung buying ladder, deliberately ordered by
 // commitment rather than by price:
 //
-//   1. "Start here"     — fixed price, fixed scope, ≤2 weeks. The
-//                         low-risk door. A buyer who has never worked
-//                         with Malcolm can say yes to one of these
-//                         without a procurement conversation.
-//   2. "Build"          — scoped per project, quoted after a call.
-//   3. "Keep it running" — monthly retainers.
+//   1. "Checkups"       — fixed price, fixed scope, two weeks or
+//                         less. The low-risk door. A buyer who has
+//                         never worked with Malcolm can say yes to one
+//                         of these without a procurement conversation.
+//   2. "Implementation" — scoped per project, quoted after a call.
+//   3. "Ongoing Support" — monthly retainers, three-month minimum.
 //
 // Anything outside the menu falls back to the $150/hr advisory rate,
 // stated in "How engagements work" — so a buyer who does not see
@@ -87,10 +87,14 @@ import { CONTACT } from "../resume/resume-data";
 // (does not merge) the parent layout's OG block when a page declares
 // its own. Without these, a shared /consulting link unfurls with the
 // sitewide stub rather than the offer.
+// Both strings track the menu below rather than the practice in the
+// abstract: this is the page a buyer arrives on from a search, so the
+// description has to name the things that are actually purchasable.
 const CONSULTING_DESCRIPTION =
-  "Fixed-scope audits, project builds, and retainers in growth systems, customer data platforms, and AI-native operations—for media, publishing, and mission-driven teams.";
-const CONSULTING_OG_TITLE =
-  "Consulting · Growth systems, customer data, and AI-native operations";
+  "Audits, builds, and retainers—AEO and lifecycle strategy, MarTech and customer data architecture, websites, and AI-native operations. For media, publishing, and mission-driven teams.";
+// Matches the page headline and the OG card, so an unfurl, the link
+// preview text, and the page a click lands on all say the same thing.
+const CONSULTING_OG_TITLE = "Growth consulting for the AI era";
 
 export const metadata: Metadata = {
   // The root layout's `%s—Malcolm Xavier` template appends the brand
@@ -137,12 +141,8 @@ type Offer = {
   from: boolean;
   description: string;
   /**
-   * Scannable specifics under the prose — three per card, in the same
-   * order every time: what you get, how it runs, and who it suits.
-   *
-   * PLACEHOLDER COPY. These are a first pass so the prose/bullet mix
-   * can be judged at real length; the facts are drawn from each
-   * scope's own description and are Malcolm's to confirm or rewrite.
+   * Scannable specifics under the prose — three per card, so a buyer
+   * skimming for scope does not have to read a paragraph to find it.
    *
    * They deliberately do not restate the prose above them. A bullet
    * that repeats the sentence it sits under costs a reader a line and
@@ -153,9 +153,10 @@ type Offer = {
    * Badge text that promotes this offer to the highlighted card in
    * its tier — the subscription-page "this is the one" treatment.
    *
-   * PLACEHOLDER SELECTION. Which offers carry a badge, and whether
-   * there is one per tier at all, is Malcolm's call; these three are
-   * a first pass so the styling can be judged against real copy.
+   * One per tier, which is what makes it a recommendation rather than
+   * decoration — a row where every card is highlighted has highlighted
+   * none of them. OfferCard reserves the slot across the whole row so
+   * the unbadged cards still share its baseline.
    *
    * The vocabulary is deliberately opinion, never popularity. "Most
    * popular" and "most booked" are volume claims, and the practice
@@ -425,9 +426,12 @@ type Testimonial = {
 // string removes the section, its anchor, and its rail item together,
 // with no orphaned link left pointing at nothing.
 //
-// This one is unfilled on purpose and must not ship as written: it is
-// bracketed rather than plausible-sounding precisely so a draft quote
-// can never be mistaken for a real one on a page that takes money.
+// This one is empty on purpose, which is how the page shipped on
+// 2026-08-25: an unwritten quote is held back entirely rather than
+// stood in for, because a draft quote on a page that takes money can
+// be mistaken for a real one. Morganna's words, her role, and her
+// organization go in together, and the Review structured data goes in
+// with them — never before there is something real to describe.
 const TESTIMONIALS: Testimonial[] = [
   {
     quote: "",
@@ -510,12 +514,23 @@ const CONSULTING_SCHEMA = {
       description: CONSULTING_DESCRIPTION,
       provider: { "@id": `${SITE_URL}/#person` },
       areaServed: "Remote, worldwide",
+      // Broader than the offer names on purpose — these are the
+      // categories a buyer or a crawler searches, and several offers
+      // map onto more than one. Kept in step with the menu: every
+      // tier's work is represented here, and "Data privacy and
+      // governance review" stays although its standalone offer was
+      // cut, because that work is still sold inside the data audit.
       serviceType: [
+        "Answer engine optimization",
+        "Generative engine optimization",
         "Growth and lifecycle strategy",
+        "Lifecycle and email program design",
         "Customer data platform architecture",
         "Marketing technology consulting",
+        "Web and content platform development",
         "Data privacy and governance review",
         "AI-native operations training",
+        "Fractional product management",
       ],
       hasOfferCatalog: {
         "@type": "OfferCatalog",
