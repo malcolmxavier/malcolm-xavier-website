@@ -183,6 +183,11 @@ export const ROLES: ResumeRole[] = [
     // company name takes the default brand green — fitting for the
     // practice that owns this very site.
     company: "Malcolm Xavier Consulting",
+    // Internal route, not an outbound company site — the practice's own
+    // page on this site. Link renders it with next/link (same tab, no
+    // external-link affordance), which is the right treatment for a link
+    // that keeps the reader inside the portfolio.
+    url: "/consulting",
     // Remote-only for the practice; the LA reference stays on the top-level
     // contact block, not the role, so the entry reads as location-agnostic.
     location: "Remote",
