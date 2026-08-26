@@ -1,15 +1,26 @@
 // ─────────────────────────────────────────────────────────────────
 // /consulting — the public services page for the consulting practice.
 //
-// Structure is a three-rung buying ladder, deliberately ordered by
-// commitment rather than by price:
+// Structure is a menu of three ways in, ordered so the page opens on
+// the work most buyers arrive wanting:
 //
-//   1. "Checkups"       — fixed price, fixed scope, two weeks or
-//                         less. The low-risk door. A buyer who has
-//                         never worked with Malcolm can say yes to one
-//                         of these without a procurement conversation.
-//   2. "Implementation" — scoped per project, quoted after a call.
-//   3. "Ongoing Support" — monthly retainers, three-month minimum.
+//   "Implementation"  — scoped per project, quoted after a call. It
+//                       leads because a menu that opens on its
+//                       smallest item makes a reader scroll before it
+//                       says what the practice actually builds.
+//   "Checkups"        — fixed price, fixed scope, two weeks or less.
+//                       The low-risk door, and it reads as the smaller
+//                       way in whether it sits above the project work
+//                       or below it. A buyer who has never worked with
+//                       Malcolm can say yes to one without a
+//                       procurement conversation.
+//   "Ongoing Support" — monthly retainers, three-month minimum.
+//
+// The tiers are deliberately unnumbered. An "01 / 02 / 03" set reads
+// as a sequence to work through — do the checkup, then the project,
+// then the retainer — and these are three doors a buyer picks one of.
+// So the section heading carries the name alone and the rail lists
+// them without a prefix.
 //
 // Anything outside the menu falls back to the $150/hr advisory rate,
 // stated in "How engagements work" — so a buyer who does not see
@@ -169,7 +180,6 @@ type Offer = {
 
 type Tier = {
   id: string;
-  kicker: string;
   title: string;
   /** The commitment terms that apply to every offer in the tier. */
   terms: string;
@@ -178,8 +188,62 @@ type Tier = {
 
 const TIERS: Tier[] = [
   {
+    id: "projects",
+    title: "Projects",
+    terms: "Project scope, quoted after a short discovery call",
+    offers: [
+      {
+        name: "Website and content platform",
+        price: "from $6,000",
+        unit: "project",
+        amount: 6000,
+        from: true,
+        featured: "Best for individuals",
+        // The card sells the build first and the content platform second, on
+        // purpose. Everything here used to describe the platform version, so a
+        // buyer who wanted a plain site read $6,000 as the price of a system
+        // they had no use for. The floor buys the site; the platform is what
+        // moves a project up from it.
+        description:
+          "A fast, accessible site you can self-manage. Can be scaled into a full content platform if you publish regularly. Designed to drive discovery and return traffic by default.",
+        highlights: [
+          "Design, build, and launch on basic infrastructure",
+          "Growth loops, analytics, and accessibility out-of-the-box",
+          "A CMS and publishing workflow layered on when you need one",
+        ],
+      },
+      {
+        name: "Email program design",
+        price: "from $6,000",
+        unit: "project",
+        amount: 6000,
+        from: true,
+        description:
+          "An automated email program that brings your audience back. Segmentation, triggered journeys, and reusable onsite and in-email components. Includes deliverability and data consent mechanics.",
+        highlights: [
+          "Segment definitions, journey maps, and a template system",
+          "Data-driven campaign automations and reporting",
+          "Integrate into AI-native operational workflows for continuous optimization",
+        ],
+      },
+      {
+        name: "MarTech and data architecture",
+        price: "from $8,000",
+        unit: "project",
+        amount: 8000,
+        from: true,
+        description:
+          "An integrated marketing system that grows with your audience. Determine what to build, what to buy, and in what order to scale your operations. Build for today while planning for the future.",
+        highlights: [
+          "Gap analysis on your existing system",
+          "New vendor evaluation and procurement (as needed)",
+          "Phased development plan that optimizes and builds onto your existing setup at the same time",
+        ],
+      },
+    ],
+  },
+  {
     id: "checkups",
-    kicker: "01",
     title: "Checkups",
     terms: "Fixed price, fixed scope, two weeks or less",
     offers: [
@@ -189,7 +253,7 @@ const TIERS: Tier[] = [
         unit: "~2 weeks",
         amount: 3500,
         from: false,
-        featured: "Recommended starting point",
+        featured: "Best for transformation initiatives",
         description:
           "A written diagnosis of how your audience finds you, how they enter your funnel, and where they drop off. Includes a strategic plan to make your system work harder for you.",
         highlights: [
@@ -215,64 +279,7 @@ const TIERS: Tier[] = [
     ],
   },
   {
-    id: "implementation",
-    kicker: "02",
-    title: "Implementation",
-    terms: "Project scope, quoted after a short discovery call",
-    offers: [
-      {
-        name: "Website and content platform",
-        price: "from $6,000",
-        unit: "project",
-        amount: 6000,
-        from: true,
-        featured: "Best for individuals",
-        // The card sells the build first and the content platform second, on
-        // purpose. Everything here used to describe the platform version, so a
-        // buyer who wanted a plain site read $6,000 as the price of a system
-        // they had no use for. The floor buys the site; the platform is what
-        // moves a project up from it.
-        description:
-          "A fast, accessible site you can self-manage. Can be scaled into a full content platform if you publish regularly. Designed to drive discovery and return traffic by default.",
-        highlights: [
-          "Design, build, and launch on basic infrastructure",
-          "AEO/GEO/SEO, analytics, and accessibility out-of-the-box",
-          "A content model and publishing workflow layered on when you need one",
-        ],
-      },
-      {
-        name: "Email program design",
-        price: "from $6,000",
-        unit: "project",
-        amount: 6000,
-        from: true,
-        description:
-          "An automated email program that brings your audience back. Segmentation, triggered journeys, and reusable onsite and in-email components. Includes deliverability and data consent mechanics.",
-        highlights: [
-          "Segment definitions, journey maps, and a template system",
-          "Data-driven campaign automations and reporting",
-          "Integrate into AI-native operational workflows for continuous optimization",
-        ],
-      },
-      {
-        name: "MarTech and data architecture",
-        price: "from $8,000",
-        unit: "project",
-        amount: 8000,
-        from: true,
-        description:
-          "An integrated growth system that grows with your audience. Determine what to build, what to buy, and in what order to scale your operations. Build for today while planning for the future.",
-        highlights: [
-          "Gap analysis on your existing system",
-          "New vendor evaluation and procurement",
-          "Phased development plan that optimizes and builds onto your existing setup at the same time",
-        ],
-      },
-    ],
-  },
-  {
     id: "ongoing-support",
-    kicker: "03",
     title: "Ongoing Support",
     terms: "Monthly retainer, three-month minimum",
     offers: [
@@ -317,8 +324,7 @@ const TIERS: Tier[] = [
 const ENGAGEMENT_TERMS: { term: string; detail: string }[] = [
   {
     term: "Hourly",
-    detail:
-      "$150 for advisory work that does not fit a fixed scope.",
+    detail: "$150 for advisory work that does not fit a fixed scope.",
   },
   {
     term: "Projects",
@@ -327,8 +333,7 @@ const ENGAGEMENT_TERMS: { term: string; detail: string }[] = [
   },
   {
     term: "Arts, nonprofits, and small businesses",
-    detail:
-      "Reduced rates, based on project scope.",
+    detail: "Reduced rates, based on project scope.",
   },
   {
     term: "Availability",
@@ -454,7 +459,6 @@ const TOC_ITEMS: TocItem[] = [
   { href: "#top", label: "↑ Top" },
   ...TIERS.map((tier) => ({
     href: `#${tier.id}`,
-    prefix: tier.kicker,
     label: tier.title,
   })),
   { href: "#past-clients", label: "Past clients" },
@@ -811,22 +815,54 @@ export default function ConsultingPage() {
                 is one sentence and two links now; the numbers live on
                 the surfaces built to hold them. */}
             <Section id="top" style={sectionAnchorStyle} padding="lg">
-              <Stack gap="400">
-                <Kicker as="p">Consulting</Kicker>
-                <Display as="h1">Growth consulting for the AI era</Display>
-                <Lede>
-                  Work with me to level up your relationship with your audience. I can help you design and develop
-                  AI-native growth and lifecycle marketing operations that meet your needs, whether you want to
-                  scale your operations or you’re just getting started.
-                </Lede>
+              {/* Grouped rather than one flat rhythm: at a single gap the
+                  kicker floated as far from its own title as the title
+                  sat from the lede, and a Display line this large needs
+                  more air under it than a 16px step gives it. So the
+                  parts that belong together are nested at 300 and the
+                  groups are separated at 600 — the same pattern /about
+                  uses. Matching /case-studies' flat 500 was the other
+                  option and it loses the lede-to-list binding below. */}
+              <Stack gap="600">
+                <Stack gap="300">
+                  <Kicker as="p">Consulting</Kicker>
+                  <Display as="h1">Growth consulting for the AI era</Display>
+                </Stack>
+                {/* The lede ends on a colon, so the list completes the
+                    sentence and is held close to it. */}
+                <Stack gap="300">
+                  <Lede>
+                    Work with me to level up your relationship with your
+                    audience. I can help you:
+                  </Lede>
+                  {/* The lede used to carry all of this as a second
+                    sentence, where the three things on offer read as
+                    one undifferentiated claim. Broken out, they are
+                    scannable in the order the menu below runs, so the
+                    hero previews the page instead of restating it.
+                    Same list treatment as the offer cards’
+                    highlights—Body renders the <ul> so the type
+                    scale comes from one place. */}
+                  <Body
+                    as="ul"
+                    className="m-0 flex list-disc flex-col gap-1.5 pl-5 marker:text-[var(--text-caption)]"
+                  >
+                    <li>
+                      Build your website, email program, or marketing
+                      infrastructure
+                    </li>
+                    <li>
+                      Audit your existing marketing lifecycle or data analytics
+                    </li>
+                    <li>
+                      Transform your operations and train your team on AI-native
+                      workflows
+                    </li>
+                  </Body>
+                </Stack>
                 <Body size="sm" style={{ color: "var(--text-caption)" }}>
-                  I’ve spent nearly a decade building growth and data
-                  infrastructure across a variety of businesses in the
-                  SaaS and consumer product spaces. Most recently, I
-                  built and operated MarTech infrastructure for 22M+ users
-                  across People Inc.’s 40+ brands, driving 33% YoY email
-                  revenue growth. Find more details on{" "}
-                  <Link href="/resume">my résumé</Link> and{" "}
+                  Review my qualifications and experience on my{" "}
+                  <Link href="/resume">résumé</Link> and{" "}
                   <Link href={CONTACT.linkedin}>LinkedIn</Link>.
                 </Body>
 
@@ -887,9 +923,6 @@ export default function ConsultingPage() {
               >
                 <Stack gap="400">
                   <Stack gap="200">
-                    <Kicker as="p" accent>
-                      {tier.kicker}
-                    </Kicker>
                     <Headline level={2}>{tier.title}</Headline>
                     <Body size="sm" style={{ color: "var(--text-caption)" }}>
                       {tier.terms}
@@ -1020,9 +1053,9 @@ export default function ConsultingPage() {
               <Stack gap="400">
                 <Headline level={2}>Start a conversation</Headline>
                 <Body>
-                  Tell me what you need and I will tell you whether
-                  it is something I can help with. If it is not, I will
-                  do my best to point you toward someone that can.
+                  Tell me what you need and I will tell you whether it is
+                  something I can help with. If it is not, I will do my best to
+                  point you toward someone that can.
                 </Body>
                 <div className="flex flex-wrap gap-3">
                   <TrackOnClick
@@ -1041,12 +1074,7 @@ export default function ConsultingPage() {
                       Book a discovery call
                     </Button>
                   </TrackOnClick>
-                  <Button
-                    as="a"
-                    href="/contact"
-                    variant="secondary"
-                    size="lg"
-                  >
+                  <Button as="a" href="/contact" variant="secondary" size="lg">
                     Other ways to reach me
                   </Button>
                 </div>
