@@ -66,6 +66,8 @@ export const APPLE_MUSIC_LINKS: Readonly<Record<string, string>> = {
   // Ordered roughly newest-first to match the curation worksheet.
   // To add a mapping, paste the Apple Music share URL keyed by the
   // Spotify playlist ID (find IDs in playlist-curation.md).
+  "66Z22IjXSVb7tdeH8zI8EN": // flare
+    "https://music.apple.com/us/playlist/flare/pl.u-d2b0kXXCkdrvM",
   "4VQB216LwiDnBXmtXg4wkx": // sun daze
     "https://music.apple.com/us/playlist/sun-daze/pl.u-9N9LX5JsdoNqx",
   "6HnLW01XYkplYjEFoGsU9p": // hang 10
