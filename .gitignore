@@ -55,3 +55,14 @@ next-env.d.ts
 # instructions for whoever clones the repo.
 /data/letterboxd-export/*
 !/data/letterboxd-export/README.md
+
+# Resume variant overlays. Each one is a small module tailoring the docx to a
+# single application, so it is named for a company he is actively pursuing and
+# carries his reasoning about how to pitch them. This repo is public, so
+# committing one publishes the application. Ignored by directory rather than by
+# filename on purpose: the alternative is remembering to rename every future
+# variant, and a rule that depends on discipline is the one that leaks. They are
+# per-application artifacts anyway, the same category as the tailored .docx the
+# script drops in ~/Downloads — scripts/build-resume-docx.mjs runs fine without
+# any of them present.
+/scripts/resume-variants/
