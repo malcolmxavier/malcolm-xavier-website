@@ -426,22 +426,33 @@ type Testimonial = {
   credit?: string;
 };
 
-// PLACEHOLDER. The section below renders only entries with a non-empty
-// `quote`, and the TOC entry follows the same test — so emptying the
-// string removes the section, its anchor, and its rail item together,
-// with no orphaned link left pointing at nothing.
+// The section below renders only entries with a non-empty `quote`, and
+// the TOC entry and the Review node in the JSON-LD follow the same
+// test — so a row with nothing real in it removes the section, its
+// anchor, its rail item, and its structured data together, with no
+// orphaned link or unbacked claim left behind.
 //
-// This one is empty on purpose, which is how the page shipped on
-// 2026-08-25: an unwritten quote is held back entirely rather than
-// stood in for, because a draft quote on a page that takes money can
-// be mistaken for a real one. Morganna's words, her role, and her
-// organization go in together, and the Review structured data goes in
-// with them — never before there is something real to describe.
+// Filled 2026-08-29 with Morganna Becker's words, unedited.
+//
+// THE ATTRIBUTION IS DELIBERATE. The credit is her role and
+// organization at the time of the engagement, not her seat today. The
+// work was NEFA's, so NEFA is what the line says; she has since moved
+// to MIT, and crediting MIT would both imply an engagement that never
+// happened and put an institution's name behind a recommendation it
+// never gave. An organization on a testimonial reads as institutional
+// endorsement, and she can only give that for the organization the
+// work was done for.
 const TESTIMONIALS: Testimonial[] = [
   {
-    quote: "",
-    name: "Morganna",
-    credit: "[Role, organization]",
+    quote:
+      "Malcolm’s organization, knowledge, creativity, and directness were " +
+      "invaluable to our community engagement work. He knew the right " +
+      "questions to ask, where to establish boundaries, and how to keep the " +
+      "process focused and productive. He was a pleasure to work with, and we " +
+      "came away with strong deliverables and a clear path forward.",
+    name: "Morganna Becker",
+    credit:
+      "Community Engagement Coordinator, New England Foundation for the Arts",
   },
 ];
 
@@ -564,7 +575,42 @@ const CONSULTING_SCHEMA = {
           })),
         })),
       },
+      // Linked both ways so the review and the thing reviewed resolve
+      // to each other in the merged graph rather than sitting beside
+      // one another. Generated from VISIBLE_TESTIMONIALS, which is the
+      // same test the rendered section uses — structured data and the
+      // page can never disagree about whether a quote exists.
+      ...(VISIBLE_TESTIMONIALS.length > 0
+        ? {
+            review: VISIBLE_TESTIMONIALS.map((_, index) => ({
+              "@id": `${SITE_URL}/consulting/#review-${index + 1}`,
+            })),
+          }
+        : {}),
     },
+    // Validator-only nodes, per STRUCTURED-DATA.md's routing rule:
+    // Service is not a review-snippet type, so this produces no rich
+    // result and is not meant to. It is here so a retriever reading
+    // the page knows the quote is testimony from a named third party
+    // rather than more of the page's own copy.
+    //
+    // NO `reviewRating`. She gave words, not a score, and inventing a
+    // five out of five would be fabricating the part of a review that
+    // machines weigh most.
+    //
+    // The author carries a name and nothing else. Her organization is
+    // in the visible credit because that is a statement about when the
+    // work happened; `worksFor` has no past tense, so putting NEFA
+    // there would assert she works there now, and putting MIT there
+    // would attach her current employer to a recommendation it played
+    // no part in.
+    ...VISIBLE_TESTIMONIALS.map((testimonial, index) => ({
+      "@type": "Review",
+      "@id": `${SITE_URL}/consulting/#review-${index + 1}`,
+      itemReviewed: { "@id": SERVICE_ID },
+      reviewBody: testimonial.quote,
+      author: { "@type": "Person", name: testimonial.name },
+    })),
   ],
 };
 
