@@ -45,6 +45,7 @@ import {
 } from "docx";
 import { writeFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
+import { pathToFileURL } from "node:url";
 import { z } from "zod";
 
 // ─── Schemas ──────────────────────────────────────────────────────
@@ -124,7 +125,7 @@ const ContactSchema = z.object({
 // ─── Content ──────────────────────────────────────────────────────
 // Hardcoded; mirror app/resume/resume-data.tsx when content changes.
 
-const CONTACT = {
+const BASE_CONTACT = {
   name: "Malcolm Xavier",
   headline:
     "Senior Product Manager · Growth, MarTech, and Customer Data Platforms · AI-Native Operations",
@@ -139,7 +140,7 @@ const CONTACT = {
   githubUrl: "https://github.com/malcolmxavier",
 };
 
-const SUMMARY =
+const BASE_SUMMARY =
   "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops—roadmapping, outcome measurement, and documentation.";
 
 // Each role: company, optional company URL, location, title, dates,
@@ -147,7 +148,7 @@ const SUMMARY =
 // bullets (each entry is either a plain string OR an array of
 // {text, bold?, url?} segments — segments allow inline bold/link spans
 // so metric phrases bold inside an otherwise plain bullet sentence).
-const ROLES = [
+const BASE_ROLES = [
   {
     // Consolidated practice entry — mirrors the site's Malcolm Xavier
     // Consulting role (replaces the former Freelance / Prompt Engineer
@@ -293,7 +294,7 @@ const ROLES = [
   },
 ];
 
-const EDUCATION = [
+const BASE_EDUCATION = [
   {
     institution: "Northwestern University, Pritzker School of Law",
     location: "Chicago, IL",
@@ -356,7 +357,7 @@ const EDUCATION = [
 // step plus a React-element walker for an artifact regenerated maybe
 // once a month — accepted dual source of truth, kept in sync by
 // hand. When updating one, update the other.
-const CASE_STUDIES = [
+const BASE_CASE_STUDIES = [
   {
     title: "Building my personal website, malxavi.com",
     url: "https://malxavi.com/case-studies/building-this-site",
@@ -370,6 +371,47 @@ const CASE_STUDIES = [
       "One architectural rule that keeps three integrations online when their upstreams break—polite-client posture for the one with no API, enrichment for the rest.",
   },
 ];
+
+// ─── Variant overlay ──────────────────────────────────────────────
+// A tailored one-off (a resume cut for a single application) is the
+// same document with different content, so it ships as a small module
+// that exports only the blocks it changes rather than a second copy of
+// this 900-line script. Set RESUME_VARIANT to the module's path:
+//
+//   RESUME_VARIANT=scripts/resume-variants/<variant>.mjs npm run resume:docx
+//
+// The variant modules themselves stay out of this repo: it is public, and
+// a file named for the employer a cut was tailored to would publish the
+// application. Same reasoning as the output path below.
+//
+// Anything the variant doesn't export falls through to the canonical
+// content above, and with the variable unset the output is byte-for-byte
+// what it has always been — the default path stays the default path.
+// A variant may also set OUT_PATH to keep a one-off out of
+// public/resume/, which is published with the site.
+
+const variantPath = process.env.RESUME_VARIANT;
+const variant = variantPath
+  ? await import(pathToFileURL(resolve(process.cwd(), variantPath)).href)
+  : {};
+
+const CONTACT = variant.CONTACT ?? BASE_CONTACT;
+const SUMMARY = variant.SUMMARY ?? BASE_SUMMARY;
+const ROLES = variant.ROLES ?? BASE_ROLES;
+const EDUCATION = variant.EDUCATION ?? BASE_EDUCATION;
+const CASE_STUDIES = variant.CASE_STUDIES ?? BASE_CASE_STUDIES;
+const OUT_PATH =
+  variant.OUT_PATH ?? "public/resume/malcolm-xavier-resume-template.docx";
+// Document metadata shown in Word's properties pane; a variant cut for a
+// non-PM req shouldn't describe itself as a PM resume.
+const DOC_DESCRIPTION = variant.DOC_DESCRIPTION ?? "Resume — Senior Product Manager";
+// Page size in twips. The canonical resume has always emitted the docx
+// library's A4 default (11906 x 16838) despite the header comment above
+// saying US Letter, and its published PDF is A4 — changing that would
+// reflow the live download, so it stays until someone asks. A variant
+// may opt into US Letter (12240 x 15840), which is the shorter page and
+// therefore the stricter page-count budget.
+const PAGE_SIZE = variant.PAGE_SIZE ?? { width: 11906, height: 16838 };
 
 // ─── Validate content ─────────────────────────────────────────────
 // Run schemas before any document construction so a malformed entry
@@ -853,7 +895,7 @@ const pageHeader = new Header({
 const doc = new Document({
   creator: CONTACT.name,
   title: `${CONTACT.name} Resume`,
-  description: "Resume — Senior Product Manager",
+  description: DOC_DESCRIPTION,
   styles: {
     default: {
       document: {
@@ -869,7 +911,11 @@ const doc = new Document({
         // no header and pages 2+ get the header above.
         titlePage: true,
         page: {
-          size: { orientation: PageOrientation.PORTRAIT },
+          size: {
+            orientation: PageOrientation.PORTRAIT,
+            width: PAGE_SIZE.width,
+            height: PAGE_SIZE.height,
+          },
           margin: {
             top: convertInchesToTwip(0.5),
             right: convertInchesToTwip(0.5),
@@ -888,10 +934,7 @@ const doc = new Document({
 
 // ─── Write to disk ────────────────────────────────────────────────
 
-const outPath = resolve(
-  process.cwd(),
-  "public/resume/malcolm-xavier-resume-template.docx",
-);
+const outPath = resolve(process.cwd(), OUT_PATH);
 mkdirSync(dirname(outPath), { recursive: true });
 
 const buf = await Packer.toBuffer(doc);
