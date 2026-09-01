@@ -325,6 +325,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      // /booth — the landing page for the demo. Public and indexable;
+      // everything under /booth/ is the gated demo itself and is
+      // disallowed in robots.ts. Priority sits below /consulting: it is
+      // a page people are sent to rather than one they search for.
+      url: `${SITE_URL}/booth`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${SITE_URL}/contact`,
       lastModified,
       changeFrequency: "monthly",

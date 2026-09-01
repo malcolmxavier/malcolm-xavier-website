@@ -17,6 +17,13 @@
 //   - /logo/ — generated brand assets (the MX monogram avatar).
 //     Image responses with no navigational content; same bucket.
 //
+//   - /booth/ — everything the Booth demo serves. The landing page at
+//     /booth (no trailing slash) is public and indexable and stays
+//     out of this list; everything BELOW it is a password-gated copy
+//     of a private working tool, and a crawler that reached it would
+//     only ever be recording a 401. The trailing slash is what draws
+//     that line, so do not "tidy" it away.
+//
 // Reference: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots
 // ─────────────────────────────────────────────────────────────────
 
@@ -33,6 +40,7 @@ export default function robots(): MetadataRoute.Robots {
         "/television/reviews/facet-search",
         "/stats/connected/facet-search",
         "/logo/",
+        "/booth/",
       ],
     },
     // Point crawlers at the sitemap so they don't have to discover
