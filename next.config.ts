@@ -61,6 +61,35 @@ const nextConfig: NextConfig = {
       "./lib/feeds/_fixtures/enrichment-snapshot.json",
     ],
   },
+  // The Booth demo. It is deployed as its own private project — the surface's
+  // own source does not belong in a public repo — and proxied in here so the
+  // link is a path on this domain rather than a second address to explain.
+  //
+  // The origin is an environment variable, not a literal, for the same reason:
+  // the deployment URL is the one part of this that says where the private
+  // project lives. Unset, the rewrite is simply absent, so local development
+  // and previews are unaffected rather than broken.
+  //
+  // `afterFiles` so that anything this site really serves under /booth would
+  // win; there is nothing today, and that is the safe direction for it to fail.
+  //
+  // Authentication belongs to the demo, not here. Its 401 and its
+  // WWW-Authenticate header travel back through this rewrite, so the browser
+  // asks for the password on this domain and the secret never touches this
+  // public repo.
+  async rewrites() {
+    const booth = process.env.BOOTH_DEMO_ORIGIN;
+    if (!booth) return [];
+    const origin = booth.replace(/\/+$/, "");
+    return {
+      beforeFiles: [],
+      afterFiles: [
+        { source: "/booth", destination: `${origin}/booth` },
+        { source: "/booth/:path*", destination: `${origin}/booth/:path*` },
+      ],
+      fallback: [],
+    };
+  },
   // Legacy-slug 301s for film detail pages whose `letterboxdSlug`
   // changed after the source-of-truth title was corrected. Each
   // entry preserves any inbound link/share that landed on the old
