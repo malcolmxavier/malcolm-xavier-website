@@ -39,3 +39,37 @@ importing from this file because `resume-data.tsx` carries JSX (inline
 a Node script would mean TS compilation plus React-element walking — a
 lot of plumbing for an artifact regenerated rarely. The duplication is
 the simpler tradeoff; the check script catches drift.
+
+## Tailored cuts, and reviewing one
+
+A resume cut for a single application ships as a small module in
+`scripts/resume-variants/` that exports only the blocks it changes —
+anything it leaves out falls through to the canonical content in
+`build-resume-docx.mjs`. Those modules stay out of the repo: this one is
+public, and a file named for the employer a cut was tailored to would
+publish the application.
+
+```
+RESUME_VARIANT=scripts/resume-variants/<variant>.mjs npm run resume:docx
+```
+
+Reviewing one by reading it start to finish is the slow way to find what
+actually moved. Swap the script for `resume:review` and the build marks
+its own changes:
+
+```
+RESUME_VARIANT=scripts/resume-variants/<variant>.mjs npm run resume:review
+```
+
+Highlighted wording is new or rewritten, struck-through grey wording is
+canonical text the cut drops (shown where it used to sit), and whole
+entries the cut drops are named in a Review notes section at the end.
+Both marks survive the Google Docs import.
+
+**The review copy is a second artifact, never a flag on the deliverable.**
+It lands beside the real file with `.review` in its name and says so in
+its own first line and in Word's properties pane, so the copy carrying
+highlights cannot become the copy that gets submitted. It is also a
+little longer than the deliverable — restoring dropped wording inline
+makes the text longer — so **the page-count check belongs to the real
+build**, not to this one.

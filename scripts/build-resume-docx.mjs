@@ -12,6 +12,11 @@
 //   4. For each application: File → Make a copy → tailor copy →
 //      File → Download → PDF Document
 //
+// Reviewing a tailored cut:
+//   RESUME_VARIANT=<variant> RESUME_DIFF=1 npm run resume:docx
+//   writes a second, clearly-named file with every change marked in the
+//   text — see "Review copy" below.
+//
 // Why hardcoded vs. importing app/resume/resume-data.tsx:
 //   resume-data.tsx contains JSX (inline <Link>s in bullets and
 //   the IC context). Pulling JSX into a Node script means TS
@@ -395,6 +400,29 @@ const variant = variantPath
   ? await import(pathToFileURL(resolve(process.cwd(), variantPath)).href)
   : {};
 
+// ─── Review copy ──────────────────────────────────────────────────
+// RESUME_DIFF=1, alongside RESUME_VARIANT, builds a *review* copy: the same
+// document with everything the variant changed marked in the text — new or
+// rewritten wording highlighted, wording the cut drops struck through in
+// grey, and whole entries it drops named at the end. Reviewing a tailored
+// resume otherwise means holding two documents side by side and trusting
+// your eye to find the differences, which is the slow half of the job.
+//
+// It is deliberately a second artifact rather than a flag on the deliverable.
+// The file lands beside the real one with `.review` in its name, so the copy
+// carrying highlights can never be the copy that gets submitted. Without a
+// variant there is nothing to differ from, so the flag is refused rather
+// than quietly ignored — a build that silently did nothing would read as
+// "no changes found", which is the one wrong answer this must never give.
+const REVIEW = process.env.RESUME_DIFF === "1";
+if (REVIEW && !variantPath) {
+  console.error(
+    "RESUME_DIFF=1 needs RESUME_VARIANT set: a review copy marks what a\n" +
+      "variant changed, and the canonical resume has nothing to differ from.",
+  );
+  process.exit(1);
+}
+
 const CONTACT = variant.CONTACT ?? BASE_CONTACT;
 const SUMMARY = variant.SUMMARY ?? BASE_SUMMARY;
 const ROLES = variant.ROLES ?? BASE_ROLES;
@@ -404,7 +432,13 @@ const OUT_PATH =
   variant.OUT_PATH ?? "public/resume/malcolm-xavier-resume-template.docx";
 // Document metadata shown in Word's properties pane; a variant cut for a
 // non-PM req shouldn't describe itself as a PM resume.
-const DOC_DESCRIPTION = variant.DOC_DESCRIPTION ?? "Resume — Senior Product Manager";
+const BASE_DESCRIPTION =
+  variant.DOC_DESCRIPTION ?? "Resume — Senior Product Manager";
+// Word's properties pane is the one place the warning survives a rename, so
+// a review copy declares itself there as well as in its filename.
+const DOC_DESCRIPTION = REVIEW
+  ? `REVIEW COPY, not for sending — ${BASE_DESCRIPTION}`
+  : BASE_DESCRIPTION;
 // Page size in twips. The canonical resume has always emitted the docx
 // library's A4 default (11906 x 16838) despite the header comment above
 // saying US Letter, and its published PDF is A4 — changing that would
@@ -412,6 +446,11 @@ const DOC_DESCRIPTION = variant.DOC_DESCRIPTION ?? "Resume — Senior Product Ma
 // may opt into US Letter (12240 x 15840), which is the shorter page and
 // therefore the stricter page-count budget.
 const PAGE_SIZE = variant.PAGE_SIZE ?? { width: 11906, height: 16838 };
+// `.review` sits before the extension so the two files sort next to each
+// other and the marked-up one is unmistakable at a glance in Downloads.
+const WRITE_PATH = REVIEW
+  ? OUT_PATH.replace(/\.docx$/i, ".review.docx")
+  : OUT_PATH;
 
 // ─── Validate content ─────────────────────────────────────────────
 // Run schemas before any document construction so a malformed entry
@@ -444,10 +483,174 @@ const SIZE = {
 const COLOR = {
   black: "000000",
   link: "000000", // Linked text stays black; underline carries the affordance.
+  // Review copy only, and never reachable in a normal build. Dropped wording
+  // is greyed as well as struck so it reads as removed at a glance rather
+  // than as emphasis; Google Docs imports both faithfully from a .docx.
+  cut: "808080",
 };
+
+// The one highlight docx exposes by name that survives the Google Docs
+// import legibly. Yellow-on-black also clears WCAG AA comfortably, which
+// matters because this copy exists to be read closely.
+const MARK_HIGHLIGHT = "yellow";
+
+// ─── Word-level diff (review copy only) ───────────────────────────
+// Everything below is inert unless REVIEW is on: DIFFS stays empty, every
+// lookup misses, and each helper falls through to the branch it has always
+// taken. That is deliberate — the canonical resume is the published download
+// and its bytes should not move because a review feature was added.
+
+// A unit of the diff is one atom per word, carrying the formatting of the
+// segment it came from. Exploding both sides down to atoms is what lets a
+// bullet that swapped two words highlight only those two words, and it is
+// what keeps the bold metric phrases and inline links intact while doing it.
+// Trailing whitespace rides on the preceding atom so re-joining the atoms
+// reproduces the original string exactly.
+function atomize(value) {
+  const segments = typeof value === "string" ? [{ text: value }] : value;
+  const atoms = [];
+  let pending = "";
+  for (const seg of segments) {
+    for (const part of seg.text.split(/(\s+)/)) {
+      if (!part) continue;
+      if (/^\s+$/.test(part)) {
+        if (atoms.length) atoms[atoms.length - 1].text += part;
+        else pending += part;
+        continue;
+      }
+      atoms.push({
+        text: pending + part,
+        word: part,
+        bold: !!seg.bold,
+        url: seg.url,
+      });
+      pending = "";
+    }
+  }
+  return atoms;
+}
+
+/** The plain text of a unit, whichever shape it arrived in. */
+function plain(value) {
+  return atomize(value)
+    .map((a) => a.text)
+    .join("");
+}
+
+// Longest-common-subsequence over the words alone; formatting rides along on
+// the atoms and never decides what counts as a match. Resume units are a few
+// dozen words, so the quadratic table is free and the exact result is worth
+// more than an approximation would save.
+function diffAtoms(before, after) {
+  const n = before.length;
+  const m = after.length;
+  const table = Array.from({ length: n + 1 }, () => new Uint16Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = m - 1; j >= 0; j--) {
+      table[i][j] =
+        before[i].word === after[j].word
+          ? table[i + 1][j + 1] + 1
+          : Math.max(table[i + 1][j], table[i][j + 1]);
+    }
+  }
+  const out = [];
+  let i = 0;
+  let j = 0;
+  while (i < n && j < m) {
+    if (before[i].word === after[j].word) {
+      out.push({ ...after[j], mark: "same" });
+      i++;
+      j++;
+    } else if (table[i + 1][j] >= table[i][j + 1]) {
+      out.push({ ...before[i], mark: "cut" });
+      i++;
+    } else {
+      out.push({ ...after[j], mark: "add" });
+      j++;
+    }
+  }
+  while (i < n) out.push({ ...before[i++], mark: "cut" });
+  while (j < m) out.push({ ...after[j++], mark: "add" });
+  return out;
+}
+
+// Marked units are looked up by their own plain text, because that is all a
+// render helper has in hand by the time it is called. Two different units
+// with identical text would be indistinguishable at that point, so a second
+// registration that disagrees with the first collapses to "all new" — the
+// one answer that cannot quietly show him a diff against the wrong original.
+const DIFFS = new Map();
+const CUTS = [];
+
+function registerDiff(before, after, opts = {}) {
+  if (!REVIEW) return;
+  const afterAtoms = atomize(after);
+  if (!afterAtoms.length) {
+    // The cut dropped this unit outright. There is no run left to carry a
+    // mark, so it is named at the end with the other whole-entry drops
+    // rather than disappearing from the review copy along with the document.
+    if (before && opts.cutWhere) {
+      CUTS.push({ where: opts.cutWhere, text: plain(before) });
+    }
+    return;
+  }
+  const marked =
+    before === null || before === undefined
+      ? afterAtoms.map((a) => ({ ...a, mark: "add" }))
+      : diffAtoms(atomize(before), afterAtoms);
+  if (!marked.some((a) => a.mark !== "same")) return;
+  const key = opts.key ?? plain(after);
+  const existing = DIFFS.get(key);
+  if (existing && JSON.stringify(existing) !== JSON.stringify(marked)) {
+    DIFFS.set(
+      key,
+      afterAtoms.map((a) => ({ ...a, mark: "add" })),
+    );
+    return;
+  }
+  DIFFS.set(key, marked);
+}
+
+/** One atom as a run, wearing its mark. */
+function markedRun(atom, opts = {}) {
+  const style = {
+    text: atom.text,
+    font: FONT,
+    size: opts.size ?? SIZE.body,
+    bold: atom.bold || opts.bold || false,
+    italics: opts.italics ?? false,
+    color: atom.mark === "cut" ? COLOR.cut : COLOR.black,
+    strike: atom.mark === "cut",
+    ...(atom.mark === "add" ? { highlight: MARK_HIGHLIGHT } : {}),
+  };
+  // A dropped word keeps its wording and loses its link: the destination
+  // belongs to text this cut no longer makes, and a live hyperlink inside
+  // struck-through prose invites a click on something that is not there.
+  if (atom.url && atom.mark !== "cut") {
+    return new ExternalHyperlink({
+      link: atom.url,
+      children: [
+        new TextRun({
+          ...style,
+          underline: { type: "single", color: COLOR.link },
+        }),
+      ],
+    });
+  }
+  return new TextRun(style);
+}
+
+/** The marked runs for a unit, or undefined if it is unchanged. */
+function markedRuns(value, opts = {}) {
+  if (!REVIEW) return undefined;
+  const marked = DIFFS.get(typeof value === "string" ? value : plain(value));
+  return marked ? marked.map((a) => markedRun(a, opts)) : undefined;
+}
 
 /** A standard text run with our base font + black color. */
 function run(text, opts = {}) {
+  const marked = markedRuns(text, opts);
+  if (marked) return marked;
   return new TextRun({
     text,
     font: FONT,
@@ -460,6 +663,8 @@ function run(text, opts = {}) {
 
 /** A hyperlinked text run — black + underlined. */
 function linkRun(text, url, opts = {}) {
+  const marked = markedRuns(text, opts);
+  if (marked) return marked;
   return new ExternalHyperlink({
     link: url,
     children: [
@@ -490,15 +695,193 @@ function sep() {
  *     ("33% YoY", "$30M+") inline with otherwise plain bullet copy,
  *     mirroring the <strong> JSX in app/resume/resume-data.tsx.
  */
-function bulletChildren(bullet) {
-  if (typeof bullet === "string") {
-    return [run(bullet, { size: SIZE.bullet })];
+function segmentChildren(value, opts = {}) {
+  // A changed unit renders from its atoms in one piece, because the marks
+  // cut across the segment boundaries: half a sentence can be new while the
+  // bold metric inside it is not.
+  const marked = markedRuns(value, opts);
+  if (marked) return marked;
+  if (typeof value === "string") {
+    return [run(value, opts)];
   }
-  return bullet.map((seg) =>
+  return value.map((seg) =>
     seg.url
-      ? linkRun(seg.text, seg.url, { size: SIZE.bullet, bold: !!seg.bold })
-      : run(seg.text, { size: SIZE.bullet, bold: !!seg.bold }),
+      ? linkRun(seg.text, seg.url, { ...opts, bold: !!seg.bold })
+      : run(seg.text, { ...opts, bold: !!seg.bold }),
   );
+}
+
+function bulletChildren(bullet) {
+  return segmentChildren(bullet, { size: SIZE.bullet });
+}
+
+// docx bakes paragraph options at construction, and a review build turns one
+// run into several — so every children array is flattened a level on the way
+// in. Outside review mode nothing is ever nested and this is a no-op, which
+// is what keeps the canonical output byte-for-byte what it was.
+function paragraph(config) {
+  return new Paragraph(
+    config.children ? { ...config, children: config.children.flat() } : config,
+  );
+}
+
+// ─── Pairing the cut against the canonical ────────────────────────
+// Runs only for a review copy. Each unit of the variant is paired with the
+// canonical unit it came from and the difference recorded; the render
+// helpers above then find it by text when they reach it.
+//
+// Pairing is by identity wherever the data carries one — a role by employer
+// and title, an education entry by institution, a case study by its URL —
+// and by wording where it does not. Bullets have no ids, so each variant
+// bullet claims the unpaired canonical bullet it shares the most words with,
+// above a floor: below that the two are different sentences and calling the
+// second a rewrite of the first would invent a lineage. A bullet that claims
+// nothing is new. A canonical bullet nothing claimed was dropped, and those
+// are named at the end of the document rather than guessed back into a
+// position the cut no longer gives them.
+
+function overlap(a, b) {
+  const words = (v) => plain(v).toLowerCase().match(/[a-z0-9$%.+]+/g) ?? [];
+  const left = new Set(words(a));
+  const right = words(b);
+  if (!left.size || !right.length) return 0;
+  const hits = right.filter((w) => left.has(w)).length;
+  return hits / Math.max(left.size, right.length);
+}
+
+// 0.3 keeps a rewrite that kept a third of its words together with its
+// original, and keeps two bullets that merely share "and the a" apart.
+const PAIR_FLOOR = 0.3;
+
+function pairLists(before, after, where) {
+  const claimed = new Set();
+  after.forEach((item) => {
+    let best = -1;
+    let bestScore = PAIR_FLOOR;
+    before.forEach((candidate, i) => {
+      if (claimed.has(i)) return;
+      const score = overlap(candidate, item);
+      if (score > bestScore) {
+        bestScore = score;
+        best = i;
+      }
+    });
+    if (best >= 0) claimed.add(best);
+    registerDiff(best >= 0 ? before[best] : null, item);
+  });
+  before.forEach((candidate, i) => {
+    if (!claimed.has(i)) CUTS.push({ where, text: plain(candidate) });
+  });
+}
+
+if (REVIEW) {
+  registerDiff(BASE_CONTACT.headline, CONTACT.headline);
+  registerDiff(BASE_SUMMARY, SUMMARY);
+
+  // Roles: employer and title first, employer alone as the fallback, so a
+  // cut that retitled a role still diffs against the right one instead of
+  // reporting the whole entry as new.
+  const claimedRoles = new Set();
+  const claimRole = (role) => {
+    let i = BASE_ROLES.findIndex(
+      (r, idx) =>
+        !claimedRoles.has(idx) &&
+        r.company === role.company &&
+        r.title === role.title,
+    );
+    if (i < 0) {
+      i = BASE_ROLES.findIndex(
+        (r, idx) => !claimedRoles.has(idx) && r.company === role.company,
+      );
+    }
+    if (i < 0) return null;
+    claimedRoles.add(i);
+    return BASE_ROLES[i];
+  };
+
+  ROLES.forEach((role) => {
+    const base = claimRole(role);
+    const where = `${role.company} — ${role.title}`;
+    if (!base) {
+      // A whole entry with no canonical counterpart. Everything in it is new,
+      // registered unit by unit so it marks up the same way as a rewrite.
+      registerDiff(null, role.title);
+      role.bullets.forEach((b) => registerDiff(null, b));
+      return;
+    }
+    registerDiff(base.company, role.company);
+    registerDiff(base.title, role.title);
+    registerDiff(` — ${base.dates}`, ` — ${role.dates}`);
+    if (base.location || role.location) {
+      registerDiff(
+        base.location ? ` — ${base.location}` : null,
+        role.location ? ` — ${role.location}` : "",
+        { cutWhere: where },
+      );
+    }
+    registerDiff(
+      base.contextSegments ?? base.context ?? null,
+      role.contextSegments ?? role.context ?? "",
+      { cutWhere: where },
+    );
+    pairLists(base.bullets, role.bullets, where);
+    if (base.caseStudy || role.caseStudy) {
+      registerDiff(base.caseStudy?.title ?? null, role.caseStudy?.title ?? "", {
+        cutWhere: `${where} (case study link)`,
+      });
+    }
+  });
+  BASE_ROLES.forEach((r, idx) => {
+    if (!claimedRoles.has(idx)) {
+      CUTS.push({ where: "Experience — entries dropped", text: `${r.company} — ${r.title}` });
+    }
+  });
+
+  // Education, by institution.
+  const claimedSchools = new Set();
+  EDUCATION.forEach((entry) => {
+    const idx = BASE_EDUCATION.findIndex(
+      (e, i) => !claimedSchools.has(i) && e.institution === entry.institution,
+    );
+    const base = idx >= 0 ? BASE_EDUCATION[idx] : null;
+    if (idx >= 0) claimedSchools.add(idx);
+    registerDiff(base?.credential ?? null, entry.credential);
+    if (base?.honors || entry.honors) {
+      registerDiff(
+        base?.honors ? `, ${base.honors}` : null,
+        entry.honors ? `, ${entry.honors}` : "",
+        { cutWhere: `Education — ${entry.institution}` },
+      );
+    }
+    registerDiff(base ? ` — ${base.dates}` : null, ` — ${entry.dates}`);
+    registerDiff(base?.context ?? null, entry.context ?? "", {
+      cutWhere: `Education — ${entry.institution}`,
+    });
+    pairLists(base?.details ?? [], entry.details, `Education — ${entry.institution}`);
+  });
+  BASE_EDUCATION.forEach((e, i) => {
+    if (!claimedSchools.has(i)) {
+      CUTS.push({ where: "Education — entries dropped", text: `${e.institution} — ${e.credential}` });
+    }
+  });
+
+  // Case studies, by URL: the title is the thing most likely to be reworded,
+  // so it cannot also be the thing that identifies the entry.
+  const claimedStudies = new Set();
+  CASE_STUDIES.forEach((study) => {
+    const idx = BASE_CASE_STUDIES.findIndex(
+      (c, i) => !claimedStudies.has(i) && c.url === study.url,
+    );
+    const base = idx >= 0 ? BASE_CASE_STUDIES[idx] : null;
+    if (idx >= 0) claimedStudies.add(idx);
+    registerDiff(base?.title ?? null, study.title);
+    registerDiff(base?.description ?? null, study.description);
+  });
+  BASE_CASE_STUDIES.forEach((c, i) => {
+    if (!claimedStudies.has(i)) {
+      CUTS.push({ where: "Case studies — entries dropped", text: c.title });
+    }
+  });
 }
 
 // ─── Document construction ────────────────────────────────────────
@@ -507,7 +890,7 @@ const children = [];
 
 // — Name
 children.push(
-  new Paragraph({
+  paragraph({
     spacing: { before: 0, after: 60 },
     children: [
       new TextRun({
@@ -523,7 +906,7 @@ children.push(
 
 // — Headline
 children.push(
-  new Paragraph({
+  paragraph({
     spacing: { before: 0, after: 80 },
     children: [run(CONTACT.headline, { size: SIZE.headline, italics: true })],
   }),
@@ -531,7 +914,7 @@ children.push(
 
 // — Contact line 1: email · phone · location
 children.push(
-  new Paragraph({
+  paragraph({
     spacing: { before: 0, after: 40 },
     children: [
       linkRun(CONTACT.email, `mailto:${CONTACT.email}`, {
@@ -552,7 +935,7 @@ children.push(
 // — Contact line 2: LinkedIn · GitHub · Personal Website
 //   Friendly labels (not URLs); each hyperlinks to its destination.
 children.push(
-  new Paragraph({
+  paragraph({
     spacing: { before: 0, after: 200 },
     children: [
       linkRun("LinkedIn", CONTACT.linkedinUrl, { size: SIZE.contact }),
@@ -568,7 +951,7 @@ children.push(
 
 // — Summary paragraph (no SUMMARY label, per Malcolm)
 children.push(
-  new Paragraph({
+  paragraph({
     spacing: { before: 0, after: 240 },
     children: [run(SUMMARY)],
   }),
@@ -576,7 +959,7 @@ children.push(
 
 // ─── Section header helper ────────────────────────────────────────
 function sectionHeader(label, opts = {}) {
-  return new Paragraph({
+  return paragraph({
     spacing: { before: 240, after: 120 },
     border: {
       bottom: {
@@ -617,7 +1000,7 @@ function pushKeptTogether(targetArray, paragraphConfigs) {
     if (i < paragraphConfigs.length - 1) {
       config.keepNext = true;
     }
-    targetArray.push(new Paragraph(config));
+    targetArray.push(paragraph(config));
   });
 }
 
@@ -662,14 +1045,10 @@ ROLES.forEach((role, idx) => {
   if (role.contextSegments) {
     entryParas.push({
       spacing: { before: 0, after: 80 },
-      children: role.contextSegments.map((seg) =>
-        seg.url
-          ? linkRun(seg.text, seg.url, {
-              size: SIZE.context,
-              italics: true,
-            })
-          : run(seg.text, { size: SIZE.context, italics: true }),
-      ),
+      children: segmentChildren(role.contextSegments, {
+        size: SIZE.context,
+        italics: true,
+      }),
     });
   } else if (role.context) {
     entryParas.push({
@@ -793,6 +1172,108 @@ CASE_STUDIES.forEach((study, idx) => {
   pushKeptTogether(children, entryParas);
 });
 
+// ─── Review notes (review copy only) ──────────────────────────────
+// Deliberately last, so the legend and the dropped-entry list cost the body
+// nothing. The body still does not paginate identically to the deliverable —
+// restoring dropped wording inline necessarily makes the text longer — so the
+// page-count check belongs to the real build and this copy is for reading.
+// Everything needed to interpret the marks is in the document rather than
+// only in the console, because the file outlives the session that wrote it.
+if (REVIEW) {
+  children.push(sectionHeader("Review notes"));
+
+  children.push(
+    paragraph({
+      spacing: { before: 0, after: 100 },
+      children: [
+        run("Review copy — not the file to send. ", {
+          bold: true,
+          italics: true,
+        }),
+        new TextRun({
+          text: "Highlighted",
+          font: FONT,
+          size: SIZE.body,
+          italics: true,
+          color: COLOR.black,
+          highlight: MARK_HIGHLIGHT,
+        }),
+        run(" wording is new or rewritten in this cut. ", { italics: true }),
+        new TextRun({
+          text: "Struck-through grey",
+          font: FONT,
+          size: SIZE.body,
+          italics: true,
+          color: COLOR.cut,
+          strike: true,
+        }),
+        run(
+          " wording is canonical text the cut drops, shown where it used to sit. Rebuild without RESUME_DIFF=1 for the copy to submit.",
+          { italics: true },
+        ),
+      ],
+    }),
+  );
+
+  if (CUTS.length) {
+    // Grouped by where they came from, in first-seen order, so the list reads
+    // in document order rather than in the order the pairing happened to
+    // resolve. Whole entries have no position left in the cut, which is why
+    // they are named here instead of being guessed back into one.
+    const groups = new Map();
+    for (const cut of CUTS) {
+      if (!groups.has(cut.where)) groups.set(cut.where, []);
+      groups.get(cut.where).push(cut.text);
+    }
+    for (const [where, texts] of groups) {
+      children.push(
+        paragraph({
+          spacing: { before: 140, after: 40 },
+          children: [
+            new TextRun({
+              text: where,
+              font: FONT,
+              bold: true,
+              size: SIZE.body,
+              color: COLOR.black,
+            }),
+          ],
+        }),
+      );
+      for (const text of texts) {
+        children.push(
+          paragraph({
+            spacing: { before: 0, after: 40 },
+            bullet: { level: 0 },
+            indent: { left: convertInchesToTwip(0.2) },
+            children: [
+              new TextRun({
+                text,
+                font: FONT,
+                size: SIZE.bullet,
+                color: COLOR.cut,
+                strike: true,
+              }),
+            ],
+          }),
+        );
+      }
+    }
+  } else {
+    children.push(
+      paragraph({
+        spacing: { before: 100, after: 0 },
+        children: [
+          run(
+            "Nothing was dropped wholesale — every change this cut makes is marked inline above.",
+            { italics: true },
+          ),
+        ],
+      }),
+    );
+  }
+}
+
 // ─── Page header (pages 2+) ────────────────────────────────────────
 // Print resilience: if the resume gets printed and the pages are
 // physically separated, page 2+ still carries identifying info.
@@ -845,13 +1326,13 @@ function headerSep() {
 
 const pageHeader = new Header({
   children: [
-    new Paragraph({
+    paragraph({
       spacing: { before: 0, after: 0 },
       children: [
         headerRun(CONTACT.name, { size: HEADER_SIZE.name, bold: true }),
       ],
     }),
-    new Paragraph({
+    paragraph({
       spacing: { before: 0, after: 0 },
       children: [
         headerRun(CONTACT.headline, {
@@ -860,7 +1341,7 @@ const pageHeader = new Header({
         }),
       ],
     }),
-    new Paragraph({
+    paragraph({
       spacing: { before: 40, after: 80 },
       border: {
         bottom: {
@@ -934,10 +1415,19 @@ const doc = new Document({
 
 // ─── Write to disk ────────────────────────────────────────────────
 
-const outPath = resolve(process.cwd(), OUT_PATH);
+const outPath = resolve(process.cwd(), WRITE_PATH);
 mkdirSync(dirname(outPath), { recursive: true });
 
 const buf = await Packer.toBuffer(doc);
 writeFileSync(outPath, buf);
 
 console.log(`✓ Wrote ${outPath} (${(buf.length / 1024).toFixed(1)} KB)`);
+if (REVIEW) {
+  const marked = DIFFS.size;
+  console.log(
+    `  Review copy — ${marked} changed ${marked === 1 ? "line" : "lines"} marked` +
+      `${CUTS.length ? `, ${CUTS.length} dropped outright and listed at the end` : ""}.`,
+  );
+  console.log("  Highlighted = new or rewritten · struck grey = dropped.");
+  console.log("  Do not submit this file; rebuild without RESUME_DIFF=1 for that.");
+}
