@@ -41,6 +41,7 @@ import {
 } from "docx";
 import { writeFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
+import { pathToFileURL } from "node:url";
 import { z } from "zod";
 
 // ─── Schemas ──────────────────────────────────────────────────────
@@ -66,7 +67,7 @@ const ContactSchema = z.object({
 // Mirrors the contact block in scripts/build-resume-docx.mjs. When
 // the resume contact info changes, update both files.
 
-const CONTACT = {
+const BASE_CONTACT = {
   name: "Malcolm Xavier",
   headline:
     "Senior Product Manager · Growth, MarTech, and Customer Data Platforms · AI-Native Operations",
@@ -84,7 +85,7 @@ const CONTACT = {
 // Recipient block — every field is a placeholder. The Hiring Manager
 // name slot accepts "Hiring Manager" if the actual name isn't known;
 // modern conventions allow either.
-const RECIPIENT = {
+const BASE_RECIPIENT = {
   date: "[DATE — e.g., May 7, 2026]",
   hiringManager: "[HIRING MANAGER NAME, or omit this line if unknown]",
   roleTitle: "[ROLE TITLE]",
@@ -94,7 +95,7 @@ const RECIPIENT = {
   companyAddress: "[COMPANY ADDRESS — optional; many applications omit]",
 };
 
-const SALUTATION = "Dear [HIRING MANAGER NAME or Hiring Manager],";
+const BASE_SALUTATION = "Dear [HIRING MANAGER NAME or Hiring Manager],";
 
 // Body paragraphs — scaffolding with bracketed slots. Voice mirrors
 // Malcolm's resume summary so the letter reads continuous with the
@@ -110,7 +111,7 @@ const SALUTATION = "Dear [HIRING MANAGER NAME or Hiring Manager],";
 //      two-sided product work, ingestion-at-scale, etc. Pick one.
 //   4. Close — reiterate enthusiasm, point to attached resume and
 //      malxavi.com case studies, friendly CTA.
-const BODY = [
+const BASE_BODY = [
   // ─── Paragraph 1 — hook ─────────────────────────────────────────
   "Your search for a [ROLE TITLE] to lead [SPECIFIC TEAM, INITIATIVE, OR PROBLEM SPACE FROM THE JD] at [COMPANY] caught my attention because [SPECIFIC, NON-GENERIC CONNECTION — e.g., recent product launch, public-facing strategy shift, a sub-brand or audience segment that maps to my work]. I've spent the last seven years building growth and data platforms at the intersection of media, publishing, and SaaS, and the shape of this role looks like a strong fit.",
 
@@ -124,7 +125,37 @@ const BODY = [
   "I'd welcome the chance to talk about how my background applies to [SPECIFIC ROLE PRIORITY OR OUTCOME]. My resume is attached, and recent case studies — including a meta one on shipping malxavi.com with Claude Code as build partner — are at malxavi.com/case-studies. Looking forward to hearing from you.",
 ];
 
-const SIGN_OFF = "Sincerely,";
+const BASE_SIGN_OFF = "Sincerely,";
+
+// ─── Variant overlay ──────────────────────────────────────────────
+// Same mechanism as the resume, and deliberately the same shape so one
+// convention covers both halves of an application. A variant module
+// exports only the blocks it changes — CONTACT, RECIPIENT, SALUTATION,
+// BODY, SIGN_OFF, OUT_PATH — and anything it does not export falls
+// through to the BASE_* scaffolding above:
+//
+//   COVER_LETTER_VARIANT=scripts/cover-letter-variants/<v>.mjs \
+//     npm run cover-letter:docx
+//
+// With no variant set this script still writes the bracketed template
+// it always wrote, which is what keeps the placeholder workflow intact.
+
+const variantPath = process.env.COVER_LETTER_VARIANT;
+const variant = variantPath
+  ? await import(pathToFileURL(resolve(process.cwd(), variantPath)).href)
+  : {};
+
+// Page size in twips. The default is A4, matching what this script has
+// always emitted; a variant overrides it the same way the resume
+// variants do, and for the same reason — a US recruiter prints on
+// Letter, which is 50pt shorter.
+const PAGE_SIZE = variant.PAGE_SIZE ?? { width: 11906, height: 16838 };
+
+const CONTACT = variant.CONTACT ?? BASE_CONTACT;
+const RECIPIENT = variant.RECIPIENT ?? BASE_RECIPIENT;
+const SALUTATION = variant.SALUTATION ?? BASE_SALUTATION;
+const BODY = variant.BODY ?? BASE_BODY;
+const SIGN_OFF = variant.SIGN_OFF ?? BASE_SIGN_OFF;
 
 // ─── Validate ─────────────────────────────────────────────────────
 ContactSchema.parse(CONTACT);
@@ -360,7 +391,11 @@ const doc = new Document({
     {
       properties: {
         page: {
-          size: { orientation: PageOrientation.PORTRAIT },
+          size: {
+            orientation: PageOrientation.PORTRAIT,
+            width: PAGE_SIZE.width,
+            height: PAGE_SIZE.height,
+          },
           margin: {
             top: convertInchesToTwip(0.5),
             right: convertInchesToTwip(0.5),
@@ -377,9 +412,12 @@ const doc = new Document({
 // ─── Write to disk ────────────────────────────────────────────────
 // Output lives under _private/ — gitignored, never served, local-only.
 
+// A variant names its own destination — tailored letters go to
+// ~/Downloads beside the tailored resume, never into the repo.
 const outPath = resolve(
   process.cwd(),
-  "_private/cover-letter/malcolm-xavier-cover-letter-template.docx",
+  variant.OUT_PATH ??
+    "_private/cover-letter/malcolm-xavier-cover-letter-template.docx",
 );
 mkdirSync(dirname(outPath), { recursive: true });
 

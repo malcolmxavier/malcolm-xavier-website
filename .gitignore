@@ -66,3 +66,8 @@ next-env.d.ts
 # script drops in ~/Downloads — scripts/build-resume-docx.mjs runs fine without
 # any of them present.
 /scripts/resume-variants/
+
+# Cover-letter variant overlays. Same mechanism, same reason, same rule:
+# one module per application, carrying the letter he actually sends and
+# the reasoning behind it. Ignored by directory, not by filename.
+/scripts/cover-letter-variants/
