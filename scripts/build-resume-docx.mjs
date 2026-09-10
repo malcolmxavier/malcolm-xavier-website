@@ -86,6 +86,9 @@ const RoleSchema = z.object({
   dates: z.string().min(1),
   context: z.string().optional(),
   contextSegments: z.array(ContextSegmentSchema).optional(),
+  // Optional subsection header printed above this role. See the
+  // EXPERIENCE section for what it is for.
+  sectionBreak: z.string().min(1).optional(),
   bullets: z.array(BulletSchema),
   // Optional linked reference to the role's case study on malxavi.com.
   // Rendered as a separated "Case study: <title>" line under the
@@ -119,12 +122,17 @@ const ContactSchema = z.object({
   email: z.string().email(),
   phone: z.string().min(1),
   location: z.string().min(1),
-  website: z.string().min(1),
-  websiteUrl: z.string().url(),
-  linkedin: z.string().min(1),
-  linkedinUrl: z.string().url(),
-  github: z.string().min(1),
-  githubUrl: z.string().url(),
+  // The three profile links are optional so a variant can leave them off.
+  // A cut aimed outside the software industry has no use for a GitHub
+  // link, and a portfolio site arguing a different career works against
+  // the document it is printed on. The canonical contact block supplies
+  // all three, so the default build is unchanged.
+  website: z.string().min(1).optional(),
+  websiteUrl: z.string().url().optional(),
+  linkedin: z.string().min(1).optional(),
+  linkedinUrl: z.string().url().optional(),
+  github: z.string().min(1).optional(),
+  githubUrl: z.string().url().optional(),
 });
 
 // ─── Content ──────────────────────────────────────────────────────
@@ -414,6 +422,11 @@ const variant = variantPath
 // variant there is nothing to differ from, so the flag is refused rather
 // than quietly ignored — a build that silently did nothing would read as
 // "no changes found", which is the one wrong answer this must never give.
+//
+// The review copy stops at the .docx. Do NOT convert it to PDF (his call,
+// 2026-09-09) — a PDF is the sending format, and this file is never sent
+// anywhere. He reads it in Word, where the highlighting and strikethrough
+// are native. Only the sendable build gets a soffice pass.
 const REVIEW = process.env.RESUME_DIFF === "1";
 if (REVIEW && !variantPath) {
   console.error(
@@ -912,10 +925,26 @@ children.push(
   }),
 );
 
+// — Contact line 2 is built first so line 1 knows whether it is the last
+//   line of the block. With no profile links, line 1 has to carry the gap
+//   before the summary itself, or the name block runs straight into it.
+const profileLinks = [];
+if (CONTACT.linkedinUrl) {
+  profileLinks.push(linkRun("LinkedIn", CONTACT.linkedinUrl, { size: SIZE.contact }));
+}
+if (CONTACT.githubUrl) {
+  profileLinks.push(linkRun("GitHub", CONTACT.githubUrl, { size: SIZE.contact }));
+}
+if (CONTACT.websiteUrl) {
+  profileLinks.push(
+    linkRun("Personal Website", CONTACT.websiteUrl, { size: SIZE.contact }),
+  );
+}
+
 // — Contact line 1: email · phone · location
 children.push(
   paragraph({
-    spacing: { before: 0, after: 40 },
+    spacing: { before: 0, after: profileLinks.length ? 40 : 200 },
     children: [
       linkRun(CONTACT.email, `mailto:${CONTACT.email}`, {
         size: SIZE.contact,
@@ -934,20 +963,15 @@ children.push(
 
 // — Contact line 2: LinkedIn · GitHub · Personal Website
 //   Friendly labels (not URLs); each hyperlinks to its destination.
-children.push(
-  paragraph({
-    spacing: { before: 0, after: 200 },
-    children: [
-      linkRun("LinkedIn", CONTACT.linkedinUrl, { size: SIZE.contact }),
-      sep(),
-      linkRun("GitHub", CONTACT.githubUrl, { size: SIZE.contact }),
-      sep(),
-      linkRun("Personal Website", CONTACT.websiteUrl, {
-        size: SIZE.contact,
-      }),
-    ],
-  }),
-);
+//   Omitted entirely when a variant supplies none of the three.
+if (profileLinks.length) {
+  children.push(
+    paragraph({
+      spacing: { before: 0, after: 200 },
+      children: profileLinks.flatMap((link, i) => (i ? [sep(), link] : [link])),
+    }),
+  );
+}
 
 // — Summary paragraph (no SUMMARY label, per Malcolm)
 children.push(
@@ -1007,13 +1031,28 @@ function pushKeptTogether(targetArray, paragraphConfigs) {
 // — EXPERIENCE section.
 //   The section header is built with keepNext below so it can't sit
 //   alone at the bottom of a page.
-children.push(sectionHeader("Experience", { keepNext: true }));
+// A role may open its own subsection by carrying `sectionBreak`, which
+// prints a header above it rather than letting it fall under the running
+// one. That is what lets a variant group the record — a hospitality cut
+// leads with "Hospitality" and files the software career under "Selected
+// Other Experience" — so a reader is never asked to reconcile an entry
+// that looks out of chronological order. When no role opens the list with
+// a break, which is every canonical build, the single "Experience" header
+// goes up exactly as before.
+if (!ROLES[0]?.sectionBreak) {
+  children.push(sectionHeader("Experience", { keepNext: true }));
+}
 
 ROLES.forEach((role, idx) => {
+  if (role.sectionBreak) {
+    children.push(sectionHeader(role.sectionBreak, { keepNext: true }));
+  }
   // Build all paragraphs for this entry into an array, then apply
   // keepNext to all but the last so the entry never splits across
   // pages (Malcolm's rule: an entry should not span pages).
-  const beforeRole = idx === 0 ? 0 : 200;
+  // A role sitting directly under its own subsection header takes the
+  // flush spacing the first entry gets, not the gap between two entries.
+  const beforeRole = idx === 0 || role.sectionBreak ? 0 : 200;
   const entryParas = [];
 
   // Company line
@@ -1093,7 +1132,13 @@ ROLES.forEach((role, idx) => {
 });
 
 // — EDUCATION section
-children.push(sectionHeader("Education", { keepNext: true }));
+// A variant may drop a section outright — a one-page cut for a job that
+// does not read graduate credentials as an asset keeps one line of
+// education and no case studies. An empty list prints nothing at all
+// rather than a header with nothing under it.
+if (EDUCATION.length) {
+  children.push(sectionHeader("Education", { keepNext: true }));
+}
 
 EDUCATION.forEach((entry, idx) => {
   const beforeEntry = idx === 0 ? 0 : 200;
@@ -1148,7 +1193,9 @@ EDUCATION.forEach((entry, idx) => {
 // — CASE STUDIES section
 //   Each entry: linked title (bold, companyHeader size) + body text.
 //   No CTA — the underlined title carries the affordance.
-children.push(sectionHeader("Case Studies", { keepNext: true }));
+if (CASE_STUDIES.length) {
+  children.push(sectionHeader("Case Studies", { keepNext: true }));
+}
 
 CASE_STUDIES.forEach((study, idx) => {
   const beforeEntry = idx === 0 ? 0 : 200;
@@ -1360,12 +1407,18 @@ const pageHeader = new Header({
         ),
         headerSep(),
         headerRun(CONTACT.location),
-        headerSep(),
-        headerLink("LinkedIn", CONTACT.linkedinUrl),
-        headerSep(),
-        headerLink("GitHub", CONTACT.githubUrl),
-        headerSep(),
-        headerLink("Personal Website", CONTACT.websiteUrl),
+        // Same optionality as the body contact block above: a variant
+        // supplying no profile links gets no separators trailing off the
+        // end of the running header either.
+        ...(CONTACT.linkedinUrl
+          ? [headerSep(), headerLink("LinkedIn", CONTACT.linkedinUrl)]
+          : []),
+        ...(CONTACT.githubUrl
+          ? [headerSep(), headerLink("GitHub", CONTACT.githubUrl)]
+          : []),
+        ...(CONTACT.websiteUrl
+          ? [headerSep(), headerLink("Personal Website", CONTACT.websiteUrl)]
+          : []),
       ],
     }),
   ],
