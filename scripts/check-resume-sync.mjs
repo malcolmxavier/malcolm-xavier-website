@@ -71,10 +71,22 @@ const FIELDS = [
     // 2026-08-19, by which point the bullet bank had silently drifted in
     // three places ("growth, experimentation, and data platforms",
     // "growth infrastructure", "Applied MS in Law").
-    label: "Summary",
+    //
+    // The closing sentence is the one deliberate divergence (2026-09-10):
+    // the site keeps the full "roadmapping, outcome measurement, and
+    // documentation" list, and the two docx surfaces drop it for length. So
+    // the site is checked on its own and the two docx surfaces are checked
+    // against each other.
+    label: "Summary (site)",
     value:
-      "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops—roadmapping, outcome measurement, and documentation.",
-    in: ["site", "resumeDocx", "bulletBank"],
+      "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops—roadmapping, outcome measurement, and documentation—with three years of hands-on LLM and agent training and evaluation.",
+    in: ["site"],
+  },
+  {
+    label: "Summary (docx)",
+    value:
+      "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops, with three years of hands-on LLM and agent training and evaluation.",
+    in: ["resumeDocx", "bulletBank"],
   },
 
   // ─── Contact block ───────────────────────────────────────────────

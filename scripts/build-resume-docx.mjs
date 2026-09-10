@@ -159,7 +159,7 @@ const BASE_CONTACT = {
 };
 
 const BASE_SUMMARY =
-  "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops—roadmapping, outcome measurement, and documentation.";
+  "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops, with three years of hands-on LLM and agent training and evaluation.";
 
 // Each role: company, optional company URL, location, title, dates,
 // context (string OR array of {text, url?} segments via contextSegments),
@@ -188,16 +188,21 @@ const CANONICAL_ROLES = [
     title: "Principal Consultant",
     dates: "Feb 2022 – Present",
     context:
-      "Independent product, data, and content-strategy practice—growth systems, MarTech and customer data platforms, privacy-aware data governance, and AI-native product and content operations.",
+      "Independent product, data, and content-strategy practice—growth systems, MarTech and customer data platforms, privacy-aware data governance, AI-native operations, and AI training and evaluation.",
     bullets: [
-      { id: "consulting-own-products", text: "Build and operate my own products—malxavi.com and the editorial operation behind my published writing—on an AI-native setup, with agentic workflows in the loop from roadmap to ship" },
+      { id: "consulting-own-products", text: [
+        { text: "Build and operate " },
+        { text: "The Booth", url: "https://malxavi.com/booth" },
+        { text: " on Claude Code, the AI-native system I plan and ship my own work from: one prioritized day across six workstreams, agents that run unattended on a schedule, and every automated write logged and reversible" },
+      ] },
+      { id: "consulting-privacy-rules", text: "Set the privacy rules for The Booth's automation: the jobs that can reach the internet can't reach personal data" },
       { id: "consulting-fleet", text: [
         { text: "Fleet", url: "https://www.fleetai.com" },
-        { text: " (2026–present): AI training and evaluation—prompting techniques, evaluation rubrics, and agent-behavior assessment for simulated-environment research" },
+        { text: " (2026–present): AI training data—prompt development and change-logged sessions in simulated environments" },
       ] },
       { id: "consulting-dataannotation", text: [
         { text: "DataAnnotation", url: "https://www.dataannotation.tech" },
-        { text: " (2023–2026): LLM and agent training—CoT and meta-prompting, evaluation rubrics and criteria, and peer review of model outputs" },
+        { text: " (2023–2026): LLM and agent evaluation—prompts, including adversarial ones, plus criteria, rubrics, response grading, and peer review" },
       ] },
       { id: "consulting-artist-growth", text: [
         { text: "Artist Growth", url: "https://www.artistgrowth.com" },

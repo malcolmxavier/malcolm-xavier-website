@@ -1,6 +1,6 @@
 # Malcolm Xavier — malxavi.com
 
-> Senior product manager working on growth, marketing, and data platforms—MarTech infrastructure, customer data platforms, and lifecycle programs—in media, publishing, and B2B SaaS. AI-native builder. Based in Los Angeles, originally from New York. This site is a portfolio supporting a Senior PM job search, and the home of an independent consulting practice.
+> Senior product manager working on growth, marketing, and data platforms—MarTech infrastructure, customer data platforms, and lifecycle programs—in media, publishing, and B2B SaaS. AI-native builder with three years of hands-on LLM and agent training and evaluation. Based in Los Angeles, originally from New York. This site is a portfolio supporting a Senior PM job search, and the home of an independent consulting practice.
 
 ## Key pages
 
@@ -8,6 +8,7 @@
 - [About](https://malxavi.com/about): longer-form bio, interests, "what I'm into."
 - [Contact](https://malxavi.com/contact): Calendly, email, LinkedIn, GitHub.
 - [Consulting](https://malxavi.com/consulting): the services page for Malcolm's consulting practice, with published prices. Three tiers — Checkups (fixed price, fixed scope, two weeks or less: an AEO/GEO and lifecycle audit at $3,500, a data and analytics audit at $2,500), Implementation (project scope quoted after a call: website and content platform from $6,000, email program design from $6,000, MarTech and data architecture from $8,000), and Ongoing Support (monthly retainer, three-month minimum: AI-native operations from $2,500, fractional product partner from $1,500 a month). Advisory work outside the menu is $150 an hour, and reduced rates apply for arts and nonprofit organizations.
+- [The Booth](https://malxavi.com/booth): the AI-native system Malcolm plans and ships his own work from, built on Claude Code.
 - [Case studies index](https://malxavi.com/case-studies): long-form articles on Growth PM methodology, AI-native product development, and Claude Code workflows.
 - [Music](https://malxavi.com/music): monthly Spotify playlists, curated by mood and moment.
 - [Films](https://malxavi.com/films): full Letterboxd journal with prose reviews. Every film Malcolm has logged (741 entries) is reviewable per-page at /films/{letterboxd-slug}-{year}, with TMDB metadata (poster, genre, runtime, director) and a 0.5–5★ rating. Faceted landing pages group the corpus for long-tail discovery: /films/genre/{slug}, /films/director/{slug}, /films/actor/{slug}, /films/writer/{slug}, /films/studio/{slug}, /films/language/{slug}, /films/country/{slug}, and /films/decade/{slug}. Curated collections live at /films/collections and ranked lists at /films/lists/{slug}.

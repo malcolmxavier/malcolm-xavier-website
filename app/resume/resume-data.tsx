@@ -169,7 +169,7 @@ export const HEADLINE =
   "Senior Product Manager · Growth, MarTech, and Customer Data Platforms · AI‑Native Operations";
 
 export const SUMMARY =
-  "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops—roadmapping, outcome measurement, and documentation.";
+  "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops—roadmapping, outcome measurement, and documentation—with three years of hands-on LLM and agent training and evaluation.";
 
 // ─── Work experience (most recent first) ───────────────────────────
 
@@ -194,11 +194,12 @@ export const ROLES: ResumeRole[] = [
     title: "Principal Consultant",
     dates: "Feb 2022 – Present",
     context:
-      "Independent product, data, and content-strategy practice—growth systems, MarTech and customer data platforms, privacy-aware data governance, and AI-native product and content operations.",
+      "Independent product, data, and content-strategy practice—growth systems, MarTech and customer data platforms, privacy-aware data governance, AI-native operations, and AI training and evaluation.",
     bullets: [
-      <>Build and operate my own products—malxavi.com and the editorial operation behind my published writing—on an AI-native setup, with agentic workflows in the loop from roadmap to ship</>,
-      <><strong><Link href="https://www.fleetai.com">Fleet</Link></strong> (2026–present): AI training and evaluation—prompting techniques, evaluation rubrics, and agent-behavior assessment for simulated-environment research</>,
-      <><strong><Link href="https://www.dataannotation.tech">DataAnnotation</Link></strong> (2023–2026): LLM and agent training—CoT and meta-prompting, evaluation rubrics and criteria, and peer review of model outputs</>,
+      <>Build and operate <Link href="/booth">The Booth</Link> on Claude Code, the AI-native system I plan and ship my own work from, this site and my published writing included: six workstreams merged into one prioritized day, agents that run unattended on a schedule, and every automated write logged with an undo</>,
+      <>Set the privacy rules for The Booth’s automation: the jobs that can reach the internet can’t reach personal data</>,
+      <><strong><Link href="https://www.fleetai.com">Fleet</Link></strong> (2026–present): AI training data for agent research—prompt development, and sessions in simulated environments that logged every change</>,
+      <><strong><Link href="https://www.dataannotation.tech">DataAnnotation</Link></strong> (2023–2026): LLM and agent training and evaluation—wrote prompts, criteria, and rubrics using CoT and meta-prompting, adversarial prompts included; graded model responses and peer-reviewed other contributors’ work</>,
       <>
         <strong>
           <Link href="https://www.artistgrowth.com">Artist Growth</Link>
