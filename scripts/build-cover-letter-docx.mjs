@@ -40,7 +40,7 @@ import {
   BorderStyle,
 } from "docx";
 import { writeFileSync, mkdirSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { resolve, dirname, join, basename } from "node:path";
 import { pathToFileURL } from "node:url";
 import { z } from "zod";
 
@@ -414,10 +414,17 @@ const doc = new Document({
 
 // A variant names its own destination — tailored letters go to
 // ~/Downloads beside the tailored resume, never into the repo.
+const OUT_PATH =
+  variant.OUT_PATH ??
+  "_private/cover-letter/malcolm-xavier-cover-letter-template.docx";
+// COVER_LETTER_OUT_DIR sends the file to a different folder under the
+// same name, for a trial build that must not land on a letter already
+// reviewed or sent. Unset, every build writes exactly where it always has.
 const outPath = resolve(
   process.cwd(),
-  variant.OUT_PATH ??
-    "_private/cover-letter/malcolm-xavier-cover-letter-template.docx",
+  process.env.COVER_LETTER_OUT_DIR
+    ? join(process.env.COVER_LETTER_OUT_DIR, basename(OUT_PATH))
+    : OUT_PATH,
 );
 mkdirSync(dirname(outPath), { recursive: true });
 

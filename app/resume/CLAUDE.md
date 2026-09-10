@@ -66,6 +66,20 @@ canonical text the cut drops (shown where it used to sit), and whole
 entries the cut drops are named in a Review notes section at the end.
 Both marks survive the Google Docs import.
 
+**Most cuts build on a named base and list only their changes.** Every
+canonical role, bullet, and education entry in `build-resume-docx.mjs`
+carries a short id (`people-email-revenue`), and a cut names the base it
+builds on and lists its swaps by id—replace this bullet, drop that one,
+add a new one after a third—rather than retyping every role to change
+one line. The bases live in `scripts/resume-variants/_bases/`, gitignored
+for the same reason the cuts are. The full vocabulary, with an example,
+is the "Variant overlay" comment in the builder. A cut that is genuinely
+a different document can still replace whole blocks outright.
+
+To build anything without overwriting a copy that was already reviewed or
+sent, set `RESUME_OUT_DIR` (or `COVER_LETTER_OUT_DIR` for letters) to a
+scratch folder. The file keeps its usual name there.
+
 **The review copy is a second artifact, never a flag on the deliverable.**
 It lands beside the real file with `.review` in its name and says so in
 its own first line and in Word's properties pane, so the copy carrying

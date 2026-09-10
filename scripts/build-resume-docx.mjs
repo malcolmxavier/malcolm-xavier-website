@@ -17,6 +17,11 @@
 //   writes a second, clearly-named file with every change marked in the
 //   text — see "Review copy" below.
 //
+// Trial builds:
+//   RESUME_OUT_DIR=<folder> sends any build to that folder under its
+//   usual name, so a check never overwrites a copy already reviewed or
+//   sent — see "Variant overlay" and the output path below.
+//
 // Why hardcoded vs. importing app/resume/resume-data.tsx:
 //   resume-data.tsx contains JSX (inline <Link>s in bullets and
 //   the IC context). Pulling JSX into a Node script means TS
@@ -48,8 +53,8 @@ import {
   convertInchesToTwip,
   BorderStyle,
 } from "docx";
-import { writeFileSync, mkdirSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { resolve, dirname, join, basename, relative } from "node:path";
 import { pathToFileURL } from "node:url";
 import { z } from "zod";
 
@@ -161,13 +166,21 @@ const BASE_SUMMARY =
 // bullets (each entry is either a plain string OR an array of
 // {text, bold?, url?} segments — segments allow inline bold/link spans
 // so metric phrases bold inside an otherwise plain bullet sentence).
-const BASE_ROLES = [
+//
+// Every role and every bullet also carries a short, stable id (`people`,
+// `people-email-revenue`). Nothing prints it. It exists so a tailored cut
+// can point at a bullet by name ("swap this one", "drop that one") instead
+// of retyping the whole role — see "Variant overlay" below. Treat an id
+// as permanent once a cut uses it: renaming one breaks every cut that
+// points at it, loudly, at build time.
+const CANONICAL_ROLES = [
   {
     // Consolidated practice entry — mirrors the site's Malcolm Xavier
     // Consulting role (replaces the former Freelance / Prompt Engineer
     // and Independent Consulting entries). Org names are linked but not
     // bold: the docx reserves bold for metric phrases, so an
     // engagement list with no hero metrics carries no bold runs.
+    id: "consulting",
     company: "Malcolm Xavier Consulting",
     // Remote-only for the practice; matches the site. LA stays on the
     // top-level contact block, not the role.
@@ -177,22 +190,23 @@ const BASE_ROLES = [
     context:
       "Independent product, data, and content-strategy practice—growth systems, MarTech and customer data platforms, privacy-aware data governance, and AI-native product and content operations.",
     bullets: [
-      "Build and operate my own products—malxavi.com and the editorial operation behind my published writing—on an AI-native setup, with agentic workflows in the loop from roadmap to ship",
-      [
+      { id: "consulting-own-products", text: "Build and operate my own products—malxavi.com and the editorial operation behind my published writing—on an AI-native setup, with agentic workflows in the loop from roadmap to ship" },
+      { id: "consulting-fleet", text: [
         { text: "Fleet", url: "https://www.fleetai.com" },
         { text: " (2026–present): AI training and evaluation—prompting techniques, evaluation rubrics, and agent-behavior assessment for simulated-environment research" },
-      ],
-      [
+      ] },
+      { id: "consulting-dataannotation", text: [
         { text: "DataAnnotation", url: "https://www.dataannotation.tech" },
         { text: " (2023–2026): LLM and agent training—CoT and meta-prompting, evaluation rubrics and criteria, and peer review of model outputs" },
-      ],
-      [
+      ] },
+      { id: "consulting-artist-growth", text: [
         { text: "Artist Growth", url: "https://www.artistgrowth.com" },
         { text: " (2022): product operations and GDPR/CCPA compliance for music-industry SaaS" },
-      ],
+      ] },
     ],
   },
   {
+    id: "people",
     company: "People Inc.",
     url: "https://people.inc",
     location: "Remote",
@@ -201,20 +215,20 @@ const BASE_ROLES = [
     context:
       "“America's largest publisher” (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
     bullets: [
-      [
+      { id: "people-email-revenue", text: [
         { text: "Grew email revenue 33% YoY", bold: true },
         { text: " with reusable components and lifecycle marketing playbooks" },
-      ],
-      [
+      ] },
+      { id: "people-recipes", text: [
         { text: "Partnered with data science to scale a recipe recommendation service and drive " },
         { text: "2x traffic", bold: true },
-      ],
-      [
+      ] },
+      { id: "people-newsletter-program", text: [
         { text: "Introduced a content-specific newsletter program with " },
         { text: "3x open rates and 2x user LTV", bold: true },
-      ],
-      "Operationalized experiments to enable AI-based personalized acquisition and engagement",
-      "Built models in SQL, BigQuery, and Connected Sheets to identify achievable outcomes that informed the AI-based personalization strategy",
+      ] },
+      { id: "people-experiments", text: "Operationalized experiments to enable AI-based personalized acquisition and engagement" },
+      { id: "people-sql-models", text: "Built models in SQL, BigQuery, and Connected Sheets to identify achievable outcomes that informed the AI-based personalization strategy" },
     ],
     caseStudy: {
       title: "Infrastructure enables personalization",
@@ -222,6 +236,7 @@ const BASE_ROLES = [
     },
   },
   {
+    id: "muckrack",
     company: "Muck Rack",
     url: "https://muckrack.com",
     location: "Remote",
@@ -230,20 +245,20 @@ const BASE_ROLES = [
     context:
       "SaaS reporting tool for PR professionals. Scaled the content platform; enabled search and monitoring features.",
     bullets: [
-      [
+      { id: "muckrack-ingestion", text: [
         { text: "Scaled ingestion 350% YoY", bold: true },
         { text: ", enabling downstream ML classification, search, and reporting" },
-      ],
-      [
+      ] },
+      { id: "muckrack-parsing", text: [
         { text: "Improved core AI/ML model accuracy, " },
         { text: "reducing parsing errors by 45% YoY", bold: true },
-      ],
-      [
+      ] },
+      { id: "muckrack-backfill", text: [
         { text: "Backfilled content and data to achieve a " },
         { text: "500% increase in historical coverage", bold: true },
-      ],
-      "Led the initiative to decompose the ingestion monolith, improving ETL cost, scalability, and reliability",
-      "Liaised with external content vendors and developers to ensure data-processing compliance",
+      ] },
+      { id: "muckrack-monolith", text: "Led the initiative to decompose the ingestion monolith, improving ETL cost, scalability, and reliability" },
+      { id: "muckrack-vendors", text: "Liaised with external content vendors and developers to ensure data-processing compliance" },
     ],
     caseStudy: {
       title: "Data platforms: quality over quantity",
@@ -251,6 +266,7 @@ const BASE_ROLES = [
     },
   },
   {
+    id: "userinterviews",
     company: "User Interviews",
     url: "https://www.userinterviews.com",
     location: "Remote",
@@ -259,16 +275,16 @@ const BASE_ROLES = [
     context:
       "SaaS UXR tool and marketplace for researchers and participants. Led core and platform teams.",
     bullets: [
-      [
+      { id: "userinterviews-re-recruitment", text: [
         { text: "Improved marketplace management by driving a " },
         { text: "135% increase in participant re-recruitment", bold: true },
-      ],
-      [
+      ] },
+      { id: "userinterviews-targeting", text: [
         { text: "Implemented targeting features that " },
         { text: "improved core marketplace fulfillment metric by 15%", bold: true },
-      ],
-      "Designed, analyzed, and reported on A/B tests for email-notification system model updates",
-      "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations",
+      ] },
+      { id: "userinterviews-ab-tests", text: "Designed, analyzed, and reported on A/B tests for email-notification system model updates" },
+      { id: "userinterviews-mode-dashboards", text: "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations" },
     ],
     caseStudy: {
       title: "Steering leading indicators",
@@ -276,6 +292,7 @@ const BASE_ROLES = [
     },
   },
   {
+    id: "fullstack",
     company: "Fullstack Academy",
     url: "https://www.fullstackacademy.com",
     location: "New York, NY",
@@ -284,15 +301,16 @@ const BASE_ROLES = [
     context:
       "Web-development bootcamp (and The Grace Hopper Program). Scaled and optimized the enrollment system to exceed growth targets.",
     bullets: [
-      [
+      { id: "fullstack-revenue", text: [
         { text: "Generated " },
         { text: "$30M+ in annual revenue (170% YoY increase)", bold: true },
         { text: " by scaling enrollment" },
-      ],
-      "Partnered with engineering to optimize integrations, automations, and system architecture",
+      ] },
+      { id: "fullstack-integrations", text: "Partnered with engineering to optimize integrations, automations, and system architecture" },
     ],
   },
   {
+    id: "fracturedatlas",
     company: "Fractured Atlas",
     url: "https://www.fracturedatlas.org",
     location: "New York, NY",
@@ -301,14 +319,15 @@ const BASE_ROLES = [
     context:
       "SaaS arts-administration tool. Provided administrative support to end users.",
     bullets: [
-      "Tracked and reported on user analytics as inputs for roadmap prioritization",
-      "Conducted quality-assurance testing of new features and bug fixes",
+      { id: "fracturedatlas-analytics", text: "Tracked and reported on user analytics as inputs for roadmap prioritization" },
+      { id: "fracturedatlas-qa", text: "Conducted quality-assurance testing of new features and bug fixes" },
     ],
   },
 ];
 
-const BASE_EDUCATION = [
+const CANONICAL_EDUCATION = [
   {
+    id: "northwestern",
     institution: "Northwestern University, Pritzker School of Law",
     location: "Chicago, IL",
     dates: "Sep 2021 – May 2023",
@@ -329,6 +348,7 @@ const BASE_EDUCATION = [
     ],
   },
   {
+    id: "ds4a",
     institution: "Correlation One — Data Science For All (DS4A)",
     location: "Online",
     dates: "Oct 2020 – Mar 2021",
@@ -347,6 +367,7 @@ const BASE_EDUCATION = [
     ],
   },
   {
+    id: "yandex",
     institution: "Yandex Practicum",
     location: "Online",
     dates: "Mar 2020 – Sep 2020",
@@ -388,25 +409,305 @@ const BASE_CASE_STUDIES = [
 // ─── Variant overlay ──────────────────────────────────────────────
 // A tailored one-off (a resume cut for a single application) is the
 // same document with different content, so it ships as a small module
-// that exports only the blocks it changes rather than a second copy of
-// this 900-line script. Set RESUME_VARIANT to the module's path:
+// that exports only what it changes rather than a second copy of this
+// script. Set RESUME_VARIANT to the module's path:
 //
 //   RESUME_VARIANT=scripts/resume-variants/<variant>.mjs npm run resume:docx
 //
 // The variant modules themselves stay out of this repo: it is public, and
 // a file named for the employer a cut was tailored to would publish the
-// application. Same reasoning as the output path below.
+// application. Same reasoning as the output path below. The named cuts
+// they build on (see "Building on a named cut") live beside them in
+// scripts/resume-variants/_bases/, out of the repo for the same reason:
+// they hold tailored wording too.
 //
-// Anything the variant doesn't export falls through to the canonical
+// Anything the variant doesn't change falls through to the canonical
 // content above, and with the variable unset the output is byte-for-byte
 // what it has always been — the default path stays the default path.
 // A variant may also set OUT_PATH to keep a one-off out of
 // public/resume/, which is published with the site.
+//
+// ── Building on a named cut ──────────────────────────────────────
+// Most cuts are the canonical resume with a handful of bullets swapped,
+// dropped, or reordered, and several cuts share the same handful. So a
+// variant can name a BASE (another cut it builds on) and list only its
+// own changes, instead of retyping every role to change one bullet.
+// Every canonical role, bullet, and education entry above carries a
+// short id for exactly this ("people", "people-email-revenue"), so a
+// change points at a bullet by name rather than by position.
+//
+// A cut is assembled in layers: the canonical content first, then each
+// base in the chain, then the variant itself, each layer changing only
+// what it names. A layer may export any of:
+//
+//   BASE               the cut it builds on: a file in the _bases/ folder
+//                      beside the variant ("growth" is _bases/growth.mjs).
+//                      Leave it out to build on the canonical resume.
+//   BULLETS            new bullet wording, each under a new id. Written
+//                      once here, then placed anywhere by that id, by this
+//                      layer or by any cut built on top of it.
+//   ROLE_EDITS         per role id, what changes: any role field (context,
+//                      title, caseStudy, and so on; null removes it), plus
+//                      the role's bullets, using the list verbs below.
+//   DROP_ROLES         role ids to leave out entirely.
+//   CONTACT_EDITS      contact fields to change, usually just the headline.
+//   EDUCATION_ENTRIES  new education entries, each under a new id.
+//   EDUCATION_EDITS    changes to the education list, same list verbs.
+//   CONTACT, SUMMARY, ROLES, EDUCATION, CASE_STUDIES, OUT_PATH,
+//   DOC_DESCRIPTION, PAGE_SIZE
+//                      a whole block, replaced outright, exactly as before.
+//                      A cut that is genuinely a different document (the
+//                      one-page hospitality cut) keeps working this way.
+//
+// The list verbs, for a role's bullets or for the education list:
+//
+//   bullets / entries  the complete list, in order, by id: for a reorder
+//   swap               { oldId: newId }: one item takes another's place
+//   remove             [ids]: take these out
+//   insert             [{ after: id, add: [ids] }], or before: id, or
+//                      at: "start" / at: "end"
+//
+// They apply in that order. For example, a cut that keeps its base but
+// drops two Muck Rack bullets and adds a pricing line at User Interviews:
+//
+//   export const BASE = "data";
+//   export const ROLE_EDITS = {
+//     muckrack: { remove: ["muckrack-evaluation", "muckrack-vendors"] },
+//     userinterviews: {
+//       insert: [{ after: "userinterviews-ab-tests", add: ["userinterviews-pricing"] }],
+//     },
+//   };
+//
+// An id that does not exist, an id declared twice, or an export this
+// script does not know stops the build with a message naming it. A typo
+// that quietly built the wrong document would be the worst outcome here,
+// because the document looks finished either way.
 
 const variantPath = process.env.RESUME_VARIANT;
-const variant = variantPath
-  ? await import(pathToFileURL(resolve(process.cwd(), variantPath)).href)
-  : {};
+
+// Every export a layer may carry. Anything else is almost certainly a
+// misspelling (ROLE_EDIT for ROLE_EDITS) that would otherwise be ignored.
+const LAYER_EXPORTS = new Set([
+  "BASE",
+  "BULLETS",
+  "ROLE_EDITS",
+  "DROP_ROLES",
+  "CONTACT_EDITS",
+  "EDUCATION_ENTRIES",
+  "EDUCATION_EDITS",
+  "CONTACT",
+  "SUMMARY",
+  "ROLES",
+  "EDUCATION",
+  "CASE_STUDIES",
+  "OUT_PATH",
+  "DOC_DESCRIPTION",
+  "PAGE_SIZE",
+]);
+// Whole blocks a layer replaces outright. ROLES and EDUCATION are handled
+// separately, because the rest of the assembly works on their ids.
+const WHOLE_BLOCKS = [
+  "CONTACT",
+  "SUMMARY",
+  "CASE_STUDIES",
+  "OUT_PATH",
+  "DOC_DESCRIPTION",
+  "PAGE_SIZE",
+];
+// Role fields a ROLE_EDITS entry may set directly.
+const ROLE_FIELDS = new Set([
+  "company",
+  "url",
+  "location",
+  "title",
+  "dates",
+  "context",
+  "contextSegments",
+  "sectionBreak",
+  "caseStudy",
+]);
+// The list verbs other than the complete-list form, which is named after
+// the list it replaces (bullets, entries).
+const LIST_VERBS = ["swap", "remove", "insert"];
+
+// Stops the build, naming the variant or base file at fault.
+function layerError(file, message) {
+  throw new Error(
+    `Resume variant ${relative(process.cwd(), file)}: ${message}`,
+  );
+}
+
+// Finds the file behind a BASE name. A variant's bases live in _bases/
+// beside it; a base that itself names a base looks in its own folder.
+function baseFile(fromFile, name) {
+  const dir = dirname(fromFile);
+  const folder = basename(dir) === "_bases" ? dir : join(dir, "_bases");
+  const file = join(folder, `${name}.mjs`);
+  if (!existsSync(file)) {
+    layerError(fromFile, `BASE "${name}" not found at ${relative(process.cwd(), file)}`);
+  }
+  return file;
+}
+
+// Loads a variant and every base beneath it. Returns them root first:
+// the base the chain starts from, then each cut built on it, then the
+// variant itself, which is the order they are applied in.
+async function loadLayers(file, seen = []) {
+  if (seen.includes(file)) layerError(file, "its BASE chain loops back on itself");
+  const mod = await import(pathToFileURL(file).href);
+  for (const name of Object.keys(mod)) {
+    if (!LAYER_EXPORTS.has(name)) layerError(file, `unknown export ${name}`);
+  }
+  const below = mod.BASE
+    ? await loadLayers(baseFile(file, mod.BASE), [...seen, file])
+    : [];
+  return [...below, { file, mod }];
+}
+
+// Copies an object with some fields changed. A field set to null is
+// removed, which is how a cut drops, say, a role's case-study line.
+function withFields(object, changes) {
+  const out = { ...object };
+  for (const [key, value] of Object.entries(changes)) {
+    if (value === null) delete out[key];
+    else out[key] = value;
+  }
+  return out;
+}
+
+// Applies the list verbs to a list of named items (a role's bullets, or
+// the education entries) and returns the new list. `fullKey` is the name
+// of the complete-list form, `lookup` turns an id into the item it names,
+// and `fail` stops the build with the location already attached.
+function editList(items, edits, { fullKey, lookup, fail }) {
+  let out = items.slice();
+  // Position of an item already in the list; pointing at one that is not
+  // there is an error rather than a silent no-op.
+  const find = (id) => {
+    const i = out.findIndex((item) => item.id === id);
+    if (i < 0) fail(`nothing named "${id}" in this list to point at`);
+    return i;
+  };
+  if (edits[fullKey]) out = edits[fullKey].map(lookup);
+  for (const [oldId, newId] of Object.entries(edits.swap ?? {})) {
+    out[find(oldId)] = lookup(newId);
+  }
+  for (const id of edits.remove ?? []) out.splice(find(id), 1);
+  for (const step of edits.insert ?? []) {
+    let at;
+    if (step.after) at = find(step.after) + 1;
+    else if (step.before) at = find(step.before);
+    else if (step.at === "start") at = 0;
+    else if (step.at === "end") at = out.length;
+    else fail('an insert needs after, before, or at: "start" / "end"');
+    out.splice(at, 0, ...step.add.map(lookup));
+  }
+  return out;
+}
+
+// Assembles the cut: starts from the canonical content and lets each
+// layer, root first, change what it names. Returns the finished blocks,
+// with roles and education entries still carrying their ids.
+function composeCut(layers) {
+  const cut = {
+    CONTACT: BASE_CONTACT,
+    SUMMARY: BASE_SUMMARY,
+    CASE_STUDIES: BASE_CASE_STUDIES,
+    roles: CANONICAL_ROLES,
+    education: CANONICAL_EDUCATION,
+  };
+  // Everything that can be placed by id: the canonical bullets and
+  // entries to start with, plus whatever each layer declares on the way.
+  const bullets = new Map();
+  CANONICAL_ROLES.forEach((role) =>
+    role.bullets.forEach((bullet) => bullets.set(bullet.id, bullet)),
+  );
+  const entries = new Map(CANONICAL_EDUCATION.map((e) => [e.id, e]));
+
+  for (const { file, mod } of layers) {
+    const fail = (message) => layerError(file, message);
+
+    // Whole blocks first. Roles and entries written out in full carry no
+    // ids, which is fine until something tries to point at one.
+    for (const key of WHOLE_BLOCKS) {
+      if (mod[key] !== undefined) cut[key] = mod[key];
+    }
+    if (mod.ROLES) {
+      cut.roles = mod.ROLES.map((role) => ({
+        ...role,
+        bullets: role.bullets.map((text) => ({ text })),
+      }));
+    }
+    if (mod.EDUCATION) cut.education = mod.EDUCATION;
+
+    // New wording, each piece named once so this layer, or any cut built
+    // on it, can place it by id.
+    for (const [id, text] of Object.entries(mod.BULLETS ?? {})) {
+      if (bullets.has(id)) fail(`BULLETS: the id "${id}" is already taken`);
+      bullets.set(id, { id, text });
+    }
+    for (const [id, entry] of Object.entries(mod.EDUCATION_ENTRIES ?? {})) {
+      if (entries.has(id)) fail(`EDUCATION_ENTRIES: the id "${id}" is already taken`);
+      entries.set(id, { ...entry, id });
+    }
+
+    if (mod.CONTACT_EDITS) cut.CONTACT = withFields(cut.CONTACT, mod.CONTACT_EDITS);
+
+    for (const id of mod.DROP_ROLES ?? []) {
+      if (!cut.roles.some((role) => role.id === id)) fail(`DROP_ROLES: no role "${id}"`);
+      cut.roles = cut.roles.filter((role) => role.id !== id);
+    }
+
+    // Per-role changes: plain field changes, then the bullet list.
+    for (const [roleId, edits] of Object.entries(mod.ROLE_EDITS ?? {})) {
+      const at = cut.roles.findIndex((role) => role.id === roleId);
+      if (at < 0) fail(`ROLE_EDITS: no role "${roleId}"`);
+      const roleFail = (message) => fail(`ROLE_EDITS.${roleId}: ${message}`);
+      const fields = {};
+      for (const [key, value] of Object.entries(edits)) {
+        if (ROLE_FIELDS.has(key)) fields[key] = value;
+        else if (key !== "bullets" && !LIST_VERBS.includes(key)) {
+          roleFail(`unknown key ${key}`);
+        }
+      }
+      const role = withFields(cut.roles[at], fields);
+      role.bullets = editList(role.bullets, edits, {
+        fullKey: "bullets",
+        lookup: (id) => bullets.get(id) ?? roleFail(`no bullet named "${id}"`),
+        fail: roleFail,
+      });
+      cut.roles = cut.roles.map((r, i) => (i === at ? role : r));
+    }
+
+    if (mod.EDUCATION_EDITS) {
+      const eduFail = (message) => fail(`EDUCATION_EDITS: ${message}`);
+      for (const key of Object.keys(mod.EDUCATION_EDITS)) {
+        if (key !== "entries" && !LIST_VERBS.includes(key)) eduFail(`unknown key ${key}`);
+      }
+      cut.education = editList(cut.education, mod.EDUCATION_EDITS, {
+        fullKey: "entries",
+        lookup: (id) => entries.get(id) ?? eduFail(`no entry named "${id}"`),
+        fail: eduFail,
+      });
+    }
+  }
+  return cut;
+}
+
+// Once a cut is assembled the ids have done their job; everything below
+// this point (validation, the review diff, rendering) works on plain
+// content exactly as it did before ids existed.
+const plainRole = ({ id, ...role }) => ({
+  ...role,
+  bullets: role.bullets.map((bullet) => bullet.text),
+});
+const plainEntry = ({ id, ...entry }) => entry;
+const BASE_ROLES = CANONICAL_ROLES.map(plainRole);
+const BASE_EDUCATION = CANONICAL_EDUCATION.map(plainEntry);
+
+const cut = composeCut(
+  variantPath ? await loadLayers(resolve(process.cwd(), variantPath)) : [],
+);
 
 // ─── Review copy ──────────────────────────────────────────────────
 // RESUME_DIFF=1, alongside RESUME_VARIANT, builds a *review* copy: the same
@@ -436,17 +737,17 @@ if (REVIEW && !variantPath) {
   process.exit(1);
 }
 
-const CONTACT = variant.CONTACT ?? BASE_CONTACT;
-const SUMMARY = variant.SUMMARY ?? BASE_SUMMARY;
-const ROLES = variant.ROLES ?? BASE_ROLES;
-const EDUCATION = variant.EDUCATION ?? BASE_EDUCATION;
-const CASE_STUDIES = variant.CASE_STUDIES ?? BASE_CASE_STUDIES;
+const CONTACT = cut.CONTACT;
+const SUMMARY = cut.SUMMARY;
+const ROLES = cut.roles.map(plainRole);
+const EDUCATION = cut.education.map(plainEntry);
+const CASE_STUDIES = cut.CASE_STUDIES;
 const OUT_PATH =
-  variant.OUT_PATH ?? "public/resume/malcolm-xavier-resume-template.docx";
+  cut.OUT_PATH ?? "public/resume/malcolm-xavier-resume-template.docx";
 // Document metadata shown in Word's properties pane; a variant cut for a
 // non-PM req shouldn't describe itself as a PM resume.
 const BASE_DESCRIPTION =
-  variant.DOC_DESCRIPTION ?? "Resume — Senior Product Manager";
+  cut.DOC_DESCRIPTION ?? "Resume — Senior Product Manager";
 // Word's properties pane is the one place the warning survives a rename, so
 // a review copy declares itself there as well as in its filename.
 const DOC_DESCRIPTION = REVIEW
@@ -458,12 +759,20 @@ const DOC_DESCRIPTION = REVIEW
 // reflow the live download, so it stays until someone asks. A variant
 // may opt into US Letter (12240 x 15840), which is the shorter page and
 // therefore the stricter page-count budget.
-const PAGE_SIZE = variant.PAGE_SIZE ?? { width: 11906, height: 16838 };
+const PAGE_SIZE = cut.PAGE_SIZE ?? { width: 11906, height: 16838 };
+// RESUME_OUT_DIR sends the file to a different folder under the same
+// name. It exists for trial builds that must not land on a copy already
+// reviewed or sent: a cut's OUT_PATH is usually ~/Downloads, and the
+// canonical build writes into public/resume/, which ships with the site.
+// Unset, every build writes exactly where it always has.
+const DEST_PATH = process.env.RESUME_OUT_DIR
+  ? join(process.env.RESUME_OUT_DIR, basename(OUT_PATH))
+  : OUT_PATH;
 // `.review` sits before the extension so the two files sort next to each
 // other and the marked-up one is unmistakable at a glance in Downloads.
 const WRITE_PATH = REVIEW
-  ? OUT_PATH.replace(/\.docx$/i, ".review.docx")
-  : OUT_PATH;
+  ? DEST_PATH.replace(/\.docx$/i, ".review.docx")
+  : DEST_PATH;
 
 // ─── Validate content ─────────────────────────────────────────────
 // Run schemas before any document construction so a malformed entry
@@ -745,9 +1054,11 @@ function paragraph(config) {
 //
 // Pairing is by identity wherever the data carries one — a role by employer
 // and title, an education entry by institution, a case study by its URL —
-// and by wording where it does not. Bullets have no ids, so each variant
-// bullet claims the unpaired canonical bullet it shares the most words with,
-// above a floor: below that the two are different sentences and calling the
+// and by wording where it does not. Bullets pair by wording even though the
+// canonical ones now carry ids: a cut that rewords a bullet gives it a new
+// id, and a cut written out in full carries none, so wording is the one
+// test every cut can answer. Each variant bullet claims the unpaired
+// canonical bullet it shares the most words with, above a floor: below that the two are different sentences and calling the
 // second a rewrite of the first would invent a lineage. A bullet that claims
 // nothing is new. A canonical bullet nothing claimed was dropped, and those
 // are named at the end of the document rather than guessed back into a
