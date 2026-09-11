@@ -216,7 +216,7 @@ const ROLES = [
       ],
       "Partnered with data, marketing, and editorial leadership to design strategic experiments",
       "Operationalized experiments, including audience targeting and outcome measurement",
-      "Built models in SQL, BigQuery, and Connected Sheets to size achievable outcomes",
+      "Built models in SQL, BigQuery, and Connected Sheets to size achievable outcomes that informed the AI-based personalization strategy",
       "Facilitated 80+ member community of practice focused on product discovery skills",
       "Balanced solutions and analyzed releases for impacts on site speed and ad performance",
       "Collaborated with brand, privacy, and legal teams to ensure compliant user experiences",
@@ -284,8 +284,8 @@ const ROLES = [
         { text: "Implemented participant targeting features that " },
         { text: "improved key marketplace metric by 15%", bold: true },
       ],
-      "Designed, analyzed, and reported on A/B tests for email notification system model updates",
-      "Built SQL queries and dashboards in Mode to monitor/report on marketplace operations",
+      "Designed, analyzed, and reported on A/B tests for email-notification system model updates",
+      "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations",
       "Outlined tracking requirements for each solution to enable reporting on relevant outcomes",
       "Enabled users to theme and templatize emails sent by our system on their behalf",
       "Led update to product pricing, including onsite creative and purchase flow",
@@ -324,7 +324,7 @@ const ROLES = [
     dates: "Mar 2014 – Oct 2017",
     bullets: [
       "Tracked and reported on user analytics as inputs for roadmap prioritization",
-      "Conducted quality assurance testing of new features and bug fixes",
+      "Conducted quality-assurance testing of new features and bug fixes",
       "Led focus groups to establish product vision for Fractured Atlas's new crowdfunding platform",
       "Ideated and produced podcast with Createquity to establish institutional thought leadership",
       "Led team that orchestrated New York-based educational events, expanding them into the Bronx",
@@ -364,7 +364,7 @@ const EDUCATION = [
     // "Johnson & Johnson" is a proper noun → "&" stays per voice rules.
     honors: "Honors · Johnson & Johnson Distinguished Scholar",
     details: [
-      "Relevant Technologies: Python, Pandas, Jupyter Notebook, Google Data Studio",
+      "Relevant technologies: Python, Pandas, Jupyter Notebook, Google Data Studio",
       'Presentation: "Oceans Rise, Properties Fall"',
     ],
   },
@@ -375,7 +375,7 @@ const EDUCATION = [
     dates: "Mar 2020 – Sep 2020",
     credential: "Web Development Certificate",
     details: [
-      "Relevant Technologies: HTML, CSS, JavaScript, React, Node, Visual Studio Code, GitHub",
+      "Relevant technologies: HTML, CSS, JavaScript, React, Node, Visual Studio Code, GitHub",
     ],
   },
 ];

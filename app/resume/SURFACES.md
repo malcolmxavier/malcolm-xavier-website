@@ -55,6 +55,7 @@ These differences are by design. The check script normalizes them out where appl
 - **LinkedIn headline** (updated 2026-08-19): LinkedIn carries `Senior Product Manager | Growth, MarTech, and Customer Data Platforms | AI-Native Operations | Principal Consultant, Malcolm Xavier Consulting`—pipes rather than middots, per LinkedIn's own convention, and a fourth segment naming the consultancy that no repo surface carries. The divergence is deliberate: the headline is Boolean-searchable by recruiters and renders **detached from the About section** everywhere except the profile page itself (search results, the feed, comments, messages), so keywords have to live in the headline rather than lean on the summary. Manually maintained and out of the check. Supersedes the older `Senior Product Manager, Audience Relationships (Growth, MarTech, and Data Platform)` form this file used to describe. (Memory: `feedback_linkedin_vs_resume_keyword_strategy.md`.)
 - **Bullet bank contact block**: the bullet bank is a private working doc for drafting per-application bullets — not an external-facing artifact. Its contact block intentionally stops at LinkedIn (no GitHub) to keep the header lean. The check script excludes `bulletBank` from the GitHub URL field for this reason.
 - **The sync check covers header fields, not body prose** (found 2026-09-10). `check-resume-sync.mjs` compares 17 shared fields — name, headline, contact, URLs — across the four in-repo surfaces, and nothing compares a bullet or a role context line. A sweep across all nine tailored cuts that day found one factual conflict and a dozen wordings of claims that had drifted apart unnoticed, none of which the check could see. Two of them were in the bullet bank, which is why a bullet promoted into canonical has to be chased into `build-bullet-bank-docx.mjs` by hand. The convergence rules are in `app/resume/CLAUDE.md`, "Keeping the cuts in agreement with each other."
+- **"First product manager" is a resume claim and never a LinkedIn one** (his call, 2026-09-10). The `internal-platforms` cut's People Inc. context line ends "as its first product manager"; no other surface carries it, and it must not be cascaded to LinkedIn or to `resume-data.tsx`. What actually happened is that he was the first (re-)hire into the function after the M&A — a company with People Inc.'s history has surely hired someone like him before. On a resume the line is a **story opening**: it invites the question and he answers it in the room. On LinkedIn the reader can date the company in about two seconds, so the same words read as an inaccuracy rather than an opening, and there is no room to answer. **The qualified form travels and the bare one does not** — "the first product manager *in a platform function*", or "*in a function staffed by operators*", names the scope the claim is true of, which is why both Anthropic letters and the referral block carry it safely.
 - **Case study curation**: the `/resume` carousel and the resume docx's Case Studies section both surface case studies, but with intentionally different curation rules — see the dedicated "Case studies" section below. The sync check does not enforce parity here.
 - **MSL presentation lines**: the Northwestern MSL education entry lists **two** presentation lines onsite—the second-year privacy paper (`/projects/privacy-law-social-media-era`) and the first-year video-sharing-ethics paper (`/projects/ethics-video-sharing-apps`), each linked to its project page. The docx carries **only the first**. The onsite surface has hypertext room and the links are load-bearing (they're the primary path a human reaches those `noindex` project pages); the docx is ATS- and page-bound, and the first-year title is long, so a second presentation line would cost a full line for a secondary credential. The sync check does not cover education `details`, so this needs no `FIELDS` change.
 
@@ -88,6 +89,51 @@ The .docx template is the starting point for tailored versions, not the final ar
 6. The tailored PDF lives outside this repo
 
 The bullet bank (`npm run bullet-bank:docx`) generates a reference document with a broader bullet inventory to draw from during step 4.
+
+### The Desktop set — where the standard cuts actually live
+
+The .docx builds land in `~/Downloads`; the copies Malcolm **sends** are PDFs
+on his **Desktop**, and that is the set to refresh whenever canonical or a base
+changes. They are already-named files: overwrite them in place, one copy each,
+rather than adding a dated or suffixed second copy.
+
+| Desktop file | built from |
+| --- | --- |
+| `Malcolm Xavier Resume.pdf` (spaces) | canonical, no variant |
+| `Malcolm_Xavier_Resume_ABM.pdf` | `abm-demand-gen` |
+| `Malcolm_Xavier_Resume_Data_Platform.pdf` | `data-platform` |
+| `Malcolm_Xavier_Resume_GTM.pdf` | `gtm-measurement` |
+| `Malcolm_Xavier_Resume_Growth.pdf` | `subscription-growth` |
+| `Malcolm_Xavier_Resume_Internal_Platform.pdf` | `internal-platforms` |
+
+**Two traps in that table, and both cost a wrong file if you guess.**
+`Malcolm_Xavier_Resume.pdf` — underscores, the plainest name in the folder — is
+the **non-PM customer service and administration cut**, not the canonical
+resume. The canonical one is the same words with spaces. And
+`..._Growth.pdf` is `subscription-growth`, not `growth-monetization`, which has
+no Desktop copy at all. Confirm a mapping by reading the headline out of the
+existing PDF (`pdftotext -f 1 -l 1 <file> - | sed -n 3p`) before overwriting it;
+the filenames are Malcolm's shorthand and do not track the variant ids.
+
+**What is out of scope for a refresh:** the non-PM cuts
+(`Malcolm_Xavier_Resume.pdf`, `.Hospitality.pdf`, `.République.pdf`) and every
+employer-tailored file, which are records of what was sent and must not be
+rewritten under the same name.
+
+The safe build route keeps `public/resume/` out of it, since that directory
+publishes with the site:
+
+```
+RESUME_OUT_DIR=<scratch> npm run resume:docx                      # canonical
+RESUME_VARIANT=scripts/resume-variants/<v>.mjs \
+  RESUME_OUT_DIR=<scratch> npm run resume:docx                    # each cut
+soffice --headless --convert-to pdf --outdir <scratch> <scratch>/*.docx
+cp <scratch>/<built>.pdf ~/Desktop/<existing name>.pdf
+```
+
+Regenerating the published assets in `public/resume/` is a separate, deliberate
+step (see "Source edit → PDF download update"), not a side effect of refreshing
+the Desktop set.
 
 ### Sync verification
 
