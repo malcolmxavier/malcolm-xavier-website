@@ -159,11 +159,11 @@ const ROLES = [
     dates: "Feb 2022 – Present",
     bullets: [
       [
-        { text: "Build and operate " },
-        { text: "The Booth", url: "https://malxavi.com/booth" },
-        { text: " on Claude Code, the AI-native system I plan and ship my own work from: one prioritized day across six workstreams, agents that run unattended on a schedule, and every automated write logged and reversible" },
+        { text: "Build and operate the " },
+        { text: "AI-native system", url: "https://malxavi.com/booth" },
+        { text: " I plan and ship my work from, on Claude Code: one prioritized day across six workstreams, scheduled agents, and every automated write logged and reversible" },
       ],
-      "Set the privacy rules for The Booth's automation: the jobs that can reach the internet can't reach personal data",
+      "Set the privacy rules for its automation: the jobs that can reach the internet can't reach personal data",
       [
         { text: "Fleet", url: "https://www.fleetai.com" },
         { text: " (2026–present): AI training data—prompt development and change-logged sessions in simulated environments" },
