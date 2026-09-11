@@ -195,6 +195,16 @@ const CANONICAL_ROLES = [
         { text: "AI-native system", url: "https://malxavi.com/booth" },
         { text: " I plan and ship my work from, on Claude Code: one prioritized day across six workstreams, scheduled agents, and every automated write logged and reversible" },
       ] },
+      // REGISTER PAIR. This is the judgment version of the privacy
+      // decision; `consulting-privacy-boundary` in _bases/shared.mjs is
+      // the mechanism version. The choice is NOT technical vs
+      // non-technical reader — it is what the reader needs proved. A
+      // marketing org cannot tell a builder from a describer, so the
+      // mechanism is the proof there. A reader who builds with models
+      // all day is not short of builders, and what is scarce is the
+      // judgment: a rule written, its loopholes found, and closed. Same
+      // adjudication as the Anthropic letter's method-over-mechanism
+      // rule. Pick one; never carry both.
       { id: "consulting-privacy-rules", text: "Set the privacy rules for its automation: the jobs that can reach the internet can't reach personal data" },
       { id: "consulting-fleet", text: [
         { text: "Fleet", url: "https://www.fleetai.com" },
@@ -218,7 +228,7 @@ const CANONICAL_ROLES = [
     title: "Senior Product Manager, Audience Relationships",
     dates: "Feb 2024 – Oct 2025",
     context:
-      "“America's largest publisher” (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
+      "“America's largest publisher” (formerly Dotdash Meredith). Scaled the growth and MarTech platform for 40+ brands and 22M+ users.",
     bullets: [
       { id: "people-email-revenue", text: [
         { text: "Grew email revenue 33% YoY", bold: true },
@@ -233,7 +243,7 @@ const CANONICAL_ROLES = [
         { text: "3x open rates and 2x user LTV", bold: true },
       ] },
       { id: "people-experiments", text: "Operationalized experiments to enable AI-based personalized acquisition and engagement" },
-      { id: "people-sql-models", text: "Built models in SQL, BigQuery, and Connected Sheets to identify achievable outcomes that informed the AI-based personalization strategy" },
+      { id: "people-sql-models", text: "Built models in SQL, BigQuery, and Connected Sheets to size achievable outcomes that informed the AI-based personalization strategy" },
     ],
     caseStudy: {
       title: "Infrastructure enables personalization",
@@ -248,7 +258,7 @@ const CANONICAL_ROLES = [
     title: "Technical Product Manager, Content and Data Ingestion",
     dates: "Sep 2022 – Feb 2024",
     context:
-      "SaaS reporting tool for PR professionals. Scaled the content platform; enabled search and monitoring features.",
+      "SaaS reporting tool for PR professionals. Scaled the content platform behind search and monitoring.",
     bullets: [
       { id: "muckrack-ingestion", text: [
         { text: "Scaled ingestion 350% YoY", bold: true },
@@ -304,7 +314,7 @@ const CANONICAL_ROLES = [
     title: "Admissions Lead, Project Manager",
     dates: "Jun 2018 – Feb 2020",
     context:
-      "Web-development bootcamp (and The Grace Hopper Program). Scaled and optimized the enrollment system to exceed growth targets.",
+      "Web-development bootcamp (and The Grace Hopper Program). Owned the enrollment funnel end to end, scaling it past growth targets.",
     bullets: [
       { id: "fullstack-revenue", text: [
         { text: "Generated " },

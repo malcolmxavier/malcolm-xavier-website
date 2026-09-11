@@ -226,14 +226,14 @@ export const ROLES: ResumeRole[] = [
     title: "Senior Product Manager, Audience Relationships",
     dates: "Feb 2024 – Oct 2025",
     context:
-      "“America’s largest publisher” (formerly Dotdash Meredith). Scaled growth/MarTech platform for a network of 40+ brands and 22M+ users.",
+      "“America’s largest publisher” (formerly Dotdash Meredith). Scaled the growth and MarTech platform for 40+ brands and 22M+ users.",
     bullets: [
       <><strong>Grew email revenue 33% YoY</strong> with reusable components and lifecycle marketing playbooks</>,
       <>Partnered with data science to scale a recipe recommendation service and drive <strong>2x traffic</strong></>,
       <>Introduced a content-specific newsletter program with <strong>3x open rates and 2x user LTV</strong></>,
       <>Established <strong>new $2.2M+ annual revenue channel</strong> by supporting launch of user commenting</>,
       "Operationalized experiments to enable AI-based personalized acquisition and engagement",
-      "Built models in SQL, BigQuery, and Connected Sheets to identify achievable outcomes that informed the AI-based personalization strategy",
+      "Built models in SQL, BigQuery, and Connected Sheets to size achievable outcomes that informed the AI-based personalization strategy",
       <>Facilitated <strong>80+ member community of practice</strong> focused on product discovery skills</>,
       <>Enabled onsite transactions to <strong>increase print subscription revenue 115% YoY</strong></>,
     ],
@@ -247,7 +247,7 @@ export const ROLES: ResumeRole[] = [
     title: "Technical Product Manager, Content and Data Ingestion",
     dates: "Sep 2022 – Feb 2024",
     context:
-      "SaaS reporting tool for PR professionals. Scaled the content platform; enabled search and monitoring features.",
+      "SaaS reporting tool for PR professionals. Scaled the content platform behind search and monitoring.",
     bullets: [
       <><strong>Scaled ingestion 350% YoY</strong>, enabling downstream ML classification, search, and reporting</>,
       <>Improved core AI/ML model accuracy, <strong>reducing parsing errors by 45% YoY</strong></>,
@@ -285,11 +285,11 @@ export const ROLES: ResumeRole[] = [
     title: "Admissions Lead, Project Manager",
     dates: "Jun 2018 – Feb 2020",
     context:
-      "Web-development bootcamp (and The Grace Hopper Program). Scaled and optimized the enrollment system to exceed growth targets.",
+      "Web-development bootcamp (and The Grace Hopper Program). Owned the enrollment funnel end to end, scaling it past growth targets.",
     bullets: [
       <>Generated <strong>$30M+ in annual revenue (170% YoY increase)</strong> by scaling enrollment</>,
       "Partnered with engineering to optimize integrations, automations, and system architecture",
-      "Built enrollment dashboards in HubSpot to increase internal business performance transparency",
+      "Built enrollment dashboards in HubSpot to give the business live visibility into funnel performance",
       <>Trained and managed <strong>~40 rotating contract technical interviewers</strong> as part of enrollment operations</>,
       "Performed code review for all applicants in HackerRank",
     ],

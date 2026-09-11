@@ -87,3 +87,51 @@ highlights cannot become the copy that gets submitted. It is also a
 little longer than the deliverable — restoring dropped wording inline
 makes the text longer — so **the page-count check belongs to the real
 build**, not to this one.
+
+## Keeping the cuts in agreement with each other
+
+`resume:review` diffs one cut against canonical, which is the right tool
+for reviewing a cut before it ships and is structurally blind to the
+problem this section is about. Drift between cuts does not show up there:
+two variants can each look reasonable against canonical and still say two
+different things about the same job. A 2026-09-10 sweep across all nine
+cuts found one factual conflict (DataAnnotation described as evaluation
+work in four cuts and training work in two), five wordings of one claim
+that differed for no reason at all, three context lines trimmed
+separately for the same page-fit problem, and one cut using a curly
+apostrophe in a line every other cut wrote straight.
+
+Three rules came out of it.
+
+**The strongest shared version wins, and deviation has to be earned.**
+The goal is the same details across as much of each cut as possible,
+deviating only where the req actually calls for it. A wording that is
+simply better belongs to every cut, and it belongs in canonical or in
+`_bases/` rather than being retyped per variant — three cuts carrying
+identical text under three ids is drift waiting to happen.
+
+**Standardizing a new variant means running the whole comparison**, not
+only the review copy against canonical. Every claim the new cut makes
+that an existing cut also makes gets compared, and the two either agree
+or the difference is written down as a decision.
+
+**A one-off cut still gets asked the promotion question.** A variant
+built for a single application is where the better sentence usually gets
+written, under real pressure, for a real reader. Before it is set aside,
+ask whether anything in it deserves promotion to another cut or to
+canonical. The HubSpot bullet ("give the business live visibility into
+funnel performance") reached every cut that way; it was written for one
+application and sat unnoticed beside a nominalized canonical version for
+weeks.
+
+**And cascade is never automatic in the other direction.** When canonical
+changes, each cut is a separate question — a cut deviates on purpose, so
+a canonical edit can silently undo a tailoring decision. Ask per cut.
+This applies to `resume-data.tsx` too: the site is a tenth surface and a
+canonical .docx edit does not reach it (see "Why a dual source of truth").
+
+**Articles are skipped on resume bullets** (his rule, 2026-09-10).
+"Improved core marketplace fulfillment metric by 15%", not "the core
+marketplace fulfillment metric". Summaries and role context lines are
+slightly more formal and keep their articles, because they are sentences
+rather than compressed claims.
