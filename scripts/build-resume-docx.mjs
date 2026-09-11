@@ -235,7 +235,7 @@ const CANONICAL_ROLES = [
         { text: " with reusable components and lifecycle marketing playbooks" },
       ] },
       { id: "people-recipes", text: [
-        { text: "Partnered with data science to scale a recipe recommendation service and drive " },
+        { text: "Partnered with data science and operations to scale recipe recommendation service and drive " },
         { text: "2x traffic", bold: true },
       ] },
       { id: "people-newsletter-program", text: [
@@ -295,7 +295,7 @@ const CANONICAL_ROLES = [
         { text: "135% increase in participant re-recruitment", bold: true },
       ] },
       { id: "userinterviews-targeting", text: [
-        { text: "Implemented targeting features that " },
+        { text: "Implemented participant targeting that " },
         { text: "improved core marketplace fulfillment metric by 15%", bold: true },
       ] },
       { id: "userinterviews-ab-tests", text: "Designed, analyzed, and reported on A/B tests for email-notification system model updates" },
@@ -319,7 +319,7 @@ const CANONICAL_ROLES = [
       { id: "fullstack-revenue", text: [
         { text: "Generated " },
         { text: "$30M+ in annual revenue (170% YoY increase)", bold: true },
-        { text: " by scaling enrollment" },
+        { text: " by operationalizing enrollment" },
       ] },
       { id: "fullstack-integrations", text: "Partnered with engineering to optimize integrations, automations, and system architecture" },
     ],

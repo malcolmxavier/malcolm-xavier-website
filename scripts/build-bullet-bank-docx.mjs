@@ -281,8 +281,8 @@ const ROLES = [
     bullets: [
       "Managed two-sided marketplace between researchers and research participants",
       [
-        { text: "Implemented participant targeting features that " },
-        { text: "improved key marketplace metric by 15%", bold: true },
+        { text: "Implemented participant targeting that " },
+        { text: "improved core marketplace fulfillment metric by 15%", bold: true },
       ],
       "Designed, analyzed, and reported on A/B tests for email-notification system model updates",
       "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations",
@@ -305,11 +305,11 @@ const ROLES = [
     bullets: [
       [
         { text: "Generated " },
-        { text: "$30M+ annual revenue (170% increase, YoY)", bold: true },
+        { text: "$30M+ in annual revenue (170% YoY increase)", bold: true },
         { text: " by operationalizing enrollment" },
       ],
       "Partnered with engineering to optimize integrations, automations, and system architecture",
-      "Monitored automation performance and API usage to ensure dataflow for 5k applicants, annually",
+      "Monitored automation performance and API usage to keep dataflow intact for 5,000 applicants annually",
       "Defined and analyzed success metrics for all enrollment processes",
       "Built enrollment dashboards in HubSpot to give the business live visibility into funnel performance",
       "Trained and managed ~40 rotating contract technical interviewers as part of enrollment operations",

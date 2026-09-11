@@ -229,7 +229,7 @@ export const ROLES: ResumeRole[] = [
       "“America’s largest publisher” (formerly Dotdash Meredith). Scaled the growth and MarTech platform for 40+ brands and 22M+ users.",
     bullets: [
       <><strong>Grew email revenue 33% YoY</strong> with reusable components and lifecycle marketing playbooks</>,
-      <>Partnered with data science to scale a recipe recommendation service and drive <strong>2x traffic</strong></>,
+      <>Partnered with data science and operations to scale recipe recommendation service and drive <strong>2x traffic</strong></>,
       <>Introduced a content-specific newsletter program with <strong>3x open rates and 2x user LTV</strong></>,
       <>Established <strong>new $2.2M+ annual revenue channel</strong> by supporting launch of user commenting</>,
       "Operationalized experiments to enable AI-based personalized acquisition and engagement",
@@ -270,7 +270,7 @@ export const ROLES: ResumeRole[] = [
       "SaaS UXR tool and marketplace for researchers and participants. Led core and platform teams.",
     bullets: [
       <>Improved marketplace management by driving a <strong>135% increase in participant re-recruitment</strong></>,
-      <>Implemented targeting features that <strong>improved core marketplace fulfillment metric by 15%</strong></>,
+      <>Implemented participant targeting that <strong>improved core marketplace fulfillment metric by 15%</strong></>,
       "Designed, analyzed, and reported on A/B tests for email-notification system model updates",
       "Built SQL queries and dashboards in Mode to monitor and report on marketplace operations",
       "Led update to product pricing, including onsite creative and purchase flow",
@@ -287,7 +287,7 @@ export const ROLES: ResumeRole[] = [
     context:
       "Web-development bootcamp (and The Grace Hopper Program). Owned the enrollment funnel end to end, scaling it past growth targets.",
     bullets: [
-      <>Generated <strong>$30M+ in annual revenue (170% YoY increase)</strong> by scaling enrollment</>,
+      <>Generated <strong>$30M+ in annual revenue (170% YoY increase)</strong> by operationalizing enrollment</>,
       "Partnered with engineering to optimize integrations, automations, and system architecture",
       "Built enrollment dashboards in HubSpot to give the business live visibility into funnel performance",
       <>Trained and managed <strong>~40 rotating contract technical interviewers</strong> as part of enrollment operations</>,
