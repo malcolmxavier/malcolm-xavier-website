@@ -124,6 +124,12 @@ export function ShotStyles() {
    text column either way; under the prose it reads as the gap before the next
    row, and centred it reads as a heading floating in the middle of nothing. */
 .booth-surface { display: grid; gap: var(--scale-500); align-items: start; }
+/* Grid items default to min-width: auto, so a column is never allowed to be
+   narrower than its own min-content. Under 48rem the capture is 46rem wide
+   inside its own scroller, which made that min-content 46rem and pushed the
+   whole page sideways at every phone width. Zero lets the column take the
+   measure it is given and leaves the scrolling to the frame. */
+.booth-surface > * { min-width: 0; }
 @media (min-width: 64rem) {
   .booth-surface {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
@@ -158,6 +164,86 @@ export function ShotStyles() {
   }
   .booth-brand > section#top { padding-top: var(--scale-1000); }
 }
+/* ─── Colour ────────────────────────────────────────────────────────
+   Three hues, borrowed from the site's own sub-brand palette rather than
+   invented for this page: green (the newsletter's), blue (television's),
+   and orange (film's). Three and not seven, because a landing page needs a
+   palette a reader can hold, and these three are the balanced set — one
+   cool anchor, one cool secondary, one warm counterweight. Green leads
+   because green is already the Booth's accent, and it is the one hue used
+   three times: the hero, the pipeline row, and the ask for a login, which
+   are the page's opening claim, its strongest claim, and its close.
+
+   Note the different mix percentages. The ramps are not equal-lightness —
+   the green stop is a near-neon and the blue stop is close to navy — so an
+   identical percentage across all three would put a mint wash beside a
+   slate one. These are tuned to carry the same weight, not the same number.
+
+   Light takes the 500 stop (the same stop Card's accent stripe uses) and
+   dark takes a lighter one: a wash needs a colour that survives its
+   background, which is the mirror of what --booth-accent does for text. */
+.booth-brand {
+  --booth-green: color-mix(in srgb, var(--green-500) 16%, transparent);
+  --booth-blue: color-mix(in srgb, var(--blue-500) 14%, transparent);
+  --booth-orange: color-mix(in srgb, var(--orange-500) 15%, transparent);
+}
+[data-theme="dark"] .booth-brand {
+  --booth-green: color-mix(in srgb, var(--green-400) 17%, transparent);
+  --booth-blue: color-mix(in srgb, var(--blue-300) 22%, transparent);
+  --booth-orange: color-mix(in srgb, var(--orange-400) 15%, transparent);
+}
+
+/* The wash sits on the content row, not on the section wrapper, so it
+   lands under the claim-and-screen pair and leaves the section's own
+   heading on clean page. It is drawn by a pseudo-element rather than as a
+   background on the row itself, because it has to bleed past the row's box
+   — out to the container's own edge horizontally, and past the top and
+   bottom — and a row cannot be given that much padding without moving the
+   content inside it.
+
+   An ellipse anchored at the text side, not a hard-stopped band. The
+   colour originates under the prose and dissipates across the screenshot,
+   so it runs left-to-right where the text is on the left and right-to-left
+   where it is on the right — and because it fades on every side, two
+   neighbouring washes meet as a blend rather than as an edge. The radii
+   are set so the fade completes inside the box: 66% vertical against a
+   78% stop reaches nothing at about half the height, which is the box
+   edge.
+
+   The horizontal bleed matches Container's own padding at each breakpoint
+   (px-6 / sm:px-10 / lg:px-16), so the wash spans the full content column
+   and stops exactly at its edge — never wider, which would put a scrollbar
+   on the page. */
+.booth-tint {
+  position: relative;
+  /* Makes the row its own stacking context, so the z-index below is
+     behind this row's content and can never fall behind the page. */
+  isolation: isolate;
+}
+.booth-tint::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  inset-block: -2rem;
+  inset-inline: -1.5rem;
+  background-image: radial-gradient(
+    ellipse 82% 66% at var(--booth-tint-origin, 0%) 50%,
+    var(--booth-tint, transparent) 0%,
+    transparent 78%
+  );
+}
+@media (min-width: 40rem) {
+  .booth-tint::before { inset-inline: -2.5rem; }
+}
+@media (min-width: 64rem) {
+  .booth-tint::before { inset-inline: -4rem; }
+}
+/* Text on the right, so the colour starts on the right. */
+.booth-tint--right { --booth-tint-origin: 100%; }
+.booth-tint--green { --booth-tint: var(--booth-green); }
+.booth-tint--blue { --booth-tint: var(--booth-blue); }
+.booth-tint--orange { --booth-tint: var(--booth-orange); }
 .booth-shot-dark { display: none; }
 [data-theme="dark"] .booth-shot-dark { display: block; }
 [data-theme="dark"] .booth-shot-light { display: none; }

@@ -127,16 +127,24 @@ const ACCESS_HREF = `mailto:${CONTACT.email}?subject=Booth%20access`;
 // ─── How it works ────────────────────────────────────────────────
 // Three moves, in the order they happen. This is the "broad overview"
 // a reader needs before any individual surface means anything.
+//
+// `tint` is the hue the card is filled with, and these three cards are
+// where the page's whole palette is introduced. They sit side by side, so
+// a reader meets green, blue, and orange once, together, before any of
+// the three turns up again as a wash further down.
 const MOVES = [
   {
+    tint: "green",
     title: "It reads the systems that already own the work",
     body: "Nothing is re-entered. Mail, a calendar, a pipeline file, a content board, and a dependency map are read where they live, and each stays the system of record for its own work.",
   },
   {
+    tint: "blue",
     title: "It builds one day and puts it in order",
     body: "Every workstream is interleaved so no day is all one kind of work, meetings come off the top as fixed points, and what is left is sized against the hours you actually have rather than stacked into a list nobody could finish.",
   },
   {
+    tint: "orange",
     title: "A decision is written back, and says where it landed",
     body: "Done, not today, and won’t do each propagate into the system that owns the record, and return a receipt naming every file written and every system skipped with the reason.",
   },
@@ -147,6 +155,10 @@ const MOVES = [
 // the claim on the left and the screen it is a claim about on the
 // right. `shot` is the basename of a pair in /public/booth-shots.
 //
+// `tint` is the hue of the wash behind the row. Blue and orange take two
+// rows each; the third green on the page lands on the pipeline, which is
+// the row carrying the strongest claim the product makes.
+//
 // `rule` is optional and is where a design decision lives that only
 // makes sense against the surface it governs. These used to be their
 // own section at the foot of the page, which separated every rule from
@@ -155,6 +167,7 @@ const MOVES = [
 const SURFACES = [
   {
     name: "Today",
+    tint: "blue",
     shot: "today",
     what: "The merged day, and the only view that answers what to do now.",
     how: "Each card carries the workstream it came from and the decision buttons that write it back. Habits sit outside the budget until one is genuinely late, and anything with a clock on it is converted into your own timezone exactly once.",
@@ -162,6 +175,7 @@ const SURFACES = [
   },
   {
     name: "The week",
+    tint: "orange",
     shot: "calendar",
     what: "Where everything sits, which is a different question from what is next.",
     how: "Recurring work is stored as rules and expanded on read, never written into days—so extending the schedule is not a migration, and a habit skipped on Tuesday is skipped on Tuesday only. Moving something here is a real write, with the same refusals the command line enforces.",
@@ -169,6 +183,7 @@ const SURFACES = [
   },
   {
     name: "The pipeline",
+    tint: "green",
     shot: "pipeline",
     what: "Opportunities, meetings, people, and the routes into an organization.",
     how: "It reads the mailbox. A loss notice closes an opportunity, a reply closes the card that asked for it and records everybody who was on the thread, and a prioritized list of who might introduce you is built out of what the file already knows rather than out of a connection degree.",
@@ -177,6 +192,7 @@ const SURFACES = [
   },
   {
     name: "The map",
+    tint: "blue",
     shot: "backlog",
     what: "Every open initiative across every project, in one dependency graph.",
     how: "Rows are workstreams and columns are depth, so the first column is everything that can be started today. It is the planning surface the other three draw work from.",
@@ -315,7 +331,7 @@ export default function BoothPage() {
             first surface row below can read right-text and the
             alternation runs unbroken from the top of the page. */}
         <Section id="top" style={sectionAnchorStyle} padding="lg">
-          <div className="booth-surface">
+          <div className="booth-surface booth-tint booth-tint--green">
             <Stack gap="700" className={PROSE_WIDTH}>
               <Display as="h1">
                 One prioritized day, out of every system you work in
@@ -363,7 +379,16 @@ export default function BoothPage() {
             </Stack>
             <Grid cols={3} gap="400">
               {MOVES.map((move, i) => (
-                <Card key={move.title} padded={false} className="h-full">
+                <Card
+                  key={move.title}
+                  padded={false}
+                  className="h-full"
+                  // Flat, never a gradient: these three are the legend for
+                  // the page's palette, and a legend has to state its colour
+                  // plainly. The border stays so the card still reads as the
+                  // same object the rest of the site's cards are.
+                  style={{ background: `var(--booth-${move.tint})` }}
+                >
                   <div className="flex h-full flex-col gap-2 p-5">
                     {/* The counter is not an eyebrow. The heading says
                         there are three moves and the cards carry them in
@@ -426,11 +451,17 @@ export default function BoothPage() {
               {SURFACES.map((surface, i) => (
                 <li
                   key={surface.name}
-                  className={
-                    i % 2 === 0
-                      ? "booth-surface booth-surface--flip"
-                      : "booth-surface"
-                  }
+                  className={[
+                    "booth-surface",
+                    "booth-tint",
+                    `booth-tint--${surface.tint}`,
+                    // A flipped row puts its prose on the right, so the
+                    // wash has to start there too. One condition drives
+                    // both, which is what stops them drifting apart.
+                    i % 2 === 0 ? "booth-surface--flip booth-tint--right" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
                 >
                   <Stack gap="200">
                     <Headline level={3} style={SUB_HEADING}>
@@ -482,7 +513,7 @@ export default function BoothPage() {
                 this section’s screenshot: the claim is that a word is a
                 setting, and two shipped configurations side by side are
                 what shows it. */}
-            <div className="booth-surface booth-surface--flip">
+            <div className="booth-surface booth-surface--flip booth-tint booth-tint--orange booth-tint--right">
               <Stack gap="400">
                 <Body>
                   Two configurations ship with it, and both are running today.
@@ -587,7 +618,7 @@ export default function BoothPage() {
             has before asking for a login, so it belongs against the
             ask. */}
         <Section id="access" style={sectionAnchorStyle}>
-          <Grid cols={2} gap="500">
+          <Grid cols={2} gap="500" className="booth-tint booth-tint--green">
             <Stack gap="400">
               <Headline level={2}>Ask for a login</Headline>
               <Body>
