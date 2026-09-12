@@ -474,6 +474,39 @@ out.push("  --container-page: 80rem; /* 1280px */");
 out.push("}");
 out.push("");
 
+// ─── The Booth ─────────────────────────────────────────────────────
+// The Booth is the one product surface on this site with a face of its
+// own. It is not a sub-brand: the culture verticals get their colour
+// treatment through [data-subbrand], and borrowing that here would say
+// the Booth is another vertical rather than a product. So it gets two
+// variables and no alias file.
+//
+// The accent is the site's own secondary green, not a new colour. Its
+// job is to separate the Booth chip from the theme toggle beside it in
+// the nav — same height, same radius, same border, same tracked mono,
+// and until now the only thing telling them apart was an arrow the
+// chip had not earned. The stop differs by theme because contrast
+// does: green-800 carries 7.3:1 on white and green-400 carries 15.4:1
+// on black, both well clear of the 4.5:1 these need as small text.
+// Hover moves one stop further from the background rather than toward
+// a different hue, so the hover reads as the same colour pressed.
+//
+// --font-booth is the label face, loaded in app/layout.tsx. It is
+// deliberately not --font-mono: the chip is where the Booth says it is
+// a different thing from the site around it, and a face is the
+// quietest way to say that.
+out.push("/* ─── The Booth ───────────────────────────────────────────── */");
+out.push(":root {");
+out.push("  --font-booth: var(--font-anonymous-pro), ui-monospace, monospace;");
+out.push("  --booth-accent: var(--green-800);");
+out.push("  --booth-accent-hover: var(--green-700);");
+out.push("}");
+out.push('[data-theme="dark"] {');
+out.push("  --booth-accent: var(--green-400);");
+out.push("  --booth-accent-hover: var(--green-300);");
+out.push("}");
+out.push("");
+
 // ─── Base body styles ──────────────────────────────────────────────
 out.push("/* ─── Base ────────────────────────────────────────────────── */");
 out.push("html, body { margin: 0; padding: 0; }");

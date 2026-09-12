@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-09-12T06:05:31.317Z
+   Built:        2026-09-12T07:05:44.530Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -1112,6 +1112,17 @@
 
   /* Page content width — see scripts/build-tokens.mjs */
   --container-page: 80rem; /* 1280px */
+}
+
+/* ─── The Booth ───────────────────────────────────────────── */
+:root {
+  --font-booth: var(--font-anonymous-pro), ui-monospace, monospace;
+  --booth-accent: var(--green-800);
+  --booth-accent-hover: var(--green-700);
+}
+[data-theme="dark"] {
+  --booth-accent: var(--green-400);
+  --booth-accent-hover: var(--green-300);
 }
 
 /* ─── Base ────────────────────────────────────────────────── */

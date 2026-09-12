@@ -4,6 +4,7 @@ import {
   Instrument_Serif,
   Roboto_Slab,
   Roboto_Mono,
+  Anonymous_Pro,
 } from "next/font/google";
 import { Suspense } from "react";
 import { ThemeProvider } from "next-themes";
@@ -77,6 +78,26 @@ const robotoMono = Roboto_Mono({
   display: "swap",
 });
 
+// The Booth's own label face. It is the one product surface on this
+// site that is allowed a face of its own — a departure rather than an
+// extension — and it appears in the site's chrome in exactly one
+// place: the nav chip. Anonymous Pro's slab terminals carry the
+// typed-paperwork reference the Booth's name comes from without
+// tipping into period costume the way a true typewriter face does.
+//
+// preload: false for the same reason the cluster fonts carry it. The
+// chip is one word of 12px type on every route, so preloading it
+// would buy a font file ahead of the text people are actually here to
+// read. display: swap means it never blocks; the chip renders in the
+// fallback mono for a beat and settles.
+const anonymousPro = Anonymous_Pro({
+  variable: "--font-anonymous-pro",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+  preload: false,
+});
+
 // ─────────────────────────────────────────────────────────────────
 // Sitewide metadata defaults.
 //
@@ -131,6 +152,7 @@ const fontVariables = [
   instrumentSerif.variable,
   robotoSlab.variable,
   robotoMono.variable,
+  anonymousPro.variable,
 ].join(" ");
 
 // ─────────────────────────────────────────────────────────────────

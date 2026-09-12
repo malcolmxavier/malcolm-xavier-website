@@ -436,8 +436,7 @@ function NavDivider() {
 // own pages, in dark, --surface-muted resolves to grey-800 and the
 // chip became a solid slab sitting on a black bar — the heaviest thing
 // in the chrome, on the one page where the control does nothing
-// because it is already the page you are on. It marks itself active
-// the way every other item in this bar does now, with an underline.
+// because it is already the page you are on.
 //
 // No `data-subbrand`. The colored treatment in components.css marks
 // the culture verticals, and borrowing it here would say the Booth is
@@ -445,12 +444,36 @@ function NavDivider() {
 //
 // It has no arrow either. An arrow is this site's mark for a
 // CTA-styled link, and a nav item is not a CTA — if it earned one
-// here, every item in the bar would have earned one. It was doing a
-// second job, though: telling this apart at a glance from the theme
-// toggle beside it, which is the same height, the same radius, the
-// same border, and the same mono uppercase. Without it they twin, and
-// the thing that separates them properly is an accent color the Booth
-// does not have yet.
+// here, every item in the bar would have earned one. The arrow was
+// doing a second job, though: telling this apart at a glance from the
+// theme toggle beside it, which is the same height, the same radius,
+// the same border, and the same mono uppercase. Without it they twin.
+//
+// THREE THINGS SEPARATE THEM NOW, and none of them is a shape.
+//
+//   the face — --font-booth (Anonymous Pro), the only place in the
+//     site's chrome that is not Roboto Mono. A slab-terminalled mono
+//     against a bar of grotesque mono: the difference is quiet at 12px
+//     and it is the difference between a product and a page.
+//
+//   the colour — --booth-accent, the site's own secondary green. Not a
+//     new hue, because the Booth is an extension of this site's chrome
+//     until it is spun off, and a colour nobody has seen before would
+//     announce a separation that has not happened. The toggle beside
+//     it stays grey; only one of the two is a destination.
+//
+//   the cast — the active state, a hard offset shadow with no blur,
+//     down and to the left. This is the sign-painter's device, which
+//     is the room the Booth's name comes from. It is cast left because
+//     that is the side the eye arrives from: the shadow reads as the
+//     chip's leading edge and pulls the reader through it left to
+//     right, rather than trailing off the far side after the word is
+//     already read. It also falls into the gap the divider holds open,
+//     instead of into the 8px before the theme toggle.
+//
+// The underline every other route uses is not applied here. On a
+// bordered chip at 12px it reads as a rule crammed inside a box rather
+// than as "you are here", which is what the cast replaces.
 function BoothChip({
   pathname,
   layout,
@@ -465,34 +488,37 @@ function BoothChip({
       href={BOOTH_ROUTE.href}
       className={[
         "inline-flex items-center justify-center whitespace-nowrap",
-        "rounded-md border",
-        // The bar's own rule for "you are here", applied inside the
-        // chip rather than beside it.
-        active ? "underline underline-offset-4 decoration-2" : "no-underline",
+        "rounded-md border no-underline",
         "transition-colors motion-reduce:transition-none",
         "focus-visible:outline-2 focus-visible:outline-offset-2",
-        // Color lives in classes rather than in the style prop below
+        // Colour lives in classes rather than in the style prop below
         // because it has a hover state, and an inline style wins over
         // a stylesheet rule whatever its specificity — so a hover
         // declared in a class could never take effect against one.
-        // --border-interactive rather than --border-default: this is a
-        // UI component boundary, which needs 3:1 under SC 1.4.11, and
-        // --border-default does not clear it in either theme.
-        "[border-color:var(--border-interactive)]",
-        "[color:var(--text-body)]",
-        "hover:[border-color:var(--text-action-hover)]",
-        "hover:[color:var(--text-action-hover)]",
+        // The accent clears 7.3:1 on white and 15.4:1 on black, so it
+        // satisfies both the 4.5:1 this owes as small text and the
+        // 3:1 the border owes as a component boundary under SC 1.4.11.
+        "[border-color:var(--booth-accent)]",
+        "[color:var(--booth-accent)]",
+        "hover:[border-color:var(--booth-accent-hover)]",
+        "hover:[color:var(--booth-accent-hover)]",
         // Horizontal clears the 24x24 AA target size at 30px tall.
         // Vertical is a touch target, so it takes the 44px AAA size
         // the stacked route links already take.
         horizontal ? "px-3 py-1.5" : "min-h-11 px-4 py-2",
       ].join(" ")}
       style={{
-        fontFamily: "var(--font-mono)",
+        fontFamily: "var(--font-booth)",
         fontSize: "var(--p-xs-font-size)",
         textTransform: "uppercase",
         letterSpacing: "0.08em",
-        background: "transparent",
+        // Active takes the cast and an opaque ground under it, so the
+        // shadow reads as a solid block behind the chip rather than as
+        // a second border showing through a transparent one. At rest
+        // there is no shadow, so there is nothing to hide and the bar
+        // shows through.
+        background: active ? "var(--surface-page)" : "transparent",
+        boxShadow: active ? "-2px 2px 0 var(--booth-accent)" : undefined,
         outlineColor: "var(--border-focus)",
       }}
       aria-current={active ? "page" : undefined}
