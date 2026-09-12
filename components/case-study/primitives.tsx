@@ -128,6 +128,10 @@ export function CaseStudyKicker({
 //     <Beat …>…</Beat>
 // ────────────────────────────────────────────────────────────────
 
+// The rule between one Beat and the next. Painted in
+// --border-separator rather than --border-default: see NavDivider in
+// components/chrome/Nav.tsx for why a 1px rule needs more contrast
+// than the surface edges that token was calibrated for.
 export function BeatSeparator() {
   // Width is derived: max(Beat width) − 2 × Beat horizontal padding.
   // Beat uses (560 / px-7=28), (880 / px-10=40), (1024 / px-10=40),
@@ -137,7 +141,7 @@ export function BeatSeparator() {
   return (
     <hr
       className="mx-auto mb-[18px] h-px border-0 max-w-[calc(560px-2*28px)] md:max-w-[calc(880px-2*40px)] lg:max-w-[calc(1024px-2*40px)] w-[calc(100%-2*28px)] md:w-[calc(100%-2*40px)]"
-      style={{ background: "var(--border-default)" }}
+      style={{ background: "var(--border-separator)" }}
     />
   );
 }

@@ -395,13 +395,25 @@ export function Nav() {
 // or leading of the adjacent 12px Roboto Mono labels. aria-hidden
 // because it is purely decorative — the separation reads from
 // spacing and grouping for assistive tech.
+//
+// Painted in --border-separator rather than --border-default. Those
+// are the same idea at two weights, and the difference matters here:
+// a card edge is a long line that reads fine at low contrast, while
+// this is a 1px tick 16px tall and vanishes at the same value. Light
+// mode's --border-default sits at roughly 1.3:1 against white, so the
+// rule that sets the Booth apart from the professional routes was
+// only ever visible in dark mode. --border-separator is calibrated to
+// match what the dark divider already looks like — about 2.4:1 on
+// white against 2.7:1 on black — and stays a stop quieter than
+// --border-interactive, which outlines the chip and the theme toggle
+// sitting right beside it.
 function NavDivider() {
   return (
     <span
       aria-hidden
       role="presentation"
       className="block h-4 w-px shrink-0"
-      style={{ background: "var(--border-default)" }}
+      style={{ background: "var(--border-separator)" }}
     />
   );
 }
@@ -495,13 +507,15 @@ function BoothChip({
 // main route groups, and again between the route groups and the
 // theme toggle. aria-hidden because the grouping is announced by
 // list structure, not by a separator semantic.
+//
+// Same token as the desktop divider above, for the same reason.
 function MobileSeparator() {
   return (
     <span
       aria-hidden
       role="presentation"
       className="block h-px w-full my-2"
-      style={{ background: "var(--border-default)" }}
+      style={{ background: "var(--border-separator)" }}
     />
   );
 }
