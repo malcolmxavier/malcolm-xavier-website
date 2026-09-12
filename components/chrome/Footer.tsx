@@ -1,18 +1,25 @@
 // ─────────────────────────────────────────────────────────────────
-// Footer — three-column grid that closes every page.
+// Footer — one band that closes every page.
 //
-//   col 1   wordmark + sardonic site line
-//   col 2   "Stay in touch" — email, LinkedIn, GitHub
-//   col 3   "Elsewhere" — the platforms Malcolm publishes to but
-//           doesn't own (Letterboxd, Serializd, Spotify, Substack)
+//   identity   wordmark, the sardonic site line, "Send this site",
+//              and the © directly beneath it
+//   links      "Stay in touch" (email, LinkedIn, GitHub) and
+//              "Elsewhere" — the platforms Malcolm publishes to but
+//              doesn't own (Letterboxd, Serializd, Spotify, Substack)
+//   notes      the review-cluster disclaimers, flushed right
 //
-// Bottom row: © year on the left, last-touched dateline on the
-// right. The dateline is hard-coded for now; can be wired to the
-// build timestamp post-MVP.
+// It used to be two bands: three even thirds of the page, then a
+// second strip below a full-bleed rule carrying the © and the
+// disclaimers. That read as two footers stacked, and the even thirds
+// spread four short lists across the whole width so nothing in the
+// footer sat near anything it belonged with. Now the three clusters
+// are sized to their content and packed against the left rail, the
+// © sits with the mark it belongs to, and the disclaimers take the
+// right-hand space the link columns leave — which on most of the
+// site is simply empty, since they're scoped to /films and
+// /television.
 //
-// Voice: this footer line is a placeholder. The brand voice for
-// site copy is "sartorial with a dash of sardonic" — Malcolm will
-// edit. It's intentionally not too clever yet.
+// Voice: the sardonic line is Malcolm's; leave the wording alone.
 //
 // All external links carry rel="noopener noreferrer" + target="_blank"
 // (handled by the Link primitive when href is non-internal).
@@ -22,18 +29,15 @@ import { Container } from "@/components/layout/Container";
 import { Link } from "@/components/primitives/Link";
 import { Kicker } from "@/components/typography/Kicker";
 import { Dateline } from "@/components/typography/Dateline";
-import { CriticDisclaimer } from "./CriticDisclaimer";
+import { FooterNotes } from "./FooterNotes";
 import { ShareButton } from "./ShareButton";
-import { TmdbAttribution } from "./TmdbAttribution";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 
-// External destinations. Email + GitHub + Letterboxd + Serializd +
-// Spotify confirmed via brain-dump; LinkedIn + Substack pending and
-// will be added when Malcolm provides URLs. ELSEWHERE (Letterboxd,
-// Serializd, Spotify) lives in @/lib/elsewhere so the contact page
-// and this footer stay in sync.
+// External destinations. ELSEWHERE (Letterboxd, Serializd, Spotify)
+// lives in @/lib/elsewhere so the contact page and this footer stay
+// in sync.
 // Order: Email → LinkedIn → GitHub (canonical reach-out leads).
 // Closes l-footer-stay-in-touch-order from the 2026-04-29
 // /full-review.
@@ -55,16 +59,23 @@ export function Footer() {
     <footer
       // mt-auto pushes the footer to the bottom of the viewport when
       // page content is short (paired with min-h-full on <body>).
+      // One border-t, and it is the only rule in the footer.
       className="mt-auto border-t"
       style={{ borderColor: "var(--border-default)" }}
     >
       <Container>
-        <div className="grid grid-cols-1 gap-8 py-6 sm:grid-cols-3 sm:py-6">
-          {/* col 1: wordmark + sardonic line. Gap is set via inline
-              marginTop on the italic <p> (24px), not on this
-              wrapper, because both children carry inline margin: 0
-              that would override any wrapper space-y rule. */}
-          <div>
+        {/* Stacked on mobile. From sm the clusters run as a row, each
+            sized to its content rather than to an even share of the
+            page, so they pack against the left rail and leave the
+            right-hand space to the notes. flex-wrap is what lets the
+            notes drop to their own line below xl, where the row is
+            too narrow to carry them as well. */}
+        <div className="flex flex-col gap-10 py-10 sm:flex-row sm:flex-wrap sm:items-start sm:gap-x-14 sm:gap-y-10">
+          {/* Identity. Gaps are set via inline marginTop on each
+              child, not on this wrapper, because every child carries
+              an inline `margin: 0` that beats Tailwind v4's
+              :where()-wrapped space-y rule on specificity. */}
+          <div className="sm:w-64 sm:flex-none">
             <p
               style={{
                 fontFamily: "var(--font-primary)",
@@ -93,14 +104,6 @@ export function Footer() {
                 lineHeight: "var(--p-md-line-height)",
                 color: "var(--text-caption)",
                 maxWidth: "30ch",
-                // marginTop sets the gap to the wordmark above; the
-                // other three margin sides stay 0 to keep the column
-                // bottom-aligned with the rest of the footer rhythm.
-                // We can't lean on the wrapper's space-y because every
-                // first-child header in the footer (wordmark + both
-                // Kickers) has inline `margin: 0`, which beats
-                // Tailwind v4's :where()-wrapped space-y rule on
-                // specificity grounds. So the gap lives here.
                 margin: 0,
                 marginTop: "24px",
               }}
@@ -108,109 +111,82 @@ export function Footer() {
               Built in Los Angeles, edited at hours that should
               embarrass me.
             </p>
-            {/* Share affordance — sits below the sardonic line so
-                col 1 reads as wordmark → voice → quiet utility.
-                Native share sheet on mobile, clipboard fallback on
-                desktop. Closes m-no-share-affordance from the
-                2026-04-29 /full-review. */}
+            {/* Share affordance — col reads wordmark → voice → quiet
+                utility. Native share sheet on mobile, clipboard
+                fallback on desktop. Closes m-no-share-affordance from
+                the 2026-04-29 /full-review. */}
             <div style={{ marginTop: "20px" }}>
               <ShareButton />
             </div>
+            {/* The © sits directly under the share button — same mono
+                caption voice, one step quieter in colour, close enough
+                that the two read as one block of chrome under the
+                mark rather than as a second footer. */}
+            <Dateline style={{ margin: 0, marginTop: "10px" }}>
+              © {COPYRIGHT_YEAR} Malcolm Xavier
+            </Dateline>
           </div>
 
-          {/* col 2: stay in touch. The kicker → list gap is set via
-              inline marginTop on the <ul> (24px), not via wrapper
-              space-y, because the Kicker's inline `margin: 0` would
-              beat the :where()-scoped space-y selector on
-              specificity. The inner ul still uses space-y-2 for
-              list-item rhythm. */}
-          <nav aria-label="Stay in touch">
-            <Kicker>Stay in touch</Kicker>
-            <ul className="space-y-2" style={{ marginTop: "24px" }}>
-              {STAY_IN_TOUCH.map((item) => {
-                const linkEl = (
-                  <Link href={item.href} quiet>
-                    {item.label}
-                  </Link>
-                );
-                // py-1 lifts the tap target to ~27px tall, clearing
-                // the WCAG 2.2 SC 2.5.8 24×24 minimum. The email
-                // entry is wrapped with TrackOnClick (EMAIL_CLICK,
-                // kind=direct, surface=footer); LinkedIn / GitHub
-                // aren't tracked (not in the funnel-event spec).
-                return (
-                  <li key={item.label} className="py-1">
-                    {item.href.startsWith("mailto:") ? (
-                      <TrackOnClick
-                        event={ANALYTICS_EVENTS.EMAIL_CLICK}
-                        eventData={{ kind: "direct", surface: "footer" }}
-                      >
-                        {linkEl}
-                      </TrackOnClick>
-                    ) : (
-                      linkEl
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+          {/* The two link lists travel together as one flex item, so
+              the pair stays adjacent instead of being spread apart by
+              the row's own gap. Each kicker → list gap is inline
+              marginTop on the <ul> for the specificity reason above;
+              the inner ul keeps space-y-2 for list-item rhythm. */}
+          <div className="flex gap-12 sm:flex-none sm:gap-14">
+            <nav aria-label="Stay in touch">
+              <Kicker>Stay in touch</Kicker>
+              <ul className="space-y-2" style={{ marginTop: "24px" }}>
+                {STAY_IN_TOUCH.map((item) => {
+                  const linkEl = (
+                    <Link href={item.href} quiet>
+                      {item.label}
+                    </Link>
+                  );
+                  // py-1 lifts the tap target to ~27px tall, clearing
+                  // the WCAG 2.2 SC 2.5.8 24×24 minimum. The email
+                  // entry is wrapped with TrackOnClick (EMAIL_CLICK,
+                  // kind=direct, surface=footer); LinkedIn / GitHub
+                  // aren't tracked (not in the funnel-event spec).
+                  return (
+                    <li key={item.label} className="py-1">
+                      {item.href.startsWith("mailto:") ? (
+                        <TrackOnClick
+                          event={ANALYTICS_EVENTS.EMAIL_CLICK}
+                          eventData={{ kind: "direct", surface: "footer" }}
+                        >
+                          {linkEl}
+                        </TrackOnClick>
+                      ) : (
+                        linkEl
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
 
-          {/* col 3: elsewhere. Same kicker → list gap pattern as col 2
-              (inline marginTop on the ul, not wrapper space-y). */}
-          <nav aria-label="Elsewhere on the internet">
-            <Kicker>Elsewhere</Kicker>
-            <ul className="space-y-2" style={{ marginTop: "24px" }}>
-              {ELSEWHERE.map((item) => (
-                <li key={item.label} className="py-1">
-                  <Link href={item.href} quiet>
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+            <nav aria-label="Elsewhere on the internet">
+              <Kicker>Elsewhere</Kicker>
+              <ul className="space-y-2" style={{ marginTop: "24px" }}>
+                {ELSEWHERE.map((item) => (
+                  <li key={item.label} className="py-1">
+                    <Link href={item.href} quiet>
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+
+          {/* Editorial disclaimer + TMDB attribution, on the review
+              clusters only. Renders nothing at all off those routes,
+              so the row closes up rather than reserving an empty
+              column — see FooterNotes for why that check lives there
+              and not here. */}
+          <FooterNotes />
         </div>
       </Container>
-
-      {/* Bottom row: © + dateline. The border-t lives on this OUTER
-          div (outside the Container) so it spans the full viewport
-          width — matches the footer's top border-t and reads as a
-          consistent horizontal rule sitewide. The Container inside
-          re-constrains the dateline content so it stays aligned
-          with the columns above. Stacks on mobile, splits on tablet+. */}
-      <div
-        className="border-t"
-        style={{ borderColor: "var(--border-default)" }}
-      >
-        <Container>
-          {/* Outer py-6 holds the symmetric top + bottom padding for
-              the whole bottom region. The inner row renders the ©
-              dateline + (critic-route) editorial disclaimer; the
-              TmdbAttribution row, when present, brings its own
-              small top spacer (pt-3) and rides on the outer pb-6.
-              On non-critic routes TmdbAttribution returns null, so
-              the outer padding stays symmetric. */}
-          <div className="py-4">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-              <Dateline>© {COPYRIGHT_YEAR} Malcolm Xavier</Dateline>
-              {/* Route-conditional editorial note — renders only on
-                  CRITIC_ROUTE_PREFIXES (films today, tv next),
-                  otherwise null. Right-aligned on tablet+ so the
-                  voice line plays against the © dateline. */}
-              <div className="flex flex-col gap-2 sm:items-end sm:text-right">
-                <CriticDisclaimer />
-              </div>
-            </div>
-            {/* TMDB attribution — its own full-container row so the
-                ToS-mandated single-line disclosure can stretch across
-                the available width on desktop without squeezing the
-                © dateline above it. Returns null off critic routes,
-                so non-critic footers see no extra row. */}
-            <TmdbAttribution />
-          </div>
-        </Container>
-      </div>
     </footer>
   );
 }
