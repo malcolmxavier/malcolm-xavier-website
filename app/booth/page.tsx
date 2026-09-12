@@ -13,11 +13,13 @@
 // so the product page and the thing it opens share one address, and a
 // link to "the Booth" is one link.
 //
-// HOW IT IS SHAPED. As a product page, not a portfolio entry: a
-// section per claim, the screenshot that proves it beside the prose
-// that makes it, and one call to action closing each section. There is
-// no author section. The tool is the argument; the byline is in the
-// footer, the nav, and every other page on this site.
+// HOW IT IS SHAPED. As a product page, not a portfolio entry: a band
+// per claim, the screenshot that proves it beside the prose that makes
+// it, and the call to action inside the band rather than under it. A
+// band is one coloured slab of the page, and consecutive bands touch,
+// so the page has no uncoloured space for a reader to read as a
+// divider. There is no author section. The tool is the argument; the
+// byline is in the footer, the nav, and every other page on this site.
 //
 // THREE REGISTERS, AND THIS PAGE ONLY EVER SPEAKS THE THIRD.
 //   1. Engine ids — `lane`, `emitter`, `job-search`, `item.id`. These
@@ -164,7 +166,27 @@ const MOVES = [
 // own section at the foot of the page, which separated every rule from
 // the thing it was a rule about and asked the reader to hold four
 // screens in their head to understand three constraints.
-const SURFACES = [
+//
+// `cta` is the button that closes the row. Every one of them opens the
+// same mail composer, and the label is what changes, because each row
+// has just made a different argument and the button is the end of that
+// argument rather than a repeat of the last one. `close` marks the row
+// that also closes the section: it takes the primary treatment, which
+// is the section's own call to action moved inside the colour instead
+// of standing in the gap underneath it.
+type Surface = {
+  name: string;
+  tint: "green" | "blue" | "orange";
+  shot: string;
+  what: string;
+  how: string;
+  caption: string;
+  rule?: string;
+  cta: string;
+  close?: boolean;
+};
+
+const SURFACES: Surface[] = [
   {
     name: "Today",
     tint: "blue",
@@ -172,6 +194,7 @@ const SURFACES = [
     what: "The merged day, and the only view that answers what to do now.",
     how: "Each card carries the workstream it came from and the decision buttons that write it back. Habits sit outside the budget until one is genuinely late, and anything with a clock on it is converted into your own timezone exactly once.",
     caption: "Today, with the day’s fixed points at the top and the budget already spent against them.",
+    cta: "See a day assembled",
   },
   {
     name: "The week",
@@ -180,6 +203,7 @@ const SURFACES = [
     what: "Where everything sits, which is a different question from what is next.",
     how: "Recurring work is stored as rules and expanded on read, never written into days—so extending the schedule is not a migration, and a habit skipped on Tuesday is skipped on Tuesday only. Moving something here is a real write, with the same refusals the command line enforces.",
     caption: "The week. Dragging a card takes the day, because a card’s position is its date.",
+    cta: "See a week in place",
   },
   {
     name: "The pipeline",
@@ -189,6 +213,7 @@ const SURFACES = [
     how: "It reads the mailbox. A loss notice closes an opportunity, a reply closes the card that asked for it and records everybody who was on the thread, and a prioritized list of who might introduce you is built out of what the file already knows rather than out of a connection degree.",
     caption: "The pipeline, grouped by stage. Stage names come from a settings file, not the code.",
     rule: "It writes to your records without being asked, and shows its work. Every automated change logs what it replaced, the words it was read out of, and which run made it, with an undo on the record it touched—because the risk that matters is not who made the change, it is whether it can be taken back.",
+    cta: "See it write back",
   },
   {
     name: "The map",
@@ -197,6 +222,8 @@ const SURFACES = [
     what: "Every open initiative across every project, in one dependency graph.",
     how: "Rows are workstreams and columns are depth, so the first column is everything that can be started today. It is the planning surface the other three draw work from.",
     caption: "The dependency map. The first column is what is unblocked right now.",
+    cta: "See it running",
+    close: true,
   },
 ];
 
@@ -331,7 +358,7 @@ export default function BoothPage() {
             first surface row below can read right-text and the
             alternation runs unbroken from the top of the page. */}
         <Section id="top" style={sectionAnchorStyle} padding="lg">
-          <div className="booth-surface booth-tint booth-tint--green">
+          <div className="booth-surface booth-band booth-band--green">
             <Stack gap="700" className={PROSE_WIDTH}>
               <Display as="h1">
                 One prioritized day, out of every system you work in
@@ -369,7 +396,7 @@ export default function BoothPage() {
 
         {/* ─── How it works ─────────────────────────────────────── */}
         <Section id="how-it-works" style={sectionAnchorStyle}>
-          <Stack gap="600">
+          <Stack gap="600" className="booth-band booth-band--blue">
             <Stack gap="300" className={PROSE_WIDTH}>
               <Headline level={2}>Three moves, and the day is real</Headline>
               <Lede>
@@ -437,28 +464,32 @@ export default function BoothPage() {
             unbroken from the top: hero left, Today right, the week
             left, and so on. */}
         <Section id="surfaces" style={sectionAnchorStyle}>
-          <Stack gap="700">
-            <Stack gap="300" className={PROSE_WIDTH}>
-              <Headline level={2}>Four views over one set of records</Headline>
-              <Lede>
-                Not four tools. One day, one week, one pipeline, and one map,
-                all reading the same records—which is why a decision taken on
-                any of them means the same thing on the others.
-              </Lede>
-            </Stack>
+          {/* gap 0, because the bands inside supply their own padding and
+              have to touch. Any gap here is an uncoloured stripe. */}
+          <Stack gap="0">
+            <div className="booth-band booth-band--orange">
+              <Stack gap="300" className={PROSE_WIDTH}>
+                <Headline level={2}>Four views over one set of records</Headline>
+                <Lede>
+                  Not four tools. One day, one week, one pipeline, and one
+                  map, all reading the same records—which is why a decision
+                  taken on any of them means the same thing on the others.
+                </Lede>
+              </Stack>
+            </div>
 
-            <Stack gap="600" as="ol" className="m-0 list-none p-0">
+            <Stack gap="0" as="ol" className="m-0 list-none p-0">
               {SURFACES.map((surface, i) => (
                 <li
                   key={surface.name}
                   className={[
                     "booth-surface",
-                    "booth-tint",
-                    `booth-tint--${surface.tint}`,
+                    "booth-band",
+                    `booth-band--${surface.tint}`,
                     // A flipped row puts its prose on the right, so the
                     // wash has to start there too. One condition drives
                     // both, which is what stops them drifting apart.
-                    i % 2 === 0 ? "booth-surface--flip booth-tint--right" : "",
+                    i % 2 === 0 ? "booth-surface--flip booth-band--right" : "",
                   ]
                     .filter(Boolean)
                     .join(" ")}
@@ -470,6 +501,10 @@ export default function BoothPage() {
                     <Body>{surface.what}</Body>
                     <Body>{surface.how}</Body>
                     {surface.rule ? <RuleNote>{surface.rule}</RuleNote> : null}
+                    <RequestAccess
+                      label={surface.cta}
+                      variant={surface.close ? "primary" : "secondary"}
+                    />
                   </Stack>
                   <Shot
                     name={surface.shot}
@@ -480,10 +515,6 @@ export default function BoothPage() {
                 </li>
               ))}
             </Stack>
-
-            <div className={PROSE_WIDTH}>
-              <RequestAccess label="See it running" />
-            </div>
           </Stack>
         </Section>
 
@@ -493,8 +524,18 @@ export default function BoothPage() {
             the live installation. Both columns are configurations that
             exist; neither is a customer. */}
         <Section id="vocabulary" style={sectionAnchorStyle}>
-          <Stack gap="600">
-            <Stack gap="300" className={PROSE_WIDTH}>
+          {/* The heading sits inside the prose column rather than above the
+              pair. The wash starts on the side the text is on, so a heading
+              set apart from its own argument would be the one line on the
+              page left standing off its colour.
+
+              The argument runs beside the evidence for it, on the same
+              alternating rhythm the surfaces above use — and flipped,
+              because the last surface row read text-left. The table is this
+              section’s screenshot: the claim is that a word is a setting,
+              and two shipped configurations side by side are what shows it. */}
+          <div className="booth-surface booth-surface--flip booth-band booth-band--orange booth-band--right">
+            <Stack gap="400">
               <Headline level={2}>
                 Every word on these screens is a setting
               </Headline>
@@ -505,110 +546,97 @@ export default function BoothPage() {
                 admissions office, or a development team without being
                 rebuilt.
               </Lede>
-            </Stack>
-
-            {/* The argument runs beside the evidence for it, on the same
-                alternating rhythm the surfaces above use — and flipped,
-                because the last surface row read text-left. The table is
-                this section’s screenshot: the claim is that a word is a
-                setting, and two shipped configurations side by side are
-                what shows it. */}
-            <div className="booth-surface booth-surface--flip booth-tint booth-tint--orange booth-tint--right">
-              <Stack gap="400">
-                <Body>
-                  Two configurations ship with it, and both are running today.
-                  One is set up for a job search. The other is the demo—the
-                  same build, dressed as a partnerships desk, with every
-                  organization and person in it invented. Same software, same
-                  screens, a different list of words. Nothing was forked and
-                  nothing was rebuilt.
-                </Body>
-                <Body>
-                  That is the part worth a buyer’s attention. A CRM that fits
-                  an admissions funnel, a development office, or a two-person
-                  agency is not a different product—it is the same system and a
-                  list somebody wrote in an afternoon.
-                </Body>
-              </Stack>
-
-              {/* The row label is a <th scope="row"> so a screen reader
-                  announces “Early interest — Prospects — Shortlisted” as one
-                  statement rather than reading three disconnected word lists.
-                  overflow-x-auto is the escape hatch for the narrowest
-                  columns: the grid track is minmax(0, …), so the table can
-                  scroll inside it without widening the page. */}
-              <div className="overflow-x-auto">
-                <table
-                  className="w-full border-collapse text-left"
-                  style={{ fontSize: "var(--p-font-size)" }}
-                >
-                  <caption className="sr-only">
-                    The same records under two shipped configurations: what
-                    each thing is, and the word each configuration uses for it.
-                  </caption>
-                  <thead>
-                    <tr>
-                      {["What it is", "A job search", "The demo"].map((h) => (
-                        <th
-                          key={h}
-                          scope="col"
-                          className="border-b py-2 pr-4 font-normal"
-                          style={{
-                            borderColor: "var(--border-default)",
-                            color: "var(--text-caption)",
-                            fontSize: "var(--p-sm-font-size)",
-                          }}
-                        >
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {VOCABULARY.map((row) => (
-                      <tr key={row.a}>
-                        {/* The concept, in the reader’s own language. Set in
-                            the caption colour so the two configured words are
-                            what the eye lands on. */}
-                        <th
-                          scope="row"
-                          className="border-b py-2 pr-4 font-normal"
-                          style={{
-                            borderColor: "var(--border-default)",
-                            color: "var(--text-caption)",
-                          }}
-                        >
-                          {row.of}
-                        </th>
-                        <td
-                          className="border-b py-2 pr-4"
-                          style={{ borderColor: "var(--border-default)" }}
-                        >
-                          {row.a}
-                        </td>
-                        <td
-                          className="border-b py-2 pr-4"
-                          style={{ borderColor: "var(--border-default)" }}
-                        >
-                          {row.b}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <div className={PROSE_WIDTH}>
+              <Body>
+                Two configurations ship with it, and both are running today.
+                One is set up for a job search. The other is the demo—the same
+                build, dressed as a partnerships desk, with every organization
+                and person in it invented. Same software, same screens, a
+                different list of words. Nothing was forked and nothing was
+                rebuilt.
+              </Body>
+              <Body>
+                That is the part worth a buyer’s attention. A CRM that fits an
+                admissions funnel, a development office, or a two-person agency
+                is not a different product—it is the same system and a list
+                somebody wrote in an afternoon.
+              </Body>
               <RequestAccess
                 label="Request access"
+                variant="primary"
                 lead={
-                  "Setting an instance up in a team’s own words is scoped work; " +
-                  "rates are on the consulting page."
+                  "Setting an instance up in a team’s own words is scoped " +
+                  "work; rates are on the consulting page."
                 }
               />
-            </div>
-          </Stack>
+            </Stack>
+
+            {/* The row label is a <th scope="row"> so a screen reader
+                announces “Early interest — Prospects — Shortlisted” as one
+                statement rather than reading three disconnected word lists.
+                overflow-x-auto is the escape hatch for the narrowest
+                columns: the grid track is minmax(0, …), so the table can
+                scroll inside it without widening the page. */}
+            <div className="overflow-x-auto">
+              <table
+                className="w-full border-collapse text-left"
+                style={{ fontSize: "var(--p-font-size)" }}
+              >
+                <caption className="sr-only">
+                  The same records under two shipped configurations: what
+                  each thing is, and the word each configuration uses for it.
+                </caption>
+                <thead>
+                  <tr>
+                    {["What it is", "A job search", "The demo"].map((h) => (
+                      <th
+                        key={h}
+                        scope="col"
+                        className="border-b py-2 pr-4 font-normal"
+                        style={{
+                          borderColor: "var(--border-default)",
+                          color: "var(--text-caption)",
+                          fontSize: "var(--p-sm-font-size)",
+                        }}
+                      >
+                        {h}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {VOCABULARY.map((row) => (
+                    <tr key={row.a}>
+                      {/* The concept, in the reader’s own language. Set in
+                          the caption colour so the two configured words are
+                          what the eye lands on. */}
+                      <th
+                        scope="row"
+                        className="border-b py-2 pr-4 font-normal"
+                        style={{
+                          borderColor: "var(--border-default)",
+                          color: "var(--text-caption)",
+                        }}
+                      >
+                        {row.of}
+                      </th>
+                      <td
+                        className="border-b py-2 pr-4"
+                        style={{ borderColor: "var(--border-default)" }}
+                      >
+                        {row.a}
+                      </td>
+                      <td
+                        className="border-b py-2 pr-4"
+                        style={{ borderColor: "var(--border-default)" }}
+                      >
+                        {row.b}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              </div>
+          </div>
         </Section>
 
         {/* ─── Getting in ──────────────────────────────────────────
@@ -618,7 +646,7 @@ export default function BoothPage() {
             has before asking for a login, so it belongs against the
             ask. */}
         <Section id="access" style={sectionAnchorStyle}>
-          <Grid cols={2} gap="500" className="booth-tint booth-tint--green">
+          <Grid cols={2} gap="500" className="booth-band booth-band--green">
             <Stack gap="400">
               <Headline level={2}>Ask for a login</Headline>
               <Body>

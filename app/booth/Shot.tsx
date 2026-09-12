@@ -141,29 +141,19 @@ export function ShotStyles() {
   .booth-surface--flip > :first-child { grid-column: 2; grid-row: 1; }
   .booth-surface--flip > :last-child { grid-column: 1; grid-row: 1; }
 }
-/* Section separation on this page is whitespace and nothing else — the
-   hairlines came out with the eyebrows, and the site's divider rhythm came
-   with them: 112px of nothing between sections, against 24px between the rows
-   inside one. A reader met five slabs rather than one argument. These pull the
-   break to twice the internal row rhythm, which is enough to read as a new
-   section and little enough that the page holds together. Scoped to this
-   page's own wrapper, because the rhythm elsewhere on the site still has a
-   rule drawn through it and needs the room.
+/* Vertical rhythm on this page belongs to the bands below, not to the
+   sections that hold them. A section's own padding is space no band can
+   reach, and on a page whose content is coloured that space is a black
+   stripe drawn across the screen at every join — the reader takes the
+   stripe for the design. So the padding is zeroed here and each band
+   carries its own instead. The break itself is unchanged: two bands
+   meeting contribute one pad each, which is the same distance the
+   sections used to hold open between them.
 
-   The hero keeps the site's standard opening pad: what sits above it is the
-   nav, not another section, and that gap is a different measurement. */
-.booth-brand > section {
-  padding-top: var(--scale-700);
-  padding-bottom: var(--scale-700);
-}
-.booth-brand > section#top { padding-top: var(--scale-800); }
-@media (min-width: 40rem) {
-  .booth-brand > section {
-    padding-top: var(--scale-800);
-    padding-bottom: var(--scale-800);
-  }
-  .booth-brand > section#top { padding-top: var(--scale-1000); }
-}
+   Scoped to this page's own wrapper, because sections elsewhere on the
+   site still separate themselves with room and a rule. Unlayered, so it
+   beats the Tailwind padding utilities Section emits. */
+.booth-brand > section { padding-block: 0; }
 /* ─── Colour ────────────────────────────────────────────────────────
    Three hues, borrowed from the site's own sub-brand palette rather than
    invented for this page: green (the newsletter's), blue (television's),
@@ -188,112 +178,127 @@ export function ShotStyles() {
    actually gets. A wash is a peak that is already half gone by the time it
    reaches the screenshot beside it, so the same number arrives as a stain
    rather than as a colour — the wash values are the fills pushed up until
-   the middle of the row carries the weight the card does. */
+   the middle of the row carries the weight the card does.
+
+   The fill mixes into the page's own surface rather than into transparency,
+   which makes it opaque. It looks identical against the bare page, and the
+   difference matters in one place: the three cards carrying these fills now
+   sit on a coloured band of their own, and a translucent fill would let that
+   band through and shift all three at once. A legend has to be the colour it
+   is naming. */
 .booth-brand {
-  --booth-green: color-mix(in srgb, var(--green-500) 16%, transparent);
-  --booth-blue: color-mix(in srgb, var(--blue-500) 14%, transparent);
-  --booth-orange: color-mix(in srgb, var(--orange-500) 15%, transparent);
+  --booth-green: color-mix(in srgb, var(--green-500) 16%, var(--surface-page));
+  --booth-blue: color-mix(in srgb, var(--blue-500) 14%, var(--surface-page));
+  --booth-orange: color-mix(in srgb, var(--orange-500) 15%, var(--surface-page));
   --booth-green-wash: color-mix(in srgb, var(--green-500) 28%, transparent);
   --booth-blue-wash: color-mix(in srgb, var(--blue-500) 24%, transparent);
   --booth-orange-wash: color-mix(in srgb, var(--orange-500) 28%, transparent);
 }
 [data-theme="dark"] .booth-brand {
-  --booth-green: color-mix(in srgb, var(--green-400) 17%, transparent);
-  --booth-blue: color-mix(in srgb, var(--blue-300) 22%, transparent);
-  --booth-orange: color-mix(in srgb, var(--orange-400) 15%, transparent);
+  --booth-green: color-mix(in srgb, var(--green-400) 17%, var(--surface-page));
+  --booth-blue: color-mix(in srgb, var(--blue-300) 22%, var(--surface-page));
+  --booth-orange: color-mix(in srgb, var(--orange-400) 15%, var(--surface-page));
   --booth-green-wash: color-mix(in srgb, var(--green-400) 26%, transparent);
   --booth-blue-wash: color-mix(in srgb, var(--blue-300) 32%, transparent);
   --booth-orange-wash: color-mix(in srgb, var(--orange-400) 30%, transparent);
 }
 
-/* The wash sits on the content row, not on the section wrapper, so it
-   lands under the claim-and-screen pair and leaves the section's own
-   heading on clean page. It is drawn by a pseudo-element rather than as a
-   background on the row itself, because it has to bleed past the row's box
-   — out to the container's own edge horizontally, and past the top and
-   bottom — and a row cannot be given that much padding without moving the
-   content inside it.
+/* ─── The band ─────────────────────────────────────────────
+   A band is one horizontal slab of this page: its own padding, its own hue,
+   and a wash that starts on the side its text is on and thins to nothing at
+   the far margin. The page is a stack of them and they touch — a band ends
+   exactly where the next one begins, and the argument it makes ends with the
+   button that asks for a login, inside the colour rather than below it.
+
+   Touching is the whole point. Any space left between two coloured slabs is
+   a black stripe the width of the page, and a reader takes a stripe for a
+   deliberate divider. That is why the sections above are zero-padded: a gap
+   is only ever the sum of two bands' own padding, which is space that has
+   colour on it.
 
    Two directions, two mechanisms, because they are asked to do opposite
    things. Across, the colour is the point: it starts at the text side and
    thins to nothing at the far margin, so it runs left-to-right where the
    prose is on the left and right-to-left where it is on the right, and what
    meets the opposite edge is the page's own background. That is the
-   gradient. Down, there is no story to tell — the colour should simply be
-   on the row, top to bottom — so the vertical treatment is a mask rather
-   than a second gradient, and all it does is soften the last few pixels at
-   each end.
+   gradient. Down, there is no story to tell — the colour should simply be on
+   the band, top to bottom — so the vertical treatment is a mask, and its one
+   job is to hand the band over to its neighbour.
 
-   This replaced an ellipse that faded in all four directions at once. It
-   held the horizontal reading, but it also meant every row's colour was
-   strongest through the middle and gone at the top and bottom, so each
-   section read as a lens of colour floating on a dark page rather than as
-   a page with colour on it.
+   The numbers are a crossfade and they are the only pair that makes one. The
+   mask ramps over 2rem at each end and the wash is drawn 1rem beyond the
+   band at each end, which is to say the bleed is exactly half the ramp. That
+   puts the ramp centred on the join: the band above is at half strength there
+   and the band below is at half strength there, so the two sum back to very
+   nearly one band's worth of colour and neither a seam nor a dark line
+   appears. Any other bleed slides the ramp off the join and produces one or
+   the other. Because the whole ramp is spent in the two bands' padding, every
+   pixel of content sits in colour at full strength.
 
-   The softening is spent entirely outside the row, and it is measured in
-   rem rather than as a percentage of the box. Both follow from where the
-   colour has to stop. A percentage is a different length on every row,
-   because a row with a screenshot in it is several times the height of one
-   without, so one rule softened sixty pixels here and twenty there. A fixed
-   length is the same edge everywhere.
-
-   That length is exactly half the 24px gap between stacked rows, which is
-   what keeps one row's colour out of the next one's. Each fades to nothing
-   at the midpoint of the gap, so neighbours meet rather than run together
-   and four stacked rows read as four rows instead of as one long smear —
-   the separation between them is the colour stopping, which is why the page
-   needs no rule drawn through it. Because all of that happens beyond the
-   row's own box, the full-strength band covers every pixel of the content:
-   a row's top and bottom edges are as coloured as its middle.
+   Measured in rem rather than as a percentage of the box, because a band
+   holding a 1440px capture is several times the height of one holding a
+   paragraph, and a percentage would soften sixty pixels here and twenty
+   there. A fixed length is the same edge everywhere.
 
    The horizontal bleed matches Container's own padding at each breakpoint
    (px-6 / sm:px-10 / lg:px-16), so the wash spans the full content column
    and stops exactly at its edge — never wider, which would put a scrollbar
    on the page. */
-.booth-tint {
+.booth-band {
   position: relative;
-  /* Makes the row its own stacking context, so the z-index below is
-     behind this row's content and can never fall behind the page. */
+  /* Makes the band its own stacking context, so the z-index below is
+     behind this band's content and can never fall behind the page. */
   isolation: isolate;
+  padding-block: var(--scale-600);
 }
-.booth-tint::before {
+@media (min-width: 40rem) {
+  .booth-band { padding-block: var(--scale-700); }
+}
+/* The opening band sits under the nav rather than under another band, and
+   that is a different measurement: it takes the site's standard opening pad
+   instead of half a section break. */
+.booth-brand > section#top > .booth-band { padding-top: var(--scale-800); }
+@media (min-width: 40rem) {
+  .booth-brand > section#top > .booth-band { padding-top: var(--scale-1000); }
+}
+.booth-band::before {
   content: "";
   position: absolute;
   z-index: -1;
   pointer-events: none;
-  inset-block: -0.75rem;
+  inset-block: -1rem;
   inset-inline: -1.5rem;
   background-image: linear-gradient(
-    to var(--booth-tint-dir, right),
-    var(--booth-tint, transparent) 0%,
+    to var(--booth-band-dir, right),
+    var(--booth-band-hue, transparent) 0%,
     transparent 92%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0,
-    #000 0.75rem,
-    #000 calc(100% - 0.75rem),
+    #000 2rem,
+    #000 calc(100% - 2rem),
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
     transparent 0,
-    #000 0.75rem,
-    #000 calc(100% - 0.75rem),
+    #000 2rem,
+    #000 calc(100% - 2rem),
     transparent 100%
   );
 }
 @media (min-width: 40rem) {
-  .booth-tint::before { inset-inline: -2.5rem; }
+  .booth-band::before { inset-inline: -2.5rem; }
 }
 @media (min-width: 64rem) {
-  .booth-tint::before { inset-inline: -4rem; }
+  .booth-band::before { inset-inline: -4rem; }
 }
 /* Text on the right, so the colour starts on the right and runs left. */
-.booth-tint--right { --booth-tint-dir: left; }
-.booth-tint--green { --booth-tint: var(--booth-green-wash); }
-.booth-tint--blue { --booth-tint: var(--booth-blue-wash); }
-.booth-tint--orange { --booth-tint: var(--booth-orange-wash); }
+.booth-band--right { --booth-band-dir: left; }
+.booth-band--green { --booth-band-hue: var(--booth-green-wash); }
+.booth-band--blue { --booth-band-hue: var(--booth-blue-wash); }
+.booth-band--orange { --booth-band-hue: var(--booth-orange-wash); }
 .booth-shot-dark { display: none; }
 [data-theme="dark"] .booth-shot-dark { display: block; }
 [data-theme="dark"] .booth-shot-light { display: none; }
