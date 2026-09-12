@@ -105,7 +105,7 @@ export default function Home() {
   const mailHref = `mailto:${CONTACT.email}`;
 
   return (
-    <Container size="md">
+    <Container>
       {/* ─── Hero ──────────────────────────────────────────────── */}
       <Section padding="lg">
         <Stack gap="500">

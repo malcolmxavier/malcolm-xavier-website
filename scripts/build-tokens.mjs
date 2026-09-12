@@ -453,6 +453,24 @@ for (const [name, value] of [
 ]) {
   out.push(`  --breakpoint-${name}: ${value};`);
 }
+
+// The page's content width. One number for the whole site: every
+// surface — the header, the footer, a culture index, a case study —
+// lines its left edge up against this and nothing else. It lives in
+// Tailwind's `--container-*` namespace so it is reachable as a real
+// utility (`max-w-page`) from any className, which is the point. The
+// last time a width was needed with nothing declared to reach for,
+// the answer was `max-w-[78rem]` in one file and `max-w-[64rem]` in
+// three others, and the site grew four content widths nobody chose.
+//
+// 80rem/1280px is what most of the site already used. It is the same
+// number as the `xl` breakpoint above, and the two are still declared
+// separately on purpose: a breakpoint is when the layout changes and a
+// content width is how wide the column gets. The day one of them moves
+// the other should not have to follow.
+out.push("");
+out.push("  /* Page content width — see scripts/build-tokens.mjs */");
+out.push("  --container-page: 80rem; /* 1280px */");
 out.push("}");
 out.push("");
 

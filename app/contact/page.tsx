@@ -153,7 +153,7 @@ export default function ContactPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(CONTACT_SCHEMA) }}
       />
-      <Container size="md">
+      <Container>
       {/* ─── Hero ──────────────────────────────────────────────── */}
       <Section padding="lg">
         <Stack gap="500">

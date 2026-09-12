@@ -380,7 +380,7 @@ export async function TvFacetPage(
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Container size="lg">
+      <Container>
         {/* Single-column hero — the lifetime-stats panel moved to the
             /television landing's "By the numbers" band. */}
         <Section padding="lg">

@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <Container size="md">
+    <Container>
       <Section padding="lg">
         <Stack gap="500">
           <Kicker>404</Kicker>

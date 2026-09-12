@@ -157,7 +157,7 @@ export default function CaseStudiesIndex() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
       />
-      <Container size="lg">
+      <Container>
       {/* Two-column on desktop: TOC in the left gutter, content on the
           right. Below lg, the TOC is hidden and the content reverts to
           a single readable column constrained to ~64rem. Mirrors the

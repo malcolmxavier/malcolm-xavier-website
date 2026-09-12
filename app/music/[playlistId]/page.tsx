@@ -177,7 +177,7 @@ export default async function PlaylistDetailPage(
 
   return (
     <div data-subbrand="music">
-      <Container size="md">
+      <Container>
         {/* ─── Back nav ──────────────────────────────────────────────
              Small "← All playlists" chip at the top so the user can
              return to the grid. Goes via router.back() when there's

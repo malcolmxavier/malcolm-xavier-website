@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-09-12T05:15:45.432Z
+   Built:        2026-09-12T06:05:31.317Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -1109,6 +1109,9 @@
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 96rem;
+
+  /* Page content width — see scripts/build-tokens.mjs */
+  --container-page: 80rem; /* 1280px */
 }
 
 /* ─── Base ────────────────────────────────────────────────── */

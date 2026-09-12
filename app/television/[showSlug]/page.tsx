@@ -460,7 +460,7 @@ export default async function TelevisionDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Container size="lg">
+      <Container>
         <div
           style={{
             paddingTop: "var(--scale-600)",

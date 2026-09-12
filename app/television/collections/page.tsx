@@ -65,7 +65,7 @@ export default function TvCollectionsHub() {
 
   return (
     <div data-subbrand="tv">
-      <Container size="lg">
+      <Container>
         {/* Back-nav above the hero — to the main reviews grid (the "All"
             surface), matching the cluster grid-nav's All tab. */}
         <BackLink href="/television/reviews">← All television</BackLink>

@@ -404,7 +404,7 @@ export default async function TelevisionPage({
       />
       {prevHref ? <link rel="prev" href={prevHref} /> : null}
       {nextHref ? <link rel="next" href={nextHref} /> : null}
-      <Container size="lg">
+      <Container>
         {/* ─── Hero ───────────────────────────────────────────────
             Single-column editorial hero. The lifetime-stats panel moved
             to the /television landing's "By the numbers" band, so the
@@ -434,7 +434,7 @@ export default async function TelevisionPage({
         </Section>
       </Container>
 
-      <Container size="lg">
+      <Container>
         {/* ─── Catalog stat-bar + Filter rail + Grid + Pagination ─ */}
         <Section padding="md" bordered>
           {/* The catalog kicker surfaces the three-level review system as

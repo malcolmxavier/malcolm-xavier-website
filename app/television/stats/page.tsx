@@ -330,7 +330,7 @@ export default async function TelevisionStatsPage({
       <StatsTips />
 
       {/* ─── Hero ─────────────────────────────────────────────── */}
-      <Container size="lg">
+      <Container>
         <Section padding="lg">
           <Stack gap="500">
             <Kicker accent>Television</Kicker>
@@ -376,7 +376,7 @@ export default async function TelevisionStatsPage({
           (position:sticky only travels within its DOM parent). Every filter
           change is a URL round-trip that re-runs computeTvStats over the
           narrowed corpus. Mirrors /films/stats. */}
-      <Container size="lg">
+      <Container>
         <Section bordered padding="md" style={{ paddingTop: "1rem" }}>
           <StatsFilterControls
             rails={statsRails}

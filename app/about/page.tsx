@@ -137,7 +137,7 @@ export default function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ABOUT_SCHEMA) }}
       />
-      <Container size="md">
+      <Container>
       <Section padding="lg">
         <Stack gap="600">
           {/* Page title row — kicker + Display, full-bleed across the

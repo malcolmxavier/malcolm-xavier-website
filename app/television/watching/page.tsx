@@ -156,7 +156,7 @@ export default function WatchingPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Container size="lg">
+      <Container>
         {/* Back link sits above the hero, same posture as detail
             pages. Mirrors /films/[slug]'s BackToFilms placement
             so navigation chrome reads consistently across the

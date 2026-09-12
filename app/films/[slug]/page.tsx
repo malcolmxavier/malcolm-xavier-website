@@ -410,7 +410,7 @@ export default async function FilmDetailPage({
         // here (not React-serialized) to keep the JSON shape exact.
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Container size="lg">
+      <Container>
         {/* "You came from …" breadcrumb — names the listing context the
             visitor arrived from (mirrors the TV detail page). Caption-grey,
             above the text-action back link so the two read as distinct

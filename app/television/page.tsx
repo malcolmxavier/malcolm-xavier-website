@@ -269,7 +269,7 @@ export default function TelevisionLandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(landingJsonLd) }}
       />
       {/* ─── Hero ─────────────────────────────────────────────── */}
-      <Container size="lg">
+      <Container>
         <Section padding="lg">
           <Stack gap="500">
             {/* Masthead row: the cluster eyebrow on the left, the "On this
@@ -345,7 +345,7 @@ export default function TelevisionLandingPage() {
         </Section>
       </Container>
 
-      <Container size="lg">
+      <Container>
         {/* ─── Featured pick ──────────────────────────────────── */}
         {/* The one editorial, hand-curated module — leads the modules as
             the payoff to the hero's taste thesis. A bordered divider sets

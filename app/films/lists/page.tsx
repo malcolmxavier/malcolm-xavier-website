@@ -108,7 +108,7 @@ export default function FilmListsHub() {
 
   return (
     <div data-subbrand="film">
-      <Container size="lg">
+      <Container>
         {/* Back-nav above the hero — to the main reviews grid (the "All"
             surface), matching the cluster grid-nav's All tab. */}
         <BackLink href="/films/reviews">← All films</BackLink>

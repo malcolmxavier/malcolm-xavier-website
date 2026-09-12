@@ -142,7 +142,7 @@ export default async function FilmCollectionPage({ params }: RouteArgs) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Container size="lg">
+      <Container>
         {/* Back-nav above the hero — same chrome as /television/watching. */}
         <BackLink href="/films/collections">← All collections</BackLink>
         <Section padding="md">

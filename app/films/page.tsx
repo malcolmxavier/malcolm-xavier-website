@@ -220,7 +220,7 @@ export default function FilmsLandingPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(landingJsonLd) }}
       />
       {/* ─── Hero ─────────────────────────────────────────────── */}
-      <Container size="lg">
+      <Container>
         <Section padding="lg">
           <Stack gap="500">
             {/* Masthead row: the cluster eyebrow on the left, the "On this
@@ -298,7 +298,7 @@ export default function FilmsLandingPage() {
         </Section>
       </Container>
 
-      <Container size="lg">
+      <Container>
         {/* ─── Featured pick ──────────────────────────────────── */}
         {/* The one editorial, hand-curated module — leads the modules so
             it's the payoff to the hero's taste thesis before any

@@ -225,7 +225,7 @@ export function Nav() {
         borderColor: "var(--border-default)",
       }}
     >
-      <Container size="lg">
+      <Container>
         <nav
           aria-label="Primary"
           className="flex items-center justify-between py-4"
@@ -344,7 +344,7 @@ export function Nav() {
             borderColor: "var(--border-default)",
           }}
         >
-          <Container size="lg">
+          <Container>
             <div className="flex flex-col py-4">
               {SUB_BRAND_ROUTES.length > 0 ? (
                 <NavRouteList

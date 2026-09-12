@@ -396,7 +396,7 @@ export default async function FilmStatsPage({
           on pointer devices, which use the CSS hover path. */}
       <StatsTips />
       {/* ─── Hero ─────────────────────────────────────────────── */}
-      <Container size="lg">
+      <Container>
         <Section padding="lg">
           <Stack gap="500">
             <Kicker accent>Films</Kicker>
@@ -453,7 +453,7 @@ export default async function FilmStatsPage({
           (paddingTop 1rem, no bottom rule per the single-divider call), then the
           dashboard bands follow. Every filter change is a URL round-trip that
           re-runs computeFilmStats over the narrowed corpus. */}
-      <Container size="lg">
+      <Container>
         <Section bordered padding="md" style={{ paddingTop: "1rem" }}>
           <StatsFilterControls
             rails={statsRails}

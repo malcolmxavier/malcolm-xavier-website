@@ -37,7 +37,7 @@
 // quotes — sits *below* the ladder, for the same reason. A reader
 // looks for it once a price has caught their eye, not before.
 //
-// The page uses the site's index-surface shell — Container size="lg"
+// The page uses the site's index-surface shell — a Container
 // wrapping a lg:grid with a 14rem left gutter — so the TOC is a
 // persistent sticky rail rather than an inline list a reader scrolls
 // past once and cannot get back to. Same primitives as /resume and
@@ -847,7 +847,7 @@ export default function ConsultingPage() {
         }}
       />
 
-      <Container size="lg">
+      <Container>
         {/* Two-column on desktop: TOC rail in the left gutter, the menu
             on the right. Below lg the rail is hidden and the content
             reverts to a single readable column constrained to ~64rem —

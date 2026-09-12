@@ -58,7 +58,7 @@ export function Footer() {
       className="mt-auto border-t"
       style={{ borderColor: "var(--border-default)" }}
     >
-      <Container size="lg">
+      <Container>
         <div className="grid grid-cols-1 gap-8 py-6 sm:grid-cols-3 sm:py-6">
           {/* col 1: wordmark + sardonic line. Gap is set via inline
               marginTop on the italic <p> (24px), not on this
@@ -183,7 +183,7 @@ export function Footer() {
         className="border-t"
         style={{ borderColor: "var(--border-default)" }}
       >
-        <Container size="lg">
+        <Container>
           {/* Outer py-6 holds the symmetric top + bottom padding for
               the whole bottom region. The inner row renders the ©
               dateline + (critic-route) editorial disclaimer; the

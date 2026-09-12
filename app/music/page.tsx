@@ -123,7 +123,7 @@ export default async function MusicPage() {
     // --font-secondary to the music cluster (purple + Roboto Mono +
     // Roboto Slab) for everything inside this wrapper.
     <div data-subbrand="music">
-      <Container size="lg">
+      <Container>
         {/* ─── Hero ──────────────────────────────────────────────── */}
         <Section padding="lg">
           <Stack gap="500">
@@ -197,7 +197,7 @@ export default async function MusicPage() {
 function SpotifyUnavailable() {
   return (
     <div data-subbrand="music">
-      <Container size="md">
+      <Container>
         <Section padding="lg">
           <Stack gap="500">
             <Kicker accent>Music · temporarily unavailable</Kicker>

@@ -139,7 +139,7 @@ export default async function FilmListPage({ params }: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Container size="lg">
+      <Container>
         {/* Back to the lists hub (this list's parent index). */}
         <Section padding="md">
           <Link href="/films/lists">← All lists</Link>

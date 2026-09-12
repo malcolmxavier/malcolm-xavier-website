@@ -297,7 +297,7 @@ export default async function FilmGenrePage({
       />
       {prevHref ? <link rel="prev" href={prevHref} /> : null}
       {nextHref ? <link rel="next" href={nextHref} /> : null}
-      <Container size="lg">
+      <Container>
         {/* Single-column hero — the lifetime-stats panel moved to the
             /films landing's "By the numbers" band. */}
         <Section padding="lg">

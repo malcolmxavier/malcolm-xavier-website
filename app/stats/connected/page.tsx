@@ -222,7 +222,7 @@ export default async function ConnectedStatsPage({
       <StatsTips />
 
       {/* ─── Hero ─────────────────────────────────────────────── */}
-      <Container size="lg">
+      <Container>
         <Section padding="lg">
           <Stack gap="500">
             <Kicker>Film × Television</Kicker>
@@ -293,7 +293,7 @@ export default async function ConnectedStatsPage({
           the sticky summary bar has range over the tiles it filters. Every
           filter change is a URL round-trip that re-runs computeConnectedStats
           over the narrowed pooled corpus. Mirrors the cluster dashboards. */}
-      <Container size="lg">
+      <Container>
         <Section bordered padding="md" style={{ paddingTop: "1rem" }}>
           <StatsFilterControls
             rails={connectedRails}

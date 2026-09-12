@@ -132,7 +132,7 @@ export default async function TvListPage({ params }: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Container size="lg">
+      <Container>
         {/* Back to the lists hub (this list's parent index). */}
         <Section padding="md">
           <Link href="/television/lists">← All lists</Link>

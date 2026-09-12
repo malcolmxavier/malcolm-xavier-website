@@ -416,7 +416,7 @@ export default async function FilmsPage({
       />
       {prevHref ? <link rel="prev" href={prevHref} /> : null}
       {nextHref ? <link rel="next" href={nextHref} /> : null}
-      <Container size="lg">
+      <Container>
         {/* ─── Hero ───────────────────────────────────────────────
             Single-column editorial hero. The lifetime-stats panel that
             used to ride the right rail moved to the /films landing (the
@@ -448,7 +448,7 @@ export default async function FilmsPage({
         </Section>
       </Container>
 
-      <Container size="lg">
+      <Container>
         {/* ─── Filter rail + Grid + Pagination (client) ─────── */}
         <Section padding="md" bordered>
           {/* The All · Collections grid-nav renders INSIDE FilmsShell, at the
