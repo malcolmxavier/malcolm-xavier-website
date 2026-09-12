@@ -8,8 +8,9 @@
 //
 // Visual / behavioral rules baked in here (per Malcolm 2026-04-25):
 //
-//   • Order (left → right): sub-brand routes, separator, main routes.
-//     Concretely today: Music | About, Resume, Contact.
+//   • Order (left → right): sub-brand routes, separator, main
+//     routes, separator, the Booth chip. Concretely today:
+//     Films, Television, Music | About ... Contact | The Booth.
 //   • Active route: underlined ahead of hover so users can tell on
 //     glance which page they're on.
 //   • Inactive routes: underline appears on hover/focus only (matches
@@ -25,11 +26,37 @@
 // over scrolling content without going opaque.
 //
 // Responsive layout:
-//   • md+ (≥768px): horizontal nav row — wordmark | routes | toggle.
-//   • <md: wordmark | hamburger trigger. Hamburger opens a dropdown
-//     panel below the nav containing the same routes (vertical) and
-//     theme toggle. Same content, same separator, same a11y story —
-//     just stacked.
+//   • ≥1220px: horizontal nav row — wordmark | routes | toggle.
+//   • <1220px: wordmark | hamburger trigger. Hamburger opens a
+//     dropdown panel below the nav containing the same routes
+//     (vertical) and theme toggle. Same content, same separators,
+//     same a11y story — just stacked.
+//
+// WHY 1220 AND NOT md. The row used to start at md (768px) and did
+// not fit there, and nothing said so, because the failure was silent
+// rather than broken-looking. Measured across 768–1280px, the two
+// two-word labels — "Case studies" and "The Booth" — were being
+// squeezed below their max-content width and wrapping inside their
+// own anchors ("Case / studies"), which pushed the header from 68px
+// to 80px tall and left the route group flush against the wordmark.
+// Every one-word label was untouched, because only a two-word label
+// can break. `whitespace-nowrap` below is what stops that: a label
+// that will not fit now overflows visibly instead of quietly
+// restyling itself.
+//
+// With nothing left to squeeze, the row's real width is measurable,
+// and it is 925px plus a 106px wordmark plus the container's 128px of
+// padding — 1159px before any gap between the wordmark and the first
+// link. So md was short by nearly 400px and even lg (1024px) is short
+// by 135. 1220 is that measurement plus room to breathe, and it is an
+// arbitrary variant rather than a stock breakpoint because the number
+// is a fact about this bar's contents rather than a guess about a
+// device.
+//
+// It should come back down. The culture section is moving to its own
+// site, and Films, Television, and Music are ~225px of the 925 — once
+// they leave, the row fits at md again. Worth re-measuring then
+// rather than carrying a breakpoint nobody can account for.
 //
 // Accessibility:
 //   - Skip-to-content link is the very first focusable element on
@@ -88,6 +115,25 @@ const MAIN_ROUTES: NavRoute[] = [
   { label: "Consulting", href: "/consulting" },
   { label: "Contact", href: "/contact" },
 ];
+
+// ─── The Booth ───────────────────────────────────────────────────
+// The Booth used to sit inside the main run, between Case studies
+// and Consulting, on the reasoning that it is the strongest single
+// piece of proof on the site and proof belongs before the offer.
+// That reasoning held while it read as a portfolio page. It is now a
+// product page for a working tool somebody can ask for access to,
+// and a product is not a station on a funnel about Malcolm — so it
+// comes out of the run entirely and sits on the far right behind its
+// own divider, which is where a product site puts the way into the
+// product itself.
+//
+// Far right rather than far left is also what survives the culture
+// section moving to its own site. When Films, Television, and Music
+// leave, the bar reads [professional] | [Booth]: one divider, still
+// correct. A Booth group on the left would be left sitting exactly
+// where the sub-brand cluster used to be, and would inherit the
+// reading that it is one.
+const BOOTH_ROUTE: NavRoute = { label: "The Booth", href: "/booth" };
 
 const MOBILE_MENU_ID = "primary-mobile-menu";
 
@@ -189,7 +235,7 @@ export function Nav() {
           <NextLink
             href="/"
             className={[
-              "rounded-sm",
+              "rounded-sm whitespace-nowrap",
               "transition-opacity motion-reduce:transition-none",
               "focus-visible:outline-2 focus-visible:outline-offset-4",
               "hover:opacity-70",
@@ -207,9 +253,10 @@ export function Nav() {
             Malcolm Xavier
           </NextLink>
 
-          {/* Desktop layout — md+. Horizontal route lists + toggle.
-              Hidden below md where the hamburger takes over. */}
-          <div className="hidden md:flex items-center gap-6">
+          {/* Desktop layout. Horizontal route lists + toggle. Hidden
+              below the measured threshold, where the hamburger takes
+              over — see the note at the top of this file. */}
+          <div className="hidden min-[1220px]:flex items-center gap-5">
             {SUB_BRAND_ROUTES.length > 0 ? (
               <NavRouteList
                 routes={SUB_BRAND_ROUTES}
@@ -218,21 +265,7 @@ export function Nav() {
               />
             ) : null}
 
-            {showSeparator ? (
-              // Visual divider between sub-brand and main routes.
-              // 1px CSS rule rather than a Unicode pipe glyph: the
-              // glyph would surface in reader-mode/CSS-disabled
-              // contexts and never matched the weight/leading of
-              // adjacent 12px Roboto Mono labels. aria-hidden because
-              // it's purely decorative — the separation reads from
-              // spacing + grouping for AT.
-              <span
-                aria-hidden
-                role="presentation"
-                className="block h-4 w-px"
-                style={{ background: "var(--border-default)" }}
-              />
-            ) : null}
+            {showSeparator ? <NavDivider /> : null}
 
             {MAIN_ROUTES.length > 0 ? (
               <NavRouteList
@@ -242,10 +275,21 @@ export function Nav() {
               />
             ) : null}
 
-            <ThemeToggle />
+            <NavDivider />
+            <BoothChip pathname={pathname} layout="horizontal" />
+
+            {/* Extra room before the toggle. The toggle is the same
+                height, the same radius, and the same 1px interactive
+                border as the chip, so at the row's own gap the two
+                read as a pair of buttons and the chip stops being
+                the one different thing on the bar. */}
+            <span className="ml-2 flex">
+              <ThemeToggle />
+            </span>
           </div>
 
-          {/* Mobile layout — <md only. Hamburger trigger that opens
+          {/* Stacked layout — below the threshold only. Hamburger
+              trigger that opens
               the disclosure panel below. The button is at least
               40×40 to clear WCAG 2.5.8 Target Size (24×24 AA, 44×44
               AAA). Glyph swaps between hamburger and X based on
@@ -259,7 +303,7 @@ export function Nav() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen((current) => !current)}
             className={[
-              "md:hidden",
+              "min-[1220px]:hidden",
               "inline-flex h-10 w-10 items-center justify-center",
               "rounded-md border",
               "transition-colors motion-reduce:transition-none",
@@ -285,15 +329,15 @@ export function Nav() {
       {/* Mobile disclosure panel — rendered absolutely below the nav
           row so the page content underneath doesn't reflow when the
           menu opens. Same backdrop-blur surface as the nav itself
-          for visual continuity. md:hidden so it never appears on
-          desktop layouts even if menuOpen somehow flips true (it
-          can't, since the trigger is hidden md+, but defense in
-          depth never hurt anyone). */}
+          for visual continuity. Hidden at the same threshold as the
+          trigger so it never appears on desktop layouts even if
+          menuOpen somehow flips true (it can't, since the trigger is
+          hidden there, but defense in depth never hurt anyone). */}
       {menuOpen ? (
         <div
           ref={panelRef}
           id={MOBILE_MENU_ID}
-          className="md:hidden absolute left-0 right-0 top-full backdrop-blur-md border-b"
+          className="min-[1220px]:hidden absolute left-0 right-0 top-full backdrop-blur-md border-b"
           style={{
             background:
               "color-mix(in srgb, var(--surface-page) 95%, transparent)",
@@ -322,12 +366,16 @@ export function Nav() {
                 />
               ) : null}
 
-              {/* Always render a separator above the toggle when any
-                  routes are present. Otherwise (route-less future)
-                  the toggle is the only item and needs no divider. */}
-              {SUB_BRAND_ROUTES.length + MAIN_ROUTES.length > 0 ? (
-                <MobileSeparator />
-              ) : null}
+              {/* Same three groups in the same order as the row
+                  above, so the stacked menu is the horizontal bar
+                  turned on its side rather than a second idea about
+                  what the sections are. */}
+              <MobileSeparator />
+              <div className="flex py-2">
+                <BoothChip pathname={pathname} layout="vertical" />
+              </div>
+
+              <MobileSeparator />
 
               <div className="flex pt-2 pb-1">
                 <ThemeToggle />
@@ -337,6 +385,101 @@ export function Nav() {
         </div>
       ) : null}
     </header>
+  );
+}
+
+// ─── Row divider ─────────────────────────────────────────────────
+// The 1px rule between one group of nav items and the next. A CSS
+// rule rather than a Unicode pipe glyph: the glyph would surface in
+// reader-mode and CSS-disabled contexts and never matched the weight
+// or leading of the adjacent 12px Roboto Mono labels. aria-hidden
+// because it is purely decorative — the separation reads from
+// spacing and grouping for assistive tech.
+function NavDivider() {
+  return (
+    <span
+      aria-hidden
+      role="presentation"
+      className="block h-4 w-px shrink-0"
+      style={{ background: "var(--border-default)" }}
+    />
+  );
+}
+
+// ─── The Booth chip ──────────────────────────────────────────────
+// The one nav item that is a way into a product rather than a page
+// about Malcolm, so it is the one that does not look like the
+// others.
+//
+// Outlined rather than filled, deliberately. A filled button here
+// would be the loudest thing on every page of the site, and it would
+// compete with the page it links to, whose own primary action is
+// "Request access" — two solid buttons two clicks apart, the second
+// one the one that matters. Outlined still reads as chrome you enter
+// something through rather than as a tenth link, which is the whole
+// job.
+//
+// No `data-subbrand`. The colored treatment in components.css marks
+// the culture verticals, and borrowing it here would say the Booth is
+// another one of those.
+function BoothChip({
+  pathname,
+  layout,
+}: {
+  pathname: string;
+  layout: NavRouteListLayout;
+}) {
+  const active = isActiveRoute(BOOTH_ROUTE.href, pathname);
+  const horizontal = layout === "horizontal";
+  return (
+    <NextLink
+      href={BOOTH_ROUTE.href}
+      className={[
+        "inline-flex items-center justify-center whitespace-nowrap",
+        "rounded-md border no-underline",
+        "transition-colors motion-reduce:transition-none",
+        "focus-visible:outline-2 focus-visible:outline-offset-2",
+        // Color lives in classes rather than in the style prop below
+        // because it has a hover state, and an inline style wins over
+        // a stylesheet rule whatever its specificity — so a hover
+        // declared in a class could never take effect against one.
+        // --border-interactive rather than --border-default: this is a
+        // UI component boundary, which needs 3:1 under SC 1.4.11, and
+        // --border-default does not clear it in either theme.
+        "[border-color:var(--border-interactive)]",
+        "[color:var(--text-body)]",
+        "hover:[border-color:var(--text-action-hover)]",
+        "hover:[color:var(--text-action-hover)]",
+        // Horizontal clears the 24x24 AA target size at 30px tall.
+        // Vertical is a touch target, so it takes the 44px AAA size
+        // the stacked route links already take.
+        horizontal ? "px-3 py-1.5" : "min-h-11 px-4 py-2",
+      ].join(" ")}
+      style={{
+        fontFamily: "var(--font-mono)",
+        fontSize: "var(--p-xs-font-size)",
+        textTransform: "uppercase",
+        letterSpacing: "0.08em",
+        // On the Booth's own pages the chip fills instead of
+        // underlining. Every other nav item marks itself active with
+        // an underline, which inside a bordered chip reads as a
+        // mistake; the fill is the same statement in the grammar this
+        // element is already written in. aria-current carries it for
+        // anyone not seeing either.
+        background: active ? "var(--surface-muted)" : "transparent",
+        outlineColor: "var(--border-focus)",
+      }}
+      aria-current={active ? "page" : undefined}
+    >
+      {BOOTH_ROUTE.label}
+      {/* The site's convention for a CTA-styled internal link, and
+          the fastest way to tell this apart from the theme toggle
+          sitting next to it: one is a control, one is a way through.
+          aria-hidden because the accessible name is the label. */}
+      <span aria-hidden="true" className="ml-2">
+        →
+      </span>
+    </NextLink>
   );
 }
 
@@ -385,7 +528,14 @@ function NavRouteList({
     <ul
       className={
         horizontal
-          ? "flex items-center gap-6"
+          // gap-5 (20px) rather than gap-6 inside a group, with the
+          // gap-6 kept between groups on the row itself. The looser
+          // gap was doing two jobs at once — separating one link from
+          // the next and separating one group from the next — so the
+          // grouping had to be read off the divider alone. Tightening
+          // it inside the group makes the grouping visible and buys
+          // back ~30px of the width the row was short.
+          ? "flex items-center gap-5"
           : "flex flex-col"
       }
     >
@@ -405,6 +555,12 @@ function NavRouteList({
                 "transition-colors motion-reduce:transition-none",
                 "hover:[color:var(--text-action-hover)]",
                 "focus-visible:outline-2 focus-visible:outline-offset-4",
+                // A route label is one thing and must read as one
+                // line. Without this the flex row squeezes the
+                // two-word labels below their natural width and they
+                // break mid-label, silently, which is worse than an
+                // overflow because nothing about it looks broken.
+                "whitespace-nowrap",
                 // Mobile (vertical) gets a generous tap target.
                 horizontal ? "" : "block py-3",
                 // Active state: always underlined.
