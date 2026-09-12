@@ -135,6 +135,29 @@ export function ShotStyles() {
   .booth-surface--flip > :first-child { grid-column: 2; grid-row: 1; }
   .booth-surface--flip > :last-child { grid-column: 1; grid-row: 1; }
 }
+/* Section separation on this page is whitespace and nothing else — the
+   hairlines came out with the eyebrows, and the site's divider rhythm came
+   with them: 112px of nothing between sections, against 24px between the rows
+   inside one. A reader met five slabs rather than one argument. These pull the
+   break to twice the internal row rhythm, which is enough to read as a new
+   section and little enough that the page holds together. Scoped to this
+   page's own wrapper, because the rhythm elsewhere on the site still has a
+   rule drawn through it and needs the room.
+
+   The hero keeps the site's standard opening pad: what sits above it is the
+   nav, not another section, and that gap is a different measurement. */
+.booth-brand > section {
+  padding-top: var(--scale-700);
+  padding-bottom: var(--scale-700);
+}
+.booth-brand > section#top { padding-top: var(--scale-800); }
+@media (min-width: 40rem) {
+  .booth-brand > section {
+    padding-top: var(--scale-800);
+    padding-bottom: var(--scale-800);
+  }
+  .booth-brand > section#top { padding-top: var(--scale-1000); }
+}
 .booth-shot-dark { display: none; }
 [data-theme="dark"] .booth-shot-dark { display: block; }
 [data-theme="dark"] .booth-shot-light { display: none; }

@@ -56,6 +56,7 @@ import { Stack } from "@/components/layout/Stack";
 import { Grid } from "@/components/layout/Grid";
 import { Display } from "@/components/typography/Display";
 import { Headline } from "@/components/typography/Headline";
+import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Body } from "@/components/typography/Body";
 import { Button } from "@/components/primitives/Button";
@@ -361,9 +362,16 @@ export default function BoothPage() {
               </Lede>
             </Stack>
             <Grid cols={3} gap="400">
-              {MOVES.map((move) => (
+              {MOVES.map((move, i) => (
                 <Card key={move.title} padded={false} className="h-full">
                   <div className="flex h-full flex-col gap-2 p-5">
+                    {/* The counter is not an eyebrow. The heading says
+                        there are three moves and the cards carry them in
+                        order, but the order is the claim — each move is
+                        only possible once the one before it has happened
+                        — and a number is what lets a reader hold that
+                        while reading across three cards. */}
+                    <Kicker as="p">Step {i + 1}</Kicker>
                     <Headline level={3} style={ITEM_HEADING}>
                       {move.title}
                     </Headline>
