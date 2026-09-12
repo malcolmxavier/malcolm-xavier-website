@@ -50,7 +50,14 @@ export function Display({
           // a touch of negative tracking at this size; sub-brand Roboto
           // Mono ignores it (mono fonts ignore letter-spacing tuning by
           // convention but it doesn't hurt).
-          letterSpacing: "-0.01em",
+          //
+          // Read through a variable so a scope that remaps --font-primary
+          // can retune the tracking the same way, which is the other half
+          // of swapping a face: negative tracking is a correction for one
+          // family's fit and is wrong on a condensed face. The fallback is
+          // the value every page had before the variable existed, so no
+          // route that does not set it changes.
+          letterSpacing: "var(--display-tracking, -0.01em)",
           color: "var(--text-heading)",
           // Trim the line-box leading to the cap-height (top) and the
           // alphabetic baseline (bottom) so the headline's box hugs its

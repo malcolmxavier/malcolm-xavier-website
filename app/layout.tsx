@@ -5,6 +5,7 @@ import {
   Roboto_Slab,
   Roboto_Mono,
   Anonymous_Pro,
+  Big_Shoulders,
 } from "next/font/google";
 import { Suspense } from "react";
 import { ThemeProvider } from "next-themes";
@@ -98,6 +99,23 @@ const anonymousPro = Anonymous_Pro({
   preload: false,
 });
 
+// The Booth's display face, and the other half of the pairing above.
+// Big Shoulders was drawn for Chicago's street signage, so it carries
+// the poster voice a marquee needs without dressing up as a vintage
+// playbill — front of house to Anonymous Pro's paperwork. It is used
+// on /booth and nowhere in the site's own chrome, which is why the
+// nav chip takes the mono alone.
+//
+// Variable weight, so one file covers the 600 the headings set; no
+// weight array is passed for that reason. preload: false because it
+// is one route's face, not the site's.
+const bigShoulders = Big_Shoulders({
+  variable: "--font-big-shoulders",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
+});
+
 // ─────────────────────────────────────────────────────────────────
 // Sitewide metadata defaults.
 //
@@ -153,6 +171,7 @@ const fontVariables = [
   robotoSlab.variable,
   robotoMono.variable,
   anonymousPro.variable,
+  bigShoulders.variable,
 ].join(" ");
 
 // ─────────────────────────────────────────────────────────────────

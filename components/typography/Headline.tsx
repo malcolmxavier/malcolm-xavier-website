@@ -33,7 +33,15 @@ export function Headline({
   // where the optical compression doesn't carry. Skip it for the
   // smaller heading levels per l-headline-tracking-h5h6 from the
   // 2026-04-29 /full-review.
-  const letterSpacing = level >= 5 ? "0" : "-0.01em";
+  //
+  // Read through a variable, with the per-level default as the fallback,
+  // so a scope that remaps --font-primary can retune tracking to match
+  // the face it swapped in without touching any call site. Unset — which
+  // is every route but /booth — resolves to exactly the values above.
+  const letterSpacing =
+    level >= 5
+      ? "var(--headline-tracking, 0)"
+      : "var(--headline-tracking, -0.01em)";
 
   return (
     <Tag

@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-09-12T07:05:44.530Z
+   Built:        2026-09-12T07:17:06.674Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -1117,6 +1117,7 @@
 /* ─── The Booth ───────────────────────────────────────────── */
 :root {
   --font-booth: var(--font-anonymous-pro), ui-monospace, monospace;
+  --font-booth-display: var(--font-big-shoulders), system-ui, sans-serif;
   --booth-accent: var(--green-800);
   --booth-accent-hover: var(--green-700);
 }

@@ -1610,3 +1610,44 @@ a.link-accent-pink,
   color: var(--text-caption);
   text-align: center;
 }
+
+/* ─── The Booth's own type ─────────────────────────────────────
+   /booth is the one route on this site that gets a face of its
+   own. Everything else here is the house voice — Instrument Serif
+   over DM Sans over Roboto Mono — because the site is one person
+   talking. The Booth is a product, and a product page that reads
+   in the same voice as the essay beside it reads as a portfolio
+   entry rather than as a thing you could buy.
+
+   It is a remap of two role variables and nothing else. The
+   components below already read their family from --font-primary
+   and --font-mono, so this scope changes what those two words mean
+   for the subtree and every heading, kicker, caption, and table
+   label inside it follows with no per-call-site override. That is
+   the same mechanism [data-subbrand] uses for the culture
+   verticals; the class is deliberately not that attribute, which
+   would file the Booth as another vertical.
+
+   Tracking travels with the face because it has to. The -0.01em
+   the display roles carry is a correction for Instrument Serif's
+   fit at large sizes, and applying it to a condensed signage face
+   crams a face that is already narrow. Big Shoulders wants a hair
+   of positive tracking instead, which is what the specimen settled
+   on.
+
+   The weight is here rather than in the components because the
+   house serif ships in one weight and never needed one. Big
+   Shoulders is variable, and 600 is where it stops reading as a
+   heavy body sans and starts reading as signage.
+   ───────────────────────────────────────────────────────────── */
+
+.booth-brand {
+  --font-primary: var(--font-booth-display);
+  --font-mono: var(--font-booth);
+  --display-tracking: 0.01em;
+  --headline-tracking: 0.01em;
+}
+
+.booth-brand :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 600;
+}

@@ -491,13 +491,20 @@ out.push("");
 // Hover moves one stop further from the background rather than toward
 // a different hue, so the hover reads as the same colour pressed.
 //
-// --font-booth is the label face, loaded in app/layout.tsx. It is
-// deliberately not --font-mono: the chip is where the Booth says it is
-// a different thing from the site around it, and a face is the
-// quietest way to say that.
+// Two faces, because the Booth's brand is a pairing rather than a
+// font. --font-booth is the label face and --font-booth-display is the
+// marquee. Neither is --font-mono or --font-primary: the Booth is
+// where this site says it is looking at a different thing, and a face
+// is the quietest way to say that. Both are loaded in app/layout.tsx.
+//
+// The site's chrome only ever sees the label face — the nav chip is
+// one word at 12px — so the display face costs nothing on any route
+// but /booth, where the page remaps the two role variables onto these
+// inside a .booth-brand scope (app/components.css).
 out.push("/* ─── The Booth ───────────────────────────────────────────── */");
 out.push(":root {");
 out.push("  --font-booth: var(--font-anonymous-pro), ui-monospace, monospace;");
+out.push("  --font-booth-display: var(--font-big-shoulders), system-ui, sans-serif;");
 out.push("  --booth-accent: var(--green-800);");
 out.push("  --booth-accent-hover: var(--green-700);");
 out.push("}");
