@@ -58,7 +58,6 @@ import { Display } from "@/components/typography/Display";
 import { Headline } from "@/components/typography/Headline";
 import { Lede } from "@/components/typography/Lede";
 import { Body } from "@/components/typography/Body";
-import { Kicker } from "@/components/typography/Kicker";
 import { Button } from "@/components/primitives/Button";
 import { Card } from "@/components/primitives/Card";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
@@ -116,15 +115,6 @@ const ITEM_HEADING: React.CSSProperties = {
   lineHeight: "var(--h5-line-height)",
   letterSpacing: "0",
 };
-
-// Section eyebrows take the Booth's accent, the same green the nav
-// chip carries. Scoped to the ones that open a section and withheld
-// from the step counters inside the How-it-works cards: green marks a
-// place the page turns over, and three of them in a row of cards would
-// spend on a counter what is worth spending on a heading. Kicker sets
-// its colour inline, so this has to arrive as a style rather than as a
-// rule in the scope above.
-const BOOTH_KICKER: React.CSSProperties = { color: "var(--booth-accent)" };
 
 // Shared anchor offset so in-page jumps land below the sticky Nav.
 const sectionAnchorStyle: React.CSSProperties = { scrollMarginTop: "6rem" };
@@ -326,12 +316,9 @@ export default function BoothPage() {
         <Section id="top" style={sectionAnchorStyle} padding="lg">
           <div className="booth-surface">
             <Stack gap="700" className={PROSE_WIDTH}>
-              <Stack gap="300">
-                <Kicker as="p" style={BOOTH_KICKER}>The Booth</Kicker>
-                <Display as="h1">
-                  One prioritized day, out of every system you work in
-                </Display>
-              </Stack>
+              <Display as="h1">
+                One prioritized day, out of every system you work in
+              </Display>
               <Lede>
                 The Booth reads the tools that already own your work, merges
                 what is live into a single day prioritized against the hours
@@ -364,10 +351,9 @@ export default function BoothPage() {
         </Section>
 
         {/* ─── How it works ─────────────────────────────────────── */}
-        <Section id="how-it-works" style={sectionAnchorStyle} bordered>
+        <Section id="how-it-works" style={sectionAnchorStyle}>
           <Stack gap="600">
             <Stack gap="300" className={PROSE_WIDTH}>
-              <Kicker as="p" style={BOOTH_KICKER}>How it works</Kicker>
               <Headline level={2}>Three moves, and the day is real</Headline>
               <Lede>
                 There is no inbox to keep clean and no board to groom. The work
@@ -375,10 +361,9 @@ export default function BoothPage() {
               </Lede>
             </Stack>
             <Grid cols={3} gap="400">
-              {MOVES.map((move, i) => (
+              {MOVES.map((move) => (
                 <Card key={move.title} padded={false} className="h-full">
                   <div className="flex h-full flex-col gap-2 p-5">
-                    <Kicker as="p">Step {i + 1}</Kicker>
                     <Headline level={3} style={ITEM_HEADING}>
                       {move.title}
                     </Headline>
@@ -418,10 +403,9 @@ export default function BoothPage() {
             left-text. Even indices flip, so the page alternates
             unbroken from the top: hero left, Today right, the week
             left, and so on. */}
-        <Section id="surfaces" style={sectionAnchorStyle} bordered>
+        <Section id="surfaces" style={sectionAnchorStyle}>
           <Stack gap="700">
             <Stack gap="300" className={PROSE_WIDTH}>
-              <Kicker as="p" style={BOOTH_KICKER}>The surfaces</Kicker>
               <Headline level={2}>Four views over one set of records</Headline>
               <Lede>
                 Not four tools. One day, one week, one pipeline, and one map,
@@ -469,10 +453,9 @@ export default function BoothPage() {
             different set of words rather than being a censored copy of
             the live installation. Both columns are configurations that
             exist; neither is a customer. */}
-        <Section id="vocabulary" style={sectionAnchorStyle} bordered>
+        <Section id="vocabulary" style={sectionAnchorStyle}>
           <Stack gap="600">
             <Stack gap="300" className={PROSE_WIDTH}>
-              <Kicker as="p" style={BOOTH_KICKER}>Configuration</Kicker>
               <Headline level={2}>
                 Every word on these screens is a setting
               </Headline>
@@ -485,100 +468,106 @@ export default function BoothPage() {
               </Lede>
             </Stack>
 
-            <div className={PROSE_WIDTH}>
-              <Body>
-                Two configurations ship with it, and both are running today.
-                One is set up for a job search. The other is the demo—the same
-                build, dressed as a partnerships desk, with every organization
-                and person in it invented. Same software, same screens, a
-                different list of words. Nothing was forked and nothing was
-                rebuilt.
-              </Body>
-            </div>
-
-            {/* Capped rather than left at the container’s full 80rem: three
-                columns spread that wide put a word and its counterpart at
-                opposite ends of the screen, which is the one comparison this
-                table exists to make. The row label is a <th scope="row"> so a
-                screen reader announces “Early interest — Prospects — Shortlisted”
-                rather than reading two disconnected word lists. */}
-            <div className="overflow-x-auto max-w-[52rem]">
-              <table
-                className="w-full border-collapse text-left"
-                style={{ fontSize: "var(--p-font-size)" }}
-              >
-                <caption className="sr-only">
-                  The same records under two shipped configurations: what each
-                  thing is, and the word each configuration uses for it.
-                </caption>
-                <thead>
-                  <tr>
-                    {["What it is", "A job search", "The demo"].map((h) => (
-                      <th
-                        key={h}
-                        scope="col"
-                        className="border-b py-2 pr-6 font-normal"
-                        style={{
-                          borderColor: "var(--border-default)",
-                          color: "var(--text-caption)",
-                          fontSize: "var(--p-sm-font-size)",
-                        }}
-                      >
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {VOCABULARY.map((row) => (
-                    <tr key={row.a}>
-                      {/* The concept, in the reader’s own language. Set in
-                          the caption colour so the two configured words are
-                          what the eye lands on. */}
-                      <th
-                        scope="row"
-                        className="border-b py-2 pr-6 font-normal"
-                        style={{
-                          borderColor: "var(--border-default)",
-                          color: "var(--text-caption)",
-                        }}
-                      >
-                        {row.of}
-                      </th>
-                      <td
-                        className="border-b py-2 pr-6"
-                        style={{ borderColor: "var(--border-default)" }}
-                      >
-                        {row.a}
-                      </td>
-                      <td
-                        className="border-b py-2 pr-6"
-                        style={{ borderColor: "var(--border-default)" }}
-                      >
-                        {row.b}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <div className={PROSE_WIDTH}>
+            {/* The argument runs beside the evidence for it, on the same
+                alternating rhythm the surfaces above use — and flipped,
+                because the last surface row read text-left. The table is
+                this section’s screenshot: the claim is that a word is a
+                setting, and two shipped configurations side by side are
+                what shows it. */}
+            <div className="booth-surface booth-surface--flip">
               <Stack gap="400">
                 <Body>
-                  That is the part worth a buyer’s attention. A CRM that fits an
-                  admissions funnel, a development office, or a two-person
+                  Two configurations ship with it, and both are running today.
+                  One is set up for a job search. The other is the demo—the
+                  same build, dressed as a partnerships desk, with every
+                  organization and person in it invented. Same software, same
+                  screens, a different list of words. Nothing was forked and
+                  nothing was rebuilt.
+                </Body>
+                <Body>
+                  That is the part worth a buyer’s attention. A CRM that fits
+                  an admissions funnel, a development office, or a two-person
                   agency is not a different product—it is the same system and a
                   list somebody wrote in an afternoon.
                 </Body>
-                <RequestAccess
-                  label="Request access"
-                  lead={
-                    "Setting an instance up in a team’s own words is scoped work; " +
-                    "rates are on the consulting page."
-                  }
-                />
               </Stack>
+
+              {/* The row label is a <th scope="row"> so a screen reader
+                  announces “Early interest — Prospects — Shortlisted” as one
+                  statement rather than reading three disconnected word lists.
+                  overflow-x-auto is the escape hatch for the narrowest
+                  columns: the grid track is minmax(0, …), so the table can
+                  scroll inside it without widening the page. */}
+              <div className="overflow-x-auto">
+                <table
+                  className="w-full border-collapse text-left"
+                  style={{ fontSize: "var(--p-font-size)" }}
+                >
+                  <caption className="sr-only">
+                    The same records under two shipped configurations: what
+                    each thing is, and the word each configuration uses for it.
+                  </caption>
+                  <thead>
+                    <tr>
+                      {["What it is", "A job search", "The demo"].map((h) => (
+                        <th
+                          key={h}
+                          scope="col"
+                          className="border-b py-2 pr-4 font-normal"
+                          style={{
+                            borderColor: "var(--border-default)",
+                            color: "var(--text-caption)",
+                            fontSize: "var(--p-sm-font-size)",
+                          }}
+                        >
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {VOCABULARY.map((row) => (
+                      <tr key={row.a}>
+                        {/* The concept, in the reader’s own language. Set in
+                            the caption colour so the two configured words are
+                            what the eye lands on. */}
+                        <th
+                          scope="row"
+                          className="border-b py-2 pr-4 font-normal"
+                          style={{
+                            borderColor: "var(--border-default)",
+                            color: "var(--text-caption)",
+                          }}
+                        >
+                          {row.of}
+                        </th>
+                        <td
+                          className="border-b py-2 pr-4"
+                          style={{ borderColor: "var(--border-default)" }}
+                        >
+                          {row.a}
+                        </td>
+                        <td
+                          className="border-b py-2 pr-4"
+                          style={{ borderColor: "var(--border-default)" }}
+                        >
+                          {row.b}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className={PROSE_WIDTH}>
+              <RequestAccess
+                label="Request access"
+                lead={
+                  "Setting an instance up in a team’s own words is scoped work; " +
+                  "rates are on the consulting page."
+                }
+              />
             </div>
           </Stack>
         </Section>
@@ -589,13 +578,10 @@ export default function BoothPage() {
             than in a section of its own: it is the last doubt a reader
             has before asking for a login, so it belongs against the
             ask. */}
-        <Section id="access" style={sectionAnchorStyle} bordered padding="lg">
+        <Section id="access" style={sectionAnchorStyle}>
           <Grid cols={2} gap="500">
             <Stack gap="400">
-              <Stack gap="300">
-                <Kicker as="p" style={BOOTH_KICKER}>Access</Kicker>
-                <Headline level={2}>Ask for a login</Headline>
-              </Stack>
+              <Headline level={2}>Ask for a login</Headline>
               <Body>
                 Logins are issued one at a time, so the demo stays something
                 shown deliberately rather than a link that ends up indexed. Say
