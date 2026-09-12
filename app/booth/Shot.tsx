@@ -216,29 +216,29 @@ export function ShotStyles() {
    is only ever the sum of two bands' own padding, which is space that has
    colour on it.
 
-   Two directions, two mechanisms, because they are asked to do opposite
-   things. Across, the colour is the point: it starts at the text side and
-   thins to nothing at the far margin, so it runs left-to-right where the
-   prose is on the left and right-to-left where it is on the right, and what
-   meets the opposite edge is the page's own background. That is the
-   gradient. Down, there is no story to tell — the colour should simply be on
-   the band, top to bottom — so the vertical treatment is a mask, and its one
-   job is to hand the band over to its neighbour.
+   A band with no hue modifier is still a band. It takes the same padding and
+   draws a transparent gradient, which costs a paint and buys the one thing
+   the page needs from it: the rhythm stays identical whether or not a slab
+   is tinted, so an untinted band is a rest in the colour rather than a hole
+   in the spacing.
 
-   The numbers are a crossfade and they are the only pair that makes one. The
-   mask ramps over 2rem at each end and the wash is drawn 1rem beyond the
-   band at each end, which is to say the bleed is exactly half the ramp. That
-   puts the ramp centred on the join: the band above is at half strength there
-   and the band below is at half strength there, so the two sum back to very
-   nearly one band's worth of colour and neither a seam nor a dark line
-   appears. Any other bleed slides the ramp off the join and produces one or
-   the other. Because the whole ramp is spent in the two bands' padding, every
-   pixel of content sits in colour at full strength.
+   The two directions are asked to do opposite things, and only one of them
+   gets a gradient. Across, the colour is the point: it starts at the text
+   side and thins to nothing at the far margin, so it runs left-to-right
+   where the prose is on the left and right-to-left where it is on the
+   right, and what meets the opposite edge is the page's own background.
+   Down, the edge is the point, and it is hard. A band's wash fills its box
+   exactly — no bleed past it, no softening at either end — so where two
+   bands meet, one hue stops and the next starts on the same pixel row.
 
-   Measured in rem rather than as a percentage of the box, because a band
-   holding a 1440px capture is several times the height of one holding a
-   paragraph, and a percentage would soften sixty pixels here and twenty
-   there. A fixed length is the same edge everywhere.
+   An earlier cut faded each band out over 2rem and drew it 1rem past its
+   box, on the reasoning that two half-strength ramps centred on the join
+   sum back to one band's worth of colour. The arithmetic is right and it is
+   the wrong thing to want: what it makes is a soft handover, and read down
+   the page a soft handover is a smear rather than a join. The hard edge is
+   what separates one argument from the next, and it costs nothing to get —
+   it is the absence of the mask, not a rule drawn on top of one. Softening
+   and bleed are therefore a matched pair: either both or, as here, neither.
 
    The horizontal bleed matches Container's own padding at each breakpoint
    (px-6 / sm:px-10 / lg:px-16), so the wash spans the full content column
@@ -266,26 +266,12 @@ export function ShotStyles() {
   position: absolute;
   z-index: -1;
   pointer-events: none;
-  inset-block: -1rem;
+  inset-block: 0;
   inset-inline: -1.5rem;
   background-image: linear-gradient(
     to var(--booth-band-dir, right),
     var(--booth-band-hue, transparent) 0%,
     transparent 92%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0,
-    #000 2rem,
-    #000 calc(100% - 2rem),
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0,
-    #000 2rem,
-    #000 calc(100% - 2rem),
-    transparent 100%
   );
 }
 @media (min-width: 40rem) {

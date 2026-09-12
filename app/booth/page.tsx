@@ -16,10 +16,13 @@
 // HOW IT IS SHAPED. As a product page, not a portfolio entry: a band
 // per claim, the screenshot that proves it beside the prose that makes
 // it, and the call to action inside the band rather than under it. A
-// band is one coloured slab of the page, and consecutive bands touch,
-// so the page has no uncoloured space for a reader to read as a
-// divider. There is no author section. The tool is the argument; the
-// byline is in the footer, the nav, and every other page on this site.
+// band is one horizontal slab of the page, and consecutive bands
+// touch, so nothing sits in the space between two of them. Most carry
+// a colour; the two that introduce a run of others do not, because a
+// page where every slab is tinted has no rest in it and the tint
+// stops meaning anything. There is no author section. The tool is the
+// argument; the byline is in the footer, the nav, and every other
+// page on this site.
 //
 // THREE REGISTERS, AND THIS PAGE ONLY EVER SPEAKS THE THIRD.
 //   1. Engine ids — `lane`, `emitter`, `job-search`, `item.id`. These
@@ -396,7 +399,7 @@ export default function BoothPage() {
 
         {/* ─── How it works ─────────────────────────────────────── */}
         <Section id="how-it-works" style={sectionAnchorStyle}>
-          <Stack gap="600" className="booth-band booth-band--blue">
+          <Stack gap="600" className="booth-band">
             <Stack gap="300" className={PROSE_WIDTH}>
               <Headline level={2}>Three moves, and the day is real</Headline>
               <Lede>
@@ -467,7 +470,7 @@ export default function BoothPage() {
           {/* gap 0, because the bands inside supply their own padding and
               have to touch. Any gap here is an uncoloured stripe. */}
           <Stack gap="0">
-            <div className="booth-band booth-band--orange">
+            <div className="booth-band">
               <Stack gap="300" className={PROSE_WIDTH}>
                 <Headline level={2}>Four views over one set of records</Headline>
                 <Lede>
