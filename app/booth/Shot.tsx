@@ -193,9 +193,9 @@ export function ShotStyles() {
   --booth-green: color-mix(in srgb, var(--green-500) 16%, transparent);
   --booth-blue: color-mix(in srgb, var(--blue-500) 14%, transparent);
   --booth-orange: color-mix(in srgb, var(--orange-500) 15%, transparent);
-  --booth-green-wash: color-mix(in srgb, var(--green-500) 22%, transparent);
-  --booth-blue-wash: color-mix(in srgb, var(--blue-500) 20%, transparent);
-  --booth-orange-wash: color-mix(in srgb, var(--orange-500) 22%, transparent);
+  --booth-green-wash: color-mix(in srgb, var(--green-500) 28%, transparent);
+  --booth-blue-wash: color-mix(in srgb, var(--blue-500) 24%, transparent);
+  --booth-orange-wash: color-mix(in srgb, var(--orange-500) 28%, transparent);
 }
 [data-theme="dark"] .booth-brand {
   --booth-green: color-mix(in srgb, var(--green-400) 17%, transparent);
@@ -214,21 +214,28 @@ export function ShotStyles() {
    bottom — and a row cannot be given that much padding without moving the
    content inside it.
 
-   An ellipse anchored at the text side, not a hard-stopped band. The
-   colour originates under the prose and dissipates across the screenshot,
-   so it runs left-to-right where the text is on the left and right-to-left
-   where it is on the right — and because it fades on every side, two
-   neighbouring washes meet as a blend rather than as an edge.
+   Two directions, two mechanisms, because they are asked to do opposite
+   things. Across, the colour is the point: it starts at the text side and
+   thins to nothing at the far margin, so it runs left-to-right where the
+   prose is on the left and right-to-left where it is on the right, and what
+   meets the opposite edge is the page's own background. That is the
+   gradient. Down, there is no story to tell — the colour should simply be
+   on the row, top to bottom — so the vertical treatment is a mask rather
+   than a second gradient, and all it does is feather the last tenth at
+   each end.
 
-   The two radii are set against two different edges, which is why they are
-   so far apart. Horizontally the colour is meant to travel the whole
-   content well and arrive at nothing exactly at the far margin: 118%
-   against an 85% stop reaches zero at 100% of the box, so the wash passes
-   behind the screenshot rather than dying under the prose, and what meets
-   the opposite margin is the page's own background. Vertically it has to
-   finish inside its own box or two stacked rows would collide: 59% against
-   the same stop reaches zero at about half the height, which is the box
-   edge.
+   This replaced an ellipse that faded in all four directions at once. It
+   held the horizontal reading, but it also meant every row's colour was
+   strongest through the middle and gone at the top and bottom, so each
+   section read as a lens of colour floating on a dark page rather than as
+   a page with colour on it. The mask keeps the one property the ellipse
+   was there for — neighbouring washes meeting as a blend rather than as a
+   seam — and gives up the part nobody asked for.
+
+   The feather is mostly spent in the bleed rather than on the content: the
+   box extends past the row by 2.5rem at each end, which is about what the
+   tenth comes to on a row of this height, so the full-strength band covers
+   the row itself and the softening happens in the gap above and below.
 
    The horizontal bleed matches Container's own padding at each breakpoint
    (px-6 / sm:px-10 / lg:px-16), so the wash spans the full content column
@@ -245,12 +252,26 @@ export function ShotStyles() {
   position: absolute;
   z-index: -1;
   pointer-events: none;
-  inset-block: -2rem;
+  inset-block: -2.5rem;
   inset-inline: -1.5rem;
-  background-image: radial-gradient(
-    ellipse 118% 59% at var(--booth-tint-origin, 0%) 50%,
+  background-image: linear-gradient(
+    to var(--booth-tint-dir, right),
     var(--booth-tint, transparent) 0%,
-    transparent 85%
+    transparent 92%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 10%,
+    #000 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 10%,
+    #000 90%,
+    transparent 100%
   );
 }
 @media (min-width: 40rem) {
@@ -259,8 +280,8 @@ export function ShotStyles() {
 @media (min-width: 64rem) {
   .booth-tint::before { inset-inline: -4rem; }
 }
-/* Text on the right, so the colour starts on the right. */
-.booth-tint--right { --booth-tint-origin: 100%; }
+/* Text on the right, so the colour starts on the right and runs left. */
+.booth-tint--right { --booth-tint-dir: left; }
 .booth-tint--green { --booth-tint: var(--booth-green-wash); }
 .booth-tint--blue { --booth-tint: var(--booth-blue-wash); }
 .booth-tint--orange { --booth-tint: var(--booth-orange-wash); }
