@@ -11,6 +11,12 @@
 // page behind it disagreeing about what a thing is called is the
 // cheapest kind of credibility to lose — so this tracks the Display
 // line on /booth and should be re-checked whenever that moves.
+//
+// It also speaks the page's register rather than the system's: the
+// words here are "prioritized" and "workstream", never "ranked" and
+// "lane". This card is the only thing a reader sees before deciding
+// whether to click, so it is the last place internal vocabulary should
+// survive. See the three-register note at the top of app/booth/page.tsx.
 import {
   renderCaseStudyCard,
   OG_SIZE,
@@ -20,14 +26,14 @@ import {
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
 export const alt =
-  "The Booth—the operating surface Malcolm Xavier runs his week from: six lanes of work merged into one day, ranked against a time budget, with every decision written back into the system that owns the record.";
+  "The Booth—a working surface that merges every workstream into one prioritized day, sized against the hours you actually have, with every decision written back into the system that owns the record.";
 
 export default function OpenGraphImage() {
   return renderCaseStudyCard({
     eyebrow: "THE BOOTH",
-    titleLines: ["The surface I run", "my week from"],
-    titleSize: 96,
+    titleLines: ["One prioritized day,", "out of every system", "you work in"],
+    titleSize: 84,
     subtitle:
-      "Six lanes of work, one day, one time budget—and every decision written back where it belongs.",
+      "Every workstream you have, merged into one day and sized against the hours you actually have—with every decision written back where it belongs.",
   });
 }

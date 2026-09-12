@@ -136,8 +136,8 @@ export function SignIn() {
       </Button>
 
       <Body size="sm" style={{ color: "var(--text-caption)" }}>
-        Logins are issued one at a time. There is a link below for asking
-        for one.
+        Logins are issued one at a time. Request access beside this card if
+        you do not have one yet.
       </Body>
     </form>
   );
