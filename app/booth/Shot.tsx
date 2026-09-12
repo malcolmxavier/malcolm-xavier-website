@@ -106,23 +106,34 @@ export function ShotStyles() {
   .booth-shot-frame { overflow-x: auto; -webkit-overflow-scrolling: touch; }
   .booth-shot-img { width: 46rem; max-width: none; }
 }
-/* The surfaces section runs two-up: the claim on the left, the screen it is a
-   claim about on the right. It is here rather than in the Grid component
-   because Grid splits at 40rem, and two 20rem columns render a 1440px capture
-   as texture rather than as a screenshot. 64rem keeps tablets single-column,
-   where the shot gets the full measure and stays readable. */
-/* Top-aligned, which puts the heading level with the top edge of the screen it
+/* The screenshot rows run two-up from 64rem: the claim on one side, the screen
+   it is a claim about on the other, and the sides swap from row to row so the
+   page reads as a sequence rather than as a stack of identical slabs. The rule
+   lives here rather than in the Grid component because Grid splits at 40rem,
+   and two 20rem columns render a 1440px capture as texture rather than as a
+   screenshot. Below 64rem every row is a single column, where the shot takes
+   the full measure — the only width this capture stays readable at.
+
+   The swap is done by assigning grid columns, never by reordering the markup.
+   The prose always comes first in the DOM, so a screen reader and a keyboard
+   meet the claim before the picture of it whichever side the picture is on.
+
+   Top-aligned, which puts the heading level with the top edge of the screen it
    names. A 1440x900 capture at this column width is about two and a half times
-   the height of the paragraphs beside it, so there is unavoidable space in the
-   text column either way; below the prose it reads as the gap before the next
-   row, and centred it reads as a heading floating in the middle of nothing.
-   The lasting fix is a shorter capture, which is a re-shoot decision. */
+   the height of the paragraphs beside it, so there is space left over in the
+   text column either way; under the prose it reads as the gap before the next
+   row, and centred it reads as a heading floating in the middle of nothing. */
 .booth-surface { display: grid; gap: var(--scale-500); align-items: start; }
 @media (min-width: 64rem) {
   .booth-surface {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
     gap: var(--scale-600);
   }
+  .booth-surface--flip {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  }
+  .booth-surface--flip > :first-child { grid-column: 2; grid-row: 1; }
+  .booth-surface--flip > :last-child { grid-column: 1; grid-row: 1; }
 }
 .booth-shot-dark { display: none; }
 [data-theme="dark"] .booth-shot-dark { display: block; }

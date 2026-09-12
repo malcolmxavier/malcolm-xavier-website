@@ -195,23 +195,26 @@ const SURFACES = [
 
 // ─── One engine, any vocabulary ──────────────────────────────────
 // Read out of the two profiles that ship in booth/vocabulary.json.
-// Both columns are real: the left is the profile the author's own
-// installation runs, the right is the profile behind the demo.
+// Both columns are real configurations, and neither belongs to a
+// customer: the left is the installation this site runs, the right is
+// the demo anybody can be let into. Naming a client here would be a
+// claim about who is using it rather than about what it does.
 //
-// The engine key each pair shares used to be a third column here. It
-// was the truest column on the page and the wrong one to show: a
-// reader who does not write software has no use for `stage.prospects`,
-// and putting it first made a claim about flexibility read as a claim
-// about configuration files. What the table has to demonstrate is that
-// two businesses see two different sets of words, which is the two
-// columns that are left.
+// The engine key each pair shares used to be a third column. It was
+// the truest column on the page and the wrong one to show: a reader
+// who does not write software has no use for `stage.prospects`, and
+// putting it first made a claim about flexibility read as a claim
+// about configuration files. What replaced it is the same row label in
+// plain language, because two columns of bare words is a list of
+// synonyms — the reader has to be told what the thing IS before two
+// names for it mean anything.
 const VOCABULARY = [
-  { a: "Role", b: "Opportunity" },
-  { a: "Prospects", b: "Shortlisted" },
-  { a: "Applied", b: "Proposed" },
-  { a: "Interviewing", b: "In progress" },
-  { a: "Offer", b: "Agreement" },
-  { a: "Referral", b: "Introduction" },
+  { of: "The thing you are pursuing", a: "Role", b: "Opportunity" },
+  { of: "Early interest, nothing committed", a: "Prospects", b: "Shortlisted" },
+  { of: "You have made your move", a: "Applied", b: "Proposed" },
+  { of: "A live conversation", a: "Interviewing", b: "In progress" },
+  { of: "Both sides have agreed", a: "Offer", b: "Agreement" },
+  { of: "A warm route in", a: "Referral", b: "Introduction" },
 ];
 
 // ─── JSON-LD ─────────────────────────────────────────────────────
@@ -314,12 +317,14 @@ export default function BoothPage() {
       <Container className="booth-brand">
         {/* ─── Hero ───────────────────────────────────────────────
             One claim, one paragraph under it, two ways forward, and
-            the product itself immediately below. The hero capture is
-            the one that stays full width: it is the whole surface
-            rather than an illustration of a single claim, and it has
-            to land before any argument has been made. */}
+            the product itself beside them. This is the first row of
+            the alternating two-up rhythm the surfaces section
+            continues: claim on one side, screen on the other, sides
+            swapping down the page. It reads left-text so that the
+            first surface row below can read right-text and the
+            alternation runs unbroken from the top of the page. */}
         <Section id="top" style={sectionAnchorStyle} padding="lg">
-          <Stack gap="900">
+          <div className="booth-surface">
             <Stack gap="700" className={PROSE_WIDTH}>
               <Stack gap="300">
                 <Kicker as="p" style={BOOTH_KICKER}>The Booth</Kicker>
@@ -353,9 +358,9 @@ export default function BoothPage() {
               preload
               alt="The Booth’s Today view: a standing-routine column on the left, the day’s prioritized cards in the centre each tagged with the workstream it came from and carrying Done, Not today, and Won’t do buttons, and a Coming up column on the right."
               caption="Today, in the demo instance. Every person, organization, and message in it is invented."
-              sizes="(min-width: 1024px) 72rem, 100vw"
+              sizes="(min-width: 64rem) 38rem, 100vw"
             />
-          </Stack>
+          </div>
         </Section>
 
         {/* ─── How it works ─────────────────────────────────────── */}
@@ -401,12 +406,18 @@ export default function BoothPage() {
         </Section>
 
         {/* ─── The surfaces ─────────────────────────────────────────
-            Two-up from 64rem: the claim on the left, the screen it is
-            about on the right. The layout is in the ShotStyles sheet
-            rather than in Grid, which splits at 40rem — two 20rem
-            columns puts a 1440px capture at a size where it is texture
-            rather than a screenshot, and the tablet width is where this
-            page is most likely to be opened in a meeting. */}
+            Two-up from 64rem, with the sides swapping row to row. The
+            layout is in the ShotStyles sheet rather than in Grid, which
+            splits at 40rem — two 20rem columns puts a 1440px capture at
+            a size where it is texture rather than a screenshot, and the
+            tablet width is where this page is most likely to be opened
+            in a meeting.
+
+            The first row is flipped rather than the second, because the
+            hero above is row one of the same rhythm and reads
+            left-text. Even indices flip, so the page alternates
+            unbroken from the top: hero left, Today right, the week
+            left, and so on. */}
         <Section id="surfaces" style={sectionAnchorStyle} bordered>
           <Stack gap="700">
             <Stack gap="300" className={PROSE_WIDTH}>
@@ -420,8 +431,15 @@ export default function BoothPage() {
             </Stack>
 
             <Stack gap="600" as="ol" className="m-0 list-none p-0">
-              {SURFACES.map((surface) => (
-                <li key={surface.name} className="booth-surface">
+              {SURFACES.map((surface, i) => (
+                <li
+                  key={surface.name}
+                  className={
+                    i % 2 === 0
+                      ? "booth-surface booth-surface--flip"
+                      : "booth-surface"
+                  }
+                >
                   <Stack gap="200">
                     <Headline level={3} style={SUB_HEADING}>
                       {surface.name}
@@ -447,9 +465,10 @@ export default function BoothPage() {
         </Section>
 
         {/* ─── One engine, any vocabulary ───────────────────────────
-            The commercial argument, and the reason the demo is a
-            partnerships CRM rather than a censored copy of the
-            author's own. The table is real on both sides. */}
+            The commercial argument, and the reason the demo wears a
+            different set of words rather than being a censored copy of
+            the live installation. Both columns are configurations that
+            exist; neither is a customer. */}
         <Section id="vocabulary" style={sectionAnchorStyle} bordered>
           <Stack gap="600">
             <Stack gap="300" className={PROSE_WIDTH}>
@@ -459,37 +478,42 @@ export default function BoothPage() {
               </Headline>
               <Lede>
                 Nothing here is hard-coded to one kind of business. What you
-                call a deal, a stage, a meeting, an introduction—each is a
-                setting, so the same system runs a sales desk, a partnerships
-                team, or an admissions office without being rebuilt.
+                call a deal, a stage, a meeting, an introduction—each of them
+                is a setting, so the same system runs a sales desk, an
+                admissions office, or a development team without being
+                rebuilt.
               </Lede>
             </Stack>
 
             <div className={PROSE_WIDTH}>
               <Body>
-                Both of these are running today: one set up for a job
-                search, one for the partnerships team behind this page. Same
-                software, same screens, a different list of words—nothing was
-                forked and nothing was rebuilt.
+                Two configurations ship with it, and both are running today.
+                One is set up for a job search. The other is the demo—the same
+                build, dressed as a partnerships desk, with every organization
+                and person in it invented. Same software, same screens, a
+                different list of words. Nothing was forked and nothing was
+                rebuilt.
               </Body>
             </div>
 
-            {/* Capped rather than left at the container's full 80rem: two
+            {/* Capped rather than left at the container’s full 80rem: three
                 columns spread that wide put a word and its counterpart at
-                opposite ends of the screen, which is the one comparison
-                this table exists to make. */}
-            <div className="overflow-x-auto max-w-[40rem]">
+                opposite ends of the screen, which is the one comparison this
+                table exists to make. The row label is a <th scope="row"> so a
+                screen reader announces “Early interest — Prospects — Shortlisted”
+                rather than reading two disconnected word lists. */}
+            <div className="overflow-x-auto max-w-[52rem]">
               <table
                 className="w-full border-collapse text-left"
                 style={{ fontSize: "var(--p-font-size)" }}
               >
                 <caption className="sr-only">
-                  The same records under two shipped configurations: the
-                  word each one uses for the same thing.
+                  The same records under two shipped configurations: what each
+                  thing is, and the word each configuration uses for it.
                 </caption>
                 <thead>
                   <tr>
-                    {["A job search", "A partnerships team"].map((h) => (
+                    {["What it is", "A job search", "The demo"].map((h) => (
                       <th
                         key={h}
                         scope="col"
@@ -508,6 +532,19 @@ export default function BoothPage() {
                 <tbody>
                   {VOCABULARY.map((row) => (
                     <tr key={row.a}>
+                      {/* The concept, in the reader’s own language. Set in
+                          the caption colour so the two configured words are
+                          what the eye lands on. */}
+                      <th
+                        scope="row"
+                        className="border-b py-2 pr-6 font-normal"
+                        style={{
+                          borderColor: "var(--border-default)",
+                          color: "var(--text-caption)",
+                        }}
+                      >
+                        {row.of}
+                      </th>
                       <td
                         className="border-b py-2 pr-6"
                         style={{ borderColor: "var(--border-default)" }}
