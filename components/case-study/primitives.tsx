@@ -32,18 +32,24 @@ import { Kicker } from "@/components/typography/Kicker";
 
 // ─── Article width rail ─────────────────────────────────────────
 //
-// Single source of truth for the case-study reading column. Hero
-// + Beat sections all sit on the same horizontal grid (560px → 880
-// → 1024 with matching horizontal padding); previously these magic
-// numbers were duplicated across Hero.tsx and primitives.tsx.
+// How wide a case-study section runs. Every section in the cluster
+// reads this one constant, which is the part worth keeping.
+//
+// It used to be a well of its own: a centred 560 → 880 → 1024
+// ladder carrying its own horizontal padding, sized and centred
+// independently of every other page on the site. That is why a case
+// study's left edge landed 104px inside the header's on a wide
+// screen. The page now sits in the site Container like everything
+// else, so the well, the padding, and the left rail all come from
+// one place and a section simply fills the column it is handed.
+//
 // Vertical padding stays per-section since Hero / Beat / etc. each
 // want their own rhythm.
 //
 // Usage: `className={`${CASE_STUDY_WIDTH} scroll-mt-28 pt-9 pb-6`}`
 // in any case-study section wrapper.
 // ────────────────────────────────────────────────────────────────
-export const CASE_STUDY_WIDTH =
-  "mx-auto max-w-[560px] px-7 md:max-w-[880px] md:px-10 lg:max-w-[1024px]";
+export const CASE_STUDY_WIDTH = "w-full";
 
 // ─── CaseStudyKicker ────────────────────────────────────────────
 //
@@ -133,14 +139,13 @@ export function CaseStudyKicker({
 // components/chrome/Nav.tsx for why a 1px rule needs more contrast
 // than the surface edges that token was calibrated for.
 export function BeatSeparator() {
-  // Width is derived: max(Beat width) − 2 × Beat horizontal padding.
-  // Beat uses (560 / px-7=28), (880 / px-10=40), (1024 / px-10=40),
-  // so the separator should be (560-56=504), (880-80=800),
-  // (1024-80=944). Expressed with calc() so the relationship is
-  // visible to a future reader rather than three magic-number pairs.
+  // Spans the article column, the same as the Beats on either side of
+  // it. This used to derive its own width from the Beat ladder with
+  // three calc() pairs that had to be kept in step by hand; now that a
+  // Beat fills the column it is given, so does the rule between two.
   return (
     <hr
-      className="mx-auto mb-[18px] h-px border-0 max-w-[calc(560px-2*28px)] md:max-w-[calc(880px-2*40px)] lg:max-w-[calc(1024px-2*40px)] w-[calc(100%-2*28px)] md:w-[calc(100%-2*40px)]"
+      className={`${CASE_STUDY_WIDTH} mb-[18px] h-px border-0`}
       style={{ background: "var(--border-separator)" }}
     />
   );

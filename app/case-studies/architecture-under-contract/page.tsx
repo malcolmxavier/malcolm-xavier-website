@@ -17,6 +17,7 @@
 
 import { Link } from "@/components/primitives/Link";
 import type { TocItem } from "@/components/chrome/TableOfContents";
+import { Container } from "@/components/layout/Container";
 import { CaseStudyTocRail } from "@/components/case-study/CaseStudyTocRail";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import { CaseStudyHero } from "@/components/case-study/Hero";
@@ -77,12 +78,13 @@ export default function FeedTrilogyCaseStudy() {
     <>
       <ScrollProgress />
 
-      {/* `relative` establishes the positioning context the xl+ TOC rail
-          uses to bound its sticky child to the article's vertical extent. */}
-      <div className="relative lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16 xl:block">
-        {/* Dual-mode TOC rail. xl+ uses position: sticky inside an
-            absolutely-positioned column; lg-but-not-xl uses sticky inside
-            the grid column. Both clamp naturally to the article's bottom. */}
+      {/* The site's content well, with the TOC rail as its first
+          column. The rail used to hang in the viewport margin outside
+          the article, which only worked while the article was narrower
+          than the rest of the site — on the house rail there is no
+          margin left to hang it in. In the column it also gets its
+          sticky clamp for free, bounded by the column's height. */}
+      <Container className="lg:grid lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-16">
         <CaseStudyTocRail
           items={TOC_ITEMS}
           ariaLabel="Article sections"
@@ -115,7 +117,7 @@ export default function FeedTrilogyCaseStudy() {
           <BeatLive />
           <CaseStudyNav currentSlug="architecture-under-contract" />
         </article>
-      </div>
+      </Container>
     </>
   );
 }

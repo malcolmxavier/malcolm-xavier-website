@@ -21,6 +21,7 @@ import { notFound } from "next/navigation";
 import { Kicker } from "@/components/typography/Kicker";
 import { Dateline } from "@/components/typography/Dateline";
 import { Link } from "@/components/primitives/Link";
+import { Container } from "@/components/layout/Container";
 import { ProjectContainer } from "@/components/projects/ProjectContainer";
 import { ProjectToc } from "@/components/projects/ProjectToc";
 import { TocDisclosure } from "@/components/chrome/TocDisclosure";
@@ -272,7 +273,12 @@ export default async function ProjectPage({
             On any long-read surface: case studies, guides, essays, and
             these project pages. */}
         <ScrollProgress />
-        <div className="mx-auto w-full max-w-[78rem] px-6 md:px-8 py-14 md:py-20 lg:grid lg:grid-cols-[14rem_minmax(0,54rem)] lg:gap-12 xl:gap-16 lg:justify-center">
+        {/* The site's content well, with the Contents rail as its
+            first column — the same shape a case study uses. The well
+            used to be a 78rem box of its own, centred independently of
+            the header, which is why this page's left edge sat 176px
+            inside the nav's on a wide screen. */}
+        <Container className="py-14 md:py-20 lg:grid lg:grid-cols-[14rem_minmax(0,54rem)] lg:gap-12 xl:gap-16">
           <ProjectToc items={project.toc} />
           <article className="flex min-w-0 flex-col gap-9 md:gap-11">
             {header}
@@ -290,7 +296,7 @@ export default async function ProjectPage({
             <ProjectBody />
             {tail}
           </article>
-        </div>
+        </Container>
       </>
     );
   }
