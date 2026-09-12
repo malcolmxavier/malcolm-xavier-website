@@ -221,21 +221,30 @@ export function ShotStyles() {
    meets the opposite edge is the page's own background. That is the
    gradient. Down, there is no story to tell — the colour should simply be
    on the row, top to bottom — so the vertical treatment is a mask rather
-   than a second gradient, and all it does is feather the last tenth at
+   than a second gradient, and all it does is soften the last few pixels at
    each end.
 
    This replaced an ellipse that faded in all four directions at once. It
    held the horizontal reading, but it also meant every row's colour was
    strongest through the middle and gone at the top and bottom, so each
    section read as a lens of colour floating on a dark page rather than as
-   a page with colour on it. The mask keeps the one property the ellipse
-   was there for — neighbouring washes meeting as a blend rather than as a
-   seam — and gives up the part nobody asked for.
+   a page with colour on it.
 
-   The feather is mostly spent in the bleed rather than on the content: the
-   box extends past the row by 2.5rem at each end, which is about what the
-   tenth comes to on a row of this height, so the full-strength band covers
-   the row itself and the softening happens in the gap above and below.
+   The softening is spent entirely outside the row, and it is measured in
+   rem rather than as a percentage of the box. Both follow from where the
+   colour has to stop. A percentage is a different length on every row,
+   because a row with a screenshot in it is several times the height of one
+   without, so one rule softened sixty pixels here and twenty there. A fixed
+   length is the same edge everywhere.
+
+   That length is exactly half the 24px gap between stacked rows, which is
+   what keeps one row's colour out of the next one's. Each fades to nothing
+   at the midpoint of the gap, so neighbours meet rather than run together
+   and four stacked rows read as four rows instead of as one long smear —
+   the separation between them is the colour stopping, which is why the page
+   needs no rule drawn through it. Because all of that happens beyond the
+   row's own box, the full-strength band covers every pixel of the content:
+   a row's top and bottom edges are as coloured as its middle.
 
    The horizontal bleed matches Container's own padding at each breakpoint
    (px-6 / sm:px-10 / lg:px-16), so the wash spans the full content column
@@ -252,7 +261,7 @@ export function ShotStyles() {
   position: absolute;
   z-index: -1;
   pointer-events: none;
-  inset-block: -2.5rem;
+  inset-block: -0.75rem;
   inset-inline: -1.5rem;
   background-image: linear-gradient(
     to var(--booth-tint-dir, right),
@@ -261,16 +270,16 @@ export function ShotStyles() {
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
-    transparent 0%,
-    #000 10%,
-    #000 90%,
+    transparent 0,
+    #000 0.75rem,
+    #000 calc(100% - 0.75rem),
     transparent 100%
   );
   mask-image: linear-gradient(
     to bottom,
-    transparent 0%,
-    #000 10%,
-    #000 90%,
+    transparent 0,
+    #000 0.75rem,
+    #000 calc(100% - 0.75rem),
     transparent 100%
   );
 }
