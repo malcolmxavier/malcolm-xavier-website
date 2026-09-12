@@ -181,16 +181,29 @@ export function ShotStyles() {
 
    Light takes the 500 stop (the same stop Card's accent stripe uses) and
    dark takes a lighter one: a wash needs a colour that survives its
-   background, which is the mirror of what --booth-accent does for text. */
+   background, which is the mirror of what --booth-accent does for text.
+
+   Two values per hue, because a fill and a wash are seen differently. A
+   card is its colour edge to edge, so the fill is the value a reader
+   actually gets. A wash is a peak that is already half gone by the time it
+   reaches the screenshot beside it, so the same number arrives as a stain
+   rather than as a colour — the wash values are the fills pushed up until
+   the middle of the row carries the weight the card does. */
 .booth-brand {
   --booth-green: color-mix(in srgb, var(--green-500) 16%, transparent);
   --booth-blue: color-mix(in srgb, var(--blue-500) 14%, transparent);
   --booth-orange: color-mix(in srgb, var(--orange-500) 15%, transparent);
+  --booth-green-wash: color-mix(in srgb, var(--green-500) 22%, transparent);
+  --booth-blue-wash: color-mix(in srgb, var(--blue-500) 20%, transparent);
+  --booth-orange-wash: color-mix(in srgb, var(--orange-500) 22%, transparent);
 }
 [data-theme="dark"] .booth-brand {
   --booth-green: color-mix(in srgb, var(--green-400) 17%, transparent);
   --booth-blue: color-mix(in srgb, var(--blue-300) 22%, transparent);
   --booth-orange: color-mix(in srgb, var(--orange-400) 15%, transparent);
+  --booth-green-wash: color-mix(in srgb, var(--green-400) 26%, transparent);
+  --booth-blue-wash: color-mix(in srgb, var(--blue-300) 32%, transparent);
+  --booth-orange-wash: color-mix(in srgb, var(--orange-400) 30%, transparent);
 }
 
 /* The wash sits on the content row, not on the section wrapper, so it
@@ -205,9 +218,16 @@ export function ShotStyles() {
    colour originates under the prose and dissipates across the screenshot,
    so it runs left-to-right where the text is on the left and right-to-left
    where it is on the right — and because it fades on every side, two
-   neighbouring washes meet as a blend rather than as an edge. The radii
-   are set so the fade completes inside the box: 66% vertical against a
-   78% stop reaches nothing at about half the height, which is the box
+   neighbouring washes meet as a blend rather than as an edge.
+
+   The two radii are set against two different edges, which is why they are
+   so far apart. Horizontally the colour is meant to travel the whole
+   content well and arrive at nothing exactly at the far margin: 118%
+   against an 85% stop reaches zero at 100% of the box, so the wash passes
+   behind the screenshot rather than dying under the prose, and what meets
+   the opposite margin is the page's own background. Vertically it has to
+   finish inside its own box or two stacked rows would collide: 59% against
+   the same stop reaches zero at about half the height, which is the box
    edge.
 
    The horizontal bleed matches Container's own padding at each breakpoint
@@ -228,9 +248,9 @@ export function ShotStyles() {
   inset-block: -2rem;
   inset-inline: -1.5rem;
   background-image: radial-gradient(
-    ellipse 82% 66% at var(--booth-tint-origin, 0%) 50%,
+    ellipse 118% 59% at var(--booth-tint-origin, 0%) 50%,
     var(--booth-tint, transparent) 0%,
-    transparent 78%
+    transparent 85%
   );
 }
 @media (min-width: 40rem) {
@@ -241,9 +261,9 @@ export function ShotStyles() {
 }
 /* Text on the right, so the colour starts on the right. */
 .booth-tint--right { --booth-tint-origin: 100%; }
-.booth-tint--green { --booth-tint: var(--booth-green); }
-.booth-tint--blue { --booth-tint: var(--booth-blue); }
-.booth-tint--orange { --booth-tint: var(--booth-orange); }
+.booth-tint--green { --booth-tint: var(--booth-green-wash); }
+.booth-tint--blue { --booth-tint: var(--booth-blue-wash); }
+.booth-tint--orange { --booth-tint: var(--booth-orange-wash); }
 .booth-shot-dark { display: none; }
 [data-theme="dark"] .booth-shot-dark { display: block; }
 [data-theme="dark"] .booth-shot-light { display: none; }
