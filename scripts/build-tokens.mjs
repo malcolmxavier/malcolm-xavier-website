@@ -431,6 +431,28 @@ out.push(`  --color-border-default: var(--border-default);`);
 out.push(`  --font-sans: var(--font-secondary);`);
 out.push(`  --font-display: var(--font-primary);`);
 out.push(`  --font-mono: var(--font-mono);`);
+// Breakpoints. These are Tailwind's own default values, restated here
+// on purpose: until now the scale was inherited invisibly from the
+// framework, so anything that needed a width had no declared ladder to
+// reach for and reached for an arbitrary variant instead. Declaring
+// them makes the scale part of this design system — a number to look
+// up rather than a number to invent, and one place to change if the
+// ladder ever moves.
+//
+// They are not sourced from tokens/ because the Figma export has no
+// breakpoint set to source them from. If one is ever added, this block
+// is where it lands.
+out.push("");
+out.push("  /* Breakpoint ladder — see scripts/build-tokens.mjs */");
+for (const [name, value] of [
+  ["sm", "40rem"],   //  640px
+  ["md", "48rem"],   //  768px
+  ["lg", "64rem"],   // 1024px
+  ["xl", "80rem"],   // 1280px
+  ["2xl", "96rem"],  // 1536px
+]) {
+  out.push(`  --breakpoint-${name}: ${value};`);
+}
 out.push("}");
 out.push("");
 

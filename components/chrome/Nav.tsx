@@ -26,14 +26,15 @@
 // over scrolling content without going opaque.
 //
 // Responsive layout:
-//   • ≥1220px: horizontal nav row — wordmark | routes | toggle.
-//   • <1220px: wordmark | hamburger trigger. Hamburger opens a
+//   • xl and up (≥1280px): horizontal nav row — wordmark | routes |
+//     toggle.
+//   • Below xl: wordmark | hamburger trigger. Hamburger opens a
 //     dropdown panel below the nav containing the same routes
 //     (vertical) and theme toggle. Same content, same separators,
 //     same a11y story — just stacked.
 //
-// WHY 1220 AND NOT md. The row used to start at md (768px) and did
-// not fit there, and nothing said so, because the failure was silent
+// WHY xl AND NOT md. The row used to start at md (768px) and did not
+// fit there, and nothing said so, because the failure was silent
 // rather than broken-looking. Measured across 768–1280px, the two
 // two-word labels — "Case studies" and "The Booth" — were being
 // squeezed below their max-content width and wrapping inside their
@@ -45,18 +46,17 @@
 // restyling itself.
 //
 // With nothing left to squeeze, the row's real width is measurable,
-// and it is 925px plus a 106px wordmark plus the container's 128px of
-// padding — 1159px before any gap between the wordmark and the first
-// link. So md was short by nearly 400px and even lg (1024px) is short
-// by 135. 1220 is that measurement plus room to breathe, and it is an
-// arbitrary variant rather than a stock breakpoint because the number
-// is a fact about this bar's contents rather than a guess about a
-// device.
+// and it is 900px plus a 106px wordmark plus the container's 128px of
+// padding — 1134px before any gap between the wordmark and the first
+// link. So md is short by nearly 400px and even lg (1024px) is short
+// by 110. xl (1280px) is the first step on the scale that clears it,
+// with 146px to spare, so this needs no bespoke number of its own —
+// see the breakpoint block in globals.css, where the scale is
+// declared.
 //
 // It should come back down. The culture section is moving to its own
-// site, and Films, Television, and Music are ~225px of the 925 — once
-// they leave, the row fits at md again. Worth re-measuring then
-// rather than carrying a breakpoint nobody can account for.
+// site, and Films, Television, and Music are ~225px of the 900 — once
+// they leave, the row fits at md again. Worth re-measuring then.
 //
 // Accessibility:
 //   - Skip-to-content link is the very first focusable element on
@@ -256,7 +256,7 @@ export function Nav() {
           {/* Desktop layout. Horizontal route lists + toggle. Hidden
               below the measured threshold, where the hamburger takes
               over — see the note at the top of this file. */}
-          <div className="hidden min-[1220px]:flex items-center gap-5">
+          <div className="hidden xl:flex items-center gap-5">
             {SUB_BRAND_ROUTES.length > 0 ? (
               <NavRouteList
                 routes={SUB_BRAND_ROUTES}
@@ -303,7 +303,7 @@ export function Nav() {
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             onClick={() => setMenuOpen((current) => !current)}
             className={[
-              "min-[1220px]:hidden",
+              "xl:hidden",
               "inline-flex h-10 w-10 items-center justify-center",
               "rounded-md border",
               "transition-colors motion-reduce:transition-none",
@@ -337,7 +337,7 @@ export function Nav() {
         <div
           ref={panelRef}
           id={MOBILE_MENU_ID}
-          className="min-[1220px]:hidden absolute left-0 right-0 top-full backdrop-blur-md border-b"
+          className="xl:hidden absolute left-0 right-0 top-full backdrop-blur-md border-b"
           style={{
             background:
               "color-mix(in srgb, var(--surface-page) 95%, transparent)",
@@ -419,9 +419,26 @@ function NavDivider() {
 // something through rather than as a tenth link, which is the whole
 // job.
 //
+// Nothing here paints a fill, in either state. The active state used
+// to, and it was wrong in a way only the render showed: on the Booth's
+// own pages, in dark, --surface-muted resolves to grey-800 and the
+// chip became a solid slab sitting on a black bar — the heaviest thing
+// in the chrome, on the one page where the control does nothing
+// because it is already the page you are on. It marks itself active
+// the way every other item in this bar does now, with an underline.
+//
 // No `data-subbrand`. The colored treatment in components.css marks
 // the culture verticals, and borrowing it here would say the Booth is
 // another one of those.
+//
+// It has no arrow either. An arrow is this site's mark for a
+// CTA-styled link, and a nav item is not a CTA — if it earned one
+// here, every item in the bar would have earned one. It was doing a
+// second job, though: telling this apart at a glance from the theme
+// toggle beside it, which is the same height, the same radius, the
+// same border, and the same mono uppercase. Without it they twin, and
+// the thing that separates them properly is an accent color the Booth
+// does not have yet.
 function BoothChip({
   pathname,
   layout,
@@ -436,7 +453,10 @@ function BoothChip({
       href={BOOTH_ROUTE.href}
       className={[
         "inline-flex items-center justify-center whitespace-nowrap",
-        "rounded-md border no-underline",
+        "rounded-md border",
+        // The bar's own rule for "you are here", applied inside the
+        // chip rather than beside it.
+        active ? "underline underline-offset-4 decoration-2" : "no-underline",
         "transition-colors motion-reduce:transition-none",
         "focus-visible:outline-2 focus-visible:outline-offset-2",
         // Color lives in classes rather than in the style prop below
@@ -460,25 +480,12 @@ function BoothChip({
         fontSize: "var(--p-xs-font-size)",
         textTransform: "uppercase",
         letterSpacing: "0.08em",
-        // On the Booth's own pages the chip fills instead of
-        // underlining. Every other nav item marks itself active with
-        // an underline, which inside a bordered chip reads as a
-        // mistake; the fill is the same statement in the grammar this
-        // element is already written in. aria-current carries it for
-        // anyone not seeing either.
-        background: active ? "var(--surface-muted)" : "transparent",
+        background: "transparent",
         outlineColor: "var(--border-focus)",
       }}
       aria-current={active ? "page" : undefined}
     >
       {BOOTH_ROUTE.label}
-      {/* The site's convention for a CTA-styled internal link, and
-          the fastest way to tell this apart from the theme toggle
-          sitting next to it: one is a control, one is a way through.
-          aria-hidden because the accessible name is the label. */}
-      <span aria-hidden="true" className="ml-2">
-        →
-      </span>
     </NextLink>
   );
 }
