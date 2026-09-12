@@ -141,6 +141,41 @@ export function ShotStyles() {
   .booth-surface--flip > :first-child { grid-column: 2; grid-row: 1; }
   .booth-surface--flip > :last-child { grid-column: 1; grid-row: 1; }
 }
+/* ─── The well ──────────────────────────────────────────────────────
+   This page does not sit in the site's shared 80rem rail, and it is the
+   only one that does not. Everywhere else that rail is what lines the
+   header, the footer, and every page up against each other, and it is
+   right for a page that is a document. This page is a wall of colour,
+   and colour stopped short of the window frames each band as a slide on
+   a page rather than as a surface — the dark margin is what does it, and
+   no amount of tuning inside the band fixes something happening outside
+   it. So there is no wrapper holding a width here: the page is as wide
+   as the window, and each band pads its own content in.
+
+   Two numbers do that. The gutter is the smallest space allowed between
+   text and the window edge, and it is Container's own padding at each
+   breakpoint (px-6 / sm:px-10 / lg:px-16), so a phone reading this page
+   gets exactly the margin it gets everywhere else on the site. The well
+   is what the content is allowed to grow to once there is more room than
+   that, and it is wider than the site's rail because the evidence on this
+   page is screenshots: a 1440px capture beside a paragraph is an argument
+   at 46rem and a texture at 30rem. Prose is unaffected — the single-column
+   sections still set to their own measure, which the well never touches.
+
+   max() is what picks between them: below the well plus two gutters the
+   gutter wins and the band is edge-to-edge with a margin, and above it the
+   half-difference wins and the content centres. No vw anywhere, so a
+   scrollbar can never push the page sideways. */
+.booth-brand {
+  --booth-well: 96rem;
+  --booth-gutter: 1.5rem;
+}
+@media (min-width: 40rem) {
+  .booth-brand { --booth-gutter: 2.5rem; }
+}
+@media (min-width: 64rem) {
+  .booth-brand { --booth-gutter: 4rem; }
+}
 /* Vertical rhythm on this page belongs to the bands below, not to the
    sections that hold them. A section's own padding is space no band can
    reach, and on a page whose content is coloured that space is a black
@@ -240,16 +275,24 @@ export function ShotStyles() {
    it is the absence of the mask, not a rule drawn on top of one. Softening
    and bleed are therefore a matched pair: either both or, as here, neither.
 
-   The horizontal bleed matches Container's own padding at each breakpoint
-   (px-6 / sm:px-10 / lg:px-16), so the wash spans the full content column
-   and stops exactly at its edge — never wider, which would put a scrollbar
-   on the page. */
+   Across, the wash now has no inset at all, because the band it fills is
+   the width of the window. An earlier cut drew it out past the band by
+   exactly Container's padding, which was the right arithmetic for a page
+   sitting in the site's rail and is simply unnecessary once the rail is
+   gone: the band's own padding is what holds the content in, so the box
+   the wash fills already reaches both window edges. The colour therefore
+   peaks at the edge of the screen rather than at the edge of a column,
+   which is the difference between a page about a product and a surface. */
 .booth-band {
   position: relative;
   /* Makes the band its own stacking context, so the z-index below is
      behind this band's content and can never fall behind the page. */
   isolation: isolate;
   padding-block: var(--scale-600);
+  padding-inline: max(
+    var(--booth-gutter),
+    calc((100% - var(--booth-well)) / 2)
+  );
 }
 @media (min-width: 40rem) {
   .booth-band { padding-block: var(--scale-700); }
@@ -267,18 +310,12 @@ export function ShotStyles() {
   z-index: -1;
   pointer-events: none;
   inset-block: 0;
-  inset-inline: -1.5rem;
+  inset-inline: 0;
   background-image: linear-gradient(
     to var(--booth-band-dir, right),
     var(--booth-band-hue, transparent) 0%,
     transparent 92%
   );
-}
-@media (min-width: 40rem) {
-  .booth-band::before { inset-inline: -2.5rem; }
-}
-@media (min-width: 64rem) {
-  .booth-band::before { inset-inline: -4rem; }
 }
 /* Text on the right, so the colour starts on the right and runs left. */
 .booth-band--right { --booth-band-dir: left; }

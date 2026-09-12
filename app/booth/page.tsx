@@ -24,38 +24,31 @@
 // argument; the byline is in the footer, the nav, and every other
 // page on this site.
 //
-// THREE REGISTERS, AND THIS PAGE ONLY EVER SPEAKS THE THIRD.
-//   1. Engine ids — `lane`, `emitter`, `job-search`, `item.id`. These
-//      are stable identifiers in code and are never rendered anywhere
-//      a person can read them.
-//   2. Installation vocabulary — what one configured instance calls a
-//      thing. "Role" in the author's own install, "Opportunity" in the
-//      demo. Set per install in booth/vocabulary.json.
-//   3. Product language — what this page, the onboarding screen, and
-//      any marketing about the Booth call things to somebody who has
-//      never seen it.
-// An earlier version of this page leaked register 1 into register 3:
-// "ranked" and "lane" are how the system is described internally, not
-// how a buyer describes their own work. The external words are
-// "prioritized" and "workstream". Keep them consistent here, on the
-// onboarding screen, and in anything published about the Booth.
+// WIDTH. This is the one page on the site that does not sit in the
+// shared content well. Everywhere else, Container's 80rem rail is
+// what lines the header, the footer, and every page up against each
+// other, and that rail is right for a page that is a document. This
+// page is a wall of colour, and a wall of colour stopped 160px short
+// of the window reads as a document about a product rather than as
+// the product — the dark margin turns every band into a slide on a
+// page instead of a surface the reader is looking at. So the bands
+// run edge to edge and carry the well themselves: each one pads its
+// own content in to --booth-well, which is wider than the site's rail
+// because the evidence on this page is screenshots and a screenshot
+// is only an argument at a size you can read it at. The prose inside
+// still sets to PROSE_WIDTH, so the measure never grew.
 //
-// TYPE AND WIDTH. One Display (the h1), one Headline level 2 per
-// section, one Lede per section at most, and Body for everything else.
-// Captions and metadata are the only things allowed to go smaller.
-// Prose is capped at PROSE_WIDTH in the single-column sections so the
-// measure never changes; the surfaces run two-up and take their
-// measure from the column instead.
+// COPY. Every word a reader sees lives in ./copy.ts, and none of it
+// lives here. That file also carries the editing rules — real glyphs
+// rather than entities, and the three registers this page is allowed
+// to speak in. Change wording there; change shape here.
 //
-// CLAIMS. Every factual statement here describes the real system. The
-// vocabulary table is generated from the two profiles that actually
-// ship in booth/vocabulary.json — nothing in it is illustrative.
-// Nothing on this page claims a business outcome, because the Booth
-// has not produced one that has been measured.
+// TYPE. One Display (the h1), one Headline level 2 per section, one
+// Lede per section at most, and Body for everything else. Captions
+// and metadata are the only things allowed to go smaller.
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
-import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Grid } from "@/components/layout/Grid";
@@ -72,21 +65,29 @@ import { SITE_URL } from "@/lib/site-config";
 import { CONTACT } from "../resume/resume-data";
 import { SignIn } from "./SignIn";
 import { Shot, ShotStyles } from "./Shot";
+import {
+  ACCESS,
+  HERO,
+  HOW_IT_WORKS,
+  META,
+  MOVES,
+  REQUEST_ACCESS_LABEL,
+  SURFACES,
+  SURFACES_INTRO,
+  VOCABULARY,
+  VOCABULARY_COPY,
+} from "./copy";
 
 // ─── Metadata ────────────────────────────────────────────────────
 // Per-page openGraph + twitter blocks because the App Router REPLACES
 // the parent layout's OG block when a page declares its own.
-const BOOTH_TITLE = "The Booth";
-const BOOTH_DESCRIPTION =
-  "A working surface that merges every workstream into one prioritized day, sized against the hours you actually have, and writes every decision back into the system that owns the record. Access on request.";
-
 export const metadata: Metadata = {
-  title: "The Booth · One prioritized day, out of every system you work in",
-  description: BOOTH_DESCRIPTION,
+  title: META.pageTitle,
+  description: META.description,
   alternates: { canonical: "/booth" },
   openGraph: {
-    title: BOOTH_TITLE,
-    description: BOOTH_DESCRIPTION,
+    title: META.name,
+    description: META.description,
     type: "website",
     url: "/booth",
     siteName: "Malcolm Xavier",
@@ -94,8 +95,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: BOOTH_TITLE,
-    description: BOOTH_DESCRIPTION,
+    title: META.name,
+    description: META.description,
   },
 };
 
@@ -129,131 +130,6 @@ const sectionAnchorStyle: React.CSSProperties = { scrollMarginTop: "6rem" };
 // and the subject line can never drift apart across the call sites.
 const ACCESS_HREF = `mailto:${CONTACT.email}?subject=Booth%20access`;
 
-// ─── How it works ────────────────────────────────────────────────
-// Three moves, in the order they happen. This is the "broad overview"
-// a reader needs before any individual surface means anything.
-//
-// `tint` is the hue the card is filled with, and these three cards are
-// where the page's whole palette is introduced. They sit side by side, so
-// a reader meets green, blue, and orange once, together, before any of
-// the three turns up again as a wash further down.
-const MOVES = [
-  {
-    tint: "green",
-    title: "It reads the systems that already own the work",
-    body: "Nothing is re-entered. Mail, a calendar, a pipeline file, a content board, and a dependency map are read where they live, and each stays the system of record for its own work.",
-  },
-  {
-    tint: "blue",
-    title: "It builds one day and puts it in order",
-    body: "Every workstream is interleaved so no day is all one kind of work, meetings come off the top as fixed points, and what is left is sized against the hours you actually have rather than stacked into a list nobody could finish.",
-  },
-  {
-    tint: "orange",
-    title: "A decision is written back, and says where it landed",
-    body: "Done, not today, and won’t do each propagate into the system that owns the record, and return a receipt naming every file written and every system skipped with the reason.",
-  },
-];
-
-// ─── The surfaces ────────────────────────────────────────────────
-// Four views, each with the capture that proves it, laid out two-up:
-// the claim on the left and the screen it is a claim about on the
-// right. `shot` is the basename of a pair in /public/booth-shots.
-//
-// `tint` is the hue of the wash behind the row. Blue and orange take two
-// rows each; the third green on the page lands on the pipeline, which is
-// the row carrying the strongest claim the product makes.
-//
-// `rule` is optional and is where a design decision lives that only
-// makes sense against the surface it governs. These used to be their
-// own section at the foot of the page, which separated every rule from
-// the thing it was a rule about and asked the reader to hold four
-// screens in their head to understand three constraints.
-//
-// `cta` is the button that closes the row. Every one of them opens the
-// same mail composer, and the label is what changes, because each row
-// has just made a different argument and the button is the end of that
-// argument rather than a repeat of the last one. `close` marks the row
-// that also closes the section: it takes the primary treatment, which
-// is the section's own call to action moved inside the colour instead
-// of standing in the gap underneath it.
-type Surface = {
-  name: string;
-  tint: "green" | "blue" | "orange";
-  shot: string;
-  what: string;
-  how: string;
-  caption: string;
-  rule?: string;
-  cta: string;
-  close?: boolean;
-};
-
-const SURFACES: Surface[] = [
-  {
-    name: "Today",
-    tint: "blue",
-    shot: "today",
-    what: "The merged day, and the only view that answers what to do now.",
-    how: "Each card carries the workstream it came from and the decision buttons that write it back. Habits sit outside the budget until one is genuinely late, and anything with a clock on it is converted into your own timezone exactly once.",
-    caption: "Today, with the day’s fixed points at the top and the budget already spent against them.",
-    cta: "See a day assembled",
-  },
-  {
-    name: "The week",
-    tint: "orange",
-    shot: "calendar",
-    what: "Where everything sits, which is a different question from what is next.",
-    how: "Recurring work is stored as rules and expanded on read, never written into days—so extending the schedule is not a migration, and a habit skipped on Tuesday is skipped on Tuesday only. Moving something here is a real write, with the same refusals the command line enforces.",
-    caption: "The week. Dragging a card takes the day, because a card’s position is its date.",
-    cta: "See a week in place",
-  },
-  {
-    name: "The pipeline",
-    tint: "green",
-    shot: "pipeline",
-    what: "Opportunities, meetings, people, and the routes into an organization.",
-    how: "It reads the mailbox. A loss notice closes an opportunity, a reply closes the card that asked for it and records everybody who was on the thread, and a prioritized list of who might introduce you is built out of what the file already knows rather than out of a connection degree.",
-    caption: "The pipeline, grouped by stage. Stage names come from a settings file, not the code.",
-    rule: "It writes to your records without being asked, and shows its work. Every automated change logs what it replaced, the words it was read out of, and which run made it, with an undo on the record it touched—because the risk that matters is not who made the change, it is whether it can be taken back.",
-    cta: "See it write back",
-  },
-  {
-    name: "The map",
-    tint: "blue",
-    shot: "backlog",
-    what: "Every open initiative across every project, in one dependency graph.",
-    how: "Rows are workstreams and columns are depth, so the first column is everything that can be started today. It is the planning surface the other three draw work from.",
-    caption: "The dependency map. The first column is what is unblocked right now.",
-    cta: "See it running",
-    close: true,
-  },
-];
-
-// ─── One engine, any vocabulary ──────────────────────────────────
-// Read out of the two profiles that ship in booth/vocabulary.json.
-// Both columns are real configurations, and neither belongs to a
-// customer: the left is the installation this site runs, the right is
-// the demo anybody can be let into. Naming a client here would be a
-// claim about who is using it rather than about what it does.
-//
-// The engine key each pair shares used to be a third column. It was
-// the truest column on the page and the wrong one to show: a reader
-// who does not write software has no use for `stage.prospects`, and
-// putting it first made a claim about flexibility read as a claim
-// about configuration files. What replaced it is the same row label in
-// plain language, because two columns of bare words is a list of
-// synonyms — the reader has to be told what the thing IS before two
-// names for it mean anything.
-const VOCABULARY = [
-  { of: "The thing you are pursuing", a: "Role", b: "Opportunity" },
-  { of: "Early interest, nothing committed", a: "Prospects", b: "Shortlisted" },
-  { of: "You have made your move", a: "Applied", b: "Proposed" },
-  { of: "A live conversation", a: "Interviewing", b: "In progress" },
-  { of: "Both sides have agreed", a: "Offer", b: "Agreement" },
-  { of: "A warm route in", a: "Referral", b: "Introduction" },
-];
-
 // ─── JSON-LD ─────────────────────────────────────────────────────
 // Two nodes, connected the way STRUCTURED-DATA.md asks: the page is
 // part of the site and about the person. No SoftwareApplication node —
@@ -267,8 +143,8 @@ const BOOTH_SCHEMA = {
       "@type": "WebPage",
       "@id": `${SITE_URL}/booth/#webpage`,
       url: `${SITE_URL}/booth`,
-      name: BOOTH_TITLE,
-      description: BOOTH_DESCRIPTION,
+      name: META.name,
+      description: META.description,
       isPartOf: { "@id": `${SITE_URL}/#website` },
       about: { "@id": `${SITE_URL}/#person` },
     },
@@ -285,7 +161,7 @@ const BOOTH_SCHEMA = {
  * nagging, and it means the tracked event is identical everywhere.
  */
 function RequestAccess({
-  label = "Request access",
+  label = REQUEST_ACCESS_LABEL,
   lead,
   variant = "secondary",
   size = "md",
@@ -351,7 +227,7 @@ export default function BoothPage() {
           a font-family on a single element here. Body and lede are
           untouched on purpose: the Booth departs in its marquee and its
           paperwork, and reading text is still the site's. */}
-      <Container className="booth-brand">
+      <div className="booth-brand">
         {/* ─── Hero ───────────────────────────────────────────────
             One claim, one paragraph under it, two ways forward, and
             the product itself beside them. This is the first row of
@@ -363,26 +239,19 @@ export default function BoothPage() {
         <Section id="top" style={sectionAnchorStyle} padding="lg">
           <div className="booth-surface booth-band booth-band--green">
             <Stack gap="700" className={PROSE_WIDTH}>
-              <Display as="h1">
-                One prioritized day, out of every system you work in
-              </Display>
-              <Lede>
-                The Booth reads the tools that already own your work, merges
-                what is live into a single day prioritized against the hours
-                you actually have, and writes every decision back where it came
-                from.
-              </Lede>
+              <Display as="h1">{HERO.heading}</Display>
+              <Lede>{HERO.lede}</Lede>
               <div className="flex flex-wrap items-center gap-3">
                 <TrackOnClick
                   event={ANALYTICS_EVENTS.EMAIL_CLICK}
                   eventData={{ kind: "direct", surface: "booth" }}
                 >
                   <Button as="a" href={ACCESS_HREF} variant="primary" size="lg">
-                    Request access
+                    {HERO.primaryCta}
                   </Button>
                 </TrackOnClick>
                 <Button as="a" href="#sign-in" variant="secondary" size="lg">
-                  Sign in
+                  {HERO.secondaryCta}
                 </Button>
               </div>
             </Stack>
@@ -390,9 +259,9 @@ export default function BoothPage() {
             <Shot
               name="today"
               preload
-              alt="The Booth’s Today view: a standing-routine column on the left, the day’s prioritized cards in the centre each tagged with the workstream it came from and carrying Done, Not today, and Won’t do buttons, and a Coming up column on the right."
-              caption="Today, in the demo instance. Every person, organization, and message in it is invented."
-              sizes="(min-width: 64rem) 38rem, 100vw"
+              alt={HERO.shotAlt}
+              caption={HERO.shotCaption}
+              sizes="(min-width: 96rem) 49rem, (min-width: 64rem) 45rem, 100vw"
             />
           </div>
         </Section>
@@ -401,11 +270,8 @@ export default function BoothPage() {
         <Section id="how-it-works" style={sectionAnchorStyle}>
           <Stack gap="600" className="booth-band">
             <Stack gap="300" className={PROSE_WIDTH}>
-              <Headline level={2}>Three moves, and the day is real</Headline>
-              <Lede>
-                There is no inbox to keep clean and no board to groom. The work
-                stays where it is; what the Booth owns is the order.
-              </Lede>
+              <Headline level={2}>{HOW_IT_WORKS.heading}</Headline>
+              <Lede>{HOW_IT_WORKS.lede}</Lede>
             </Stack>
             <Grid cols={3} gap="400">
               {MOVES.map((move, i) => (
@@ -426,7 +292,9 @@ export default function BoothPage() {
                         only possible once the one before it has happened
                         — and a number is what lets a reader hold that
                         while reading across three cards. */}
-                    <Kicker as="p">Step {i + 1}</Kicker>
+                    <Kicker as="p">
+                      {HOW_IT_WORKS.stepPrefix} {i + 1}
+                    </Kicker>
                     <Headline level={3} style={ITEM_HEADING}>
                       {move.title}
                     </Headline>
@@ -439,16 +307,8 @@ export default function BoothPage() {
                 own section at the foot of the page. It belongs here:
                 it is the claim the three steps are all instances of. */}
             <Stack gap="400" className={PROSE_WIDTH}>
-              <Body>
-                That third move is the one most tools skip. Every card is a
-                projection of some other system’s record, so “done” has nowhere
-                to live on the card itself. One write path takes the decision
-                and propagates it, then returns a receipt naming what it wrote
-                and what it could not. Some decisions genuinely cannot
-                propagate—those say so on the receipt rather than diverging
-                quietly.
-              </Body>
-              <RequestAccess lead="Access is issued by hand, usually the same day." />
+              <Body>{HOW_IT_WORKS.closer}</Body>
+              <RequestAccess lead={HOW_IT_WORKS.ctaLead} />
             </Stack>
           </Stack>
         </Section>
@@ -472,12 +332,8 @@ export default function BoothPage() {
           <Stack gap="0">
             <div className="booth-band">
               <Stack gap="300" className={PROSE_WIDTH}>
-                <Headline level={2}>Four views over one set of records</Headline>
-                <Lede>
-                  Not four tools. One day, one week, one pipeline, and one
-                  map, all reading the same records—which is why a decision
-                  taken on any of them means the same thing on the others.
-                </Lede>
+                <Headline level={2}>{SURFACES_INTRO.heading}</Headline>
+                <Lede>{SURFACES_INTRO.lede}</Lede>
               </Stack>
             </div>
 
@@ -513,7 +369,7 @@ export default function BoothPage() {
                     name={surface.shot}
                     alt={`The Booth’s ${surface.name} view. ${surface.what}`}
                     caption={surface.caption}
-                    sizes="(min-width: 64rem) 38rem, 100vw"
+                    sizes="(min-width: 96rem) 49rem, (min-width: 64rem) 45rem, 100vw"
                   />
                 </li>
               ))}
@@ -539,37 +395,14 @@ export default function BoothPage() {
               and two shipped configurations side by side are what shows it. */}
           <div className="booth-surface booth-surface--flip booth-band booth-band--orange booth-band--right">
             <Stack gap="400">
-              <Headline level={2}>
-                Every word on these screens is a setting
-              </Headline>
-              <Lede>
-                Nothing here is hard-coded to one kind of business. What you
-                call a deal, a stage, a meeting, an introduction—each of them
-                is a setting, so the same system runs a sales desk, an
-                admissions office, or a development team without being
-                rebuilt.
-              </Lede>
-              <Body>
-                Two configurations ship with it, and both are running today.
-                One is set up for a job search. The other is the demo—the same
-                build, dressed as a partnerships desk, with every organization
-                and person in it invented. Same software, same screens, a
-                different list of words. Nothing was forked and nothing was
-                rebuilt.
-              </Body>
-              <Body>
-                That is the part worth a buyer’s attention. A CRM that fits an
-                admissions funnel, a development office, or a two-person agency
-                is not a different product—it is the same system and a list
-                somebody wrote in an afternoon.
-              </Body>
+              <Headline level={2}>{VOCABULARY_COPY.heading}</Headline>
+              <Lede>{VOCABULARY_COPY.lede}</Lede>
+              {VOCABULARY_COPY.body.map((paragraph) => (
+                <Body key={paragraph.slice(0, 32)}>{paragraph}</Body>
+              ))}
               <RequestAccess
-                label="Request access"
                 variant="primary"
-                lead={
-                  "Setting an instance up in a team’s own words is scoped " +
-                  "work; rates are on the consulting page."
-                }
+                lead={VOCABULARY_COPY.ctaLead}
               />
             </Stack>
 
@@ -584,13 +417,10 @@ export default function BoothPage() {
                 className="w-full border-collapse text-left"
                 style={{ fontSize: "var(--p-font-size)" }}
               >
-                <caption className="sr-only">
-                  The same records under two shipped configurations: what
-                  each thing is, and the word each configuration uses for it.
-                </caption>
+                <caption className="sr-only">{VOCABULARY_COPY.caption}</caption>
                 <thead>
                   <tr>
-                    {["What it is", "A job search", "The demo"].map((h) => (
+                    {VOCABULARY_COPY.columns.map((h) => (
                       <th
                         key={h}
                         scope="col"
@@ -651,22 +481,9 @@ export default function BoothPage() {
         <Section id="access" style={sectionAnchorStyle}>
           <Grid cols={2} gap="500" className="booth-band booth-band--green">
             <Stack gap="400">
-              <Headline level={2}>Ask for a login</Headline>
-              <Body>
-                Logins are issued one at a time, so the demo stays something
-                shown deliberately rather than a link that ends up indexed. Say
-                who you are and what you want to see, and a username and a
-                password come back, usually the same day.
-              </Body>
-              <RuleNote>
-                On the question every reader eventually asks: two of the jobs
-                behind these surfaces can search the web, and both are denied
-                the data folder outright. What they legitimately need is copied
-                into a separate directory whose one rule is that everything in
-                it is safe to read beside the internet. There is no exception
-                list, because an exception is where the next sensitive file
-                quietly becomes readable.
-              </RuleNote>
+              <Headline level={2}>{ACCESS.heading}</Headline>
+              <Body>{ACCESS.body}</Body>
+              <RuleNote>{ACCESS.rule}</RuleNote>
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <TrackOnClick
                   event={ANALYTICS_EVENTS.EMAIL_CLICK}
@@ -678,7 +495,7 @@ export default function BoothPage() {
                     variant="primary"
                     size="lg"
                   >
-                    Request access
+                    {ACCESS.primaryCta}
                   </Button>
                 </TrackOnClick>
                 <TrackOnClick
@@ -691,7 +508,7 @@ export default function BoothPage() {
                     variant="secondary"
                     size="lg"
                   >
-                    Book 30 minutes
+                    {ACCESS.secondaryCta}
                   </Button>
                 </TrackOnClick>
               </div>
@@ -701,10 +518,10 @@ export default function BoothPage() {
               <Stack gap="400">
                 <Stack gap="200">
                   <Headline level={3} style={ITEM_HEADING}>
-                    Already have one?
+                    {ACCESS.signInHeading}
                   </Headline>
                   <Body size="sm" style={{ color: "var(--text-caption)" }}>
-                    Sign in with the username and password you were sent.
+                    {ACCESS.signInBody}
                   </Body>
                 </Stack>
                 <SignIn />
@@ -712,7 +529,7 @@ export default function BoothPage() {
             </Card>
           </Grid>
         </Section>
-      </Container>
+      </div>
     </>
   );
 }
