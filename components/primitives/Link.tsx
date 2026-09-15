@@ -16,6 +16,20 @@
 // underline-on-hover treatment — used for the "Creative CV" inline
 // link in the About teaser, where the design rule is "discoverable
 // but not spotlit".
+//
+// `jump` downgrades case 1 to case 2: an internal route that lands
+// on a plain <a>, so the browser performs a full page load. It is for
+// a deep link INTO another page — "/consulting#ongoing-support" — and
+// the reason is a collision between two otherwise good behaviors. A
+// client-side route change keeps the window's current scroll position,
+// and the site smooth-scrolls in-page anchors; so a link near the foot
+// of a long page mounts the next page already scrolled most of the way
+// down it and then animates back up to the target. Handing the href to
+// the browser instead makes the landing a single instant jump, which
+// is what a reader following a link to one named section expects. The
+// cost is the prefetch and the client-side transition, which is the
+// right trade for a link whose whole job is to arrive somewhere
+// specific.
 // ─────────────────────────────────────────────────────────────────
 
 import NextLink from "next/link";
@@ -44,6 +58,12 @@ type LinkProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href"> & {
   children: ReactNode;
   /** Drop default underline; underline appears on hover/focus only. */
   quiet?: boolean;
+  /**
+   * Leave by a full page load rather than a client-side route change.
+   * Only meaningful on an internal href, and only needed when that href
+   * carries a hash — see the header comment.
+   */
+  jump?: boolean;
   /** Override the default link color with a specific palette ramp. */
   accent?: LinkAccent;
 };
@@ -52,6 +72,7 @@ export function Link({
   href,
   children,
   quiet = false,
+  jump = false,
   accent,
   className = "",
   style,
@@ -61,9 +82,12 @@ export function Link({
   // classifyHref encapsulates the three predicates so Footer, the
   // BackToPlaylists button, and Link share one source of truth.
   const kind = classifyHref(href);
-  const isInternal = kind === "internal";
-  const isHashOrProtocol = kind === "hashOrProtocol";
   const isExternal = kind === "external";
+  // `jump` moves an internal route into the plain-anchor branch below,
+  // which is the whole of what it does: same classes, same styling,
+  // no next/link around it.
+  const isPlainAnchor =
+    kind === "hashOrProtocol" || (kind === "internal" && jump);
 
   // Underline behavior: quiet → on hover/focus only; loud → always on.
   const underlineClass = quiet
@@ -152,8 +176,9 @@ export function Link({
     );
   }
 
-  if (isHashOrProtocol) {
-    // mailto:, tel:, or in-page anchor — same-tab plain anchor.
+  if (isPlainAnchor) {
+    // mailto:, tel:, an in-page anchor, or a `jump` route — same-tab
+    // plain anchor, handed to the browser.
     return (
       <a href={href} className={sharedClasses} style={sharedStyle} {...rest}>
         {children}

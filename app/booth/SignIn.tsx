@@ -118,13 +118,16 @@ export function SignIn() {
       {/* And the same message for the visitor with no script, revealed
           by the address alone. A failed post over there redirects to
           #sign-in-rejected, so `:target` is what shows this — no state,
-          no effect reading the URL after the fact, and the browser
-          moves focus here on arrival, which is how it gets announced.
+          no effect reading the URL after the fact. `tabIndex={-1}` lets
+          the browser actually move focus here on arrival, and the alert
+          role is what makes a screen reader say it.
           It stays hidden the rest of the time, including on the path
           above: the fetch never navigates, so the two can never both
           be showing. */}
       <p
         id="sign-in-rejected"
+        role="alert"
+        tabIndex={-1}
         className="m-0 hidden rounded-md px-3 py-2 text-[13px] target:block"
         style={ERROR_STYLE}
       >
@@ -136,8 +139,8 @@ export function SignIn() {
       </Button>
 
       <Body size="sm" style={{ color: "var(--text-caption)" }}>
-        Logins are issued one at a time. Request access beside this card if
-        you do not have one yet.
+        Logins are issued one at a time. Request access if you do not have
+        one yet.
       </Body>
     </form>
   );

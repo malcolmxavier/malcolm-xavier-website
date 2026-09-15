@@ -463,14 +463,28 @@ for (const [name, value] of [
 // the answer was `max-w-[78rem]` in one file and `max-w-[64rem]` in
 // three others, and the site grew four content widths nobody chose.
 //
-// 80rem/1280px is what most of the site already used. It is the same
-// number as the `xl` breakpoint above, and the two are still declared
-// separately on purpose: a breakpoint is when the layout changes and a
-// content width is how wide the column gets. The day one of them moves
-// the other should not have to follow.
+// 104rem/1664px is the Booth's well (96rem) plus both of its gutters
+// (2 x 4rem), so a Container's *content* lands exactly where a Booth
+// band's content lands, and the header, the footer, and the page share
+// one left edge on every route. It was 80rem until 2026-09-12, which
+// was what most of the site had already grown by hand; the Booth was
+// the first surface wide enough to disagree with it. A per-route
+// override was built first and worked, and the cost was that the
+// wordmark stepped outward on arrival and back on the way out — a
+// visible shift at the boundary, which was worse than the width.
+//
+// Widening this cannot lengthen a line of prose: Body, Lede, HeroNote,
+// and the rest cap themselves at their own measure (60ch, mostly), so
+// what moves is composition — grids, headers, and what sits beside
+// what — never legibility.
+//
+// It is deliberately not declared as one of the breakpoints above: a
+// breakpoint is when the layout changes and a content width is how
+// wide the column gets. The day one of them moves the other should not
+// have to follow.
 out.push("");
 out.push("  /* Page content width — see scripts/build-tokens.mjs */");
-out.push("  --container-page: 80rem; /* 1280px */");
+out.push("  --container-page: 104rem; /* 1664px */");
 out.push("}");
 out.push("");
 

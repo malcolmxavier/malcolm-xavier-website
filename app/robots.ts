@@ -22,7 +22,10 @@
 //     out of this list; everything BELOW it is a password-gated copy
 //     of a private working tool, and a crawler that reached it would
 //     only ever be recording a 401. The trailing slash is what draws
-//     that line, so do not "tidy" it away.
+//     that line, so do not "tidy" it away. The one exception is the
+//     landing page's link-preview image, which Next serves at
+//     /booth/opengraph-image; a crawler blocked from it shows a shared
+//     /booth link with no picture.
 //
 // Reference: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/robots
 // ─────────────────────────────────────────────────────────────────
@@ -33,7 +36,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      allow: "/",
+      allow: ["/", "/booth/opengraph-image"],
       disallow: [
         "/api/",
         "/films/reviews/facet-search",

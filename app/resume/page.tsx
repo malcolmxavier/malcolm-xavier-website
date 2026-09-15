@@ -342,6 +342,7 @@ function RoleCaseStudyLink({ role }: { role: ResumeRole }) {
       >
         <Link
           href="/case-studies#work"
+          jump
           accent={role.accent}
           aria-label={`Related case studies for ${role.company} (${slugs.length})`}
         >

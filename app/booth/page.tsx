@@ -24,19 +24,21 @@
 // argument; the byline is in the footer, the nav, and every other
 // page on this site.
 //
-// WIDTH. This is the one page on the site that does not sit in the
-// shared content well. Everywhere else, Container's 80rem rail is
-// what lines the header, the footer, and every page up against each
-// other, and that rail is right for a page that is a document. This
-// page is a wall of colour, and a wall of colour stopped 160px short
-// of the window reads as a document about a product rather than as
-// the product — the dark margin turns every band into a slide on a
-// page instead of a surface the reader is looking at. So the bands
-// run edge to edge and carry the well themselves: each one pads its
-// own content in to --booth-well, which is wider than the site's rail
-// because the evidence on this page is screenshots and a screenshot
-// is only an argument at a size you can read it at. The prose inside
-// still sets to PROSE_WIDTH, so the measure never grew.
+// WIDTH. This is the one page on the site that does not sit inside
+// the shared content well. Everywhere else, Container is what lines
+// the header, the footer, and every page up against each other, and
+// that is right for a page that is a document. This page is a wall of
+// colour, and a wall of colour stopped short of the window reads as a
+// document about a product rather than as the product — the dark
+// margin turns every band into a slide on a page instead of a surface
+// the reader is looking at. So the bands run edge to edge and carry
+// the well themselves: each one pads its own content in to
+// --booth-well, sized for screenshots, since a screenshot is only an
+// argument at a size you can read it at. The site's rail was then
+// widened to that well plus its two gutters, so the bands' content
+// lines up with the header and the footer even though the colour does
+// not stop where they do. The prose inside still sets to PROSE_WIDTH,
+// so the measure never grew.
 //
 // COPY. Every word a reader sees lives in ./copy.ts, and none of it
 // lives here. That file also carries the editing rules — real glyphs
@@ -58,6 +60,7 @@ import { Kicker } from "@/components/typography/Kicker";
 import { Lede } from "@/components/typography/Lede";
 import { Body } from "@/components/typography/Body";
 import { Button } from "@/components/primitives/Button";
+import { Link } from "@/components/primitives/Link";
 import { Card } from "@/components/primitives/Card";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
@@ -71,10 +74,7 @@ import {
   HOW_IT_WORKS,
   META,
   MOVES,
-  REQUEST_ACCESS_LABEL,
   SURFACES,
-  SURFACES_INTRO,
-  VOCABULARY,
   VOCABULARY_COPY,
 } from "./copy";
 
@@ -126,6 +126,23 @@ const ITEM_HEADING: React.CSSProperties = {
 // Shared anchor offset so in-page jumps land below the sticky Nav.
 const sectionAnchorStyle: React.CSSProperties = { scrollMarginTop: "6rem" };
 
+// The prose size for text that sits beside something tall — the surface
+// rows beside their captures, and the ask beside the sign-in card. Read
+// from custom properties that Shot.tsx steps at 64rem, 80rem, and 96rem;
+// the comment there carries the reasoning. Prose in a single-column
+// section keeps the ordinary body step, which is why this is applied at
+// call sites rather than to the page.
+const ROW_PROSE: React.CSSProperties = {
+  fontSize: "var(--booth-row-size)",
+  lineHeight: "var(--booth-row-leading)",
+  // Overrides the primitives' own 60ch cap. That cap is a measure for a
+  // full-width document column and never binds inside a half-width grid
+  // column, so the row's line length was set by the viewport instead.
+  // Below 64rem the variable resolves to the same 60ch the primitives
+  // use, so the single-column stack is untouched.
+  maxWidth: "var(--booth-row-measure)",
+};
+
 // The one address access is requested at. Written once so the label
 // and the subject line can never drift apart across the call sites.
 const ACCESS_HREF = `mailto:${CONTACT.email}?subject=Booth%20access`;
@@ -147,48 +164,10 @@ const BOOTH_SCHEMA = {
       description: META.description,
       isPartOf: { "@id": `${SITE_URL}/#website` },
       about: { "@id": `${SITE_URL}/#person` },
+      author: { "@id": `${SITE_URL}/#person` },
     },
   ],
 };
-
-/**
- * The section-closing call to action.
- *
- * Every section ends with one, and they all point at the same place —
- * what changes is the sentence in front of it, which is the argument
- * that section just made. Rendering them through one component is what
- * keeps the repeated calls to action reading as a spine rather than as
- * nagging, and it means the tracked event is identical everywhere.
- */
-function RequestAccess({
-  label = REQUEST_ACCESS_LABEL,
-  lead,
-  variant = "secondary",
-  size = "md",
-}: {
-  label?: string;
-  lead?: string;
-  variant?: "primary" | "secondary";
-  size?: "md" | "lg";
-}) {
-  return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-3 pt-1">
-      <TrackOnClick
-        event={ANALYTICS_EVENTS.EMAIL_CLICK}
-        eventData={{ kind: "direct", surface: "booth" }}
-      >
-        <Button as="a" href={ACCESS_HREF} variant={variant} size={size}>
-          {label}
-        </Button>
-      </TrackOnClick>
-      {lead ? (
-        <Body size="sm" style={{ color: "var(--text-caption)" }}>
-          {lead}
-        </Body>
-      ) : null}
-    </div>
-  );
-}
 
 /**
  * A design rule, printed against the surface it governs.
@@ -237,7 +216,7 @@ export default function BoothPage() {
             first surface row below can read right-text and the
             alternation runs unbroken from the top of the page. */}
         <Section id="top" style={sectionAnchorStyle} padding="lg">
-          <div className="booth-surface booth-band booth-band--green">
+          <div className="booth-surface booth-surface--flush booth-band booth-band--green">
             <Stack gap="700" className={PROSE_WIDTH}>
               <Display as="h1">{HERO.heading}</Display>
               <Lede>{HERO.lede}</Lede>
@@ -256,11 +235,14 @@ export default function BoothPage() {
               </div>
             </Stack>
 
+            {/* No caption. The paragraph beside it is the caption — this
+                capture is the hero's illustration rather than an exhibit
+                being annotated, which is what the surface shots
+                below are. */}
             <Shot
               name="today"
               preload
               alt={HERO.shotAlt}
-              caption={HERO.shotCaption}
               sizes="(min-width: 96rem) 49rem, (min-width: 64rem) 45rem, 100vw"
             />
           </div>
@@ -269,11 +251,22 @@ export default function BoothPage() {
         {/* ─── How it works ─────────────────────────────────────── */}
         <Section id="how-it-works" style={sectionAnchorStyle}>
           <Stack gap="600" className="booth-band">
-            <Stack gap="300" className={PROSE_WIDTH}>
+            <Stack gap="300" className={`${PROSE_WIDTH} booth-prose-column`}>
               <Headline level={2}>{HOW_IT_WORKS.heading}</Headline>
               <Lede>{HOW_IT_WORKS.lede}</Lede>
             </Stack>
-            <Grid cols={3} gap="400">
+            {/* cols={1} plus an lg step, rather than cols={3}, which
+                would take the shared ramp: one column, then two from
+                40rem, then three. Two is the wrong middle for these
+                three. They are numbered steps, so a 2-up grid breaks
+                the sequence across an uneven row and leaves step 3 —
+                the move most tools skip — alone beside an empty half.
+                Everywhere else on the
+                site a 3-grid holds tiles, where an uneven last row is
+                the normal shape of a collection; a sequence is the one
+                case it is not. So these go one-up until there is room
+                for all three side by side. */}
+            <Grid cols={1} gap="400" className="lg:grid-cols-3">
               {MOVES.map((move, i) => (
                 <Card
                   key={move.title}
@@ -281,8 +274,15 @@ export default function BoothPage() {
                   className="h-full"
                   // Flat, never a gradient: these three are the legend for
                   // the page's palette, and a legend has to state its colour
-                  // plainly. The border stays so the card still reads as the
-                  // same object the rest of the site's cards are.
+                  // plainly. The border Card draws is left alone, but what it
+                  // does depends on the theme: in light it is --border-default
+                  // against a pale tint and neither edge of it clears 1.3:1,
+                  // so the fill is what shapes the card and the border is
+                  // effectively not there. In dark the tints are deep enough
+                  // to sit close to the page, and the same border is the only
+                  // thing separating them from it. Worth knowing before
+                  // anyone removes it on the evidence of a light-mode
+                  // screenshot.
                   style={{ background: `var(--booth-${move.tint})` }}
                 >
                   <div className="flex h-full flex-col gap-2 p-5">
@@ -295,7 +295,11 @@ export default function BoothPage() {
                     <Kicker as="p">
                       {HOW_IT_WORKS.stepPrefix} {i + 1}
                     </Kicker>
-                    <Headline level={3} style={ITEM_HEADING}>
+                    <Headline
+                      level={3}
+                      className="booth-move-title"
+                      style={ITEM_HEADING}
+                    >
                       {move.title}
                     </Headline>
                     <Body>{move.body}</Body>
@@ -303,13 +307,6 @@ export default function BoothPage() {
                 </Card>
               ))}
             </Grid>
-            {/* The third move carries the rule that used to sit in its
-                own section at the foot of the page. It belongs here:
-                it is the claim the three steps are all instances of. */}
-            <Stack gap="400" className={PROSE_WIDTH}>
-              <Body>{HOW_IT_WORKS.closer}</Body>
-              <RequestAccess lead={HOW_IT_WORKS.ctaLead} />
-            </Stack>
           </Stack>
         </Section>
 
@@ -321,169 +318,107 @@ export default function BoothPage() {
             tablet width is where this page is most likely to be opened
             in a meeting.
 
-            The first row is flipped rather than the second, because the
-            hero above is row one of the same rhythm and reads
-            left-text. Even indices flip, so the page alternates
-            unbroken from the top: hero left, Today right, the week
-            left, and so on. */}
+            Even indices flip, so the section opens on the side the
+            hero did not: Today's prose right, the calendar's left, the
+            network right, the pipeline left, the backlog right. There is no
+            heading above the rows — the day itself answers the promise
+            the section before it makes, and a paragraph announcing the
+            views stood between the two saying what the rows already
+            say. */}
         <Section id="surfaces" style={sectionAnchorStyle}>
           {/* gap 0, because the bands inside supply their own padding and
               have to touch. Any gap here is an uncoloured stripe. */}
-          <Stack gap="0">
-            <div className="booth-band">
-              <Stack gap="300" className={PROSE_WIDTH}>
-                <Headline level={2}>{SURFACES_INTRO.heading}</Headline>
-                <Lede>{SURFACES_INTRO.lede}</Lede>
-              </Stack>
-            </div>
-
-            <Stack gap="0" as="ol" className="m-0 list-none p-0">
-              {SURFACES.map((surface, i) => (
-                <li
-                  key={surface.name}
-                  className={[
-                    "booth-surface",
-                    "booth-band",
-                    `booth-band--${surface.tint}`,
-                    // A flipped row puts its prose on the right, so the
-                    // wash has to start there too. One condition drives
-                    // both, which is what stops them drifting apart.
-                    i % 2 === 0 ? "booth-surface--flip booth-band--right" : "",
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
-                >
-                  <Stack gap="200">
-                    <Headline level={3} style={SUB_HEADING}>
-                      {surface.name}
-                    </Headline>
-                    <Body>{surface.what}</Body>
-                    <Body>{surface.how}</Body>
-                    {surface.rule ? <RuleNote>{surface.rule}</RuleNote> : null}
-                    <RequestAccess
-                      label={surface.cta}
-                      variant={surface.close ? "primary" : "secondary"}
-                    />
-                  </Stack>
-                  <Shot
-                    name={surface.shot}
-                    alt={`The Booth’s ${surface.name} view. ${surface.what}`}
-                    caption={surface.caption}
-                    sizes="(min-width: 96rem) 49rem, (min-width: 64rem) 45rem, 100vw"
-                  />
-                </li>
-              ))}
-            </Stack>
+          <Stack gap="0" as="ol" className="m-0 list-none p-0">
+            {SURFACES.map((surface, i) => (
+              <li
+                key={surface.name}
+                className={[
+                  "booth-surface",
+                  "booth-band",
+                  `booth-band--${surface.tint}`,
+                  // Two axes, deliberately separate. Which side the
+                  // prose takes is a question about the reading
+                  // rhythm down the page, and which side the wash
+                  // starts on is a question about the colour; a
+                  // single condition driving both means neither can
+                  // be changed without changing the other.
+                  i % 2 === 0 ? "booth-surface--flip" : "",
+                  i % 2 === 0 ? "booth-band--right" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                <Stack gap="300">
+                  <Headline level={2} style={SUB_HEADING}>
+                    {surface.name}
+                  </Headline>
+                  <Lede style={ROW_PROSE}>{surface.what}</Lede>
+                  <Body style={ROW_PROSE}>{surface.how}</Body>
+                  {surface.rule ? <RuleNote>{surface.rule}</RuleNote> : null}
+                </Stack>
+                <Shot
+                  name={surface.shot}
+                  alt={`${surface.name} in the Booth. ${surface.what}`}
+                  caption={surface.caption}
+                  sizes="(min-width: 96rem) 49rem, (min-width: 64rem) 45rem, 100vw"
+                />
+              </li>
+            ))}
           </Stack>
         </Section>
 
-        {/* ─── One engine, any vocabulary ───────────────────────────
-            The commercial argument, and the reason the demo wears a
-            different set of words rather than being a censored copy of
-            the live installation. Both columns are configurations that
-            exist; neither is a customer. */}
-        <Section id="vocabulary" style={sectionAnchorStyle}>
-          {/* The heading sits inside the prose column rather than above the
-              pair. The wash starts on the side the text is on, so a heading
-              set apart from its own argument would be the one line on the
-              page left standing off its colour.
+        {/* ─── Set up in your own words ─────────────────────────
+            The commercial argument, and the last thing said before the
+            ask, which is why it hands straight down into it.
 
-              The argument runs beside the evidence for it, on the same
-              alternating rhythm the surfaces above use — and flipped,
-              because the last surface row read text-left. The table is this
-              section’s screenshot: the claim is that a word is a setting,
-              and two shipped configurations side by side are what shows it. */}
-          <div className="booth-surface booth-surface--flip booth-band booth-band--orange booth-band--right">
-            <Stack gap="400">
+            Prose and nothing else. This band used to set the author's
+            own configuration beside the demo's in a six-row table, and
+            the table was the section's screenshot: the claim is that a
+            word is a setting, and two shipped configurations side by
+            side were what showed it. What it actually showed was an
+            audit of the software — two columns of synonyms, under five
+            paragraphs establishing which installation each column was
+            — where the reader's question is whether it can be theirs.
+
+            The column takes the hero's measure rather than the band's
+            full well. Every other band on the page is two columns, so
+            a single block running the whole well would be the one
+            measure on the page with nothing to agree with.
+
+            No booth-surface here, and that is the point of the class
+            being absent rather than an omission: booth-surface is the
+            two-column grid every other band needs to stand its prose
+            beside a capture. With the table gone this band has one
+            child, which would sit in the 1fr column at half the well
+            and then be halved again by the measure below — a quarter
+            of the page, wrapping every four or five words. */}
+        <Section id="vocabulary" style={sectionAnchorStyle}>
+          <div className="booth-band booth-band--green">
+            <Stack gap="400" className="booth-prose-column">
               <Headline level={2}>{VOCABULARY_COPY.heading}</Headline>
               <Lede>{VOCABULARY_COPY.lede}</Lede>
               {VOCABULARY_COPY.body.map((paragraph) => (
                 <Body key={paragraph.slice(0, 32)}>{paragraph}</Body>
               ))}
-              <RequestAccess
-                variant="primary"
-                lead={VOCABULARY_COPY.ctaLead}
-              />
             </Stack>
-
-            {/* The row label is a <th scope="row"> so a screen reader
-                announces “Early interest — Prospects — Shortlisted” as one
-                statement rather than reading three disconnected word lists.
-                overflow-x-auto is the escape hatch for the narrowest
-                columns: the grid track is minmax(0, …), so the table can
-                scroll inside it without widening the page. */}
-            <div className="overflow-x-auto">
-              <table
-                className="w-full border-collapse text-left"
-                style={{ fontSize: "var(--p-font-size)" }}
-              >
-                <caption className="sr-only">{VOCABULARY_COPY.caption}</caption>
-                <thead>
-                  <tr>
-                    {VOCABULARY_COPY.columns.map((h) => (
-                      <th
-                        key={h}
-                        scope="col"
-                        className="border-b py-2 pr-4 font-normal"
-                        style={{
-                          borderColor: "var(--border-default)",
-                          color: "var(--text-caption)",
-                          fontSize: "var(--p-sm-font-size)",
-                        }}
-                      >
-                        {h}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {VOCABULARY.map((row) => (
-                    <tr key={row.a}>
-                      {/* The concept, in the reader’s own language. Set in
-                          the caption colour so the two configured words are
-                          what the eye lands on. */}
-                      <th
-                        scope="row"
-                        className="border-b py-2 pr-4 font-normal"
-                        style={{
-                          borderColor: "var(--border-default)",
-                          color: "var(--text-caption)",
-                        }}
-                      >
-                        {row.of}
-                      </th>
-                      <td
-                        className="border-b py-2 pr-4"
-                        style={{ borderColor: "var(--border-default)" }}
-                      >
-                        {row.a}
-                      </td>
-                      <td
-                        className="border-b py-2 pr-4"
-                        style={{ borderColor: "var(--border-default)" }}
-                      >
-                        {row.b}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              </div>
           </div>
         </Section>
 
         {/* ─── Getting in ──────────────────────────────────────────
-            The trust close as well as the access route. The rule about
-            what the automated jobs can reach is printed here rather
-            than in a section of its own: it is the last doubt a reader
-            has before asking for a login, so it belongs against the
-            ask. */}
+            The ask. Both things a reader can have are named here and
+            nowhere else: the login, which is what the buttons do, and
+            the build, which is a link out to where it is priced. */}
         <Section id="access" style={sectionAnchorStyle}>
-          <Grid cols={2} gap="500" className="booth-band booth-band--green">
+          {/* booth-stepped-prose is what the two paragraphs below read
+              their size from. The card beside them is a bordered box
+              with a form in it, which carries far more weight than two
+              lines of 16px text — so the offer was losing its own
+              section to the thing a reader only needs if they already
+              have a login. */}
+          <Grid cols={2} gap="500" className="booth-band booth-stepped-prose">
             <Stack gap="400">
               <Headline level={2}>{ACCESS.heading}</Headline>
-              <Body>{ACCESS.body}</Body>
-              <RuleNote>{ACCESS.rule}</RuleNote>
+              <Body style={ROW_PROSE}>{ACCESS.body}</Body>
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <TrackOnClick
                   event={ANALYTICS_EVENTS.EMAIL_CLICK}
@@ -512,6 +447,17 @@ export default function BoothPage() {
                   </Button>
                 </TrackOnClick>
               </div>
+              {/* The build note sits after the buttons, at full body size.
+                  An earlier draft set the same offer in small caption type
+                  inside a feature band, where it was easy to miss; the only
+                  thing that can be bought outright does not get shrunk. */}
+              <Body style={ROW_PROSE}>
+                {ACCESS.offer.before}
+                <Link href={ACCESS.offer.href} jump>
+                  {ACCESS.offer.linkLabel}
+                </Link>
+                {ACCESS.offer.after}
+              </Body>
             </Stack>
 
             <Card id="sign-in" style={sectionAnchorStyle}>

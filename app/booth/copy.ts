@@ -36,9 +36,10 @@
 // "workstream". Keep them consistent here, on the onboarding screen,
 // and in anything published about the Booth.
 //
-// CLAIMS. Every factual statement here describes the real system. The
-// vocabulary table is generated from the two profiles that actually
-// ship in booth/vocabulary.json — nothing in it is illustrative.
+// CLAIMS. Every factual statement here describes the real system.
+// Anything named as a setting is one: the words come out of
+// booth/vocabulary.json and the rules out of the config files
+// beside it.
 // Nothing on this page claims a business outcome, because the Booth
 // has not produced one that has been measured.
 // ─────────────────────────────────────────────────────────────────
@@ -54,14 +55,8 @@ export const META = {
   name: "The Booth",
   pageTitle: "The Booth · One prioritized day, out of every system you work in",
   description:
-    "A working surface that merges every workstream into one prioritized day, sized against the hours you actually have, and writes every decision back into the system that owns the record. Access on request.",
+    "The control room for your operations. The Booth merges every workstream into one prioritized day, sized against the hours you actually have, and writes every decision back into the system that owns the record. Access on request.",
 };
-
-// ─── The label on every access button ────────────────────────────
-// Every section ends with the same ask, and this is the word it uses
-// unless a row overrides it. Written once so the button, the tracked
-// event, and the mail subject can never drift apart.
-export const REQUEST_ACCESS_LABEL = "Request access";
 
 // ─── Hero ────────────────────────────────────────────────────────
 // One claim, one paragraph under it, two ways forward, and the
@@ -71,23 +66,23 @@ export const REQUEST_ACCESS_LABEL = "Request access";
 //
 // `shotAlt` is what a screen reader gets instead of the capture, so
 // it describes the layout and the controls rather than saying "a
-// screenshot of Today". `shotCaption` is printed under the image and
-// has one job beyond describing it: saying out loud that the people
-// in the demo are invented, at the first moment a reader sees them.
+// screenshot of Today". There is no caption here, unlike the five
+// surface shots further down: those are each making a point about one
+// screen and the caption is what names it, while this one is the
+// paragraph's own illustration and the paragraph is already the
+// caption.
 export const HERO = {
-  heading: "One prioritized day, out of every system you work in",
+  heading: "The control room for your operations",
   lede:
-    "The Booth reads the tools that already own your work, merges what is live into a single day prioritized against the hours you actually have, and writes every decision back where it came from.",
+    "The Booth connects to the tools you already use and prioritizes your day across every workstream. Manage your tasks, contacts, and calendar from one place. Every change you make is pushed back to the tool where that work lives.",
   primaryCta: "Request access",
   secondaryCta: "Sign in",
   shotAlt:
-    "The Booth’s Today view: a standing-routine column on the left, the day’s prioritized cards in the centre each tagged with the workstream it came from and carrying Done, Not today, and Won’t do buttons, and a Coming up column on the right.",
-  shotCaption:
-    "Today, in the demo instance. Every person, organization, and message in it is invented.",
+    "The Booth’s Today view: a line stating the date and how much of the day’s planned hours are spent, then the day’s prioritized cards, a timed call first, each tagged with the workstream it came from and carrying Done, Not today, and Won’t do buttons, beside a Coming up column listing the next dated items.",
 };
 
 // ─── How it works ────────────────────────────────────────────────
-// Three moves, in the order they happen. This is the "broad overview"
+// Three steps, in the order they happen. This is the "broad overview"
 // a reader needs before any individual surface means anything.
 //
 // `tint` is the hue the card is filled with, and these three cards are
@@ -97,60 +92,62 @@ export const HERO = {
 export const MOVES = [
   {
     tint: "green",
-    title: "It reads the systems that already own the work",
-    body: "Nothing is re-entered. Mail, a calendar, a pipeline file, a content board, and a dependency map are read where they live, and each stays the system of record for its own work.",
+    title: "It reads the systems you already use",
+    body: "Choose the systems it can reach, and how much of each one it can see. A mailbox, a calendar, a CRM, a backlog—whatever tools are already in your stack.",
   },
   {
     tint: "blue",
-    title: "It builds one day and puts it in order",
-    body: "Every workstream is interleaved so no day is all one kind of work, meetings come off the top as fixed points, and what is left is sized against the hours you actually have rather than stacked into a list nobody could finish.",
+    title: "It automatically prioritizes your day",
+    body: "Set your capacity and the rules for work priority. The Booth interleaves each workstream around those settings.",
   },
   {
     tint: "orange",
-    title: "A decision is written back, and says where it landed",
-    body: "Done, not today, and won’t do each propagate into the system that owns the record, and return a receipt naming every file written and every system skipped with the reason.",
+    title: "It writes your updates back",
+    body: "Make an update in the Booth and it writes through to your systems of record. If it can’t write something, it tells you.",
   },
 ];
 
-// The words around the three cards. `closer` is the paragraph under
-// them, and it is the page's central claim rather than a summary: the
-// third move is the one most tools skip, and this is where the page
-// says why that is hard.
+// The words around the three cards.
 export const HOW_IT_WORKS = {
-  heading: "Three moves, and the day is real",
+  heading: "Connect your tools. Streamline your day.",
+  // The space in "The Booth" is a non-breaking space (U+00A0), not a
+  // normal one. This block's measure tracks the hero's grid column, so
+  // it is fluid and where the lede breaks changes with the viewport —
+  // at 1280 the first sentence ends with just enough room left over for
+  // one short word, which split the product's name across two lines.
+  // The name is one word as far as wrapping is concerned. It is not an
+  // attempt to pin the break, which a fluid measure cannot hold.
   lede:
-    "There is no inbox to keep clean and no board to groom. The work stays where it is; what the Booth owns is the order.",
+    "Connect your CRM, mailbox, calendar, or other tools. The Booth prioritizes your day against the goals you set.",
   // Prefixed to the card's number. The counter is not decoration —
   // each move is only possible once the one before it has happened,
   // and the number is what lets a reader hold that across three cards.
   stepPrefix: "Step",
-  closer:
-    "That third move is the one most tools skip. Every card is a projection of some other system’s record, so “done” has nowhere to live on the card itself. One write path takes the decision and propagates it, then returns a receipt naming what it wrote and what it could not. Some decisions genuinely cannot propagate—those say so on the receipt rather than diverging quietly.",
-  ctaLead: "Access is issued by hand, usually the same day.",
 };
 
 // ─── The surfaces ────────────────────────────────────────────────
-// Four views, each with the capture that proves it, laid out two-up:
+// Five views, each with the capture that proves it, laid out two-up:
 // the claim on the left and the screen it is a claim about on the
 // right. `shot` is the basename of a pair in /public/booth-shots.
 //
-// `tint` is the hue of the wash behind the row. Blue and orange take two
-// rows each; the third green on the page lands on the pipeline, which is
-// the row carrying the strongest claim the product makes.
+// `tint` is the hue of the wash behind the row, and the sequence is a
+// property of the whole page rather than of this array: the rows are
+// five slabs in a run of nine, and no two touching slabs may share a
+// hue. Counting from the hero that run is green, untinted, blue,
+// orange, green, blue, orange, green, untinted — the five rows being the
+// third through seventh of those, and the vocabulary band below them
+// being fixed in the page itself. The ask at the foot takes no hue at
+// all, which a band supports: it keeps the rhythm and the padding and
+// draws its gradient transparent. An earlier order ended
+// the rows on orange directly against the orange vocabulary band, and
+// the two read as one slab of twice the height rather than as two
+// sections, which is the failure this is arranged to avoid.
 //
 // `rule` is optional and is where a design decision lives that only
 // makes sense against the surface it governs. These used to be their
 // own section at the foot of the page, which separated every rule from
 // the thing it was a rule about and asked the reader to hold four
 // screens in their head to understand three constraints.
-//
-// `cta` is the button that closes the row. Every one of them opens the
-// same mail composer, and the label is what changes, because each row
-// has just made a different argument and the button is the end of that
-// argument rather than a repeat of the last one. `close` marks the row
-// that also closes the section: it takes the primary treatment, which
-// is the section's own call to action moved inside the colour instead
-// of standing in the gap underneath it.
 export type Surface = {
   name: string;
   tint: "green" | "blue" | "orange";
@@ -159,8 +156,6 @@ export type Surface = {
   how: string;
   caption: string;
   rule?: string;
-  cta: string;
-  close?: boolean;
 };
 
 export const SURFACES: Surface[] = [
@@ -168,107 +163,125 @@ export const SURFACES: Surface[] = [
     name: "Today",
     tint: "blue",
     shot: "today",
-    what: "The merged day, and the only view that answers what to do now.",
-    how: "Each card carries the workstream it came from and the decision buttons that write it back. Habits sit outside the budget until one is genuinely late, and anything with a clock on it is converted into your own timezone exactly once.",
+    what: "The Booth’s homepage. Your prioritized day at a glance.",
+    how: "See your daily task list, your standing routines, and what is coming up. Each card tells you what workstream it came from and has the functionality to handle it without leaving the page. Anything with a fixed time sits at the top, and the rest of the day is arranged around it.",
     caption: "Today, with the day’s fixed points at the top and the budget already spent against them.",
-    cta: "See a day assembled",
   },
   {
-    name: "The week",
+    name: "The calendar",
     tint: "orange",
     shot: "calendar",
-    what: "Where everything sits, which is a different question from what is next.",
-    how: "Recurring work is stored as rules and expanded on read, never written into days—so extending the schedule is not a migration, and a habit skipped on Tuesday is skipped on Tuesday only. Moving something here is a real write, with the same refusals the command line enforces.",
-    caption: "The week. Dragging a card takes the day, because a card’s position is its date.",
-    cta: "See a week in place",
+    what: "Your week or month of work in one view, including a full record of prior work.",
+    how: "Drag tasks between days to reorder priorities, clear a crowded day, or pin work to a date yourself. Recurring work sits in its own band, so it never blocks your view of the rest of the day.",
+    caption: "The calendar. Dragging a card takes the day, because a card’s position is its date.",
+  },
+  {
+    name: "The network",
+    tint: "green",
+    shot: "network",
+    what: "The people you know and what organizations they’re connected to.",
+    how: "Flag the organizations you want to reach and the Booth sweeps every contact you have against them. Connections are ordered by what your own records show of each relationship, warmest first. Your standing routine starts from your top opportunity and takes the warmest connection into it, so the right person turns up in your daily task list. The card names the person and the tie, and leaves the message to you.",
+    caption: "The network view on its Targets tab: each organization with its tier and the people already on file there.",
   },
   {
     name: "The pipeline",
-    tint: "green",
+    tint: "blue",
     shot: "pipeline",
-    what: "Opportunities, meetings, people, and the routes into an organization.",
-    how: "It reads the mailbox. A loss notice closes an opportunity, a reply closes the card that asked for it and records everybody who was on the thread, and a prioritized list of who might introduce you is built out of what the file already knows rather than out of a connection degree.",
+    what: "Every opportunity you are working, stage by stage, and how long each has been sitting there. Connect your mailbox and the Booth scans it for updates, so the board keeps itself current.",
+    how: "Work an opportunity from first contact to close, with every meeting, note, and person on its record. Mailbox updates do the rest—a loss notice closes the opportunity, and sending a reply closes the task that asked for one.",
     caption: "The pipeline, grouped by stage. Stage names come from a settings file, not the code.",
-    rule: "It writes to your records without being asked, and shows its work. Every automated change logs what it replaced, the words it was read out of, and which run made it, with an undo on the record it touched—because the risk that matters is not who made the change, it is whether it can be taken back.",
-    cta: "See it write back",
   },
   {
-    name: "The map",
-    tint: "blue",
+    name: "The backlog",
+    tint: "orange",
     shot: "backlog",
     what: "Every open initiative across every project, in one dependency graph.",
-    how: "Rows are workstreams and columns are depth, so the first column is everything that can be started today. It is the planning surface the other three draw work from.",
+    how: "Each card is one piece of work, holding the sub-tasks that finish it, and arrows run between the cards to show what is waiting on what—inside a single initiative and across all of them. It is the planning surface the others draw from.",
     caption: "The dependency map. The first column is what is unblocked right now.",
-    cta: "See it running",
-    close: true,
   },
 ];
 
-// The words that open the four rows.
-export const SURFACES_INTRO = {
-  heading: "Four views over one set of records",
-  lede:
-    "Not four tools. One day, one week, one pipeline, and one map, all reading the same records—which is why a decision taken on any of them means the same thing on the others.",
-};
-
-// ─── One engine, any vocabulary ──────────────────────────────────
-// Read out of the two profiles that ship in booth/vocabulary.json.
-// Both columns are real configurations, and neither belongs to a
-// customer: the left is the installation this site runs, the right is
-// the demo anybody can be let into. Naming a client here would be a
-// claim about who is using it rather than about what it does.
+// ─── Set up in your own words ──────────────────────────
+// The commercial argument, and the last thing said before the ask: an
+// instance is configured to one team's words and rules rather than
+// built for one kind of business.
 //
-// The engine key each pair shares used to be a third column. It was
-// the truest column on the page and the wrong one to show: a reader
-// who does not write software has no use for `stage.prospects`, and
-// putting it first made a claim about flexibility read as a claim
-// about configuration files. What replaced it is the same row label in
-// plain language, because two columns of bare words is a list of
-// synonyms — the reader has to be told what the thing IS before two
-// names for it mean anything.
-export const VOCABULARY = [
-  { of: "The thing you are pursuing", a: "Role", b: "Opportunity" },
-  { of: "Early interest, nothing committed", a: "Prospects", b: "Shortlisted" },
-  { of: "You have made your move", a: "Applied", b: "Proposed" },
-  { of: "A live conversation", a: "Interviewing", b: "In progress" },
-  { of: "Both sides have agreed", a: "Offer", b: "Agreement" },
-  { of: "A warm route in", a: "Referral", b: "Introduction" },
-];
-
-// The prose beside the table, and the table's own labels. This is the
-// commercial argument on the page: the claim is that a word is a
-// setting, and two shipped configurations side by side are the proof.
-//
-// `columns` are the three table headings, in order, and they have to
-// stay in step with the three keys on each row above — `of`, `a`, `b`.
-// `caption` is read by a screen reader in place of the table and is
-// not printed on the page.
+// This band used to carry a six-row table setting the author's own
+// configuration beside the demo's, word for word. Every pair in it was
+// real, and it still had to go. Two columns of synonyms is an audit of
+// the software, not a claim about the reader's business — and the band
+// spent five paragraphs establishing which installation each column
+// belonged to, which is the page explaining itself rather than selling
+// anything. The claim survives in prose, where it is two sentences,
+// and what it costs to have one built moved to the ask, which is
+// where a reader is deciding rather than reading about features.
 export const VOCABULARY_COPY = {
-  heading: "Every word on these screens is a setting",
+  heading: "Your instance, in your own words",
   lede:
-    "Nothing here is hard-coded to one kind of business. What you call a deal, a stage, a meeting, an introduction—each of them is a setting, so the same system runs a sales desk, an admissions office, or a development team without being rebuilt.",
+    "What you call a deal, a stage, a meeting, an introduction—each one is configuration rather than code, so an instance arrives speaking the way your team already talks.",
   body: [
-    "Two configurations ship with it, and both are running today. One is set up for a job search. The other is the demo—the same build, dressed as a partnerships desk, with every organization and person in it invented. Same software, same screens, a different list of words. Nothing was forked and nothing was rebuilt.",
-    "That is the part worth a buyer’s attention. A CRM that fits an admissions funnel, a development office, or a two-person agency is not a different product—it is the same system and a list somebody wrote in an afternoon.",
+    "The rules work the same way: what counts as urgent, what your daily capacity is, which kinds of work sit beside each other. The same build runs a sales desk, an admissions office, or a two-person studio, because none of that is written into the software.",
   ],
-  ctaLead:
-    "Setting an instance up in a team’s own words is scoped work; rates are on the consulting page.",
-  columns: ["What it is", "A job search", "The demo"],
-  caption:
-    "The same records under two shipped configurations: what each thing is, and the word each configuration uses for it.",
 };
 
 // ─── Getting in ──────────────────────────────────────────────────
-// The trust close as well as the access route. `rule` is the last
-// doubt a reader has before asking for a login — what the automated
-// jobs behind these surfaces are allowed to reach — so it is printed
-// against the ask rather than in a section of its own.
+// The ask, and the only place on the page that says what can be
+// had. Two things can: a login, which is free and is the whole
+// product, and a build, which is the consulting page's business.
+//
+// IT IS AN INVITATION, NOT A DESCRIPTION. Every earlier draft of this
+// block explained the demo before asking for anything — what it is,
+// how a login is issued, how fast one comes back. A reader at the foot
+// of this page has read five surfaces and does not need the product
+// described again; they need to be asked. Two sentences do it: what a
+// login opens, and the two ways of asking for one, which are the two
+// buttons underneath.
+//
+// Four things are deliberately absent, each of them present in an
+// earlier draft. No turnaround is promised, because a timeline stated
+// on a page is a commitment made by nobody. Nothing says how a login
+// arrives either, and that one is a question of accuracy rather than
+// taste: setting one up is sales-assisted, so "it comes back by email"
+// described a self-serve flow that does not exist — a small untruth at
+// the exact point the page is asking to be trusted. The walkthrough is
+// named instead, because it is what actually happens and it is worth
+// having. Nothing tells the reader what to put in the mail, either:
+// "say who you are and what you want to see" attaches conditions to a
+// request that has not been made yet, which reads as a door policy
+// rather than an invitation. And the demo is not defined against
+// something it is not — "the whole product, not a tour" asks a reader
+// to picture a worse product nobody offered them, while the first half
+// of that sentence was already carrying the claim on its own.
+//
+// The build note sits BELOW the buttons on purpose. It is the more
+// expensive thing and the smaller audience: a reader who came for a
+// login should hit the buttons first and meet the build on the way
+// past, rather than read a paragraph about a price they did not ask
+// for before they find the control they came for.
+//
+// This block also used to close on a paragraph about what the automated
+// jobs behind these surfaces are allowed to reach, set under a divider
+// as the last doubt before the ask. It came out. That answer belongs in
+// a conversation and, at scale, in a licence and a privacy page —
+// printing it here put the page's most technical paragraph in the place
+// a reader is deciding to write, and it answered a question almost
+// nobody has asked yet.
 export const ACCESS = {
-  heading: "Ask for a login",
+  heading: "Request demo access",
   body:
-    "Logins are issued one at a time, so the demo stays something shown deliberately rather than a link that ends up indexed. Say who you are and what you want to see, and a username and a password come back, usually the same day.",
-  rule:
-    "On the question every reader eventually asks: two of the jobs behind these surfaces can search the web, and both are denied the data folder outright. What they legitimately need is copied into a separate directory whose one rule is that everything in it is safe to read beside the internet. There is no exception list, because an exception is where the next sensitive file quietly becomes readable.",
+    "A demo login opens the whole product, with a worked example already running in it. Ask by mail, or book half an hour for a walkthrough.",
+  // The build note, rendered under the buttons. The link lands on the
+  // page's name rather than on the whole sentence: a full underlined
+  // line directly beneath two buttons reads as a third control. It is
+  // also the one link on this page that leaves by a full page load
+  // rather than a client-side route change — see the `jump` prop in
+  // page.tsx for why a deep link into a long page needs it.
+  offer: {
+    before: "Ready for your own? Scope and rates are on the ",
+    linkLabel: "consulting page",
+    href: "/consulting#ongoing-support",
+    after: ".",
+  },
   primaryCta: "Request access",
   secondaryCta: "Book 30 minutes",
   signInHeading: "Already have one?",

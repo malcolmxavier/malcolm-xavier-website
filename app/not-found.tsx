@@ -33,10 +33,12 @@ export const metadata: Metadata = {
   // The template appends "—Malcolm Xavier", so the rendered <title>
   // is "Left on the cutting-room floor—Malcolm Xavier".
   title: "Left on the cutting-room floor",
-  // Belt-and-suspenders: the framework default already noindexes
-  // the not-found page, but stating it explicitly makes the intent
-  // visible in code review.
-  robots: { index: false, follow: false },
+  // No `robots` here: the framework already writes a noindex tag on
+  // every not-found response, and stating it again printed a second,
+  // disagreeing robots tag. The canonical is cleared because the root
+  // layout's "/" would otherwise tell a crawler this missing page is
+  // the home page.
+  alternates: { canonical: null },
 };
 
 export default function NotFound() {

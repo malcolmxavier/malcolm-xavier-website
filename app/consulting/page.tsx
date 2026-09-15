@@ -176,6 +176,14 @@ type Offer = {
    * A recommendation is his own judgment and needs no receipt.
    */
   featured?: string;
+  /**
+   * A link out to the thing being sold, where one exists as a page on
+   * this site. Only the Booth offer carries one: every other offer
+   * here is work, and work has no page to look at. It sits under the
+   * highlights rather than inside the prose, so a buyer scanning the
+   * card for scope is not interrupted by a route out of it.
+   */
+  link?: { label: string; href: string };
 };
 
 type Tier = {
@@ -291,12 +299,13 @@ const TIERS: Tier[] = [
         from: true,
         featured: "Best for small teams",
         description:
-          "A working setup for your team to drive operations with modern, agentic workflows. Seamless automations that allow your time to be spent on valuable, human work.",
+          "A Booth of your own: one control room over the tools your team already uses, configured to your words, your rules, and your capacity. Human-in-the-loop automation around it, so your time goes to the work only a person can do.",
         highlights: [
           "Human-in-the-loop workflows that automate low-value work and focus your time on delivering your expertise",
           "Live training sessions and written runbooks that keep your AI skills fresh",
           "Ongoing monthly support once the setup is in place",
         ],
+        link: { label: "See the Booth", href: "/booth" },
       },
       {
         name: "Fractional product partner",
@@ -732,6 +741,14 @@ function OfferCard({
             {offer.highlights.map((highlight) => (
               <li key={highlight}>{highlight}</li>
             ))}
+          </Body>
+        ) : null}
+        {offer.link ? (
+          /* mt-auto pins it to the foot of the card, so on a row where
+             one card has more highlights than another the two links
+             still sit on the same line. */
+          <Body size="sm" className="mt-auto pt-1">
+            <Link href={offer.link.href}>{offer.link.label}</Link>
           </Body>
         ) : null}
       </div>

@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-09-12T07:17:06.674Z
+   Built:        2026-09-12T21:25:00.311Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -1111,7 +1111,7 @@
   --breakpoint-2xl: 96rem;
 
   /* Page content width — see scripts/build-tokens.mjs */
-  --container-page: 80rem; /* 1280px */
+  --container-page: 104rem; /* 1664px */
 }
 
 /* ─── The Booth ───────────────────────────────────────────── */
