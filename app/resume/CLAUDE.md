@@ -76,6 +76,14 @@ for the same reason the cuts are. The full vocabulary, with an example,
 is the "Variant overlay" comment in the builder. A cut that is genuinely
 a different document can still replace whole blocks outright.
 
+**A cut can also build on another cut.** One posting's changes on top of
+a finished cut name that cut as their base, the same way, and the file
+sits beside it rather than in `_bases/`. **The review copy always marks
+changes against the cut underneath**, so reviewing a posting's layer shows
+only the lines that posting changed. A cut resting on `_bases/` alone, or
+on nothing, is marked against canonical, because the bases are building
+blocks rather than documents anybody reads.
+
 To build anything without overwriting a copy that was already reviewed or
 sent, set `RESUME_OUT_DIR` (or `COVER_LETTER_OUT_DIR` for letters) to a
 scratch folder. The file keeps its usual name there.
@@ -90,7 +98,8 @@ build**, not to this one.
 
 ## Keeping the cuts in agreement with each other
 
-`resume:review` diffs one cut against canonical, which is the right tool
+`resume:review` diffs one cut against the cut it is built on (canonical,
+for most of them), which is the right tool
 for reviewing a cut before it ships and is structurally blind to the
 problem this section is about. Drift between cuts does not show up there:
 two variants can each look reasonable against canonical and still say two

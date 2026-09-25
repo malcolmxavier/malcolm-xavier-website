@@ -15,8 +15,7 @@
 // Reviewing a tailored cut:
 //   RESUME_VARIANT=<variant> RESUME_DIFF=1 npm run resume:docx
 //   writes a second, clearly-named file with every change marked in the
-//   text — see "Review copy" below. Add RESUME_DIFF_AGAINST=<variant> to
-//   mark changes against another cut instead of canonical.
+//   text, against the cut it is built on — see "Review copy" below.
 //
 // Trial builds:
 //   RESUME_OUT_DIR=<folder> sends any build to that folder under its
@@ -457,7 +456,10 @@ const BASE_CASE_STUDIES = [
 // what it names. A layer may export any of:
 //
 //   BASE               the cut it builds on: a file in the _bases/ folder
-//                      beside the variant ("growth" is _bases/growth.mjs).
+//                      beside the variant ("growth" is _bases/growth.mjs),
+//                      or another variant in the same folder, for a cut
+//                      that is one posting's changes on top of a finished
+//                      cut ("ai-native-product" is ai-native-product.mjs).
 //                      Leave it out to build on the canonical resume.
 //   BULLETS            new bullet wording, each under a new id. Written
 //                      once here, then placed anywhere by that id, by this
@@ -554,15 +556,24 @@ function layerError(file, message) {
 }
 
 // Finds the file behind a BASE name. A variant's bases live in _bases/
-// beside it; a base that itself names a base looks in its own folder.
+// beside it; a base that itself names a base looks in its own folder. A
+// variant may also build on another variant in its own folder, which is
+// how one posting's changes sit on top of a finished cut. A name that
+// matches both is refused rather than guessed at.
 function baseFile(fromFile, name) {
   const dir = dirname(fromFile);
-  const folder = basename(dir) === "_bases" ? dir : join(dir, "_bases");
-  const file = join(folder, `${name}.mjs`);
-  if (!existsSync(file)) {
-    layerError(fromFile, `BASE "${name}" not found at ${relative(process.cwd(), file)}`);
+  const inBases = basename(dir) === "_bases";
+  const shared = join(inBases ? dir : join(dir, "_bases"), `${name}.mjs`);
+  const sibling = inBases ? null : join(dir, `${name}.mjs`);
+  const found = [shared, sibling].filter((file) => file && existsSync(file));
+  if (found.length === 0) {
+    layerError(fromFile, `BASE "${name}" not found at ${relative(process.cwd(), shared)}` +
+      (sibling ? ` or ${relative(process.cwd(), sibling)}` : ""));
   }
-  return file;
+  if (found.length > 1) {
+    layerError(fromFile, `BASE "${name}" names both a base and a variant; rename one`);
+  }
+  return found[0];
 }
 
 // Loads a variant and every base beneath it. Returns them root first:
@@ -721,26 +732,23 @@ const plainEntry = ({ id, ...entry }) => entry;
 const BASE_ROLES = CANONICAL_ROLES.map(plainRole);
 const BASE_EDUCATION = CANONICAL_EDUCATION.map(plainEntry);
 
-const cut = composeCut(
-  variantPath ? await loadLayers(resolve(process.cwd(), variantPath)) : [],
-);
+const layers = variantPath
+  ? await loadLayers(resolve(process.cwd(), variantPath))
+  : [];
+const cut = composeCut(layers);
 
-// What a review copy marks changes against. Canonical by default. With
-// RESUME_DIFF_AGAINST=<variant>, it is that cut instead, assembled exactly
-// as its own build would assemble it. That is for reviewing an overlay: a
-// cut built on another cut changes a line or two, and marked against
-// canonical those two lines are lost among everything the cut underneath
-// it already changed.
-const diffAgainstPath = process.env.RESUME_DIFF_AGAINST;
-// Checked before the baseline is loaded, so the mistake gets named rather
-// than surfacing as a failed import.
-if (diffAgainstPath && process.env.RESUME_DIFF !== "1") {
-  console.error("RESUME_DIFF_AGAINST only applies to a review build; set RESUME_DIFF=1.");
-  process.exit(1);
-}
-const against = diffAgainstPath
-  ? composeCut(await loadLayers(resolve(process.cwd(), diffAgainstPath)))
-  : null;
+// What a review copy marks changes against: the cut this one is built on.
+// For a cut built on another variant, that is the variant underneath, the
+// document he has already read, assembled exactly as its own build
+// assembles it. Marked against canonical instead, the line or two the cut
+// changes would be lost among everything the cut underneath had already
+// changed. The shared bases in _bases/ are building blocks rather than
+// documents anybody reads, so a cut resting only on them, or on nothing,
+// is marked against canonical.
+const parentAt = layers.findLastIndex(
+  (layer, i) => i < layers.length - 1 && basename(dirname(layer.file)) !== "_bases",
+);
+const against = parentAt >= 0 ? composeCut(layers.slice(0, parentAt + 1)) : null;
 const DIFF_CONTACT = against ? against.CONTACT : BASE_CONTACT;
 const DIFF_SUMMARY = against ? against.SUMMARY : BASE_SUMMARY;
 const DIFF_ROLES = against ? against.roles.map(plainRole) : BASE_ROLES;
@@ -749,14 +757,16 @@ const DIFF_CASE_STUDIES = against ? against.CASE_STUDIES : BASE_CASE_STUDIES;
 // Names the baseline in the review copy's own legend, so the reader knows
 // which document the struck-through wording came from.
 const DIFF_BASELINE_LABEL = against
-  ? `the ${basename(diffAgainstPath).replace(/\.m?js$/, "")} cut`
+  ? `the ${basename(layers[parentAt].file).replace(/\.m?js$/, "")} cut`
   : "canonical";
 
 // ─── Review copy ──────────────────────────────────────────────────
 // RESUME_DIFF=1, alongside RESUME_VARIANT, builds a *review* copy: the same
 // document with everything the variant changed marked in the text — new or
 // rewritten wording highlighted, wording the cut drops struck through in
-// grey, and whole entries it drops named at the end. Reviewing a tailored
+// grey, and whole entries it drops named at the end. Changes are marked
+// against the cut this one is built on; see "What a review copy marks
+// changes against" above. Reviewing a tailored
 // resume otherwise means holding two documents side by side and trusting
 // your eye to find the differences, which is the slow half of the job.
 //
@@ -813,15 +823,8 @@ const DEST_PATH = process.env.RESUME_OUT_DIR
   : OUT_PATH;
 // `.review` sits before the extension so the two files sort next to each
 // other and the marked-up one is unmistakable at a glance in Downloads.
-// A review against another cut gets that cut's name in its own, so it
-// never overwrites the review against canonical sitting beside it.
 const WRITE_PATH = REVIEW
-  ? DEST_PATH.replace(
-      /\.docx$/i,
-      against
-        ? `.review.vs_${basename(diffAgainstPath).replace(/\.m?js$/, "")}.docx`
-        : ".review.docx",
-    )
+  ? DEST_PATH.replace(/\.docx$/i, ".review.docx")
   : DEST_PATH;
 
 // ─── Validate content ─────────────────────────────────────────────
