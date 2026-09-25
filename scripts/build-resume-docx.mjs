@@ -15,7 +15,8 @@
 // Reviewing a tailored cut:
 //   RESUME_VARIANT=<variant> RESUME_DIFF=1 npm run resume:docx
 //   writes a second, clearly-named file with every change marked in the
-//   text — see "Review copy" below.
+//   text — see "Review copy" below. Add RESUME_DIFF_AGAINST=<variant> to
+//   mark changes against another cut instead of canonical.
 //
 // Trial builds:
 //   RESUME_OUT_DIR=<folder> sends any build to that folder under its
@@ -724,6 +725,33 @@ const cut = composeCut(
   variantPath ? await loadLayers(resolve(process.cwd(), variantPath)) : [],
 );
 
+// What a review copy marks changes against. Canonical by default. With
+// RESUME_DIFF_AGAINST=<variant>, it is that cut instead, assembled exactly
+// as its own build would assemble it. That is for reviewing an overlay: a
+// cut built on another cut changes a line or two, and marked against
+// canonical those two lines are lost among everything the cut underneath
+// it already changed.
+const diffAgainstPath = process.env.RESUME_DIFF_AGAINST;
+// Checked before the baseline is loaded, so the mistake gets named rather
+// than surfacing as a failed import.
+if (diffAgainstPath && process.env.RESUME_DIFF !== "1") {
+  console.error("RESUME_DIFF_AGAINST only applies to a review build; set RESUME_DIFF=1.");
+  process.exit(1);
+}
+const against = diffAgainstPath
+  ? composeCut(await loadLayers(resolve(process.cwd(), diffAgainstPath)))
+  : null;
+const DIFF_CONTACT = against ? against.CONTACT : BASE_CONTACT;
+const DIFF_SUMMARY = against ? against.SUMMARY : BASE_SUMMARY;
+const DIFF_ROLES = against ? against.roles.map(plainRole) : BASE_ROLES;
+const DIFF_EDUCATION = against ? against.education.map(plainEntry) : BASE_EDUCATION;
+const DIFF_CASE_STUDIES = against ? against.CASE_STUDIES : BASE_CASE_STUDIES;
+// Names the baseline in the review copy's own legend, so the reader knows
+// which document the struck-through wording came from.
+const DIFF_BASELINE_LABEL = against
+  ? `the ${basename(diffAgainstPath).replace(/\.m?js$/, "")} cut`
+  : "canonical";
+
 // ─── Review copy ──────────────────────────────────────────────────
 // RESUME_DIFF=1, alongside RESUME_VARIANT, builds a *review* copy: the same
 // document with everything the variant changed marked in the text — new or
@@ -785,8 +813,15 @@ const DEST_PATH = process.env.RESUME_OUT_DIR
   : OUT_PATH;
 // `.review` sits before the extension so the two files sort next to each
 // other and the marked-up one is unmistakable at a glance in Downloads.
+// A review against another cut gets that cut's name in its own, so it
+// never overwrites the review against canonical sitting beside it.
 const WRITE_PATH = REVIEW
-  ? DEST_PATH.replace(/\.docx$/i, ".review.docx")
+  ? DEST_PATH.replace(
+      /\.docx$/i,
+      against
+        ? `.review.vs_${basename(diffAgainstPath).replace(/\.m?js$/, "")}.docx`
+        : ".review.docx",
+    )
   : DEST_PATH;
 
 // ─── Validate content ─────────────────────────────────────────────
@@ -1114,28 +1149,28 @@ function pairLists(before, after, where) {
 }
 
 if (REVIEW) {
-  registerDiff(BASE_CONTACT.headline, CONTACT.headline);
-  registerDiff(BASE_SUMMARY, SUMMARY);
+  registerDiff(DIFF_CONTACT.headline, CONTACT.headline);
+  registerDiff(DIFF_SUMMARY, SUMMARY);
 
   // Roles: employer and title first, employer alone as the fallback, so a
   // cut that retitled a role still diffs against the right one instead of
   // reporting the whole entry as new.
   const claimedRoles = new Set();
   const claimRole = (role) => {
-    let i = BASE_ROLES.findIndex(
+    let i = DIFF_ROLES.findIndex(
       (r, idx) =>
         !claimedRoles.has(idx) &&
         r.company === role.company &&
         r.title === role.title,
     );
     if (i < 0) {
-      i = BASE_ROLES.findIndex(
+      i = DIFF_ROLES.findIndex(
         (r, idx) => !claimedRoles.has(idx) && r.company === role.company,
       );
     }
     if (i < 0) return null;
     claimedRoles.add(i);
-    return BASE_ROLES[i];
+    return DIFF_ROLES[i];
   };
 
   ROLES.forEach((role) => {
@@ -1170,7 +1205,7 @@ if (REVIEW) {
       });
     }
   });
-  BASE_ROLES.forEach((r, idx) => {
+  DIFF_ROLES.forEach((r, idx) => {
     if (!claimedRoles.has(idx)) {
       CUTS.push({ where: "Experience — entries dropped", text: `${r.company} — ${r.title}` });
     }
@@ -1179,10 +1214,10 @@ if (REVIEW) {
   // Education, by institution.
   const claimedSchools = new Set();
   EDUCATION.forEach((entry) => {
-    const idx = BASE_EDUCATION.findIndex(
+    const idx = DIFF_EDUCATION.findIndex(
       (e, i) => !claimedSchools.has(i) && e.institution === entry.institution,
     );
-    const base = idx >= 0 ? BASE_EDUCATION[idx] : null;
+    const base = idx >= 0 ? DIFF_EDUCATION[idx] : null;
     if (idx >= 0) claimedSchools.add(idx);
     registerDiff(base?.credential ?? null, entry.credential);
     if (base?.honors || entry.honors) {
@@ -1198,7 +1233,7 @@ if (REVIEW) {
     });
     pairLists(base?.details ?? [], entry.details, `Education — ${entry.institution}`);
   });
-  BASE_EDUCATION.forEach((e, i) => {
+  DIFF_EDUCATION.forEach((e, i) => {
     if (!claimedSchools.has(i)) {
       CUTS.push({ where: "Education — entries dropped", text: `${e.institution} — ${e.credential}` });
     }
@@ -1208,15 +1243,15 @@ if (REVIEW) {
   // so it cannot also be the thing that identifies the entry.
   const claimedStudies = new Set();
   CASE_STUDIES.forEach((study) => {
-    const idx = BASE_CASE_STUDIES.findIndex(
+    const idx = DIFF_CASE_STUDIES.findIndex(
       (c, i) => !claimedStudies.has(i) && c.url === study.url,
     );
-    const base = idx >= 0 ? BASE_CASE_STUDIES[idx] : null;
+    const base = idx >= 0 ? DIFF_CASE_STUDIES[idx] : null;
     if (idx >= 0) claimedStudies.add(idx);
     registerDiff(base?.title ?? null, study.title);
     registerDiff(base?.description ?? null, study.description);
   });
-  BASE_CASE_STUDIES.forEach((c, i) => {
+  DIFF_CASE_STUDIES.forEach((c, i) => {
     if (!claimedStudies.has(i)) {
       CUTS.push({ where: "Case studies — entries dropped", text: c.title });
     }
@@ -1581,7 +1616,7 @@ if (REVIEW) {
           strike: true,
         }),
         run(
-          " wording is canonical text the cut drops, shown where it used to sit. Rebuild without RESUME_DIFF=1 for the copy to submit.",
+          ` wording is text from ${DIFF_BASELINE_LABEL} that this cut drops, shown where it used to sit. Rebuild without RESUME_DIFF=1 for the copy to submit.`,
           { italics: true },
         ),
       ],
