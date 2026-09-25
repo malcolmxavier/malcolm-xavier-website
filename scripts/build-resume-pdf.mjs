@@ -51,6 +51,32 @@ const outDir = join(repoRoot, "public/resume");
 const intermediatePath = join(outDir, "malcolm-xavier-resume-template.pdf");
 const finalPath = join(outDir, "malcolm-xavier-resume.pdf");
 
+// This script always rebuilds the PUBLISHED site resume, from the
+// canonical template above — it has no notion of a variant and no way
+// to honour a variant's OUT_PATH. So `RESUME_VARIANT=… npm run
+// resume:pdf` does something nobody intends: resume:docx writes the
+// tailored .docx off to Downloads, leaving the canonical template
+// untouched, and then this step regenerates public/resume/*.pdf from
+// that now-stale template. The tailored PDF never appears and the
+// published download is quietly rewritten.
+//
+// Every variant file carries a comment warning about this. Nine copies
+// of a warning is not a guard — the variants are gitignored, so the
+// warning only exists where somebody has already gone looking. Refuse
+// here instead, where the damage is actually done. Build a variant's
+// PDF by converting its .docx directly:
+//   soffice --headless --convert-to pdf:writer_pdf_Export "<docx>" --outdir "<dir>"
+if (process.env.RESUME_VARIANT) {
+  console.error(
+    `✗ RESUME_VARIANT is set (${process.env.RESUME_VARIANT}), but this step only ever rebuilds\n` +
+      `  the published site resume at public/resume/malcolm-xavier-resume.pdf.\n\n` +
+      `  Build the variant's .docx, then convert that file directly:\n` +
+      `    RESUME_VARIANT=${process.env.RESUME_VARIANT} npm run resume:docx\n` +
+      `    soffice --headless --convert-to pdf:writer_pdf_Export "<the .docx it wrote>" --outdir ~/Downloads`,
+  );
+  process.exit(1);
+}
+
 if (!existsSync(sourceDocx)) {
   console.error(
     `✗ ${sourceDocx} not found. Run \`npm run resume:docx\` first.`,
