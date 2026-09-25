@@ -37,7 +37,6 @@ import {
   ExternalHyperlink,
   PageOrientation,
   convertInchesToTwip,
-  BorderStyle,
 } from "docx";
 import { writeFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname, join, basename } from "node:path";
@@ -271,20 +270,17 @@ children.push(
 );
 
 // — Contact line 2: LinkedIn · GitHub · Personal Website
-//   Closing border under this paragraph creates the same hairline
-//   rule as the resume header — the visual signature that ties the
-//   two documents together as a set.
+//   No rule under this line, deliberately. An earlier version closed
+//   the block with a hairline border, on the stated reasoning that it
+//   matched "the resume header" — but the resume sets titlePage: true
+//   and puts its rule on the page-2 RUNNING header. Its page-1 hero,
+//   which is what a cover letter's first (and only) page sits beside,
+//   ends with this same contact line and no rule at all. So the border
+//   was copying the wrong header and made the pair visibly not match,
+//   which is the one thing this letterhead exists to get right.
 children.push(
   new Paragraph({
     spacing: { before: 0, after: 240 },
-    border: {
-      bottom: {
-        color: COLOR.black,
-        space: 8,
-        style: BorderStyle.SINGLE,
-        size: 4, // 0.5pt thin rule
-      },
-    },
     children: [
       linkRun("LinkedIn", CONTACT.linkedinUrl, { size: SIZE.contact }),
       sep(),
