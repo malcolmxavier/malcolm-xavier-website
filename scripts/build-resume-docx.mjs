@@ -159,7 +159,7 @@ const BASE_CONTACT = {
 };
 
 const BASE_SUMMARY =
-  "Senior Product Manager with 7+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops, with three years of hands-on LLM and agent training and evaluation.";
+  "Senior Product Manager with 8+ years scaling growth, marketing, and data platforms in media, publishing, and B2B SaaS. Built and operated MarTech infrastructure for 22M+ users across 40+ brands, driving 33% YoY email revenue growth. Applied an MS in Law (focused on data privacy and IP) to data governance and compliance-related roadmap tradeoffs. Architects AI-native discovery and delivery loops, with three years of hands-on LLM and agent training and evaluation.";
 
 // Each role: company, optional company URL, location, title, dates,
 // context (string OR array of {text, url?} segments via contextSegments),
@@ -205,7 +205,7 @@ const CANONICAL_ROLES = [
       // judgment: a rule written, its loopholes found, and closed. Same
       // adjudication as the Anthropic letter's method-over-mechanism
       // rule. Pick one; never carry both.
-      { id: "consulting-privacy-rules", text: "Set the privacy rules for its automation: the jobs that can reach the internet can't reach personal data" },
+      { id: "consulting-privacy-rules", text: "Set the privacy rules for its automation: the jobs that can reach the internet can’t reach personal data" },
       { id: "consulting-fleet", text: [
         { text: "Fleet", url: "https://www.fleetai.com" },
         { text: " (2026–present): AI training data—prompt development and change-logged sessions in simulated environments" },
@@ -228,7 +228,7 @@ const CANONICAL_ROLES = [
     title: "Senior Product Manager, Audience Relationships",
     dates: "Feb 2024 – Oct 2025",
     context:
-      "“America's largest publisher” (formerly Dotdash Meredith). Scaled the growth and MarTech platform for 40+ brands and 22M+ users.",
+      "“America’s largest publisher” (formerly Dotdash Meredith). Scaled the growth and MarTech platform for 40+ brands and 22M+ users.",
     bullets: [
       { id: "people-email-revenue", text: [
         { text: "Grew email revenue 33% YoY", bold: true },
