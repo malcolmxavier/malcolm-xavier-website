@@ -159,13 +159,23 @@ export default function ContactPage() {
         <Stack gap="500">
           <Kicker>Contact</Kicker>
           <Display>Let’s talk.</Display>
+          {/* Opens on the same sentence the landing page and /about
+              open on, so the three recruiter-facing surfaces state the
+              availability identically rather than three ways.
+
+              The previous version led with two rhetorical questions
+              ("Hiring a senior PM…? Want to compare notes…?"), which
+              is the hook-question pattern the voice guide rules out,
+              and it was the only page of the three that did not simply
+              say what he is looking for. The "recruiter intros,
+              product chats" framing is folded in from the schedule
+              block's own blurb, which this replaces. */}
           <Lede>
-            Hiring a senior PM to build growth, marketing, or data
-            platforms? Want to compare notes on product, AI, or
-            privacy? Pick a slot below, send a
-            note, or find me elsewhere on the internet. I reply
-            within a day or two—faster if there’s a job at the end
-            of it.
+            I’m currently interviewing and open to full-time, contract,
+            and fractional product work. Pick a slot below for a
+            recruiter intro or a product chat, send a note, or find me
+            elsewhere on the internet. I reply within a day or
+            two—faster if there’s a job at the end of it.
           </Lede>
         </Stack>
       </Section>
@@ -177,25 +187,13 @@ export default function ContactPage() {
               third-party embed reads as a contained surface rather
               than fighting the page styling. */}
           <Stack gap="400">
-            <Stack gap="200">
-              {/* Kicker swapped from the vendor name "Calendly" to
-                  the editorial label "Schedule" per the 2026-04-29
-                  /full-review (m-calendly-kicker — vendor names as
-                  section labels read like ad insertions). The
-                  headline below also shed its "30 minutes"
-                  specificity since the widget loads the profile
-                  root, which lets the visitor pick any event type. */}
-              <Kicker>Schedule</Kicker>
-              <Headline level={2} id="calendly-heading">
-                Book time, on the record.
-              </Headline>
-              <Body>
-                Best for: recruiter intros, product chats, and
-                anyone who’d rather not write three emails to
-                coordinate a meeting time.
-              </Body>
-            </Stack>
-
+            {/* No heading block above the widget. There used to be one
+                — kicker "Schedule", headline "Book time, on the
+                record.", and a "Best for:" blurb — which made the page
+                introduce itself twice: once in the hero and again
+                fifty pixels later, saying much the same thing. The
+                hero now carries it, and the embed is left to be the
+                embed. */}
             <div
               // Container card around the iframe widget — borders
               // visually separate the third-party light-theme embed
@@ -208,15 +206,26 @@ export default function ContactPage() {
               // white wrapper inside the dark page surface
               // (2026-04-29 /full-review, a-calendly-card-dark).
               //
-              // role="region" + aria-labelledby exposes this as a
-              // named landmark in screen-reader landmark lists. The
-              // landmark name reuses the editorial heading above
-              // ('Book time, on the record.') instead of a generic
-              // 'Book a meeting via Calendly,' so SR users hear the
-              // same voice the sighted UI carries — caught in the
-              // 2026-04-28 follow-up audit.
+              // role="region" + a name exposes this as a landmark in
+              // screen-reader landmark lists. It used to borrow the
+              // editorial heading above it so SR users heard the same
+              // voice the sighted UI carried; with that heading gone
+              // there is no sighted phrasing left to match, so a plain
+              // functional label is the honest one — it describes what
+              // the region does rather than quoting a headline nobody
+              // can see.
               role="region"
-              aria-labelledby="calendly-heading"
+              aria-label="Book a meeting"
+              // Capped at 48rem. Left to fill the 1fr column the card
+              // was ~920px of white around ~640px of widget, which read
+              // as a slab rather than a card. 48rem is as narrow as it
+              // goes: Calendly reflows its BOOKING view to a stacked
+              // layout below roughly 700px, and stacked is much taller
+              // than the side-by-side calendar, so a narrower card
+              // needs a TALLER container to avoid clipping. 42rem was
+              // tried and clipped the calendar mid-month. Re-verify the
+              // booking view, not just the event picker, before
+              // changing either this or the height in CalendlyWidget.
               className="overflow-hidden rounded-lg border"
               style={{
                 borderColor: "#e0e0e0",

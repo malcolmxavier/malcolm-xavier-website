@@ -36,9 +36,30 @@
 //     the booking flow is the value. If a privacy-first variant is
 //     ever needed, swap to a "click to load" pattern.
 //
-// Sizing: 320px min-width per Calendly's snippet recommendation;
-// 700px height accommodates the date picker + time slots + form
-// without internal scrolling at desktop widths.
+// Sizing: 320px min-width per Calendly's snippet recommendation,
+// 700px height.
+//
+// KNOWN BUG, PRE-EXISTING, NOT YET FIXED: 700px does not fit the
+// booking view. Measured 2026-09-27 by driving a real click into the
+// iframe — after picking an event type, the calendar's last week is
+// cut off at the card's bottom edge and the time-slot list, which sits
+// BELOW the calendar, is not visible at all. The previous comment here
+// claimed 700px fit "the date picker + time slots + form without
+// internal scrolling"; that was never true at this column width.
+//
+// Two things make it awkward to just raise the number:
+//   • Calendly renders the booking view STACKED (calendar, then slots)
+//     rather than side-by-side at every width this column can offer —
+//     tested at 42rem, 48rem, 56rem, and uncapped (~976px). Stacked
+//     needs roughly 900-1000px of height.
+//   • Narrowing the card therefore makes it need MORE height, not
+//     less, which is the opposite of the intuition.
+// So the fix is a product decision (taller embed vs. deep-linking a
+// single event type vs. dropping the inline embed for a link) and is
+// deliberately left to Malcolm rather than guessed at here.
+//
+// Whatever changes, measure against the BOOKING view, not the event
+// picker. The picker is short and fits anything.
 // ─────────────────────────────────────────────────────────────────
 
 "use client";
@@ -58,7 +79,19 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 // CONTACT.calendly (specific 30-min event) is reserved for outbound
 // CTAs on the homepage and resume; the inline widget host page is
 // kept flexible.
-const CALENDLY_URL = CONTACT.calendlyRoot;
+// hide_gdpr_banner suppresses Calendly's own cookie-consent bar, which
+// otherwise renders INSIDE the iframe — a second consent dialog on a
+// page that already has one, in a vendor's styling, sitting across the
+// foot of the embed. Hiding the bar does not opt anybody out of
+// anything: it is Calendly's notice about Calendly's cookies, and the
+// page's own privacy notice still governs. Built with URL so a query
+// string on calendlyRoot would be preserved rather than clobbered by a
+// naive "?" concatenation.
+const CALENDLY_URL = (() => {
+  const u = new URL(CONTACT.calendlyRoot);
+  u.searchParams.set("hide_gdpr_banner", "1");
+  return u.toString();
+})();
 const SCRIPT_SRC = "https://assets.calendly.com/assets/external/widget.js";
 // Calendly broadcasts widget lifecycle events as window
 // `message` events. Origin to match against — Calendly's iframe
