@@ -68,7 +68,7 @@ export default function Home() {
               resume CTA. STATUS is still exported and still renders on
               /resume, which is the recruiter document. */}
 
-          {/* Two-column on lg+ via CSS grid; single-column flow below it.
+          {/* Two-column on md+ via CSS grid; single-column flow below it.
               Reworked 2026-09-26 — the comments here previously described
               a 22rem portrait, a three-paragraph lede and a ~28rem left
               column, none of which survived that pass.
@@ -76,16 +76,24 @@ export default function Home() {
               THE IMAGE IS THE ANCHOR — sized first, and everything
               else follows from it.
 
-              --hero-portrait (32rem) is the only number to edit. The
-              portrait is that wide, square, flush to the left edge of its
-              column, and --hero-cols makes the right column exactly that
-              width so no strip is left over beside it. The text column is
+              --hero-portrait is the only number to edit. The portrait is
+              that wide, square, flush to the left edge of its column, and
+              --hero-cols makes the right column exactly that width so no
+              strip is left over beside it. The text column is
               minmax(0, 1fr) and takes whatever remains.
 
-              Why an absolute and not a share of the column: at 85% of a
-              half-container the portrait came out about 44rem square, and
-              a fraction also ties a headshot's size to the viewport when a
-              headshot has a right size rather than a right percentage.
+              It is a clamp rather than a constant, and the reason is the
+              tablet range rather than any love of fluid type — see the
+              note on the property itself. What matters here is that ONE
+              number still drives the whole composition; the anchor rule is
+              intact, the anchor just has a size that depends on the
+              viewport now.
+
+              Why not a share of the column (e.g. 85% of a half-container,
+              which was tried): that made the portrait about 44rem square
+              at desktop, and a raw percentage has no ceiling — a headshot
+              has a right size, not a right percentage. The clamp keeps a
+              hard 32rem cap for exactly that reason.
 
               History, because three shapes were tried on 2026-09-26 and
               each failed differently:
@@ -108,20 +116,42 @@ export default function Home() {
               The strip is gone by construction now, which is why the
               portrait's size is the lever for how close the image reads to
               the words: growing it both moves the column left and narrows
-              the measure. At 32rem the measure lands near 37rem at 1280
-              and 47rem at 1440. Note it still GROWS with the viewport,
-              since the text column absorbs everything — if the measure
-              reads too wide at large sizes, the fix is capping the lede
-              itself, which puts the leftover inside the text column as
-              ordinary typographic space rather than between text and
-              image.
+              the measure. Because both sides scale together, the RATIO
+              holds across the range — the portrait stays near 80% of the
+              text column's width from 768 up to the cap, where a constant
+              32rem swung it from 112% at 1024 to 68% at 1440. Past the cap
+              the portrait stops and the measure alone keeps growing, which
+              is why the ratio eases back to 68% at 1440; if the measure
+              reads too wide up there, the fix is capping the lede itself,
+              which puts the leftover inside the text column as ordinary
+              typographic space rather than between text and image.
 
-              Geometry: top-anchored (lg:items-start). The Display in row 1
+              Geometry: top-anchored (md:items-start). The Display in row 1
               col 1 and the portrait spanning rows 1+2 in col 2 share a top
               edge by construction. Whitespace ends up below whichever
               column is shorter, and that is breathing space rather than a
-              missed alignment. The rejected alternative was lg:items-end,
+              missed alignment. The rejected alternative was md:items-end,
               which pushed the portrait's top well below the heading.
+
+              The column gap is 24px on tablet against 48px at lg, which is
+              not a taste call — it is the same SHARE of the content width
+              at both ends (~3.5%), where a flat 48px would have been twice
+              its desktop weight at 768. It also decides where the CTA row
+              stops fitting on one line: the two buttons need ~404px, the
+              text column is 0.62 × viewport − 104, so they sit side by
+              side from 819px up. iPad Air (820) and iPad Pro 11 (834)
+              clear it; iPad Mini (768) is the one tablet that wraps them
+              to two rows, and that is left alone rather than solved by
+              shrinking the buttons or the portrait — a wrapped row at the
+              narrowest tablet is the graceful outcome, and flex-wrap on
+              the row already handles it.
+
+              Which column is shorter CHANGES with the viewport, and that
+              is expected rather than a bug to chase. The copy is a fixed
+              number of words, so below roughly 950px it runs taller than
+              the portrait and the whitespace sits to the right of the
+              buttons; above that the portrait is taller and the whitespace
+              sits under the copy, which is the desktop composition.
 
               Rhythm down the left column, and every number here comes from
               a Stack gap rather than from padding on a child:
@@ -130,6 +160,15 @@ export default function Home() {
                 name    → lede    56px     ~42px    grid lg:gap-y-14
                 lede p1 → lede p2  28px     ~34px    inner Stack gap 700
                 lede    → CTA row  32px     ~41px    outer Stack gap 800
+
+              The heading gap is 40px (md:gap-y-10) between 768 and 1023,
+              because the h1 is ~54px there against ~96px at desktop and
+              the space under a display heading is judged against the
+              heading, not in absolute px. 56px under a 54px face reads at
+              0.78em where desktop reads 0.44em — visibly looser at the
+              size where there is least room to spare. The other two gaps
+              do not scale: they sit between body-sized things, which do
+              not change size across the range.
 
               TWO COLUMNS BECAUSE THE TOKENS ARE NOT COMPARABLE — read the
               descender note below before changing any of them. The three
@@ -209,15 +248,35 @@ export default function Home() {
               left over. No large token has ever been rejected here.
 
               DOM order — name → portrait → lede + CTAs — is correct for
-              the single-column flow below lg, and the explicit lg grid
+              the single-column flow below md, and the explicit md grid
               placement re-anchors the portrait to col 2 without changing
-              it. Below lg there is no grid at all: the portrait sits
+              it. Below md there is no grid at all: the portrait sits
               between the name and the copy, and its my-5 governs that
               spacing rather than any gap here. */}
           <div
-            className="lg:grid lg:grid-cols-[var(--hero-cols)] lg:grid-rows-[auto_1fr] lg:gap-x-12 lg:gap-y-14 lg:items-start"
+            className="md:grid md:grid-cols-[var(--hero-cols)] md:grid-rows-[auto_1fr] md:gap-x-6 md:gap-y-10 md:items-start lg:gap-x-12 lg:gap-y-14"
             style={{
-              ["--hero-portrait" as string]: "32rem",
+              // FLUID, and the fluidity is the fix rather than a flourish.
+              // A fixed 32rem made the two-column layout land differently
+              // at every tablet width: at 1024 the portrait was 512 of 896
+              // usable px, leaving a 344px ribbon for the copy, so the
+              // heading broke to two lines and the buttons stacked. Below
+              // 1024 the grid did not engage at all and a blown-up phone
+              // layout ran the lede the full 688–943px. Scaling the one
+              // number keeps the SAME composition from 768 up.
+              //
+              // 38vw hits the 32rem cap at 1348px, which is the point of
+              // that number: every desktop viewport gets EXACTLY the 32rem
+              // Malcolm approved, so this change is invisible above 1348
+              // and does all its work below. 32rem/1440 = 35.5vw was the
+              // obvious slope and was wrong for that reason — it caps at
+              // 1443, so a browser window at 1400 would have quietly
+              // resized a portrait that was already signed off.
+              //
+              // The 17rem floor is a guard rather than a working value:
+              // 38vw only falls below it under 716px, and two columns
+              // start at 768.
+              ["--hero-portrait" as string]: "clamp(17rem, 38vw, 32rem)",
               // The template lives in a property, not in the utility.
               // Tailwind compiled NO RULE for
               // lg:grid-cols-[minmax(0,1fr)_var(--hero-portrait)] — the
@@ -287,17 +346,21 @@ export default function Home() {
                 sitting — it stops cropping, which is a different and
                 more literal photograph than this hero wants.
 
-                Sizing and placement: lg:w-[var(--hero-portrait)] and
-                lg:mx-0, so it is 24rem square and flush to the LEFT edge
-                of its column rather than centred in it. Why it is an
-                absolute rather than a share of the column, and why the
-                image is what the rest of the hero sizes against, is in the
-                grid comment above — it is one rule and it belongs in one
-                place.
+                Sizing and placement: md:w-[var(--hero-portrait)] and
+                md:mx-0, so it is square and flush to the LEFT edge of its
+                column rather than centred in it. What --hero-portrait
+                resolves to, why it is a clamp with a hard cap rather than
+                a share of the column, and why the image is what the rest
+                of the hero sizes against are all in the grid comment above
+                — it is one rule and it belongs in one place. Deliberately
+                not restated here: this comment has already gone stale once
+                by carrying its own copy of the number (it said 24rem while
+                the property said 32rem).
 
-                On mobile/tablet this still sits BETWEEN the name and the
-                lede so the portrait reads as a hero element introducing
-                the copy below.
+                On PHONES this still sits BETWEEN the name and the lede so
+                the portrait reads as a hero element introducing the copy
+                below. That is the single-column branch only — tablets get
+                the two-column grid from 768 up.
 
                 my-5 (20px) matches --scale-500, the same rhythm
                 the surrounding Stack uses for vertical gaps; the
@@ -310,7 +373,7 @@ export default function Home() {
                 Image fill collapsing the parent's intrinsic
                 width. */}
             <div
-              className="relative my-5 mx-auto aspect-square w-full max-w-[16rem] overflow-hidden rounded-md border md:max-w-[20rem] lg:my-0 lg:mx-0 lg:w-[var(--hero-portrait)] lg:max-w-none lg:row-start-1 lg:row-span-2 lg:col-start-2"
+              className="relative my-5 mx-auto aspect-square w-full max-w-[16rem] overflow-hidden rounded-md border md:my-0 md:mx-0 md:w-[var(--hero-portrait)] md:max-w-none md:row-start-1 md:row-span-2 md:col-start-2"
               style={{
                 borderColor: "var(--border-default)",
               }}
@@ -319,7 +382,12 @@ export default function Home() {
                 src="/headshot.jpg"
                 alt="Portrait of Malcolm Xavier"
                 fill
-                sizes="(min-width: 1024px) 32rem, 16rem"
+                // Mirrors --hero-portrait above: the same 38vw, capped at
+                // 32rem, and 16rem for the single-column layout below md.
+                // Kept in step by hand — sizes cannot read a custom
+                // property, and a stale value here costs a wrong-sized
+                // download on the page's LCP element.
+                sizes="(min-width: 768px) min(38vw, 32rem), 16rem"
                 // This headshot is the homepage LCP element. Next 16
                 // deprecated the old `priority` prop; the explicit
                 // replacement is `preload` (inserts the <link rel=preload>
