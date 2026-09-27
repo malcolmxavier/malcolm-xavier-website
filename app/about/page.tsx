@@ -199,8 +199,8 @@ export default function AboutPage() {
                   measure Body already enforces. */}
             <Stack gap="500">
               <Body>
-                Massachusetts built the taste, New York set the bar, and LA is
-                where I get to use both. Chicago got the standup sidequests.
+                I’ve lived all across the US. I’m currently located in Los
+                Angeles, but I bring an East Coast sensibility to all that I do.
               </Body>
 
               <Body>
