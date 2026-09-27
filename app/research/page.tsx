@@ -119,11 +119,20 @@ export default function ResearchIndexPage() {
           <Stack gap="800">
             <Stack gap="300">
               <Kicker>Research</Kicker>
-              <Display>The questions I chose.</Display>
+              <Display>Where I show my work.</Display>
             </Stack>
 
-            {/* Says what the section holds and what the two papers
-                argue. An earlier draft was Malcolm's own explanation of
+            {/* The headline names what the pieces ARE — long arguments
+                with citations and a downloadable PDF, where the
+                reasoning is on the page rather than summarised. An
+                earlier draft, "The questions I chose.", framed the
+                section around the act of choosing instead, which is
+                inside baseball: it implies a contrast with assigned
+                work that the reader has no reason to care about. Same
+                fault as the first lede, one line up.
+
+                The lede says what the section holds and what the two
+                papers argue. An earlier draft was Malcolm's own explanation of
                 WHY the section exists — "the degree is an expression of
                 that rather than a line on a résumé" — which is intake,
                 not page copy: it answers a question the reader has not
