@@ -122,20 +122,21 @@ export default function ResearchIndexPage() {
               <Display>The questions I chose.</Display>
             </Stack>
 
-            {/* Malcolm's framing, 2026-09-27: he cares about data
-                privacy and media, and the degree is an expression of
-                that interest rather than a credential on its own.
+            {/* Says what the section holds and what the two papers
+                argue. An earlier draft was Malcolm's own explanation of
+                WHY the section exists — "the degree is an expression of
+                that rather than a line on a résumé" — which is intake,
+                not page copy: it answers a question the reader has not
+                asked and makes a claim about a credential instead of
+                naming the work. Both halves of this one are drawn from
+                the items' own descriptions rather than invented.
 
-                Scoped to the law work on purpose. The DS4A capstone
-                that used to sit here is a different programme and a
-                different subject, and lumping the two under one heading
-                conflated them; it is résumé-only now. This section is
-                the privacy-and-media thread, which is where the work
-                continues. */}
+                Scoped to the law work on purpose — the DS4A capstone is
+                a different programme on a different subject and is
+                résumé-only (see _research/sea-level-rise-florida.tsx). */}
             <Lede>
-              I care about data privacy and media, and the degree is an
-              expression of that rather than a line on a résumé. These are
-              the pieces where I picked the question myself.
+              Who privacy law actually protects, and who platform rules
+              erase.
             </Lede>
 
             {/* The list. Rule-separated rather than carded; the first
@@ -184,7 +185,15 @@ export default function ResearchIndexPage() {
                       </Link>
                     </Headline>
 
-                    <Body>{item.subtitle}</Body>
+                    {/* The description, not the subtitle. The subtitle
+                        is an academic title fragment ("Privacy Law in
+                        the Social Media Era") and set as a paragraph it
+                        reads as a second headline rather than a
+                        sentence. The description is prose and says what
+                        the piece argues, which is what an index entry
+                        is for. The subtitle still heads the detail
+                        page, where a title fragment belongs. */}
+                    <Body>{item.description}</Body>
 
                     <Dateline>
                       {formatByline(item.authors)} ·{" "}
