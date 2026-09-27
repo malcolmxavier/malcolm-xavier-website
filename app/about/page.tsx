@@ -1,9 +1,15 @@
 // ─────────────────────────────────────────────────────────────────
-// /about — the long version of who Malcolm is.
+// /about — who Malcolm is, in four paragraphs.
 //
 // Layout: the landing page's hero, reused. Copy left, square portrait
 // right at md+, collapsing to one column below that. Everything under
 // the hero is a single prose column at the reading measure.
+//
+// There is no closing contact block. One used to sit here mirroring
+// the resume's, and it went when the page got short enough that a
+// second ask a screen below the first read as anxious rather than
+// open. The footer carries email and LinkedIn on every page, /contact
+// is in the nav, and the last paragraph already says he is looking.
 //
 // The portrait's settings are deliberately identical to the landing
 // page's — same --hero-portrait clamp, same square frame, same 1.5×
@@ -28,9 +34,10 @@
 //
 // TODO(creative-cv): Per the "no public placeholders" rule, the
 // talent-scout / Creative CV inline link is OMITTED until
-// /creative-cv ships. When it does, drop a quiet inline <Link> in
-// the third paragraph. Tracked via l-creative-cv-todo (2026-04-29
-// /full-review).
+// /creative-cv ships. When it does, drop a quiet inline <Link> in the
+// media paragraph — note the Link primitive is no longer imported
+// here, since the contact block that used it is gone. Tracked via
+// l-creative-cv-todo (2026-04-29 /full-review).
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
@@ -39,15 +46,10 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
-import { Headline } from "@/components/typography/Headline";
 import { Lede } from "@/components/typography/Lede";
 import { Body } from "@/components/typography/Body";
 import { Kicker } from "@/components/typography/Kicker";
-import { Link } from "@/components/primitives/Link";
-import { TrackOnClick } from "@/components/analytics/TrackOnClick";
-import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
-import { CONTACT } from "../resume/resume-data";
 
 // Per-page openGraph + twitter blocks because Next.js App Router
 // REPLACES (does not merge) parent-layout OG blocks when a page
@@ -114,8 +116,6 @@ const ABOUT_SCHEMA = {
 };
 
 export default function AboutPage() {
-  const mailHref = `mailto:${CONTACT.email}`;
-
   return (
     <>
       {/* AboutPage JSON-LD — see ABOUT_SCHEMA above. */}
@@ -138,7 +138,13 @@ export default function AboutPage() {
               which left a wide band of dead space under the lede and
               pushed every paragraph past the bottom of the image. */}
           <div
-            className="md:grid md:grid-cols-[var(--hero-cols)] md:grid-rows-[auto_1fr] md:gap-x-6 md:gap-y-10 md:items-start lg:gap-x-12 lg:gap-y-14"
+            // gap-y-5 (20px) rather than the landing page's 10/14: there
+            // the row gap separates a hero from a button row, here it
+            // separates the lede from three paragraphs that are part of
+            // the same short read. Matching the body Stack's own gap-500
+            // makes all four paragraphs one block instead of a standfirst
+            // with an essay parked under it.
+            className="md:grid md:grid-cols-[var(--hero-cols)] md:grid-rows-[auto_1fr] md:gap-x-6 md:gap-y-5 md:items-start lg:gap-x-12 lg:gap-y-5"
             style={{
               ["--hero-portrait" as string]: "clamp(17rem, 38vw, 32rem)",
               ["--hero-cols" as string]: "minmax(0, 1fr) var(--hero-portrait)",
@@ -147,7 +153,7 @@ export default function AboutPage() {
             <Stack gap="800">
               <Stack gap="300">
                 <Kicker>About</Kicker>
-                <Display>A long story short(-ish).</Display>
+                <Display>The short version.</Display>
               </Stack>
 
               <Lede>
@@ -223,46 +229,6 @@ export default function AboutPage() {
               </Body>
             </Stack>
           </div>
-        </Section>
-
-        {/* ── Closing CTA ───────────────────────────────────────────
-            Light bottom prompt that mirrors the resume's closing
-            section so the about page also has an exit ramp toward
-            conversation. The third paragraph above deliberately does
-            not end with "I'd love to connect" — this block makes the
-            same ask a few hundred pixels lower, and asking twice in
-            one screen reads as anxious rather than open. */}
-        <Section padding="md" bordered>
-          <Stack gap="400" align="start">
-            <Kicker>Get in touch</Kicker>
-            <Headline level={2}>Want to compare notes?</Headline>
-            <Body>
-              Pick a slot for a{" "}
-              <TrackOnClick
-                event={ANALYTICS_EVENTS.CALENDLY_CLICK}
-                eventData={{ kind: "outbound", surface: "about-closing" }}
-              >
-                <Link href={CONTACT.calendly}>30-minute product chat</Link>
-              </TrackOnClick>
-              , send an{" "}
-              <TrackOnClick
-                event={ANALYTICS_EVENTS.EMAIL_CLICK}
-                eventData={{ kind: "direct", surface: "about-closing" }}
-              >
-                <Link href={mailHref}>email</Link>
-              </TrackOnClick>
-              , or{" "}
-              <Link href={CONTACT.linkedin}>
-                {/* Non-breaking space between "LinkedIn" and the
-                    external-arrow glyph keeps the arrow from being
-                    orphaned on its own line when the link wraps.
-                    Screen readers announce U+00A0 identically to a
-                    normal space, so this is a11y-neutral. */}
-                connect with me on LinkedIn ↗
-              </Link>
-              .
-            </Body>
-          </Stack>
         </Section>
       </Container>
     </>
