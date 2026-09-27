@@ -11,7 +11,7 @@
 //
 // `meta` is consumed by lib/projects/projects.ts (the registry); the
 // default export is the article body, rendered inside ArticleContainer
-// by app/projects/[slug]/page.tsx.
+// by app/research/[slug]/page.tsx.
 // ─────────────────────────────────────────────────────────────────
 
 import { Body, Emph } from "@/components/case-study/primitives";
@@ -62,7 +62,6 @@ export const meta: ProjectMeta = {
       meta: "PDF · 399 KB",
     },
   ],
-  noindex: true,
 };
 
 export default function OceansRisePropertiesFall() {

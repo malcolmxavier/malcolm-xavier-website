@@ -1,12 +1,16 @@
 // ─────────────────────────────────────────────────────────────────
-// The /projects registry — the single source of truth for the dynamic
-// route, and (in Phase 2) the /projects index grid, the ItemList
-// JSON-LD, and the sitemap. Reading from one place means a new project
-// lands in every surface at once — the same discipline CASE_STUDIES and
-// the /writing ESSAYS registry use.
+// The /research registry — the single source of truth for the dynamic
+// route, the sitemap entries, the per-item OG cards, and the /research
+// index grid. Reading from one place means a new item lands in every
+// surface at once — the same discipline CASE_STUDIES and the /writing
+// ESSAYS registry use.
 //
-// Adding a project is two steps:
-//   1. Author its body module under app/projects/_projects/<slug>.tsx,
+// The directory keeps its `projects` name on purpose: the section was
+// renamed to /research at the URL level only (see the note in
+// app/research/[slug]/page.tsx). These identifiers are internal.
+//
+// Adding an item is two steps:
+//   1. Author its body module under app/research/_research/<slug>.tsx,
 //      exporting `meta` (ProjectMeta) + a default body component.
 //   2. Import it and add it to REGISTERED below.
 // ─────────────────────────────────────────────────────────────────
@@ -14,13 +18,13 @@
 import type { Project } from "./types";
 import SeaLevelRiseFlorida, {
   meta as seaLevelRiseFlorida,
-} from "@/app/projects/_projects/sea-level-rise-florida";
+} from "@/app/research/_research/sea-level-rise-florida";
 import WhenYouHearSomeFeedback, {
   meta as ethicsVideoSharingApps,
-} from "@/app/projects/_projects/ethics-video-sharing-apps";
+} from "@/app/research/_research/ethics-video-sharing-apps";
 import TheRevolutionWillNotBeLiveStreamed, {
   meta as privacyLawSocialMediaEra,
-} from "@/app/projects/_projects/privacy-law-social-media-era";
+} from "@/app/research/_research/privacy-law-social-media-era";
 
 export type { Project, ProjectMeta } from "./types";
 
@@ -44,7 +48,8 @@ export function getProject(slug: string): Project | undefined {
 /** Format a datePublished (YYYY-MM-DD) for display. Noon-Pacific pins
  *  the wall-clock date so a UTC build environment doesn't shift it a
  *  day. Callers usually prefer meta.dateDisplay; this is here for the
- *  Phase 2 index cards where a uniform machine-derived date is wanted. */
+ *  /research index cards, where a uniform machine-derived date is
+ *  wanted instead of each item's hand-written dateDisplay. */
 export function formatProjectDate(datePublished: string): string {
   return new Date(`${datePublished}T12:00:00-07:00`).toLocaleDateString(
     "en-US",

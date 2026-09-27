@@ -339,14 +339,14 @@ export const EDUCATION: ResumeEducation[] = [
       // ATS- and page-bound).
       <>
         Presentation:{" "}
-        <Link href="/projects/privacy-law-social-media-era">
+        <Link href="/research/privacy-law-social-media-era">
           “The Revolution Will Not Be Live Streamed: Privacy Law in the Social
           Media Era”
         </Link>
       </>,
       <>
         Presentation:{" "}
-        <Link href="/projects/ethics-video-sharing-apps">
+        <Link href="/research/ethics-video-sharing-apps">
           “When You Hear Some Feedback, Keep Going Take It Higher: Legal,
           Technical, and Ethical Notes for the Future of Video-Sharing Apps”
         </Link>
@@ -364,7 +364,7 @@ export const EDUCATION: ResumeEducation[] = [
       // Presentation title links to its project detail page.
       <>
         Presentation:{" "}
-        <Link href="/projects/sea-level-rise-florida">
+        <Link href="/research/sea-level-rise-florida">
           “Oceans Rise, Properties Fall”
         </Link>
       </>,

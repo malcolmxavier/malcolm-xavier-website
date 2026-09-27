@@ -18,7 +18,7 @@ export const SITE_NAME = "Malcolm Xavier";
  *  nine files until 2026-08-19, which is why it still said "Tech, media, and
  *  streaming" three weeks after the positioning changed. One string, one
  *  place: the OG image route, the JSON-LD ImageObject captions on all six
- *  case studies, /music, /projects, and the work-case-study template. */
+ *  case studies, /music, /research, and the work-case-study template. */
 export const SOCIAL_CARD_ALT =
   "Malcolm Xavier—Senior product manager. Growth, marketing, and data platforms.";
 

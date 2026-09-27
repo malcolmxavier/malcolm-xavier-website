@@ -9,11 +9,11 @@
 // turns into a sticky sidebar rail (desktop) and an inline "Contents"
 // disclosure (mobile). Several endnotes cite Malcolm's own prior work;
 // where that work is the Year-1 paper (notes 39, 58, 62), the citation
-// links straight to its /projects page.
+// links straight to its /research page.
 //
 // `meta` is consumed by lib/projects/projects.ts (the registry); the
 // default export is the article body, rendered inside the two-column
-// reading layout by app/projects/[slug]/page.tsx.
+// reading layout by app/research/[slug]/page.tsx.
 // ─────────────────────────────────────────────────────────────────
 
 import { Body, Emph } from "@/components/case-study/primitives";
@@ -25,7 +25,7 @@ import { EDUCATION, slugifyEducationAnchor } from "@/app/resume/resume-data";
 import type { ProjectMeta } from "@/lib/projects/types";
 
 // The Year-1 paper's route, cited in several endnotes below.
-const YEAR_ONE = "/projects/ethics-video-sharing-apps";
+const YEAR_ONE = "/research/ethics-video-sharing-apps";
 
 // Resolve the résumé education entry both MSL papers came out of, so the
 // dateline's "Northwestern MSL" chip jump-links to it and stays in sync
@@ -73,7 +73,6 @@ export const meta: ProjectMeta = {
     note: "A recorded walkthrough and the slides are on the way—they’ll live here alongside the paper once they clear Northwestern.",
   },
   related: ["ethics-video-sharing-apps"],
-  noindex: true,
 };
 
 export default function TheRevolutionWillNotBeLiveStreamed() {

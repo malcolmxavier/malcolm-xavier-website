@@ -1,8 +1,10 @@
 // ─────────────────────────────────────────────────────────────────
-// Types for the /projects section — academic and analytical portfolio
+// Types for the /research section — academic and analytical portfolio
 // pieces (a data-science capstone, two Master-of-Science-in-Law papers)
 // hosted as first-class on-domain reading experiences rather than
-// rented links or bare PDFs.
+// rented links or bare PDFs. The directory keeps its `projects` name
+// because these identifiers are internal, not addresses (see the note
+// in app/research/[slug]/page.tsx).
 //
 // Kept separate from the registry (projects.ts) so a project body
 // module can import the metadata SHAPE from here without creating a
@@ -21,7 +23,8 @@ export interface ProjectAuthor {
 }
 
 /** A downloadable companion file (the full report, the datafolio, a
- *  paper PDF). Served as a static asset from public/projects/<slug>/,
+ *  paper PDF). Served as a static asset from public/projects/<slug>/
+ *  (the asset directory kept its name through the /research rename),
  *  so these open in a new tab via a plain anchor — never next/link,
  *  which would try to client-route a non-route file. */
 export interface ProjectDownload {
@@ -50,9 +53,9 @@ export interface ProjectCompanion {
   note: string;
 }
 
-/** Metadata a project body module exports alongside its default
- *  component. Drives the page shell, the JSON-LD graph, and (in
- *  Phase 2) the /projects index card and sitemap entry. */
+/** Metadata a body module exports alongside its default component.
+ *  Drives the page shell, the JSON-LD graph, the per-item OG card, the
+ *  /research index card, and the sitemap entry. */
 export interface ProjectMeta {
   slug: string;
   /** Small mono kicker above the title, e.g. "Data-science capstone". */
@@ -101,9 +104,9 @@ export interface ProjectMeta {
   companion?: ProjectCompanion;
   /** Slugs of related projects to cross-link at the foot (MSL Y1 ↔ Y2). */
   related?: string[];
-  /** Phase 1: true — the page carries `noindex` so it works as a
-   *  résumé-link target without entering search. Phase 2 flips this to
-   *  false (or removed) when the /projects index and /guides ship. */
+  /** Opt one item out of search. No shipped item sets this — /research
+   *  is indexed and in the sitemap. Kept as an escape hatch for a piece
+   *  that needs a stable URL before it is ready to be found. */
   noindex?: boolean;
 }
 

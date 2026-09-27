@@ -90,10 +90,12 @@ const nextConfig: NextConfig = {
       fallback: [],
     };
   },
+  // Legacy-URL 301s. Each entry preserves any inbound link/share that
+  // landed on the old URL and consolidates SEO equity on the new
+  // canonical.
+  //
   // Legacy-slug 301s for film detail pages whose `letterboxdSlug`
-  // changed after the source-of-truth title was corrected. Each
-  // entry preserves any inbound link/share that landed on the old
-  // URL and consolidates SEO equity on the new canonical.
+  // changed after the source-of-truth title was corrected.
   //
   // 2026-05-09 — `Billie Eilish: The World's a Little Blurry` was
   // ingested from RSS with the title HTML-entity-encoded
@@ -107,6 +109,21 @@ const nextConfig: NextConfig = {
       {
         source: "/films/billie-eilish-the-world-039-s-a-little-blurry-2021",
         destination: "/films/billie-eilish-the-world-s-a-little-blurry-2021",
+        permanent: true,
+      },
+      // 2026-09-27 — the /projects section was renamed to /research.
+      // The detail URLs shipped as résumé-link targets, so they are in
+      // circulation on sent résumé copies and cannot 404. `:slug` is a
+      // single segment, so the downloads still served from
+      // public/projects/<slug>/<file> are deliberately not caught here.
+      {
+        source: "/projects/:slug",
+        destination: "/research/:slug",
+        permanent: true,
+      },
+      {
+        source: "/projects",
+        destination: "/research",
         permanent: true,
       },
     ];

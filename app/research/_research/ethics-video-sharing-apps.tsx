@@ -11,7 +11,7 @@
 //
 // `meta` is consumed by lib/projects/projects.ts (the registry); the
 // default export is the article body, rendered inside ProjectContainer
-// by app/projects/[slug]/page.tsx.
+// by app/research/[slug]/page.tsx.
 // ─────────────────────────────────────────────────────────────────
 
 import { Body, Emph } from "@/components/case-study/primitives";
@@ -59,7 +59,6 @@ export const meta: ProjectMeta = {
     note: "A recorded walkthrough and the symposium slides are on the way—they’ll live here alongside the paper once they clear Northwestern.",
   },
   related: ["privacy-law-social-media-era"],
-  noindex: true,
 };
 
 export default function WhenYouHearSomeFeedback() {

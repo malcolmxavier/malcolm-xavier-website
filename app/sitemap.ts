@@ -44,6 +44,7 @@ import {
 import { getCollectionDetails } from "@/lib/feeds/enrichment";
 import { slugifyEntity } from "@/lib/feeds/slug";
 import { CASE_STUDIES } from "@/app/resume/resume-data";
+import { PROJECTS } from "@/lib/projects/projects";
 
 // The WS6b entity-facet route types, in the order their pages list. Each
 // produces one indexed page per floor-clearing value (the same gate
@@ -378,6 +379,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
       // both shapes without forcing a per-entry override.
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    // Research — the data-science capstone and the two MSL papers.
+    // Priority 0.6: above Music (0.5) because these are credentialed
+    // portfolio evidence a recruiter or a client reads, below case
+    // studies (0.7) because case studies are the artifacts people
+    // explicitly hunt for and these are the supporting record. The
+    // index is listed explicitly; individual items iterate PROJECTS
+    // (the registry) so a new piece lands in the sitemap automatically
+    // without a parallel edit here.
+    {
+      url: `${SITE_URL}/research`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    ...PROJECTS.map((project) => ({
+      url: `${SITE_URL}/research/${project.slug}`,
+      lastModified,
+      // Finished academic work: the text doesn't iterate once shipped.
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
     })),
     ...filmEntries,
     ...tvEntries,

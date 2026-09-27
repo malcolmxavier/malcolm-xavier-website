@@ -1,19 +1,26 @@
 // ─────────────────────────────────────────────────────────────────
-// /projects/[slug] — a single portfolio project (a data-science
-// capstone or an MSL paper), hosted as a first-class reading page.
+// /research/[slug] — a single research piece (a data-science capstone
+// or an MSL paper), hosted as a first-class reading page.
 //
-// Renders the project body (a TSX module registered in
-// lib/projects/projects.ts) inside the narrow reading column, with an
-// Article + BreadcrumbList JSON-LD graph following the case-study /
-// essay pattern (author/publisher → #person, isPartOf → #website; see
+// Renders the body (a TSX module registered in lib/projects/projects.ts)
+// inside the narrow reading column, with an Article + BreadcrumbList
+// JSON-LD graph following the case-study / essay pattern
+// (author/publisher → #person, isPartOf → #website; see
 // STRUCTURED-DATA.md). Static: params come from generateStaticParams
-// and dynamicParams is off, so every project prerenders at build.
+// and dynamicParams is off, so every item prerenders at build.
 //
-// PHASE 1: pages carry `robots: noindex` (meta.noindex) so they work
-// as permanent résumé-link targets without entering search. There is
-// deliberately no /projects index route yet — the résumé links point
-// straight at these detail URLs. Phase 2 flips noindex off, adds the
-// index + sitemap entries, and lights up per-project OG cards.
+// SHIPPED STATE: these pages are indexed (no `robots: noindex`), listed
+// in app/sitemap.ts, and each carries its own Open Graph card from the
+// colocated ./opengraph-image.tsx. Readers reach them from the résumé's
+// education entries and from the /research index. The index route
+// itself lands separately from this migration.
+//
+// DELIBERATE: the section was renamed from /projects to /research at
+// the URL level only. `lib/projects/*` and `components/projects/*` keep
+// their directory names — they are internal identifiers, not addresses,
+// and renaming them would manufacture rebase conflicts with the
+// in-flight `feat/writing` branch for no user-visible gain. Please
+// don't "tidy" those imports.
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
@@ -32,7 +39,7 @@ import {
   getProject,
   formatByline,
 } from "@/lib/projects/projects";
-import { SITE_URL, SOCIAL_CARD_ALT, twitterAttribution } from "@/lib/site-config";
+import { SITE_URL, twitterAttribution } from "@/lib/site-config";
 import { BUILD_TIMESTAMP } from "@/lib/build-meta";
 
 type Params = { slug: string };
@@ -57,17 +64,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const project = getProject(slug);
-  if (!project) return { title: "Project not found" };
+  if (!project) return { title: "Research not found" };
   const pageTitle = project.metaTitle ?? project.title;
   const socialTitle = `${pageTitle}—Malcolm Xavier`;
-  const url = `/projects/${project.slug}`;
+  const url = `/research/${project.slug}`;
   return {
     title: pageTitle,
     description: project.description,
     alternates: { canonical: url },
-    // Phase 1: keep these out of the index while they serve as
-    // résumé-link targets. Follow stays on so the crawler can still
-    // traverse the internal links when Phase 2 opens indexing.
+    // `noindex` stays optional on ProjectMeta so a future draft can be
+    // parked out of search, but no shipped item sets it — the section is
+    // indexed and in the sitemap.
     robots: project.noindex ? { index: false, follow: true } : undefined,
     openGraph: {
       title: socialTitle,
@@ -79,21 +86,18 @@ export async function generateMetadata({
       publishedTime: isoWithTz(project.datePublished),
       modifiedTime: BUILD_TIMESTAMP,
       authors: ["Malcolm Xavier"],
-      images: [
-        {
-          url: "/opengraph-image",
-          width: 1200,
-          height: 630,
-          alt: SOCIAL_CARD_ALT,
-        },
-      ],
+      // No explicit `images` — ./opengraph-image.tsx resolves this
+      // route's own per-slug card via the App Router file convention,
+      // auto-populating og:image / width / height / alt. An explicit
+      // array here would fight the file-convention output (the same
+      // trap documented in app/about/page.tsx).
     },
     twitter: {
       card: "summary_large_image",
       ...twitterAttribution,
       title: socialTitle,
       description: project.description,
-      images: ["/opengraph-image"],
+      // twitter:image is auto-populated from ./opengraph-image.tsx too.
     },
   };
 }
@@ -107,7 +111,7 @@ export default async function ProjectPage({
   const project = getProject(slug);
   if (!project) notFound();
 
-  const url = `${SITE_URL}/projects/${project.slug}`;
+  const url = `${SITE_URL}/research/${project.slug}`;
   const published = isoWithTz(project.datePublished);
   const ProjectBody = project.Body;
   const byline = formatByline(project.authors);
@@ -135,10 +139,13 @@ export default async function ProjectPage({
         "@id": `${url}/#article`,
         headline: project.title,
         description: project.description,
+        // `image` is required for Google Article rich results. Points
+        // at this item's own opengraph-image route (its per-slug Satori
+        // card, resolved by file convention), not the sitewide card.
         image: {
           "@type": "ImageObject",
-          url: `${SITE_URL}/opengraph-image`,
-          contentUrl: `${SITE_URL}/opengraph-image`,
+          url: `${url}/opengraph-image`,
+          contentUrl: `${url}/opengraph-image`,
           width: 1200,
           height: 630,
         },
@@ -165,8 +172,8 @@ export default async function ProjectPage({
           {
             "@type": "ListItem",
             position: 2,
-            name: "Projects",
-            item: `${SITE_URL}/projects`,
+            name: "Research",
+            item: `${SITE_URL}/research`,
           },
           {
             "@type": "ListItem",
@@ -246,7 +253,7 @@ export default async function ProjectPage({
             Related
           </p>
           {related.map((r) => (
-            <Link key={r.slug} href={`/projects/${r.slug}`}>
+            <Link key={r.slug} href={`/research/${r.slug}`}>
               {r.title} →
             </Link>
           ))}
