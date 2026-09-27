@@ -37,29 +37,28 @@
 //     ever needed, swap to a "click to load" pattern.
 //
 // Sizing: 320px min-width per Calendly's snippet recommendation,
-// 700px height.
+// 1080px height.
 //
-// KNOWN BUG, PRE-EXISTING, NOT YET FIXED: 700px does not fit the
-// booking view. Measured 2026-09-27 by driving a real click into the
-// iframe — after picking an event type, the calendar's last week is
-// cut off at the card's bottom edge and the time-slot list, which sits
-// BELOW the calendar, is not visible at all. The previous comment here
-// claimed 700px fit "the date picker + time slots + form without
-// internal scrolling"; that was never true at this column width.
+// That height is large on purpose and fixes a real bug. It used to be
+// 700, and 700 did not fit the booking view: after picking an event
+// type the calendar's last week was cut off at the card's edge and the
+// time list, which sits below it, was not reachable at all. The old
+// comment here claimed 700 fit "the date picker + time slots + form
+// without internal scrolling" — measured on 2026-09-27 by driving real
+// clicks into the iframe, that was never true.
 //
-// Two things make it awkward to just raise the number:
-//   • Calendly renders the booking view STACKED (calendar, then slots)
-//     rather than side-by-side at every width this column can offer —
-//     tested at 42rem, 48rem, 56rem, and uncapped (~976px). Stacked
-//     needs roughly 900-1000px of height.
-//   • Narrowing the card therefore makes it need MORE height, not
-//     less, which is the opposite of the intuition.
-// So the fix is a product decision (taller embed vs. deep-linking a
-// single event type vs. dropping the inline embed for a link) and is
-// deliberately left to Malcolm rather than guessed at here.
+// WIDTH AND HEIGHT ARE COUPLED, which is the counter-intuitive part.
+// Calendly renders the booking view STACKED — event header, then
+// calendar, then times — at every width this page can give it (42rem,
+// 48rem, 56rem and ~976px uncapped were all tested, all stacked). So a
+// NARROWER embed needs a TALLER container, not a shorter one. Trying to
+// shrink the embed by capping its width made it clip worse.
 //
-// Whatever changes, measure against the BOOKING view, not the event
-// picker. The picker is short and fits anything.
+// 1080 is verified end to end at the current column width: event
+// picker, day picker, and time list all render without the iframe
+// scrolling internally. Re-verify against the TIME LIST — not the event
+// picker, which is short and fits almost anything — before changing
+// this or the column width in app/contact/page.tsx.
 // ─────────────────────────────────────────────────────────────────
 
 "use client";
@@ -196,7 +195,7 @@ export function CalendlyWidget() {
   return (
     <div
       ref={containerRef}
-      style={{ minWidth: 320, height: 700 }}
+      style={{ minWidth: 320, height: 1080 }}
     />
   );
 }

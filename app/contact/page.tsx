@@ -154,203 +154,218 @@ export default function ContactPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(CONTACT_SCHEMA) }}
       />
       <Container>
-      {/* ─── Hero ──────────────────────────────────────────────── */}
-      <Section padding="lg">
-        <Stack gap="500">
-          <Kicker>Contact</Kicker>
-          <Display>Let’s talk.</Display>
-          {/* Opens on the same sentence the landing page and /about
-              open on, so the three recruiter-facing surfaces state the
-              availability identically rather than three ways.
+        {/* One grid for the whole page, the same shape /about uses: a
+          1fr copy column against a column sized by what sits in it,
+          and that right-hand thing spanning both rows so the copy
+          below the intro flows BESIDE it rather than starting under
+          it.
 
-              The previous version led with two rhetorical questions
-              ("Hiring a senior PM…? Want to compare notes…?"), which
-              is the hook-question pattern the voice guide rules out,
-              and it was the only page of the three that did not simply
-              say what he is looking for. The "recruiter intros,
-              product chats" framing is folded in from the schedule
-              block's own blurb, which this replaces. */}
-          <Lede>
-            I’m currently interviewing and open to full-time, contract,
-            and fractional product work. Pick a slot below for a
-            recruiter intro or a product chat, send a note, or find me
-            elsewhere on the internet. I reply within a day or
-            two—faster if there’s a job at the end of it.
-          </Lede>
-        </Stack>
-      </Section>
+          The page used to be two stacked Sections — a full-width hero,
+          then a bordered section holding widget-left / rail-right. So
+          the intro ran the full page width while everything under it
+          was in columns, and the widest element on the page was the
+          third-party embed. Now the embed is the right column and the
+          intro and the direct-contact blocks share the left one.
 
-      {/* ─── Booking + direct contact ──────────────────────────── */}
-      <Section padding="md" bordered>
-        <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-12">
-          {/* Left column — Calendly widget. Bordered card so the
-              third-party embed reads as a contained surface rather
-              than fighting the page styling. */}
-          <Stack gap="400">
-            {/* No heading block above the widget. There used to be one
-                — kicker "Schedule", headline "Book time, on the
-                record.", and a "Best for:" blurb — which made the page
-                introduce itself twice: once in the hero and again
-                fifty pixels later, saying much the same thing. The
-                hero now carries it, and the embed is left to be the
-                embed. */}
-            <div
-              // Container card around the iframe widget — borders
-              // visually separate the third-party light-theme embed
-              // from the surrounding page (which may be dark).
-              //
-              // Border color hardcoded to a theme-neutral light hex
-              // so the white-pinned card has a visible edge in dark
-              // mode — without it, --border-default resolved to a
-              // light token and the border vanished against the
-              // white wrapper inside the dark page surface
-              // (2026-04-29 /full-review, a-calendly-card-dark).
-              //
-              // role="region" + a name exposes this as a landmark in
-              // screen-reader landmark lists. It used to borrow the
-              // editorial heading above it so SR users heard the same
-              // voice the sighted UI carried; with that heading gone
-              // there is no sighted phrasing left to match, so a plain
-              // functional label is the honest one — it describes what
-              // the region does rather than quoting a headline nobody
-              // can see.
-              role="region"
-              aria-label="Book a meeting"
-              // Capped at 48rem. Left to fill the 1fr column the card
-              // was ~920px of white around ~640px of widget, which read
-              // as a slab rather than a card. 48rem is as narrow as it
-              // goes: Calendly reflows its BOOKING view to a stacked
-              // layout below roughly 700px, and stacked is much taller
-              // than the side-by-side calendar, so a narrower card
-              // needs a TALLER container to avoid clipping. 42rem was
-              // tried and clipped the calendar mid-month. Re-verify the
-              // booking view, not just the event picker, before
-              // changing either this or the height in CalendlyWidget.
-              className="overflow-hidden rounded-lg border"
-              style={{
-                borderColor: "#e0e0e0",
-                background: "#fff",
-              }}
-            >
-              <CalendlyWidget />
-            </div>
-
-            {/* Fallback: link to the root Calendly profile (shows
-                all event types) in case the widget fails to load
-                — third-party script blocked, ad blocker, etc. Root
-                URL rather than the specific 30-min slot so users
-                can still pick whatever event suits them. */}
-            <Body
-              size="sm"
-              style={{ color: "var(--text-caption)", maxWidth: "60ch" }}
-            >
-              Widget not loading? Book directly on{" "}
-              <TrackOnClick
-                event={ANALYTICS_EVENTS.CALENDLY_CLICK}
-                eventData={{ kind: "fallback", surface: "contact-widget-fallback" }}
-              >
-                <Link href={CONTACT.calendlyRoot}>Calendly ↗</Link>
-              </TrackOnClick>
-            </Body>
-          </Stack>
-
-          {/* Right column — direct contact + cultural elsewhere
-              rail, stacked. Stacks under the widget at smaller
-              widths; sits beside it at lg+. */}
-          <aside
-            className="mt-12 lg:mt-0"
-            aria-label="Other ways to reach Malcolm"
+          --contact-embed is the only number to edit; --contact-cols
+          reads it, so the column can never disagree with the widget in
+          it. It opens at lg rather than md because below ~1024px the
+          left column gets too narrow to hold a lede: at 768 the split
+          would leave it around 310px. */}
+        <Section padding="lg">
+          <div
+            className="lg:grid lg:grid-cols-[var(--contact-cols)] lg:grid-rows-[auto_1fr] lg:gap-x-12 lg:gap-y-12 lg:items-start"
+            style={{
+              ["--contact-embed" as string]: "clamp(22rem, 40vw, 36rem)",
+              ["--contact-cols" as string]:
+                "minmax(0, 1fr) var(--contact-embed)",
+            }}
           >
-            <Stack gap="700">
-              {/* Direct methods — the recruiter-facing reach-out
-                  paths. */}
-              <Stack gap="500">
-                <Stack gap="200">
-                  <Kicker>Or, directly</Kicker>
-                  <Headline level={2}>Skip the calendar.</Headline>
-                </Stack>
-
-                <ul
-                  role="list"
-                  className="space-y-3"
-                  style={{ listStyle: "none", padding: 0, margin: 0 }}
-                >
-                  {directMethods.map((method) => {
-                    const linkEl = (
-                      <Link
-                        href={method.href}
-                        className="inline-flex items-center gap-2"
-                        style={{
-                          fontFamily: "var(--font-secondary)",
-                          fontSize: "var(--p-md-font-size)",
-                          minHeight: 24,
-                        }}
-                      >
-                        {method.icon}
-                        <span>{method.value}</span>
-                      </Link>
-                    );
-                    // Single-line row: icon + platform name (or
-                    // the email address). minHeight 24 clears the
-                    // WCAG 2.2 SC 2.5.8 minimum target size on
-                    // touch. Wrap the email entry with TrackOnClick;
-                    // LinkedIn isn't tracked (not in the funnel-
-                    // event spec).
-                    return (
-                      <li key={method.href}>
-                        {method.href.startsWith("mailto:") ? (
-                          <TrackOnClick
-                            event={ANALYTICS_EVENTS.EMAIL_CLICK}
-                            eventData={{
-                              kind: "direct",
-                              surface: "contact-direct",
-                            }}
-                          >
-                            {linkEl}
-                          </TrackOnClick>
-                        ) : (
-                          linkEl
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
+            {/* Row 1, column 1 — the intro. */}
+            <Stack gap="800">
+              <Stack gap="300">
+                <Kicker>Contact</Kicker>
+                <Display>Let’s talk.</Display>
               </Stack>
 
-              {/* Elsewhere rail — pulled into the right column
+              {/* Opens on the same sentence the landing page and /about
+                open on, so the three recruiter-facing surfaces state
+                the availability identically rather than three ways.
+
+                The previous version led with two rhetorical questions
+                ("Hiring a senior PM…? Want to compare notes…?"), which
+                is the hook-question pattern the voice guide rules out,
+                and it was the only page of the three that did not
+                simply say what he is looking for. The "recruiter
+                intros, product chats" framing is folded in from the
+                schedule block's own blurb, which this replaces. */}
+              <Lede>
+                I’m currently interviewing and open to full-time, contract, and
+                fractional product work. Pick a slot for a recruiter intro or a
+                product chat, send a note, or find me elsewhere on the
+                internet.
+              </Lede>
+            </Stack>
+
+            {/* Column 2, both rows — the booking embed. Spanning the
+              rows is what lets the rail below the intro sit beside it
+              instead of being pushed past its foot. */}
+            <div className="mt-10 lg:mt-0 lg:row-start-1 lg:row-span-2 lg:col-start-2">
+              <Stack gap="400">
+                <div
+                  // Container card around the iframe widget — borders
+                  // visually separate the third-party light-theme embed
+                  // from the surrounding page (which may be dark).
+                  //
+                  // Border color hardcoded to a theme-neutral light hex
+                  // so the white-pinned card has a visible edge in dark
+                  // mode — without it, --border-default resolved to a
+                  // light token and the border vanished against the
+                  // white wrapper inside the dark page surface
+                  // (2026-04-29 /full-review, a-calendly-card-dark).
+                  //
+                  // role="region" + a name exposes this as a landmark in
+                  // screen-reader landmark lists. It used to borrow the
+                  // editorial heading above it so SR users heard the
+                  // same voice the sighted UI carried; with that heading
+                  // gone there is no sighted phrasing left to match, so
+                  // a plain functional label is the honest one.
+                  //
+                  // No width cap here any more. One was tried while the
+                  // embed still sat in the wide column and it backfired:
+                  // Calendly renders its booking view stacked, and a
+                  // narrower card makes that TALLER, not smaller. The
+                  // column now sets the width and the height follows.
+                  role="region"
+                  aria-label="Book a meeting"
+                  className="overflow-hidden rounded-lg border"
+                  style={{
+                    borderColor: "#e0e0e0",
+                    background: "#fff",
+                  }}
+                >
+                  <CalendlyWidget />
+                </div>
+
+                {/* Fallback: link to the root Calendly profile (shows
+                  all event types) in case the widget fails to load
+                  — third-party script blocked, ad blocker, etc. Root
+                  URL rather than the specific 30-min slot so users
+                  can still pick whatever event suits them. */}
+                <Body
+                  size="sm"
+                  style={{ color: "var(--text-caption)", maxWidth: "60ch" }}
+                >
+                  Widget not loading? Book directly on{" "}
+                  <TrackOnClick
+                    event={ANALYTICS_EVENTS.CALENDLY_CLICK}
+                    eventData={{
+                      kind: "fallback",
+                      surface: "contact-widget-fallback",
+                    }}
+                  >
+                    <Link href={CONTACT.calendlyRoot}>Calendly ↗</Link>
+                  </TrackOnClick>
+                </Body>
+              </Stack>
+            </div>
+
+            {/* Row 2, column 1 — the ways to reach him that are not the
+              calendar. These used to be the narrow right rail; they
+              read better under the intro they belong to, and it frees
+              the right column for the thing that actually needs the
+              width. */}
+            <aside
+              className="mt-12 lg:mt-0"
+              aria-label="Other ways to reach Malcolm"
+            >
+              <Stack gap="700">
+                {/* Direct methods — the recruiter-facing reach-out
+                  paths. */}
+                <Stack gap="500">
+                  <Stack gap="200">
+                    <Kicker>Or, directly</Kicker>
+                    <Headline level={2}>Skip the calendar.</Headline>
+                  </Stack>
+
+                  <ul
+                    role="list"
+                    className="space-y-3"
+                    style={{ listStyle: "none", padding: 0, margin: 0 }}
+                  >
+                    {directMethods.map((method) => {
+                      const linkEl = (
+                        <Link
+                          href={method.href}
+                          className="inline-flex items-center gap-2"
+                          style={{
+                            fontFamily: "var(--font-secondary)",
+                            fontSize: "var(--p-md-font-size)",
+                            minHeight: 24,
+                          }}
+                        >
+                          {method.icon}
+                          <span>{method.value}</span>
+                        </Link>
+                      );
+                      // Single-line row: icon + platform name (or
+                      // the email address). minHeight 24 clears the
+                      // WCAG 2.2 SC 2.5.8 minimum target size on
+                      // touch. Wrap the email entry with TrackOnClick;
+                      // LinkedIn isn't tracked (not in the funnel-
+                      // event spec).
+                      return (
+                        <li key={method.href}>
+                          {method.href.startsWith("mailto:") ? (
+                            <TrackOnClick
+                              event={ANALYTICS_EVENTS.EMAIL_CLICK}
+                              eventData={{
+                                kind: "direct",
+                                surface: "contact-direct",
+                              }}
+                            >
+                              {linkEl}
+                            </TrackOnClick>
+                          ) : (
+                            linkEl
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </Stack>
+                {/* Elsewhere rail — pulled into the right column
                   beneath the direct-methods block. Mirrors the
                   "Or, directly" / "Skip the calendar" pattern with
                   a kicker + headline + link list. */}
-              <Stack gap="400">
-                <Stack gap="200">
-                  <Kicker>Elsewhere on the internet</Kicker>
-                  <Headline level={2}>The cultural side.</Headline>
-                </Stack>
-                <ul
-                  role="list"
-                  className="flex flex-wrap gap-x-6 gap-y-2"
-                  style={{
-                    listStyle: "none",
-                    padding: 0,
-                    margin: 0,
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "var(--p-sm-font-size)",
-                  }}
-                >
-                  {ELSEWHERE.map((item) => (
-                    <li key={item.label}>
-                      <Link href={item.href}>
-                        {item.label} ↗
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+                <Stack gap="400">
+                  <Stack gap="200">
+                    <Kicker>Elsewhere on the internet</Kicker>
+                    <Headline level={2}>The cultural side.</Headline>
+                  </Stack>
+                  <ul
+                    role="list"
+                    className="flex flex-wrap gap-x-6 gap-y-2"
+                    style={{
+                      listStyle: "none",
+                      padding: 0,
+                      margin: 0,
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "var(--p-sm-font-size)",
+                    }}
+                  >
+                    {ELSEWHERE.map((item) => (
+                      <li key={item.label}>
+                        <Link href={item.href}>{item.label} ↗</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </Stack>{" "}
               </Stack>
-            </Stack>
-          </aside>
-        </div>
-      </Section>
-    </Container>
+            </aside>
+          </div>
+        </Section>
+      </Container>
     </>
   );
 }
