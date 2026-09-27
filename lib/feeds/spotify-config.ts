@@ -182,4 +182,18 @@ export const COLLECTIONS: ReadonlyArray<Collection> = [
       "4cGUTASO8620lL4gsf4PtT", // skylight
     ],
   },
+  {
+    name: "beach day",
+    // The three most recent releases, which is why they sit at the top
+    // of the All view and at the bottom of this array — the page sorts
+    // last-edit-descending and a collection does not re-sort it.
+    // Listed oldest-first, per the narrative rule above: it is a day at
+    // the beach, so the surf comes before the midday haze and the haze
+    // before the flare. That is also their release order.
+    ids: [
+      "6HnLW01XYkplYjEFoGsU9p", // hang 10    — 2026-06-30
+      "4VQB216LwiDnBXmtXg4wkx", // sun daze   — 2026-07-25
+      "66Z22IjXSVb7tdeH8zI8EN", // flare      — 2026-08-30
+    ],
+  },
 ];
