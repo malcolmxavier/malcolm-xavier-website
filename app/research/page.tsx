@@ -152,8 +152,7 @@ export default function ResearchIndexPage() {
                 a different programme on a different subject and is
                 résumé-only (see _research/sea-level-rise-florida.tsx). */}
             <Lede>
-              Data is a privacy question and an intellectual property
-              one, and the second gets asked less.
+              What data costs culture, and what it costs business.
             </Lede>
 
             {/* The list. Rule-separated rather than carded; the first
