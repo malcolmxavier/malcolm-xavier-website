@@ -52,8 +52,11 @@ import {
   formatByline,
 } from "@/lib/projects/projects";
 
+// Kept under ~160 characters so a search result shows it whole — the
+// constraint the voice pass's `meta-voice` task records. The two item
+// descriptions do NOT yet meet it; that is tracked, not solved here.
 const RESEARCH_DESCRIPTION =
-  "Master of Science in Law papers on data privacy, media, and how platform rules and privacy law lag the culture they govern.";
+  "Two Master of Science in Law papers on data—one through privacy law, one through intellectual property.";
 
 export const metadata: Metadata = {
   title: "Research",
@@ -149,8 +152,8 @@ export default function ResearchIndexPage() {
                 a different programme on a different subject and is
                 résumé-only (see _research/sea-level-rise-florida.tsx). */}
             <Lede>
-              Who privacy law actually protects, and who platform rules
-              erase.
+              Data is worth looking at through privacy law, and through
+              intellectual property. One paper on each.
             </Lede>
 
             {/* The list. Rule-separated rather than carded; the first
