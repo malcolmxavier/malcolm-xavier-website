@@ -9,17 +9,25 @@
 //                    short lines, and the h1 became "Welcome to my
 //                    world." rather than the name. See the notes in the
 //                    hero itself — the reasoning is load-bearing.
-//   2. Matrix        Sub-brand tile grid — conditionally rendered
-//                    from SUB_BRAND_TILES. Currently: Music only.
-//                    Tiles get added to the array as Film / TV / etc
-//                    ship; no placeholders.
-//   3. About teaser  3-sentence bio. "Read more →" goes to /about.
-//                    TODO(creative-cv): the quiet inline Creative-CV
-//                    link is deferred until /creative-cv exists.
-//                    Tracked via l-creative-cv-todo (2026-04-29
-//                    /full-review).
-//   4. Contact       Action-oriented CTAs (Calendly, email) +
-//                    quieter "elsewhere" line.
+//
+// THE HERO IS THE WHOLE PAGE as of 2026-09-26. Three modules below it were
+// removed, and the reasons are separate:
+//
+//   • Sub-brand matrix (Films / Television / Music tiles, plus the
+//     "Or, explore the rest ↓" scroll cue that existed only to point at
+//     it). Not deleted for being weak — the cultural corner is moving to
+//     Fourth Unit and will return as its own module when that is ready.
+//   • About teaser and Contact section. There is enough site content and
+//     context by now that prompting a visitor to go read /about or /contact
+//     is not doing useful work.
+//
+// No crawl paths were lost: the Nav and the Footer still link /about,
+// /case-studies, /consulting, /contact, /films, /television, /music and
+// /booth, so removal thinned this page's own content rather than the
+// site's link graph. Nothing referenced the deleted #explore anchor.
+//
+// The page is one Section now. If a module comes back, it goes below the
+// hero as its own Section — do not reach for a variant of the hero grid.
 //
 // The strings are kept inline rather than pulled into a content file
 // because landing copy is tight and changes often during the editorial
@@ -38,83 +46,12 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
-import { Headline } from "@/components/typography/Headline";
 import { Lede } from "@/components/typography/Lede";
-import { Body } from "@/components/typography/Body";
-import { Kicker } from "@/components/typography/Kicker";
 import { Button } from "@/components/primitives/Button";
-import { Link } from "@/components/primitives/Link";
-import { Card } from "@/components/primitives/Card";
-import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { HeroCtaInView } from "@/components/analytics/HeroCtaInView";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
-import type { SubBrand } from "@/lib/sub-brands";
-import { CONTACT } from "./resume/resume-data";
-
-// Sub-brand tiles for the matrix. As Film / TV / etc ship, add
-// entries here; the matrix renders only what's listed. Each tile
-// links to its sub-brand page and carries the right accent stripe.
-//
-// `blurb` is React.ReactNode (not just string) so individual entries
-// can italicize words, link inline, etc. — e.g. <em>settle the score</em>
-// for an album or playlist title.
-//
-// `cta` is an optional override for the call-to-action text. When
-// omitted, falls back to "Visit {label}" — fine for most sub-brands.
-// Override when a voice-led phrase reads more truly than the
-// generic verb-noun (e.g. "Hear Me Out" for Music, "Pass the
-// Popcorn" for Films — both invite the reader rather than just
-// describing the surface).
-type SubBrandTile = {
-  href: string;
-  label: string;
-  blurb: React.ReactNode;
-  cta?: string;
-  accent: SubBrand;
-};
-
-const SUB_BRAND_TILES: SubBrandTile[] = [
-  {
-    href: "/films",
-    label: "Films",
-    cta: "Pass the Popcorn",
-    blurb: (
-      <>
-        300+ films a year, with strong opinions and Letterboxd
-        receipts.
-      </>
-    ),
-    accent: "film",
-  },
-  {
-    href: "/television",
-    label: "Television",
-    cta: "Grab the Remote",
-    blurb: (
-      <>
-        Appointment viewing, binge fodder, channel
-        surfing—100+ seasons a year on Serializd.
-      </>
-    ),
-    accent: "tv",
-  },
-  {
-    href: "/music",
-    label: "Music",
-    cta: "Hear Me Out",
-    blurb: (
-      <>
-        A new playlist each month. Now playing:{" "}
-        <em>settle the score</em>.
-      </>
-    ),
-    accent: "music",
-  },
-];
 
 export default function Home() {
-  const mailHref = `mailto:${CONTACT.email}`;
-
   return (
     <Container>
       {/* ─── Hero ──────────────────────────────────────────────── */}
@@ -136,27 +73,48 @@ export default function Home() {
               a 22rem portrait, a three-paragraph lede and a ~28rem left
               column, none of which survived that pass.
 
-              THE IMAGE IS THE ANCHOR. Two values are held and they do
-              different jobs, which is the part that kept getting confused:
+              THE IMAGE IS THE ANCHOR — sized first, and everything
+              else follows from it.
 
-                • The 50/50 split (lg:grid-cols-2) is for the TEXT. Half a
-                  container is a measure the lede actually wraps at, and
-                  the wrapping is what gives the copy block height.
-                • --hero-portrait (24rem) is for the IMAGE: absolute and
-                  square, flush to the left edge of its column. Not a
-                  fraction of the column — at 85% of a half-container the
-                  portrait came out around 44rem square, and a fraction
-                  also ties a headshot's size to the viewport when a
-                  headshot has a right size rather than a right percentage.
+              --hero-portrait (32rem) is the only number to edit. The
+              portrait is that wide, square, flush to the left edge of its
+              column, and --hero-cols makes the right column exactly that
+              width so no strip is left over beside it. The text column is
+              minmax(0, 1fr) and takes whatever remains.
 
-              Neither is expressed in terms of the other, so the copy's
-              height follows whichever of the two is taller and changing
-              one never forces a re-tune of the other. An earlier cut had
-              the portrait take its height FROM the text via
-              lg:self-stretch: that obeyed the 2026-04-28 audit note —
-              match by construction, never by arithmetic — and still had
-              the relationship backwards, because that note settled how
-              not to match them and never said which one drives.
+              Why an absolute and not a share of the column: at 85% of a
+              half-container the portrait came out about 44rem square, and
+              a fraction also ties a headshot's size to the viewport when a
+              headshot has a right size rather than a right percentage.
+
+              History, because three shapes were tried on 2026-09-26 and
+              each failed differently:
+
+                • The portrait taking its HEIGHT from the text
+                  (lg:self-stretch). Obeyed the 2026-04-28 audit note —
+                  match by construction, never by arithmetic — and still
+                  had the relationship backwards, because that note settled
+                  how not to match them and never which one drives.
+                • A 50/50 split with the portrait flush-left inside its
+                  half. Left a strip beside the image that grew with the
+                  viewport, 78px at 1100px and 360px past 1664px. Capping
+                  the hero's width closed it and moved the emptiness
+                  outside the hero; a stat block put content in it and read
+                  as an afterthought, because a sliver is not a column and
+                  nothing content-shaped belongs in one.
+                • Filling that strip with a decorative matte. Rejected on
+                  sight.
+
+              The strip is gone by construction now, which is why the
+              portrait's size is the lever for how close the image reads to
+              the words: growing it both moves the column left and narrows
+              the measure. At 32rem the measure lands near 37rem at 1280
+              and 47rem at 1440. Note it still GROWS with the viewport,
+              since the text column absorbs everything — if the measure
+              reads too wide at large sizes, the fix is capping the lede
+              itself, which puts the leftover inside the text column as
+              ordinary typographic space rather than between text and
+              image.
 
               Geometry: top-anchored (lg:items-start). The Display in row 1
               col 1 and the portrait spanning rows 1+2 in col 2 share a top
@@ -168,17 +126,87 @@ export default function Home() {
               Rhythm down the left column, and every number here comes from
               a Stack gap rather than from padding on a child:
 
-                name    → lede     16px   grid lg:gap-y-4
-                lede l1 → lede l2  20px   inner Stack gap 500
-                lede    → CTA row  20px   outer Stack gap 500
+                                 token   rendered   knob
+                name    → lede    56px     ~42px    grid lg:gap-y-14
+                lede p1 → lede p2  28px     ~34px    inner Stack gap 700
+                lede    → CTA row  32px     ~41px    outer Stack gap 800
+
+              TWO COLUMNS BECAUSE THE TOKENS ARE NOT COMPARABLE — read the
+              descender note below before changing any of them. The three
+              tokens are measured from three different places, so the
+              rendered column is the only one where the numbers mean the
+              same thing. 56 and 32 are eleven px apart as tokens and about
+              one px apart on screen.
+
+              The shape: the heading and the CTA row sit at matching
+              distance from the lede, and the paragraph seam inside it is
+              slightly tighter than both. So the two paragraphs read as one
+              block, evenly placed between the thing above and the thing
+              below. Malcolm asked for the CTA gap to match the heading gap
+              on 2026-09-26 — before that it was 16px, which left the
+              buttons crammed under copy that had just been given room to
+              breathe. An earlier note here argued the paragraph seam
+              should be the LARGEST of the three so the block read as one
+              unit with one seam; that held when the heading gap was 20px
+              and stopped being true the moment the heading got its air.
 
               The CTA row carried a pt-2 until 2026-09-26, which put its
               box 8px above the buttons and made that last gap 28px while
               reading as 20px in the markup. Spacing lives in the gap; if
               the row needs more air, the outer Stack's gap is the knob.
-              Caveat on the last row: the outer Stack is lg:justify-between,
-              so when the PORTRAIT is the taller column that 20px opens up
-              and the CTA row bottom-aligns with the portrait instead.
+
+              The heading gap went 12 → 20 → 56 across 2026-09-26, and the
+              number is the least interesting part of that. Display carries
+              text-box-trim: trim-both with edge cap/alphabetic, so its box
+              hugs the glyphs — there is no invisible leading softening the
+              gap the way there is everywhere else on the site. An earlier
+              note here concluded from that "the token IS the whole visual
+              gap", which is wrong in the expensive direction: the box is
+              tighter than the glyphs, not equal to them.
+
+              THE DESCENDER IS WHY THIS TOKEN IS SO MUCH LARGER THAN IT
+              LOOKS. text-box-edge: cap alphabetic trims the bottom to the
+              ALPHABETIC BASELINE, so every descender renders outside the
+              box, below it. "Welcome to my world." has a y and a comma
+              hanging into the gap, about 0.22em — roughly 21px at the
+              96px size. The lede then eats about 7px of its own box in
+              half-leading before its caps start. So the ink-to-ink gap a
+              person actually sees is token - 21 + 7, i.e. TOKEN MINUS 14.
+
+              THE CTA GAP RUNS THE OTHER WAY, which is the whole reason the
+              rhythm table above needs two columns. Nothing is trimmed down
+              there: the lede's last line keeps its descent and half-leading
+              as empty box below the baseline, and "work." has no descender
+              ink to fill it, so about 9px of that box is blank. A button's
+              border is exactly its box edge. That gap renders at roughly
+              TOKEN PLUS 9. Hence 56 above and 32 below landing within a px
+              of each other on screen — a trimmed box loses 14 and an
+              untrimmed one gains 9, a 23px swing between two tokens that
+              look like they should differ by 24.
+              At the old 20px that is a 6px visual gap, which is why it
+              read as touching at every value tried and why raising 12 → 20
+              changed nothing anybody could see. 56px buys ~42px of real
+              air, about 0.44em under the heading, which is the ordinary
+              proportion for a display face over body copy.
+
+              A ceiling of 28px was written here earlier and it was wrong.
+              The reasoning was that the 28px paragraph seam must dominate
+              or the heading binds to paragraph one — the inversion is real
+              and the arithmetic comparing them was not, because the two
+              numbers are measured from different places. The heading token
+              runs from a trimmed BASELINE and loses 14px to the descender;
+              the seam runs between two untrimmed text boxes and gains a
+              few px of leading. Compared as ink, 56 here is ~42px against
+              the seam's ~31px, so the heading is the larger step and the
+              hierarchy is right way up. Compare rendered space, never
+              tokens, whenever one side is trimmed and the other is not.
+
+              The other trap: the "way too big" gap rejected earlier the
+              same day was not this token at all. That hero ran
+              lg:justify-between over a full-height stack, so the slack
+              under the image was being distributed into the text rows —
+              the token was 16px while the visible gap was whatever was
+              left over. No large token has ever been rejected here.
 
               DOM order — name → portrait → lede + CTAs — is correct for
               the single-column flow below lg, and the explicit lg grid
@@ -187,8 +215,20 @@ export default function Home() {
               between the name and the copy, and its my-5 governs that
               spacing rather than any gap here. */}
           <div
-            className="lg:grid lg:grid-cols-2 lg:gap-x-12 lg:gap-y-4 lg:items-start"
-            style={{ ["--hero-portrait" as string]: "24rem" }}
+            className="lg:grid lg:grid-cols-[var(--hero-cols)] lg:grid-rows-[auto_1fr] lg:gap-x-12 lg:gap-y-14 lg:items-start"
+            style={{
+              ["--hero-portrait" as string]: "32rem",
+              // The template lives in a property, not in the utility.
+              // Tailwind compiled NO RULE for
+              // lg:grid-cols-[minmax(0,1fr)_var(--hero-portrait)] — the
+              // class sat in the markup and the stylesheet had nothing,
+              // so the layout silently did not change. Arbitrary values
+              // fail OPEN, which is worth knowing: the page renders fine
+              // and the edit just does not happen. A var-only arbitrary
+              // does compile, so the composition goes here where CSS
+              // resolves it and --hero-portrait stays the only number.
+              ["--hero-cols" as string]: "minmax(0, 1fr) var(--hero-portrait)",
+            }}
           >
             {/* The Display component now trims its line-box to the cap
                 line (top) by default, so the visible top of "M" aligns
@@ -212,7 +252,28 @@ export default function Home() {
                 Person JSON-LD in app/layout.tsx still carries the entity,
                 the <title> still carries the name, and it is obvious whose
                 site this is. Don't "fix" it back. */}
-            <Display style={{ fontSize: "clamp(3.25rem, 7vw, 6rem)" }}>
+            <Display
+              style={{
+                fontSize: "clamp(3.25rem, 7vw, 6rem)",
+                // UNITLESS, and it must stay that way. Display reads
+                // line-height from --h1-line-height, which is an ABSOLUTE
+                // 72px tuned for the token's 60px font. Overriding
+                // font-size alone left a 96px face in a 72px line box at
+                // desktop — a 0.75 ratio, so two heading lines overlapped
+                // and, worse, the glyphs overflowed the element's box
+                // downward. text-box-trim: trim-both can only remove
+                // POSITIVE half-leading; with the line box smaller than the
+                // glyphs there is nothing to trim, so the descenders hung
+                // below the box while the grid gap was measured from the
+                // box. The gap beneath the heading was therefore its token
+                // value MINUS that overflow, which is why raising it from
+                // 12px to 20px barely moved anything.
+                //
+                // A ratio tracks the clamp at every width, so the pairing
+                // holds instead of being correct at one size.
+                lineHeight: "1.05",
+              }}
+            >
               Welcome to my world.
             </Display>
 
@@ -258,7 +319,7 @@ export default function Home() {
                 src="/headshot.jpg"
                 alt="Portrait of Malcolm Xavier"
                 fill
-                sizes="(min-width: 1024px) 24rem, 16rem"
+                sizes="(min-width: 1024px) 32rem, 16rem"
                 // This headshot is the homepage LCP element. Next 16
                 // deprecated the old `priority` prop; the explicit
                 // replacement is `preload` (inserts the <link rel=preload>
@@ -291,14 +352,21 @@ export default function Home() {
                 span). On <lg, this sits below the headshot in
                 the single-column flow.
 
-                lg:h-full + lg:justify-between is the second half of the
-                anchor rule: the portrait spans both rows, so IT sets the
-                row heights, and this makes the copy occupy that height
-                rather than sitting in the top of it. The lede stays at
-                the top under the name; the CTA row is pushed to the
-                bottom, where it lands on the portrait's bottom edge. The
-                red guides make that alignment visible. */}
-            <Stack gap="500" className="lg:h-full lg:justify-between">
+                This carried lg:h-full + lg:justify-between until
+                2026-09-26, to make the copy occupy the row height the
+                portrait sets and bottom-align the CTA row with the
+                portrait's lower edge. Removed once the portrait grew to
+                32rem: the copy is much shorter than the image, so
+                justify-between stopped being an alignment and became a
+                chasm — several hundred pixels of nothing between the lede
+                and the buttons, and the gap token below was not governing
+                that space at all, which made it look unfixable by tuning.
+
+                Top-aligned now, so the gaps mean what they say. The
+                leftover height lands BELOW the buttons instead, beside the
+                lower part of the portrait, which is the ordinary
+                shorter-column whitespace the grid comment describes. */}
+            <Stack gap="800">
               {/* Two-paragraph lede. Nested Stack with a smaller
                   gap so the paragraphs feel like one block visually
                   while still breathing apart from each other and
@@ -318,22 +386,54 @@ export default function Home() {
                       instead of showing any. The About teaser further
                       down this page actually has the personality this
                       was summarising.
-                    • "I built this site with Claude Code as my build
-                      partner" — the receipt for AI‑native. Safe to drop
-                      HERE because /case-studies/building-this-site is
-                      that receipt at length, and /resume carries The
-                      Booth as the AI‑native system.
                     • People Inc, Muck Rack, User Interviews, Fullstack
                       Academy — the employer receipts. They are what
                       /resume is for, and the primary CTA points at it.
 
                   So the hero asserts and the rest of the site proves.
                   The availability line is second and last because it is
-                  the sentence the resume CTA directly below answers. */}
-              <Stack gap="500">
+                  the sentence the resume CTA directly below answers.
+
+                  A SECOND SENTENCE was added later the same day. The
+                  right column had been narrowed to the portrait's exact
+                  width and the copy inherited the slack, so at that
+                  measure two short lines read as sparse rather than spare.
+
+                  Three candidates were tried and rejected before this one,
+                  and the rejections are the useful part:
+
+                    • "I built this site with Claude Code as my build
+                      partner" — a receipt, and he did not want the second
+                      sentence to be one.
+                    • "obsessed with all things media — hundreds of film
+                      reviews and dozens of playlists" — distracting, and
+                      the cultural corner is the very next section on the
+                      page, so it argued for a click it already had.
+                    • Anything carrying a figure. The numbers live on
+                      /resume and in the fixtures, and a figure written
+                      into hero copy goes stale on a cron refresh without
+                      anything reporting it.
+
+                  So the second sentence is a POINT OF VIEW rather than
+                  evidence, and it adds the one dimension sentence one does
+                  not carry. Growth, marketing, data platforms and
+                  AI-native are all in the first sentence; the law is not,
+                  and it is the rarest thing in the stack — the site's own
+                  SITE_DESCRIPTION in app/layout.tsx names it alongside the
+                  artist's eye and the theater background.
+
+                  Deliberately phrased to avoid claiming a career sequence.
+                  An earlier draft read "I came to data platforms through
+                  privacy law", which asserts the degree came first and
+                  caused the rest; that ordering has not been verified and
+                  is not the point anyway. */}
+              <Stack gap="700">
                 <Lede>
                   I’m a senior product manager who builds AI‑native
-                  growth, marketing, and data platforms.
+                  growth, marketing, and data platforms. I help teams
+                  strengthen their relationships with users through
+                  lifecycle marketing and the operational systems behind
+                  it.
                 </Lede>
 
                 <Lede>
@@ -387,185 +487,9 @@ export default function Home() {
               </div>
             </Stack>
           </div>
-
-          {/* Scroll-down affordance — anchors to #explore (the matrix
-              section below). Centered, mono-kicker styled so it reads
-              as an editorial "more below" marker rather than a
-              competing CTA. The matrix section keeps its own
-              "The cultural corner." headline as the actual section
-              title; this is just the scroll cue.
-              <Kicker as="a"> renders the same mono-uppercase shape
-              with hover/focus styling for interactivity. */}
-          {SUB_BRAND_TILES.length > 0 ? (
-            <div className="flex justify-center pt-6">
-              <Kicker as="a" href="#explore">
-                Or, explore the rest &darr;
-              </Kicker>
-            </div>
-          ) : null}
         </Stack>
       </Section>
 
-      {/* ─── Sub-brand matrix (conditional) ────────────────────── */}
-      {SUB_BRAND_TILES.length > 0 ? (
-        // id="explore" is the anchor target for the hero scroll-down
-        // affordance. scrollMarginTop clears the sticky Nav so the
-        // jump lands cleanly below the chrome rather than tucked
-        // behind it.
-        <Section
-          id="explore"
-          padding="md"
-          bordered
-          style={{ scrollMarginTop: "6rem" }}
-        >
-          <Stack gap="500">
-            <Headline level={2}>The cultural corner.</Headline>
-            <div
-              // Tile count → responsive column count:
-              //   1   → 1 col (full-width callout)
-              //   2+  → 1 col mobile, 2 cols sm+
-              //
-              // Two-per-row is the locked matrix rule (preserves
-              // editorial blurb width and lets each tile breathe).
-              // For odd tile counts, the last card sits alone in
-              // row 2 at half-width — that orphan is accepted by
-              // design, NOT a bug. This reverses the 2026-05-08
-              // TV-launch fix (tv-rev2-3up-grid-tablet-orphan),
-              // which had routed 3 tiles through sm:grid-cols-3
-              // to avoid the row-2 orphan; the 2-per-row rule
-              // wins over orphan-avoidance.
-              className={`grid ${
-                SUB_BRAND_TILES.length >= 2
-                  ? "grid-cols-1 sm:grid-cols-2"
-                  : "grid-cols-1"
-              }`}
-              style={{ gap: "var(--scale-600)" }}
-            >
-              {SUB_BRAND_TILES.map((tile) => (
-                <Card key={tile.href} accent={tile.accent}>
-                  <Stack gap="300">
-                    <Kicker>{tile.label}</Kicker>
-                    <Headline
-                      level={3}
-                      style={{
-                        fontSize: "var(--h5-font-size)",
-                        lineHeight: "var(--h5-line-height)",
-                      }}
-                    >
-                      {/* Loud Link (no quiet) so the underline reads
-                          ahead of hover and the CTA pre-announces
-                          itself as a link. Color comes from the
-                          [data-subbrand="music"] rule on the Card
-                          wrapper — purple in this context.
-
-                          Wrapped in TrackOnClick so the dashboard
-                          reports per-tile engagement (tile slug as
-                          metadata). */}
-                      <TrackOnClick
-                        event={ANALYTICS_EVENTS.SUBBRAND_TILE_CLICK}
-                        eventData={{ tile: tile.accent }}
-                      >
-                        <Link href={tile.href}>
-                          {tile.cta ?? `Visit ${tile.label}`} →
-                        </Link>
-                      </TrackOnClick>
-                    </Headline>
-                    {/* Override Body's default 60ch max-width so the
-                        blurb spans the full card width, then clamp
-                        at 2 lines so longer-than-expected blurbs
-                        don't blow out card heights or push the row
-                        out of vertical alignment with siblings. */}
-                    <Body
-                      size="sm"
-                      className="line-clamp-2"
-                      style={{ maxWidth: "100%" }}
-                    >
-                      {tile.blurb}
-                    </Body>
-                  </Stack>
-                </Card>
-              ))}
-            </div>
-          </Stack>
-        </Section>
-      ) : null}
-
-      {/* ─── About teaser ──────────────────────────────────────── */}
-      <Section padding="md" bordered>
-        <Stack gap="400">
-          <Kicker>About</Kicker>
-          <Headline level={2}>Off the clock.</Headline>
-          <Body>
-            Massachusetts → NYC → Chicago → LA.
-            When I’m not building, I might be out on a run or
-            playing some video games. But most likely I’m
-            seated at my local AMC or curled up on my couch with
-            some TV. When I want to let loose, I’m usually
-            trying to find a concert.
-          </Body>
-          {/* "Read more →" goes to /about (the long version).
-              TODO(creative-cv): drop a quiet inline link to
-              /creative-cv here when that page ships, per the
-              talent-scout audience rule. */}
-          <Link href="/about">Get to know me →</Link>
-        </Stack>
-      </Section>
-
-      {/* ─── Contact ───────────────────────────────────────────── */}
-      <Section padding="md" bordered>
-        <Stack gap="400">
-          <Kicker>Get in touch</Kicker>
-          <Headline level={2}>Let’s talk.</Headline>
-          <Body>
-            Hiring a senior PM to build growth, marketing, or data
-            platforms? Want to compare notes on product, AI, or
-            privacy? Pick a slot or drop a note.
-          </Body>
-
-          <div className="flex flex-wrap gap-3 pt-2">
-            <TrackOnClick
-              event={ANALYTICS_EVENTS.CALENDLY_CLICK}
-              eventData={{ kind: "outbound", surface: "homepage-contact" }}
-            >
-              <Button
-                as="a"
-                href={CONTACT.calendly}
-                variant="primary"
-                size="lg"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Book a 30-min chat
-              </Button>
-            </TrackOnClick>
-            <TrackOnClick
-              event={ANALYTICS_EVENTS.EMAIL_CLICK}
-              eventData={{ kind: "direct", surface: "homepage-contact" }}
-            >
-              <Button as="a" href={mailHref} variant="secondary" size="lg">
-                Email
-              </Button>
-            </TrackOnClick>
-          </div>
-
-          {/* Quieter "elsewhere" line — secondary professional
-              channels for folks who'd rather not book or email.
-              Letterboxd intentionally NOT included here: the
-              whole Contact block is a professional pitch, so the
-              cultural breadcrumb belongs in the matrix above
-              (Music card today, more sub-brands later) rather
-              than mixed in with the recruiter reach-out paths. */}
-          <Body
-            size="sm"
-            style={{ color: "var(--text-caption)", maxWidth: "60ch" }}
-          >
-            Or find me on{" "}
-            <Link href={CONTACT.linkedin}>LinkedIn ↗</Link>
-            {" "}or{" "}
-            <Link href={CONTACT.github}>GitHub ↗</Link>.
-          </Body>
-        </Stack>
-      </Section>
     </Container>
   );
 }
