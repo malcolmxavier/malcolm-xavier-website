@@ -119,17 +119,22 @@ export default function ResearchIndexPage() {
           <Stack gap="800">
             <Stack gap="300">
               <Kicker>Research</Kicker>
-              <Display>Where I show my work.</Display>
+              <Display>Theories behind my practice.</Display>
             </Stack>
 
-            {/* The headline names what the pieces ARE — long arguments
-                with citations and a downloadable PDF, where the
-                reasoning is on the page rather than summarised. An
-                earlier draft, "The questions I chose.", framed the
-                section around the act of choosing instead, which is
-                inside baseball: it implies a contrast with assigned
-                work that the reader has no reason to care about. Same
-                fault as the first lede, one line up.
+            {/* Malcolm's headline. It makes the law degree load-bearing
+                rather than a curiosity: these papers are the foundation
+                under the product work, which is the argument this
+                section exists to make. Two earlier drafts of mine
+                framed the section around how the work came to be —
+                "The questions I chose.", then "Where I show my work."
+                — which is a smaller claim and a more inward one.
+
+                "Practice" also appears on /consulting as the word for
+                the business ("the independent practice of Malcolm
+                Xavier"). He was asked about the overlap and is not
+                worried about it, so it is deliberate, not a collision
+                to fix.
 
                 The lede says what the section holds and what the two
                 papers argue. An earlier draft was Malcolm's own explanation of
