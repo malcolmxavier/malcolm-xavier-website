@@ -1,26 +1,33 @@
 // ─────────────────────────────────────────────────────────────────
-// /research — the index for the academic and capstone work.
+// /research — the index for the Master of Science in Law work.
 //
-// This route did not exist until 2026-09-27. The three detail pages
-// shipped first as `noindex` deep links off the résumé (the old
-// "Phase 1"), which meant the only evidence for the MS in Law was
-// three unlisted URLs. They are indexed now and this is their home.
+// This route did not exist until 2026-09-27. The detail pages shipped
+// first as `noindex` deep links off the résumé (the old "Phase 1"),
+// which meant the only evidence for the law degree was a handful of
+// unlisted URLs. They are indexed now and this is their home.
+//
+// It renders INDEXED_PROJECTS, not PROJECTS. The registry also holds
+// the DS4A capstone, which is deliberately unlisted — a different
+// programme on a different subject, kept as a résumé-link target only
+// (see app/research/_research/sea-level-rise-florida.tsx). So this
+// index can be shorter than the set of pages that exist, and that is
+// the intended state rather than a bug to fix.
 //
 // Layout: one column, no rail. /case-studies carries a 14rem "On this
-// page" rail because it has sections to jump between; three items
-// listed once do not, and a table of contents over three links is the
+// page" rail because it has sections to jump between; a short list
+// shown once does not, and a table of contents over two links is the
 // kind of apparatus the /about pass removed.
 //
 // The items render as a rule-separated editorial list rather than the
 // card grid /case-studies uses. That grid is `grid-cols-1
-// sm:grid-cols-2`, which leaves an orphan on an odd count — and with
-// three long-form reading pieces, each carrying a subtitle and a
+// sm:grid-cols-2`, which orphans the last card on an odd count — and
+// with long-form reading pieces, each carrying a subtitle and a
 // byline, a list reads closer to a contents page than a set of cards
 // does.
 //
 // Ordering is the registry's own: PROJECTS is sorted newest-first by
-// datePublished. Not re-sorted here, so the index and the sitemap can
-// never disagree about sequence.
+// datePublished and INDEXED_PROJECTS preserves that order. Not
+// re-sorted here, so the index and the sitemap cannot disagree.
 //
 // NOTE on naming: the route is /research, but lib/projects/ and
 // components/projects/ deliberately keep their old names — see the
@@ -40,13 +47,13 @@ import { Dateline } from "@/components/typography/Dateline";
 import { Link } from "@/components/primitives/Link";
 import { SITE_URL, twitterAttribution } from "@/lib/site-config";
 import {
-  PROJECTS,
+  INDEXED_PROJECTS,
   formatProjectDate,
   formatByline,
 } from "@/lib/projects/projects";
 
 const RESEARCH_DESCRIPTION =
-  "Two Master of Science in Law papers and a data-science capstone—self-directed work on data privacy, media, and what the numbers say.";
+  "Master of Science in Law papers on data privacy, media, and how platform rules and privacy law lag the culture they govern.";
 
 export const metadata: Metadata = {
   title: "Research",
@@ -89,7 +96,7 @@ const RESEARCH_SCHEMA = {
   description: RESEARCH_DESCRIPTION,
   isPartOf: { "@id": `${SITE_URL}/#website` },
   about: { "@id": `${SITE_URL}/#person` },
-  hasPart: PROJECTS.map((item) => ({
+  hasPart: INDEXED_PROJECTS.map((item) => ({
     "@type": "Article",
     "@id": `${SITE_URL}/research/${item.slug}/#article`,
     headline: item.title,
@@ -117,16 +124,18 @@ export default function ResearchIndexPage() {
 
             {/* Malcolm's framing, 2026-09-27: he cares about data
                 privacy and media, and the degree is an expression of
-                that interest rather than a credential on its own. The
-                capstone predates the law work and is not about either
-                subject — so the lede claims the interest and names what
-                is here, instead of stretching one thesis over all
-                three. */}
+                that interest rather than a credential on its own.
+
+                Scoped to the law work on purpose. The DS4A capstone
+                that used to sit here is a different programme and a
+                different subject, and lumping the two under one heading
+                conflated them; it is résumé-only now. This section is
+                the privacy-and-media thread, which is where the work
+                continues. */}
             <Lede>
               I care about data privacy and media, and the degree is an
               expression of that rather than a line on a résumé. These are
-              the pieces where I picked the question myself: two Master of
-              Science in Law papers and a data-science capstone.
+              the pieces where I picked the question myself.
             </Lede>
 
             {/* The list. Rule-separated rather than carded; the first
@@ -136,7 +145,7 @@ export default function ResearchIndexPage() {
               role="list"
               style={{ listStyle: "none", padding: 0, margin: 0 }}
             >
-              {PROJECTS.map((item, i) => (
+              {INDEXED_PROJECTS.map((item, i) => (
                 <li
                   key={item.slug}
                   className={i === 0 ? "" : "mt-10 pt-10 border-t"}

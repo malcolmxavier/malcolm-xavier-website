@@ -40,6 +40,15 @@ export const PROJECTS: Project[] = [...REGISTERED].sort((a, b) =>
   b.datePublished.localeCompare(a.datePublished),
 );
 
+/** The items that are publicly listed: everything PROJECTS holds minus
+ *  anything flagged `noindex`. This is what the /research index renders
+ *  and what the sitemap iterates, so one flag on an item drives its
+ *  listing, its sitemap entry, and its robots directive together and
+ *  they cannot drift apart. PROJECTS itself stays complete, because
+ *  generateStaticParams must still build every page — an unlisted item
+ *  is unlisted, not unbuilt. */
+export const INDEXED_PROJECTS: Project[] = PROJECTS.filter((p) => !p.noindex);
+
 /** Look up a single project by its slug (the route param). */
 export function getProject(slug: string): Project | undefined {
   return PROJECTS.find((p) => p.slug === slug);

@@ -50,7 +50,7 @@ export const meta: ProjectMeta = {
   downloads: [
     {
       label: "Download the paper",
-      href: "/projects/ethics-video-sharing-apps/paper.pdf",
+      href: "/research/ethics-video-sharing-apps/paper.pdf",
       meta: "PDF · 108 KB",
     },
   ],

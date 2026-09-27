@@ -357,7 +357,7 @@ const CANONICAL_EDUCATION = [
         { text: "Presentation: " },
         {
           text: '"The Revolution Will Not Be Live Streamed: Privacy Law in the Social Media Era"',
-          url: "https://malxavi.com/projects/privacy-law-social-media-era",
+          url: "https://malxavi.com/research/privacy-law-social-media-era",
         },
       ],
     ],
@@ -376,7 +376,7 @@ const CANONICAL_EDUCATION = [
         { text: "Presentation: " },
         {
           text: '"Oceans Rise, Properties Fall"',
-          url: "https://malxavi.com/projects/sea-level-rise-florida",
+          url: "https://malxavi.com/research/sea-level-rise-florida",
         },
       ],
     ],

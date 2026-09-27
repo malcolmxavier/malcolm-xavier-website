@@ -64,7 +64,7 @@ export const meta: ProjectMeta = {
   downloads: [
     {
       label: "Download the paper",
-      href: "/projects/privacy-law-social-media-era/paper.pdf",
+      href: "/research/privacy-law-social-media-era/paper.pdf",
       meta: "PDF · 248 KB",
     },
   ],

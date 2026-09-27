@@ -23,13 +23,13 @@ export interface ProjectAuthor {
 }
 
 /** A downloadable companion file (the full report, the datafolio, a
- *  paper PDF). Served as a static asset from public/projects/<slug>/
+ *  paper PDF). Served as a static asset from public/research/<slug>/
  *  (the asset directory kept its name through the /research rename),
  *  so these open in a new tab via a plain anchor — never next/link,
  *  which would try to client-route a non-route file. */
 export interface ProjectDownload {
   label: string;
-  /** Same-origin path under public/, e.g. /projects/<slug>/report.pdf */
+  /** Same-origin path under public/, e.g. /research/<slug>/report.pdf */
   href: string;
   /** Short affordance detail shown beside the label, e.g. "PDF · 490 KB". */
   meta?: string;

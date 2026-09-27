@@ -111,11 +111,25 @@ const nextConfig: NextConfig = {
         destination: "/films/billie-eilish-the-world-s-a-little-blurry-2021",
         permanent: true,
       },
-      // 2026-09-27 — the /projects section was renamed to /research.
-      // The detail URLs shipped as résumé-link targets, so they are in
-      // circulation on sent résumé copies and cannot 404. `:slug` is a
-      // single segment, so the downloads still served from
-      // public/projects/<slug>/<file> are deliberately not caught here.
+      // 2026-09-27 — the /projects section was renamed to /research,
+      // assets and all.
+      //
+      // THESE THREE ARE PERMANENT AND MUST NOT BE PRUNED. The detail
+      // URLs went out on résumé copies that were already sent, and a
+      // sent résumé is a fixed artifact — it cannot be reissued to the
+      // people holding it. Every one of those links resolves only
+      // through this block, for as long as anyone still has the file.
+      // Future résumés link at /research directly (see
+      // scripts/build-resume-docx.mjs), so this covers history rather
+      // than current output.
+      //
+      // The asset rule is separate because `:slug` matches exactly one
+      // segment and would not catch /projects/<slug>/<file>.
+      {
+        source: "/projects/:slug/:file",
+        destination: "/research/:slug/:file",
+        permanent: true,
+      },
       {
         source: "/projects/:slug",
         destination: "/research/:slug",

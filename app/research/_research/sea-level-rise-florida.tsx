@@ -44,6 +44,15 @@ export const meta: ProjectMeta = {
   ],
   dateDisplay: "2021",
   datePublished: "2021-03-15",
+  // Résumé-only, decided 2026-09-27. This is a DS4A capstone, not part
+  // of the MS in Law, and /research is scoped to the privacy-and-media
+  // work that is Malcolm's continuing research area. Grouping a 2021
+  // data-science capstone under the same heading conflated two
+  // different programs. The page stays live and keeps its URL, because
+  // sent résumé copies link to it and cannot be reissued — it is just
+  // no longer listed, sitemapped, or indexed. `noindex` is the single
+  // flag that drives all three.
+  noindex: true,
   readMin: 5,
   // "DS4A" in the dateline jump-links to the résumé's DS4A education
   // entry. Anchor resolved from the résumé data so it can't drift.
@@ -53,12 +62,12 @@ export const meta: ProjectMeta = {
   downloads: [
     {
       label: "Download the full report",
-      href: "/projects/sea-level-rise-florida/report.pdf",
+      href: "/research/sea-level-rise-florida/report.pdf",
       meta: "PDF · 490 KB",
     },
     {
       label: "Download the datafolio",
-      href: "/projects/sea-level-rise-florida/datafolio.pdf",
+      href: "/research/sea-level-rise-florida/datafolio.pdf",
       meta: "PDF · 399 KB",
     },
   ],
@@ -91,12 +100,12 @@ export default function OceansRisePropertiesFall() {
       </Body>
 
       <Figure
-        src="/projects/sea-level-rise-florida/datafolio.webp"
+        src="/research/sea-level-rise-florida/datafolio.webp"
         alt="The project datafolio: a single-page visual summary of the sea-level-rise property-loss analysis, showing Florida flooding-impact maps, at-risk property-value figures, population density, and interstate-migration charts."
         width={2560}
         height={1440}
         caption="The datafolio—our one-page visual summary of the analysis."
-        href="/projects/sea-level-rise-florida/datafolio.pdf"
+        href="/research/sea-level-rise-florida/datafolio.pdf"
         hrefLabel="Open the full datafolio (PDF)"
       />
 
