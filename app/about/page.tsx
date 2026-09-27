@@ -1,25 +1,56 @@
 // ─────────────────────────────────────────────────────────────────
 // /about — the long version of who Malcolm is.
 //
-// Layout:
-//   • Container md (~64rem) so prose + sidebar can live side-by-side
-//     on desktop without the prose column getting too wide.
-//   • Two-column grid at lg+: prose column on the left, headshot +
-//     "What I'm into" sidebar in a 16rem rail on the right.
-//   • Mobile / tablet: collapses to a single column. Headshot moves
-//     to a small top-of-page anchor so the personal-greeting feel
-//     survives without hijacking the viewport on narrow screens.
+// Layout: the same spine /resume and /consulting use — a 14rem left
+// rail, gap-16, narrowing to a single centred 64rem column below lg.
+// Before this pass /about was the odd one out: a 16rem rail on the
+// RIGHT inside a grid that stopped at ~904px, while Container (which
+// lost its size prop — one width for the whole site now) runs to
+// 104rem. The result was a page whose headline spanned the full well
+// and whose body did not, leaving ~700px of dead space at 1440 and no
+// shared left edge with either sibling page.
 //
-// Voice: directionally Malcolm's — sartorial with a dash of sardonic,
-// editorial, lightly self-deprecating. Expect to revise on the first
-// pass; copy is intentionally inline (not MDX) so editorial passes
-// don't need a separate file open.
+// The content column is a fixed 42rem rather than the siblings' 1fr,
+// which is the one place this page departs from them and is a
+// consequence of what it holds. They fill 1fr with cards and resume
+// entries; this page holds a single prose column, and at 1fr it ran to
+// ~88 characters a line. (Body/Lede do cap at 60ch, but `ch` is the
+// width of "0" — in this face that admits roughly 88 real characters,
+// so the cap was not doing the work its name implies.) Capping the
+// COLUMN rather than retuning those shared components keeps the fix on
+// this page. The grid therefore ends at 14+4+42 = 60rem and the rest
+// of the well stays empty as an outer margin, which is what preserves
+// the shared LEFT edge — the thing that actually reads as alignment.
+//
+// Within that spine the rail does editorial sidenote duty rather than
+// holding one block: each movement is its own sub-grid, so the small
+// mono label sits in the margin beside the prose it names. Two things
+// ride the rail besides the labels — the portrait, beside the lede,
+// and the logged index, beside the paragraph whose claim it backs up.
+// Per-movement sub-grids rather than one grid with explicit
+// row-starts: self-contained, so adding or reordering a movement needs
+// no row-coordination.
+//
+// Mobile / tablet: every sub-grid collapses to one column, so each
+// label stacks directly above its own prose and the reading order is
+// unchanged. The portrait moves into the flow right after the lede.
+//
+// Voice: sartorial with a dash of sardonic, editorial, lightly
+// self-deprecating. Copy is intentionally inline (not MDX) so
+// editorial passes don't need a separate file open.
+//
+// NOTE: the words here are a Claude draft Malcolm asked for on
+// 2026-09-27, NOT the voice pass. `voice-pass-site-copy` still owns
+// /about's copy and its read-cold / rewrite-core tasks are his — the
+// point of that node is that this pitch copy should be written by him
+// rather than approved by him. Treat these paragraphs as a container
+// with sentences in it, not as settled copy.
 //
 // TODO(creative-cv): Per the "no public placeholders" rule, the
 // talent-scout / Creative CV inline link is OMITTED until
 // /creative-cv ships. When it does, drop a quiet inline <Link> in
-// the second-to-last paragraph of the "Other half of my life"
-// block. Tracked via l-creative-cv-todo (2026-04-29 /full-review).
+// the "What I'm into" movement. Tracked via l-creative-cv-todo
+// (2026-04-29 /full-review).
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
@@ -32,11 +63,17 @@ import { Headline } from "@/components/typography/Headline";
 import { Lede } from "@/components/typography/Lede";
 import { Body } from "@/components/typography/Body";
 import { Kicker } from "@/components/typography/Kicker";
+import { Dateline } from "@/components/typography/Dateline";
 import { Link } from "@/components/primitives/Link";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL } from "@/lib/site-config";
 import { CONTACT } from "../resume/resume-data";
+// Feed accessors for the "logged" rail. All three are synchronous
+// reads of committed JSON fixtures — see loggedEntries() below.
+import { getLetterboxdSnapshotMeta } from "@/lib/feeds/letterboxd";
+import { getShows } from "@/lib/feeds/serializd";
+import { getSnapshotMeta } from "@/lib/feeds/spotify";
 
 // Per-page openGraph + twitter blocks because Next.js App Router
 // REPLACES (does not merge) parent-layout OG blocks when a page
@@ -103,32 +140,99 @@ const ABOUT_SCHEMA = {
   mainEntity: { "@id": `${SITE_URL}/#person` },
 };
 
-// "What I'm into" sidebar items. Each entry is a {kicker, label, href}
-// triple. Kicker is the editorial category tag (FILM / TV / MUSIC);
-// label is the platform name only — handles are intentionally hidden
-// per the global "no handles on platform links" rule.
-// Substack and StoryGraph are intentionally excluded until URLs are
-// confirmed and the sub-brand pages ship.
-const INTERESTS: { kicker: string; label: string; href: string }[] = [
-  {
-    kicker: "Film",
-    label: "Letterboxd",
-    href: "https://letterboxd.com/malxavi/",
-  },
-  {
-    kicker: "TV",
-    label: "Serializd",
-    href: "https://www.serializd.com/user/malxavi/profile",
-  },
-  {
-    kicker: "Music",
-    label: "Spotify",
-    href: "https://open.spotify.com/user/malcolmxevans",
-  },
-];
+// ─── The "logged" rail ────────────────────────────────────────────
+// The receipts behind the culture claim in the prose beside it. Two
+// deliberate choices here.
+//
+// First, these point at Malcolm's OWN cluster pages, not at Letterboxd
+// / Serializd / Spotify. The footer's "Elsewhere" column already
+// carries all three outbound profiles on every page of the site, so
+// the rail this replaces was a verbatim duplicate of the footer that
+// also routed attention OFF a page whose whole job is to argue the
+// site's own surfaces are worth opening.
+//
+// Second, the figures are read from the committed feed fixtures rather
+// than typed in, so they cannot drift away from the thing they are
+// evidence for. Grain is lifetime for all three, which keeps them
+// parallel and keeps this page out of date arithmetic: the prose beside
+// the rail makes the RATE claim ("about 300 films and 100 seasons a
+// year") and the rail answers the depth question a rate invites, so the
+// two are complementary rather than the rail restating the sentence.
+// Each is a single property read off an existing accessor — no env var,
+// no network, no await, safe to prerender.
+//
+// totalSeasonReviews is already double-count-correct: summarizeShows
+// routes every review through modesForReview, so a show-level review
+// on a miniseries-pinned show counts as a season too (rule locked
+// 2026-05-07). Counting season-level reviews by hand here would
+// undercount, which is exactly why this reads the summary rather than
+// the review array.
+function loggedEntries() {
+  return [
+    {
+      kicker: "Film",
+      label: "Films",
+      note: `${getLetterboxdSnapshotMeta().filmCount.toLocaleString()} logged`,
+      href: "/films",
+    },
+    {
+      kicker: "TV",
+      label: "Television",
+      note: `${getShows().summary.totalSeasonReviews.toLocaleString()} seasons`,
+      href: "/television",
+    },
+    {
+      kicker: "Music",
+      label: "Music",
+      note: `${getSnapshotMeta().playlistCount.toLocaleString()} playlists`,
+      href: "/music",
+    },
+  ];
+}
+
+// One movement of the essay: a small mono label in the 14rem rail and
+// its prose in the content column. Collapses to a single stacked
+// column below lg, where the label sits directly above its own text.
+function Movement({
+  label,
+  children,
+  aside,
+}: {
+  label: string;
+  children: React.ReactNode;
+  /** Optional rail content rendered under the label (e.g. the index). */
+  aside?: React.ReactNode;
+}) {
+  return (
+    <div className="lg:grid lg:grid-cols-[14rem_minmax(0,42rem)] lg:gap-16">
+      <div className="mb-3 lg:mb-0">
+        <Kicker as="h2">{label}</Kicker>
+        {aside ? <div className="mt-5">{aside}</div> : null}
+      </div>
+      <Stack gap="500">{children}</Stack>
+    </div>
+  );
+}
 
 export default function AboutPage() {
   const mailHref = `mailto:${CONTACT.email}`;
+
+  // Shared by the two portrait copies (rail on lg+, inline flow below).
+  const portrait = (
+    <div
+      className="overflow-hidden rounded-md border"
+      style={{ borderColor: "var(--border-default)" }}
+    >
+      <Image
+        src="/headshot.jpg"
+        alt="Portrait of Malcolm Xavier"
+        width={3280}
+        height={4928}
+        sizes="14rem"
+        style={{ width: "100%", height: "auto", display: "block" }}
+      />
+    </div>
+  );
 
   return (
     <>
@@ -138,240 +242,227 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ABOUT_SCHEMA) }}
       />
       <Container>
-      <Section padding="lg">
-        <Stack gap="600">
-          {/* Page title row — kicker + Display, full-bleed across the
-              two columns below so the headline breathes. */}
-          <Stack gap="300">
-            <Kicker>About</Kicker>
-            <Display>A long story short(-ish).</Display>
-          </Stack>
+        <Section padding="lg">
+          {/* The spine. Below lg this is one centred 64rem column;
+              at lg+ it opens into rail + content and every child
+              sub-grid inherits the same two-column geometry. */}
+          <div className="mx-auto max-w-[64rem] lg:max-w-none">
+            <Stack gap="900">
+              {/* Title + lede share ONE row, which is what makes the
+                  portrait work in the rail. Split across two rows, the
+                  336px portrait sat beside a ~180px lede and left ~150px
+                  of dead space under it; against the Display and the
+                  lede together (~300px) the two columns land close
+                  enough that the seam disappears. The Display's left
+                  edge also lands on the same rail as every paragraph
+                  below it rather than spanning the full 104rem well. */}
+              <div className="lg:grid lg:grid-cols-[14rem_minmax(0,42rem)] lg:gap-16">
+                {/* Desktop portrait. Gated `hidden lg:block` because a
+                    second copy renders in the flow below on narrow
+                    screens; only one is ever visible. */}
+                <div className="hidden lg:block">{portrait}</div>
 
-          {/* Two-column body. lg:grid-cols-[minmax(0,60ch)_16rem]
-              gives a prose column capped at the same 60ch reading
-              measure that <Lede>/<Body> enforce internally — without
-              the cap, the 1fr column was wider than the prose,
-              leaving a visible gutter between text and sidebar at
-              lg+. Mobile collapses to one column with the headshot
-              floated above the prose. */}
-          <div className="lg:grid lg:grid-cols-[minmax(0,60ch)_16rem] lg:gap-12">
-            {/* ── Prose column ─────────────────────────────────── */}
-            <div>
-              <Stack gap="500">
-                <Lede>
-                  I’m a senior product manager and, like many PMs,
-                  my journey into product was non-linear. I’m a creative by trade
-                  and a child of the Internet era. My life has been defined by
-                  drawing these threads together. I hold degrees in theater and law,
-                  and have also studied music, studio art, web development, and data science.
-                  How I navigate all of these domains is roughly the same:
-                  figure out how a complex system works, identify the gaps, and
-                  make it better for the people around me and after me.
-                </Lede>
+                {/* gap 800 (32px), not 500. Display carries
+                    text-box-trim, which eats the positive half-leading
+                    under the last line, so a gap here renders roughly
+                    14px tighter than its token — the same asymmetry the
+                    landing hero's rhythm table records. At 500 the
+                    headline and lede were ~6px apart on screen. */}
+                <Stack gap="800">
+                  <Stack gap="300">
+                    <Kicker>About</Kicker>
+                    <Display>A long story short(-ish).</Display>
+                  </Stack>
 
-                {/* Mobile-only headshot. On lg+ the photo lives in
-                    the right rail; below lg it slides into the prose
-                    flow right after the lede so the visual hook lands
-                    early instead of getting pushed to the bottom of a
-                    long single-column scroll. Capped at 16rem wide
-                    (matches the desktop sidebar size) so it reads as
-                    an inline editorial portrait, not a full-bleed
-                    slab.
+                  <Lede>
+                    I’m a senior product manager, a creative by trade, and a
+                    child of the Internet era. I hold degrees in theater and
+                    law, and I’ve also studied music, studio art, web
+                    development, and data science. The through line is smaller
+                    than that list makes it sound: figure out how a complex
+                    system works, find the gaps, and make it better for the
+                    people around me and after me.
+                  </Lede>
 
-                    `loading="eager"` (not `priority`) — both copies
-                    reference the same /headshot.jpg, but only one is
-                    visible at a time. The mobile copy was being
-                    high-priority-fetched on desktop cold loads where
-                    it's `lg:hidden`. eager keeps the mobile-first
-                    intent without fanning out a high-priority hint
-                    on viewports that don't render this copy. Closes
-                    m-about-headshot-priority-dup from the 2026-04-29
-                    /full-review. */}
-                <div className="lg:hidden">
-                  <div
-                    className="overflow-hidden rounded-md border max-w-[16rem] mx-auto"
-                    style={{ borderColor: "var(--border-default)" }}
-                  >
-                    <Image
-                      src="/headshot.jpg"
-                      alt="Portrait of Malcolm Xavier"
-                      width={1640}
-                      height={2464}
-                      sizes="16rem"
-                      loading="eager"
-                      style={{
-                        width: "100%",
-                        height: "auto",
-                        display: "block",
-                      }}
-                    />
+                  {/* Mobile portrait. Sits right after the lede so the
+                      visual hook lands early instead of at the foot of a
+                      long single-column scroll. `loading="eager"` rather
+                      than `priority` — both copies reference the same
+                      /headshot.jpg, and the high-priority hint was firing
+                      on desktop cold loads where this copy is hidden.
+                      Closes m-about-headshot-priority-dup (2026-04-29
+                      /full-review). */}
+                  <div className="lg:hidden max-w-[16rem] mx-auto">
+                    <div
+                      className="overflow-hidden rounded-md border"
+                      style={{ borderColor: "var(--border-default)" }}
+                    >
+                      <Image
+                        src="/headshot.jpg"
+                        alt="Portrait of Malcolm Xavier"
+                        width={1640}
+                        height={2464}
+                        sizes="16rem"
+                        loading="eager"
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          display: "block",
+                        }}
+                      />
+                    </div>
                   </div>
-                </div>
+                </Stack>
+              </div>
 
+              <Movement label="Where I’m from">
                 <Body>
-                  I grew up in Massachusetts, and spent most of my
-                  adult life in New York. I recently moved to Los Angeles 
-                  after a brief stint in Chicago (ask me about my standup sidequests).
-                  Massachusetts developed my taste,
-                  NYC refined it and set the bar high, and
-                  now LA is where I share it with the world.
+                  I grew up in Massachusetts and spent most of my adult life in
+                  New York. I’m in Los Angeles now, by way of a brief stint in
+                  Chicago (ask me about the standup sidequests). Massachusetts
+                  built the taste, New York set the bar, and LA is where I get
+                  to use both—though I’ll be a New Yorker about it regardless.
+                </Body>
+              </Movement>
+
+              <Movement
+                label="What I’m into"
+                aside={
+                  // The receipts, in the margin beside the claim.
+                  // Semantically complementary, hence <aside> with its
+                  // own accessible name — it is nested inside <main>, so
+                  // axe's landmark-complementary-is-top-level wants it
+                  // named to be distinguishable in landmark navigation.
+                  <aside aria-label="What I log">
+                    <Stack gap="400">
+                      {/* A hairline rather than a second text label:
+                          the rail already carries the movement's
+                          "What I'm into" kicker directly above, and a
+                          word under a word read as two competing
+                          labels. The aside keeps its accessible name
+                          via aria-label, so nothing is lost to a
+                          screen reader by dropping the visible one. */}
+                      <hr
+                        className="w-8 border-0 border-t"
+                        style={{ borderColor: "var(--border-default)" }}
+                      />
+                      <ul
+                        role="list"
+                        className="space-y-3"
+                        style={{ listStyle: "none", padding: 0, margin: 0 }}
+                      >
+                        {loggedEntries().map((item) => (
+                          <li key={item.href}>
+                            <Stack gap="100">
+                              <Kicker
+                                style={{
+                                  color: "var(--text-caption)",
+                                  fontSize: "var(--p-xs-font-size)",
+                                }}
+                              >
+                                {item.kicker}
+                              </Kicker>
+                              {/* Mono so the rail reads as one cohesive
+                                  "computer is talking" voice block, the
+                                  same register the old outbound rail
+                                  used. */}
+                              <Link
+                                href={item.href}
+                                style={{
+                                  fontFamily: "var(--font-mono)",
+                                  fontSize: "var(--p-sm-font-size)",
+                                  lineHeight: "var(--p-sm-line-height)",
+                                }}
+                              >
+                                {item.label} →
+                              </Link>
+                              <Dateline>{item.note}</Dateline>
+                            </Stack>
+                          </li>
+                        ))}
+                      </ul>
+                    </Stack>
+                  </aside>
+                }
+              >
+                <Body>
+                  I log about 300 films and 100 seasons of television a year,
+                  and I release a new playlist every month. Some of that
+                  happens in a theater (imagine my pitch for AMC Stubs A-List
+                  here) and a lot of it happens on the couch—a new streaming
+                  hit, a Housewives re-run, the news, an intense tennis match,
+                  no hierarchy among them.
                 </Body>
 
                 <Body>
-                  When I’m not building, I’m probably out on a run or playing some video games
-                  (I love a good puzzle, even outside of work). I watch 300 films and 100
-                  seasons of television a year, and I release a new playlist each month.
-                  Outside of work, I’m usually at a theater (imagine my pitch for AMC Stubs
-                  A-List here); if I’m at home, I’m probably watching TV—anything
-                  from a new streaming hit, to a Housewives re-run, to the news, to an intense tennis match.
-                  When I want to let loose, I’m usually trying to find a concert
-                  or a dancefloor. I love a great dinner and a cheeky martini, but the
-                  dining experience is the most important part (you can take the boy out of
-                  the hospitality industry…)
+                  When I’m not building or watching, I’m out on a run or deep
+                  in a video game; I like a good puzzle, even outside of work.
+                  When I want to let loose, I’m looking for a concert or a
+                  dancefloor. And I love a great dinner and a cheeky martini,
+                  though the room matters more to me than the menu (you can
+                  take the boy out of the hospitality industry…)
                 </Body>
+              </Movement>
 
+              <Movement label="Right now">
                 <Body>
-                  Right now I’m interviewing—looking for senior PM
-                  roles building growth, marketing, and data
-                  platforms, ideally somewhere that takes both the
-                  growth side and the editorial side seriously. If that sounds
-                  like your team, I’d love to{" "}
-                  <Link href={CONTACT.linkedin}>connect</Link>.
+                  I’m interviewing—senior PM roles building growth, marketing,
+                  and data platforms, ideally somewhere that takes the growth
+                  side and the editorial side equally seriously.
+                </Body>
+              </Movement>
+            </Stack>
+          </div>
+        </Section>
+
+        {/* ── Closing CTA ───────────────────────────────────────────
+            Light bottom prompt that mirrors the resume's closing
+            section so the about page also has an exit ramp toward
+            conversation. Sits on the same rail as the essay above it:
+            empty rail slot, content in column two.
+
+            The "Right now" movement used to end with "If that sounds
+            like your team, I'd love to connect" — cut, because this
+            block makes the same ask 200px lower and asking twice in
+            one screen reads as anxious rather than open. */}
+        <Section padding="md" bordered>
+          <div className="mx-auto max-w-[64rem] lg:max-w-none">
+            <div className="lg:grid lg:grid-cols-[14rem_minmax(0,42rem)] lg:gap-16">
+              <div aria-hidden="true" />
+              <Stack gap="400" align="start">
+                <Kicker>Get in touch</Kicker>
+                <Headline level={2}>Want to compare notes?</Headline>
+                <Body>
+                  Pick a slot for a{" "}
+                  <TrackOnClick
+                    event={ANALYTICS_EVENTS.CALENDLY_CLICK}
+                    eventData={{ kind: "outbound", surface: "about-closing" }}
+                  >
+                    <Link href={CONTACT.calendly}>30-minute product chat</Link>
+                  </TrackOnClick>
+                  , send an{" "}
+                  <TrackOnClick
+                    event={ANALYTICS_EVENTS.EMAIL_CLICK}
+                    eventData={{ kind: "direct", surface: "about-closing" }}
+                  >
+                    <Link href={mailHref}>email</Link>
+                  </TrackOnClick>
+                  , or{" "}
+                  <Link href={CONTACT.linkedin}>
+                    {/* Non-breaking space between "LinkedIn" and the
+                        external-arrow glyph keeps the arrow from being
+                        orphaned on its own line when the link wraps.
+                        Screen readers announce U+00A0 identically to a
+                        normal space, so this is a11y-neutral. */}
+                    connect with me on LinkedIn{" "}↗
+                  </Link>
+                  .
                 </Body>
               </Stack>
             </div>
-
-            {/* ── Sidebar rail ─────────────────────────────────── */}
-            <aside
-              // Visually a sidebar; semantically a complementary
-              // landmark. Top margin separates from prose on mobile;
-              // resets at lg+ where the grid does the spacing.
-              //
-              // aria-label moved here from the inner <nav> per
-              // m-aside-nested-no-label from the 2026-04-29
-              // /full-review (axe rule:
-              // landmark-complementary-is-top-level). The aside is
-              // nested inside <main>, so it needs its own name to
-              // distinguish it during landmark navigation. The inner
-              // nav drops its label in turn so the two landmarks
-              // don't double up with the same name.
-              aria-label="What I’m into"
-              className="mt-10 lg:mt-0"
-            >
-              <Stack gap="500">
-                {/* Desktop-only headshot. The mobile copy of this
-                    photo lives inside the prose column above (right
-                    after the lede), so this sidebar instance is gated
-                    `hidden lg:block` to avoid rendering twice. No
-                    `priority` here — that hint stays on the mobile
-                    copy where the image is more likely to be in the
-                    cold-load LCP. Browsers fetch hidden images at
-                    lower priority anyway. */}
-                <div
-                  className="hidden lg:block overflow-hidden rounded-md border"
-                  style={{ borderColor: "var(--border-default)" }}
-                >
-                  <Image
-                    src="/headshot.jpg"
-                    alt="Portrait of Malcolm Xavier"
-                    width={3280}
-                    height={4928}
-                    sizes="16rem"
-                    style={{
-                      width: "100%",
-                      height: "auto",
-                      display: "block",
-                    }}
-                  />
-                </div>
-
-                {/* "What I'm into" — a small mono index of the
-                    platforms where Malcolm publishes culturally.
-                    Reads as an editorial sidebar, not a duplicate
-                    of the footer. Categorical kicker + link. */}
-                {/* The aria-label lives on the parent <aside> (see
-                    above) — putting it here too created two
-                    landmarks with identical names that SR users
-                    heard as duplicates. */}
-                <Stack gap="400" as="nav">
-                  <Kicker>What I’m into</Kicker>
-                  <ul
-                    role="list"
-                    className="space-y-3"
-                    style={{ listStyle: "none", padding: 0, margin: 0 }}
-                  >
-                    {INTERESTS.map((item) => (
-                      <li key={item.href}>
-                        <Stack gap="100">
-                          <Kicker
-                            style={{
-                              color: "var(--text-caption)",
-                              fontSize: "var(--p-xs-font-size)",
-                            }}
-                          >
-                            {item.kicker}
-                          </Kicker>
-                          {/* Label uses the mono font family directly
-                              so the sidebar reads as one cohesive
-                              "computer is talking" voice block. */}
-                          <Link
-                            href={item.href}
-                            style={{
-                              fontFamily: "var(--font-mono)",
-                              fontSize: "var(--p-sm-font-size)",
-                              lineHeight: "var(--p-sm-line-height)",
-                            }}
-                          >
-                            {item.label} ↗
-                          </Link>
-                        </Stack>
-                      </li>
-                    ))}
-                  </ul>
-                </Stack>
-              </Stack>
-            </aside>
           </div>
-        </Stack>
-      </Section>
-
-      {/* ── Closing CTA ───────────────────────────────────────────
-          Light bottom prompt that mirrors the resume's closing
-          section so the about page also has an exit ramp toward
-          conversation. Headline + one-liner + two quiet links. */}
-      <Section padding="md" bordered>
-        <Stack gap="400" align="start">
-          <Kicker>Get in touch</Kicker>
-          <Headline level={2}>Want to compare notes?</Headline>
-          <Body>
-            Pick a slot for a{" "}
-            <TrackOnClick
-              event={ANALYTICS_EVENTS.CALENDLY_CLICK}
-              eventData={{ kind: "outbound", surface: "about-closing" }}
-            >
-              <Link href={CONTACT.calendly}>30-minute product chat</Link>
-            </TrackOnClick>
-            , send an{" "}
-            <TrackOnClick
-              event={ANALYTICS_EVENTS.EMAIL_CLICK}
-              eventData={{ kind: "direct", surface: "about-closing" }}
-            >
-              <Link href={mailHref}>email</Link>
-            </TrackOnClick>
-            , or{" "}
-            <Link href={CONTACT.linkedin}>
-              {/* Non-breaking space between "LinkedIn" and the
-                  external-arrow glyph keeps the arrow from being
-                  orphaned on its own line when the link wraps.
-                  Screen readers announce U+00A0 identically to a
-                  normal space, so this is a11y-neutral. */}
-              connect with me on LinkedIn{" "}↗
-            </Link>
-            .
-          </Body>
-        </Stack>
-      </Section>
-    </Container>
+        </Section>
+      </Container>
     </>
   );
 }
