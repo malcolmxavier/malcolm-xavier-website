@@ -216,9 +216,10 @@ export default function AboutPage() {
               </Body>
 
               <Body>
-                Right now I’m interviewing—senior PM roles building growth,
-                marketing, and data platforms, ideally somewhere that takes the
-                growth side and the editorial side equally seriously.
+                I’m currently interviewing and open to full-time, contract, and
+                fractional product work—AI‑native growth, marketing, and data
+                platforms, ideally somewhere that takes the growth side and the
+                editorial side equally seriously.
               </Body>
             </Stack>
           </div>
