@@ -153,7 +153,7 @@ export default function AboutPage() {
             <Stack gap="800">
               <Stack gap="300">
                 <Kicker>About</Kicker>
-                <Display>The short version.</Display>
+                <Display>Nice to meet you.</Display>
               </Stack>
 
               <Lede>
