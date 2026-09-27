@@ -152,10 +152,9 @@ export default function AboutPage() {
 
               <Lede>
                 I’m a senior product manager, a creative by trade, and a child
-                of the Internet era. Degrees in theater and law, plus music,
-                studio art, web development, and data science. The through line:
-                figure out how a complex system works, find the gaps, and make
-                it better for the people around me and after me.
+                of the Internet era. I figure out how a complex system works,
+                find the gaps, and make it better for the people around me and
+                after me.
               </Lede>
             </Stack>
 
