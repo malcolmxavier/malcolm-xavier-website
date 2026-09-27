@@ -56,7 +56,7 @@ import {
 // constraint the voice pass's `meta-voice` task records. The two item
 // descriptions do NOT yet meet it; that is tracked, not solved here.
 const RESEARCH_DESCRIPTION =
-  "Two Master of Science in Law papers on data—one through privacy law, one through intellectual property.";
+  "Master of Science in Law papers on data—through privacy law, and through intellectual property.";
 
 export const metadata: Metadata = {
   title: "Research",
@@ -152,8 +152,8 @@ export default function ResearchIndexPage() {
                 a different programme on a different subject and is
                 résumé-only (see _research/sea-level-rise-florida.tsx). */}
             <Lede>
-              Data is worth looking at through privacy law, and through
-              intellectual property. One paper on each.
+              Data is a privacy question and an intellectual property
+              one, and the second gets asked less.
             </Lede>
 
             {/* The list. Rule-separated rather than carded; the first
