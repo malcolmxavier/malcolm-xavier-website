@@ -203,12 +203,16 @@ export default function AboutPage() {
                 Angeles, but I bring an East Coast sensibility to all that I do.
               </Body>
 
+              {/* The closing sentence is worded so the destination can be
+                  swapped without touching the rest of the paragraph: when
+                  the separate publishing property launches, "on this site"
+                  becomes its name and the two sentences above it stand
+                  unchanged. Deliberately not naming that property here —
+                  this repo is public, and it has not shipped. */}
               <Body>
-                I log about 300 films and 100 seasons of television a year, and
-                release a new playlist each month. Otherwise: a run, a concert,
-                a dancefloor, and a great dinner with a cheeky martini (the room
-                matters more than the menu—you can take the boy out of the
-                hospitality industry…)
+                I’m media-obsessed. I watch about 300 films and 100 seasons of
+                television a year, and release a new playlist each month. You
+                can find all my reviews and playlists on this site.
               </Body>
 
               <Body>
