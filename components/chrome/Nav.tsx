@@ -181,7 +181,26 @@ function isActiveRoute(routeHref: string, pathname: string): boolean {
 
 export function Nav() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  // The mobile panel's open flag, stored together with the route it was
+  // opened on.
+  //
+  // Pairing the two is what closes the panel on navigation. Tapping a
+  // link inside it changes the pathname, and the flag only counts while
+  // the path it was set on is still the current one — so `menuOpen`
+  // below goes false the moment the route changes, with no effect
+  // involved. It used to be `useEffect(() => setMenuOpen(false),
+  // [pathname])`, which did the same job one render later and after the
+  // browser had already painted the landed-on page with the panel still
+  // covering it.
+  const [menu, setMenu] = useState<{ open: boolean; path: string }>({
+    open: false,
+    path: pathname,
+  });
+  const menuOpen = menu.open && menu.path === pathname;
+
+  /** Close without touching the remembered route, so neither dismissal
+   *  handler below needs `pathname` in its dependency list. */
+  const closeMenu = () => setMenu((current) => ({ ...current, open: false }));
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -193,7 +212,7 @@ export function Nav() {
     if (!menuOpen) return;
     function onKey(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setMenuOpen(false);
+        closeMenu();
         triggerRef.current?.focus();
       }
     }
@@ -213,19 +232,11 @@ export function Nav() {
       if (!target) return;
       if (panelRef.current?.contains(target)) return;
       if (triggerRef.current?.contains(target)) return;
-      setMenuOpen(false);
+      closeMenu();
     }
     document.addEventListener("mousedown", onPointer);
     return () => document.removeEventListener("mousedown", onPointer);
   }, [menuOpen]);
-
-  // Auto-close on route change. When a user taps a link inside the
-  // panel, the pathname changes; this effect closes the menu so the
-  // landed-on page is fully visible. No-op when the menu is already
-  // closed (common case on first mount + every desktop nav).
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
 
   // The route groups, in bar order, with the empties dropped. Dividers
   // then fall between whatever survives, so a group emptying out (the
@@ -329,7 +340,7 @@ export function Nav() {
             aria-expanded={menuOpen}
             aria-controls={MOBILE_MENU_ID}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
-            onClick={() => setMenuOpen((current) => !current)}
+            onClick={() => setMenu({ open: !menuOpen, path: pathname })}
             className={[
               "xl:hidden",
               "inline-flex h-10 w-10 items-center justify-center",

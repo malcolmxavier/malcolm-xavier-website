@@ -24,7 +24,7 @@
 
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 /** Append `#grid` to a URL, replacing any existing hash. Lets every
@@ -55,7 +55,20 @@ export function BackToCluster({
   // Only accept an absolute-path `from` (must start with "/") so a stray /
   // legacy value (e.g. the pre-rename `?from=films`) can't produce a
   // relative push — it falls back to the cluster default instead.
-  const arrivedFromHref = useRef(from && from.startsWith("/") ? from : null);
+  // The listing this visit arrived from, frozen at first render.
+  //
+  // It has to be frozen: the effect below strips `?ref=` out of the URL,
+  // so a later render cannot recover where the visitor came from. It was
+  // a useRef, which froze the value correctly and was then read during
+  // render — refs are explicitly not for that, because React makes no
+  // promise about a ref's contents mid-render, and the lint rule says so.
+  //
+  // useState with a lazy initialiser freezes exactly the same way: the
+  // function runs once, the value never updates (no setter is taken), and
+  // reading it during render is what state is for.
+  const [arrivedFromHref] = useState(() =>
+    from && from.startsWith("/") ? from : null,
+  );
 
   useEffect(() => {
     // Strip `?ref=` only — it's a back-nav signal with no use past mount.
@@ -68,7 +81,7 @@ export function BackToCluster({
     router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
   }, [ref, pathname, router, searchParams]);
 
-  const dest = withGridAnchor(arrivedFromHref.current ?? fallbackHref);
+  const dest = withGridAnchor(arrivedFromHref ?? fallbackHref);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     // Let modifier-clicks fall through to "open in new tab."

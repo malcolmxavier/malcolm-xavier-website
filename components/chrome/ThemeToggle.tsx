@@ -17,8 +17,8 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { useHydrated } from "./useHydrated";
 import { IconMonitor, IconMoon, IconSun } from "@/components/icons";
 
 // Cycle order. Starting from "system" gives the user a visible
@@ -44,12 +44,13 @@ const LABEL: Record<ThemeChoice, { glyph: ReactNode; word: string }> = {
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // Render only after hydration completes — next-themes resolves
-  // theme on the client, and rendering a different label on server
-  // vs. client would trigger a hydration warning.
-  useEffect(() => setMounted(true), []);
+  // Render only after hydration completes — next-themes resolves the
+  // theme on the client, and rendering a different label on server vs.
+  // client would trigger a hydration warning. useHydrated carries the
+  // reasoning and replaces the useState + useEffect pair this used to
+  // be; see that file for why an effect whose only job is to set state
+  // is the wrong shape.
+  const mounted = useHydrated();
 
   if (!mounted) {
     // Reserve the same footprint to avoid layout shift on hydration.

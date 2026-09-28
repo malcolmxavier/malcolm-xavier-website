@@ -269,11 +269,35 @@ function mockFetch(url: string) {
   return Promise.resolve(res(null, { ok: false, status: 404 }));
 }
 
-// Loose maps — the .mjs core is untyped JS; these tests index freely.
+// The .mjs core under test is untyped JS, so these maps used to be
+// Record<string, any>. `any` is the wrong tool: the freedom these tests
+// need is in BUILDING a fixture, while `any` also silences a typo on the
+// way back OUT, which is the half that would let an assertion quietly
+// stop asserting anything.
+//
+// So the entry is typed to the shape the enrichment pass actually writes,
+// as far as anything here reads it, with an index signature so a new
+// field does not need this type edited first. Every field is optional on
+// purpose: a provider pass failing is one of the cases under test, and
+// `films[100].ratings` being undefined after MDBList fails is an
+// assertion rather than an oversight — which is also why the reads below
+// use `?.` instead of asserting the value is there.
+type NamedCredit = { id?: number; name?: string };
+type FixtureEntry = {
+  ratings?: { imdb?: number };
+  studios?: string[];
+  budget?: number;
+  cast?: NamedCredit[];
+  writers?: NamedCredit[];
+  creators?: NamedCredit[];
+  release?: { cls?: string };
+  seasons?: { avg?: number }[];
+  [field: string]: unknown;
+};
 type Fx = {
-  films: Record<string, any>;
-  shows: Record<string, any>;
-  collectionDetails: Record<string, any>;
+  films: Record<string, FixtureEntry>;
+  shows: Record<string, FixtureEntry>;
+  collectionDetails: Record<string, FixtureEntry>;
 };
 const emptyFixture = (): Fx => ({ films: {}, shows: {}, collectionDetails: {} });
 const completeFilm = () => ({
@@ -297,18 +321,18 @@ describe("enrichFixture — happy path", () => {
     });
 
     const film = fixture.films[100];
-    expect(film.ratings.imdb).toBe(7.5);
+    expect(film.ratings?.imdb).toBe(7.5);
     expect(film.studios).toContain("A24");
     expect(film.budget).toBe(1_000_000);
-    expect(film.cast[0].name).toBe("Lead Actor");
-    expect(film.writers[0].name).toBe("The Writer");
-    expect(film.release.cls).toBe("theatrical");
+    expect(film.cast?.[0].name).toBe("Lead Actor");
+    expect(film.writers?.[0].name).toBe("The Writer");
+    expect(film.release?.cls).toBe("theatrical");
 
     const show = fixture.shows[200];
-    expect(show.ratings.imdb).toBe(8);
-    expect(show.seasons[0].avg).toBe(8);
-    expect(show.cast[0].name).toBe("TV Lead");
-    expect(show.creators[0].name).toBe("Show Creator");
+    expect(show.ratings?.imdb).toBe(8);
+    expect(show.seasons?.[0].avg).toBe(8);
+    expect(show.cast?.[0].name).toBe("TV Lead");
+    expect(show.creators?.[0].name).toBe("Show Creator");
 
     expect(stats.filmsMdb).toBe(1);
     expect(stats.showsMdb).toBe(1);
@@ -333,7 +357,7 @@ describe("enrichFixture — partial failure (MDBList down)", () => {
     });
 
     expect(fixture.films[100].ratings).toBeUndefined(); // MDBList pass failed
-    expect(fixture.films[100].cast[0].name).toBe("Lead Actor"); // TMDB still filled
+    expect(fixture.films[100].cast?.[0].name).toBe("Lead Actor"); // TMDB still filled
     expect(stats.filmsMdb).toBe(0);
   });
 });

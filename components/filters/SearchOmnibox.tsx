@@ -58,10 +58,31 @@ export function SearchOmnibox({
   onSelect,
 }: SearchOmniboxProps) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Suggestion[]>([]);
+  const [fetched, setFetched] = useState<Suggestion[]>([]);
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1); // index into `results`
-  const [loading, setLoading] = useState(false);
+  // Which query `fetched` actually belongs to. This is the whole trick for
+  // getting `loading` without a flag: a request is outstanding exactly when
+  // the query is worth searching and the results in hand are for some other
+  // query. Nothing has to be set to start loading, so nothing is set
+  // synchronously in the effect below.
+  const [fetchedFor, setFetchedFor] = useState("");
+
+  // Both of these follow from the query, so they are derived rather than
+  // stored. Two things this fixes beyond the lint rule:
+  //
+  // Deleting a character to drop back under the minimum length used to
+  // leave the old results on screen for one render while an effect cleared
+  // them. Now they are gone in the same render.
+  //
+  // And a `loading` flag set true before the debounce timer and false in
+  // the response handler is two sources of truth for one fact. If a
+  // response never arrived — a thrown parse, a path nobody thought about —
+  // the flag stuck on. Comparing the query to what the results are for
+  // cannot get stuck, because both sides are read fresh every render.
+  const searchable = query.trim().length >= MIN_QUERY_LENGTH;
+  const results = searchable ? fetched : [];
+  const loading = searchable && fetchedFor !== query.trim();
 
   const baseId = useId();
   const listId = `${baseId}-listbox`;
@@ -76,12 +97,9 @@ export function SearchOmnibox({
   useEffect(() => {
     const q = query.trim();
     if (debounce.current) clearTimeout(debounce.current);
-    if (q.length < MIN_QUERY_LENGTH) {
-      setResults([]);
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
+    // Nothing to fetch, and nothing to clear — `results` and `loading`
+    // are derived from the query above, so they are already empty.
+    if (q.length < MIN_QUERY_LENGTH) return;
     debounce.current = setTimeout(() => {
       abort.current?.abort();
       const ctrl = new AbortController();
@@ -89,12 +107,16 @@ export function SearchOmnibox({
       fetch(`${endpoint}?q=${encodeURIComponent(q)}`, { signal: ctrl.signal })
         .then((r) => r.json())
         .then((data: { results: Suggestion[] }) => {
-          setResults(data.results ?? []);
+          setFetched(data.results ?? []);
           setActive(-1);
-          setLoading(false);
+          setFetchedFor(q);
         })
         .catch((e) => {
-          if (e?.name !== "AbortError") setLoading(false);
+          // Stamping the query on a real failure is what stops `loading`
+          // hanging forever: the results are empty and they are empty FOR
+          // this query, which is a finished state. An abort is skipped
+          // because a newer keystroke already owns the next request.
+          if (e?.name !== "AbortError") setFetchedFor(q);
         });
     }, DEBOUNCE_MS);
     return () => {
@@ -122,7 +144,12 @@ export function SearchOmnibox({
     // Reset for the next search. Titles navigate away via onSelect; for
     // facet selections this clears the field so the user can stack more.
     setQuery("");
-    setResults([]);
+    setFetched([]);
+    // Forget which query the (now empty) results belong to. Without this,
+    // retyping the query just chosen would read as "results already in
+    // hand for this query" and flash an empty list instead of the spinner,
+    // because `loading` compares the query to `fetchedFor`.
+    setFetchedFor("");
     setOpen(false);
     setActive(-1);
   }

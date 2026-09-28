@@ -20,7 +20,7 @@
 // Use the global theme toggle in the Nav for light/dark validation.
 
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useHydrated } from "@/components/chrome/useHydrated";
 
 import { STATUS } from "../resume/resume-data";
 
@@ -132,8 +132,10 @@ function Section({
 // ─── Sub-brand specimen card ───────────────────────────────────────
 function SubBrandCard({ sb }: { sb: SubBrand }) {
   const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // Browser-only reading: next-themes resolves the theme on the client,
+  // so the swatch cannot know which mode it is in until hydration. See
+  // components/chrome/useHydrated for why this is not an effect.
+  const mounted = useHydrated();
   const themeMode: "light" | "dark" =
     mounted && resolvedTheme === "dark" ? "dark" : "light";
   const accentTextStop = ACCENT_TEXT[sb.color][themeMode];
