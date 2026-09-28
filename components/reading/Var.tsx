@@ -16,10 +16,26 @@
 // also strip the distinction. Inherits colour and family from the
 // surrounding prose on purpose — a variable should read as part of the
 // sentence, not as a highlighted term.
+//
+// `italic-inline` (app/components.css) is what stops the italic glyph's
+// right-lean crowding the character after it — the ";" in "x;" was
+// visibly mashed into the x without it. The site already had this rule
+// for every other inline italic (Emph, the resume headline suffixes,
+// the Basecamp archetype span); the first cut of this component simply
+// failed to use it.
+//
+// WHAT GOES INSIDE: the whole expression, not just the letter. "<x" is
+// one variable expression and the "<" is part of it, so it is italic
+// too. Splitting it would set the operator roman beside an italic
+// operand, which reads as two different things.
 // ─────────────────────────────────────────────────────────────────
 
 import type { ReactNode } from "react";
 
 export function Var({ children }: { children: ReactNode }) {
-  return <var style={{ fontStyle: "italic" }}>{children}</var>;
+  return (
+    <var className="italic-inline" style={{ fontStyle: "italic" }}>
+      {children}
+    </var>
+  );
 }

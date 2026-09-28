@@ -35,11 +35,14 @@
 // by app/writing/[pillar]/[slug]/page.tsx.
 // ─────────────────────────────────────────────────────────────────
 
-// No <Emph> here, unlike the MS-in-Law essay. The italics this piece
-// wants are its VARIABLES — x, y, z — and those take <Var>, not the
-// editorial serif italic: a variable is a named quantity, not stressed
-// speech. See components/reading/Var.tsx.
-import { Body, Pullquote } from "@/components/case-study/primitives";
+// TWO KINDS OF ITALIC, and they are different elements on purpose.
+// <Var> is a variable — x, y, and the expression "<x" — which is a
+// named quantity, so it uses <var> and inherits the body face. <Emph>
+// is editorial stress ("cohesively"), which is Instrument Serif wrapped
+// in <em> and is announced by a screen reader with contrastive
+// intonation. Reaching for Emph on a variable would give the wrong
+// announcement and put a display serif on a single letter.
+import { Body, Emph, Pullquote } from "@/components/case-study/primitives";
 import { EssaySection } from "@/components/writing/EssaySection";
 import { Link } from "@/components/primitives/Link";
 import { Blockquote } from "@/components/reading/Blockquote";
@@ -245,8 +248,9 @@ export default function Essay() {
             this is: Is this data being used now? We need to start asking a
             different question: Will anyone’s line of business require this data
             in the next <Var>x</Var> years? Determining a directional half-life for the
-            data* is a good proxy for <Var>x</Var>; &lt;<Var>x</Var> is a good proxy threshold for
-            considering a validation/refresh campaign. Senior ICs and above
+            data* is a good proxy for <Var>x</Var>; <Var>&lt;x</Var> is a good
+            proxy threshold for considering a validation/refresh campaign.
+            Senior ICs and above
             should all have an opinion on this, per their domain/scope. Think of
             this as an informed first “gate” on the decision. If there’s even a
             single yes, compare the cost of running a validation/refresh
@@ -346,7 +350,7 @@ export default function Essay() {
           <p>
             Stakeholder alignment is the key to moving through this opportunity
             space. ETL, reverse ETL, storage, and deletion rules need to be
-            determined, documented, and regularly audited cohesively. This
+            determined, documented, and regularly audited <Emph>cohesively</Emph>. This
             includes data summarization and the timeliness of its availability
             in downstream systems. Aligning on these rules is even more critical
             when dealing with high volumes of data. It’s another one that sounds
