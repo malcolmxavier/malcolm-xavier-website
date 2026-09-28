@@ -36,18 +36,27 @@ export const meta: ProjectMeta = {
   description:
     "Ethics in the product management of video-sharing apps. How copyright " +
     "law, the DMCA, parent companies, and recommendation algorithms shape " +
-    "what and which creators make.",
-  // The on-page description runs 168 characters; this is the search and
-  // social snippet at 150. The single cut is "parent companies" — the
-  // least searched of the four mechanisms, where copyright law, the
-  // DMCA, and recommendation algorithms are all terms a reader types.
-  // Keeping "video-sharing apps" matters more than keeping the fourth
-  // item in the list, since it is the only phrase naming what kind of
-  // platform this is about. The full list survives on the page.
+    "what creators make\u2014and who gets to be one.",
+  // The on-page description runs 181 characters; this is the search and
+  // social snippet at 137. Two cuts, both chosen for what a reader is
+  // likely to type. "parent companies" goes first — the least searched
+  // of the four mechanisms, where copyright law, the DMCA, and
+  // recommendation algorithms are all terms somebody looks up. Then
+  // "the product management of", which a search box is least likely to
+  // carry; "video-sharing apps" stays, being the only part that names
+  // what kind of platform this is about. The full list survives on the
+  // page.
+  //
+  // What survives both cuts is the closing clause, because it is the
+  // paper's argument: erasure as a loss of standing rather than of
+  // output. An earlier draft compressed it to "what and which creators
+  // make", which does not parse — "what" is the object of "make" while
+  // "which" modifies the subject, so the two cannot share "creators
+  // make" and the second reading is left dangling.
   metaDescription:
-    "Ethics in the product management of video-sharing apps. How copyright " +
-    "law, the DMCA, and recommendation algorithms shape what and which " +
-    "creators make.",
+    "Ethics in video-sharing apps. How copyright law, the DMCA, and " +
+    "recommendation algorithms shape what creators make\u2014and who gets " +
+    "to be one.",
   authors: [{ name: "Malcolm Xavier", self: true }],
   // Only the year is shown; the machine date is the spring-2022 first-year
   // MSL symposium submission (citations were last visited December 2021).
