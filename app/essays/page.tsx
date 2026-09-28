@@ -29,12 +29,18 @@ import {
 } from "@/lib/writing/essays";
 import { SITE_URL } from "@/lib/site-config";
 
+// The subject list matches the four pillars and the on-page deck. It read
+// "the craft of product management" until 2026-09-28, which was both narrower
+// than the Craft pillar actually is and out of step with the deck.
 const DESCRIPTION =
-  "Essays by Malcolm Xavier on growth, media, AI, and the craft of product management—written for the page, not the feed.";
-const OG_TITLE = "Writing · Malcolm Xavier";
+  "Essays by Malcolm Xavier on growth, media, AI, and craft—written for the page, not the feed.";
+// Title and OG title said "Writing" until 2026-09-28 — left behind when the
+// route and the nav label became Essays. A reader clicking Essays landed on a
+// tab reading Writing, and the search result said Writing too.
+const OG_TITLE = "Essays · Malcolm Xavier";
 
 export const metadata: Metadata = {
-  title: "Writing",
+  title: "Essays",
   description: DESCRIPTION,
   alternates: { canonical: "/essays" },
   openGraph: {
@@ -62,7 +68,7 @@ export default function WritingHub() {
     "@type": "CollectionPage",
     "@id": `${SITE_URL}/essays/#collectionpage`,
     url: `${SITE_URL}/essays`,
-    name: "Writing",
+    name: "Essays",
     description: DESCRIPTION,
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#person` },
@@ -93,11 +99,25 @@ export default function WritingHub() {
       <Container>
         <Section padding="lg">
           <Stack gap="500">
-            <Kicker>Writing</Kicker>
+            <Kicker>Essays</Kicker>
             <Display>Essays, built for the page.</Display>
+            {/* The four nouns are the four pillars in lib/writing/essays.ts,
+                verbatim and in registry order, so the deck and the theme
+                browse speak one vocabulary — including once that browse
+                turns on. Adding a fifth subject here means adding a pillar
+                there, which is the right amount of friction.
+
+                The deck used to open "The arguments I share on LinkedIn,
+                rendered the way they were meant to be read." That made
+                LinkedIn the origin and this page the reprint, in the second
+                sentence on the surface he owns, and it restated the headline
+                besides — "built for the page" and "the way they were meant to
+                be read" are one idea twice, which left the deck doing no work
+                of its own. It now names the subjects and lets the back half
+                place the format. */}
             <Lede>
-              The arguments I share on LinkedIn, rendered the way they were meant
-              to be read. On growth, media, AI, and the craft of the work.
+              Growth, media, AI, and craft—where my thinking goes when it needs
+              more room than a post.
             </Lede>
           </Stack>
         </Section>

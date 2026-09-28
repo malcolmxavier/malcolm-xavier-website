@@ -10,15 +10,18 @@ import {
 
 export const size = OG_SIZE;
 export const contentType = OG_CONTENT_TYPE;
+// Eyebrow, subtitle, and alt all said "Writing" or named "the craft of
+// product management" until 2026-09-28. The first was left behind by the
+// rename to /essays; the second was narrower than the Craft pillar. All three
+// now carry the four pillar nouns, matching the hub deck and metadata.
 export const alt =
-  "Writing by Malcolm Xavier—essays on growth, media, AI, and the craft of product management.";
+  "Essays by Malcolm Xavier on growth, media, AI, and craft—built for the page.";
 
 export default function OpenGraphImage() {
   return renderCaseStudyCard({
-    eyebrow: "WRITING",
+    eyebrow: "ESSAYS",
     titleLines: ["Malcolm Xavier"],
     titleSize: 140,
-    subtitle:
-      "Essays on growth, media, AI, and the craft of the work—built for the page.",
+    subtitle: "Growth, media, AI, and craft—built for the page.",
   });
 }

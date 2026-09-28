@@ -135,7 +135,7 @@ export default async function EssayPage({
           {
             "@type": "ListItem",
             position: 2,
-            name: "Writing",
+            name: "Essays",
             item: `${SITE_URL}/essays`,
           },
           {

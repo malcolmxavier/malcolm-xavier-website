@@ -29,7 +29,7 @@ export default async function OpenGraphImage({
   const essay = getEssay(pillar, slug);
   if (!essay) {
     return renderCaseStudyCard({
-      eyebrow: "WRITING",
+      eyebrow: "ESSAYS",
       titleLines: ["Malcolm Xavier"],
       titleSize: 140,
       subtitle: "Essays—built for the page.",
