@@ -49,8 +49,24 @@ export const WRITING_PILLARS: Record<WritingPillar, PillarMeta> = {
   craft: {
     slug: "craft",
     label: "Craft",
+    // This line does five jobs on /writing/craft: the on-page lede, the meta
+    // description, the Open Graph and Twitter card descriptions, and the
+    // JSON-LD description. So it has to describe the contents accurately for
+    // a machine, not just read well under the headline.
+    //
+    // It used to open "The interdisciplinary practice…" and then name law,
+    // theatre, and a non-linear career. Two problems. The pillar was about to
+    // take essays on being technical and on negotiating, which are practice
+    // rather than biography, and naming the background alone left them with
+    // nowhere to sit. And "interdisciplinary" is the framing Malcolm's own
+    // vocabulary work refused — the crossing is a move, not a subject.
+    //
+    // "The life around it" is deliberately open where a list would not be: a
+    // career can be non-linear and still be entirely professional, and this
+    // pillar has to hold the theatre, the standup, and the restaurant years
+    // without the blurb having to enumerate them.
     blurb:
-      "The interdisciplinary practice behind the decisions: law, theatre, and a non-linear career.",
+      "The practice behind the decisions, shaped by a non-linear career and the life around it.",
   },
 };
 
