@@ -66,11 +66,14 @@ export async function generateMetadata({
   const project = getProject(slug);
   if (!project) return { title: "Research not found" };
   const pageTitle = project.metaTitle ?? project.title;
+  // The snippet surfaces truncate at roughly 155 characters; the on-page
+  // description does not have to. See ProjectMeta.metaDescription.
+  const snippet = project.metaDescription ?? project.description;
   const socialTitle = `${pageTitle}—Malcolm Xavier`;
   const url = `/research/${project.slug}`;
   return {
     title: pageTitle,
-    description: project.description,
+    description: snippet,
     alternates: { canonical: url },
     // `noindex` stays optional on ProjectMeta so a future draft can be
     // parked out of search, but no shipped item sets it — the section is
@@ -78,7 +81,7 @@ export async function generateMetadata({
     robots: project.noindex ? { index: false, follow: true } : undefined,
     openGraph: {
       title: socialTitle,
-      description: project.description,
+      description: snippet,
       type: "article",
       url,
       siteName: "Malcolm Xavier",
@@ -96,7 +99,7 @@ export async function generateMetadata({
       card: "summary_large_image",
       ...twitterAttribution,
       title: socialTitle,
-      description: project.description,
+      description: snippet,
       // twitter:image is auto-populated from ./opengraph-image.tsx too.
     },
   };

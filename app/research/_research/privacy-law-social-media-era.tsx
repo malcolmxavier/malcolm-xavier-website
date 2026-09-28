@@ -39,7 +39,17 @@ export const meta: ProjectMeta = {
   metaTitle: "Privacy Law in the Social Media Era",
   subtitle: "Privacy Law in the Social Media Era",
   description:
-    "Social media trades our privacy for publicity, and the bill lands hardest on Black people. What that trade built, and what can be taken back.",
+    "Social media trades our privacy for publicity, accelerating a surveillance " +
+    "state through the lens of hyperrealism, with outsized harm to Black people. " +
+    "And what individuals, technologists, corporations, and governments can do to " +
+    "reclaim it.",
+  // The on-page description runs 239 characters. This is the search and
+  // social snippet: the same claim in Malcolm's words, minus the theory
+  // term, which is jargon in a SERP box and costs the length that the
+  // harm clause needs.
+  metaDescription:
+    "Social media trades our privacy for publicity, accelerating a " +
+    "surveillance state with outsized harm to Black people.",
   authors: [{ name: "Malcolm Xavier", self: true }],
   dateDisplay: "2023",
   // The citations were last visited May 6, 2023 — the paper's completion.

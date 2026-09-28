@@ -68,6 +68,14 @@ export interface ProjectMeta {
   subtitle?: string;
   /** One- to two-sentence summary — meta description and card blurb. */
   description: string;
+  /** Shorter SERP/social description, for when `description` runs past
+   *  the ~155 characters a search result renders. Same contract as
+   *  metaTitle one field up: the long form is the on-page prose and has
+   *  no length constraint, this is the snippet, and it falls back to
+   *  `description` when omitted. Only the truncating surfaces use it —
+   *  the meta tag, Open Graph, and Twitter. JSON-LD keeps the full
+   *  description, since a retriever is not reading a 155-character box. */
+  metaDescription?: string;
   /** Byline, self-author first. */
   authors: ProjectAuthor[];
   /** Human-readable date shown in the dateline, e.g. "2021" or
