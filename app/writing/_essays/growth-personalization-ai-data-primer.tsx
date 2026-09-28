@@ -393,9 +393,9 @@ export default function Essay() {
             stakeholder management from Connectivity (above). Without this
             consistency in data legibility, AI-driven features become modern{" "}
             <Link href="https://en.wikipedia.org/wiki/Garbage_in,_garbage_out">
-              GIGO
-            </Link>{" "}
-            machines.
+              GIGO machines
+            </Link>
+            .
           </p>
           <Note marker="*">
             “Consistently,” here means relative to each tool, not the same for
