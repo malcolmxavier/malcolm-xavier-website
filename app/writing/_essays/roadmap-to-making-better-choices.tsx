@@ -16,22 +16,20 @@
 // preparing for; the argument about agency the conversation opens onto;
 // and the coda.
 //
-// Both question lists are NUMBERED rather than bulleted. The published
-// article bullets them, but they are ordered in fact: each one is a
-// sequence he works through, and the second list is explicitly gated
-// ("Only after these questions have been answered can I ask…").
-// Numbered is also what the data primer's lists use, which is the
-// house precedent for a list of this shape.
+// Both question lists are BULLETED, as the published article has them.
+// An earlier cut numbered them, from a line in the porting brief
+// claiming Malcolm prefers numbered lists — generalised from one choice
+// he made about the data primer's three lists. He did not state a
+// preference, and a list is ordered when the source orders it.
 //
-// The mutual-agency paragraph is a Callout. It is the sentence the
-// whole agency-law digression is built to earn — employees as
-// principals of their careers, employers as the agents — and
-// everything after it follows from it. Callout and not Blockquote
-// because the words are Malcolm's own and are not quoted from
-// anywhere; Callout and not Pullquote because they appear once. There
-// is no Pullquote in this file at all: the article never repeats a
-// line, and lifting one that was not lifted at the source would be a
-// device this piece does not use.
+// NOTHING IS SET OFF IN THIS FILE — no Callout, no Blockquote, no
+// Pullquote. An earlier cut lifted the mutual-agency paragraph into a
+// Callout on the reasoning that it is the claim the agency-law
+// digression exists to earn. That reading is right and the treatment
+// was still wrong: the article never sets anything off, and deciding
+// which sentence deserves the weight is an editorial judgement the
+// piece did not ask for. Malcolm's call, 2026-09-28. The rule that
+// follows it does the work instead.
 //
 // ONE THING CUT: the closing "If you've read this and think it might be
 // time for you to have a conversation like this with someone, please
@@ -61,7 +59,6 @@
 
 import { Body } from "@/components/case-study/primitives";
 import { Link } from "@/components/primitives/Link";
-import { Callout } from "@/components/reading/Callout";
 import { Divider } from "@/components/reading/Divider";
 import { List } from "@/components/reading/List";
 import type { EssayMeta } from "@/lib/writing/types";
@@ -156,7 +153,7 @@ export default function Essay() {
           resource for skilling up here for those interested. In this early part
           of the conversation, I’m trying to understand:
         </p>
-        <List ordered>
+        <List>
           <li>What is the challenge the person I’m talking with is facing?;</li>
           <li>
             What important events in their story have happened and what part of
@@ -194,7 +191,7 @@ export default function Essay() {
           immediately. In trying to understand where I can offer support, I
           typically ask some variation of the following:
         </p>
-        <List ordered>
+        <List>
           <li>What are all the possible outcomes?</li>
           <li>What is your ideal outcome?;</li>
           <li>What is the worst possible outcome?;</li>
@@ -213,11 +210,6 @@ export default function Essay() {
           want any further help, but at the very least they walk away from the
           conversation knowing they have my support.
         </p>
-      </Body>
-
-      <Divider />
-
-      <Body>
         <p>
           All of this is the heart of the conversation, where I attempt to use
           my negotiation skills and experiences to prime the person I’m talking
@@ -237,6 +229,11 @@ export default function Essay() {
           them and put them in an optimal mindset to effectively negotiate the
           best possible outcome for themselves.
         </p>
+      </Body>
+
+      <Divider />
+
+      <Body>
         <p>
           As the conversation wraps up, I start asking the other person
           questions that boil down to: what are you going to do next? I use my
@@ -245,11 +242,6 @@ export default function Essay() {
           other person to begin identifying their agency in the situation at
           hand.
         </p>
-      </Body>
-
-      <Divider />
-
-      <Body>
         <p>
           Agency has become a more common word in corporate vernacular over the
           years. Most of us want it; few of us seem to have it. It’s that
@@ -295,23 +287,22 @@ export default function Essay() {
           principals, employers typically owe employees very little. But this is
           merely a contractual limitation.
         </p>
-        {/* The claim the agency-law passage exists to set up, and the
-            hinge the rest of the essay turns on. His own prose,
-            appearing once — so it is a Callout, not a Blockquote and not
-            a Pullquote. */}
-        <Callout>
-          <p>
-            In the spirit of modern employment, especially regarding knowledge
-            work in tech, employees must remember they are principals of their
-            careers and employers are the agents. Rather than a unidirectional,
-            contractual relationship, the relationship between an employer and
-            employee is one of mutual agency. Employees should recall that they
-            drive the strategy of their careers. Knowing what to say “yes” to
-            and, more importantly, what to say “no” to is critical to executing
-            this strategy and should inform the ongoing negotiations an employee
-            has with their employer, throughout their relationship.
-          </p>
-        </Callout>
+        <p>
+          In the spirit of modern employment, especially regarding knowledge
+          work in tech, employees must remember they are principals of their
+          careers and employers are the agents. Rather than a unidirectional,
+          contractual relationship, the relationship between an employer and
+          employee is one of mutual agency. Employees should recall that they
+          drive the strategy of their careers. Knowing what to say “yes” to
+          and, more importantly, what to say “no” to is critical to executing
+          this strategy and should inform the ongoing negotiations an employee
+          has with their employer, throughout their relationship.
+        </p>
+      </Body>
+
+      <Divider />
+
+      <Body>
         <p>
           When I talk with people about having agency, they tend to be fixated
           on crafting this sense within the scope of their role. This fixation
