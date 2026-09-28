@@ -145,14 +145,26 @@ export const CONTACT: ResumeContact = {
 
 // Status line shown in the hero — the recruiter-facing "where I am
 // right now" signal. Update when the search ends.
-// The eyebrow leads with the FUNCTION, not the domain — it is the first line
-// on both the landing page and /resume, and it should tell the same story the
-// summary tells ("growth, marketing, and data platforms"). It named media and
-// streaming until 2026-08-19; that was never wrong, but it narrowed the pitch
-// to a vertical when the portfolio argues a capability. The domain still lands
-// immediately below in the summary and throughout the body.
+//
+// This renders on /resume only. It also led the landing-page hero until that
+// eyebrow came out on 2026-09-26, which is why older notes here describe it as
+// sitting on two pages.
+//
+// The eyebrow leads with the FUNCTION, not the domain, and it should tell the
+// same story the summary tells. It named media and streaming until 2026-08-19;
+// that was never wrong, but it narrowed the pitch to a vertical when the
+// portfolio argues a capability. The domain still lands immediately below in
+// the summary and throughout the body.
+//
+// It read "Open to senior PM roles" until 2026-09-28. Two problems with that.
+// HEADLINE states the title in full on the very next line, so the eyebrow was
+// spending its words on a claim already made — and while it repeated that
+// claim it also gated every non-PM read, which is a real cost with the search
+// open to product, growth, and data work generally. "Senior IC" is what
+// replaced it: the level survives intact, so there is no downlevel room, and
+// the widening moves onto function instead of being bought by giving up rank.
 export const STATUS =
-  "Currently interviewing · Open to senior PM roles in growth, marketing, and data platforms";
+  "Currently interviewing · Open to senior IC roles in product, growth, and data";
 
 // ─── Positioning ───────────────────────────────────────────────────
 
