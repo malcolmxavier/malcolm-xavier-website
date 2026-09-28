@@ -332,7 +332,7 @@ const SHADOW_STATES: { state: ChipState; label: string; note: string }[] = [
   {
     state: "cast-quiet",
     label: "Cast, with the chip itself quiet",
-    note: "the outline back in the nav's own grey and green only in the shadow, so the accent marks the state rather than the object",
+    note: "the outline back in the nav’s own grey and green only in the shadow, so the accent marks the state rather than the object",
   },
   {
     state: "sweep",

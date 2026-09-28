@@ -280,7 +280,7 @@ const MOBILE_CLIPS = [
       picks: ['Horror', 'Drama', 'A24', '1980s', '1990s', 'Comedy'] }) },
   { id: '03', name: 'films-stats',        label: '/films/stats — the dashboard',
     record: (page) => recordSurfacePan(page, `${DEV_BASE}/films/stats`) },
-  { id: '04', name: 'films-handoff',      label: '/films/stats → filtered reviews (the "leave it" beat)',
+  { id: '04', name: 'films-handoff',      label: '/films/stats → filtered reviews (the “leave it” beat)',
     record: (page) => recordStatsHandoff(page, {
       statsUrl: `${DEV_BASE}/films/stats`, reviewsMatch: '/films/reviews?', accent: '#f97316',
       picks: ['A24', 'Neon', 'Universal Pictures', 'Warner Bros. Pictures', 'Blumhouse Productions'] }) },

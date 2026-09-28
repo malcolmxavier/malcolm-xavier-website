@@ -30,7 +30,21 @@ export function Donut({
   const r = 42;
   const c = 50;
   const circ = 2 * Math.PI * r;
-  let angle = 0;
+
+  // Where each slice starts on the ring: slice i begins where every slice
+  // before it ended, so its offset is the running sum of the ones ahead of
+  // it.
+  //
+  // This used to be a `let angle = 0` counter incremented inside the JSX
+  // map below. That worked, but a variable reassigned while rendering is
+  // exactly what react-hooks flags — the accumulator's value depends on the
+  // order React happens to evaluate children in, which is not a guarantee
+  // the component should rest on. Deriving each offset independently means
+  // a slice's position is a function of the data and nothing else. The
+  // prefix sum re-walks the earlier slices per slice, which would matter
+  // if a donut ever had hundreds of them; it has a handful.
+  const startAngle = (i: number) =>
+    slices.slice(0, i).reduce((sum, [, n]) => sum + (n / total) * 360, 0);
 
   return (
     <div style={wrapStyle}>
@@ -44,9 +58,8 @@ export function Donut({
         aria-label={`${ariaLabel}, ${total} total`}
       >
         {slices.map(([label, n], i) => {
-          const frac = n / total;
-          const dash = frac * circ;
-          const seg = (
+          const dash = (n / total) * circ;
+          return (
             <circle
               key={label}
               cx={c}
@@ -56,11 +69,11 @@ export function Donut({
               stroke={paletteColor(i)}
               strokeWidth={15}
               strokeDasharray={`${dash.toFixed(2)} ${(circ - dash).toFixed(2)}`}
-              transform={`rotate(${(angle - 90).toFixed(2)} ${c} ${c})`}
+              // -90 puts the first slice at twelve o'clock rather than at
+              // three, which is where an SVG rotation of 0 would start it.
+              transform={`rotate(${(startAngle(i) - 90).toFixed(2)} ${c} ${c})`}
             />
           );
-          angle += frac * 360;
-          return seg;
         })}
         <text x={50} y={54} textAnchor="middle" style={centerStyle}>
           {total}
