@@ -473,10 +473,16 @@ for (const [name, value] of [
 // wordmark stepped outward on arrival and back on the way out — a
 // visible shift at the boundary, which was worse than the width.
 //
-// Widening this cannot lengthen a line of prose: Body, Lede, HeroNote,
-// and the rest cap themselves at their own measure (60ch, mostly), so
-// what moves is composition — grids, headers, and what sits beside
-// what — never legibility.
+// Widening this cannot lengthen a line of prose, because prose is
+// capped by one of the two measures below rather than by the well.
+// What moves when this moves is composition — grids, headers, and
+// what sits beside what — never legibility.
+//
+// (This note used to say the type components "cap themselves at their
+// own measure (60ch, mostly)". That was an accurate description of a
+// defect. A paragraph that clamps itself cannot be composed and makes
+// a page ragged from the inside; MEASURE.md §2 has the reasoning, and
+// retiring those self-clamps is on its checklist.)
 //
 // It is deliberately not declared as one of the breakpoints above: a
 // breakpoint is when the layout changes and a content width is how
@@ -485,6 +491,37 @@ for (const [name, value] of [
 out.push("");
 out.push("  /* Page content width — see scripts/build-tokens.mjs */");
 out.push("  --container-page: 104rem; /* 1664px */");
+
+// ─── Measure ───────────────────────────────────────────────────────
+// How wide a line of TEXT is allowed to get, as opposed to how wide
+// the page is. MEASURE.md at the repo root is the rule; these are the
+// two values it names, and a width written anywhere else as a literal
+// is the bug rather than the fix.
+//
+// The unit is ch and not rem on purpose. One ch is the width of the
+// font's zero glyph, so a ch clamp holds the CHARACTER COUNT roughly
+// constant when the typeface changes — and this site swaps typefaces
+// between the recruiter-facing pages and the sub-brand pages. A rem
+// clamp would silently lengthen or shorten the line across that
+// boundary.
+//
+// --measure-read is for continuous prose read start to finish. 60ch
+// renders about 68-72 actual characters, because the average character
+// is narrower than the zero glyph — which is why this value and the
+// "65 characters" and "60-75ch" notes elsewhere in the codebase were
+// never actually in disagreement.
+//
+// --measure-header is for the eyebrow/headline/deck group, which is
+// NOT a reading column: it is a couple of sentences at large type,
+// read once, taken in as a unit with the headline. Clamped to the
+// reading measure it stops a third of the way across while the
+// headline runs to its own width, and the header reads as ragged.
+// PROVISIONAL — set by reasoning rather than by looking, and wants a
+// check on screen at 1280/1440/1664 before it counts as settled.
+out.push("");
+out.push("  /* Text measure — see MEASURE.md */");
+out.push("  --measure-read: 60ch;");
+out.push("  --measure-header: 90ch;");
 out.push("}");
 out.push("");
 
