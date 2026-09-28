@@ -36,6 +36,21 @@
 // the two cannot drift. A reader does not need to be told which of the
 // two they are looking at — the distinction is for the machine and for
 // whoever edits the page next.
+//
+// WHAT THIS FILE DOES NOT DECIDE (adjudicated 2026-09-28). These three
+// components carry rules about THEMSELVES — what each one means, which
+// element it must be, when it is the wrong choice. They carry no rule
+// about where anything goes in a piece. Whether a passage is set off at
+// all, where a rule falls, whether a list is ordered: those are reads of
+// the specific article, every time, and three of them were invented as
+// universals during this port and applied to essays nobody had read.
+//
+// Composition rules get a home later, and it is not here. When the Booth
+// becomes a true editorial surface with drag-and-drop components, rules
+// about how components may interact belong in that editor — "no two
+// blockquotes back to back" is Malcolm's own example. A constraint
+// inside an editor is visible and overridable while somebody composes;
+// a default inside a porting brief is invisible and fires everywhere.
 // ─────────────────────────────────────────────────────────────────
 
 import type { ReactNode } from "react";
