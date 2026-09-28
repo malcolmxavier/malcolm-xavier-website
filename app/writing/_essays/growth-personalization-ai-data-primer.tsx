@@ -35,16 +35,18 @@
 // by app/writing/[pillar]/[slug]/page.tsx.
 // ─────────────────────────────────────────────────────────────────
 
-// No <Emph> here, unlike the MS-in-Law essay. The pasted source carried
-// no italics — but a paste from LinkedIn loses character formatting, and
-// this piece uses `x` as a variable ("the next x years", "a good proxy
-// for x") where italics would be conventional. Worth checking the live
-// article before treating the plain setting as deliberate.
+// No <Emph> here, unlike the MS-in-Law essay. The italics this piece
+// wants are its VARIABLES — x, y, z — and those take <Var>, not the
+// editorial serif italic: a variable is a named quantity, not stressed
+// speech. See components/reading/Var.tsx.
 import { Body, Pullquote } from "@/components/case-study/primitives";
 import { EssaySection } from "@/components/writing/EssaySection";
+import { Link } from "@/components/primitives/Link";
+import { Blockquote } from "@/components/reading/Blockquote";
 import { List } from "@/components/reading/List";
 import { Divider } from "@/components/reading/Divider";
 import { Note } from "@/components/reading/Note";
+import { Var } from "@/components/reading/Var";
 import type { EssayMeta } from "@/lib/writing/types";
 
 export const meta: EssayMeta = {
@@ -100,18 +102,18 @@ export default function Essay() {
         </p>
       </Body>
 
-      {/* The one divider in the piece. It marks the single place the
-          register genuinely changes — the opening lede, which sits under
-          no heading, handing off to the sectioned argument. Every other
-          transition here is a section boundary, and the <h2> already
-          says so; a rule on top of a heading is the same statement
-          twice. */}
+      {/* A rule before every section, including this one, which hands
+          the opening lede off to the sectioned argument. An earlier cut
+          used exactly one, on the reasoning that an <h2> already marks a
+          boundary and a rule on top of it says the same thing twice.
+          Malcolm's call is that the rule belongs at every section start,
+          which is also what the published article does. */}
       <Divider />
 
       <EssaySection title="Introduction">
         <Body>
           <p>First, let’s establish three key, related assumptions:</p>
-          <List>
+          <List ordered>
             <li>
               Broadly, personalization is a core lever for growth and
               engagement.
@@ -149,10 +151,12 @@ export default function Essay() {
         </Body>
       </EssaySection>
 
+      <Divider />
+
       <EssaySection title="Completeness">
         <Body>
           <p>Do all records have the same data points (as appropriate)?</p>
-          <List>
+          <List ordered>
             <li>
               In a basic case, does every user record have a first name and a
               last name?
@@ -191,10 +195,13 @@ export default function Essay() {
           </p>
           <Note marker="*">
             This is a real example from my time at People, launching a pregnancy
-            journey newsletter program on parents.com.
+            journey newsletter program on{" "}
+            <Link href="https://www.parents.com">parents.com</Link>.
           </Note>
         </Body>
       </EssaySection>
+
+      <Divider />
 
       <EssaySection title="Accuracy">
         <Body>
@@ -237,8 +244,8 @@ export default function Essay() {
             specific data points across records. The heuristic often used for
             this is: Is this data being used now? We need to start asking a
             different question: Will anyone’s line of business require this data
-            in the next x years? Determining a directional half-life for the
-            data* is a good proxy for x; &lt;x is a good proxy threshold for
+            in the next <Var>x</Var> years? Determining a directional half-life for the
+            data* is a good proxy for <Var>x</Var>; &lt;<Var>x</Var> is a good proxy threshold for
             considering a validation/refresh campaign. Senior ICs and above
             should all have an opinion on this, per their domain/scope. Think of
             this as an informed first “gate” on the decision. If there’s even a
@@ -270,18 +277,27 @@ export default function Essay() {
         </Body>
       </EssaySection>
 
+      <Divider />
+
       <EssaySection title="Relevance">
         <Body>
           <p>
             Do we have the data we need to achieve the level of precision we’re
             hoping for in our personalization?
           </p>
-          <p>
-            Hint: the more precise you want your personalization to be, the more
-            precise your data must be. You can’t create personalized experiences
-            for ophthalmologists effectively if user records don’t have a job
-            title facet.
-          </p>
+          {/* Set off rather than run in. It is an aside answering the
+              question above it, not a step in the argument, and the
+              published article gives it its own block. Blockquote rather
+              than Pullquote: this is a full passage at body size, where
+              a pull quote lifts one line to display size. */}
+          <Blockquote>
+            <p>
+              Hint: the more precise you want your personalization to be, the
+              more precise your data must be. You can’t create personalized
+              experiences for ophthalmologists effectively if user records
+              don’t have a job title facet.
+            </p>
+          </Blockquote>
           <p>
             This falls into the same data processing trap I covered above. It
             might sound obvious, but more precise data is more valuable because
@@ -294,6 +310,8 @@ export default function Essay() {
         </Body>
       </EssaySection>
 
+      <Divider />
+
       <EssaySection title="Connectivity">
         <Body>
           <p>
@@ -304,7 +322,7 @@ export default function Essay() {
             data and processing it into storage, but you’re not transmitting it
             to reporting tooling efficiently. Usually that looks like:
           </p>
-          <List>
+          <List ordered>
             <li>you’re not transmitting enough data, or</li>
             <li>you’re running into latency issues, or</li>
             <li>data’s under-transformed, or</li>
@@ -338,13 +356,16 @@ export default function Essay() {
         </Body>
       </EssaySection>
 
+      <Divider />
+
       <EssaySection title="Legibility">
         <Body>
           <p>
             Can a non-technical expert leverage/interact with data in their
-            workflows with confidence in data meaning? In other words, is x
-            defined the same way across the system, and are x, y, and z
-            available consistently across the system? Even further, is
+            workflows with confidence in data meaning? In other words, is <Var>x</Var>
+            defined the same way across the system, and are <Var>x</Var>,{" "}
+            <Var>y</Var>, and <Var>z</Var> available consistently across the
+            system? Even further, is
             consistently transformed data available across the system (to
             account for the disparity between transformation functionality
             within specific tools)?* On the simpler end, is data actually
@@ -385,6 +406,8 @@ export default function Essay() {
         </Body>
       </EssaySection>
 
+      <Divider />
+
       <EssaySection title="Privacy">
         <Body>
           <p>
@@ -419,6 +442,8 @@ export default function Essay() {
           </p>
         </Body>
       </EssaySection>
+
+      <Divider />
 
       <EssaySection title="Conclusion">
         <Body>
