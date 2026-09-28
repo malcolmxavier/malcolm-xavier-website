@@ -69,14 +69,18 @@ export function CaseStudyNav({ currentSlug }: CaseStudyNavProps) {
   if (!newer && !older) return null;
 
   return (
-    // Width and horizontal padding inherit from CASE_STUDY_WIDTH so
-    // the neighbor cards share the article's reading column at every
-    // breakpoint (560/880/1024 with matching px-7/px-10). Previously
-    // this used a bespoke max-w-[920px] with px-4 md:px-0, which left
-    // the cards flush to the viewport on tablets between 768px and
-    // 920px — no padding to anchor against the edge. Inheriting from
-    // CASE_STUDY_WIDTH eliminates the magic number and keeps the nav
-    // visually anchored to the article above it.
+    // Width comes from CASE_STUDY_WIDTH, so the neighbor cards line up
+    // with the article above them and with the page's own left edge.
+    // Previously this used a bespoke max-w-[920px] with px-4 md:px-0,
+    // which left the cards flush to the viewport on tablets between
+    // 768px and 920px — no padding to anchor against the edge.
+    // Deferring to the shared constant eliminates the magic number.
+    //
+    // Two cards read left-to-right are page geometry, not prose, so
+    // they take no reading measure: CASE_STUDY_WIDTH states the
+    // measure for the prose inside a section and leaves the section
+    // itself full width, which is exactly what this nav wants. See
+    // MEASURE.md.
     <nav
       aria-label="Adjacent case studies"
       className={`${CASE_STUDY_WIDTH} my-12 md:my-16 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6`}

@@ -13,8 +13,10 @@
 // registry off `currentSlug` (same source CaseStudyNav and the rail
 // use), so the per-page call sites only pass the slug they already
 // have. Professional emphasis, since case studies are recruiter-facing.
-// Shares the article's reading column via CASE_STUDY_WIDTH so it stays
-// aligned.
+// Takes its width from CASE_STUDY_WIDTH so it starts on the same left
+// edge as the article. A row of share buttons is geometry rather than
+// prose, so it takes no reading measure — that constant states the
+// measure for prose and leaves the block itself full width.
 // ─────────────────────────────────────────────────────────────────
 
 import { CASE_STUDIES } from "@/app/resume/resume-data";

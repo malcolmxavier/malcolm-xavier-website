@@ -1595,6 +1595,53 @@ a.link-accent-pink,
   }
 }
 
+/* ── Case-study reading column ───────────────────────────────────
+   A case study is meant to read as a column of prose with things set
+   beside it — screenshots, pull quotes, stat cards, tables. Until
+   2026-09-28 nothing on the page said how wide that column was:
+   CASE_STUDY_WIDTH was the string "w-full", so every block ran the
+   full width of the grid column it landed in and the page read as a
+   wide box rather than as a column. See MEASURE.md at the repo root
+   for the rule these three classes implement.
+
+   `.cs-column` is the one thing CASE_STUDY_WIDTH now carries: the
+   section states the measure once, and the prose inside it takes it.
+   The section itself is NOT clamped, which is the point — a Beat has
+   to stay as wide as its widest card so the grids and tables inside
+   it still get the room they need.
+
+   The measure is handed down as a variable rather than a finished
+   pixel width on purpose. It is counted in characters (60ch), and a
+   character is a different number of pixels at every type size, so
+   passing the token down lets each block of prose stop after sixty
+   of ITS OWN characters. Working the number out once at the section
+   and forcing it on everything below would give a paragraph at 19px
+   the line length of one at 16px — about fifty-seven characters
+   instead of sixty-eight.
+
+   A block that should be wider than the prose takes `.cs-breakout`.
+   That is a deliberate editorial call rather than an escape hatch:
+   case studies carry schematics and screenshots that need the room,
+   and a grid of cards is scanned rather than read, so no reading
+   measure applies to it at all. Naming it means the next person can
+   tell an intentional full-width block from one that was never
+   given a width. */
+.cs-column {
+  --cs-read-measure: var(--measure-read);
+}
+
+/* Continuous prose. The fallback covers a `.cs-read` block used
+   outside a case-study column, where there is no column to ask. */
+.cs-read {
+  max-width: var(--cs-read-measure, var(--measure-read));
+}
+
+/* Deliberately wider than the prose: fills the column instead. Sits
+   after `.cs-read` so a block carrying both ends up breaking out. */
+.cs-breakout {
+  max-width: none;
+}
+
 /* ── VideoClip — demo video player in case studies ──────────────── */
 
 /* Outer figure: vertical rhythm matches other case-study insertions

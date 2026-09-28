@@ -43,13 +43,28 @@ import { Kicker } from "@/components/typography/Kicker";
 // else, so the well, the padding, and the left rail all come from
 // one place and a section simply fills the column it is handed.
 //
+// Two classes, doing two different jobs:
+//
+//   `w-full` — the section fills the grid column it is handed. This
+//   is the half the constant has always carried, and it is why a
+//   Beat can hold a three-across grid of cards: the section is not
+//   narrowed, so the geometry inside it keeps its room.
+//
+//   `cs-column` — the section states how wide continuous PROSE is
+//   allowed to run inside it (the reading measure, see MEASURE.md).
+//   Before 2026-09-28 nothing on the page said this at all, so the
+//   paragraphs, the pull quotes, and the figures each ran to
+//   whatever width they happened to have and the page read as a
+//   ragged stack rather than as a column. The rule lives in
+//   app/components.css, where the reasoning sits beside it.
+//
 // Vertical padding stays per-section since Hero / Beat / etc. each
 // want their own rhythm.
 //
 // Usage: `className={`${CASE_STUDY_WIDTH} scroll-mt-28 pt-9 pb-6`}`
 // in any case-study section wrapper.
 // ────────────────────────────────────────────────────────────────
-export const CASE_STUDY_WIDTH = "w-full";
+export const CASE_STUDY_WIDTH = "cs-column w-full";
 
 // ─── CaseStudyKicker ────────────────────────────────────────────
 //
@@ -233,8 +248,16 @@ export function Beat({
 // ────────────────────────────────────────────────────────────────
 
 export function Body({ children }: { children: ReactNode }) {
+  // `cs-read` is what puts this block in the article's reading
+  // column: it takes the measure the surrounding section states
+  // rather than naming a width of its own, so a paragraph stops
+  // after roughly seventy characters instead of running the whole
+  // width of the page. It sits on this wrapper rather than on the
+  // paragraphs inside it because the wrapper is where the prose type
+  // size is set, and the measure is counted in characters of the
+  // type it is measuring. See MEASURE.md and app/components.css.
   return (
-    <div className="flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-body)] [&>p]:m-0 [&>ul]:m-0 [&>ol]:m-0">
+    <div className="cs-read flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-body)] [&>p]:m-0 [&>ul]:m-0 [&>ol]:m-0">
       {children}
     </div>
   );
@@ -392,7 +415,21 @@ export function Pullquote({
     },
   };
   return (
-    <figure className="my-10 md:my-12 max-w-[720px] pl-5 md:pl-6 border-l-[2px] border-[var(--border-default)]">
+    // `cs-read` rather than `cs-breakout`, and the distinction is the
+    // one the first pass at this got wrong: a SCREENSHOT needs the whole
+    // column and a PULL QUOTE does not, because a pull quote is still
+    // text. Left to fill a 1248px column at 28px it ran past a hundred
+    // characters on one line, which is worse than the flat
+    // `max-w-[720px]` it replaced — that literal was a bad way to write
+    // a good width.
+    //
+    // This resolves at the figure's inherited 16px rather than at the
+    // quote's own 28px, so it lands a little under the prose column
+    // instead of level with it. That is the right answer here for a
+    // reason beyond arithmetic: a pull quote set slightly narrower than
+    // the text around it reads as lifted out of the column, which is
+    // the whole device.
+    <figure className="cs-read my-10 md:my-12 pl-5 md:pl-6 border-l-[2px] border-[var(--border-default)]">
       {quoting ? (
         <blockquote {...typeProps}>“{children}”</blockquote>
       ) : (

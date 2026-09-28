@@ -419,8 +419,15 @@ function BeatStrategy() {
           generalist reader. The italic editorial caption above them
           names the audience without protesting too much, and signals
           that the prose carries the same claim. */}
+      {/* `cs-breakout` ties this caption to the two figures it
+          introduces rather than to the prose: it runs the full width
+          of the column, the way they do, instead of stopping at the
+          reading measure. It replaces a flat `max-w-[720px]` — a
+          pixel width written here by hand that matched nothing else
+          on the page and left the caption a different width from the
+          figures directly beneath it. */}
       <p
-        className="italic-kern mt-8 mb-2 max-w-[720px] text-[14px] md:text-[15px] leading-[1.45] text-[var(--text-caption)]"
+        className="italic-kern cs-breakout mt-8 mb-2 text-[14px] md:text-[15px] leading-[1.45] text-[var(--text-caption)]"
         style={{ fontFamily: "var(--font-primary)", fontStyle: "italic" }}
       >
         Two figures follow: the architecture, before and after. The

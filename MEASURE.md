@@ -49,22 +49,34 @@ read. No measure. These fill `Container` and that is correct.
 
 **A container sets the measure once; its children fill it.**
 
-This is the rule that most of the existing drift violated. `Body`, `Lede`, and
-`HeroNote` each clamped *themselves* at 60ch, which produced two failures:
-
-- **It cannot be composed.** Two `<Body>` blocks side by side in a two-column
-  layout each clamp independently and neither fills its column.
-- **It makes a page ragged from the inside.** On a case study, every `<Body>`
-  clamped at 60ch while pull quotes and figures beside it ran the full column
-  width, and `CASE_STUDY_WIDTH` was `"w-full"`—a no-op. Nothing on the page
-  defined a column, so the prose read as a stack of arbitrarily narrow blocks
-  in a wide box rather than as a column with things set beside it.
+This is the rule most of the existing drift violated. `components/typography/`
+gives `Body`, `Lede`, and `HeroNote` a 60ch cap *on themselves*, which cannot
+be composed: two `<Body>` blocks side by side in a two-column layout each clamp
+independently and neither fills its column.
 
 The evidence that a self-clamping type component is the wrong shape is that
 three separate surfaces had to fight it: `/booth` overrode the cap with
 `--booth-row-measure`, `/resume` inlined `70ch` four times, and `/films/[slug]`
 inlined `65ch`. Each of those is someone working around a decision the
 component should not have been making.
+
+### Two components are named `Body`, and that trap has already been sprung
+
+**`components/typography/Body.tsx` self-clamps at 60ch. The `Body` exported
+from `components/case-study/primitives.tsx` is a different component and, until
+2026-09-28, set no width at all.** The six case studies import the second one.
+
+The first draft of this document asserted the opposite—that case-study prose
+was clamped at 60ch while pull quotes ran wide, making the page ragged from the
+inside. **That was wrong, and it was wrong in the more damaging direction.**
+Case-study prose was running the full grid column: about 1024px at a 1440px
+viewport and 1248px at 1664px, which is well past a hundred characters on a
+line. The narrow things on the page were the pull quotes, pinned to a
+hardcoded `max-w-[720px]`.
+
+The error came from reading a `<Body>` call site and assuming which import it
+resolved to, twice, without grepping. **When a width looks wrong on a page,
+resolve the import before reasoning about the value.**
 
 ---
 
@@ -76,11 +88,12 @@ component should not have been making.
 | Header block | `--measure-header` | `90ch` | Eyebrow / headline / deck groups |
 | Page geometry | `--container-page` | `104rem` | Grids, tables, cards, data |
 
-**`--measure-header` is provisional.** It is the one number here set by
-reasoning rather than by looking: wide enough that a deck stops reading as
-indented under its headline, narrow enough that two sentences do not run to
-150 characters at 1664px. It wants a look on screen at 1280 / 1440 / 1664
-before it counts as settled.
+`--measure-header` was set by reasoning rather than by looking: wide enough
+that a deck stops reading as indented under its headline, narrow enough that
+two sentences do not run to 150 characters at 1664px. **Malcolm reviewed it on
+`/essays` at his own window width on 2026-09-28 and it held**, so it is no
+longer provisional at that size. It has still not been checked at the extremes
+of 1280 and 1664.
 
 ### Why `ch` and not `rem`
 
@@ -121,16 +134,32 @@ An exception is fine. **A silent exception is not.** To add one:
 
 Converted as of 2026-09-28: *(update this list as the conversion lands)*
 
-- [ ] Tokens defined and emitted
-- [ ] `Body`, `Lede`, `HeroNote` stop clamping themselves
-- [ ] Case studies get a real reading column (`CASE_STUDY_WIDTH` is currently
-      a no-op and is still described in `ArticleContainer.tsx` as a deleted
-      560→1024px ladder)
-- [ ] Header blocks on `/essays`, `/music`, and the other prose indexes take
-      the header measure
+- [x] Tokens defined and emitted (batch A)
+- [x] Header blocks take the header measure. `Lede` carries it, so roughly
+      twenty pages got the fix at once—a lede *is* a deck by definition, so
+      this belonged on the component rather than per page. `/music` separately
+      needed `wide`, matching `/films` and `/television`, which it should have
+      had all along.
+- [x] Case studies get a real reading column (batch B). `.cs-column` states
+      the measure, `.cs-read` takes it, `.cs-breakout` opts out. The section
+      itself is deliberately *not* clamped, so grids and tables inside a Beat
+      keep their room. **This visibly narrowed prose on all six studies**—
+      see the correction in §2 for why that was a bigger change than expected.
+- [ ] `Body`, `Lede`, and `HeroNote` in `components/typography/` stop clamping
+      themselves
 - [ ] Inline literals on `/resume`, `/films/[slug]`, `/television/[showSlug]`,
       `/contact`, `/stats/connected`, `/booth` reconciled or tokenized as
       named exceptions
+
+**Open, and it is a visual judgment rather than a rule question:** does
+`ClaudeNote` join the reading column? It is a callout, so §1 arguably licenses
+it staying wide, but it is also continuous prose, and right now it can sit at
+full column width directly above a `Body` that stops at the measure. There is a
+mechanical wrinkle behind the aesthetic one: `ch` resolves against the
+element's own font size, so `.cs-read` on the wrapper (inheriting 16px) lands
+*narrower* than the 19px prose beside it, while putting it on the inner text
+div matches exactly and leaves the `callout` variant's card wide around
+clamped text.
 
 **Two long-form routes still disagree about more than the number.**
 `ArticleContainer` (essays) centres on the viewport at `40rem` and sits
