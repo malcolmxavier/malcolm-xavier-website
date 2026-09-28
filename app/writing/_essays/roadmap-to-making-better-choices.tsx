@@ -10,12 +10,11 @@
 // rather than a port: the piece is one conversation walked end to end,
 // and a heading on each stage would announce a structure Malcolm
 // deliberately left implicit. So the rules carry it. They fall on the
-// four turns the prose itself marks — the two halves of the
-// conversation (curiosity, then discernment), the negotiation the
-// questions were preparing for, the argument about agency that the
-// conversation opens onto, and the coda — plus the one after the
-// opening paragraph, which hands the career framing off to the
-// conversation itself.
+// five turns the prose itself marks: the end of the setup, once the
+// three skills are named; the two halves of the conversation
+// (curiosity, then discernment); the negotiation the questions were
+// preparing for; the argument about agency the conversation opens onto;
+// and the coda.
 //
 // Both question lists are NUMBERED rather than bulleted. The published
 // article bullets them, but they are ordered in fact: each one is a
@@ -102,11 +101,6 @@ export default function Essay() {
           found I also enjoy supporting negotiated offers, promotions, and exits
           for employees across these other functions.
         </p>
-      </Body>
-
-      <Divider />
-
-      <Body>
         <p>
           Even though I don’t have expertise across these functions, I find my
           conversations look quite similar. My role in the conversations is to
@@ -127,6 +121,21 @@ export default function Essay() {
           specific skills that I’m familiar with: curiosity, discernment, and
           agency.
         </p>
+      </Body>
+
+      {/* The opening rule falls HERE, after the three skills are named,
+          because that is where the setup ends and the walkthrough begins.
+
+          It was after paragraph one, and it was there for a bad reason: the
+          brief that produced this file carried "always a rule after the
+          opening paragraph", generalised from one instruction Malcolm gave
+          about one other essay. All three essays ported that day came back
+          with a rule after paragraph one — the fingerprint of a rule firing
+          rather than anyone reading the piece. Where a rule falls is a read
+          of the argument, every time. */}
+      <Divider />
+
+      <Body>
         <p>
           I find the best way to encourage these skills is to demonstrate them
           while in conversation. I start with my own curiosity. Before making
