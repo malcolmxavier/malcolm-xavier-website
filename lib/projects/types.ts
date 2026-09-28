@@ -44,14 +44,13 @@ export interface ProjectTocItem {
   label: string;
 }
 
-/** A not-yet-available companion (e.g. an MSL presentation video and
- *  deck still gated behind Northwestern). Rendered as a labelled
- *  "coming with the recording" slot so the page acknowledges the
- *  artifact without shipping a dead link or a placeholder route. */
-export interface ProjectCompanion {
-  label: string;
-  note: string;
-}
+// There is deliberately no `ProjectCompanion` shape here any more. Both
+// MSL papers used to declare one, which rendered a dashed box promising
+// a presentation recording "once they clear Northwestern" — a coming-soon
+// notice on a live page. Removed 2026-09-27 along with the component that
+// rendered it: an artifact that isn't there says nothing, which is
+// stronger than one that announces it is late. A recording that actually
+// arrives is a real `downloads` entry, not a slot waiting for it.
 
 /** Metadata a body module exports alongside its default component.
  *  Drives the page shell, the JSON-LD graph, the per-item OG card, the
@@ -108,8 +107,6 @@ export interface ProjectMeta {
    *  papers use "Take it with you"), so the box never tells a reader to
    *  "read the full work" they're already reading. */
   downloadsHeading?: string;
-  /** A pending, not-yet-available companion (MSL video + deck). */
-  companion?: ProjectCompanion;
   /** Slugs of related projects to cross-link at the foot (MSL Y1 ↔ Y2). */
   related?: string[];
   /** Opt one item out of search. No shipped item sets this — /research

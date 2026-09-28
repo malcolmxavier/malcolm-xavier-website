@@ -6,8 +6,7 @@
 // argument), this is Malcolm's own authored prose and ships verbatim:
 // the full essay as semantic HTML, with its 23 legal/journalistic
 // citations rendered as on-page endnotes and the complete paper offered
-// as a PDF download. The companion recording and slides are stubbed as
-// a pending slot. Cross-linked to the Year-2 paper, which cites it.
+// as a PDF download. Cross-linked to the Year-2 paper, which cites it.
 //
 // `meta` is consumed by lib/projects/projects.ts (the registry); the
 // default export is the article body, rendered inside ProjectContainer
@@ -76,10 +75,11 @@ export const meta: ProjectMeta = {
       meta: "PDF · 108 KB",
     },
   ],
-  companion: {
-    label: "The presentation",
-    note: "A recorded walkthrough and the symposium slides are on the way—they’ll live here alongside the paper once they clear Northwestern.",
-  },
+  // No `companion`. This item used to carry one announcing a recorded
+  // walkthrough and the symposium slides as "on the way"—which is a
+  // coming-soon notice on a live page, and an absent artifact reads
+  // stronger than a promised one. When a recording actually clears
+  // Northwestern it belongs in `downloads` as a real link.
   related: ["privacy-law-social-media-era"],
 };
 

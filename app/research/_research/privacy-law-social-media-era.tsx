@@ -89,10 +89,8 @@ export const meta: ProjectMeta = {
       meta: "PDF · 248 KB",
     },
   ],
-  companion: {
-    label: "The presentation",
-    note: "A recorded walkthrough and the slides are on the way—they’ll live here alongside the paper once they clear Northwestern.",
-  },
+  // No `companion` — see the note on the same field in
+  // ./ethics-video-sharing-apps.tsx. A "coming soon" box does not ship.
   related: ["ethics-video-sharing-apps"],
 };
 

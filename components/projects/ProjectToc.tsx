@@ -15,11 +15,26 @@
 // the scroll-spy highlight is progressive enhancement layered on top.
 // Sections already carry `scroll-mt` so the jump target clears the
 // fixed header.
+//
+// The highlight comes from the sitewide useScrollSpy hook. This file
+// used to run its own IntersectionObserver with a
+// `rootMargin: "-96px 0px -66% 0px"` active band, and that band has a
+// structural hole: a final entry whose section is shorter than the dead
+// zone at the foot of the viewport can NEVER activate, because the page
+// runs out of scroll before the section reaches the band. Adding the
+// downloads box to the contents on 2026-09-27 hit it — a short block at
+// the very end of a long paper, so every sibling lit up and it never
+// did. useScrollSpy's reading-point rule was written for exactly this
+// class of bug (see its header) and maps scroll progress onto the
+// document, so the last entry is active at the bottom of the page by
+// construction. One implementation of "which section am I in" instead
+// of two that disagree.
 // ─────────────────────────────────────────────────────────────────
 
-import { type MouseEvent as ReactMouseEvent, useEffect, useState } from "react";
+import { type MouseEvent as ReactMouseEvent, useMemo } from "react";
 import type { ProjectTocItem } from "@/lib/projects/types";
 import { scrollToHash } from "@/components/chrome/scrollToHash";
+import { useScrollSpy } from "@/components/chrome/useScrollSpy";
 
 /** Shared label styling for the "Contents" heading — matches the mono
  *  section labels used elsewhere on the page ("Notes", "Related"). */
@@ -33,35 +48,15 @@ const LABEL_STYLE = {
 
 /** Desktop sticky rail with scroll-spy. Hidden below lg. */
 export function ProjectToc({ items }: { items: ProjectTocItem[] }) {
-  const [activeId, setActiveId] = useState<string>(items[0]?.id ?? "");
-
-  useEffect(() => {
-    // Scroll-spy: highlight the section nearest the top of the
-    // viewport. The rootMargin pulls the "active" band down from the
-    // fixed header (-96px top) and up from the bottom (-66%) so a
-    // section lights up as its heading enters the upper third, not
-    // when it merely peeks in from the bottom edge.
-    const sections = items
-      .map((it) => document.getElementById(it.id))
-      .filter((el): el is HTMLElement => el !== null);
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Of the sections intersecting the active band, pick the
-        // topmost — that's the one the reader is currently in.
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort(
-            (a, b) => a.boundingClientRect.top - b.boundingClientRect.top,
-          );
-        if (visible[0]) setActiveId(visible[0].target.id);
-      },
-      { rootMargin: "-96px 0px -66% 0px", threshold: 0 },
-    );
-    sections.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
-  }, [items]);
+  // useScrollSpy takes the sitewide TocItem shape (href, not id) and
+  // keeps `items` in an effect dependency, so memoize — an array rebuilt
+  // every render would tear the listener down and set it up again on
+  // each one.
+  const spyItems = useMemo(
+    () => items.map((it) => ({ href: `#${it.id}`, label: it.label })),
+    [items],
+  );
+  const activeId = useScrollSpy(spyItems);
 
   // "Back to top" — smooth-scroll to the page top (reduced-motion aware)
   // and clear the hash, via the shared helper the chrome TOC family uses.

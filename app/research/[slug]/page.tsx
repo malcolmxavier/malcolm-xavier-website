@@ -33,7 +33,11 @@ import { ProjectContainer } from "@/components/projects/ProjectContainer";
 import { ProjectToc } from "@/components/projects/ProjectToc";
 import { TocDisclosure } from "@/components/chrome/TocDisclosure";
 import { ScrollProgress } from "@/components/case-study/ScrollProgress";
-import { Downloads, CompanionSlot } from "@/components/projects/Downloads";
+import {
+  Downloads,
+  DOWNLOADS_ANCHOR_ID,
+  DOWNLOADS_DEFAULT_HEADING,
+} from "@/components/projects/Downloads";
 import {
   PROJECTS,
   getProject,
@@ -189,7 +193,7 @@ export default async function ProjectPage({
     ],
   };
 
-  // The header, body, and tail (companion / downloads / related) are
+  // The header, body, and tail (downloads / related) are
   // the same regardless of layout — only their container changes: a
   // single centered column for short pieces, or a two-column grid with
   // a sticky Contents rail for a long, sectioned one (project.toc).
@@ -236,8 +240,6 @@ export default async function ProjectPage({
 
   const tail = (
     <>
-      {project.companion && <CompanionSlot companion={project.companion} />}
-
       {project.downloads && project.downloads.length > 0 && (
         <Downloads items={project.downloads} heading={project.downloadsHeading} />
       )}
@@ -272,6 +274,30 @@ export default async function ProjectPage({
     />
   );
 
+  // The Contents list is the piece's own sections PLUS the downloads
+  // block, which is a real destination on the page and was the one
+  // thing a reader could not jump to. It's appended here rather than
+  // typed into each item's `toc` array so the entry's label is the
+  // block's actual heading — one source of truth, and a new long piece
+  // gets the entry without anyone remembering to add it.
+  //
+  // Composed even when `toc` is empty, so the branch below stays the
+  // single test for "does this piece get a rail at all" — a short,
+  // unsectioned piece is not given a two-item rail just because it has
+  // a PDF.
+  const hasDownloads = Boolean(project.downloads?.length);
+  const tocItems = [
+    ...(project.toc ?? []),
+    ...(hasDownloads
+      ? [
+          {
+            id: DOWNLOADS_ANCHOR_ID,
+            label: project.downloadsHeading ?? DOWNLOADS_DEFAULT_HEADING,
+          },
+        ]
+      : []),
+  ];
+
   // Long, sectioned piece: sticky Contents rail beside the reading
   // column (desktop), collapsible Contents inside the column (mobile).
   if (project.toc && project.toc.length > 0) {
@@ -289,7 +315,7 @@ export default async function ProjectPage({
             the header, which is why this page's left edge sat 176px
             inside the nav's on a wide screen. */}
         <Container className="py-14 md:py-20 lg:grid lg:grid-cols-[14rem_minmax(0,54rem)] lg:gap-12 xl:gap-16">
-          <ProjectToc items={project.toc} />
+          <ProjectToc items={tocItems} />
           <article className="flex min-w-0 flex-col gap-9 md:gap-11">
             {header}
             {/* Mobile companion to the desktop rail: the sitewide
@@ -297,7 +323,7 @@ export default async function ProjectPage({
                 where the rail is hidden. Maps the project's toc ids to
                 the chrome TocItem href shape. */}
             <TocDisclosure
-              items={project.toc.map((t) => ({
+              items={tocItems.map((t) => ({
                 href: `#${t.id}`,
                 label: t.label,
               }))}
