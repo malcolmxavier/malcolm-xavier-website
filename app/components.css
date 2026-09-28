@@ -358,6 +358,50 @@ a.music-action:focus-visible:not(:disabled) {
    editorial green on white; green-400 reads bright on black.
    ───────────────────────────────────────────────────────────── */
 
+/* ─── Heading links ───────────────────────────────────────────
+   For a link whose text IS the heading. The loud treatment turns a
+   serif headline into a coloured slab and costs the typographic
+   hierarchy — the thing stops reading as a heading — while the quiet
+   treatment gives it no affordance at all until the pointer is already
+   on it. This is the middle: neutral at rest with a persistent
+   underline, and the action colour on hover and keyboard focus.
+
+   Pair it with the Link primitive's `quiet` prop, which keeps
+   `link-loud` off. `!important` is needed because `quiet` sets its
+   colour as an INLINE style, which no class can beat otherwise; the
+   same reason a.link-loud below uses it. Focus-visible is included
+   deliberately so a keyboard user gets the same signal a pointer does.
+
+   Reusable: any heading-as-link, not specific to /research. */
+a.link-heading {
+  color: inherit !important;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+
+/* Hover/focus mirrors a.link-loud's own cascade below rather than using
+   --text-action-hover, which was the first attempt and was wrong: on the
+   recruiter cluster --text-action resolves to a grey (#cdd1cd), and the
+   green a loud link shows comes from --green-800/--green-400 directly.
+   Using the hover token gave a heading that went from white to a slightly
+   different white. Same three rules, same order, so a heading link and a
+   body link agree about what colour "link" is in every context. */
+a.link-heading:hover,
+a.link-heading:focus-visible {
+  color: var(--green-800) !important;
+}
+
+[data-theme="dark"] a.link-heading:hover,
+[data-theme="dark"] a.link-heading:focus-visible {
+  color: var(--green-400) !important;
+}
+
+[data-subbrand] a.link-heading:hover,
+[data-subbrand] a.link-heading:focus-visible {
+  color: var(--text-action) !important;
+}
+
 a.link-loud {
   color: var(--green-800) !important;
 }

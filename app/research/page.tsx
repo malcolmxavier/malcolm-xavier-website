@@ -181,21 +181,21 @@ export default function ResearchIndexPage() {
                         heading means a screen reader announces the
                         piece's name and nothing else.
 
-                        `quiet` plus an inherited color, because the
-                        loud treatment renders a serif headline as a
-                        green underlined slab — three of those stacked
-                        read as a warning, not a contents page. Quiet
-                        keeps the heading looking like a heading and
-                        moves the affordance to hover and focus, where
-                        it picks up both the underline and the action
-                        color. The inline color overrides quiet's own
-                        --text-action because `style` spreads last in
-                        the primitive. */}
+                        Styling is `quiet` plus the shared
+                        `link-heading` rule in app/components.css:
+                        neutral at rest with a persistent underline,
+                        action colour on hover and on keyboard focus.
+                        The loud treatment colours the whole serif
+                        headline and costs the hierarchy; plain quiet
+                        gives no affordance at all until the pointer
+                        arrives. `quiet` is what keeps `link-loud` off
+                        so the rule can win — it is not doing the
+                        styling itself. */}
                     <Headline level={2}>
                       <Link
                         href={`/research/${item.slug}`}
                         quiet
-                        style={{ color: "inherit" }}
+                        className="link-heading"
                       >
                         {item.title}
                       </Link>
@@ -225,7 +225,7 @@ export default function ResearchIndexPage() {
                       {item.credential ? (
                         <>
                           {" · "}
-                          <Link href={item.credential.href} quiet>
+                          <Link href={item.credential.href}>
                             {item.credential.label}
                           </Link>
                         </>
