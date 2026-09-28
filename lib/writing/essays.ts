@@ -18,6 +18,9 @@ import MsInLawDataGovernance, {
 import GrowthPersonalizationAiDataPrimer, {
   meta as growthPersonalizationAiDataPrimer,
 } from "@/app/writing/_essays/growth-personalization-ai-data-primer";
+import TechnicallySpeaking, {
+  meta as technicallySpeaking,
+} from "@/app/writing/_essays/technically-speaking";
 
 export type { Essay, EssayMeta, WritingPillar } from "./types";
 
@@ -77,6 +80,7 @@ export const WRITING_PILLARS: Record<WritingPillar, PillarMeta> = {
 const REGISTERED: Essay[] = [
   { ...msInLawDataGovernance, Body: MsInLawDataGovernance },
   { ...growthPersonalizationAiDataPrimer, Body: GrowthPersonalizationAiDataPrimer },
+  { ...technicallySpeaking, Body: TechnicallySpeaking },
 ];
 
 /** All essays, newest-first by postDate (the canonical sort key). */

@@ -442,7 +442,11 @@ export default function Essay() {
             upon PMs to develop their own foundational understanding of GRC (and
             then push deeper) to drive better outcomes, particularly when it
             comes to AI-driven solutions where regulation feels like the wild,
-            wild west. This aligns with my thoughts on PMs becoming technical.
+            wild west. This aligns with{" "}
+            <Link href="/writing/craft/technically-speaking">
+              my thoughts on PMs becoming technical
+            </Link>
+            .
           </p>
         </Body>
       </EssaySection>
