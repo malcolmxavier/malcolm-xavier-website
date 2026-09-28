@@ -39,7 +39,7 @@ export const meta: ProjectMeta = {
   metaTitle: "Privacy Law in the Social Media Era",
   subtitle: "Privacy Law in the Social Media Era",
   description:
-    "A Master of Science in Law independent study arguing that social media trades our privacy for publicity—accelerating a surveillance state through the lens of hyperrealism, with outsized harm to Black people—and what individuals, technologists, corporations, and governments can do to reclaim it.",
+    "Social media trades our privacy for publicity, and the bill lands hardest on Black people. What that trade built, and what can be taken back.",
   authors: [{ name: "Malcolm Xavier", self: true }],
   dateDisplay: "2023",
   // The citations were last visited May 6, 2023 — the paper's completion.

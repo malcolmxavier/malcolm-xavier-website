@@ -34,7 +34,7 @@ export const meta: ProjectMeta = {
   subtitle:
     "Legal, Technical, and Ethical Notes for the Future of Video-Sharing Apps",
   description:
-    "A Master of Science in Law symposium paper on ethics in the product management of video-sharing apps—how copyright law, the DMCA, parent companies, and recommendation algorithms shape what creators make, and who gets erased when a trend goes viral.",
+    "Copyright law, the DMCA, and the recommendation feed decide what creators can make—and who disappears when a trend takes off.",
   authors: [{ name: "Malcolm Xavier", self: true }],
   // Only the year is shown; the machine date is the spring-2022 first-year
   // MSL symposium submission (citations were last visited December 2021).

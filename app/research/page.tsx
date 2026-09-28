@@ -211,8 +211,26 @@ export default function ResearchIndexPage() {
                         page, where a title fragment belongs. */}
                     <Body>{item.description}</Body>
 
+                    {/* Byline row. The credential chip moved here from
+                        the paragraph: both descriptions used to open "A
+                        Master of Science in Law…", which is attribution
+                        doing prose's job — fine once, repetitive twice,
+                        and worse with every piece added. The programme
+                        belongs in the metadata line, and as a link it
+                        also earns its keep by jumping to the matching
+                        résumé education entry, the same backlink the
+                        detail page carries. */}
                     <Dateline>
-                      {formatByline(item.authors)} ·{" "}
+                      {formatByline(item.authors)}
+                      {item.credential ? (
+                        <>
+                          {" · "}
+                          <Link href={item.credential.href} quiet>
+                            {item.credential.label}
+                          </Link>
+                        </>
+                      ) : null}
+                      {" · "}
                       {formatProjectDate(item.datePublished)}
                     </Dateline>
                   </Stack>
