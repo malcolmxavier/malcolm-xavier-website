@@ -21,6 +21,15 @@ import GrowthPersonalizationAiDataPrimer, {
 import TechnicallySpeaking, {
   meta as technicallySpeaking,
 } from "@/app/writing/_essays/technically-speaking";
+import RoadmapToMakingBetterChoices, {
+  meta as roadmapToMakingBetterChoices,
+} from "@/app/writing/_essays/roadmap-to-making-better-choices";
+import ContextRulesEverything, {
+  meta as contextRulesEverything,
+} from "@/app/writing/_essays/context-rules-everything";
+import PersonalizationIsAPlatform, {
+  meta as personalizationIsAPlatform,
+} from "@/app/writing/_essays/personalization-is-a-platform";
 
 export type { Essay, EssayMeta, WritingPillar } from "./types";
 
@@ -81,6 +90,9 @@ const REGISTERED: Essay[] = [
   { ...msInLawDataGovernance, Body: MsInLawDataGovernance },
   { ...growthPersonalizationAiDataPrimer, Body: GrowthPersonalizationAiDataPrimer },
   { ...technicallySpeaking, Body: TechnicallySpeaking },
+  { ...roadmapToMakingBetterChoices, Body: RoadmapToMakingBetterChoices },
+  { ...contextRulesEverything, Body: ContextRulesEverything },
+  { ...personalizationIsAPlatform, Body: PersonalizationIsAPlatform },
 ];
 
 /** All essays, newest-first by postDate (the canonical sort key). */
