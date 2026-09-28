@@ -25,7 +25,13 @@
 
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Headline } from "@/components/typography/Headline";
 import { Kicker } from "@/components/typography/Kicker";
@@ -59,6 +65,40 @@ const PAGE_SIZE_MOBILE = 6;
 const PAGE_SIZE_SAVE_DATA = 3;
 const MOBILE_BREAKPOINT_PX = 640; // matches Tailwind's `sm` breakpoint
 
+// ─── The mobile breakpoint, read the way React wants external state
+// read ────────────────────────────────────────────────────────────
+//
+// A media query is a value that lives OUTSIDE React and changes on its
+// own, which is exactly what useSyncExternalStore exists for. The
+// earlier version subscribed in a useEffect and pushed the result into
+// state, which works but makes every breakpoint crossing a second
+// render triggered by the first — the cascade the
+// react-hooks/set-state-in-effect rule flags.
+//
+// Reading it as a store instead means the page size is DERIVED during
+// render from something React already knows is current, so there is no
+// intermediate render holding a stale size and no setState in an
+// effect at all.
+const MOBILE_QUERY = `(max-width: ${MOBILE_BREAKPOINT_PX - 1}px)`;
+
+function subscribeToMobileQuery(onStoreChange: () => void) {
+  const mq = window.matchMedia(MOBILE_QUERY);
+  mq.addEventListener("change", onStoreChange);
+  return () => mq.removeEventListener("change", onStoreChange);
+}
+
+function getIsMobile() {
+  return window.matchMedia(MOBILE_QUERY).matches;
+}
+
+// The server has no viewport, so it renders the desktop size — the same
+// assumption the previous implementation made by initialising state to
+// PAGE_SIZE_DESKTOP. React uses this during hydration and then swaps to
+// the real snapshot, so a phone still corrects itself immediately.
+function getIsMobileOnServer() {
+  return false;
+}
+
 type ViewMode = "all" | "collections";
 
 export function MusicShell({ playlists, collections, saveData = false }: Props) {
@@ -80,15 +120,43 @@ export function MusicShell({ playlists, collections, saveData = false }: Props) 
   const initialPage = Number.isFinite(rawPage) ? Math.max(0, rawPage - 1) : 0;
 
   const [viewMode, setViewMode] = useState<ViewMode>(initialView);
-  const [page, setPage] = useState(initialPage);
-  // Initial page size honors the server-resolved Save-Data signal
-  // so the first render matches the user's preference. The
-  // matchMedia useEffect below refines for mobile vs. desktop on
-  // hydration when Save-Data is OFF; when Save-Data is on, the
-  // size stays pinned to PAGE_SIZE_SAVE_DATA regardless of viewport.
-  const [pageSize, setPageSize] = useState(
-    saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DESKTOP,
+  // The page the user ASKED for. What actually renders is `page` below,
+  // which is this clamped to the pages that exist — see the note there
+  // for why the clamp is a derivation rather than a correction.
+  const [requestedPage, setRequestedPage] = useState(initialPage);
+
+  // Page size is derived, never stored. Save-Data wins outright: once
+  // the server has decided this visitor is on Data Saver we keep the
+  // smaller size whatever the viewport, which also means a Data Saver
+  // user on a wide screen never sees a misleading desktop→mobile flip
+  // in the live-region announcement.
+  const isMobile = useSyncExternalStore(
+    subscribeToMobileQuery,
+    getIsMobile,
+    getIsMobileOnServer,
   );
+  const pageSize = saveData
+    ? PAGE_SIZE_SAVE_DATA
+    : isMobile
+      ? PAGE_SIZE_MOBILE
+      : PAGE_SIZE_DESKTOP;
+
+  // Clamp the requested page to the pages that actually exist, DURING
+  // render rather than in an effect afterwards.
+  //
+  // The case this handles: a user on page 4 of 12-per-page (cards 37-48,
+  // so only one card showing) rotates to mobile, where 6-per-page means
+  // page 4 holds nothing. They land on the last real page instead.
+  //
+  // This used to be a useEffect that called setPage, which meant the
+  // browser painted the impossible page first and then corrected it —
+  // and the correction had to omit `page` from its own deps to avoid
+  // looping, which is the kind of thing that needs a comment explaining
+  // why the lint is disabled. Deriving it removes the extra render, the
+  // dependency puzzle, and the window where the URL-sync effect below
+  // could publish a pre-clamp page.
+  const totalPages = Math.max(1, Math.ceil(playlists.length / pageSize));
+  const page = Math.min(requestedPage, totalPages - 1);
 
   // Sync state → URL via replaceState so each pagination click doesn't
   // pollute the browser history stack — but the LATEST URL still
@@ -129,51 +197,16 @@ export function MusicShell({ playlists, collections, saveData = false }: Props) 
   // string for AT, satisfying SC 4.1.3.
   const [pageAnnouncement, setPageAnnouncement] = useState("");
 
-  // Listen for breakpoint crossings and update page size on the fly.
-  // matchMedia is the right tool here (vs. a resize listener) because
-  // we only care about a single threshold, not every pixel of width.
-  //
-  // Save-Data short-circuits the breakpoint logic — once the server
-  // has decided this visitor is on Data Saver, we keep the smaller
-  // page size regardless of viewport. The early return here also
-  // avoids a misleading desktop->mobile flip in the announcement
-  // for Save-Data users on a wide screen.
-  useEffect(() => {
-    if (saveData) {
-      setPageSize(PAGE_SIZE_SAVE_DATA);
-      return;
-    }
-    const mq = window.matchMedia(
-      `(max-width: ${MOBILE_BREAKPOINT_PX - 1}px)`,
-    );
-    const update = () =>
-      setPageSize(mq.matches ? PAGE_SIZE_MOBILE : PAGE_SIZE_DESKTOP);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, [saveData]);
-
-  // If the user is on page 4 with 12-per-page (rows 37-48 → only
-  // 1 card visible) and resizes to mobile (6-per-page → that page
-  // doesn't exist), drop them onto the last valid page.
-  //
-  // `page` is intentionally omitted from the deps — this effect
-  // updates `page`, and re-running it because of that update would
-  // be redundant. Including it created a window where a simultaneous
-  // resize + view change could let the URL-sync effect briefly
-  // reflect a pre-clamp page. Closes h-clamp-effect-deps from the
-  // 2026-04-29 /full-review.
-  useEffect(() => {
-    const totalPages = Math.max(1, Math.ceil(playlists.length / pageSize));
-    setPage((current) => (current >= totalPages ? totalPages - 1 : current));
-  }, [pageSize, playlists.length]);
-
-  const totalPages = Math.max(1, Math.ceil(playlists.length / pageSize));
+  // Page size and the page clamp both used to live in effects here.
+  // They are derivations now, computed above the URL-sync effect so
+  // that effect can never publish a page the clamp has not seen.
+  // Closes h-clamp-effect-deps from the 2026-04-29 /full-review by
+  // removing the effect rather than tuning its dependencies.
   const start = page * pageSize;
   const visiblePlaylists = playlists.slice(start, start + pageSize);
 
   const goToPage = (next: number) => {
-    setPage(next);
+    setRequestedPage(next);
     // Build the live-region message before the rAF so AT picks it
     // up as soon as React commits the next render.
     const firstItem = next * pageSize + 1;
@@ -204,7 +237,7 @@ export function MusicShell({ playlists, collections, saveData = false }: Props) 
   const switchView = (next: ViewMode) => {
     if (next === viewMode) return;
     setViewMode(next);
-    setPage(0);
+    setRequestedPage(0);
   };
 
   // Index playlists by id for O(1) lookup when assembling collection

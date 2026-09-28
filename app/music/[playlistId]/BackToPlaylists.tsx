@@ -13,12 +13,22 @@
 //     `window.history.length > 1` heuristic was unreliable — even
 //     a tab opened directly to the detail page typically has length
 //     2 because of the preceding about:blank.
-//   - Default <a href="/music"> means middle-click + JS-disabled
+//   - The href="/music" fallback means middle-click and JS-disabled
 //     users still get a working "back to grid" link.
+//
+// This renders through next/link rather than a bare <a>. Both emit a
+// real <a href="/music">, so the fallback above is untouched, and Link
+// is what the @next/next/no-html-link-for-pages rule asks for on an
+// internal route — a bare <a> to a page in this app triggers a full
+// document reload instead of a client navigation, which for the
+// no-JS-fallback case is fine and for everyone else is wasted work.
+// The onClick below still intercepts a plain left-click first, so the
+// history-restoring behaviour is unchanged.
 // ─────────────────────────────────────────────────────────────────
 
 "use client";
 
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 
 export function BackToPlaylists() {
@@ -48,7 +58,7 @@ export function BackToPlaylists() {
   };
 
   return (
-    <a
+    <Link
       href="/music"
       onClick={handleClick}
       style={{
@@ -64,6 +74,6 @@ export function BackToPlaylists() {
       className="hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 rounded-sm"
     >
       ← All playlists
-    </a>
+    </Link>
   );
 }
