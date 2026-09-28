@@ -92,11 +92,6 @@ export default function Essay() {
           frustrated with this when I received it, but now I laugh
           because…it’s wrong.
         </p>
-      </Body>
-
-      <Divider />
-
-      <Body>
         <p>
           And to clarify, the person who gave me this feedback feels this way,
           and his feelings were valid. However, my takeaway wasn’t so much that
@@ -104,6 +99,20 @@ export default function Essay() {
           information to understand the value of the additional 6 words. In
           other words, he was lacking context.
         </p>
+      </Body>
+
+      {/* The first rule falls after the clarification, not after the
+          opening quote. The quote and the paragraph that qualifies it are
+          one move — the feedback, and why he now thinks it was wrong — and
+          the examples start after them.
+
+          It was after paragraph one, from the same invented rule that
+          misplaced Roadmap's: the porting brief said "always a rule after
+          the opening paragraph", generalised from one instruction about one
+          other essay. Malcolm's call, 2026-09-28. */}
+      <Divider />
+
+      <Body>
         <p>
           At another point in my career, I was working with a particularly
           challenging executive, and they wanted an update on some of my work. I
