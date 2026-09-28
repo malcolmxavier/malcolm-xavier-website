@@ -104,7 +104,11 @@ export default function Essay() {
         <p>
           Even though I don’t have expertise across these functions, I find my
           conversations look quite similar. My role in the conversations is to
-          act as a honing blade for the other person, pointing them in the right
+          act as a{" "}
+          <Link href="https://www.seriouseats.com/honing-vs-sharpening-7096318">
+            honing blade
+          </Link>{" "}
+          for the other person, pointing them in the right
           direction by asking questions, clearly expressing my thinking and
           reasoning (whether I agree with them or not). I also aim to give them
           permission to come to their own conclusions (not that they need that
@@ -145,7 +149,7 @@ export default function Essay() {
         </p>
         <p>
           Though her book is about product discovery, Teresa Torres’s{" "}
-          <Link href="https://www.producttalk.org/continuous-discovery-habits/">
+          <Link href="https://www.amazon.com/Continuous-Discovery-Habits-Discover-Products/dp/1736633309">
             Continuous Discovery Habits
           </Link>
           , particularly the “Continuous Interviewing” chapter, is a great
@@ -181,8 +185,11 @@ export default function Essay() {
         <p>
           I make a point of leading with where I am unable to offer the
           advisement they need – hopefully, I can point them in the right
-          direction of resources, whether that’s another person, a book, or
-          something else – so that the remainder of our conversation is
+          direction of resources, whether that’s another person, a{" "}
+          <Link href="https://www.amazon.com/Getting-Yes-Negotiating-Agreement-Without/dp/0143118757">
+            book
+          </Link>
+          , or something else – so that the remainder of our conversation is
           laser-focused on areas where I can help get them unstuck more
           immediately. In trying to understand where I can offer support, I
           typically ask some variation of the following:
@@ -220,8 +227,11 @@ export default function Essay() {
           As such, they need to be absolutely clear on their negotiating power.
         </p>
         <p>
-          Ultimately, I am trying to partner with the person to identify their
-          BATNA (best alternative to a negotiated agreement). This identification
+          Ultimately, I am trying to partner with the person to identify their{" "}
+          <Link href="https://www.investopedia.com/terms/b/best-alternative-to-a-negotiated-agreement-batna.asp">
+            BATNA
+          </Link>{" "}
+          (best alternative to a negotiated agreement). This identification
           process itself is a call to action for them to tap into and leverage
           their agency. The conversation serves as preparation that helps ready
           them and put them in an optimal mindset to effectively negotiate the
@@ -250,7 +260,11 @@ export default function Essay() {
           small startup. His overbearing nature creates incredibly low agency
           for employees throughout the organization, often resulting in missed
           opportunities for growth and, eventually, less than amicable exits.
-          This is the type of situation most of us want to avoid.
+          This is the{" "}
+          <Link href="https://www.theguardian.com/lifeandstyle/2019/aug/10/kim-cattrall-i-dont-want-to-be-in-a-situation-for-even-an-hour-where-im-not-enjoying-myself-">
+            type of situation most of us want to avoid
+          </Link>
+          .
         </p>
         <p>
           Although it’s fallen out of vogue, it used to be said more frequently
