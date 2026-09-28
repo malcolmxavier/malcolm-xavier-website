@@ -40,10 +40,20 @@
 // on LinkedIn, and on this page there is no inbox behind it. The
 // "Nothing ventured, nothing gained" line ends the argument by itself.
 //
-// Left alone deliberately: the "?;" punctuation inside both lists, the
-// spaced en-dashes in the discernment paragraph, and "where I help can
-// get them unstuck" — his published text, not typos to be tidied on
-// the way through.
+// Left alone deliberately: the "?;" punctuation inside both lists and
+// the spaced en-dashes in the discernment paragraph. His published text,
+// not typos to be tidied on the way through.
+//
+// Corrected on his instruction 2026-09-28: "where I help can get them
+// unstuck" now reads "where I can help get them unstuck".
+//
+// A caution for whoever ports the next one. This file's source was
+// written from a paste, and a paste out of LinkedIn drops things
+// silently — every curly quote, every italic, and at least one run of
+// characters mid-word. So a defect here is more likely damage in
+// transit than something Malcolm wrote, and the only way to tell is the
+// live article. Do not report one to him as his without checking, and
+// do not record him as having fixed something he has not said he fixed.
 //
 // `meta` is consumed by lib/writing/essays.ts (the registry); the
 // default export is the article body, rendered inside ArticleContainer
@@ -164,7 +174,7 @@ export default function Essay() {
           advisement they need – hopefully, I can point them in the right
           direction of resources, whether that’s another person, a book, or
           something else – so that the remainder of our conversation is
-          laser-focused on areas where I help can get them unstuck more
+          laser-focused on areas where I can help get them unstuck more
           immediately. In trying to understand where I can offer support, I
           typically ask some variation of the following:
         </p>
