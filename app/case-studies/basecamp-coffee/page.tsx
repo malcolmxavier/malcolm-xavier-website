@@ -324,7 +324,7 @@ function BeatTriangulation() {
         </EvidenceCard>
       </EvidenceGrid>
 
-      <Pullquote attribution="customer feedback, March">
+      <Pullquote quoting attribution="customer feedback, March">
         Dutch Bros remembers my name. Starbucks at least has games.
       </Pullquote>
 
@@ -347,7 +347,7 @@ function BeatTriangulation() {
         </span>
       </ClaudeNote>
 
-      <Pullquote attribution="Product Designer sub-agent">
+      <Pullquote quoting attribution="Product Designer sub-agent">
         Basecamp doesn’t have a loyalty problem. It has an identity vacuum.
       </Pullquote>
     </Beat>
@@ -375,7 +375,7 @@ function BeatBet() {
         </p>
       </Body>
 
-      <Pullquote attribution="Barista Lead sub-agent">
+      <Pullquote quoting attribution="Barista Lead sub-agent">
         People light up when we ask about their coffee preferences. The app doesn’t capture any
         of that.
       </Pullquote>

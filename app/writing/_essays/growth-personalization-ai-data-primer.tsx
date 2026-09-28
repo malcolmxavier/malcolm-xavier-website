@@ -45,7 +45,7 @@
 import { Body, Emph, Pullquote } from "@/components/case-study/primitives";
 import { EssaySection } from "@/components/writing/EssaySection";
 import { Link } from "@/components/primitives/Link";
-import { Blockquote } from "@/components/reading/Blockquote";
+import { Callout } from "@/components/reading/Callout";
 import { List } from "@/components/reading/List";
 import { Divider } from "@/components/reading/Divider";
 import { Note } from "@/components/reading/Note";
@@ -289,19 +289,19 @@ export default function Essay() {
             Do we have the data we need to achieve the level of precision we’re
             hoping for in our personalization?
           </p>
-          {/* Set off rather than run in. It is an aside answering the
-              question above it, not a step in the argument, and the
-              published article gives it its own block. Blockquote rather
-              than Pullquote: this is a full passage at body size, where
-              a pull quote lifts one line to display size. */}
-          <Blockquote>
+          {/* Callout, not Blockquote. It is an aside answering the
+              question above it, and the published article gives it its
+              own block — but it is Malcolm's own prose appearing once,
+              so nothing is being quoted. <blockquote> would tell a
+              screen reader these words came from another source. */}
+          <Callout>
             <p>
               Hint: the more precise you want your personalization to be, the
               more precise your data must be. You can’t create personalized
               experiences for ophthalmologists effectively if user records
               don’t have a job title facet.
             </p>
-          </Blockquote>
+          </Callout>
           <p>
             This falls into the same data processing trap I covered above. It
             might sound obvious, but more precise data is more valuable because

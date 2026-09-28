@@ -233,7 +233,7 @@ function BeatChallenge() {
 
       {/* Optional stakeholder framing — a single Pullquote works well
           here if you can attribute one. Drop if you can't. */}
-      {/* <Pullquote attribution="<Name, Title>">
+      {/* <Pullquote quoting attribution="<Name, Title>">
         Stakeholder quote that captures the felt urgency.
       </Pullquote> */}
     </Beat>
@@ -399,7 +399,7 @@ function BeatOutcomes() {
 
       {/* Qual outcome — an attributed Pullquote works well here. Drop
           if you don't have one you can attribute. */}
-      {/* <Pullquote attribution="<Name, Title>">
+      {/* <Pullquote quoting attribution="<Name, Title>">
         What the stakeholder said after launch.
       </Pullquote> */}
     </Beat>

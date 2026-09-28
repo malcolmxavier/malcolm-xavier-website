@@ -11,12 +11,21 @@
 // source's own "(1)…(4)" numbering is preserved verbatim).
 // ─────────────────────────────────────────────────────────────────
 
+// USE THIS ONLY FOR SOMEONE ELSE'S WORDS. <blockquote> tells assistive
+// tech the content is quoted from another source, so a passage of the
+// author's own prose does not belong here however much it wants setting
+// off — that is what Callout is for, and it shares this exact
+// treatment so the two look identical and mean different things.
+// A line of the author's own prose REPEATED from the paragraph above is
+// a third thing again: Pullquote.
+
 import type { ReactNode } from "react";
+import { SET_OFF } from "./Callout";
 
 export function Blockquote({ children }: { children: ReactNode }) {
   return (
     <blockquote
-      className="m-0 flex flex-col gap-3 border-l-2 pl-5 md:pl-6 text-[15px] md:text-[17px] leading-[1.6] text-[var(--text-body)] [&>p]:m-0"
+      className={SET_OFF}
       style={{ borderColor: "var(--border-default)" }}
     >
       {children}

@@ -42,7 +42,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { Body } from "@/components/case-study/primitives";
-import { Blockquote } from "@/components/reading/Blockquote";
+import { Callout } from "@/components/reading/Callout";
 import { Divider } from "@/components/reading/Divider";
 import type { EssayMeta } from "@/lib/writing/types";
 
@@ -108,12 +108,13 @@ export default function Essay() {
           technical PM can drive discussions of these tradeoffs more efficiently
           than a non-technical PM.
         </p>
-        {/* The thesis. Set off rather than run in: everything above
-            builds the capital-T / lowercase-t distinction and everything
-            below follows from it, so this is the sentence the piece
-            turns on. Blockquote and not Pullquote — a full passage at
-            body size, where a pull quote lifts one line to display. */}
-        <Blockquote>
+        {/* The thesis. Everything above builds the capital-T /
+            lowercase-t distinction and everything below follows from it,
+            so this is the sentence the piece turns on — which is exactly
+            why it is a Callout and not a Blockquote. It is Malcolm's own
+            central claim, not a quotation, and not a repeat of a line
+            above it either. */}
+        <Callout>
           <p>
             A TPM is not necessarily technical and vice versa. In other words,
             technical with a capital “T” should indicate the types of products
@@ -121,7 +122,7 @@ export default function Essay() {
             with a lowercase “t,” is something all PMs could benefit from
             becoming.
           </p>
-        </Blockquote>
+        </Callout>
       </Body>
 
       <Divider />

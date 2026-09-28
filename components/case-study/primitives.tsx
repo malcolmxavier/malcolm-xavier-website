@@ -344,48 +344,60 @@ export function Code({ children }: { children: ReactNode }) {
 // an unmarked run of prose.
 // ────────────────────────────────────────────────────────────────
 
-// `attribution` is optional as of 2026-09-28, and what it controls is
-// whether the block reads as a QUOTATION or as a LIFT.
+// `quoting` decides the ELEMENT, and it exists because `attribution`
+// could not. An earlier cut inferred quotation-ness from whether an
+// attribution was present, which the call sites disprove: basecamp's
+// three name a real speaker ("customer feedback, March", "Barista Lead
+// sub-agent") and are genuine quotations, while "the polite-client
+// rule" and "the lesson that travels" are LABELS Malcolm wrote on his
+// own sentences. Both kinds pass a string, so the string cannot tell
+// them apart.
 //
-// With an attribution the line came from somewhere — a customer, a
-// sub-agent, a named rule — so it takes quotation marks and a caption.
-// All twelve case-study callers are that shape and are unchanged.
+// `quoting` true — the words came from outside this page. Renders
+// <blockquote>, which is what tells assistive tech the content is
+// quoted from another source, and takes quotation marks.
 //
-// Without one it is a sentence lifted out of the surrounding argument
-// and set large, which is emphasis rather than citation. Quotation
-// marks there would be wrong twice over: nothing is being quoted, and
-// the reader passed the same sentence in the running prose a moment
-// earlier, so punctuating it as a quote invites them to hunt for a
-// source that does not exist. The /writing essays use this shape.
+// `quoting` false (the default) — Malcolm's own line, lifted out of the
+// surrounding argument and set large. Renders a plain <p>: nothing is
+// being quoted, so <blockquote> would be a lie to a screen reader, and
+// quotation marks would invite a reader to hunt for a source that does
+// not exist. `attribution` still renders as a caption when given,
+// because a label is useful whether or not anyone is being quoted.
 //
-// The alternative was inventing a caption for each lift, which is
-// writing editorial copy into somebody else's essay to satisfy a
-// required prop.
+// The default is false on purpose: an un-marked pull quote is the
+// author's own voice, which is the common case and the safe one to get
+// wrong — over-claiming a quotation is worse than under-claiming.
 export function Pullquote({
   children,
   attribution,
+  quoting = false,
 }: {
   children: ReactNode;
   attribution?: string;
+  /** The words are quoted from outside this page (a person, another
+   *  document), not lifted from its own prose. */
+  quoting?: boolean;
 }) {
+  // `italic-kern` (app/components.css) forces explicit kern + liga
+  // features and optimizeLegibility so italic Instrument Serif at
+  // display size doesn't read as crowded against punctuation and word
+  // boundaries. A previous `tracking-[-0.005em]` was removed because the
+  // negative tracking amplified the same crowding it was trying to mask.
+  const typeProps = {
+    className:
+      "italic-kern m-0 text-[22px] md:text-[28px] leading-[1.3] text-[var(--text-heading)]",
+    style: {
+      fontFamily: "var(--font-primary)",
+      fontStyle: "italic" as const,
+    },
+  };
   return (
     <figure className="my-10 md:my-12 max-w-[720px] pl-5 md:pl-6 border-l-[2px] border-[var(--border-default)]">
-      <blockquote
-        // `italic-kern` (defined in app/components.css) forces
-        // explicit kern + liga features and optimizeLegibility so
-        // italic Instrument Serif at display size doesn't read as
-        // crowded against punctuation and word boundaries. Removed
-        // the previous `tracking-[-0.005em]` because the negative
-        // tracking amplified the same crowding it was trying to
-        // mask.
-        className="italic-kern m-0 text-[22px] md:text-[28px] leading-[1.3] text-[var(--text-heading)]"
-        style={{
-          fontFamily: "var(--font-primary)",
-          fontStyle: "italic",
-        }}
-      >
-        {attribution ? <>“{children}”</> : children}
-      </blockquote>
+      {quoting ? (
+        <blockquote {...typeProps}>“{children}”</blockquote>
+      ) : (
+        <p {...typeProps}>{children}</p>
+      )}
       {attribution ? (
         <figcaption
           className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
