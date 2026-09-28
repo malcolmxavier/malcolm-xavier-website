@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────
-// Types for the /writing essays section.
+// Types for the /essays essays section.
 //
 // Kept separate from the registry (essays.ts) so an essay body module
 // can import the metadata SHAPE from here without creating a runtime

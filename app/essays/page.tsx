@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────
-// /writing — the essays hub.
+// /essays — the essays hub.
 //
 // The recruiter-side home for Malcolm's evergreen essays: the same
 // arguments he distributes on LinkedIn, rendered as richer, canonical
@@ -24,6 +24,7 @@ import { EssayCard } from "@/components/writing/EssayCard";
 import {
   ESSAYS,
   activePillars,
+  themeBrowseReady,
   WRITING_PILLARS,
 } from "@/lib/writing/essays";
 import { SITE_URL } from "@/lib/site-config";
@@ -35,12 +36,12 @@ const OG_TITLE = "Writing · Malcolm Xavier";
 export const metadata: Metadata = {
   title: "Writing",
   description: DESCRIPTION,
-  alternates: { canonical: "/writing" },
+  alternates: { canonical: "/essays" },
   openGraph: {
     title: OG_TITLE,
     description: DESCRIPTION,
     type: "website",
-    url: "/writing",
+    url: "/essays",
     siteName: "Malcolm Xavier",
     locale: "en_US",
     // opengraph-image.tsx resolves this hub's card via the file
@@ -59,8 +60,8 @@ export default function WritingHub() {
   const collectionSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "@id": `${SITE_URL}/writing/#collectionpage`,
-    url: `${SITE_URL}/writing`,
+    "@id": `${SITE_URL}/essays/#collectionpage`,
+    url: `${SITE_URL}/essays`,
     name: "Writing",
     description: DESCRIPTION,
     isPartOf: { "@id": `${SITE_URL}/#website` },
@@ -70,7 +71,7 @@ export default function WritingHub() {
       itemListElement: pillars.map((slug, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `${SITE_URL}/writing/${slug}`,
+        url: `${SITE_URL}/essays/${slug}`,
         name: WRITING_PILLARS[slug].label,
       })),
     },
@@ -101,15 +102,21 @@ export default function WritingHub() {
           </Stack>
         </Section>
 
-        {/* Browse by theme — only the pillars that currently have essays,
-            so no link points at an empty page. */}
-        {pillars.length > 0 ? (
+        {/* Browse by theme — hidden until the corpus can support it. See
+            themeBrowseReady() in the registry for the test and why it is
+            a distribution rather than a total. Today three of the four
+            pillars hold one essay each, and a theme link that lands on a
+            one-card page is worse than no theme nav at all.
+
+            When it turns on it still lists only pillars that have
+            essays, so no link can point at an empty page. */}
+        {themeBrowseReady() ? (
           <Section padding="md" bordered>
             <Stack gap="400">
               <Kicker as="h2">Browse by theme</Kicker>
               <div className="flex flex-wrap gap-x-6 gap-y-2">
                 {pillars.map((slug) => (
-                  <Link key={slug} href={`/writing/${slug}`}>
+                  <Link key={slug} href={`/essays/${slug}`}>
                     {WRITING_PILLARS[slug].label} →
                   </Link>
                 ))}

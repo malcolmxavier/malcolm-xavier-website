@@ -408,19 +408,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // lastModified uses the post's original publish date (postDate),
     // the same canonical sort key the hub/pillar ordering uses.
     {
-      url: `${SITE_URL}/writing`,
+      url: `${SITE_URL}/essays`,
       lastModified,
       changeFrequency: "monthly",
       priority: 0.6,
     },
     ...activePillars().map((pillar) => ({
-      url: `${SITE_URL}/writing/${pillar}`,
+      url: `${SITE_URL}/essays/${pillar}`,
       lastModified,
       changeFrequency: "monthly" as const,
       priority: 0.55,
     })),
     ...ESSAYS.map((essay) => ({
-      url: `${SITE_URL}/writing/${essay.pillar}/${essay.slug}`,
+      url: `${SITE_URL}/essays/${essay.pillar}/${essay.slug}`,
       lastModified: new Date(`${essay.postDate}T12:00:00-07:00`),
       changeFrequency: "monthly" as const,
       priority: 0.6,

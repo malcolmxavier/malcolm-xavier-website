@@ -54,7 +54,7 @@
 //
 // `meta` is consumed by lib/writing/essays.ts (the registry); the
 // default export is the article body, rendered inside ArticleContainer
-// by app/writing/[pillar]/[slug]/page.tsx.
+// by app/essays/[pillar]/[slug]/page.tsx.
 // ─────────────────────────────────────────────────────────────────
 
 import { Body } from "@/components/case-study/primitives";

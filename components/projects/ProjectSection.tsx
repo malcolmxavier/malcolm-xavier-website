@@ -1,7 +1,7 @@
 // ─────────────────────────────────────────────────────────────────
 // ProjectSection — a titled section within a /projects reading page.
 //
-// Mirrors the /writing EssaySection (an Instrument-Serif <h2> over its
+// Mirrors the /essays EssaySection (an Instrument-Serif <h2> over its
 // body on the recruiter cluster), with one addition: an optional `id`
 // so long academic pieces can carry stable in-page anchors for a table
 // of contents or deep links. The wrapping <section> + <h2> keeps the

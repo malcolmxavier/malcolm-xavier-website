@@ -9,7 +9,7 @@
 // Kept separate from the registry (projects.ts) so a project body
 // module can import the metadata SHAPE from here without creating a
 // runtime import cycle against the registry that imports the body
-// module back — the same split /writing uses (lib/writing/types.ts).
+// module back — the same split /essays uses (lib/writing/types.ts).
 // ─────────────────────────────────────────────────────────────────
 
 import type { ComponentType } from "react";

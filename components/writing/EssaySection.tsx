@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────
-// EssaySection — a titled section within a /writing essay.
+// EssaySection — a titled section within a /essays essay.
 //
 // A lighter unit than the case study's <Beat>: no forced section
 // number and no claude-tag scaffolding, just an Instrument-Serif <h2>

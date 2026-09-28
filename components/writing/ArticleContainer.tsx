@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────
-// ArticleContainer — the reading column for a /writing essay.
+// ArticleContainer — the reading column for a /essays essay.
 //
 // A tighter measure than the case-study rail (CASE_STUDY_WIDTH runs
 // 560→1024px because case studies interleave cards and grids); a

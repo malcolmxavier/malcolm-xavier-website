@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────
-// The /writing essay registry — the single source of truth for the
+// The /essays essay registry — the single source of truth for the
 // hub grid, the per-pillar pages, the ItemList JSON-LD, and the
 // sitemap. Reading from one place means a new essay lands in every
 // surface at once (the same discipline CASE_STUDIES uses on the
@@ -14,22 +14,22 @@
 import type { Essay, PillarMeta, WritingPillar } from "./types";
 import MsInLawDataGovernance, {
   meta as msInLawDataGovernance,
-} from "@/app/writing/_essays/ms-in-law-data-governance";
+} from "@/app/essays/_essays/ms-in-law-data-governance";
 import GrowthPersonalizationAiDataPrimer, {
   meta as growthPersonalizationAiDataPrimer,
-} from "@/app/writing/_essays/growth-personalization-ai-data-primer";
+} from "@/app/essays/_essays/growth-personalization-ai-data-primer";
 import TechnicallySpeaking, {
   meta as technicallySpeaking,
-} from "@/app/writing/_essays/technically-speaking";
+} from "@/app/essays/_essays/technically-speaking";
 import RoadmapToMakingBetterChoices, {
   meta as roadmapToMakingBetterChoices,
-} from "@/app/writing/_essays/roadmap-to-making-better-choices";
+} from "@/app/essays/_essays/roadmap-to-making-better-choices";
 import ContextRulesEverything, {
   meta as contextRulesEverything,
-} from "@/app/writing/_essays/context-rules-everything";
+} from "@/app/essays/_essays/context-rules-everything";
 import PersonalizationIsAPlatform, {
   meta as personalizationIsAPlatform,
-} from "@/app/writing/_essays/personalization-is-a-platform";
+} from "@/app/essays/_essays/personalization-is-a-platform";
 
 export type { Essay, EssayMeta, WritingPillar } from "./types";
 
@@ -64,7 +64,7 @@ export const WRITING_PILLARS: Record<WritingPillar, PillarMeta> = {
   craft: {
     slug: "craft",
     label: "Craft",
-    // This line does five jobs on /writing/craft: the on-page lede, the meta
+    // This line does five jobs on /essays/craft: the on-page lede, the meta
     // description, the Open Graph and Twitter card descriptions, and the
     // JSON-LD description. So it has to describe the contents accurately for
     // a machine, not just read well under the headline.
@@ -110,6 +110,30 @@ export function essaysByPillar(pillar: WritingPillar): Essay[] {
  *  never ships as a thin placeholder (it 404s until it has content). */
 export function activePillars(): WritingPillar[] {
   return WRITING_PILLAR_SLUGS.filter((p) => essaysByPillar(p).length > 0);
+}
+
+/** Minimum essays a pillar needs before it is worth browsing into, and
+ *  how many pillars must clear that bar before the hub offers the browse
+ *  at all. */
+const THEME_MIN_PER_PILLAR = 2;
+const THEME_MIN_PILLARS = 3;
+
+/** Whether the hub should offer "Browse by theme" yet.
+ *
+ *  It is gated because a theme link that lands on a one-card page is a
+ *  worse experience than no theme nav at all, and on 2026-09-28 three of
+ *  the four pillars held exactly one essay.
+ *
+ *  The test is deliberately NOT a total essay count. A corpus of nine
+ *  split 6/1/1/1 would clear any total and still offer a browse with
+ *  nothing to browse — the question is whether a reader gets a real
+ *  choice, which is a question about the distribution. Three pillars
+ *  carrying two each is the point where they do. */
+export function themeBrowseReady(): boolean {
+  const qualifying = WRITING_PILLAR_SLUGS.filter(
+    (p) => essaysByPillar(p).length >= THEME_MIN_PER_PILLAR,
+  );
+  return qualifying.length >= THEME_MIN_PILLARS;
 }
 
 /** Look up a single essay by its pillar + slug (the route params). */

@@ -32,7 +32,7 @@
 //
 // `meta` is consumed by lib/writing/essays.ts (the registry); the
 // default export is the article body, rendered inside ArticleContainer
-// by app/writing/[pillar]/[slug]/page.tsx.
+// by app/essays/[pillar]/[slug]/page.tsx.
 // ─────────────────────────────────────────────────────────────────
 
 // TWO KINDS OF ITALIC, and they are different elements on purpose.
@@ -140,7 +140,7 @@ export default function Essay() {
             tend to prioritize speed over fidelity. With AI, the trade-offs,
             risks, and opportunities with this approach usually come back to
             data (and, in a way, back to{" "}
-            <Link href="/writing/ai/context-rules-everything">
+            <Link href="/essays/ai/context-rules-everything">
               my thoughts on context
             </Link>
             ). Personalization-driven growth and engagement experiences will only
@@ -449,7 +449,7 @@ export default function Essay() {
             then push deeper) to drive better outcomes, particularly when it
             comes to AI-driven solutions where regulation feels like the wild,
             wild west. This aligns with{" "}
-            <Link href="/writing/craft/technically-speaking">
+            <Link href="/essays/craft/technically-speaking">
               my thoughts on PMs becoming technical
             </Link>
             .

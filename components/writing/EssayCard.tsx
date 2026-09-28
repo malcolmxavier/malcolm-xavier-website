@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────
-// EssayCard — one essay tile for the /writing hub and pillar grids.
+// EssayCard — one essay tile for the /essays hub and pillar grids.
 //
 // Mirrors the case-study card shape (Card → Kicker → Headline → Body →
 // Link) so the two browse surfaces read as the same primitive, plus a
@@ -42,7 +42,7 @@ export function EssayCard({ essay }: { essay: Essay }) {
         {/* aria-label disambiguates the repeated "Read the essay →"
             string across cards for screen-reader link lists. */}
         <Link
-          href={`/writing/${essay.pillar}/${essay.slug}`}
+          href={`/essays/${essay.pillar}/${essay.slug}`}
           aria-label={`Read the essay: ${essay.title}`}
         >
           Read the essay →

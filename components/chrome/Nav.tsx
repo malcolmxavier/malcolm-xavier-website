@@ -3,14 +3,18 @@
 // middle/right (when any are live), theme toggle on the far right.
 //
 // Per the project's "no public placeholders" rule, route links are
-// driven by explicit `SUB_BRAND_ROUTES` + `MAIN_ROUTES` registries.
+// driven by explicit route registries (SUB_BRAND / READING / MAIN).
 // Routes don't appear in nav until their pages actually exist.
 //
 // Visual / behavioral rules baked in here (per Malcolm 2026-04-25):
 //
-//   • Order (left → right): sub-brand routes, separator, main
-//     routes, separator, the Booth chip. Concretely today:
-//     Films, Television, Music | About ... Contact | The Booth.
+//   • Order (left → right): sub-brand routes, reading routes, main
+//     routes, then the Booth chip, with a divider between each.
+//     Concretely today: Films, Television, Music | Essays, Case
+//     studies, Research | About, Resume, Consulting, Contact | The
+//     Booth. The three groups are data, and the dividers fall between
+//     whichever survive — so the sub-brand cluster leaving with Fourth
+//     Unit cannot strand a rule behind it.
 //   • Active route: underlined ahead of hover so users can tell on
 //     glance which page they're on.
 //   • Inactive routes: underline appears on hover/focus only (matches
@@ -78,7 +82,7 @@
 
 import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Container } from "@/components/layout/Container";
 import { IconClose, IconMenu } from "@/components/icons";
 import { ThemeToggle } from "./ThemeToggle";
@@ -101,17 +105,41 @@ const SUB_BRAND_ROUTES: NavRoute[] = [
   { label: "Music", href: "/music", subbrand: "music" },
 ];
 
+// Reading routes — the three bodies of long-form work. Grouped on
+// 2026-09-28, when /essays shipped and Research needed a home.
+//
+// Case studies used to sit in the main run, and it was the one thing
+// there that did not belong: About, Resume, Consulting and Contact are
+// pages about Malcolm or actions to take, while Case studies is a
+// corpus you read. Pulling it out fixes an inconsistency that predates
+// the new sections rather than creating one.
+//
+// ORDER IS ASCENDING TIME COMMITMENT, and that is the whole point —
+// it teaches a reader what length to expect from each before they
+// click, without a word of explanation. Measured, the ranks hold:
+// essays run 3–10 minutes (median ~5), case studies 7–20 (median ~9.5),
+// and the two listed research papers are 12 and 30. Malcolm's call; an
+// earlier cut ordered them by recruiter value, which is a fact about
+// the site's goals rather than about the reader's experience.
+//
+// The group carries NO label, like the sub-brand cluster above it. A
+// heading would have forced a name for the category, and the category
+// is exactly what the three labels already say.
+const READING_ROUTES: NavRoute[] = [
+  { label: "Essays", href: "/essays" },
+  { label: "Case studies", href: "/case-studies" },
+  { label: "Research", href: "/research" },
+];
+
 // Main brand routes — recruiter-facing pages (default grey alias).
-// Order: About (who) → Resume (what) → Case studies (proof) →
-// Consulting (offer) → Contact (action). The funnel reads as
-// introduce → claim → evidence → offer → next step; Consulting sits
-// after the evidence because the case studies are what qualify the
-// offer, and immediately before Contact because booking a call is
-// the action the consulting page asks for.
+// Order: About (who) → Resume (what) → Consulting (offer) → Contact
+// (action). The funnel reads introduce → claim → offer → next step.
+// The evidence step now lives in READING_ROUTES above; Consulting
+// still sits immediately before Contact because booking a call is the
+// action the consulting page asks for.
 const MAIN_ROUTES: NavRoute[] = [
   { label: "About", href: "/about" },
   { label: "Resume", href: "/resume" },
-  { label: "Case studies", href: "/case-studies" },
   { label: "Consulting", href: "/consulting" },
   { label: "Contact", href: "/contact" },
 ];
@@ -199,8 +227,15 @@ export function Nav() {
     setMenuOpen(false);
   }, [pathname]);
 
-  const showSeparator =
-    SUB_BRAND_ROUTES.length > 0 && MAIN_ROUTES.length > 0;
+  // The route groups, in bar order, with the empties dropped. Dividers
+  // then fall between whatever survives, so a group emptying out (the
+  // sub-brand cluster, when Fourth Unit spins off) cannot leave a
+  // dangling rule behind it.
+  const GROUPS: { key: string; routes: NavRoute[] }[] = [
+    { key: "subbrand", routes: SUB_BRAND_ROUTES },
+    { key: "reading", routes: READING_ROUTES },
+    { key: "main", routes: MAIN_ROUTES },
+  ].filter((g) => g.routes.length > 0);
 
   return (
     <header
@@ -257,23 +292,16 @@ export function Nav() {
               below the measured threshold, where the hamburger takes
               over — see the note at the top of this file. */}
           <div className="hidden xl:flex items-center gap-5">
-            {SUB_BRAND_ROUTES.length > 0 ? (
-              <NavRouteList
-                routes={SUB_BRAND_ROUTES}
-                pathname={pathname}
-                layout="horizontal"
-              />
-            ) : null}
-
-            {showSeparator ? <NavDivider /> : null}
-
-            {MAIN_ROUTES.length > 0 ? (
-              <NavRouteList
-                routes={MAIN_ROUTES}
-                pathname={pathname}
-                layout="horizontal"
-              />
-            ) : null}
+            {GROUPS.map((group, i) => (
+              <Fragment key={group.key}>
+                {i > 0 ? <NavDivider /> : null}
+                <NavRouteList
+                  routes={group.routes}
+                  pathname={pathname}
+                  layout="horizontal"
+                />
+              </Fragment>
+            ))}
 
             <NavDivider />
             <BoothChip pathname={pathname} layout="horizontal" />
@@ -346,25 +374,16 @@ export function Nav() {
         >
           <Container>
             <div className="flex flex-col py-4">
-              {SUB_BRAND_ROUTES.length > 0 ? (
-                <NavRouteList
-                  routes={SUB_BRAND_ROUTES}
-                  pathname={pathname}
-                  layout="vertical"
-                />
-              ) : null}
-
-              {showSeparator ? (
-                <MobileSeparator />
-              ) : null}
-
-              {MAIN_ROUTES.length > 0 ? (
-                <NavRouteList
-                  routes={MAIN_ROUTES}
-                  pathname={pathname}
-                  layout="vertical"
-                />
-              ) : null}
+              {GROUPS.map((group, i) => (
+                <Fragment key={group.key}>
+                  {i > 0 ? <MobileSeparator /> : null}
+                  <NavRouteList
+                    routes={group.routes}
+                    pathname={pathname}
+                    layout="vertical"
+                  />
+                </Fragment>
+              ))}
 
               {/* Same three groups in the same order as the row
                   above, so the stacked menu is the horizontal bar

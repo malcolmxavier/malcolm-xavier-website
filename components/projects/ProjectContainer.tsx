@@ -3,7 +3,7 @@
 //
 // Sits in the site's content well and takes its left edge from it, so
 // the page starts where the header does. Inside that well the prose
-// runs to its own measure: wider than the /writing ArticleContainer
+// runs to its own measure: wider than the /essays ArticleContainer
 // (40rem), because a project page interleaves running prose with a
 // wide datafolio figure and data-heavy paragraphs, and an essay
 // measure strands the figure. It widens to 54rem on large screens —

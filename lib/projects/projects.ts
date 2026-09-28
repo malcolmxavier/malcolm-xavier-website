@@ -2,7 +2,7 @@
 // The /research registry — the single source of truth for the dynamic
 // route, the sitemap entries, the per-item OG cards, and the /research
 // index grid. Reading from one place means a new item lands in every
-// surface at once — the same discipline CASE_STUDIES and the /writing
+// surface at once — the same discipline CASE_STUDIES and the /essays
 // ESSAYS registry use.
 //
 // The directory keeps its `projects` name on purpose: the section was

@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────
-// /writing/[pillar]/[slug] — a single essay.
+// /essays/[pillar]/[slug] — a single essay.
 //
 // Renders the essay body (a TSX module registered in lib/writing/
 // essays.ts) inside the narrow reading column, with an Article +
@@ -53,7 +53,7 @@ export async function generateMetadata({
   if (!essay) return { title: "Essay not found" };
   const pageTitle = essay.metaTitle ?? essay.title;
   const socialTitle = `${pageTitle}—Malcolm Xavier`;
-  const url = `/writing/${essay.pillar}/${essay.slug}`;
+  const url = `/essays/${essay.pillar}/${essay.slug}`;
   return {
     title: pageTitle,
     description: essay.description,
@@ -89,7 +89,7 @@ export default async function EssayPage({
   if (!essay) notFound();
 
   const pillarMeta = WRITING_PILLARS[essay.pillar];
-  const url = `${SITE_URL}/writing/${essay.pillar}/${essay.slug}`;
+  const url = `${SITE_URL}/essays/${essay.pillar}/${essay.slug}`;
   const published = isoWithTz(essay.postDate);
   const EssayBody = essay.Body;
 
@@ -136,13 +136,13 @@ export default async function EssayPage({
             "@type": "ListItem",
             position: 2,
             name: "Writing",
-            item: `${SITE_URL}/writing`,
+            item: `${SITE_URL}/essays`,
           },
           {
             "@type": "ListItem",
             position: 3,
             name: pillarMeta.label,
-            item: `${SITE_URL}/writing/${essay.pillar}`,
+            item: `${SITE_URL}/essays/${essay.pillar}`,
           },
           {
             "@type": "ListItem",
@@ -164,7 +164,7 @@ export default async function EssayPage({
       <ArticleContainer>
         <header className="flex flex-col gap-4">
           <Kicker>
-            <Link href={`/writing/${essay.pillar}`} quiet>
+            <Link href={`/essays/${essay.pillar}`} quiet>
               {pillarMeta.label}
             </Link>
           </Kicker>
@@ -182,7 +182,7 @@ export default async function EssayPage({
         <EssayBody />
 
         <footer>
-          <Link href="/writing">All essays →</Link>
+          <Link href="/essays">All essays →</Link>
         </footer>
       </ArticleContainer>
     </>

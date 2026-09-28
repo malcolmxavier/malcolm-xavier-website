@@ -18,7 +18,7 @@
 //   Callout (this) — the author's own prose, appearing ONCE, set apart
 //     for weight. Neither quoted nor repeated.
 //
-// The two /writing essays both wanted the third and both got the first:
+// Both /essays pieces wanted the third and both got the first:
 // the data primer's "Hint:" passage and this piece's capital-T /
 // lowercase-t thesis were wrapped in <blockquote>, announcing to
 // assistive tech that Malcolm's own original sentences were quoted from

@@ -29,7 +29,7 @@
 // One thing DID move, on 2026-09-28, and it moved for a reason this
 // note should not be read as forbidding. Blockquote, Footnotes and
 // Figure were never about projects; they are reading-column
-// components, and /writing needed them the moment it took a long
+// components, and /essays needed them the moment it took a long
 // essay. They live in `components/reading/*` now, imported by both
 // sections. What stays here is what is genuinely about this route's
 // shell: Downloads, ProjectContainer, ProjectSection, ProjectToc.

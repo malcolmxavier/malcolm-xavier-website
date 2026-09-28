@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────
-// /writing/[pillar] — a per-pillar essay landing.
+// /essays/[pillar] — a per-pillar essay landing.
 //
 // A real, indexable AEO surface (thin to start, not nav-promoted):
 // its own CollectionPage entity scoped to one pillar, so a retriever
@@ -52,7 +52,7 @@ export async function generateMetadata({
   const key = pillarKey(pillar);
   if (!key) return { title: "Not found" };
   const meta = WRITING_PILLARS[key];
-  const canonical = `/writing/${key}`;
+  const canonical = `/essays/${key}`;
   const socialTitle = `${meta.label}—Writing—Malcolm Xavier`;
   return {
     title: `${meta.label}—Writing`,
@@ -69,13 +69,13 @@ export async function generateMetadata({
       // carry their own opengraph-image). Without this, Next 16's
       // per-page openGraph replaces the parent's and the pillar
       // unfurl loses its image.
-      images: ["/writing/opengraph-image"],
+      images: ["/essays/opengraph-image"],
     },
     twitter: {
       card: "summary_large_image",
       title: socialTitle,
       description: meta.blurb,
-      images: ["/writing/opengraph-image"],
+      images: ["/essays/opengraph-image"],
     },
   };
 }
@@ -97,8 +97,8 @@ export default async function WritingPillarPage({
   const collectionSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    "@id": `${SITE_URL}/writing/${key}/#collectionpage`,
-    url: `${SITE_URL}/writing/${key}`,
+    "@id": `${SITE_URL}/essays/${key}/#collectionpage`,
+    url: `${SITE_URL}/essays/${key}`,
     name: `${meta.label}—Writing`,
     description: meta.blurb,
     isPartOf: { "@id": `${SITE_URL}/#website` },
@@ -108,7 +108,7 @@ export default async function WritingPillarPage({
       itemListElement: essays.map((essay, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        url: `${SITE_URL}/writing/${essay.pillar}/${essay.slug}`,
+        url: `${SITE_URL}/essays/${essay.pillar}/${essay.slug}`,
         name: essay.title,
       })),
     },
@@ -131,7 +131,7 @@ export default async function WritingPillarPage({
         <Section padding="lg">
           <Stack gap="500">
             <Kicker>
-              <Link href="/writing" quiet>
+              <Link href="/essays" quiet>
                 Writing
               </Link>{" "}
               · {meta.label}

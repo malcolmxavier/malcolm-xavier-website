@@ -1,6 +1,6 @@
-// Open Graph / Twitter card for the /writing hub. Copy only — the
+// Open Graph / Twitter card for the /essays hub. Copy only — the
 // shared generator owns the nameplate layout (lib/og/case-study-card).
-// Gives the hub its own card so a shared /writing link stops unfurling
+// Gives the hub its own card so a shared /essays link stops unfurling
 // with the generic sitewide identity card.
 import {
   renderCaseStudyCard,
