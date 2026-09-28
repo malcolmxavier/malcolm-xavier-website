@@ -344,12 +344,29 @@ export function Code({ children }: { children: ReactNode }) {
 // an unmarked run of prose.
 // ────────────────────────────────────────────────────────────────
 
+// `attribution` is optional as of 2026-09-28, and what it controls is
+// whether the block reads as a QUOTATION or as a LIFT.
+//
+// With an attribution the line came from somewhere — a customer, a
+// sub-agent, a named rule — so it takes quotation marks and a caption.
+// All twelve case-study callers are that shape and are unchanged.
+//
+// Without one it is a sentence lifted out of the surrounding argument
+// and set large, which is emphasis rather than citation. Quotation
+// marks there would be wrong twice over: nothing is being quoted, and
+// the reader passed the same sentence in the running prose a moment
+// earlier, so punctuating it as a quote invites them to hunt for a
+// source that does not exist. The /writing essays use this shape.
+//
+// The alternative was inventing a caption for each lift, which is
+// writing editorial copy into somebody else's essay to satisfy a
+// required prop.
 export function Pullquote({
   children,
   attribution,
 }: {
   children: ReactNode;
-  attribution: string;
+  attribution?: string;
 }) {
   return (
     <figure className="my-10 md:my-12 max-w-[720px] pl-5 md:pl-6 border-l-[2px] border-[var(--border-default)]">
@@ -367,18 +384,20 @@ export function Pullquote({
           fontStyle: "italic",
         }}
       >
-        “{children}”
+        {attribution ? <>“{children}”</> : children}
       </blockquote>
-      <figcaption
-        className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
-        style={{ fontFamily: "var(--font-mono)" }}
-      >
-        {/* Em-dash is a typographic convention, not meaningful
-            content. aria-hidden so screen readers don't announce
-            "dash, attribution-text" on every pull quote. */}
-        <span aria-hidden="true">— </span>
-        {attribution}
-      </figcaption>
+      {attribution ? (
+        <figcaption
+          className="mt-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
+          style={{ fontFamily: "var(--font-mono)" }}
+        >
+          {/* Em-dash is a typographic convention, not meaningful
+              content. aria-hidden so screen readers don't announce
+              "dash, attribution-text" on every pull quote. */}
+          <span aria-hidden="true">— </span>
+          {attribution}
+        </figcaption>
+      ) : null}
     </figure>
   );
 }

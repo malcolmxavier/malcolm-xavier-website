@@ -15,6 +15,9 @@ import type { Essay, PillarMeta, WritingPillar } from "./types";
 import MsInLawDataGovernance, {
   meta as msInLawDataGovernance,
 } from "@/app/writing/_essays/ms-in-law-data-governance";
+import GrowthPersonalizationAiDataPrimer, {
+  meta as growthPersonalizationAiDataPrimer,
+} from "@/app/writing/_essays/growth-personalization-ai-data-primer";
 
 export type { Essay, EssayMeta, WritingPillar } from "./types";
 
@@ -73,6 +76,7 @@ export const WRITING_PILLARS: Record<WritingPillar, PillarMeta> = {
 // Registered essays, unsorted. Register new body modules here.
 const REGISTERED: Essay[] = [
   { ...msInLawDataGovernance, Body: MsInLawDataGovernance },
+  { ...growthPersonalizationAiDataPrimer, Body: GrowthPersonalizationAiDataPrimer },
 ];
 
 /** All essays, newest-first by postDate (the canonical sort key). */

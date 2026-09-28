@@ -16,11 +16,26 @@
 // itself lands separately from this migration.
 //
 // DELIBERATE: the section was renamed from /projects to /research at
-// the URL level only. `lib/projects/*` and `components/projects/*` keep
-// their directory names — they are internal identifiers, not addresses,
-// and renaming them would manufacture rebase conflicts with the
-// in-flight `feat/writing` branch for no user-visible gain. Please
-// don't "tidy" those imports.
+// the URL level only. `lib/projects/*` and the remaining
+// `components/projects/*` keep their directory names — they are
+// internal identifiers, not addresses, and renaming them buys nothing
+// a reader can see. Please don't "tidy" those imports.
+//
+// The original reason was narrower and has since expired: renaming
+// would have manufactured rebase conflicts with the in-flight
+// `feat/writing` branch, which landed on 2026-09-27. What replaced it
+// is the weaker but still sufficient "no user-visible gain."
+//
+// One thing DID move, on 2026-09-28, and it moved for a reason this
+// note should not be read as forbidding. Blockquote, Footnotes and
+// Figure were never about projects; they are reading-column
+// components, and /writing needed them the moment it took a long
+// essay. They live in `components/reading/*` now, imported by both
+// sections. What stays here is what is genuinely about this route's
+// shell: Downloads, ProjectContainer, ProjectSection, ProjectToc.
+//
+// The test, if another one comes up: does the component know which
+// section it is on? If it does not, it belongs in reading/.
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";

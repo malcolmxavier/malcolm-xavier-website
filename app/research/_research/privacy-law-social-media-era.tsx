@@ -19,8 +19,8 @@
 import { Body, Emph } from "@/components/case-study/primitives";
 import { Link } from "@/components/primitives/Link";
 import { ProjectSection } from "@/components/projects/ProjectSection";
-import { Blockquote } from "@/components/projects/Blockquote";
-import { Fn, Footnotes, FnItem, Cite } from "@/components/projects/Footnotes";
+import { Blockquote } from "@/components/reading/Blockquote";
+import { Fn, Footnotes, FnItem, Cite } from "@/components/reading/Footnotes";
 import { EDUCATION, slugifyEducationAnchor } from "@/app/resume/resume-data";
 import type { ProjectMeta } from "@/lib/projects/types";
 

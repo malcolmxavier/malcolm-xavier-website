@@ -17,7 +17,7 @@
 import { Body, Emph } from "@/components/case-study/primitives";
 import { Link } from "@/components/primitives/Link";
 import { ProjectSection } from "@/components/projects/ProjectSection";
-import { Figure } from "@/components/projects/Figure";
+import { Figure } from "@/components/reading/Figure";
 import { EDUCATION, slugifyEducationAnchor } from "@/app/resume/resume-data";
 import type { ProjectMeta } from "@/lib/projects/types";
 
