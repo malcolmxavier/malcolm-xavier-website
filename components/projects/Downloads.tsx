@@ -22,13 +22,19 @@ import type { ProjectDownload } from "@/lib/projects/types";
  *  see the toc assembly in app/research/[slug]/page.tsx. */
 export const DOWNLOADS_ANCHOR_ID = "downloads";
 
-/** The heading an item gets when it sets no `downloadsHeading`. Exported
- *  for the same reason the id is: the Contents entry has to read exactly
- *  what the block it points at reads. */
-export const DOWNLOADS_DEFAULT_HEADING = "Read the full work";
+/** What the Contents rail calls this block. Deliberately NOT the block's
+ *  own heading, which is editorial ("Take it with you", "Read the full
+ *  work") and reads in a list of section titles as though it were one.
+ *  The rail is a set of destinations, so the entry names the action.
+ *  Fixed rather than per-item: every version of this block does the same
+ *  thing, whatever its heading says. */
+export const DOWNLOADS_TOC_LABEL = "Download";
+
+/** The heading an item gets when it sets no `downloadsHeading`. */
+const DEFAULT_HEADING = "Read the full work";
 
 export function Downloads({
-  heading = DOWNLOADS_DEFAULT_HEADING,
+  heading = DEFAULT_HEADING,
   items,
 }: {
   heading?: string;

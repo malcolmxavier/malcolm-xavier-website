@@ -36,7 +36,7 @@ import { ScrollProgress } from "@/components/case-study/ScrollProgress";
 import {
   Downloads,
   DOWNLOADS_ANCHOR_ID,
-  DOWNLOADS_DEFAULT_HEADING,
+  DOWNLOADS_TOC_LABEL,
 } from "@/components/projects/Downloads";
 import {
   PROJECTS,
@@ -275,11 +275,16 @@ export default async function ProjectPage({
   );
 
   // The Contents list is the piece's own sections PLUS the downloads
-  // block, which is a real destination on the page and was the one
-  // thing a reader could not jump to. It's appended here rather than
-  // typed into each item's `toc` array so the entry's label is the
-  // block's actual heading — one source of truth, and a new long piece
-  // gets the entry without anyone remembering to add it.
+  // block, which is a real destination on the page and was the one thing
+  // a reader could not jump to. Appended here rather than typed into
+  // each item's `toc` array, so a new long piece gets the entry without
+  // anyone remembering to add it.
+  //
+  // The label is DOWNLOADS_TOC_LABEL, not the block's own heading. An
+  // earlier cut mirrored the heading on the reasoning that a link should
+  // read as its destination, and the result was "Take it with you" sat
+  // among five roman-numeralled sections looking like a sixth one. The
+  // rail is a list of places to go, so the entry names the action.
   //
   // Composed even when `toc` is empty, so the branch below stays the
   // single test for "does this piece get a rail at all" — a short,
@@ -289,12 +294,7 @@ export default async function ProjectPage({
   const tocItems = [
     ...(project.toc ?? []),
     ...(hasDownloads
-      ? [
-          {
-            id: DOWNLOADS_ANCHOR_ID,
-            label: project.downloadsHeading ?? DOWNLOADS_DEFAULT_HEADING,
-          },
-        ]
+      ? [{ id: DOWNLOADS_ANCHOR_ID, label: DOWNLOADS_TOC_LABEL }]
       : []),
   ];
 
