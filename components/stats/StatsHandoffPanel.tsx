@@ -101,8 +101,10 @@ const leadStyle: CSSProperties = {
   margin: 0,
   // A touch wider than a pure prose measure: the panel spans the full
   // dashboard grid, so a 42ch lead left a starved column of whitespace on
-  // wide layouts. 52ch keeps the lede readable while filling the frame.
-  maxWidth: "52ch",
+  // wide layouts. --measure-panel keeps the lede readable while filling the
+  // frame. It was a literal 52ch here and again in app/stats/connected, the
+  // same value reasoned out twice; MEASURE.md section 4 carries the why now.
+  maxWidth: "var(--measure-panel)",
 };
 
 // Mono action link carrying the internal-destination arrow per the CTA

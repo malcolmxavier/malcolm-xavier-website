@@ -87,6 +87,7 @@ resolve the import before reasoning about the value.**
 | Reading column | `--measure-read` | `60ch` | Essay, case study, and research prose |
 | Header block | `--measure-header` | `90ch` | Eyebrow / headline / deck groups |
 | Page geometry | `--container-page` | `104rem` | Grids, tables, cards, data |
+| *(exception)* | `--measure-panel` | `52ch` | A dashboard panel's lede—see §4 |
 
 `--measure-header` was set by reasoning rather than by looking: wide enough
 that a deck stops reading as indented under its headline, narrow enough that
@@ -122,7 +123,11 @@ is a deliberately narrow column, not a reading measure at all.
 
 An exception is fine. **A silent exception is not.** To add one:
 
-1. Define it as a token in `tokens/`, next to the three above.
+1. Define it as a token in `scripts/build-tokens.mjs`, next to the three
+   above. That is where the measures and `--container-page` are emitted—**not**
+   in `tokens/`, which holds the colour and type JSON. `app/globals.css` is
+   generated, so never hand-edit it; run `npm run tokens:build`, and clear
+   `.next` afterwards or the old value survives in the dev cache.
 2. Name what kind of text it is for and why the canonical value is wrong for
    it—in the token file, not only at the use site.
 3. Never write a bare `maxWidth: "NNch"` at a call site. That is how the site
@@ -145,11 +150,26 @@ Converted as of 2026-09-28: *(update this list as the conversion lands)*
       itself is deliberately *not* clamped, so grids and tables inside a Beat
       keep their room. **This visibly narrowed prose on all six studies**—
       see the correction in §2 for why that was a bigger change than expected.
+- [x] The inline literals that were *already* a canonical value, swapped with
+      no change on screen: `/contact`'s caption and `/booth`'s
+      `--booth-row-measure` default were both hand-written `60ch`, which is
+      `--measure-read` spelled out. And `52ch` was reasoned out separately in
+      `app/stats/connected` and `components/stats/StatsHandoffPanel`, with the
+      why recorded in only one of the two—now `--measure-panel`, a named
+      exception under §4.
 - [ ] `Body`, `Lede`, and `HeroNote` in `components/typography/` stop clamping
-      themselves
-- [ ] Inline literals on `/resume`, `/films/[slug]`, `/television/[showSlug]`,
-      `/contact`, `/stats/connected`, `/booth` reconciled or tokenized as
-      named exceptions
+      themselves. **Not mechanical**—pulling the self-clamp out sends every
+      consumer to the full well until a container sets a measure, across
+      roughly twenty pages.
+- [ ] The remaining literals are **value decisions, not conversions**, and each
+      one changes what is on screen if it moves:
+      `/resume` writes `70ch` at four sites with no stated reasoning (a resume
+      is scanned rather than read start to finish, so wider is arguable—but
+      four undocumented copies of one number is not a decision, it is a
+      habit); `/films/[slug]` and `/television/[showSlug]` write `65ch` for
+      review prose, which is a reading column and should probably just be
+      `--measure-read`; `CriticDisclaimer` writes `80ch` and the footer `30ch`,
+      neither of which is a reading measure at all.
 
 **Open, and it is a visual judgment rather than a rule question:** does
 `ClaudeNote` join the reading column? It is a callout, so §1 arguably licenses

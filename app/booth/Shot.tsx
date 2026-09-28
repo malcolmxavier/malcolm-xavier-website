@@ -173,7 +173,7 @@ export function ShotStyles() {
   /* 60ch is what Body and Lede set for themselves, so below the grid
      this changes nothing: the single-column stack keeps the measure the
      primitives would have given it. */
-  --booth-row-measure: 60ch;
+  --booth-row-measure: var(--measure-read);
 }
 /* A capped line length, which is the half of this that does not change
    the type at all. Holding the measure is what keeps the block's height

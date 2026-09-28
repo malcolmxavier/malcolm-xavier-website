@@ -254,7 +254,13 @@ export default function ContactPage() {
                   can still pick whatever event suits them. */}
                 <Body
                   size="sm"
-                  style={{ color: "var(--text-caption)", maxWidth: "60ch" }}
+                  /* 60ch written by hand here was --measure-read spelled
+                     out. Pointing at the token means this caption follows the
+                     site measure if it ever moves. See MEASURE.md. */
+                  style={{
+                    color: "var(--text-caption)",
+                    maxWidth: "var(--measure-read)",
+                  }}
                 >
                   Widget not loading? Book directly on{" "}
                   <TrackOnClick

@@ -518,10 +518,19 @@ out.push("  --container-page: 104rem; /* 1664px */");
 // headline runs to its own width, and the header reads as ragged.
 // PROVISIONAL — set by reasoning rather than by looking, and wants a
 // check on screen at 1280/1440/1664 before it counts as settled.
+// --measure-panel is a named exception under MEASURE.md section 4, not a
+// third general state. A dashboard panel's lede spans the full width of
+// the stats grid, and at the reading measure it left a starved column
+// of whitespace beside it on wide layouts — so this is deliberately
+// wider than prose and still well short of the frame. It exists as a
+// token because the same 52ch was written by hand in two files, with
+// the reasoning recorded in only one of them, which is exactly how the
+// eleven unreconciled literals happened in the first place.
 out.push("");
 out.push("  /* Text measure — see MEASURE.md */");
 out.push("  --measure-read: 60ch;");
 out.push("  --measure-header: 90ch;");
+out.push("  --measure-panel: 52ch;");
 out.push("}");
 out.push("");
 

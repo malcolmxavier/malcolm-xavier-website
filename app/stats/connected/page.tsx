@@ -560,7 +560,11 @@ const thinLeadStyle: CSSProperties = {
   lineHeight: 1.5,
   color: "var(--text-heading)",
   margin: 0,
-  maxWidth: "52ch",
+  // --measure-panel, not the reading measure: a panel lede spans the whole
+  // stats grid and at prose width leaves a starved column of whitespace
+  // beside it. This was a hand-written 52ch, the same number StatsHandoffPanel
+  // wrote separately, so the two could drift without anything noticing.
+  maxWidth: "var(--measure-panel)",
 };
 
 const thinLinksStyle: CSSProperties = {
