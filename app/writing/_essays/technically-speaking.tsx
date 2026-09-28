@@ -5,28 +5,36 @@
 // Copy is verbatim from the published article. Source of truth:
 // editorial-workspace/drafts/articles/2025-12-28-technically-speaking/
 //
-// The shortest of the four pre-campaign articles at ~650 words, and
-// deliberately UNSECTIONED. The MS-in-Law essay carries four sections
-// over 1,400 words; at this length the argument is one continuous move
-// — shallow heuristic, then the capital-T/lowercase-t split, then what
-// it means for a PM's next few years — and cutting it into headed
-// sections would impose a structure the piece does not have.
+// The shortest of the four pre-campaign articles at ~650 words. It has
+// no HEADINGS — the MS-in-Law essay carries four over 1,400 words and
+// this piece is one continuous move — but it is divided, in three parts
+// that match the published article: the shallow heuristic it rejects,
+// the capital-T / lowercase-t distinction it builds, and what that
+// means for a PM's next few years. Rules mark those turns where a
+// heading would over-declare them.
+//
+// The distinction itself is a Blockquote rather than a run-in
+// paragraph. It is the sentence the piece turns on: everything above it
+// builds toward it and everything below follows from it.
 //
 // This is the essay Craft's blurb was widened for. It is about PM
 // practice rather than the law/theatre/non-linear-career reading the
 // pillar used to describe, which is what prompted the rewrite on
 // 2026-09-28.
 //
-// TWO LINKEDIN-ISMS REMOVED:
+// TWO THINGS REMOVED:
 //   1. The inline "#productManagement" hashtag in the opening sentence,
 //      which reads as a tag on LinkedIn and as a typo anywhere else. It
 //      is plain "product management" here.
-//   2. Nothing else. The 🤓 stays — that is his voice, not a platform
-//      artifact.
+//   2. The closing P.S., dropped in full on Malcolm's call. It opened
+//      by pointing at "the article image" — a still from Beyoncé's
+//      "Renaissance" documentary — which this page does not carry, so
+//      its first clause referred to nothing. Carrying the still was the
+//      alternative and would have meant reproducing a frame from a film
+//      its owner has deliberately never released digitally, on a site
+//      that functions as professional marketing.
 //
-// The P.S. is kept AS WRITTEN and it carries an open question: its
-// first clause refers to "the article image", which this page does not
-// have. See the note above it.
+// The 🤓 stays. That is voice, not a platform artifact.
 //
 // `meta` is consumed by lib/writing/essays.ts (the registry); the
 // default export is the article body, rendered inside ArticleContainer
@@ -34,6 +42,7 @@
 // ─────────────────────────────────────────────────────────────────
 
 import { Body } from "@/components/case-study/primitives";
+import { Blockquote } from "@/components/reading/Blockquote";
 import { Divider } from "@/components/reading/Divider";
 import type { EssayMeta } from "@/lib/writing/types";
 
@@ -66,6 +75,11 @@ export default function Essay() {
           about when to get out of the way, and perhaps, when to get in the way
           — trust but verify.
         </p>
+      </Body>
+
+      <Divider />
+
+      <Body>
         <p>
           When talking about product leaders, Marty Cagan puts forth that
           product leaders are specifically people managers. Of course,
@@ -94,12 +108,25 @@ export default function Essay() {
           technical PM can drive discussions of these tradeoffs more efficiently
           than a non-technical PM.
         </p>
-        <p>
-          A TPM is not necessarily technical and vice versa. In other words,
-          technical with a capital “T” should indicate the types of products a
-          PM supports, not their level of technical skill. And technical, with a
-          lowercase “t,” is something all PMs could benefit from becoming.
-        </p>
+        {/* The thesis. Set off rather than run in: everything above
+            builds the capital-T / lowercase-t distinction and everything
+            below follows from it, so this is the sentence the piece
+            turns on. Blockquote and not Pullquote — a full passage at
+            body size, where a pull quote lifts one line to display. */}
+        <Blockquote>
+          <p>
+            A TPM is not necessarily technical and vice versa. In other words,
+            technical with a capital “T” should indicate the types of products
+            a PM supports, not their level of technical skill. And technical,
+            with a lowercase “t,” is something all PMs could benefit from
+            becoming.
+          </p>
+        </Blockquote>
+      </Body>
+
+      <Divider />
+
+      <Body>
         <p>
           When I was breaking into PM, I was bullish on becoming technical
           because I could see then, as I do now, where technology is headed:
@@ -118,37 +145,6 @@ export default function Essay() {
           to build trust with engineers and bring them more into the PM space,
           not to go deeper into the engineering space (even if you’re like me
           and love it in there 🤓).
-        </p>
-      </Body>
-
-      {/* The coda rule, the same move the MS-in-Law essay makes before
-          its closing note: it sets the P.S. off from the argument
-          without pretending to be a section boundary. */}
-      <Divider />
-
-      <Body>
-        {/* OPEN: this P.S. opens by pointing at "the article image",
-            which existed on LinkedIn and does not exist here. Kept as
-            written rather than trimmed, because it is Malcolm's copy
-            and the recommendation in its second half stands on its own.
-            Three ways out, his call: carry the still as a Figure (it is
-            evidence rather than decoration — the whole point is that it
-            demonstrates the argument), rewrite the opening clause so
-            the recommendation leads, or cut the P.S. entirely.
-
-            Flagging the first one properly: the still is a frame from a
-            documentary its owner has deliberately never released
-            digitally, reproduced on a site that functions as
-            professional marketing. That is a weaker fair-use posture
-            than a review or commentary context would be, and it is
-            worth a deliberate decision rather than a default. */}
-        <p>
-          P.S. — The article image is from a scene in Beyoncé’s “Renaissance”
-          documentary where she demonstrates “trust but verify” while working
-          with her lighting team on the tour. I can’t find the clip because she
-          famously has not released the film on digital, but I highly recommend
-          it if you can find it because it gets to the core of what I’ve said
-          here in seconds.
         </p>
       </Body>
     </>
