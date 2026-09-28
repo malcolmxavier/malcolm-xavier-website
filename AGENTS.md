@@ -80,3 +80,29 @@ Test for `Article`/`BreadcrumbList`; validator.schema.org for everything else).
 Do not improvise a one-off schema block that skips the connectivity pair.
 <!-- END:structured-data -->
 
+# Text width comes from a token, never from a literal
+
+Every block of text on this site is in one of three states, and picking the
+wrong one is where essentially every width bug here has come from:
+
+- a **reading column** (continuous prose read start to finish) takes the
+  reading measure;
+- a **header block** (the eyebrow / headline / deck group) is not a reading
+  column, takes the wider header measure, and aligns with the page;
+- **page geometry** (grids, tables, cards, data) takes the well and gets no
+  measure at all.
+
+Two rules follow. **Measure belongs to the container, never to the type
+component**—a container sets it once and its children fill it, because a
+paragraph that clamps itself cannot be composed and makes a page ragged from
+the inside. And **a width is a token**, so a bare `maxWidth: "65ch"` or
+`max-w-[46rem]` at a call site is the bug, not the fix.
+
+Before changing any max-width on text, or adding a surface that needs a
+different one, read `MEASURE.md` at the repo root. It carries the values, the
+reason the unit is `ch` rather than `rem` (the site swaps typefaces between
+recruiter and sub-brand pages, and only `ch` holds the character count across
+that boundary), the procedure for a legitimate exception, and the conversion
+checklist. The rule was written on 2026-09-28 after an audit found eleven
+unreconciled literal widths and three code comments stating three different
+targets.
