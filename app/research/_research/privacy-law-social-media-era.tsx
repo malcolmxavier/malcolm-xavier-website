@@ -43,13 +43,24 @@ export const meta: ProjectMeta = {
     "state through the lens of hyperrealism, with outsized harm to Black people. " +
     "And what individuals, technologists, corporations, and governments can do to " +
     "reclaim it.",
-  // The on-page description runs 239 characters. This is the search and
-  // social snippet: the same claim in Malcolm's words, minus the theory
-  // term, which is jargon in a SERP box and costs the length that the
-  // harm clause needs.
+  // The on-page description runs 239 characters; this is the search and
+  // social snippet at 150. It is the first sentence verbatim — nothing
+  // is trimmed, because dropping the remedy sentence alone gets under
+  // the limit on its own. That is also the right sentence to lose:
+  // nobody searches for what governments can do, they search for the
+  // claim.
+  //
+  // "hyperrealism" stays on purpose. It is low-volume and high-intent —
+  // somebody searching it next to privacy law is exactly this paper's
+  // reader — so an earlier draft that cut it as SERP jargon had the
+  // trade backwards. It is NOT in metaTitle, deliberately: the title
+  // has less room to spend and "privacy law" and "social media" are the
+  // higher-volume terms, so the theory term earns its place here
+  // instead. Decided 2026-09-27.
   metaDescription:
     "Social media trades our privacy for publicity, accelerating a " +
-    "surveillance state with outsized harm to Black people.",
+    "surveillance state through the lens of hyperrealism, with " +
+    "outsized harm to Black people.",
   authors: [{ name: "Malcolm Xavier", self: true }],
   dateDisplay: "2023",
   // The citations were last visited May 6, 2023 — the paper's completion.
