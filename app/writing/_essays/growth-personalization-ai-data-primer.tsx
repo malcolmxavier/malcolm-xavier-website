@@ -139,8 +139,11 @@ export default function Essay() {
             Bearing these assumptions in mind, business and innovation advances
             tend to prioritize speed over fidelity. With AI, the trade-offs,
             risks, and opportunities with this approach usually come back to
-            data (and, in a way, back to my thoughts on context).
-            Personalization-driven growth and engagement experiences will only
+            data (and, in a way, back to{" "}
+            <Link href="/writing/ai/context-rules-everything">
+              my thoughts on context
+            </Link>
+            ). Personalization-driven growth and engagement experiences will only
             be as good as their data practice. Many will have an overabundance
             of opportunity.
           </p>
@@ -388,8 +391,11 @@ export default function Essay() {
             tactics to deploy for more effective success. The data labelling and
             standard naming conventions are artifact outputs of the same
             stakeholder management from Connectivity (above). Without this
-            consistency in data legibility, AI-driven features become modern
-            GIGO machines.
+            consistency in data legibility, AI-driven features become modern{" "}
+            <Link href="https://en.wikipedia.org/wiki/Garbage_in,_garbage_out">
+              GIGO
+            </Link>{" "}
+            machines.
           </p>
           <Note marker="*">
             “Consistently,” here means relative to each tool, not the same for
