@@ -67,12 +67,26 @@ export function Downloads({
       </h2>
       <ul className="m-0 flex list-none flex-col gap-3 p-0">
         {items.map((item) => (
-          <li key={item.href} className="flex flex-col gap-0.5">
+          // The rest colour lives on the <li> so the anchor's
+          // `color: inherit` resolves to it — link-heading sets that
+          // colour with !important, which a class on the anchor can't
+          // beat, and inheriting is how the rule is meant to be driven.
+          <li
+            key={item.href}
+            className="flex flex-col gap-0.5 text-[var(--text-heading)]"
+          >
+            {/* link-heading, the shared heading-link treatment: neutral
+                at rest, action green on hover AND keyboard focus. This
+                used to hover to --text-action-hover, which resolves to
+                #000 on the light recruiter cluster — the same value as
+                the rest colour, so the hover did nothing at all, and in
+                dark went white → #d7dad7, a greyer white. Same wrong
+                token the heading links had. */}
             <a
               href={item.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-fit text-[var(--text-heading)] underline decoration-2 underline-offset-4 hover:[color:var(--text-action-hover)]"
+              className="link-heading w-fit"
               style={{ fontFamily: "var(--font-primary)", fontSize: "1.05rem" }}
             >
               {item.label} ↓<span className="sr-only"> (opens in new tab)</span>
