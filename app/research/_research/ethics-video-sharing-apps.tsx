@@ -34,7 +34,20 @@ export const meta: ProjectMeta = {
   subtitle:
     "Legal, Technical, and Ethical Notes for the Future of Video-Sharing Apps",
   description:
-    "Copyright law, the DMCA, and the recommendation feed decide what creators can make—and who disappears when a trend takes off.",
+    "Ethics in the product management of video-sharing apps. How copyright " +
+    "law, the DMCA, parent companies, and recommendation algorithms shape " +
+    "what and which creators make.",
+  // The on-page description runs 168 characters; this is the search and
+  // social snippet at 150. The single cut is "parent companies" — the
+  // least searched of the four mechanisms, where copyright law, the
+  // DMCA, and recommendation algorithms are all terms a reader types.
+  // Keeping "video-sharing apps" matters more than keeping the fourth
+  // item in the list, since it is the only phrase naming what kind of
+  // platform this is about. The full list survives on the page.
+  metaDescription:
+    "Ethics in the product management of video-sharing apps. How copyright " +
+    "law, the DMCA, and recommendation algorithms shape what and which " +
+    "creators make.",
   authors: [{ name: "Malcolm Xavier", self: true }],
   // Only the year is shown; the machine date is the spring-2022 first-year
   // MSL symposium submission (citations were last visited December 2021).
