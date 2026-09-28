@@ -129,7 +129,20 @@ export default async function MusicPage() {
           <Stack gap="500">
             <Kicker accent>Music</Kicker>
             <Display>My taste. Your next listen.</Display>
-            <Lede>
+            {/* `wide` drops the measure cap, matching the /films and
+                /television heroes exactly. This is a listing hero: a
+                short blurb above card modules, so any cap only holds
+                the cards lower on the first screen without buying
+                legibility — the deck is two lines either way. The three
+                sub-brand indexes are the same page shape and the other
+                two have carried `wide` all along; this one was simply
+                missed, and the 2026-09-28 measure pass is what made the
+                divergence visible. MEASURE.md 1 has the rule.
+
+                The SpotifyUnavailable hero below deliberately stays
+                capped: that one is an error message somebody reads,
+                with no grid under it to hold down. */}
+            <Lede wide>
               I release a new playlist each month. Click any card for
               the full track list. And click through to listen on Spotify
               or Apple Music. Check back in each month to see what’s new.
