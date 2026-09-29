@@ -89,7 +89,7 @@ resolve the import before reasoning about the value.**
 | Page geometry | `--container-page` | `104rem` | Grids, tables, cards, data |
 | *(exception)* | `--measure-panel` | `52ch` | A dashboard panel's lede—see §4 |
 | *(exception)* | `--measure-scan` | `70ch` | Text that is scanned, not read—`/resume` |
-| Essay column | `--column-essay` | `46rem` | The whole `/essays` article—rem, not ch; see §3 |
+| Essay column | `--column-essay` | `52rem` | The whole `/essays` article—rem, not ch; see §3 |
 
 `--measure-header` was set by reasoning rather than by looking: wide enough
 that a deck stops reading as indented under its headline, narrow enough that

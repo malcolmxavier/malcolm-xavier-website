@@ -529,12 +529,28 @@ out.push("  --container-page: 104rem; /* 1664px */");
 // for every child. A column width is page geometry for the things
 // stacked in it; the measure inside it is still governed by ch.
 //
-// It was a bare 40rem at the call site until 2026-09-28. Widened to 46rem
-// at Malcolm's read: the rest of the site moved onto a 104rem well, which
-// left these pages looking tighter than everything around them. 46rem is
-// about 77 characters at the body size - comfortably inside the range,
-// and the same base the research routes use, so the three long-form
-// surfaces now agree. The article stays CENTRED rather than aligning
+// It was a bare 40rem at the call site until 2026-09-28, then 46rem, now
+// 52rem - and the two steps had different reasons.
+//
+// 46rem was the rest of the site moving onto a 104rem well and leaving
+// these pages looking tighter than everything around them.
+//
+// 52rem is what the column earned by absorbing the page's furniture. The
+// plan for the space beside a centred essay was a rail carrying the
+// pillar, the reading time and a way back; all three ended up IN the
+// column instead - the back link above the header, the reading time in
+// the dateline, the neighbour cards below - so nothing is waiting for
+// that margin any more and the text can have it.
+//
+// 52rem is about 87 characters at the body size. That is the practical
+// ceiling rather than a comfortable middle: past roughly 90 the eye
+// starts losing its place on the carriage return, which is the whole
+// reason a measure exists. Do not widen this again without moving the
+// body type up with it.
+//
+// One value, no responsive step, unlike the type scale above. Below about
+// a 940px viewport the gutters constrain the column harder than 52rem
+// does, so a tablet override would be inert. The article stays CENTRED rather than aligning
 // left on the rail, which is the one place a reading column on this site
 // is allowed to differ from ProjectContainer: he likes it centred, and a
 // page that is nothing but one column has no second edge to line up
@@ -569,7 +585,7 @@ out.push("  --measure-read: 60ch;");
 out.push("  --measure-header: 90ch;");
 out.push("  --measure-panel: 52ch;");
 out.push("  --measure-scan: 70ch;");
-out.push("  --column-essay: 46rem;");
+out.push("  --column-essay: 52rem;");
 out.push("}");
 out.push("");
 

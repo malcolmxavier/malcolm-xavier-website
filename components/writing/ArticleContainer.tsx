@@ -8,12 +8,21 @@
 // line of prose — there the section states the measure and only the
 // prose inside takes it.
 //
-// WIDTH. --column-essay, 46rem, up from a bare 40rem on 2026-09-28.
-// The number moved because the rest of the site did: once every other
-// surface sat on a 104rem well, these pages read as tighter than
-// everything around them. 46rem is roughly 77 characters at the body
-// size and the same base the research routes use, so the long-form
-// surfaces agree now. See MEASURE.md, and the note above the token in
+// WIDTH. --column-essay, 52rem, having been a bare 40rem and then 46rem
+// on 2026-09-28. The first step was the rest of the site moving onto a
+// 104rem well and leaving these pages looking tighter than everything
+// around them. The second is what the column earned by absorbing the
+// page's furniture: the plan for the space beside a centred essay was a
+// rail carrying the pillar, the reading time and a way back, and all
+// three ended up inside the column instead — the back link above the
+// header, the reading time in the dateline, the neighbour cards below.
+// Nothing is waiting for that margin, so the text has it.
+//
+// 52rem is about 87 characters at the body size, which is the practical
+// ceiling rather than a comfortable middle: past roughly 90 the eye
+// starts losing its place on the carriage return. Do not widen it again
+// without moving the body type up with it. See MEASURE.md, and the note
+// above the token in
 // scripts/build-tokens.mjs for why this one width is in rem while every
 // measure is in ch: it caps a column holding a 52px title, 19px body,
 // and 16px notes at once, and "sixty characters" has three different
