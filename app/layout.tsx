@@ -261,6 +261,23 @@ export default function RootLayout({
       className={`${fontVariables} antialiased`}
     >
       <head>
+        {/* Feed auto-discovery, so a reader app offers to subscribe from
+            whatever page somebody happens to land on.
+
+            Written as a real <link> here rather than through the Metadata
+            API's `alternates.types`, and that is not a style preference.
+            Next REPLACES a parent's `alternates` object when a page sets
+            its own rather than merging into it, and 42 pages here set
+            `alternates: { canonical: … }`. Declaring the feed in the root
+            metadata therefore reached the homepage and nothing else —
+            verified before this was changed. The alternative was adding
+            the same `types` block to all 42. */}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={SITE_NAME}
+          href={`${SITE_URL}/feed.xml`}
+        />
         {/* Sitewide JSON-LD: WebSite + Person. See STRUCTURED_DATA
             comment above. Placed in <head> so crawlers and AI-search
             retrievers find the schema before the body parses. */}
