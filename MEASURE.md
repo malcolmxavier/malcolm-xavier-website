@@ -175,8 +175,18 @@ Converted as of 2026-09-28: *(update this list as the conversion lands)*
 - [ ] The remaining literals are **value decisions, not conversions**, and each
       one changes what is on screen if it moves:
       `CriticDisclaimer` writes `80ch` and the footer `30ch`, neither of which
-      is a reading measure at all. Also open and purely visual: whether
-      `ClaudeNote` joins the case-study reading column.
+      is a reading measure at all.
+- [x] `ClaudeNote` joins the reading column, both variants (Malcolm's call,
+      2026-09-28). Unclamped these were the worst lines on the site: the
+      default variant renders at 15/16px, *smaller* than the body text, and
+      small type in a wide column means more characters per line rather than
+      fewer—roughly 150 at 1664px, directly beside a paragraph stopping at
+      sixty. `cs-read` goes on the wrapper rather than the inner text div, so
+      the left rule and the kicker come with it instead of a label stretching
+      across the full column above a narrow paragraph. It lands slightly
+      narrower than the prose, which is correct: an aside set inside the text
+      column reads as subordinate to it, the same reason `Pullquote` sits just
+      inside the prose edge.
 - [x] `/resume` keeps its width and loses its literal (Malcolm's call,
       2026-09-28). It was `70ch` at four sites, which I filed as "four
       undocumented copies of one number… a habit"—wrong on the second half:

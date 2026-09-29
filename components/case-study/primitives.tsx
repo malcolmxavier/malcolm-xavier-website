@@ -475,6 +475,24 @@ export function ClaudeNote({
   // patterns (e.g. <span className="block mt-3">) keep working
   // because spans nest fine inside a div.
   //
+  // `cs-read` on the wrapper of both variants, so a note takes the
+  // reading measure like the prose it sits among. Unclamped these were
+  // the worst lines on the page: the default variant renders at 15/16px,
+  // SMALLER than the body text, and small type in a wide column means
+  // more characters per line, not fewer — about 150 of them at 1664px,
+  // directly beside a paragraph stopping at sixty.
+  //
+  // On the wrapper rather than on the inner text div, because the wrapper
+  // carries the left rule and the kicker too. Clamping only the text
+  // would leave the label stretched across the full column above a
+  // narrow paragraph, which trades one misalignment for another.
+  //
+  // It lands a little narrower than the prose beside it, since ch
+  // resolves against the wrapper's inherited 16px rather than the text's
+  // own size. That is the right result and not a rounding error: an
+  // aside set inside the text column reads as subordinate to it, which
+  // is the same reason Pullquote sits just inside the prose edge.
+  //
   // role="note" is added to both variants so screen readers announce
   // the block as supplementary commentary — the visual "set apart"
   // treatment of the left-rule and the card surface should have a
@@ -495,7 +513,7 @@ export function ClaudeNote({
     return (
       <div
         role="note"
-        className="case-glass my-10 md:my-12 p-6 md:p-7 rounded-[22px] border border-[var(--border-default)]"
+        className="cs-read case-glass my-10 md:my-12 p-6 md:p-7 rounded-[22px] border border-[var(--border-default)]"
       >
         <p
           className="m-0 mb-3 text-[11px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
@@ -513,7 +531,7 @@ export function ClaudeNote({
   return (
     <div
       role="note"
-      className="my-8 md:my-10 pl-4 md:pl-5 border-l-[2px] border-[var(--border-default)]"
+      className="cs-read my-8 md:my-10 pl-4 md:pl-5 border-l-[2px] border-[var(--border-default)]"
     >
       <p
         className="m-0 mb-2 text-[10px] uppercase tracking-[0.22em] text-[var(--text-caption)]"
