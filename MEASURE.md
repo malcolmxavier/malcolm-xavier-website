@@ -166,10 +166,18 @@ Converted as of 2026-09-28: *(update this list as the conversion lands)*
       `/resume` writes `70ch` at four sites with no stated reasoning (a resume
       is scanned rather than read start to finish, so wider is arguable—but
       four undocumented copies of one number is not a decision, it is a
-      habit); `/films/[slug]` and `/television/[showSlug]` write `65ch` for
-      review prose, which is a reading column and should probably just be
-      `--measure-read`; `CriticDisclaimer` writes `80ch` and the footer `30ch`,
-      neither of which is a reading measure at all.
+      habit); `CriticDisclaimer` writes `80ch` and the footer `30ch`, neither
+      of which is a reading measure at all. Also open and purely visual:
+      whether `ClaudeNote` joins the case-study reading column.
+- [x] `/films/[slug]` and `/television/[showSlug]` converged on
+      `--measure-read` (Malcolm's call, 2026-09-28). Those three sites wrote a
+      literal `65ch` with a note that ≈60-75ch is the typographic sweet spot.
+      Both halves of that were right; what was missing was that a film review
+      is a reading column like any other, and the site was carrying two
+      reading measures with nothing written down as a reason for the
+      difference. Five characters narrower. `ch` is why the sub-brand typeface
+      on those pages is not a reason to differ—the character count holds
+      across the swap.
 
 **Open, and it is a visual judgment rather than a rule question:** does
 `ClaudeNote` join the reading column? It is a callout, so §1 arguably licenses

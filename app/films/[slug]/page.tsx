@@ -690,14 +690,23 @@ export default async function FilmDetailPage({
         {/* The outer grid mirrors the hero's poster + title-block
             layout so the prose column lines up under the title
             block, leaving the poster column visually balanced by
-            negative space below. maxWidth: 65ch clamps the inner
-            column to a comfortable reading measure (≈60-75ch is
-            the typographic sweet spot; full container width was
-            running ~110ch on desktop and making longer reviews
-            uncomfortable to read). On mobile (<md) the grid
+            negative space below. --measure-read clamps the inner
+            column to a reading measure: full container width was
+            running ~110ch on desktop, which made longer reviews
+            uncomfortable to read. On mobile (<md) the grid
             collapses to a single column and the spacer drops out,
-            so the prose flows full-width with the same 65ch cap.
-            Closes films-detail-prose-too-wide. */}
+            so the prose flows full-width with the same cap.
+            Closes films-detail-prose-too-wide.
+
+            This was a literal 65ch until 2026-09-28, with a note
+            that ≈60-75ch is the typographic sweet spot. Both halves
+            of that were right; what was missing was that a film
+            review is a reading column like any other, and the site
+            had two of those sitting at two values with nothing
+            written down as a reason for the difference. It takes
+            the shared token now, five characters narrower. The unit
+            is ch, so the count holds even though these sub-brand
+            pages set a different typeface. See MEASURE.md. */}
         <Section padding="md" bordered>
           <div className="md:grid md:grid-cols-[200px_1fr] md:gap-8 lg:grid-cols-[240px_1fr] lg:gap-10">
             {/* Spacer mirrors the poster column on md+; on mobile
@@ -706,7 +715,7 @@ export default async function FilmDetailPage({
                 aria-hidden so SR users don't get an extra empty
                 landmark. */}
             <div aria-hidden="true" />
-            <div style={{ maxWidth: "65ch" }}>
+            <div style={{ maxWidth: "var(--measure-read)" }}>
               <Stack gap="800">
                 {/* Multi-review TOC — anchors to each review
                     article by index. Activates as soon as a film

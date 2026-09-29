@@ -754,7 +754,11 @@ export default async function TelevisionDetailPage({
               className="md:grid md:grid-cols-[200px_1fr] md:gap-8 lg:grid-cols-[240px_1fr] lg:gap-10"
             >
               <div aria-hidden="true" />
-              <div style={{ maxWidth: "65ch" }}>
+              {/* The reading measure, shared with /films/[slug] and with
+                  essay and case-study prose. A literal 65ch here until
+                  2026-09-28; see MEASURE.md for why a reading column
+                  takes the token rather than its own number. */}
+              <div style={{ maxWidth: "var(--measure-read)" }}>
                 <Stack gap="600">
                   <Headline level={2}>The whole show</Headline>
                   {wholeShowReviews.map((review, i) => (
@@ -1132,7 +1136,11 @@ function SeasonBlock({
             </div>
           ) : null}
         </div>
-        <div style={{ maxWidth: "65ch" }}>
+        {/* The reading measure, shared with /films/[slug] and with
+                  essay and case-study prose. A literal 65ch here until
+                  2026-09-28; see MEASURE.md for why a reading column
+                  takes the token rather than its own number. */}
+              <div style={{ maxWidth: "var(--measure-read)" }}>
           <Stack gap="400">
             <div
               style={{
