@@ -518,6 +518,28 @@ out.push("  --container-page: 104rem; /* 1664px */");
 // headline runs to its own width, and the header reads as ragged.
 // PROVISIONAL — set by reasoning rather than by looking, and wants a
 // check on screen at 1280/1440/1664 before it counts as settled.
+// --column-essay is the width of the whole essay article, and it is the
+// one width here written in rem rather than ch ON PURPOSE.
+//
+// The others cap a single block of text, so a character count is exactly
+// the right unit. This caps a COLUMN containing a 52px title, 19px body
+// copy, and 16px notes all at once, and "sixty characters" has three
+// different answers inside it - ch resolves against each element's own
+// font size, so one value on the wrapper would mean something different
+// for every child. A column width is page geometry for the things
+// stacked in it; the measure inside it is still governed by ch.
+//
+// It was a bare 40rem at the call site until 2026-09-28. Widened to 46rem
+// at Malcolm's read: the rest of the site moved onto a 104rem well, which
+// left these pages looking tighter than everything around them. 46rem is
+// about 77 characters at the body size - comfortably inside the range,
+// and the same base the research routes use, so the three long-form
+// surfaces now agree. The article stays CENTRED rather than aligning
+// left on the rail, which is the one place a reading column on this site
+// is allowed to differ from ProjectContainer: he likes it centred, and a
+// page that is nothing but one column has no second edge to line up
+// with.
+
 // --measure-scan is the other named exception: text that is SCANNED rather
 // than read start to finish, which today means /resume. A reading measure
 // exists to stop the eye losing its place on the carriage return of line
@@ -547,6 +569,7 @@ out.push("  --measure-read: 60ch;");
 out.push("  --measure-header: 90ch;");
 out.push("  --measure-panel: 52ch;");
 out.push("  --measure-scan: 70ch;");
+out.push("  --column-essay: 46rem;");
 out.push("}");
 out.push("");
 

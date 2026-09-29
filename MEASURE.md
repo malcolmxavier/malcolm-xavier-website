@@ -89,6 +89,7 @@ resolve the import before reasoning about the value.**
 | Page geometry | `--container-page` | `104rem` | Grids, tables, cards, data |
 | *(exception)* | `--measure-panel` | `52ch` | A dashboard panel's lede—see §4 |
 | *(exception)* | `--measure-scan` | `70ch` | Text that is scanned, not read—`/resume` |
+| Essay column | `--column-essay` | `46rem` | The whole `/essays` article—rem, not ch; see §3 |
 
 `--measure-header` was set by reasoning rather than by looking: wide enough
 that a deck stops reading as indented under its headline, narrow enough that
@@ -104,6 +105,14 @@ of 1280 and 1664.
 This site swaps typefaces between the recruiter-facing pages and the sub-brand
 pages, and a `rem` clamp would silently change the line length across that
 boundary while a `ch` clamp does not. **New measures are written in `ch`.**
+
+**`--column-essay` is the one exception, and it is not a measure.** It caps a
+whole column holding a 52px title, 19px body copy, and 16px notes at once, and
+"sixty characters" has three different answers inside that, because `ch`
+resolves against each element's own font size. A column width is page geometry
+for the things stacked in it; the measure *inside* it is still `ch`. So the test
+is what the value is clamping: **one block of text takes `ch`, a column of mixed
+sizes takes `rem`.**
 
 ### Why 60ch when the literature says 65–75 characters
 
@@ -230,9 +239,13 @@ element's own font size, so `.cs-read` on the wrapper (inheriting 16px) lands
 div matches exactly and leaves the `callout` variant's card wide around
 clamped text.
 
-**Two long-form routes still disagree about more than the number.**
-`ArticleContainer` (essays) centres on the viewport at `40rem` and sits
-*outside* `Container`; `ProjectContainer` (research) left-aligns at
-`46rem → 54rem` *inside* `Container`, and argues in its own comments that
-centring is wrong. Their left edges land in different places on a wide screen.
-That is a separate decision from measure and is not settled here.
+**The two long-form routes differ on alignment, and that is now a decision
+rather than an accident** (2026-09-28). `ArticleContainer` (essays) is centred;
+`ProjectContainer` (research) aligns left on the rail and argues in its own
+comments that centring is wrong. That argument holds where a page has other
+edges to line up with—research carries figures and a datafolio. An essay is
+one column and nothing else, so it has none, and Malcolm's read of the rendered
+page is that centred is right there. A pass tried left-aligning it for
+consistency and he reversed it the same day. **Do not re-raise it on the
+consistency argument.** Both now sit *inside* `Container`, so they share the
+site's gutters; what differs is only `mx-auto`.

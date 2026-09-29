@@ -1,19 +1,35 @@
 // ─────────────────────────────────────────────────────────────────
-// ArticleContainer — the reading column for a /essays essay.
+// ArticleContainer — the reading column for an /essays essay.
 //
 // An essay is text and nothing else, so the whole article is one
-// reading column: it caps at 40rem (~640px) and centres on the
-// viewport. A case study cannot do that, because it interleaves cards,
-// grids, and figures that need more room than a line of prose — there
-// the section fills the page's column and states the measure for the
-// prose inside it (CASE_STUDY_WIDTH, see MEASURE.md).
+// centred, clamped column: title, dateline, prose, notes, and quotes
+// all share one width. A case study cannot work that way, because it
+// interleaves cards, grids, and figures that need more room than a
+// line of prose — there the section states the measure and only the
+// prose inside takes it.
 //
-// The 40rem here is still a number written at the call site rather
-// than a token, which MEASURE.md's checklist has down as a separate
-// piece of work: the essay routes and the research routes disagree
-// about more than the number — they disagree about whether a reading
-// column centres on the viewport or aligns with the page — and that
-// is a decision, not a find-and-replace.
+// WIDTH. --column-essay, 46rem, up from a bare 40rem on 2026-09-28.
+// The number moved because the rest of the site did: once every other
+// surface sat on a 104rem well, these pages read as tighter than
+// everything around them. 46rem is roughly 77 characters at the body
+// size and the same base the research routes use, so the long-form
+// surfaces agree now. See MEASURE.md, and the note above the token in
+// scripts/build-tokens.mjs for why this one width is in rem while every
+// measure is in ch: it caps a column holding a 52px title, 19px body,
+// and 16px notes at once, and "sixty characters" has three different
+// answers inside that.
+//
+// CENTRED, and deliberately unlike ProjectContainer, which aligns left
+// on the rail and argues in its own comments that centring is wrong.
+// That argument holds where a page has other edges to line up with. An
+// essay is one column and nothing else, so it has none — and Malcolm's
+// read of the rendered page is that centred is right here. A pass on
+// 2026-09-28 tried left-aligning it for consistency and he reversed it
+// the same day; do not re-raise it on the consistency argument.
+//
+// It sits inside Container so it inherits the site's responsive gutters
+// rather than carrying its own px-6 md:px-8 — and because Container is
+// itself centred, centring within it is centring on the viewport.
 //
 // Renders a semantic <article> and stacks its children (header, intro,
 // sections, coda) on a single vertical rhythm, so callers don't manage
@@ -21,11 +37,14 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { ReactNode } from "react";
+import { Container } from "@/components/layout/Container";
 
 export function ArticleContainer({ children }: { children: ReactNode }) {
   return (
-    <article className="mx-auto max-w-[40rem] px-6 md:px-8 py-14 md:py-20">
-      <div className="flex flex-col gap-9 md:gap-11">{children}</div>
-    </article>
+    <Container className="py-14 md:py-20">
+      <article className="mx-auto w-full max-w-[var(--column-essay)]">
+        <div className="flex flex-col gap-9 md:gap-11">{children}</div>
+      </article>
+    </Container>
   );
 }

@@ -1595,16 +1595,19 @@ a.link-accent-pink,
   }
 }
 
-/* ── Case-study reading column ───────────────────────────────────
-   A case study is meant to read as a column of prose with things set
-   beside it — screenshots, pull quotes, stat cards, tables. Until
-   2026-09-28 nothing on the page said how wide that column was:
+/* ── Reading column ──────────────────────────────────────────────
+   A long-form page is meant to read as a column of prose with things
+   set beside it — screenshots, pull quotes, stat cards, tables. Used by
+   the case studies and, since 2026-09-28, by the essays, which is why
+   these class names carry no section in them: the earlier `cs-` prefix
+   described the one place they happened to be used first. Until
+   2026-09-28 nothing on a case-study page said how wide that column was:
    CASE_STUDY_WIDTH was the string "w-full", so every block ran the
    full width of the grid column it landed in and the page read as a
    wide box rather than as a column. See MEASURE.md at the repo root
    for the rule these three classes implement.
 
-   `.cs-column` is the one thing CASE_STUDY_WIDTH now carries: the
+   `.read-column` is the one thing CASE_STUDY_WIDTH now carries: the
    section states the measure once, and the prose inside it takes it.
    The section itself is NOT clamped, which is the point — a Beat has
    to stay as wide as its widest card so the grids and tables inside
@@ -1619,26 +1622,26 @@ a.link-accent-pink,
    the line length of one at 16px — about fifty-seven characters
    instead of sixty-eight.
 
-   A block that should be wider than the prose takes `.cs-breakout`.
+   A block that should be wider than the prose takes `.read-breakout`.
    That is a deliberate editorial call rather than an escape hatch:
    case studies carry schematics and screenshots that need the room,
    and a grid of cards is scanned rather than read, so no reading
    measure applies to it at all. Naming it means the next person can
    tell an intentional full-width block from one that was never
    given a width. */
-.cs-column {
-  --cs-read-measure: var(--measure-read);
+.read-column {
+  --read-column-measure: var(--measure-read);
 }
 
-/* Continuous prose. The fallback covers a `.cs-read` block used
+/* Continuous prose. The fallback covers a `.read-measure` block used
    outside a case-study column, where there is no column to ask. */
-.cs-read {
-  max-width: var(--cs-read-measure, var(--measure-read));
+.read-measure {
+  max-width: var(--read-column-measure, var(--measure-read));
 }
 
 /* Deliberately wider than the prose: fills the column instead. Sits
-   after `.cs-read` so a block carrying both ends up breaking out. */
-.cs-breakout {
+   after `.read-measure` so a block carrying both ends up breaking out. */
+.read-breakout {
   max-width: none;
 }
 

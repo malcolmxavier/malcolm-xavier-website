@@ -50,7 +50,7 @@ import { Kicker } from "@/components/typography/Kicker";
 //   Beat can hold a three-across grid of cards: the section is not
 //   narrowed, so the geometry inside it keeps its room.
 //
-//   `cs-column` — the section states how wide continuous PROSE is
+//   `read-column` — the section states how wide continuous PROSE is
 //   allowed to run inside it (the reading measure, see MEASURE.md).
 //   Before 2026-09-28 nothing on the page said this at all, so the
 //   paragraphs, the pull quotes, and the figures each ran to
@@ -64,7 +64,7 @@ import { Kicker } from "@/components/typography/Kicker";
 // Usage: `className={`${CASE_STUDY_WIDTH} scroll-mt-28 pt-9 pb-6`}`
 // in any case-study section wrapper.
 // ────────────────────────────────────────────────────────────────
-export const CASE_STUDY_WIDTH = "cs-column w-full";
+export const CASE_STUDY_WIDTH = "read-column w-full";
 
 // ─── CaseStudyKicker ────────────────────────────────────────────
 //
@@ -248,7 +248,7 @@ export function Beat({
 // ────────────────────────────────────────────────────────────────
 
 export function Body({ children }: { children: ReactNode }) {
-  // `cs-read` is what puts this block in the article's reading
+  // `read-measure` is what puts this block in the article's reading
   // column: it takes the measure the surrounding section states
   // rather than naming a width of its own, so a paragraph stops
   // after roughly seventy characters instead of running the whole
@@ -257,7 +257,7 @@ export function Body({ children }: { children: ReactNode }) {
   // size is set, and the measure is counted in characters of the
   // type it is measuring. See MEASURE.md and app/components.css.
   return (
-    <div className="cs-read flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-body)] [&>p]:m-0 [&>ul]:m-0 [&>ol]:m-0">
+    <div className="read-measure flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-body)] [&>p]:m-0 [&>ul]:m-0 [&>ol]:m-0">
       {children}
     </div>
   );
@@ -415,7 +415,7 @@ export function Pullquote({
     },
   };
   return (
-    // `cs-read` rather than `cs-breakout`, and the distinction is the
+    // `read-measure` rather than `read-breakout`, and the distinction is the
     // one the first pass at this got wrong: a SCREENSHOT needs the whole
     // column and a PULL QUOTE does not, because a pull quote is still
     // text. Left to fill a 1248px column at 28px it ran past a hundred
@@ -429,7 +429,7 @@ export function Pullquote({
     // reason beyond arithmetic: a pull quote set slightly narrower than
     // the text around it reads as lifted out of the column, which is
     // the whole device.
-    <figure className="cs-read my-10 md:my-12 pl-5 md:pl-6 border-l-[2px] border-[var(--border-default)]">
+    <figure className="read-measure my-10 md:my-12 pl-5 md:pl-6 border-l-[2px] border-[var(--border-default)]">
       {quoting ? (
         <blockquote {...typeProps}>“{children}”</blockquote>
       ) : (
@@ -475,7 +475,7 @@ export function ClaudeNote({
   // patterns (e.g. <span className="block mt-3">) keep working
   // because spans nest fine inside a div.
   //
-  // NO measure on either variant. This was clamped to cs-read on
+  // NO measure on either variant. This was clamped to read-measure on
   // 2026-09-28 and Malcolm reversed it the same day, having looked at it
   // on the page: a note is not prose to be read at the body measure, and
   // narrowing it made it read as a second, competing column rather than
