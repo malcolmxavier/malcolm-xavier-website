@@ -228,12 +228,19 @@ function RoleBlock({ role }: { role: ResumeRole }) {
           </span>
         </p>
 
-        {/* Italic single-line context, like the resume PDF */}
+        {/* Italic single-line context, like the resume PDF.
+            --measure-scan, not the reading measure: a resume is scanned
+            rather than read start to finish, and it was a literal 70ch
+            at this and three other sites until 2026-09-28. The number is
+            measured rather than guessed — see the note above the token in
+            scripts/build-tokens.mjs for the bullet-length data that keeps
+            it at 70 — and the other three sites are the work bullet, the
+            education context line, and the education detail line. */}
         <Body
           size="md"
           className="italic-kern"
           style={{
-            maxWidth: "70ch",
+            maxWidth: "var(--measure-scan)",
             color: "var(--text-caption)",
             fontStyle: "italic",
           }}
@@ -265,7 +272,7 @@ function RoleBlock({ role }: { role: ResumeRole }) {
                   lineHeight: "var(--p-md-line-height)",
                   color: "var(--text-body)",
                   marginBlockEnd: "var(--scale-200)",
-                  maxWidth: "70ch",
+                  maxWidth: "var(--measure-scan)",
                 }}
               >
                 {bullet}
@@ -416,7 +423,7 @@ function EducationBlock({ entry }: { entry: ResumeEducation }) {
             size="md"
             className="italic-kern"
             style={{
-              maxWidth: "70ch",
+              maxWidth: "var(--measure-scan)",
               color: "var(--text-caption)",
               fontStyle: "italic",
             }}
@@ -439,7 +446,7 @@ function EducationBlock({ entry }: { entry: ResumeEducation }) {
                   lineHeight: "var(--p-sm-line-height)",
                   color: "var(--text-body)",
                   marginBlockEnd: "var(--scale-100)",
-                  maxWidth: "70ch",
+                  maxWidth: "var(--measure-scan)",
                 }}
               >
                 {d}

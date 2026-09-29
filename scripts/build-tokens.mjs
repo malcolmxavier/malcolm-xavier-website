@@ -518,6 +518,21 @@ out.push("  --container-page: 104rem; /* 1664px */");
 // headline runs to its own width, and the header reads as ragged.
 // PROVISIONAL — set by reasoning rather than by looking, and wants a
 // check on screen at 1280/1440/1664 before it counts as settled.
+// --measure-scan is the other named exception: text that is SCANNED rather
+// than read start to finish, which today means /resume. A reading measure
+// exists to stop the eye losing its place on the carriage return of line
+// forty, and nobody does that on a two-line resume bullet - so the thing it
+// buys is not in play, while the thing it costs is.
+//
+// The cost was measured rather than argued, on 2026-09-28 across the 41
+// bullets the page actually renders: median 87 characters, mean 98. At 70ch
+// (roughly 78-84 rendered characters) 13 of them fit on one line. At the
+// reading measure, 4 do. Converging would therefore push nine bullets onto a
+// second line on the most recruiter-facing page on the site, and getting
+// bullets onto single lines is work Malcolm does by hand on the printable
+// resume. The number is recorded here so the next person does not re-open
+// this on the general principle and quietly spend those nine lines.
+
 // --measure-panel is a named exception under MEASURE.md section 4, not a
 // third general state. A dashboard panel's lede spans the full width of
 // the stats grid, and at the reading measure it left a starved column
@@ -531,6 +546,7 @@ out.push("  /* Text measure — see MEASURE.md */");
 out.push("  --measure-read: 60ch;");
 out.push("  --measure-header: 90ch;");
 out.push("  --measure-panel: 52ch;");
+out.push("  --measure-scan: 70ch;");
 out.push("}");
 out.push("");
 

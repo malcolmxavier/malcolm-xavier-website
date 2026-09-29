@@ -88,6 +88,7 @@ resolve the import before reasoning about the value.**
 | Header block | `--measure-header` | `90ch` | Eyebrow / headline / deck groups |
 | Page geometry | `--container-page` | `104rem` | Grids, tables, cards, data |
 | *(exception)* | `--measure-panel` | `52ch` | A dashboard panel's lede—see §4 |
+| *(exception)* | `--measure-scan` | `70ch` | Text that is scanned, not read—`/resume` |
 
 `--measure-header` was set by reasoning rather than by looking: wide enough
 that a deck stops reading as indented under its headline, narrow enough that
@@ -118,8 +119,18 @@ measuring it three different ways.
 ## 4. Adding an exception
 
 Some surfaces genuinely want a different measure. `/resume` is scanned rather
-than read start to finish, so a wider line is defensible; the footer's `30ch`
-is a deliberately narrow column, not a reading measure at all.
+than read start to finish; the footer's `30ch` is a deliberately narrow column,
+not a reading measure at all.
+
+**An exception is earned with a measurement, not an argument.** `--measure-scan`
+is the worked example. The case for it sounds like taste—a resume is skimmed, so
+a wider line is fine—and the number that settles it is the corpus: across the 41
+bullets `/resume` renders, the median is 87 characters and the mean 98. At
+`70ch` (roughly 78–84 rendered characters) 13 fit on one line; at the reading
+measure, 4 do. Converging would push **nine bullets onto a second line** on the
+most recruiter-facing page on the site. That is the kind of fact that should be
+in the token's own comment, because it is what stops the next person re-opening
+the decision on the general principle.
 
 An exception is fine. **A silent exception is not.** To add one:
 
@@ -163,12 +174,16 @@ Converted as of 2026-09-28: *(update this list as the conversion lands)*
       roughly twenty pages.
 - [ ] The remaining literals are **value decisions, not conversions**, and each
       one changes what is on screen if it moves:
-      `/resume` writes `70ch` at four sites with no stated reasoning (a resume
-      is scanned rather than read start to finish, so wider is arguable—but
-      four undocumented copies of one number is not a decision, it is a
-      habit); `CriticDisclaimer` writes `80ch` and the footer `30ch`, neither
-      of which is a reading measure at all. Also open and purely visual:
-      whether `ClaudeNote` joins the case-study reading column.
+      `CriticDisclaimer` writes `80ch` and the footer `30ch`, neither of which
+      is a reading measure at all. Also open and purely visual: whether
+      `ClaudeNote` joins the case-study reading column.
+- [x] `/resume` keeps its width and loses its literal (Malcolm's call,
+      2026-09-28). It was `70ch` at four sites, which I filed as "four
+      undocumented copies of one number… a habit"—wrong on the second half:
+      it is two things applied twice, a context line and a bullet line, once
+      for work and once for education. Consistent, just undocumented. The
+      value is right and now `--measure-scan`, with the bullet-length
+      measurement in the token's comment. See §4.
 - [x] `/films/[slug]` and `/television/[showSlug]` converged on
       `--measure-read` (Malcolm's call, 2026-09-28). Those three sites wrote a
       literal `65ch` with a note that ≈60-75ch is the typographic sweet spot.

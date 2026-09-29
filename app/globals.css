@@ -16,7 +16,7 @@
      - Responsive/desktop.json
      - Responsive/mobile.json
      - Responsive/tablet.json
-   Built:        2026-09-28T23:13:01.294Z
+   Built:        2026-09-29T00:03:15.013Z
    Regenerate:   npm run tokens:build
    ────────────────────────────────────────────────────────── */
 
@@ -1117,6 +1117,7 @@
   --measure-read: 60ch;
   --measure-header: 90ch;
   --measure-panel: 52ch;
+  --measure-scan: 70ch;
 }
 
 /* ─── The Booth ───────────────────────────────────────────── */
