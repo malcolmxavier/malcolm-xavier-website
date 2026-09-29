@@ -45,13 +45,32 @@
 // inter-block spacing themselves.
 // ─────────────────────────────────────────────────────────────────
 
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { Container } from "@/components/layout/Container";
 
 export function ArticleContainer({ children }: { children: ReactNode }) {
   return (
     <Container className="py-14 md:py-20">
-      <article className="mx-auto w-full max-w-[var(--column-essay)]">
+      {/* The article declares the reading measure as its OWN width, which
+          is the piece that makes widening this column actually widen the
+          text.
+
+          Essay prose is `Body` from case-study/primitives, which carries
+          `read-measure` — and that resolves `--read-column-measure`,
+          falling back to `--measure-read` (60ch, about 780px at the body's
+          19px) when nothing declares it. So while the column sat at 46rem
+          it was narrower than 780px and won; the moment it went past that,
+          the body stopped at 780px and only the title, which carries no
+          measure of its own, took the extra width. Declaring the variable
+          here points both at the same number.
+
+          This is `read-column`'s contract — the column states the measure,
+          children take it — with the essay column as the value instead of
+          the sitewide default. */}
+      <article
+        className="mx-auto w-full max-w-[var(--column-essay)]"
+        style={{ "--read-column-measure": "var(--column-essay)" } as CSSProperties}
+      >
         <div className="flex flex-col gap-9 md:gap-11">{children}</div>
       </article>
     </Container>
