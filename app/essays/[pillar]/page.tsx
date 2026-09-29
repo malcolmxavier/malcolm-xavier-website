@@ -54,9 +54,9 @@ export async function generateMetadata({
   if (!key) return { title: "Not found" };
   const meta = WRITING_PILLARS[key];
   const canonical = `/essays/${key}`;
-  const socialTitle = `${meta.label}—Writing—Malcolm Xavier`;
+  const socialTitle = `${meta.label}—Essays—Malcolm Xavier`;
   return {
-    title: `${meta.label}—Writing`,
+    title: `${meta.label}—Essays`,
     description: meta.blurb,
     alternates: { canonical },
     // `noindex, follow` until this pillar clears the index bar. Below it
@@ -113,7 +113,7 @@ export default async function WritingPillarPage({
     "@type": "CollectionPage",
     "@id": `${SITE_URL}/essays/${key}/#collectionpage`,
     url: `${SITE_URL}/essays/${key}`,
-    name: `${meta.label}—Writing`,
+    name: `${meta.label}—Essays`,
     description: meta.blurb,
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#person` },
@@ -145,8 +145,12 @@ export default async function WritingPillarPage({
         <Section padding="lg">
           <Stack gap="500">
             <Kicker>
+              {/* Reads "Essays", matching the route, the nav label, and the
+                  hub's own eyebrow. It said "Writing" until 2026-09-28 —
+                  left behind by the rename in 04484b3, and missed again when
+                  that was swept, because the sweep only checked the hub. */}
               <Link href="/essays" quiet>
-                Writing
+                Essays
               </Link>{" "}
               · {meta.label}
             </Kicker>
@@ -157,7 +161,15 @@ export default async function WritingPillarPage({
         <Section padding="md" bordered>
           <Grid cols={2} gap="600">
             {essays.map((essay) => (
-              <EssayCard key={`${essay.pillar}/${essay.slug}`} essay={essay} />
+              <EssayCard
+                key={`${essay.pillar}/${essay.slug}`}
+                essay={essay}
+                // This pillar page is the listing these cards sit on, so
+                // an essay reached from here keeps the pillar as its
+                // scope: the back link returns here, and the neighbour
+                // cards walk this pillar rather than the whole corpus.
+                originHref={`/essays/${key}`}
+              />
             ))}
           </Grid>
         </Section>

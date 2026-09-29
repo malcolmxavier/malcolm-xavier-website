@@ -186,6 +186,48 @@ export function getEssay(pillar: string, slug: string): Essay | undefined {
   return ESSAYS.find((e) => e.pillar === pillar && e.slug === slug);
 }
 
+/** Which list of essays a reader is moving through. "all" is the hub's
+ *  full corpus; a pillar slug is that pillar's page. */
+export type EssayScope = "all" | WritingPillar;
+
+/** The essay either side of one, in publication order. `undefined` on a
+ *  side means the essay is at that end of its scope. */
+export interface EssayNeighbors {
+  newer?: Essay;
+  older?: Essay;
+}
+
+/** The essays immediately either side of `essay` within one scope.
+ *
+ *  ONE function taking the scope, rather than a global and a per-pillar
+ *  variant: the two differ only in which list is walked, and two copies
+ *  of an off-by-one are two chances to get the boundary wrong.
+ *
+ *  It walks ESSAYS / essaysByPillar rather than sorting again, so the
+ *  order here is by construction the same order the hub and the pillar
+ *  pages render — postDate, newest first (see the sort on ESSAYS). A
+ *  local re-sort would be a second definition of "newest" that could
+ *  drift from the one the grids use.
+ *
+ *  NEWER means published more recently, which in a newest-first array is
+ *  the LOWER index. The naming is deliberate over "next/previous": from
+ *  the newest essay, "next in the array" points at an older piece, and
+ *  calling that "next" is backwards to a reader. Same reasoning as
+ *  CaseStudyNav. */
+export function essayNeighbors(essay: Essay, scope: EssayScope): EssayNeighbors {
+  const scoped = scope === "all" ? ESSAYS : essaysByPillar(scope);
+  const i = scoped.findIndex(
+    (e) => e.pillar === essay.pillar && e.slug === essay.slug,
+  );
+  // Not in this scope at all (a pillar that isn't the essay's own) —
+  // neither side exists, which is the same answer as a scope of one.
+  if (i === -1) return {};
+  return {
+    newer: i > 0 ? scoped[i - 1] : undefined,
+    older: i < scoped.length - 1 ? scoped[i + 1] : undefined,
+  };
+}
+
 /** Format a postDate (YYYY-MM-DD) for display. Noon-Pacific pins the
  *  wall-clock date so a UTC build environment doesn't shift it a day. */
 export function formatEssayDate(postDate: string): string {

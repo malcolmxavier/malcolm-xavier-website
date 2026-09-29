@@ -179,6 +179,11 @@ export default function WritingHub() {
                 <EssayCard
                   key={`${essay.pillar}/${essay.slug}`}
                   essay={essay}
+                  // The hub is the listing these cards sit on, so an
+                  // essay reached from here gets hub-scoped navigation:
+                  // a back link to /essays and neighbours drawn from the
+                  // whole corpus.
+                  originHref="/essays"
                 />
               ))}
             </Grid>

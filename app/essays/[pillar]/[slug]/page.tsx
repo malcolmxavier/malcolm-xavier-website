@@ -10,17 +10,30 @@
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { Kicker } from "@/components/typography/Kicker";
 import { Dateline } from "@/components/typography/Dateline";
 import { Link } from "@/components/primitives/Link";
 import { ArticleContainer } from "@/components/writing/ArticleContainer";
 import {
+  BackToEssays,
+  BackToEssaysFallback,
+} from "@/components/writing/BackToEssays";
+import {
+  EssayNav,
+  EssayNavCards,
+  type EssayNavItem,
+  type EssayNavNeighbors,
+} from "@/components/writing/EssayNav";
+import {
   pillarLinkReady,
   ESSAYS,
+  essayNeighbors,
   getEssay,
   WRITING_PILLARS,
   formatEssayDate,
+  type Essay,
 } from "@/lib/writing/essays";
 import {
   SITE_URL,
@@ -42,6 +55,31 @@ export function generateStaticParams() {
 // displayed date on the intended calendar day in a UTC build env.
 function isoWithTz(postDate: string): string {
   return `${postDate}T12:00:00-07:00`;
+}
+
+/** Flatten an essay to the plain strings the neighbour cards render.
+ *
+ *  The nav is a client component, and an Essay carries its `Body`
+ *  component — a server component, which cannot cross that boundary. The
+ *  date is formatted here for the same reason: formatEssayDate lives in
+ *  the registry module, which imports all six essay bodies. */
+function toNavItem(essay: Essay | undefined): EssayNavItem | undefined {
+  if (!essay) return undefined;
+  return {
+    href: `/essays/${essay.pillar}/${essay.slug}`,
+    title: essay.title,
+    description: essay.description,
+    dateLabel: formatEssayDate(essay.postDate),
+  };
+}
+
+/** Both sides of one scope, flattened. */
+function toNavNeighbors(
+  essay: Essay,
+  scope: "all" | Essay["pillar"],
+): EssayNavNeighbors {
+  const { newer, older } = essayNeighbors(essay, scope);
+  return { newer: toNavItem(newer), older: toNavItem(older) };
 }
 
 export async function generateMetadata({
@@ -93,6 +131,16 @@ export default async function EssayPage({
   const url = `${SITE_URL}/essays/${essay.pillar}/${essay.slug}`;
   const published = isoWithTz(essay.postDate);
   const EssayBody = essay.Body;
+
+  // Both neighbour scopes, computed at build time. The page may not read
+  // `searchParams` — that would opt this route out of the static
+  // prerender it is built on (dynamicParams = false above) — so instead
+  // of resolving the reader's scope here, every scope is resolved and the
+  // client picks. Six essays and four pillars: the work is trivial and
+  // the route stays static. See the header comment in EssayNav.
+  const pillarListingHref = `/essays/${essay.pillar}`;
+  const globalNeighbors = toNavNeighbors(essay, "all");
+  const pillarNeighbors = toNavNeighbors(essay, essay.pillar);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -163,6 +211,23 @@ export default async function EssayPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <ArticleContainer>
+        {/* Back link first, above the header: a reader who has just
+            arrived from a listing wants the way out in the same glance as
+            the headline, not after the essay. BackToEssays reads `?from=`
+            with useSearchParams, which on a prerendered route pushes its
+            subtree to client-only rendering up to the nearest Suspense
+            boundary — so it gets one, with the plain "← All essays"
+            default as the fallback rather than `null`. That keeps a real
+            link in the built HTML, and the hydrated component swaps in
+            the pillar destination when the reader came from a pillar
+            page. */}
+        <Suspense fallback={<BackToEssaysFallback />}>
+          <BackToEssays
+            pillarHref={pillarListingHref}
+            pillarLabel={pillarMeta.label}
+          />
+        </Suspense>
+
         <header className="flex flex-col gap-4">
           {/* The pillar label links to its pillar page only once that page
               is worth arriving at — three essays, per pillarLinkReady. Below
@@ -173,7 +238,7 @@ export default async function EssayPage({
               into three single-card pages. */}
           <Kicker>
             {pillarLinkReady(essay.pillar) ? (
-              <Link href={`/essays/${essay.pillar}`} quiet>
+              <Link href={pillarListingHref} quiet>
                 {pillarMeta.label}
               </Link>
             ) : (
@@ -193,9 +258,23 @@ export default async function EssayPage({
 
         <EssayBody />
 
-        <footer>
-          <Link href="/essays">All essays →</Link>
-        </footer>
+        {/* Neighbour cards replace what was a single "All essays →"
+            link. A reader who finishes an essay is offered the next one
+            either side of it instead of being sent back to the index —
+            the back link at the top already covers the way out.
+
+            The Suspense fallback renders the corpus-wide pair, so the
+            built HTML carries these links (they are the essay's outbound
+            internal links, and a `null` fallback would leave the page
+            with none); the hydrated picker narrows them to the pillar
+            when `?from=` says the reader is walking one. */}
+        <Suspense fallback={<EssayNavCards neighbors={globalNeighbors} />}>
+          <EssayNav
+            global={globalNeighbors}
+            scoped={pillarNeighbors}
+            scopedFrom={pillarListingHref}
+          />
+        </Suspense>
       </ArticleContainer>
     </>
   );
