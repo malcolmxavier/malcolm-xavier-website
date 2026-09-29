@@ -56,6 +56,7 @@ import { menu } from "@/lib/case-studies/basecamp-coffee/data/menu";
 import { archetypeById } from "@/lib/case-studies/basecamp-coffee/data/archetypes";
 import { computeCoverage } from "@/lib/case-studies/basecamp-coffee/coverage";
 import { formatLastUpdated } from "@/lib/case-studies/basecamp-coffee/last-updated";
+import { readMinutes } from "@/lib/content/read-times";
 import type {
   Drink,
   MilkMode,
@@ -157,7 +158,7 @@ function Hero() {
     <CaseStudyHero
       title="Claude × Growth PM"
       subtitle="Basecamp Rewards: A Turnaround"
-      readMin={10}
+      readMin={readMinutes("case-study", "basecamp-coffee")}
       updatedDate={formatLastUpdated()}
     >
       This page is an overview of two things at once. First and foremost, this is documentation of my

@@ -68,6 +68,7 @@ import {
 // here so both case studies report the same "Updated …" date on
 // every deploy without duplicating the git-log shell-out.
 import { formatLastUpdated } from "@/lib/case-studies/basecamp-coffee/last-updated";
+import { readMinutes } from "@/lib/content/read-times";
 
 // External anchor referenced multiple times in the narrative.
 // Centralized so a destination change is one line, not a scavenger
@@ -148,7 +149,7 @@ function Hero() {
     <CaseStudyHero
       title="An AI‑Native Portfolio"
       subtitle="Built brick by brick, just like my FYP"
-      readMin={20}
+      readMin={readMinutes("case-study", "building-this-site")}
       updatedDate={formatLastUpdated()}
     >
       A recursive artifact: a case study about building the site that hosts

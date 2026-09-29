@@ -20,6 +20,7 @@ import { ProjectSection } from "@/components/projects/ProjectSection";
 import { Figure } from "@/components/reading/Figure";
 import { EDUCATION, slugifyEducationAnchor } from "@/app/resume/resume-data";
 import type { ProjectMeta } from "@/lib/projects/types";
+import { readMinutes } from "@/lib/content/read-times";
 
 // Resolve the résumé education entry this capstone came out of, so the
 // dateline's "DS4A" chip jump-links to it and stays in sync if that
@@ -53,7 +54,7 @@ export const meta: ProjectMeta = {
   // no longer listed, sitemapped, or indexed. `noindex` is the single
   // flag that drives all three.
   noindex: true,
-  readMin: 5,
+  readMin: readMinutes("research", "sea-level-rise-florida"),
   // "DS4A" in the dateline jump-links to the résumé's DS4A education
   // entry. Anchor resolved from the résumé data so it can't drift.
   credential: DS4A_EDU

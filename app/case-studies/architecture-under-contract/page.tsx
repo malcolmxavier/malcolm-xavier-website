@@ -52,6 +52,7 @@ import { getSerializdSnapshotMeta } from "@/lib/feeds/serializd";
 // reciprocal forward-link from building-this-site to here.
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { readMinutes } from "@/lib/content/read-times";
 
 const CASE_STUDY_SLUG = "architecture-under-contract";
 
@@ -128,7 +129,7 @@ function Hero() {
     <CaseStudyHero
       title="Architecture under contract"
       subtitle="How three integrations stay online when their upstreams don’t."
-      readMin={10}
+      readMin={readMinutes("case-study", "architecture-under-contract")}
       updatedDate={formatLastUpdated()}
     >
       Three pages, three integrations that look nothing alike, one

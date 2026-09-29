@@ -41,6 +41,7 @@ import {
   twitterAttribution,
 } from "@/lib/site-config";
 import { BUILD_TIMESTAMP } from "@/lib/build-meta";
+import { readMinutes } from "@/lib/content/read-times";
 
 type Params = { pillar: string; slug: string };
 
@@ -251,7 +252,18 @@ export default async function EssayPage({
           >
             {essay.title}
           </h1>
+          {/* "N min read · <date>", the same shape the case-study hero and
+              the research dateline use — essays were the only long-form
+              surface not telling a reader how long a piece is, which
+              matters most here because these are the shortest things on
+              the site and the nav is ordered by time commitment.
+
+              The minutes are counted from this essay's own prose (see
+              lib/content/read-times), not typed in. The <time> element
+              still wraps the whole line because the date is the only
+              machine-readable part of it. */}
           <Dateline as="time" dateTime={essay.postDate}>
+            {readMinutes("essay", essay.slug)} min read ·{" "}
             {formatEssayDate(essay.postDate)}
           </Dateline>
         </header>

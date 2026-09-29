@@ -47,6 +47,7 @@ import {
   StatRow,
 } from "@/components/case-study/primitives";
 import { TierColumn } from "./tier-column";
+import { readMinutes } from "@/lib/content/read-times";
 
 // SLUG must match the layout's SLUG and the CASE_STUDIES entry in
 // app/resume/resume-data.tsx (also referenced via the People Inc.
@@ -153,7 +154,7 @@ function Hero() {
     <CaseStudyHero
       title="Infrastructure enables personalization"
       subtitle="Driving a multi-year roadmap for identity, registration, and onboarding"
-      readMin={9}
+      readMin={readMinutes("case-study", "people-inc")}
       updatedDate="May 23, 2026"
     >
       {/* Resume backlink kicker. Subtle, reads as editorial chrome,

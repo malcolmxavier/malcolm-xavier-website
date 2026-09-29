@@ -21,6 +21,7 @@ import { CaseStudyNav } from "@/components/case-study/CaseStudyNav";
 import { CaseStudyShareBar } from "@/components/case-study/CaseStudyShareBar";
 import { TocDisclosure } from "@/components/chrome/TocDisclosure";
 import { CASE_STUDY_WIDTH } from "@/components/case-study/primitives";
+import { readMinutes } from "@/lib/content/read-times";
 import {
   Beat,
   BeatSeparator,
@@ -141,7 +142,7 @@ function Hero() {
     <CaseStudyHero
       title="Steering leading indicators"
       subtitle="Targeting, retention, and marketplace mechanics"
-      readMin={7}
+      readMin={readMinutes("case-study", "user-interviews")}
       updatedDate="May 14, 2026"
     >
       {/* Resume backlink kicker. Subtle, reads as editorial chrome,

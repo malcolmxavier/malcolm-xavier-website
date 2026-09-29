@@ -23,6 +23,7 @@ import { Blockquote } from "@/components/reading/Blockquote";
 import { Fn, Footnotes, FnItem, Cite } from "@/components/reading/Footnotes";
 import { EDUCATION, slugifyEducationAnchor } from "@/app/resume/resume-data";
 import type { ProjectMeta } from "@/lib/projects/types";
+import { readMinutes } from "@/lib/content/read-times";
 
 // The Year-1 paper's route, cited in several endnotes below.
 const YEAR_ONE = "/research/ethics-video-sharing-apps";
@@ -65,7 +66,7 @@ export const meta: ProjectMeta = {
   dateDisplay: "2023",
   // The citations were last visited May 6, 2023 — the paper's completion.
   datePublished: "2023-05-06",
-  readMin: 30,
+  readMin: readMinutes("research", "privacy-law-social-media-era"),
   credential: MSL_EDU
     ? {
         label: "Northwestern MSL",

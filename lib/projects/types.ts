@@ -83,10 +83,16 @@ export interface ProjectMeta {
   dateDisplay: string;
   /** YYYY-MM-DD — the machine date for JSON-LD and chronological sort. */
   datePublished: string;
-  /** Estimated reading time in minutes — rendered as "N min read",
-   *  mirroring the case-study hero's detail. Hand-set per project (as
-   *  case studies do) rather than auto-counted, so a curated page's
-   *  estimate can reflect the actual on-page copy. */
+  /** Reading time in minutes — rendered as "N min read", mirroring the
+   *  case-study hero's detail.
+   *
+   *  COMPUTED since 2026-09-28, via readMinutes() in lib/content. This
+   *  comment used to say the opposite: hand-set per project rather than
+   *  auto-counted, "so a curated page's estimate can reflect the actual
+   *  on-page copy". That was the intent and the result was the reverse —
+   *  the privacy-law paper claimed 30 minutes for 9,500 words of prose,
+   *  which is 330 words a minute. A number nobody recounts after an edit
+   *  reflects the copy on the day it was typed. */
   readMin: number;
   /** Provenance backlink shown in the dateline (e.g. "DS4A" jumping to
    *  the matching résumé education entry). Mirrors the case-study →

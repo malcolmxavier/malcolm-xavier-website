@@ -31,6 +31,7 @@ import { CaseStudyNav } from "@/components/case-study/CaseStudyNav";
 import { CaseStudyShareBar } from "@/components/case-study/CaseStudyShareBar";
 import { TocDisclosure } from "@/components/chrome/TocDisclosure";
 import { CASE_STUDY_WIDTH } from "@/components/case-study/primitives";
+import { readMinutes } from "@/lib/content/read-times";
 import {
   Beat,
   BeatSeparator,
@@ -164,7 +165,7 @@ function Hero() {
     <CaseStudyHero
       title="Content and data platforms: quality over quantity"
       subtitle="Translating data quality work into the volume metric a sales-led org trusted"
-      readMin={8}
+      readMin={readMinutes("case-study", "muck-rack")}
       updatedDate="May 18, 2026"
     >
       {/* Resume backlink kicker. Subtle, reads as editorial chrome,

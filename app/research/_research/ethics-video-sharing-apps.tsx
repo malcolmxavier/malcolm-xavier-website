@@ -19,6 +19,7 @@ import { Blockquote } from "@/components/reading/Blockquote";
 import { Fn, Footnotes, FnItem, Cite } from "@/components/reading/Footnotes";
 import { EDUCATION, slugifyEducationAnchor } from "@/app/resume/resume-data";
 import type { ProjectMeta } from "@/lib/projects/types";
+import { readMinutes } from "@/lib/content/read-times";
 
 // Resolve the résumé education entry both MSL papers came out of, so
 // the dateline's "Northwestern MSL" chip jump-links to it and stays in
@@ -61,7 +62,7 @@ export const meta: ProjectMeta = {
   // MSL symposium submission (citations were last visited December 2021).
   dateDisplay: "2022",
   datePublished: "2022-05-18",
-  readMin: 12,
+  readMin: readMinutes("research", "ethics-video-sharing-apps"),
   credential: MSL_EDU
     ? { label: "Northwestern MSL", href: `/resume#${slugifyEducationAnchor(MSL_EDU)}` }
     : undefined,
