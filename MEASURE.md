@@ -176,6 +176,22 @@ Converted as of 2026-09-28: *(update this list as the conversion lands)*
       one changes what is on screen if it moves:
       `CriticDisclaimer` writes `80ch` and the footer `30ch`, neither of which
       is a reading measure at all.
+- [x] `ClaudeNote` takes **no** measure, decided by looking (Malcolm,
+      2026-09-28). It was clamped to `cs-read` and reversed the same day: a
+      note is not prose to be read at the body measure, and narrowing it made
+      it read as a second competing column rather than as commentary running
+      alongside one. The arithmetic pointed the other way—the default
+      variant renders at 15/16px, so unclamped it carries more characters per
+      line than the body text above it—and his read of the rendered page is
+      what settles it. **Do not re-raise this on the character count.**
+- [ ] `Body`, `Lede`, and `HeroNote` in `components/typography/` stop clamping
+      themselves. **Not mechanical**—pulling the self-clamp out sends every
+      consumer to the full well until a container sets a measure, across
+      roughly twenty pages.
+- [ ] The remaining literals are **value decisions, not conversions**, and each
+      one changes what is on screen if it moves:
+      `CriticDisclaimer` writes `80ch` and the footer `30ch`, neither of which
+      is a reading measure at all.
 - [x] `ClaudeNote` joins the reading column, both variants (Malcolm's call,
       2026-09-28). Unclamped these were the worst lines on the site: the
       default variant renders at 15/16px, *smaller* than the body text, and
