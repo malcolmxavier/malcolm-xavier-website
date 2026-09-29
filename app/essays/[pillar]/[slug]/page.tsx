@@ -16,6 +16,7 @@ import { Dateline } from "@/components/typography/Dateline";
 import { Link } from "@/components/primitives/Link";
 import { ArticleContainer } from "@/components/writing/ArticleContainer";
 import {
+  pillarLinkReady,
   ESSAYS,
   getEssay,
   WRITING_PILLARS,
@@ -163,10 +164,21 @@ export default async function EssayPage({
       />
       <ArticleContainer>
         <header className="flex flex-col gap-4">
+          {/* The pillar label links to its pillar page only once that page
+              is worth arriving at — three essays, per pillarLinkReady. Below
+              that it is the same label as plain text, because a reader who
+              follows it would land on one or two cards and a link back, which
+              is worse than not having been invited. This was an unconditional
+              link until 2026-09-28 and was the only reader-reachable route
+              into three single-card pages. */}
           <Kicker>
-            <Link href={`/essays/${essay.pillar}`} quiet>
-              {pillarMeta.label}
-            </Link>
+            {pillarLinkReady(essay.pillar) ? (
+              <Link href={`/essays/${essay.pillar}`} quiet>
+                {pillarMeta.label}
+              </Link>
+            ) : (
+              pillarMeta.label
+            )}
           </Kicker>
           <h1
             className="m-0 text-[34px] md:text-[46px] lg:text-[52px] leading-[1.08] tracking-[-0.02em] text-[var(--text-heading)]"

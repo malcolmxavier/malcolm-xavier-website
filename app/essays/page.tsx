@@ -23,7 +23,7 @@ import { Link } from "@/components/primitives/Link";
 import { EssayCard } from "@/components/writing/EssayCard";
 import {
   ESSAYS,
-  activePillars,
+  linkablePillars,
   themeBrowseReady,
   WRITING_PILLARS,
 } from "@/lib/writing/essays";
@@ -61,7 +61,11 @@ export const metadata: Metadata = {
 };
 
 export default function WritingHub() {
-  const pillars = activePillars();
+  // Link-ready pillars only, for both the theme chips and the ItemList
+  // below. activePillars() means "has any content at all", which is the
+  // right test for which pages to PRERENDER and the wrong one for which to
+  // put in front of a reader or a crawler.
+  const pillars = linkablePillars();
 
   const collectionSchema = {
     "@context": "https://schema.org",
@@ -72,15 +76,24 @@ export default function WritingHub() {
     description: DESCRIPTION,
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#person` },
-    mainEntity: {
-      "@type": "ItemList",
-      itemListElement: pillars.map((slug, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        url: `${SITE_URL}/essays/${slug}`,
-        name: WRITING_PILLARS[slug].label,
-      })),
-    },
+    // mainEntity is omitted rather than shipped empty when no pillar is
+    // link-ready. An ItemList with no items is a worse statement than no
+    // ItemList — it asserts the hub's main entity is an empty collection.
+    // It enumerates link-ready pillars for the same reason the chips do:
+    // every URL named here is one a reader can actually reach.
+    ...(pillars.length > 0
+      ? {
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: pillars.map((slug, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              url: `${SITE_URL}/essays/${slug}`,
+              name: WRITING_PILLARS[slug].label,
+            })),
+          },
+        }
+      : {}),
   };
 
   return (

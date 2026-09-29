@@ -20,6 +20,7 @@ import { Lede } from "@/components/typography/Lede";
 import { Link } from "@/components/primitives/Link";
 import { EssayCard } from "@/components/writing/EssayCard";
 import {
+  pillarIndexReady,
   activePillars,
   essaysByPillar,
   WRITING_PILLARS,
@@ -58,6 +59,19 @@ export async function generateMetadata({
     title: `${meta.label}—Writing`,
     description: meta.blurb,
     alternates: { canonical },
+    // `noindex, follow` until this pillar clears the index bar. Below it
+    // the page restates a subset of the hub in the same words as the
+    // essays it lists, so it competes with both instead of answering
+    // anything they do not — and `follow` is the half that matters: the
+    // page still passes a crawler on to the essays it links.
+    //
+    // The same predicate drives the sitemap, so a page is never listed
+    // and told to be ignored at the same time. See pillarIndexReady in
+    // lib/writing/essays.ts for the thresholds and why linking and
+    // indexing are two different numbers.
+    ...(pillarIndexReady(key)
+      ? {}
+      : { robots: { index: false, follow: true } }),
     openGraph: {
       title: socialTitle,
       description: meta.blurb,

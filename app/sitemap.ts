@@ -45,7 +45,7 @@ import { getCollectionDetails } from "@/lib/feeds/enrichment";
 import { slugifyEntity } from "@/lib/feeds/slug";
 import { CASE_STUDIES } from "@/app/resume/resume-data";
 import { INDEXED_PROJECTS } from "@/lib/projects/projects";
-import { ESSAYS, activePillars } from "@/lib/writing/essays";
+import { ESSAYS, indexablePillars } from "@/lib/writing/essays";
 
 // The WS6b entity-facet route types, in the order their pages list. Each
 // produces one indexed page per floor-clearing value (the same gate
@@ -413,7 +413,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
-    ...activePillars().map((pillar) => ({
+    // Only INDEX-ready pillars, never every pillar that happens to have
+    // content. A pillar page below the bar carries `noindex` (see
+    // app/essays/[pillar]/page.tsx), and listing a noindex URL in the
+    // sitemap is asking a crawler to fetch a page in order to be told to
+    // ignore it. Both read the same predicate so they cannot disagree.
+    // Until 2026-09-28 this was activePillars(), which shipped all four —
+    // three of them holding a single card.
+    ...indexablePillars().map((pillar) => ({
       url: `${SITE_URL}/essays/${pillar}`,
       lastModified,
       changeFrequency: "monthly" as const,
