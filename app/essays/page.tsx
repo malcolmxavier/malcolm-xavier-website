@@ -100,7 +100,20 @@ export default function WritingHub() {
         <Section padding="lg">
           <Stack gap="500">
             <Kicker>Essays</Kicker>
-            <Display>Essays, built for the page.</Display>
+            {/* The LinkedIn bio disclaimer, repurposed. "Opinions are my
+                own" exists to protect you from an employer on somebody
+                else's platform; on his own domain there is nobody to
+                disclaim from, so saying it anyway stops being a hedge and
+                becomes a claim of ownership — which is the argument this
+                whole section makes. Truncating "my own" to "mine" is what
+                keeps it from reading as boilerplate.
+
+                It replaced "Essays, built for the page." on 2026-09-28,
+                which failed three ways: it repeated the kicker directly
+                above it, "built for the page" argued with an opponent the
+                reader cannot see, and it described the format when the
+                deck below already carries the subject. */}
+            <Display>Opinions are mine.</Display>
             {/* The four nouns are the four pillars in lib/writing/essays.ts,
                 verbatim and in registry order, so the deck and the theme
                 browse speak one vocabulary — including once that browse
