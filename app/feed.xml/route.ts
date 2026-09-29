@@ -5,12 +5,27 @@
 // to a route, and three feeds would mean three subscriptions nobody
 // makes.
 //
-// It carries ESSAYS and CASE STUDIES: the two things here that get
-// published over time. RESEARCH IS DELIBERATELY EXCLUDED — it is three
-// papers from Malcolm's MS in Law, a finished corpus rather than a
-// stream. In a feed it would hand a new subscriber three old items on
-// the first fetch and then go silent forever, which misrepresents what
-// that section is.
+// It carries ESSAYS, CASE STUDIES, and RESEARCH — everything on the site
+// written to be read.
+//
+// Research was excluded on the first cut, on the reasoning that it is a
+// finished corpus rather than a stream: three papers from Malcolm's MS in
+// Law, so a feed would hand a subscriber three old items and then go
+// silent. Malcolm overruled it and the reasoning does not survive
+// inspection. The FEED does not go silent — essays and case studies keep
+// it moving — and research simply stops contributing, which costs a
+// subscriber nothing. Because the feed is one stream for the whole site
+// rather than one per section, nothing in it has to be a stream by
+// itself. They are also the deepest things here, which is a reason to
+// put them in front of a reader rather than hold them back.
+//
+// Their 2021–2023 dates sort them to the bottom, so a new subscriber
+// meets them once at the end of the first fetch and never again — which
+// is the right treatment for finished work.
+//
+// INDEXED_PROJECTS, not every project: a paper carrying `noindex` is
+// deliberately kept out of search, and pushing it into somebody's reader
+// would route around that decision.
 //
 // SUMMARY AND LINK, never full text. A feed carrying whole essays means
 // they are read inside somebody's reader app and the site is never
@@ -32,6 +47,7 @@
 
 import { ESSAYS } from "@/lib/writing/essays";
 import { CASE_STUDIES } from "@/app/resume/resume-data";
+import { INDEXED_PROJECTS } from "@/lib/projects/projects";
 import { SITE_URL } from "@/lib/site-config";
 
 export const dynamic = "force-static";
@@ -86,6 +102,13 @@ export function GET() {
       date: study.publishedAt,
       category: "Case study",
     })),
+    ...INDEXED_PROJECTS.map((project) => ({
+      title: project.title,
+      url: `${SITE_URL}/research/${project.slug}`,
+      description: project.description,
+      date: project.datePublished,
+      category: "Research",
+    })),
     // Newest first. Both sources carry their own date field — postDate
     // for an essay, publishedAt for a case study — and they are compared
     // as strings because both are YYYY-MM-DD, where lexical order is
@@ -99,7 +122,7 @@ export function GET() {
   <channel>
     <title>Malcolm Xavier</title>
     <link>${SITE_URL}</link>
-    <description>Essays and case studies on growth, media, AI, and craft.</description>
+    <description>Essays, case studies, and research on growth, media, AI, and craft.</description>
     <language>en-us</language>
     <atom:link href="${SITE_URL}/feed.xml" rel="self" type="application/rss+xml"/>${
       latest ? `\n    <lastBuildDate>${rfc822(latest)}</lastBuildDate>` : ""

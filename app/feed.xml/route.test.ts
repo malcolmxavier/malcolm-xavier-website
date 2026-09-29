@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { GET } from "./route";
 import { ESSAYS } from "@/lib/writing/essays";
 import { CASE_STUDIES } from "@/app/resume/resume-data";
+import { INDEXED_PROJECTS } from "@/lib/projects/projects";
 
 // The feed is machine-read, so a reader app is the only thing that would
 // notice it breaking — and it would notice by silently failing to parse.
@@ -14,7 +15,7 @@ describe("/feed.xml", () => {
     expect(res.headers.get("Content-Type")).toContain("application/rss+xml");
   });
 
-  it("carries every essay and every case study, and no research", async () => {
+  it("carries every essay, case study, and indexed research paper", async () => {
     const body = await xml;
     for (const essay of ESSAYS) {
       expect(body).toContain(`/essays/${essay.pillar}/${essay.slug}`);
@@ -22,12 +23,26 @@ describe("/feed.xml", () => {
     for (const study of CASE_STUDIES) {
       expect(body).toContain(study.href);
     }
-    // Research is a finished corpus rather than a stream — see the note
-    // at the top of route.ts. If it is ever added, this is the assertion
-    // to change deliberately.
-    expect(body).not.toContain("/research/");
+    for (const project of INDEXED_PROJECTS) {
+      expect(body).toContain(`/research/${project.slug}`);
+    }
     const itemCount = (body.match(/<item>/g) ?? []).length;
-    expect(itemCount).toBe(ESSAYS.length + CASE_STUDIES.length);
+    expect(itemCount).toBe(
+      ESSAYS.length + CASE_STUDIES.length + INDEXED_PROJECTS.length,
+    );
+  });
+
+  it("leaves a noindex research paper out", async () => {
+    const body = await xml;
+    // A paper carrying `noindex` is deliberately kept out of search, and
+    // pushing it into somebody's reader would route around that. The feed
+    // reads INDEXED_PROJECTS for exactly this reason; asserting on the
+    // difference means the day a paper is marked noindex, this catches a
+    // feed that kept publishing it.
+    const { PROJECTS } = await import("@/lib/projects/projects");
+    for (const project of PROJECTS.filter((p) => p.noindex)) {
+      expect(body).not.toContain(`/research/${project.slug}`);
+    }
   });
 
   it("escapes XML delimiters rather than emitting them raw", async () => {
@@ -41,7 +56,9 @@ describe("/feed.xml", () => {
   it("dates every item in RFC 822, which is what RSS 2.0 requires", async () => {
     const body = await xml;
     const dates = [...body.matchAll(/<pubDate>([^<]+)<\/pubDate>/g)].map((m) => m[1]);
-    expect(dates.length).toBe(ESSAYS.length + CASE_STUDIES.length);
+    expect(dates.length).toBe(
+      ESSAYS.length + CASE_STUDIES.length + INDEXED_PROJECTS.length,
+    );
     for (const d of dates) {
       expect(d).toMatch(/^[A-Z][a-z]{2}, \d{2} [A-Z][a-z]{2} \d{4} \d{2}:\d{2}:\d{2} GMT$/);
       expect(Number.isNaN(new Date(d).getTime())).toBe(false);
