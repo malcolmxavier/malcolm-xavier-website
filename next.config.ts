@@ -140,6 +140,22 @@ const nextConfig: NextConfig = {
         destination: "/research",
         permanent: true,
       },
+      // 2026-09-28 — /contact collapsed into /about#contact. The page
+      // was propping up a nav slot and almost nothing linked it: every
+      // relevant page already carries its own contact CTA, and the
+      // footer puts the direct links closer to where a reader exits.
+      //
+      // THIS IS PERMANENT AND MUST NOT BE PRUNED, for the same reason
+      // the /projects rules above are. /contact is a short, memorable
+      // URL — the kind that goes on a business card, an email signature,
+      // or a conference badge — so copies of it are already in
+      // circulation and cannot be reissued to the people holding them.
+      // Every one of those resolves only through this rule.
+      {
+        source: "/contact",
+        destination: "/about#contact",
+        permanent: true,
+      },
     ];
   },
 };

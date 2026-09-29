@@ -28,7 +28,7 @@ export const ANALYTICS_EVENTS = {
   RESUME_PDF_DOWNLOAD: "resume_pdf_download",
   /** Any link to CONTACT.calendly OR CONTACT.calendlyRoot. Pair
    *  with `kind: "outbound"` (homepage / resume / about / case
-   *  studies) or `kind: "fallback"` (the /contact page's
+   *  studies) or `kind: "fallback"` (the /about#contact section's
    *  "widget-not-loading" link). */
   CALENDLY_CLICK: "calendly_click",
   /** Fires when Calendly's iframe emits `calendly.event_scheduled`.

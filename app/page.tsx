@@ -18,13 +18,14 @@
 //     it). Not deleted for being weak — the cultural corner is moving to
 //     Fourth Unit and will return as its own module when that is ready.
 //   • About teaser and Contact section. There is enough site content and
-//     context by now that prompting a visitor to go read /about or /contact
-//     is not doing useful work.
+//     context by now that prompting a visitor to go read /about or the
+//     contact surface is not doing useful work. (The contact page itself
+//     retired into /about#contact on 2026-09-28.)
 //
 // No crawl paths were lost: the Nav and the Footer still link /about,
-// /case-studies, /consulting, /contact, /films, /television, /music and
-// /booth, so removal thinned this page's own content rather than the
-// site's link graph. Nothing referenced the deleted #explore anchor.
+// /case-studies, /consulting, /films, /television, /music and /booth, so
+// removal thinned this page's own content rather than the site's link
+// graph. Nothing referenced the deleted #explore anchor.
 //
 // The page is one Section now. If a module comes back, it goes below the
 // hero as its own Section — do not reach for a variant of the hero grid.
@@ -519,10 +520,12 @@ export default function Home() {
                   contract work and then routes to a contact form makes
                   the reader do the translating.
 
-                  /contact is not lost — the page's own "Get in touch"
-                  section further down carries the full surface (Calendly
-                  + email + LinkedIn + GitHub). What it loses is hero
-                  placement, which is the trade.
+                  The contact surface is not lost — it is /about#contact
+                  now, carrying the booking widget, the email address, and
+                  the LinkedIn link (the /contact route retired into it on
+                  2026-09-28), and /consulting closes on a discovery call
+                  plus a link straight to that section. What it loses is
+                  hero placement, which is the trade.
 
                   Label changed with the destination: "Get in touch" on a
                   services page is a mismatch the reader notices.

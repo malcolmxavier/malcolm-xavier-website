@@ -36,8 +36,12 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { ELSEWHERE } from "@/lib/elsewhere";
 
 // External destinations. ELSEWHERE (Letterboxd, Serializd, Spotify)
-// lives in @/lib/elsewhere so the contact page and this footer stay
-// in sync.
+// lives in @/lib/elsewhere, which is now a single consumer: this
+// footer. It was shared with /contact until that route retired into
+// /about#contact on 2026-09-28, and the rail deliberately did NOT go
+// with it — the footer is on every page and sits closer to where a
+// reader actually leaves, so a second copy mid-page would have been
+// the same list twice on the one page carrying both.
 // Order: Email → LinkedIn → GitHub (canonical reach-out leads).
 // Closes l-footer-stay-in-touch-order from the 2026-04-29
 // /full-review.

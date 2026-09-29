@@ -15,7 +15,7 @@
 // auto-scan reads `.calendly-inline-widget` + `data-url` from the
 // DOM, but only on the script's first load — it doesn't re-scan
 // on subsequent React mounts. With Next.js SPA fast-nav, visiting
-// /contact → /resume → /contact would render an empty box on the
+// /about → /resume → /about would render an empty box on the
 // second visit because the script tag was deduped (so re-injection
 // was skipped) but auto-scan was already spent. Driving init
 // explicitly side-steps the dedupe trap entirely. Closes
@@ -58,7 +58,9 @@
 // picker, day picker, and time list all render without the iframe
 // scrolling internally. Re-verify against the TIME LIST — not the event
 // picker, which is short and fits almost anything — before changing
-// this or the column width in app/contact/page.tsx.
+// this or the column width in app/about/page.tsx (the #contact
+// section, which is where the only embed on the site lives since
+// /contact retired into it on 2026-09-28).
 // ─────────────────────────────────────────────────────────────────
 
 "use client";

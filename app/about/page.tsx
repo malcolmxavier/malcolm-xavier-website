@@ -5,11 +5,23 @@
 // right at md+, collapsing to one column below that. Everything under
 // the hero is a single prose column at the reading measure.
 //
-// There is no closing contact block. One used to sit here mirroring
-// the resume's, and it went when the page got short enough that a
-// second ask a screen below the first read as anxious rather than
-// open. The footer carries email and LinkedIn on every page, /contact
-// is in the nav, and the last paragraph already says he is looking.
+// There IS a closing contact block again, and it is the whole of what
+// used to be /contact (2026-09-28). A thin version of one used to sit
+// here mirroring the resume's, and it went when the page got short
+// enough that a second ask a screen below the first read as anxious
+// rather than open. What arrived instead is not a second ask — it is
+// the only one: /contact retired into this page's `#contact` section
+// because almost nothing pointed at it (two links in the whole
+// codebase), every relevant page already carries its own contact CTA,
+// and the footer puts the direct links closer to where a reader
+// actually leaves. The old URL permanently redirects to /about#contact
+// (see next.config.ts), because it may be printed on things already in
+// circulation.
+//
+// The one block deliberately NOT carried over is "Elsewhere on the
+// internet" — components/chrome/Footer.tsx already renders the same
+// list from @/lib/elsewhere on every page, and the footer sits closer
+// to the exit than a mid-page rail does.
 //
 // The portrait's settings are deliberately identical to the landing
 // page's — same --hero-portrait clamp, same square frame, same 1.5×
@@ -35,9 +47,9 @@
 // TODO(creative-cv): Per the "no public placeholders" rule, the
 // talent-scout / Creative CV inline link is OMITTED until
 // /creative-cv ships. When it does, drop a quiet inline <Link> in the
-// media paragraph — note the Link primitive is no longer imported
-// here, since the contact block that used it is gone. Tracked via
-// l-creative-cv-todo (2026-04-29 /full-review).
+// media paragraph — the Link primitive is imported here again (the
+// contact section below uses it), so that is a one-line change.
+// Tracked via l-creative-cv-todo (2026-04-29 /full-review).
 // ─────────────────────────────────────────────────────────────────
 
 import type { Metadata } from "next";
@@ -46,9 +58,16 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { Stack } from "@/components/layout/Stack";
 import { Display } from "@/components/typography/Display";
+import { Headline } from "@/components/typography/Headline";
 import { Lede } from "@/components/typography/Lede";
 import { Body } from "@/components/typography/Body";
 import { Kicker } from "@/components/typography/Kicker";
+import { Link } from "@/components/primitives/Link";
+import { CalendlyWidget } from "@/components/primitives/CalendlyWidget";
+import { IconEmail, IconLinkedIn } from "@/components/icons";
+import { TrackOnClick } from "@/components/analytics/TrackOnClick";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
+import { CONTACT } from "../resume/resume-data";
 import { SITE_URL } from "@/lib/site-config";
 
 // Per-page openGraph + twitter blocks because Next.js App Router
@@ -102,6 +121,14 @@ export const metadata: Metadata = {
 // ProfilePage: point at the canonical Person `@id` so retrievers
 // resolve one entity for "who is Malcolm Xavier" rather than treating
 // this page's prose as a second, competing person description.
+//
+// This stays a single `AboutPage` even though the page now carries the
+// contact surface. The `ContactPage` node retired with its URL rather
+// than moving here: STRUCTURED-DATA.md sets out one page-type node per
+// URL, `ContactPage` is validator-only rather than a rich-result type
+// (so it buys close to nothing), and multi-typing this route as
+// ["AboutPage","ContactPage"] would be the one deviation from an
+// otherwise mechanical pattern. A section anchor is not a page.
 const ABOUT_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
@@ -115,7 +142,40 @@ const ABOUT_SCHEMA = {
   mainEntity: { "@id": `${SITE_URL}/#person` },
 };
 
+// Clears the sticky site header when a reader lands on /about#contact.
+// Same value /consulting's own section anchors use.
+const contactAnchorStyle: React.CSSProperties = { scrollMarginTop: "6rem" };
+
+// "Direct" methods — the ways to reach him that are not the calendar.
+// Each row is an icon plus a single visible value (the platform name,
+// or the email address). Per the "no handles on platform links" rule
+// only email shows its full string; LinkedIn shows the platform name.
+type DirectMethod = {
+  icon: React.ReactNode;
+  /** Visible link text — platform name, or (for email) the address. */
+  value: string;
+  href: string;
+};
+
 export default function AboutPage() {
+  const mailHref = `mailto:${CONTACT.email}`;
+
+  // GitHub is intentionally omitted — it is a code-portfolio surface,
+  // not a "reach out to me" channel. (The footer carries it, because
+  // the footer is an index of where he is rather than a contact ask.)
+  const directMethods: DirectMethod[] = [
+    {
+      icon: <IconEmail size={20} />,
+      value: CONTACT.email,
+      href: mailHref,
+    },
+    {
+      icon: <IconLinkedIn size={20} />,
+      value: "LinkedIn ↗",
+      href: CONTACT.linkedin,
+    },
+  ];
+
   return (
     <>
       {/* AboutPage JSON-LD — see ABOUT_SCHEMA above. */}
@@ -228,6 +288,209 @@ export default function AboutPage() {
                 editorial side equally seriously.
               </Body>
             </Stack>
+          </div>
+        </Section>
+
+        {/* ─── Contact ──────────────────────────────────────────────
+            Ported wholesale from the retired /contact route. `bordered`
+            is what makes it read as the next move rather than a fifth
+            paragraph, and Section's padding rules make the gap below
+            the divider match the gap above it automatically.
+
+            id="contact" is the contract: /contact permanently redirects
+            to /about#contact, so anything already printed or sent lands
+            here. scrollMarginTop keeps the heading clear of the sticky
+            site header when a reader arrives on the anchor — the same
+            6rem /consulting's section anchors use. */}
+        <Section id="contact" style={contactAnchorStyle} padding="lg" bordered>
+          {/* The same grid /contact used, and for the same reason: a
+              1fr copy column against a column sized by the thing in it,
+              with that thing spanning both rows so the direct-contact
+              block flows BESIDE the embed rather than starting under
+              it.
+
+              --contact-embed is the only number to edit; --contact-cols
+              reads it, so the column can never disagree with the widget
+              in it. It opens at lg rather than md because below ~1024px
+              the left column gets too narrow to hold a lede: at 768 the
+              split would leave it around 310px.
+
+              The column is deliberately NOT matched to the portrait's
+              --hero-portrait above. Calendly renders its booking view
+              stacked, so a narrower card makes the embed TALLER and the
+              iframe starts scrolling internally; CalendlyWidget's own
+              1080px height is verified against THIS width. Same right
+              edge, different left edge, on purpose. */}
+          <div
+            className="lg:grid lg:grid-cols-[var(--contact-cols)] lg:grid-rows-[auto_1fr] lg:gap-x-12 lg:gap-y-12 lg:items-start"
+            style={{
+              ["--contact-embed" as string]: "clamp(22rem, 40vw, 36rem)",
+              ["--contact-cols" as string]:
+                "minmax(0, 1fr) var(--contact-embed)",
+            }}
+          >
+            {/* Row 1, column 1 — the ask. `Headline level={2}` rather
+                than the Display /contact carried: this page's h1 is
+                "Nice to meet you." above, and one page gets one h1. A
+                second Display would announce a second page. */}
+            <Stack gap="500">
+              <Stack gap="300">
+                <Kicker>Contact</Kicker>
+                <Headline level={2}>Let’s talk.</Headline>
+              </Stack>
+
+              {/* The availability sentence is gone from this lede, and that is
+                  a consequence of the collapse rather than a copy preference.
+                  On /contact it opened "I’m currently interviewing and open to
+                  full-time, contract, and fractional product work" so all three
+                  recruiter surfaces stated availability identically — a reason
+                  that dissolves when two of those surfaces become one page. The
+                  body paragraph a screen above says the same thing and then
+                  keeps going, naming the domains and what he is looking for, so
+                  the version here was a strict prefix of the better one. What
+                  is left is the part only this section can say. */}
+              <Lede>
+                Pick a slot for a recruiter intro or a product chat, or send a
+                note.
+              </Lede>
+            </Stack>
+
+            {/* Column 2, both rows — the booking embed. Spanning the
+                rows is what lets the direct-methods block below the
+                lede sit beside it instead of being pushed past its
+                foot. */}
+            <div className="mt-10 lg:mt-0 lg:row-start-1 lg:row-span-2 lg:col-start-2">
+              <Stack gap="400">
+                <div
+                  // Container card around the iframe widget — borders
+                  // visually separate the third-party light-theme embed
+                  // from the surrounding page (which may be dark).
+                  //
+                  // Border color hardcoded to a theme-neutral light hex
+                  // so the white-pinned card has a visible edge in dark
+                  // mode — without it, --border-default resolved to a
+                  // light token and the border vanished against the
+                  // white wrapper inside the dark page surface
+                  // (2026-04-29 /full-review, a-calendly-card-dark).
+                  //
+                  // role="region" + a name exposes this as a landmark in
+                  // screen-reader landmark lists, so somebody navigating
+                  // by landmark can jump to the booking widget instead
+                  // of tabbing into an unnamed iframe. A plain
+                  // functional label rather than a borrowed heading:
+                  // there is no sighted phrasing over the card to match.
+                  //
+                  // No width cap here. One was tried and it backfired:
+                  // Calendly renders its booking view stacked, and a
+                  // narrower card makes that TALLER, not smaller. The
+                  // column sets the width and the height follows.
+                  role="region"
+                  aria-label="Book a meeting"
+                  className="overflow-hidden rounded-lg border"
+                  style={{
+                    borderColor: "#e0e0e0",
+                    background: "#fff",
+                  }}
+                >
+                  <CalendlyWidget />
+                </div>
+
+                {/* Fallback: link to the root Calendly profile (shows
+                    all event types) in case the widget fails to load
+                    — third-party script blocked, ad blocker, etc. Root
+                    URL rather than the specific 30-min slot so users
+                    can still pick whatever event suits them. */}
+                <Body
+                  size="sm"
+                  /* --measure-read rather than a hand-written 60ch: this
+                     caption follows the site measure if it ever moves.
+                     See MEASURE.md. */
+                  style={{
+                    color: "var(--text-caption)",
+                    maxWidth: "var(--measure-read)",
+                  }}
+                >
+                  {/* The explicit {" "} is load-bearing: JSX strips
+                      whitespace that contains a newline, so without it
+                      "on" and "Calendly" would run together. */}
+                  Widget not loading? Book directly on{" "}
+                  <TrackOnClick
+                    event={ANALYTICS_EVENTS.CALENDLY_CLICK}
+                    eventData={{
+                      kind: "fallback",
+                      surface: "about-widget-fallback",
+                    }}
+                  >
+                    <Link href={CONTACT.calendlyRoot}>Calendly ↗</Link>
+                  </TrackOnClick>
+                </Body>
+              </Stack>
+            </div>
+
+            {/* Row 2, column 1 — the ways to reach him that are not the
+                calendar.
+
+                A plain <div>, not the <aside> /contact used. There it
+                was a complementary rail beside a whole page; here it is
+                a subsection of a contact block, and its own kicker and
+                heading already say what it is — so an extra landmark
+                with a label duplicating that heading would be one more
+                thing to skip past for no information. Headline level 3
+                for the same reason: it sits under "Let’s talk.", so h3
+                states that relationship without skipping a level. */}
+            <div className="mt-12 lg:mt-0">
+              <Stack gap="500">
+                <Stack gap="200">
+                  <Kicker>Or, directly</Kicker>
+                  <Headline level={3}>Skip the calendar.</Headline>
+                </Stack>
+
+                <ul
+                  role="list"
+                  className="space-y-3"
+                  style={{ listStyle: "none", padding: 0, margin: 0 }}
+                >
+                  {directMethods.map((method) => {
+                    const linkEl = (
+                      <Link
+                        href={method.href}
+                        className="inline-flex items-center gap-2"
+                        style={{
+                          fontFamily: "var(--font-secondary)",
+                          fontSize: "var(--p-md-font-size)",
+                          minHeight: 24,
+                        }}
+                      >
+                        {method.icon}
+                        <span>{method.value}</span>
+                      </Link>
+                    );
+                    // Single-line row: icon + platform name (or the
+                    // email address). minHeight 24 clears the WCAG 2.2
+                    // SC 2.5.8 minimum target size on touch. Wrap the
+                    // email entry with TrackOnClick; LinkedIn isn't
+                    // tracked (not in the funnel-event spec).
+                    return (
+                      <li key={method.href}>
+                        {method.href.startsWith("mailto:") ? (
+                          <TrackOnClick
+                            event={ANALYTICS_EVENTS.EMAIL_CLICK}
+                            eventData={{
+                              kind: "direct",
+                              surface: "about-direct",
+                            }}
+                          >
+                            {linkEl}
+                          </TrackOnClick>
+                        ) : (
+                          linkEl
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </Stack>
+            </div>
           </div>
         </Section>
       </Container>

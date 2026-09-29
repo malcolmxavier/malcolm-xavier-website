@@ -132,16 +132,22 @@ const READING_ROUTES: NavRoute[] = [
 ];
 
 // Main brand routes — recruiter-facing pages (default grey alias).
-// Order: About (who) → Resume (what) → Consulting (offer) → Contact
-// (action). The funnel reads introduce → claim → offer → next step.
-// The evidence step now lives in READING_ROUTES above; Consulting
-// still sits immediately before Contact because booking a call is the
-// action the consulting page asks for.
+// Order: About (who) → Resume (what) → Consulting (offer). The funnel
+// reads introduce → claim → offer. The evidence step lives in
+// READING_ROUTES above.
+//
+// Contact came out on 2026-09-28. It used to close the run as the
+// "next step", and a nav slot is exactly what it was doing: nearly
+// every page already carries its own contact CTA, the footer holds
+// the direct links closer to where a reader exits, and only two links
+// in the whole codebase pointed at the page. The booking widget, the
+// email address, and the LinkedIn link now live in /about's #contact
+// section — so the "who" entry carries the "next step" with it, and
+// /consulting (which asks for a call directly) is the offer.
 const MAIN_ROUTES: NavRoute[] = [
   { label: "About", href: "/about" },
   { label: "Resume", href: "/resume" },
   { label: "Consulting", href: "/consulting" },
-  { label: "Contact", href: "/contact" },
 ];
 
 // ─── The Booth ───────────────────────────────────────────────────

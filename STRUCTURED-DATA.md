@@ -32,8 +32,15 @@ separate `<script type="application/ld+json">` block from its page component—*
 | `/resume` | `ProfilePage` | `…/resume/#profilepage` |
 | `/about` | `AboutPage` | `…/about/#aboutpage` |
 | `/case-studies` | `CollectionPage` | `…/#…` |
-| `/contact` | `ContactPage` | `…/contact/#contactpage` |
 | `/case-studies/<slug>` | `Article` + `BreadcrumbList` | per-article |
+
+There used to be a fifth row: `/contact` carried a `ContactPage`. That route
+retired into `/about#contact` on 2026-09-28, and **the node retired with the
+URL rather than moving to `/about`**. The rule the table encodes is one page-type
+node per URL; `ContactPage` is validator-only rather than a rich-result type, so
+multi-typing `/about` as `["AboutPage","ContactPage"]` would have bought nothing
+and cost the one thing that makes the pattern mechanical. A section anchor is not
+a page.
 
 So `/resume` ships **two** ld+json blocks in total: the sitewide `@graph`
 (WebSite + Person) plus ProfilePage. The two schools are *not* standalone
@@ -51,7 +58,7 @@ mainEntity: { "@id": `${SITE_URL}/#person` },    // → the canonical Person
 ```
 
 Every node links to the site through `isPartOf → #website`. The link to the
-*person* varies by type: most (`ProfilePage`, `AboutPage`, `ContactPage`) use
+*person* varies by type: most (`ProfilePage`, `AboutPage`) use
 `mainEntity → #person`; `CollectionPage` uses `about → #person` (a collection is
 *about* the person, it does not have them as its single main entity); and
 `Article` (the case studies) uses `author → #person` and `publisher → #person`—more
@@ -71,7 +78,7 @@ in one block pointing `isPartOf` at `#website` declared in a different block—r
 
 This is also why the **validator tree looks split**: validator.schema.org draws
 each block's root object as its own top-level tree item, so `ProfilePage` /
-`AboutPage` / `ContactPage` appear "at the top" while `WebSite` and `Person`
+`AboutPage` / `CollectionPage` appear "at the top" while `WebSite` and `Person`
 sit "inside the graph." That is correct and expected—they are different
 `<script>` blocks; the `@id` links join them.
 
@@ -84,7 +91,7 @@ result) or schema that is valid but not rich-result-eligible:
   studies). These are the only types that produce a rich result, so they are
   the only ones this tool reports on.
 - **validator.schema.org**—everything else: `ProfilePage`, `AboutPage`,
-  `ContactPage`, `CollectionPage`, `WebSite`, `Person`. Valid, retriever-useful
+  `CollectionPage`, `WebSite`, `Person`. Valid, retriever-useful
   schema that is *not* a rich-result type. Rich Results Test will show these as
   "no rich results detected," which is not an error—use the schema.org
   validator to confirm zero errors/warnings and that `@id`s resolve.

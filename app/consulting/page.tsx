@@ -1137,7 +1137,17 @@ export default function ConsultingPage() {
                       Book a discovery call
                     </Button>
                   </TrackOnClick>
-                  <Button as="a" href="/contact" variant="secondary" size="lg">
+                  {/* /about#contact rather than /contact: the contact
+                      page retired into /about on 2026-09-28 and the
+                      anchor lands on the same booking widget, email
+                      address, and LinkedIn link this button always
+                      promised. */}
+                  <Button
+                    as="a"
+                    href="/about#contact"
+                    variant="secondary"
+                    size="lg"
+                  >
                     Other ways to reach me
                   </Button>
                 </div>

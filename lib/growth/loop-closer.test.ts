@@ -69,7 +69,7 @@ describe("resolveLoopCloser — personal-only surface", () => {
   });
 
   it("excludes recruiter / home surfaces", () => {
-    for (const pathname of ["/", "/resume", "/about", "/contact"]) {
+    for (const pathname of ["/", "/resume", "/about", "/consulting"]) {
       expect(
         resolveLoopCloser({ pathname, utmMedium: "share", utmSource: "email" }),
       ).toBeNull();

@@ -318,9 +318,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       // /consulting — the services page for the consulting practice.
-      // Priority sits level with /about and above /contact: it is a
-      // destination people search for and land on directly, not just
-      // a step on the way to getting in touch.
+      // Priority sits level with /about: it is a destination people
+      // search for and land on directly, not just a step on the way to
+      // getting in touch.
       url: `${SITE_URL}/consulting`,
       lastModified,
       changeFrequency: "monthly",
@@ -336,12 +336,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    {
-      url: `${SITE_URL}/contact`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+    // /contact is deliberately absent: the route retired into
+    // /about#contact on 2026-09-28. A sitemap lists canonical URLs, and
+    // the old one is a permanent redirect now (next.config.ts) — listing
+    // a redirect asks a crawler to spend a fetch discovering that.
     {
       url: `${SITE_URL}/music`,
       lastModified,
