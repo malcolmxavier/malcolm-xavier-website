@@ -35,6 +35,7 @@ import { readMinutes } from "@/lib/content/read-times";
 import {
   Beat,
   BeatSeparator,
+  BeatSummary,
   Body,
   ClaudeNote,
   Code,
@@ -217,6 +218,12 @@ function BeatContext() {
       title="Context"
       headline="Sales-led PR SaaS with a volume-parity narrative."
     >
+      <BeatSummary
+        points={[
+          "How the product organization was split, and which piece the ingestion scope was carved out of.",
+          "The team shape—no designer, no embedded data scientist—and what had to be influenced instead of owned.",
+        ]}
+      />
       <Body>
         <p>
           Muck Rack was a roughly 150-person SaaS reporting tool for
@@ -267,6 +274,13 @@ function BeatOpportunity() {
       title="Opportunity"
       headline="Leadership measured volume. The actual opportunity was timeliness and accuracy."
     >
+      <BeatSummary
+        points={[
+          "What the organization believed the problem was, and what the data said instead.",
+          "Two failure modes that reached users as one symptom.",
+          "Why separating the symptom from the disease is the move the rest of the study rests on.",
+        ]}
+      />
       <Body>
         <p>
           The institutional rallying cry was{" "}
@@ -323,6 +337,13 @@ function BeatDiscovery() {
       title="Discovery"
       headline="Observability turned ‘low volume’ into ‘stalled stages.’"
     >
+      <BeatSummary
+        points={[
+          "The instrumentation built to make the bottleneck visible, and the one metric it produced.",
+          "What matching user complaints against the ingestion record turned up.",
+          "Why the same evidence was framed one way for leadership and another way for the team.",
+        ]}
+      />
       <Body>
         <p>
           Two strands of evidence converged on the diagnostic. One
@@ -390,6 +411,13 @@ function BeatStrategy() {
       title="Strategy"
       headline="Decompose along content-type and source boundaries."
     >
+      <BeatSummary
+        points={[
+          "The two axes the monolith was split along, and why in that order.",
+          "The second-order effects that justified the architecture beyond the headline metric.",
+          "The two forcing functions behind the sequencing, one technical and one contractual.",
+        ]}
+      />
       <Body>
         <p>
           The bet was a two-axis decomposition. We split the
@@ -514,6 +542,13 @@ function BeatExecution() {
       title="Execution"
       headline="Three workstreams in parallel, defended against constant injection."
     >
+      <BeatSummary
+        points={[
+          "How a roadmap gets defended when incoming requests arrive with sales-cycle deadlines attached.",
+          "The order of the work: observability first, then decomposition, then the quality models.",
+          "The partnerships track running alongside, and why it was the same job in a different register.",
+        ]}
+      />
       <Body>
         <p>
           The theory of roadmapping is always cleaner than the practice.
@@ -606,6 +641,12 @@ function BeatOutcomes() {
       title="Outcomes"
       headline="Volume rose. The quality dimensions underneath it rose more."
     >
+      <BeatSummary
+        points={[
+          "What moved, and the measurement caveat attached to each figure.",
+          "What platform work of this kind produces for users, and what it does not.",
+        ]}
+      />
       <Body>
         <p>
           The headline outcome was on the metric the org sold and
@@ -707,6 +748,13 @@ function BeatReflection() {
       title="Reflection"
       headline="Quality was the lever; quantity was the language."
     >
+      <BeatSummary
+        points={[
+          "Why an unbounded growth target is a strategy gap rather than a goal.",
+          "How platform work moves in a sales-led room: by translation rather than education.",
+          "Where the six-dimension framework on data quality came from.",
+        ]}
+      />
       <Body>
         <p>
           The sharpest thing I learned at Muck Rack is about the

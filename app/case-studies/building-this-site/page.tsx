@@ -49,6 +49,7 @@ import { CASE_STUDY_WIDTH } from "@/components/case-study/primitives";
 import {
   Beat,
   BeatSeparator,
+  BeatSummary,
   Body,
   ClaudeNote,
   Code,
@@ -190,6 +191,12 @@ function BeatBrief() {
       title="The Brief"
       headline="Three jobs, seven days."
     >
+      <BeatSummary
+        points={[
+          "Three jobs one site had to do at once, and which one wins when they compete.",
+          "How scope was cut to hold a hard deadline while interviewing several days a week.",
+        ]}
+      />
       <Body>
         <p>
           A recruiter-facing portfolio surface that did three things at once,
@@ -245,6 +252,13 @@ function BeatWorkflow() {
       claudeTagLiteral
       headline="Where I drove, where Claude drove."
     >
+      <BeatSummary
+        points={[
+          "What the division of labor between direction and implementation looks like in practice.",
+          "The blind spot neither side covered well, and how it got resolved.",
+          "Why the pattern is durable: context, not novelty.",
+        ]}
+      />
       <Body>
         <p>
           Most of the code is the agent’s. Most of the decisions are
@@ -347,6 +361,12 @@ function BeatArchitecture() {
       claudeTag="implementation"
       headline="A few bets that distinguish this from generic Next.js."
     >
+      <BeatSummary
+        points={[
+          "Six decisions that hold the site together, across information architecture and the design system.",
+          "Why none of them were the agent’s instinct, and what the PM job was instead.",
+        ]}
+      />
       <Body>
         <p>
           The site looks deceptively simple: a recruiter cluster, a few
@@ -455,6 +475,13 @@ function BeatSpotify() {
       claudeTag="defensive engineering"
       headline="From play to pause and back again."
     >
+      <BeatSummary
+        points={[
+          "Three plot points that turned the easiest page into the longest one.",
+          "The fix, and the part of the lesson that travels past this one API.",
+          "What a one-week estimate does with a multi-day vendor incident.",
+        ]}
+      />
       <Body>
         <p>
           The <Code>/music</Code> page was supposed to be the easiest of
@@ -584,6 +611,13 @@ function BeatButton() {
       claudeTag="the recursion"
       headline="If all you have is a hammer…"
     >
+      <BeatSummary
+        points={[
+          "How an agent fails differently from a person, and what that difference costs.",
+          "Three loops, each with a bigger blast radius than the last.",
+          "The difference between documenting a lesson and operationalizing one.",
+        ]}
+      />
       {/* Opener and the first-two-bugs paragraphs share one Body
           so the three paragraphs use Body's gap-4 rhythm. Splitting
           them across separate Bodies left adjacent paragraphs flush,
@@ -762,6 +796,12 @@ function BeatResumes() {
       claudeTag="triple-output craft"
       headline="Browse, tailor, grab."
     >
+      <BeatSummary
+        points={[
+          "One record, three reading contexts, three editorial decisions.",
+          "The mechanics of a Word document that will be parsed, exported, printed, and only then read.",
+        ]}
+      />
       <Body>
         <p>
           One person, three reading contexts. The{" "}
@@ -923,6 +963,13 @@ function BeatReview() {
       claudeTag="multi-agent orchestration"
       headline="Three reviewers, one punch list, one humbling number."
     >
+      <BeatSummary
+        points={[
+          "Three review lanes that deliberately do not overlap, and why the handoffs are what make synthesis possible.",
+          "What a second review run found in the first run’s own fixes.",
+          "Why the output is a working surface rather than a document.",
+        ]}
+      />
       <Body>
         <p>
           Pre-launch QA at solo-PM scale needs three lanes that
@@ -1129,6 +1176,13 @@ function BeatLive() {
       title="What’s Live"
       headline="What shipped, what got cut, what’s next."
     >
+      <BeatSummary
+        points={[
+          "What the MVP actually contains.",
+          "The biggest scope cut, and the rule that made it easy to make.",
+          "Seven lessons, stated as rules rather than as regrets.",
+        ]}
+      />
       <Body>
         <p>
           As of writing, the MVP is live, gated

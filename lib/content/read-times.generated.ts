@@ -25,24 +25,24 @@ export const READ_TIMES: Record<
   Record<string, ReadTimeEntry>
 > = {
   "case-study": {
-    "architecture-under-contract": { words: 2180, minutes: 10 },
-    "basecamp-coffee": { words: 2108, minutes: 9 },
-    "building-this-site": { words: 4450, minutes: 20 },
-    "muck-rack": { words: 2196, minutes: 10 },
-    "people-inc": { words: 3641, minutes: 16 },
-    "user-interviews": { words: 1636, minutes: 7 },
+    "architecture-under-contract": { words: 2478, minutes: 11 },
+    "basecamp-coffee": { words: 2487, minutes: 11 },
+    "building-this-site": { words: 5084, minutes: 23 },
+    "muck-rack": { words: 2667, minutes: 12 },
+    "people-inc": { words: 4218, minutes: 19 },
+    "user-interviews": { words: 2056, minutes: 9 },
   },
   "essay": {
     "context-rules-everything": { words: 639, minutes: 3 },
-    "growth-personalization-ai-data-primer": { words: 2085, minutes: 9 },
-    "ms-in-law-data-governance": { words: 1196, minutes: 5 },
-    "personalization-is-a-platform": { words: 766, minutes: 3 },
+    "growth-personalization-ai-data-primer": { words: 2093, minutes: 9 },
+    "ms-in-law-data-governance": { words: 1245, minutes: 6 },
+    "personalization-is-a-platform": { words: 814, minutes: 4 },
     "roadmap-to-making-better-choices": { words: 1644, minutes: 7 },
     "technically-speaking": { words: 503, minutes: 2 },
   },
   "research": {
     "ethics-video-sharing-apps": { words: 2583, minutes: 11 },
-    "privacy-law-social-media-era": { words: 9491, minutes: 42 },
-    "sea-level-rise-florida": { words: 871, minutes: 4 },
+    "privacy-law-social-media-era": { words: 9521, minutes: 42 },
+    "sea-level-rise-florida": { words: 897, minutes: 4 },
   },
 };

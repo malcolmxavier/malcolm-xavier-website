@@ -34,6 +34,7 @@ import { CASE_STUDY_WIDTH } from "@/components/case-study/primitives";
 import {
   Beat,
   BeatSeparator,
+  BeatSummary,
   Body,
   CaseStudyKicker,
   ClaudeNote,
@@ -208,6 +209,13 @@ function BeatContext() {
       title="Context"
       headline="A 40+ brand publisher with a directly-owned-audience thesis and no identity layer."
     >
+      <BeatSummary
+        points={[
+          "The scale of the network, and the written mandate set against the implicit one.",
+          "The platform as it stood: one onsite marketing surface, per-newsletter acquisition, no user account underneath.",
+          "Who was on the team, who merely contributed to it, and what that distinction cost day to day.",
+        ]}
+      />
       <Body>
         <p>
           People Inc. is “America’s largest publisher”—the
@@ -358,6 +366,13 @@ function BeatOpportunity() {
       title="Opportunity"
       headline="Leadership wanted personalization. The network had no identity layer underneath it."
     >
+      <BeatSummary
+        points={[
+          "The strategic bet the organization had already made, and why the inbox carried it.",
+          "The infrastructure that bet required and did not have.",
+          "What the gap looked like from inside a subscriber’s inbox, and the second gap sitting underneath it.",
+        ]}
+      />
       <Body>
         <p>
           The institutional rallying cry was{" "}
@@ -432,6 +447,13 @@ function BeatDiscovery() {
       title="Discovery"
       headline="The diagnostic was qualitative; the roadmap had to be quant-backed."
     >
+      <BeatSummary
+        points={[
+          "Why a problem everybody already agreed on still could not be funded.",
+          "What modelling the classification data against its source revealed, and what that bought.",
+          "A third kind of discovery: how the organization itself shipped, and where it stalled.",
+        ]}
+      />
       <Body>
         <p>
           Two strands of evidence converged on the diagnostic. One I
@@ -513,6 +535,14 @@ function BeatStrategy() {
       title="Strategy"
       headline="Co-ship surfaces, capabilities, and programs. Steward the identity roadmap behind them."
     >
+      <BeatSummary
+        points={[
+          "What co-shipping means, and how it differs from plugging programs into capability that already exists.",
+          "The three-tier pattern that made rollout across 40+ brands feasible, and the override it had to allow.",
+          "The three factors that decided what shipped when.",
+          "How a multi-year bet gets sold when it cannot be sold in one pitch.",
+        ]}
+      />
       <Body>
         <p>
           The bet was{" "}
@@ -752,6 +782,13 @@ function BeatZeroToOne() {
       title="0 to 1"
       headline="Capabilities, surfaces, and brand control."
     >
+      <BeatSummary
+        points={[
+          "The shape every piece of work followed: prove it at one brand, then sequence it across the network.",
+          "Four pieces of foundation, including the misstep that hardened the brand-override pattern.",
+          "Why the rollout half had to be first-class from day one rather than an afterthought.",
+        ]}
+      />
       <Body>
         {/* Italic meta-arc tee-up. Names the two-level pattern (a
             surface-level 0-to-1/1-to-n inside each program AND a
@@ -876,6 +913,13 @@ function BeatOneToN() {
       title="1 to n"
       headline="Follow This Topic, the platform compounding underneath."
     >
+      <BeatSummary
+        points={[
+          "The program built to test whether the platform could carry real complexity.",
+          "How pages were selected, and the risk-mitigation move the model made necessary.",
+          "The data plumbing on the page side and the email side, and the ride-along effects of each.",
+        ]}
+      />
       {/* Follow This Topic. The single 1-to-n program of the role.
           Structured into: (1) a short framing paragraph naming
           what this program tested at the platform level; (2) the
@@ -1024,6 +1068,13 @@ function BeatOutcomes() {
       title="Outcomes"
       headline="Driving 33% YoY email revenue and a pilot-to-network rollout playbook."
     >
+      <BeatSummary
+        points={[
+          "What the network’s email revenue did, and against what baseline.",
+          "What the topical-affinity program returned against the flagship newsletter.",
+          "The second-order outcome: the rollout loop itself, repeatable past any one program.",
+        ]}
+      />
       <Body>
         <p>
           The network grew email revenue 33% year-over-year during my tenure—against
@@ -1123,6 +1174,13 @@ function BeatReflection() {
       title="Reflection"
       headline="Infrastructure enables personalization."
     >
+      <BeatSummary
+        points={[
+          "Why a sound strategy could not be executed, and what closing that gap actually involved.",
+          "The same pattern, run once before at a different scale.",
+          "What the role sharpened, and the posture it adds up to.",
+        ]}
+      />
       <Body>
         <p>
           People Inc.’s thesis was right—directly-owned user

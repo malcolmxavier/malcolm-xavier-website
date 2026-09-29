@@ -234,6 +234,99 @@ export function Beat({
   );
 }
 
+// ─── BeatSummary ─────────────────────────────────────────────────
+//
+// The orientation block at the head of a Beat: a short bulleted
+// statement of what the section ARGUES, sitting between the beat's
+// <h2> and its first paragraph.
+//
+//   <Beat id="opportunity" number="02" title="Opportunity" headline="…">
+//     <BeatSummary points={[
+//       "Why the instinctive marketplace metrics lag.",
+//       <>One upstream signal, <Emph>EQR</Emph>, predicted both sides.</>,
+//     ]} />
+//     <Body>…</Body>
+//   </Beat>
+//
+// WHY PER BEAT AND NOT PER PAGE. The first design put one reading
+// map under the Hero. Malcolm's call on 2026-09-28 was per beat, and
+// it is also the stronger position for machine readers: an answer
+// engine chunks a long article by section, so a single summary at the
+// top may never be associated with the section it describes, whereas
+// a topic statement directly under each <h2> travels with its chunk.
+//
+// WHY THE JOURNEY AND NOT THE DESTINATION. A point says what the beat
+// argues; it never says what the beat concludes. No stat, no
+// diagnostic line, and no reveal moves up into one. This is the whole
+// reason the block is allowed to exist: the 2026-05-19 adjudication
+// killed a HeadlineCallout that lifted Muck Rack's diagnostic and
+// stats above the fold, because stripped of the argument that earns
+// them they read as context-free claims. Naming the argument orients a
+// reader without spending the reveal. If a point ever starts carrying
+// the answer, it has become the thing that was rejected.
+//
+// WHY NO CARD AND NO RULE. There are 44 of these across the six case
+// studies. The article's surface vocabulary is already spoken for —
+// left-rule aside (ClaudeNote), case-glass card at rounded-[22px]
+// (Stat / EvidenceCard / ClaudeNote callout), 2px rule plus italic
+// serif (Pullquote) — and adding a 45th box per cluster would turn a
+// reading experience into a slide deck. Three cues carry it instead,
+// and together they are unambiguous: it sits between the headline and
+// the prose, it is one step smaller than Body, and it is a list where
+// the body is paragraphs.
+//
+// WHY NO HEADING. A repeated <h3> at the head of 44 sections would
+// shred the document outline for anyone navigating by heading — the
+// same defect already logged against the hand-rolled "If you're
+// skimming" block in architecture-under-contract, which styles an
+// <h2> as an 11px caption. The beat's own <h2> is the heading the
+// outline needs and it is already there, so the list takes an
+// aria-label instead: assistive tech gets a name for the block
+// without a phantom level in the outline.
+// ────────────────────────────────────────────────────────────────
+
+export function BeatSummary({
+  points,
+  label = "What this section argues",
+}: {
+  /** One bullet per point. ReactNode rather than string so a point can
+   *  carry the article's inline voice — an <Emph> for a phrase, a
+   *  <Code> for a vendor or a file name. */
+  points: ReactNode[];
+  /** Accessible name for the list. Not rendered visually; see the
+   *  "WHY NO HEADING" note above. Override when a beat's block is
+   *  doing something other than arguing — e.g. a "what shipped" beat
+   *  that is closer to an inventory. */
+  label?: string;
+}) {
+  // A beat with no points renders nothing rather than an empty list.
+  // Overriding a beat is therefore `points={[]}` or dropping the
+  // element, and neither leaves a stray <ul> behind.
+  if (points.length === 0) return null;
+
+  return (
+    // `read-measure` puts the list in the article's reading column the
+    // same way Body does: it takes the measure the Beat states rather
+    // than naming a width of its own. The measure resolves against
+    // THIS block's 15/16px type, so the list stops after roughly the
+    // same character count as the prose below it even though the two
+    // are set at different sizes. See MEASURE.md.
+    <ul
+      aria-label={label}
+      className="read-measure m-0 mb-7 md:mb-8 pl-5 list-disc flex flex-col gap-2 text-[15px] md:text-[16px] leading-[1.5] text-[var(--text-caption)] marker:text-[var(--text-caption)]"
+    >
+      {points.map((point, i) => (
+        // Index keys are safe here: `points` is authored per beat in
+        // the page source and is never reordered, filtered, or fed
+        // from data at runtime.
+        <li key={i} className="m-0">
+          {point}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 // ─── Text blocks ─────────────────────────────────────────────────
 //
 // Body — paragraph stack inside a Beat. Default body type size and

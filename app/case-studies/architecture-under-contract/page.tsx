@@ -27,6 +27,7 @@ import { TocDisclosure } from "@/components/chrome/TocDisclosure";
 import {
   Beat,
   BeatSeparator,
+  BeatSummary,
   Body,
   CASE_STUDY_WIDTH,
   CaseStudyKicker,
@@ -200,6 +201,12 @@ function BeatBrief() {
       title="The Brief"
       headline="Three pages. Three upstreams that look nothing alike."
     >
+      <BeatSummary
+        points={[
+          "The three pages, the four sources behind them, and what each one does or does not offer.",
+          "The single property the brief required all three to share.",
+        ]}
+      />
       <Body>
         <p>
           Three pages—<Code>/music</Code>, <Code>/films</Code>,{" "}
@@ -242,6 +249,12 @@ function BeatSources() {
       claudeTagLiteral
       headline="Architecture frames product UX."
     >
+      <BeatSummary
+        points={[
+          "Why likeness at the page level does not require likeness at the integration level.",
+          "What makes each upstream structurally easy, hard, or awkward—and which problems are operational instead.",
+        ]}
+      />
       <Body>
         <p>
           Three pages that look the same to a visitor sit on three
@@ -453,6 +466,13 @@ function BeatContract() {
       claudeTagLiteral
       headline="Rendering convergence."
     >
+      <BeatSummary
+        points={[
+          "The rule that keeps a page online when its upstream is not.",
+          "What every snapshot carries, and what every reader of one has to implement.",
+          "The cost the contract charges, and why these particular pages can afford it.",
+        ]}
+      />
       <Body>
         <p>
           Every Vercel environment runs with <Code>SPOTIFY_OFFLINE=1</Code>{" "}
@@ -513,6 +533,13 @@ function BeatRefresh() {
       claudeTagLiteral
       headline="Refresh divergence."
     >
+      <BeatSummary
+        points={[
+          "Why one refresh path is deliberately kept manual while two run on a schedule.",
+          "How each pipeline covers its own blind spots, and where one source corrects another.",
+          "Why the commit chatter is a feature rather than a cost.",
+        ]}
+      />
       <Body>
         <p>
           <Emph>Spotify is human-in-the-loop</Emph>.{" "}
@@ -588,6 +615,13 @@ function BeatPolite() {
       claudeTagLiteral
       headline="It’s easier to ask forgiveness…"
     >
+      <BeatSummary
+        points={[
+          "What to do when the obvious endpoint returns success and nothing else.",
+          "How losing user-level auto-discovery turned into editorial control.",
+          "The three courtesies that make an unofficial integration defensible rather than merely undetected.",
+        ]}
+      />
       <Body>
         <p>
           Not every Serializd endpoint is as cooperative as the one that
@@ -667,6 +701,12 @@ function BeatAutomatedEditorial() {
       claudeTagLiteral
       headline="Automating editorial intent."
     >
+      <BeatSummary
+        points={[
+          "Why the cleaning pass refuses to write at all rather than writing something wrong.",
+          "The rule that is one line upstream and thirty lines downstream.",
+        ]}
+      />
       <Body>
         <p>
           The Serializd bootstrap script runs an editorial-cleaning pass
@@ -709,6 +749,12 @@ function BeatLive() {
       title="What’s Live"
       headline="What shipped and what’s next."
     >
+      <BeatSummary
+        points={[
+          "What each of the three pages is running on today.",
+          "What would be built earlier next time, and what the three lessons generalize to.",
+        ]}
+      />
       <Body>
         <p>As of writing:</p>
         {/* Counts are hand-keyed on purpose — this is the "as of

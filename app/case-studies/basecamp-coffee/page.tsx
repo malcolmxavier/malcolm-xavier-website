@@ -34,6 +34,7 @@ import { CASE_STUDY_WIDTH } from "@/components/case-study/primitives";
 import {
   Beat,
   BeatSeparator,
+  BeatSummary,
   Body,
   ClaudeNote,
   Code,
@@ -191,6 +192,13 @@ function Hero() {
 function BeatSignal() {
   return (
     <Beat id="signal" number="01" title="The Signal" claudeTag="file-tree exploration" headline="Brand healthy. Program on fire.">
+      <BeatSummary
+        points={[
+          "The divergence that says which problem this actually is.",
+          "Why an isolated program failure is a different brief from a brand crisis.",
+          "What is fixed about the program’s mechanics before any solution gets proposed.",
+        ]}
+      />
       <Body>
         <p>
           The first data that told me what was actually broken: <Emph>Brand NPS 67, Program NPS 12</Emph>.{' '}
@@ -248,6 +256,12 @@ function BeatData() {
 
   return (
     <Beat id="data" number="02" title="The Data" claudeTag="data synthesis" headline="Signups masking indifference.">
+      <BeatSummary
+        points={[
+          "Three patterns in six months of movement, and which one management was reading.",
+          "How vanity metrics and load-bearing metrics were separated, and what the separation exposed.",
+        ]}
+      />
       <Body>
         <p>Six months of metric movement. Three patterns mattered.</p>
       </Body>
@@ -296,6 +310,12 @@ function BeatTriangulation() {
       claudeTag="multi-agent review"
       headline="Smoke signal to house on fire."
     >
+      <BeatSummary
+        points={[
+          "Four independent signals, and why convergence is what turns a hunch into a diagnosis.",
+          "What reading competitors by mechanic rather than by brand revealed about the market.",
+        ]}
+      />
       <Body>
         <p>
           When a system is failing, one bad signal is the smell of smoke. Four independent signals
@@ -359,6 +379,12 @@ function BeatTriangulation() {
 function BeatBet() {
   return (
     <Beat id="bet" number="04" title="The Bet" claudeTag="thinking partner" headline="Personality over points.">
+      <BeatSummary
+        points={[
+          "The hypothesis, stated so that it can fail.",
+          "Why a locked mechanic removed a tempting distraction rather than creating a constraint.",
+        ]}
+      />
       <Body>
         <p>
           The mechanics couldn’t change — the points structure is legally locked (accounting
@@ -402,6 +428,12 @@ function BeatExperiment() {
       claudeTag="artifact drafting"
       headline="Succeed or sunset."
     >
+      <BeatSummary
+        points={[
+          "The pilot’s shape: stores, days, capped spend, and a gate with a number on it.",
+          "What separates an experiment from a project.",
+        ]}
+      />
       <Body>
         <p>The pilot:</p>
         <ul className="m-0 pl-5 text-[17px] md:text-[19px] leading-[1.5] text-[var(--text-caption)] list-disc marker:text-[var(--text-caption)]">
@@ -443,6 +475,12 @@ function BeatArtifact() {
       claudeTagLiteral
       headline="The prototype is live."
     >
+      <BeatSummary
+        points={[
+          "What the prototype does, and what was deliberately left out of the MVP.",
+          "Six build decisions worth pulling up, each with what it gave up.",
+        ]}
+      />
       <Body>
         <p>
           <Link href={QUIZ_HREF}>Take the quiz <span aria-hidden="true">↗</span></Link>. Sixty seconds. It maps you to one of 16 archetypes, recommends a drink from the actual
@@ -544,6 +582,12 @@ function BeatArtifact() {
 function BeatHowBuilt() {
   return (
     <Beat id="how-built" number="07" title="How This Was Built" headline="The Claude Code workflow.">
+      <BeatSummary
+        points={[
+          "The harness features the work actually leaned on.",
+          "The division of labor underneath all of it, and why it is the part that does not automate.",
+        ]}
+      />
       <Body>
         <p>The features I leaned on, concretely:</p>
       </Body>

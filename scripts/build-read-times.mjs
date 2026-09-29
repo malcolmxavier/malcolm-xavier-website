@@ -39,6 +39,50 @@ const WORDS_PER_MINUTE = 225;
 // so they count.
 const SKIP_INSIDE = new Set(["FnItem"]);
 
+// PROSE IN PROPS. Walking JsxText alone counts the words between tags
+// and misses every word a component takes as a prop — and on a case
+// study that is a lot of reading: the beat titles and headlines, the
+// eyebrow / big / caption on every Stat, the title on every
+// EvidenceCard and IterationCard, the pull-quote attributions, and
+// all 44 BeatSummary lists. Measured across the six studies on
+// 2026-09-28: 2,739 words, which is 17% of the cluster's prose, none
+// of it counted. The comment above claiming the stat and evidence
+// cards "ARE read, so they count" was therefore true of intent and
+// false of behaviour.
+//
+// It has to be an allowlist rather than "every string prop", because
+// most props are not prose: className, id, href, cols, variant, and
+// the tone / as / roman flags would all be counted as reading.
+//
+// `label` and `alt` are deliberately OUT. Both are accessible names
+// rather than running text — BeatSummary's `label` is an aria-label
+// that never renders — and a reading time is an estimate for somebody
+// reading the page, not a total of every string in it.
+const PROSE_ATTRS = new Set([
+  "title",
+  "headline",
+  "eyebrow",
+  "caption",
+  "big",
+  "lens",
+  "name",
+  "metric",
+  "threshold",
+  "kicker",
+  "attribution",
+  "points",
+  "claudeTag",
+]);
+
+// A "word" has to carry a letter or digit, so punctuation sitting on
+// its own (a stray · or →) is not counted as reading.
+const countWords = (text) =>
+  text
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ")
+    .filter((w) => /[A-Za-z0-9]/.test(w)).length;
+
 /** Count the words a reader actually reads in one .tsx module. */
 function proseWords(file) {
   const source = ts.createSourceFile(
@@ -60,13 +104,35 @@ function proseWords(file) {
     if (tag && SKIP_INSIDE.has(tag)) skipHere = true;
 
     if (!skipHere && node.kind === ts.SyntaxKind.JsxText) {
-      const text = node.getText(source).replace(/\s+/g, " ").trim();
-      if (text) {
-        // A "word" has to carry a letter or digit, so JSX punctuation
-        // left between tags (a stray · or →) is not counted as reading.
-        words += text.split(" ").filter((w) => /[A-Za-z0-9]/.test(w)).length;
-      }
+      words += countWords(node.getText(source));
     }
+
+    // Prose passed as a prop. Only STRING literals are counted here:
+    // when an attribute holds JSX instead — `headline={<>Volume <Emph>
+    // rose</Emph>.</>}` — its text is JsxText that the walk below
+    // reaches on its own, and counting it here as well would double it.
+    //
+    // The whole initializer is searched rather than just its top level,
+    // so a list of strings (`points={["…", "…"]}`) and a row of them
+    // inside an object both count. A prop handed an identifier
+    // (`rows={rows}`) still does not: resolving a binding is a
+    // different job from reading a file, and the one case of it in the
+    // cluster is a metrics table of numbers and two-word labels.
+    if (
+      !skipHere &&
+      ts.isJsxAttribute(node) &&
+      node.initializer &&
+      PROSE_ATTRS.has(node.name.getText(source))
+    ) {
+      const collect = (n) => {
+        if (ts.isStringLiteral(n) || ts.isNoSubstitutionTemplateLiteral(n)) {
+          words += countWords(n.text);
+        }
+        ts.forEachChild(n, collect);
+      };
+      collect(node.initializer);
+    }
+
     ts.forEachChild(node, (child) => visit(child, skipHere));
   };
   visit(source, false);

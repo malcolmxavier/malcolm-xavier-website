@@ -25,6 +25,7 @@ import { readMinutes } from "@/lib/content/read-times";
 import {
   Beat,
   BeatSeparator,
+  BeatSummary,
   Body,
   Code,
   Emph,
@@ -187,6 +188,13 @@ function BeatContext() {
       title="Context"
       headline="An early-stage marketplace with serious analytics muscle."
     >
+      <BeatSummary
+        points={[
+          "What a two-sided research marketplace sells, and what counts as a unit of value in it.",
+          "Which pod owned the targeting tools and the invitation algorithm, and how the move there happened.",
+          "Why an unusually mature analytics function shaped everything that follows.",
+        ]}
+      />
       <Body>
         <p>
           User Interviews was a roughly thirty-person product-led-growth
@@ -227,6 +235,13 @@ function BeatOpportunity() {
       title="Opportunity"
       headline="EQR predicted both sides, so EQR was the metric to move."
     >
+      <BeatSummary
+        points={[
+          "Why the instinctive marketplace metrics lag, and what steering by them costs.",
+          "The case for one upstream signal that predicts health on both sides at once.",
+          "The workaround researchers had been forced into, and where it put the cost.",
+        ]}
+      />
       <Body>
         <p>
           The instinctive metrics for a research marketplace
@@ -281,6 +296,12 @@ function BeatDiscovery() {
       title="Discovery"
       headline="Researchers wanted to filter on it. Participants wanted to be seen for it."
     >
+      <BeatSummary
+        points={[
+          "What each side of the marketplace asked for, and why they were asking for the same thing.",
+          "How the quantitative and qualitative evidence were assembled, and who built which.",
+        ]}
+      />
       <Body>
         <p>
           User Interviews ran continuous discovery as a
@@ -335,6 +356,12 @@ function BeatStrategy() {
       title="Strategy"
       headline="Pre-qualify participants entering the funnel."
     >
+      <BeatSummary
+        points={[
+          "The argument for moving qualification upstream of the invitation rather than tightening it downstream.",
+          "The second-order retention mechanism most marketplace PMs underrate.",
+        ]}
+      />
       <Body>
         <p>
           The bet was that moving qualification{" "}
@@ -379,6 +406,13 @@ function BeatExecution() {
       title="Execution"
       headline="Two quarters, three phases per new data attribute, and two-to-three-week experiments."
     >
+      <BeatSummary
+        points={[
+          "How a cadence built on short experiments shaped the project into phases.",
+          "Why participant-side data had to land and prove out before any researcher-facing filter was built.",
+          "What the build-versus-buy call on taxonomy data cost, and why it still went that way.",
+        ]}
+      />
       <Body>
         <p>
           The pods’ shipping cadence shaped the project as much
@@ -452,6 +486,12 @@ function BeatOutcomes() {
       title="Outcomes"
       headline="EQR +15%. Re-recruitment +135% from a one-month side quest."
     >
+      <BeatSummary
+        points={[
+          "What moved on the metric the work was aimed at.",
+          "A separate, much smaller piece of work that was compounding in the same direction.",
+        ]}
+      />
       <Body>
         <p>
           The primary outcome was on the metric we set out to
@@ -523,6 +563,12 @@ function BeatReflection() {
       title="Reflection"
       headline="Pick the leading indicator, then engineer against it."
     >
+      <BeatSummary
+        points={[
+          "Why the leverage sat in where qualification happened, rather than in any feature.",
+          "What makes metric selection product work rather than analytics work.",
+        ]}
+      />
       <Body>
         <p>
           The biggest leverage move at User Interviews wasn’t
