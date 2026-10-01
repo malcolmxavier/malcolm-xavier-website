@@ -220,6 +220,9 @@ const ROLES = [
       "Facilitated 80+ member community of practice focused on product discovery skills",
       "Balanced solutions and analyzed releases for impacts on site speed and ad performance",
       "Collaborated with brand, privacy, and legal teams to ensure compliant user experiences",
+      "Operationalized privacy policy and frameworks across newsletter signup, consent, and opt-out",
+      "Architected consent data schema, flow, access, and deletion across the CDP and MarTech stack",
+      "Owned the newsletter preference center and its roadmap into user accounts and personalization",
       [
         { text: "Partnered with data science and operations to scale recipe recommendation service and " },
         { text: "2x traffic", bold: true },
@@ -261,6 +264,8 @@ const ROLES = [
         { text: "reducing parsing errors by 45% YoY", bold: true },
       ],
       "Served as product team liaison on contract negotiations with third party content/data partners",
+      "Turned partner contract requirements into specs, and shaped contract terms with product proposals",
+      "Specced third-party content and data integrations over APIs, SFTP, and feeds",
       "Collaborated with partnerships, legal, and GTM to establish strategy for content and data solutions",
       "Improved evergreen content ETL to scale improve data accuracy in user reporting features",
       "Liaised with third party article content provider to ingest new content circulation metrics",
