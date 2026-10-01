@@ -192,7 +192,7 @@ const ROLES = [
       "Launched feature request and bug report processes via integrations with Asana and Slack",
       "Performed heuristic analysis of marketing site and presented findings to leadership team",
       "Prospected various tools for the organization, and procured Productboard, Mode, Mixpanel",
-      "Initiated organization-wide investigation to achieve GDPR and CCPA compliance",
+      "Led organization-wide GDPR and CCPA compliance gap assessment",
     ],
   },
   {
