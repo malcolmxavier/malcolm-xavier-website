@@ -16,6 +16,8 @@
 //   RESUME_VARIANT=<variant> RESUME_DIFF=1 npm run resume:docx
 //   writes a second, clearly-named file with every change marked in the
 //   text, against the cut it is built on — see "Review copy" below.
+//   Add RESUME_DIFF_AGAINST=<snapshot.mjs> to mark only what changed since
+//   an earlier copy of the same variant, for review rounds mid-edit.
 //
 // Trial builds:
 //   RESUME_OUT_DIR=<folder> sends any build to that folder under its
@@ -579,14 +581,18 @@ function baseFile(fromFile, name) {
 // Loads a variant and every base beneath it. Returns them root first:
 // the base the chain starts from, then each cut built on it, then the
 // variant itself, which is the order they are applied in.
-async function loadLayers(file, seen = []) {
+// `anchor` is where the file's BASE is looked up from. It is the file
+// itself except for a review-round snapshot (RESUME_DIFF_AGAINST), which
+// is saved outside resume-variants/ but names its BASE as though it still
+// sat beside the live variant.
+async function loadLayers(file, seen = [], anchor = file) {
   if (seen.includes(file)) layerError(file, "its BASE chain loops back on itself");
   const mod = await import(pathToFileURL(file).href);
   for (const name of Object.keys(mod)) {
     if (!LAYER_EXPORTS.has(name)) layerError(file, `unknown export ${name}`);
   }
   const below = mod.BASE
-    ? await loadLayers(baseFile(file, mod.BASE), [...seen, file])
+    ? await loadLayers(baseFile(anchor, mod.BASE), [...seen, file])
     : [];
   return [...below, { file, mod }];
 }
@@ -748,7 +754,26 @@ const cut = composeCut(layers);
 const parentAt = layers.findLastIndex(
   (layer, i) => i < layers.length - 1 && basename(dirname(layer.file)) !== "_bases",
 );
-const against = parentAt >= 0 ? composeCut(layers.slice(0, parentAt + 1)) : null;
+//
+// RESUME_DIFF_AGAINST overrides that with an earlier copy of this same
+// variant (his call, 2026-10-08). Mid-edit, a review copy marked against
+// the base re-marks every change already reviewed, so each round he
+// re-reads the whole cut to find the two lines that moved. Marked against
+// the previous round's snapshot, it shows only those two lines.
+const diffAgainstPath = process.env.RESUME_DIFF_AGAINST
+  ? resolve(process.cwd(), process.env.RESUME_DIFF_AGAINST)
+  : null;
+if (diffAgainstPath && process.env.RESUME_DIFF !== "1") {
+  console.error("RESUME_DIFF_AGAINST only applies to a review copy; add RESUME_DIFF=1.");
+  process.exit(1);
+}
+if (diffAgainstPath && !existsSync(diffAgainstPath)) {
+  console.error(`RESUME_DIFF_AGAINST: no file at ${diffAgainstPath}`);
+  process.exit(1);
+}
+const against = diffAgainstPath
+  ? composeCut(await loadLayers(diffAgainstPath, [], resolve(process.cwd(), variantPath)))
+  : parentAt >= 0 ? composeCut(layers.slice(0, parentAt + 1)) : null;
 const DIFF_CONTACT = against ? against.CONTACT : BASE_CONTACT;
 const DIFF_SUMMARY = against ? against.SUMMARY : BASE_SUMMARY;
 const DIFF_ROLES = against ? against.roles.map(plainRole) : BASE_ROLES;
@@ -756,9 +781,11 @@ const DIFF_EDUCATION = against ? against.education.map(plainEntry) : BASE_EDUCAT
 const DIFF_CASE_STUDIES = against ? against.CASE_STUDIES : BASE_CASE_STUDIES;
 // Names the baseline in the review copy's own legend, so the reader knows
 // which document the struck-through wording came from.
-const DIFF_BASELINE_LABEL = against
-  ? `the ${basename(layers[parentAt].file).replace(/\.m?js$/, "")} cut`
-  : "canonical";
+const DIFF_BASELINE_LABEL = diffAgainstPath
+  ? "the previous review round"
+  : against
+    ? `the ${basename(layers[parentAt].file).replace(/\.m?js$/, "")} cut`
+    : "canonical";
 
 // ─── Review copy ──────────────────────────────────────────────────
 // RESUME_DIFF=1, alongside RESUME_VARIANT, builds a *review* copy: the same
