@@ -22,9 +22,12 @@ here has been a block in the wrong one.
 
 ### Reading column—takes the reading measure
 
-Continuous prose read line after line, start to finish: an essay body, a case
-study's beats, a research write-up. Past roughly 90 characters the eye starts
-losing its place on the carriage return, which is what the measure prevents.
+Continuous prose read line after line, start to finish: an essay body, a
+research write-up. Past roughly 90 characters the eye starts losing its place
+on the carriage return, which is what the measure prevents.
+
+**Case-study prose is the one reading surface that does not take it.** That is
+deliberate and the history behind it is in §2.
 
 ### Header block—takes the header measure
 
@@ -63,13 +66,12 @@ component should not have been making.
 ### Two components are named `Body`, and that trap has already been sprung
 
 **`components/typography/Body.tsx` self-clamps at 60ch. The `Body` exported
-from `components/case-study/primitives.tsx` is a different component and, until
-2026-09-28, set no width at all.** The six case studies import the second one.
+from `components/case-study/primitives.tsx` is a different component and sets
+no width at all.** The six case studies import the second one.
 
 The first draft of this document asserted the opposite—that case-study prose
 was clamped at 60ch while pull quotes ran wide, making the page ragged from the
-inside. **That was wrong, and it was wrong in the more damaging direction.**
-Case-study prose was running the full grid column: about 1024px at a 1440px
+inside. **That was wrong.** Case-study prose was running the full grid column: about 1024px at a 1440px
 viewport and 1248px at 1664px, which is well past a hundred characters on a
 line. The narrow things on the page were the pull quotes, pinned to a
 hardcoded `max-w-[720px]`.
@@ -78,13 +80,42 @@ The error came from reading a `<Body>` call site and assuming which import it
 resolved to, twice, without grepping. **When a width looks wrong on a page,
 resolve the import before reasoning about the value.**
 
+### Case-study prose runs the full column, and the detour is worth recording
+
+**Case studies do not take the reading measure.** They never did, apart from
+eleven days in autumn 2026, and the way they briefly did is the more useful
+half of this entry.
+
+Batch B (`bbdbc71`, 2026-09-28 16:03) found the contradiction above—the doc
+said clamped, the code said unclamped—and resolved it by **changing the code
+to match the doc.** Its own message calls that "CORRECTION, and it is the
+important part of this commit." It was not a correction. Narrowing the prose
+on all six studies from about 1024px to 780px is a decision about how the
+pages read, and it shipped inside a commit whose stated job was fixing a
+sentence in a markdown file.
+
+Nobody adjudicated it. Every measure decision Malcolm was in the loop for that
+afternoon either carries his name in §5 or was adjusted again within the
+hour—the `ClaudeNote` revert came three minutes after the clamp, the essay
+column was widened twice more. The case-study column carries neither mark, and
+nothing touched it again until he read the pages on 2026-10-09 and said the
+body copy looked truncated. Restored the same day.
+
+**The rule that follows is not about measure.** Reconciling inconsistent widths
+is mechanical and delegable; deciding what the canonical width *is* is neither.
+Those two jobs shipped as one, and the second rode in on the first's authority.
+When a cleanup pass finds that the documentation and the code disagree, the
+default is to **fix the documentation**—changing the code to match a sentence
+somebody wrote is a product decision and needs an owner.
+
 ---
 
 ## 3. The values
 
 | State | Token | Value | Applies to |
 | --- | --- | --- | --- |
-| Reading column | `--measure-read` | `60ch` | Essay, case study, and research prose |
+| Reading column | `--measure-read` | `60ch` | Essay and research prose |
+| *(no measure)* | — | — | Case-study prose—runs the full column, see §2 |
 | Header block | `--measure-header` | `90ch` | Eyebrow / headline / deck groups |
 | Page geometry | `--container-page` | `104rem` | Grids, tables, cards, data |
 | *(exception)* | `--measure-panel` | `52ch` | A dashboard panel's lede—see §4 |
@@ -157,7 +188,7 @@ An exception is fine. **A silent exception is not.** To add one:
 
 ## 5. Current state
 
-Converted as of 2026-09-28: *(update this list as the conversion lands)*
+Converted as of 2026-09-28, amended 2026-10-09: *(update as it lands)*
 
 - [x] Tokens defined and emitted (batch A)
 - [x] Header blocks take the header measure. `Lede` carries it, so roughly
@@ -165,11 +196,16 @@ Converted as of 2026-09-28: *(update this list as the conversion lands)*
       this belonged on the component rather than per page. `/music` separately
       needed `wide`, matching `/films` and `/television`, which it should have
       had all along.
-- [x] Case studies get a real reading column (batch B). `.cs-column` states
-      the measure, `.cs-read` takes it, `.cs-breakout` opts out. The section
-      itself is deliberately *not* clamped, so grids and tables inside a Beat
-      keep their room. **This visibly narrowed prose on all six studies**—
-      see the correction in §2 for why that was a bigger change than expected.
+- [x] The three measure classes exist and are how any reading surface opts
+      in: `.read-column` states the measure, `.read-measure` takes it,
+      `.read-breakout` opts out. (Batch B named these `.cs-*`; they were
+      renamed when essays started using them too.)
+- [x] **Case studies gave the reading column back on 2026-10-09.** Batch B put
+      one on them, which narrowed prose on all six studies; case-study `Body`
+      no longer calls `.read-measure` and the pages run the full column again,
+      as they had always done. The section was never clamped either way, so
+      grids and tables inside a Beat keep their room. See §2—the narrowing
+      should not have shipped, and why matters more than the width does.
 - [x] The inline literals that were *already* a canonical value, swapped with
       no change on screen: `/contact`'s caption and `/booth`'s
       `--booth-row-measure` default were both hand-written `60ch`, which is
@@ -177,19 +213,11 @@ Converted as of 2026-09-28: *(update this list as the conversion lands)*
       `app/stats/connected` and `components/stats/StatsHandoffPanel`, with the
       why recorded in only one of the two—now `--measure-panel`, a named
       exception under §4.
-- [ ] `Body`, `Lede`, and `HeroNote` in `components/typography/` stop clamping
-      themselves. **Not mechanical**—pulling the self-clamp out sends every
-      consumer to the full well until a container sets a measure, across
-      roughly twenty pages.
-- [ ] The remaining literals are **value decisions, not conversions**, and each
-      one changes what is on screen if it moves:
-      `CriticDisclaimer` writes `80ch` and the footer `30ch`, neither of which
-      is a reading measure at all.
 - [x] `ClaudeNote` takes **no** measure, decided by looking (Malcolm,
-      2026-09-28). It was clamped to `cs-read` and reversed the same day: a
-      note is not prose to be read at the body measure, and narrowing it made
-      it read as a second competing column rather than as commentary running
-      alongside one. The arithmetic pointed the other way—the default
+      2026-09-28). It was clamped to the reading measure and reversed the
+      same day: a note is not prose to be read at the body measure, and
+      narrowing it made it read as a second competing column rather than as
+      commentary running alongside one. The arithmetic pointed the other way—the default
       variant renders at 15/16px, so unclamped it carries more characters per
       line than the body text above it—and his read of the rendered page is
       what settles it. **Do not re-raise this on the character count.**
@@ -201,17 +229,6 @@ Converted as of 2026-09-28: *(update this list as the conversion lands)*
       one changes what is on screen if it moves:
       `CriticDisclaimer` writes `80ch` and the footer `30ch`, neither of which
       is a reading measure at all.
-- [x] `ClaudeNote` joins the reading column, both variants (Malcolm's call,
-      2026-09-28). Unclamped these were the worst lines on the site: the
-      default variant renders at 15/16px, *smaller* than the body text, and
-      small type in a wide column means more characters per line rather than
-      fewer—roughly 150 at 1664px, directly beside a paragraph stopping at
-      sixty. `cs-read` goes on the wrapper rather than the inner text div, so
-      the left rule and the kicker come with it instead of a label stretching
-      across the full column above a narrow paragraph. It lands slightly
-      narrower than the prose, which is correct: an aside set inside the text
-      column reads as subordinate to it, the same reason `Pullquote` sits just
-      inside the prose edge.
 - [x] `/resume` keeps its width and loses its literal (Malcolm's call,
       2026-09-28). It was `70ch` at four sites, which I filed as "four
       undocumented copies of one number… a habit"—wrong on the second half:
@@ -229,15 +246,19 @@ Converted as of 2026-09-28: *(update this list as the conversion lands)*
       on those pages is not a reason to differ—the character count holds
       across the swap.
 
-**Open, and it is a visual judgment rather than a rule question:** does
-`ClaudeNote` join the reading column? It is a callout, so §1 arguably licenses
-it staying wide, but it is also continuous prose, and right now it can sit at
-full column width directly above a `Body` that stops at the measure. There is a
-mechanical wrinkle behind the aesthetic one: `ch` resolves against the
-element's own font size, so `.cs-read` on the wrapper (inheriting 16px) lands
-*narrower* than the 19px prose beside it, while putting it on the inner text
-div matches exactly and leaves the `callout` variant's card wide around
-clamped text.
+**Closed 2026-09-28: `ClaudeNote` stays wide.** The question was whether a
+callout that is also continuous prose should join the reading column. The
+mechanical wrinkle noted at the time turned out to be the whole answer: `ch`
+resolves against the element's own font size, so `.read-measure` on a wrapper
+inheriting 16px lands *narrower* than the 19px prose beside it. That is why
+the clamp read as a competing column rather than as commentary.
+
+**The general form, because it will catch the next one too.** A block whose
+own type is smaller than the prose it sits beside will clamp *narrower* than
+that prose, not wider, and it will look like a competing column rather than a
+subordinate one. If a block needs to agree with the body measure, give its
+wrapper the body's type size so `ch` counts against the same basis; do not
+write the resolved width down.
 
 **The two long-form routes differ on alignment, and that is now a decision
 rather than an accident** (2026-09-28). `ArticleContainer` (essays) is centred;

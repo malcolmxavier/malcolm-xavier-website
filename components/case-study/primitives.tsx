@@ -248,16 +248,20 @@ export function Beat({
 // ────────────────────────────────────────────────────────────────
 
 export function Body({ children }: { children: ReactNode }) {
-  // `read-measure` is what puts this block in the article's reading
-  // column: it takes the measure the surrounding section states
-  // rather than naming a width of its own, so a paragraph stops
-  // after roughly seventy characters instead of running the whole
-  // width of the page. It sits on this wrapper rather than on the
-  // paragraphs inside it because the wrapper is where the prose type
-  // size is set, and the measure is counted in characters of the
-  // type it is measuring. See MEASURE.md and app/components.css.
+  // NO measure. Case-study prose runs the full column it is handed —
+  // about 1024px at a 1440px viewport — and has done for the life of
+  // these pages, bar eleven days. Batch B clamped it to the reading
+  // measure on 2026-09-28 as a side effect of correcting a sentence in
+  // MEASURE.md; Malcolm read the pages on 2026-10-09, said the body
+  // copy looked truncated against its own full-width neighbours, and
+  // it was restored. That is a wider line than the literature likes —
+  // roughly 120 characters at the longest — and it is his call on the
+  // rendered page, which is what settles a width here. MEASURE.md §2
+  // carries the history and the reason it should not have shipped.
+  //
+  // Do not re-clamp this on the character count.
   return (
-    <div className="read-measure flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-body)] [&>p]:m-0 [&>ul]:m-0 [&>ol]:m-0">
+    <div className="flex flex-col gap-4 text-[17px] md:text-[19px] leading-[1.55] text-[var(--text-body)] [&>p]:m-0 [&>ul]:m-0 [&>ol]:m-0">
       {children}
     </div>
   );
