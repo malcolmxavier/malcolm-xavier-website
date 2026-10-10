@@ -25,12 +25,12 @@ export const READ_TIMES: Record<
   Record<string, ReadTimeEntry>
 > = {
   "case-study": {
-    "architecture-under-contract": { words: 2478, minutes: 11 },
-    "basecamp-coffee": { words: 2487, minutes: 11 },
-    "building-this-site": { words: 5084, minutes: 23 },
-    "muck-rack": { words: 2667, minutes: 12 },
-    "people-inc": { words: 4218, minutes: 19 },
-    "user-interviews": { words: 2056, minutes: 9 },
+    "architecture-under-contract": { words: 2264, minutes: 10 },
+    "basecamp-coffee": { words: 2306, minutes: 10 },
+    "building-this-site": { words: 4831, minutes: 21 },
+    "muck-rack": { words: 2419, minutes: 11 },
+    "people-inc": { words: 3885, minutes: 17 },
+    "user-interviews": { words: 1835, minutes: 8 },
   },
   "essay": {
     "context-rules-everything": { words: 639, minutes: 3 },
