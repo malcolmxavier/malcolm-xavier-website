@@ -1,6 +1,31 @@
 import type { NextConfig } from "next";
 
+// Dev-only routes. A file named `page.dev.tsx` is a page when running
+// `next dev` and an inert, uncompiled file in a production build.
+//
+// WHY THIS EXISTS. app/booth/type-specimen imports about fifteen
+// Google font families — it is the specimen page the Booth chip's
+// typeface was chosen on, a local design tool that no visitor sees.
+// It is also one of only two files on the site touching
+// next/font/google, and this project builds with
+// VERCEL_FORCE_NO_BUILD_CACHE set, so every production build
+// re-downloaded all fifteen from Google with no cache to fall back
+// on. Any one of them failing took the whole deploy down: three of
+// four deploys on 2026-10-09 failed that way, on a different font
+// each time. A throwaway local page was making every release of the
+// site a fifteen-font coin flip.
+//
+// pageExtensions is global, so adding "dev.tsx" also makes
+// layout.dev.tsx and route.dev.tsx legal. That is harmless and no
+// such file exists; the alternative — deleting a tool he still
+// uses — is worse. Keep the list in sync with the defaults if Next
+// ever changes them.
+const DEV_ONLY_ROUTES = process.env.NODE_ENV === "development";
+
 const nextConfig: NextConfig = {
+  pageExtensions: DEV_ONLY_ROUTES
+    ? ["tsx", "ts", "jsx", "js", "dev.tsx"]
+    : ["tsx", "ts", "jsx", "js"],
   images: {
     // Serve AVIF first, then WebP, then fall back to the original.
     // AVIF is opt-in (Next's default is WebP-only); it's ~20-30%
