@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-10-11T01:45:37.060Z",
+  "capturedAt": "2026-10-11T02:45:36.838Z",
   "meta": {
     "films": 808,
-    "shows": 165,
+    "shows": 166,
     "collections": 77
   },
   "films": {
@@ -102747,6 +102747,135 @@
         }
       ],
       "creators": []
+    },
+    "245927": {
+      "ratings": {
+        "imdb": 7.9,
+        "metacritic": 70,
+        "metacriticUser": 6.8,
+        "tomatoes": 88,
+        "rtAudience": 85,
+        "letterboxd": null,
+        "trakt": 80
+      },
+      "country": "US",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1
+        },
+        {
+          "n": 2
+        }
+      ],
+      "cast": [
+        {
+          "id": 1225953,
+          "name": "Sterling K. Brown",
+          "eps": 16
+        },
+        {
+          "id": 86034,
+          "name": "Julianne Nicholson",
+          "eps": 16
+        },
+        {
+          "id": 164945,
+          "name": "Sarah Shahi",
+          "eps": 16
+        },
+        {
+          "id": 2349063,
+          "name": "Nicole Brydon Bloom",
+          "eps": 16
+        },
+        {
+          "id": 1555306,
+          "name": "Krys Marshall",
+          "eps": 16
+        },
+        {
+          "id": 90364,
+          "name": "Enuka Okuma",
+          "eps": 10
+        },
+        {
+          "id": 11006,
+          "name": "James Marsden",
+          "eps": 11
+        },
+        {
+          "id": 3261159,
+          "name": "Aliyah Mastin",
+          "eps": 16
+        },
+        {
+          "id": 2215763,
+          "name": "Percy Daggs IV",
+          "eps": 16
+        },
+        {
+          "id": 3603348,
+          "name": "Charlie Evans",
+          "eps": 13
+        },
+        {
+          "id": 1175676,
+          "name": "Jon Beavers",
+          "eps": 7
+        },
+        {
+          "id": 138770,
+          "name": "Cassidy Freeman",
+          "eps": 4
+        },
+        {
+          "id": 42317,
+          "name": "Scott Lawrence",
+          "eps": 3
+        },
+        {
+          "id": 1467970,
+          "name": "Richard Robichaux",
+          "eps": 6
+        },
+        {
+          "id": 29512,
+          "name": "Gerald McRaney",
+          "eps": 5
+        },
+        {
+          "id": 1475326,
+          "name": "Rafael Cabrera",
+          "eps": 6
+        },
+        {
+          "id": 3911769,
+          "name": "Roberto Portales",
+          "eps": 1
+        },
+        {
+          "id": 4052338,
+          "name": "Verlon Roberts",
+          "eps": 7
+        },
+        {
+          "id": 1352948,
+          "name": "Darin Toonder",
+          "eps": 8
+        },
+        {
+          "id": 3183042,
+          "name": "Laith Wallschleger",
+          "eps": 6
+        }
+      ],
+      "creators": [
+        {
+          "id": 15892,
+          "name": "Dan Fogelman"
+        }
+      ]
     },
     "246386": {
       "ratings": {
