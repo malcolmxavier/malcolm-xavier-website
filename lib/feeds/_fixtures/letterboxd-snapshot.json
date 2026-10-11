@@ -1,45 +1,45 @@
 {
-  "capturedAt": "2026-08-24T16:01:33.687Z",
+  "capturedAt": "2026-10-11T04:00:47.935Z",
   "summary": {
-    "totalFilms": 808,
-    "totalReviews": 809,
+    "totalFilms": 829,
+    "totalReviews": 831,
     "ratingDistribution": {
       "1": 40,
-      "2": 129,
-      "3": 155,
-      "4": 109,
+      "2": 134,
+      "3": 157,
+      "4": 114,
       "5": 16,
-      "3.5": 157,
-      "2.5": 104,
-      "4.5": 50,
+      "4.5": 54,
+      "3.5": 162,
+      "2.5": 105,
       "1.5": 39,
       "0.5": 10
     },
     "genreDistribution": {
-      "Horror": 135,
-      "Science Fiction": 132,
-      "Thriller": 235,
-      "Mystery": 84,
-      "Comedy": 228,
-      "Crime": 108,
-      "Action": 129,
-      "Adventure": 93,
-      "Fantasy": 60,
-      "Romance": 92,
+      "Drama": 385,
+      "Thriller": 243,
+      "Science Fiction": 137,
+      "Adventure": 98,
+      "Action": 136,
+      "Crime": 113,
+      "Horror": 138,
+      "Mystery": 86,
+      "Comedy": 234,
+      "Family": 22,
+      "Romance": 93,
+      "Fantasy": 62,
+      "History": 43,
       "Music": 50,
-      "Drama": 376,
-      "History": 42,
       "War": 17,
-      "Family": 21,
       "Documentary": 59,
       "Animation": 43,
       "TV Movie": 5,
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 599,
-      "2010s": 136,
-      "2000s": 35,
+      "2020s": 615,
+      "2010s": 140,
+      "2000s": 36,
       "1990s": 17,
       "1980s": 16,
       "1960s": 1,
@@ -47,6 +47,953 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1375441",
+      "letterboxdSlug": "primetime",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/primetime-2026/1/",
+      "title": "Primetime",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-27",
+      "latestWatchedDate": "2026-10-07",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532586384",
+          "watchedDate": "2026-10-07",
+          "reviewDate": "2026-10-11",
+          "rating": 4.5,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "Had to run this back. I’m so locked in on stories about storytelling right now and this really captures the root of post-9/11 American media. To me, you can follow this throughline to our obsession with true crime and real housewives.",
+          "tags": []
+        },
+        {
+          "guid": "letterboxd-review-1532583178",
+          "watchedDate": "2026-09-27",
+          "reviewDate": "2026-10-11",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "This is Merritt Wever’s film. I was so anxious the entire time. I loved it. Phoebe Bridgers lowkey ate.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1375441,
+        "posterPath": "/51VDtNQFuD2I86hrT4ekytg9Dq3.jpg",
+        "backdropPath": "/4E5RVsSUG1A4Adwbqupu5w6kofZ.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 110,
+        "director": "Lance Oppenheim"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/51VDtNQFuD2I86hrT4ekytg9Dq3.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/51VDtNQFuD2I86hrT4ekytg9Dq3.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-131631",
+      "letterboxdSlug": "the-hunger-games-mockingjay-part-1",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games-mockingjay-part-1/",
+      "title": "The Hunger Games: Mockingjay – Part 1",
+      "releaseYear": 2014,
+      "firstWatchedDate": "2026-09-29",
+      "latestWatchedDate": "2026-09-29",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532595980",
+          "watchedDate": "2026-09-29",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "A chilling reflection of current society all these years later.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 131631,
+        "posterPath": "/4FAA18ZIja70d1Tu5hr5cj2q1sB.jpg",
+        "backdropPath": "/lV1P1Q5gLDXVG1ZYCxZHStkcQC3.jpg",
+        "genres": [
+          "Science Fiction",
+          "Adventure",
+          "Thriller"
+        ],
+        "runtime": 123,
+        "director": "Francis Lawrence"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4FAA18ZIja70d1Tu5hr5cj2q1sB.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4FAA18ZIja70d1Tu5hr5cj2q1sB.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-101299",
+      "letterboxdSlug": "the-hunger-games-catching-fire",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games-catching-fire/",
+      "title": "The Hunger Games: Catching Fire",
+      "releaseYear": 2013,
+      "firstWatchedDate": "2026-09-28",
+      "latestWatchedDate": "2026-09-28",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532594013",
+          "watchedDate": "2026-09-28",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "The pivot into the darker side of the series is so strong. That aspect ratio change hits every time.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 101299,
+        "posterPath": "/vrQHDXjVmbYzadOXQ0UaObunoy2.jpg",
+        "backdropPath": "/eHaazLxM5LRMh0ySkVy7SK6wUWt.jpg",
+        "genres": [
+          "Adventure",
+          "Action",
+          "Science Fiction"
+        ],
+        "runtime": 146,
+        "director": "Francis Lawrence"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vrQHDXjVmbYzadOXQ0UaObunoy2.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vrQHDXjVmbYzadOXQ0UaObunoy2.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-70160",
+      "letterboxdSlug": "the-hunger-games",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games/",
+      "title": "The Hunger Games",
+      "releaseYear": 2012,
+      "firstWatchedDate": "2026-09-28",
+      "latestWatchedDate": "2026-09-28",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532591697",
+          "watchedDate": "2026-09-28",
+          "reviewDate": "2026-10-11",
+          "rating": 3,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "Locking back into this franchise ahead of the new film. Forgot how iconic this is.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 70160,
+        "posterPath": "/apa5G43Hha7kH7wJG0gkkHT7FA9.jpg",
+        "backdropPath": "/eVYChqJavS1DCXFeJE2lzVUMLKp.jpg",
+        "genres": [
+          "Science Fiction",
+          "Adventure",
+          "Action",
+          "Thriller"
+        ],
+        "runtime": 142,
+        "director": "Gary Ross"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/apa5G43Hha7kH7wJG0gkkHT7FA9.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/apa5G43Hha7kH7wJG0gkkHT7FA9.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-505225",
+      "letterboxdSlug": "the-last-thing-he-wanted",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-last-thing-he-wanted/",
+      "title": "The Last Thing He Wanted",
+      "releaseYear": 2020,
+      "firstWatchedDate": "2026-09-28",
+      "latestWatchedDate": "2026-09-28",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532590373",
+          "watchedDate": "2026-09-28",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Not sure what we were going for but here for Anne and Rosie.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 505225,
+        "posterPath": "/4mDbGqi8mloDdxkviq13SKCfuFH.jpg",
+        "backdropPath": "/cGUxPXVZF5n5P09dnlhWC8bLVp7.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 116,
+        "director": "Dee Rees"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4mDbGqi8mloDdxkviq13SKCfuFH.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4mDbGqi8mloDdxkviq13SKCfuFH.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-483906",
+      "letterboxdSlug": "polar",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/polar-2019/",
+      "title": "Polar",
+      "releaseYear": 2019,
+      "firstWatchedDate": "2026-09-28",
+      "latestWatchedDate": "2026-09-28",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532588669",
+          "watchedDate": "2026-09-28",
+          "reviewDate": "2026-10-11",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Anything for daddy Mads.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 483906,
+        "posterPath": "/qOBEpKVLl8Q9CZScbOcRRVISezV.jpg",
+        "backdropPath": "/lSCKo6QGJ88Gn3espNnvL87CinA.jpg",
+        "genres": [
+          "Action",
+          "Crime",
+          "Drama"
+        ],
+        "runtime": 118,
+        "director": "Jonas Åkerlund"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/qOBEpKVLl8Q9CZScbOcRRVISezV.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/qOBEpKVLl8Q9CZScbOcRRVISezV.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-4970",
+      "letterboxdSlug": "gothika",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/gothika/",
+      "title": "Gothika",
+      "releaseYear": 2003,
+      "firstWatchedDate": "2026-09-26",
+      "latestWatchedDate": "2026-09-26",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532587118",
+          "watchedDate": "2026-09-26",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I guess this is why I never rushed to watch this…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 4970,
+        "posterPath": "/frSGNQcWx1ek8dCduFYCux1ho7n.jpg",
+        "backdropPath": "/eLBHPVQkJZyaSEUAGAFWNJJwmeo.jpg",
+        "genres": [
+          "Horror",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 98,
+        "director": "Mathieu Kassovitz"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/frSGNQcWx1ek8dCduFYCux1ho7n.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/frSGNQcWx1ek8dCduFYCux1ho7n.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1433583",
+      "letterboxdSlug": "the-weight",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-weight-2026/",
+      "title": "The Weight",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-25",
+      "latestWatchedDate": "2026-09-25",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532581123",
+          "watchedDate": "2026-09-25",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Surprised to like this as much as I did. Ethan Hawke is great and the story has more depth than the trailer would suggest.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1433583,
+        "posterPath": "/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg",
+        "backdropPath": "/zLeq2fbHU6UdA7mhsYnIULORTgq.jpg",
+        "genres": [
+          "Drama",
+          "Thriller",
+          "Crime"
+        ],
+        "runtime": 112,
+        "director": "Padraic McKinley"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1596248",
+      "letterboxdSlug": "if-i-go-will-they-miss-me",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/if-i-go-will-they-miss-me-2026/",
+      "title": "If I Go Will They Miss Me",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-25",
+      "latestWatchedDate": "2026-09-25",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532578161",
+          "watchedDate": "2026-09-25",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Triggering to say the least. Young Bodhi Dell was such a delight to watch.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1596248,
+        "posterPath": "/v8Bcs5kC5EtKmFMomBv5BAB5SRi.jpg",
+        "backdropPath": "/mvAazk3iHE2H6I8bzN56cMz1ZH7.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "runtime": 89,
+        "director": "Walter Thompson-Hernández"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/v8Bcs5kC5EtKmFMomBv5BAB5SRi.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/v8Bcs5kC5EtKmFMomBv5BAB5SRi.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1423191",
+      "letterboxdSlug": "resident-evil",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/resident-evil-2026/",
+      "title": "Resident Evil",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-24",
+      "latestWatchedDate": "2026-09-24",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532576258",
+          "watchedDate": "2026-09-24",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Austin Abrams put in work! Too bad he won’t be back for a sequel…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1423191,
+        "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg",
+        "backdropPath": "/3icyRAqgakNcQn6aDVz9libFmBA.jpg",
+        "genres": [
+          "Horror",
+          "Science Fiction",
+          "Adventure"
+        ],
+        "runtime": 95,
+        "director": "Zach Cregger"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1437396",
+      "letterboxdSlug": "your-mother-your-mother-your-mother",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/your-mother-your-mother-your-mother/",
+      "title": "Your Mother Your Mother Your Mother",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-23",
+      "latestWatchedDate": "2026-09-23",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532573784",
+          "watchedDate": "2026-09-23",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Heartbreaking. I was on the edge of my seat the whole time.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1437396,
+        "posterPath": "/4KaPZSKnInnArErTTgy9Oy14leR.jpg",
+        "backdropPath": "/jiFLiatBtBALlAzV5R72gzspBad.jpg",
+        "genres": [
+          "Action",
+          "Crime",
+          "Drama"
+        ],
+        "runtime": 112,
+        "director": "Bassam Tariq"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4KaPZSKnInnArErTTgy9Oy14leR.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4KaPZSKnInnArErTTgy9Oy14leR.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1058424",
+      "letterboxdSlug": "hope",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/hope-2026/",
+      "title": "Hope",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-15",
+      "latestWatchedDate": "2026-09-15",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532571575",
+          "watchedDate": "2026-09-15",
+          "reviewDate": "2026-10-11",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Really big swing with a great payoff in being unique and interesting. Front to back chaos, and I hope they get a sequel after that bonus scene.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1058424,
+        "posterPath": "/1n37BJchWHLiSYQkuFxe5KjB951.jpg",
+        "backdropPath": "/hrCTKrc3Tz2wbPOt5rcrlAhqF11.jpg",
+        "genres": [
+          "Science Fiction",
+          "Mystery",
+          "Action"
+        ],
+        "runtime": 157,
+        "director": "Na Hong-jin"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/1n37BJchWHLiSYQkuFxe5KjB951.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/1n37BJchWHLiSYQkuFxe5KjB951.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1204680",
+      "letterboxdSlug": "coyote-vs-acme",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/coyote-vs-acme/",
+      "title": "Coyote vs. Acme",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-14",
+      "latestWatchedDate": "2026-09-14",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532568331",
+          "watchedDate": "2026-09-14",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Why did this Coyote have me weeping?",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1204680,
+        "posterPath": "/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg",
+        "backdropPath": "/viZqGq9TNvQ5uXSD4ahg2RpRONT.jpg",
+        "genres": [
+          "Comedy",
+          "Adventure",
+          "Family"
+        ],
+        "runtime": 103,
+        "director": "Dave Green"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1302904",
+      "letterboxdSlug": "practical-magic-2",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/practical-magic-2/",
+      "title": "Practical Magic 2",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-13",
+      "latestWatchedDate": "2026-09-13",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532566422",
+          "watchedDate": "2026-09-13",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Was this written by AI? Nice to see Nicole in her element and Lee being hot. Maisie was so underutilized.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1302904,
+        "posterPath": "/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg",
+        "backdropPath": "/wE6syT1vv6W24iLGfhR4kQHnIDN.jpg",
+        "genres": [
+          "Romance",
+          "Fantasy",
+          "Comedy"
+        ],
+        "runtime": 130,
+        "director": "Susanne Bier"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-977942",
+      "letterboxdSlug": "the-uprising",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-uprising-2026/",
+      "title": "The Uprising",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-13",
+      "latestWatchedDate": "2026-09-13",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532564604",
+          "watchedDate": "2026-09-13",
+          "reviewDate": "2026-10-11",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I was really moved by the community aspect of this whole thing. Another hit for Andrew.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 977942,
+        "posterPath": "/7TUl15TOsIvndKlgMWTtLgtEzZP.jpg",
+        "backdropPath": "/y0reRTsewsPh0ePtgvDeLIsb5Wk.jpg",
+        "genres": [
+          "History",
+          "Drama",
+          "Action"
+        ],
+        "runtime": 128,
+        "director": "Paul Greengrass"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7TUl15TOsIvndKlgMWTtLgtEzZP.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7TUl15TOsIvndKlgMWTtLgtEzZP.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-597891",
+      "letterboxdSlug": "kate",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/kate/",
+      "title": "Kate",
+      "releaseYear": 2021,
+      "firstWatchedDate": "2026-09-07",
+      "latestWatchedDate": "2026-09-07",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532561490",
+          "watchedDate": "2026-09-07",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Sometimes you just need a nonsensical retrofuturist flick.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 597891,
+        "posterPath": "/uJgdT1boTSP0dDIjdTgGleg71l4.jpg",
+        "backdropPath": "/byflnwPMumyvrCW9SfO5Miq3647.jpg",
+        "genres": [
+          "Action",
+          "Thriller"
+        ],
+        "runtime": 106,
+        "director": "Cedric Nicolas-Troyan"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uJgdT1boTSP0dDIjdTgGleg71l4.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uJgdT1boTSP0dDIjdTgGleg71l4.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-860508",
+      "letterboxdSlug": "the-whisper-man",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-whisper-man/",
+      "title": "The Whisper Man",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-06",
+      "latestWatchedDate": "2026-09-06",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532559676",
+          "watchedDate": "2026-09-06",
+          "reviewDate": "2026-10-11",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Here for Michelle and Adam. Straightforward, but not unenjoyable.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 860508,
+        "posterPath": "/ndRs5lADYm0PeVjuOxaMcInY0o2.jpg",
+        "backdropPath": "/uauoVKKCkNA9iWjgJCL8TdSfLf5.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 111,
+        "director": "James Ashcroft"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ndRs5lADYm0PeVjuOxaMcInY0o2.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ndRs5lADYm0PeVjuOxaMcInY0o2.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-445466",
+      "letterboxdSlug": "idiots",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/idiots-2026/",
+      "title": "Idiots",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-02",
+      "latestWatchedDate": "2026-09-02",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532556546",
+          "watchedDate": "2026-09-02",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "That was so bleak, but moving. Mason Thames is a scary little freak (complimentary).",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 445466,
+        "posterPath": "/l1JFNC1SdgyXVr7BaD5ehaYBvOC.jpg",
+        "backdropPath": "/lneqlgbg3XUjNaeGYk8arhgzczo.jpg",
+        "genres": [
+          "Comedy",
+          "Crime"
+        ],
+        "runtime": 100,
+        "director": "Macon Blair"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/l1JFNC1SdgyXVr7BaD5ehaYBvOC.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/l1JFNC1SdgyXVr7BaD5ehaYBvOC.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1341138",
+      "letterboxdSlug": "spa-weekend",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/spa-weekend-2026/",
+      "title": "Spa Weekend",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-01",
+      "latestWatchedDate": "2026-09-01",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532554423",
+          "watchedDate": "2026-09-01",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Was the plot lowkey racist or just my audience?",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1341138,
+        "posterPath": "/uhx4YjT9YbSxrKVE7GWJdjI412J.jpg",
+        "backdropPath": "/8NGPUlR4xKQfgLaWCeXALGF3i27.jpg",
+        "genres": [
+          "Comedy"
+        ],
+        "runtime": 97,
+        "director": "Jon Lucas"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uhx4YjT9YbSxrKVE7GWJdjI412J.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uhx4YjT9YbSxrKVE7GWJdjI412J.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1514026",
+      "letterboxdSlug": "buddy",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/buddy-2026/",
+      "title": "Buddy",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-01",
+      "latestWatchedDate": "2026-09-01",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532553364",
+          "watchedDate": "2026-09-01",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Give me more weird things like this. The camp worked more than the plot, but I’m not complaining.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1514026,
+        "posterPath": "/1BdZbNvl1SfrrX8J9X5tQzN6Ivu.jpg",
+        "backdropPath": "/ytoLEl5yDaxB8AtZ52uKWjaQ9ql.jpg",
+        "genres": [
+          "Horror",
+          "Comedy",
+          "Fantasy"
+        ],
+        "runtime": 95,
+        "director": "Casper Kelly"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/1BdZbNvl1SfrrX8J9X5tQzN6Ivu.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/1BdZbNvl1SfrrX8J9X5tQzN6Ivu.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1329016",
+      "letterboxdSlug": "tony",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/tony-2026/",
+      "title": "Tony",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-08-30",
+      "latestWatchedDate": "2026-08-30",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532551116",
+          "watchedDate": "2026-08-30",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "This felt sleepy to me, but Leo Woodall is rising and I love that for us.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1329016,
+        "posterPath": "/uwZF5guNR5EnXkjIVTk4UPTVGiS.jpg",
+        "backdropPath": "/uQvz6NdyhoWE6dMurFn0BriLIv9.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "runtime": 107,
+        "director": "Matt Johnson"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uwZF5guNR5EnXkjIVTk4UPTVGiS.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uwZF5guNR5EnXkjIVTk4UPTVGiS.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1284041",
       "letterboxdSlug": "the-last-house",
@@ -35214,6 +36161,953 @@
     }
   ],
   "filmById": {
+    "tmdb-1375441": {
+      "id": "tmdb-1375441",
+      "letterboxdSlug": "primetime",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/primetime-2026/1/",
+      "title": "Primetime",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-27",
+      "latestWatchedDate": "2026-10-07",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532586384",
+          "watchedDate": "2026-10-07",
+          "reviewDate": "2026-10-11",
+          "rating": 4.5,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "Had to run this back. I’m so locked in on stories about storytelling right now and this really captures the root of post-9/11 American media. To me, you can follow this throughline to our obsession with true crime and real housewives.",
+          "tags": []
+        },
+        {
+          "guid": "letterboxd-review-1532583178",
+          "watchedDate": "2026-09-27",
+          "reviewDate": "2026-10-11",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "This is Merritt Wever’s film. I was so anxious the entire time. I loved it. Phoebe Bridgers lowkey ate.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1375441,
+        "posterPath": "/51VDtNQFuD2I86hrT4ekytg9Dq3.jpg",
+        "backdropPath": "/4E5RVsSUG1A4Adwbqupu5w6kofZ.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 110,
+        "director": "Lance Oppenheim"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/51VDtNQFuD2I86hrT4ekytg9Dq3.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/51VDtNQFuD2I86hrT4ekytg9Dq3.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-131631": {
+      "id": "tmdb-131631",
+      "letterboxdSlug": "the-hunger-games-mockingjay-part-1",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games-mockingjay-part-1/",
+      "title": "The Hunger Games: Mockingjay – Part 1",
+      "releaseYear": 2014,
+      "firstWatchedDate": "2026-09-29",
+      "latestWatchedDate": "2026-09-29",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532595980",
+          "watchedDate": "2026-09-29",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "A chilling reflection of current society all these years later.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 131631,
+        "posterPath": "/4FAA18ZIja70d1Tu5hr5cj2q1sB.jpg",
+        "backdropPath": "/lV1P1Q5gLDXVG1ZYCxZHStkcQC3.jpg",
+        "genres": [
+          "Science Fiction",
+          "Adventure",
+          "Thriller"
+        ],
+        "runtime": 123,
+        "director": "Francis Lawrence"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4FAA18ZIja70d1Tu5hr5cj2q1sB.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4FAA18ZIja70d1Tu5hr5cj2q1sB.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-101299": {
+      "id": "tmdb-101299",
+      "letterboxdSlug": "the-hunger-games-catching-fire",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games-catching-fire/",
+      "title": "The Hunger Games: Catching Fire",
+      "releaseYear": 2013,
+      "firstWatchedDate": "2026-09-28",
+      "latestWatchedDate": "2026-09-28",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532594013",
+          "watchedDate": "2026-09-28",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "The pivot into the darker side of the series is so strong. That aspect ratio change hits every time.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 101299,
+        "posterPath": "/vrQHDXjVmbYzadOXQ0UaObunoy2.jpg",
+        "backdropPath": "/eHaazLxM5LRMh0ySkVy7SK6wUWt.jpg",
+        "genres": [
+          "Adventure",
+          "Action",
+          "Science Fiction"
+        ],
+        "runtime": 146,
+        "director": "Francis Lawrence"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vrQHDXjVmbYzadOXQ0UaObunoy2.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vrQHDXjVmbYzadOXQ0UaObunoy2.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-70160": {
+      "id": "tmdb-70160",
+      "letterboxdSlug": "the-hunger-games",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games/",
+      "title": "The Hunger Games",
+      "releaseYear": 2012,
+      "firstWatchedDate": "2026-09-28",
+      "latestWatchedDate": "2026-09-28",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532591697",
+          "watchedDate": "2026-09-28",
+          "reviewDate": "2026-10-11",
+          "rating": 3,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "Locking back into this franchise ahead of the new film. Forgot how iconic this is.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 70160,
+        "posterPath": "/apa5G43Hha7kH7wJG0gkkHT7FA9.jpg",
+        "backdropPath": "/eVYChqJavS1DCXFeJE2lzVUMLKp.jpg",
+        "genres": [
+          "Science Fiction",
+          "Adventure",
+          "Action",
+          "Thriller"
+        ],
+        "runtime": 142,
+        "director": "Gary Ross"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/apa5G43Hha7kH7wJG0gkkHT7FA9.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/apa5G43Hha7kH7wJG0gkkHT7FA9.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-505225": {
+      "id": "tmdb-505225",
+      "letterboxdSlug": "the-last-thing-he-wanted",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-last-thing-he-wanted/",
+      "title": "The Last Thing He Wanted",
+      "releaseYear": 2020,
+      "firstWatchedDate": "2026-09-28",
+      "latestWatchedDate": "2026-09-28",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532590373",
+          "watchedDate": "2026-09-28",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Not sure what we were going for but here for Anne and Rosie.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 505225,
+        "posterPath": "/4mDbGqi8mloDdxkviq13SKCfuFH.jpg",
+        "backdropPath": "/cGUxPXVZF5n5P09dnlhWC8bLVp7.jpg",
+        "genres": [
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 116,
+        "director": "Dee Rees"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4mDbGqi8mloDdxkviq13SKCfuFH.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4mDbGqi8mloDdxkviq13SKCfuFH.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-483906": {
+      "id": "tmdb-483906",
+      "letterboxdSlug": "polar",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/polar-2019/",
+      "title": "Polar",
+      "releaseYear": 2019,
+      "firstWatchedDate": "2026-09-28",
+      "latestWatchedDate": "2026-09-28",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532588669",
+          "watchedDate": "2026-09-28",
+          "reviewDate": "2026-10-11",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Anything for daddy Mads.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 483906,
+        "posterPath": "/qOBEpKVLl8Q9CZScbOcRRVISezV.jpg",
+        "backdropPath": "/lSCKo6QGJ88Gn3espNnvL87CinA.jpg",
+        "genres": [
+          "Action",
+          "Crime",
+          "Drama"
+        ],
+        "runtime": 118,
+        "director": "Jonas Åkerlund"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/qOBEpKVLl8Q9CZScbOcRRVISezV.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/qOBEpKVLl8Q9CZScbOcRRVISezV.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-4970": {
+      "id": "tmdb-4970",
+      "letterboxdSlug": "gothika",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/gothika/",
+      "title": "Gothika",
+      "releaseYear": 2003,
+      "firstWatchedDate": "2026-09-26",
+      "latestWatchedDate": "2026-09-26",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532587118",
+          "watchedDate": "2026-09-26",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I guess this is why I never rushed to watch this…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 4970,
+        "posterPath": "/frSGNQcWx1ek8dCduFYCux1ho7n.jpg",
+        "backdropPath": "/eLBHPVQkJZyaSEUAGAFWNJJwmeo.jpg",
+        "genres": [
+          "Horror",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 98,
+        "director": "Mathieu Kassovitz"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/frSGNQcWx1ek8dCduFYCux1ho7n.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/frSGNQcWx1ek8dCduFYCux1ho7n.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1433583": {
+      "id": "tmdb-1433583",
+      "letterboxdSlug": "the-weight",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-weight-2026/",
+      "title": "The Weight",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-25",
+      "latestWatchedDate": "2026-09-25",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532581123",
+          "watchedDate": "2026-09-25",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Surprised to like this as much as I did. Ethan Hawke is great and the story has more depth than the trailer would suggest.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1433583,
+        "posterPath": "/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg",
+        "backdropPath": "/zLeq2fbHU6UdA7mhsYnIULORTgq.jpg",
+        "genres": [
+          "Drama",
+          "Thriller",
+          "Crime"
+        ],
+        "runtime": 112,
+        "director": "Padraic McKinley"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/8i5iZV50CoEtmDCFM7RSxCkpE8h.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1596248": {
+      "id": "tmdb-1596248",
+      "letterboxdSlug": "if-i-go-will-they-miss-me",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/if-i-go-will-they-miss-me-2026/",
+      "title": "If I Go Will They Miss Me",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-25",
+      "latestWatchedDate": "2026-09-25",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532578161",
+          "watchedDate": "2026-09-25",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Triggering to say the least. Young Bodhi Dell was such a delight to watch.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1596248,
+        "posterPath": "/v8Bcs5kC5EtKmFMomBv5BAB5SRi.jpg",
+        "backdropPath": "/mvAazk3iHE2H6I8bzN56cMz1ZH7.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "runtime": 89,
+        "director": "Walter Thompson-Hernández"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/v8Bcs5kC5EtKmFMomBv5BAB5SRi.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/v8Bcs5kC5EtKmFMomBv5BAB5SRi.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1423191": {
+      "id": "tmdb-1423191",
+      "letterboxdSlug": "resident-evil",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/resident-evil-2026/",
+      "title": "Resident Evil",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-24",
+      "latestWatchedDate": "2026-09-24",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532576258",
+          "watchedDate": "2026-09-24",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Austin Abrams put in work! Too bad he won’t be back for a sequel…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1423191,
+        "posterPath": "/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg",
+        "backdropPath": "/3icyRAqgakNcQn6aDVz9libFmBA.jpg",
+        "genres": [
+          "Horror",
+          "Science Fiction",
+          "Adventure"
+        ],
+        "runtime": 95,
+        "director": "Zach Cregger"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1437396": {
+      "id": "tmdb-1437396",
+      "letterboxdSlug": "your-mother-your-mother-your-mother",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/your-mother-your-mother-your-mother/",
+      "title": "Your Mother Your Mother Your Mother",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-23",
+      "latestWatchedDate": "2026-09-23",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532573784",
+          "watchedDate": "2026-09-23",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Heartbreaking. I was on the edge of my seat the whole time.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1437396,
+        "posterPath": "/4KaPZSKnInnArErTTgy9Oy14leR.jpg",
+        "backdropPath": "/jiFLiatBtBALlAzV5R72gzspBad.jpg",
+        "genres": [
+          "Action",
+          "Crime",
+          "Drama"
+        ],
+        "runtime": 112,
+        "director": "Bassam Tariq"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/4KaPZSKnInnArErTTgy9Oy14leR.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4KaPZSKnInnArErTTgy9Oy14leR.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1058424": {
+      "id": "tmdb-1058424",
+      "letterboxdSlug": "hope",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/hope-2026/",
+      "title": "Hope",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-15",
+      "latestWatchedDate": "2026-09-15",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532571575",
+          "watchedDate": "2026-09-15",
+          "reviewDate": "2026-10-11",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Really big swing with a great payoff in being unique and interesting. Front to back chaos, and I hope they get a sequel after that bonus scene.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1058424,
+        "posterPath": "/1n37BJchWHLiSYQkuFxe5KjB951.jpg",
+        "backdropPath": "/hrCTKrc3Tz2wbPOt5rcrlAhqF11.jpg",
+        "genres": [
+          "Science Fiction",
+          "Mystery",
+          "Action"
+        ],
+        "runtime": 157,
+        "director": "Na Hong-jin"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/1n37BJchWHLiSYQkuFxe5KjB951.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/1n37BJchWHLiSYQkuFxe5KjB951.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1204680": {
+      "id": "tmdb-1204680",
+      "letterboxdSlug": "coyote-vs-acme",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/coyote-vs-acme/",
+      "title": "Coyote vs. Acme",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-14",
+      "latestWatchedDate": "2026-09-14",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532568331",
+          "watchedDate": "2026-09-14",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Why did this Coyote have me weeping?",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1204680,
+        "posterPath": "/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg",
+        "backdropPath": "/viZqGq9TNvQ5uXSD4ahg2RpRONT.jpg",
+        "genres": [
+          "Comedy",
+          "Adventure",
+          "Family"
+        ],
+        "runtime": 103,
+        "director": "Dave Green"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1302904": {
+      "id": "tmdb-1302904",
+      "letterboxdSlug": "practical-magic-2",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/practical-magic-2/",
+      "title": "Practical Magic 2",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-13",
+      "latestWatchedDate": "2026-09-13",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532566422",
+          "watchedDate": "2026-09-13",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Was this written by AI? Nice to see Nicole in her element and Lee being hot. Maisie was so underutilized.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1302904,
+        "posterPath": "/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg",
+        "backdropPath": "/wE6syT1vv6W24iLGfhR4kQHnIDN.jpg",
+        "genres": [
+          "Romance",
+          "Fantasy",
+          "Comedy"
+        ],
+        "runtime": 130,
+        "director": "Susanne Bier"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ogwQOLbCfncjvBhFb5l0OmQH8KC.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-977942": {
+      "id": "tmdb-977942",
+      "letterboxdSlug": "the-uprising",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-uprising-2026/",
+      "title": "The Uprising",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-13",
+      "latestWatchedDate": "2026-09-13",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532564604",
+          "watchedDate": "2026-09-13",
+          "reviewDate": "2026-10-11",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I was really moved by the community aspect of this whole thing. Another hit for Andrew.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 977942,
+        "posterPath": "/7TUl15TOsIvndKlgMWTtLgtEzZP.jpg",
+        "backdropPath": "/y0reRTsewsPh0ePtgvDeLIsb5Wk.jpg",
+        "genres": [
+          "History",
+          "Drama",
+          "Action"
+        ],
+        "runtime": 128,
+        "director": "Paul Greengrass"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7TUl15TOsIvndKlgMWTtLgtEzZP.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7TUl15TOsIvndKlgMWTtLgtEzZP.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-597891": {
+      "id": "tmdb-597891",
+      "letterboxdSlug": "kate",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/kate/",
+      "title": "Kate",
+      "releaseYear": 2021,
+      "firstWatchedDate": "2026-09-07",
+      "latestWatchedDate": "2026-09-07",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532561490",
+          "watchedDate": "2026-09-07",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Sometimes you just need a nonsensical retrofuturist flick.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 597891,
+        "posterPath": "/uJgdT1boTSP0dDIjdTgGleg71l4.jpg",
+        "backdropPath": "/byflnwPMumyvrCW9SfO5Miq3647.jpg",
+        "genres": [
+          "Action",
+          "Thriller"
+        ],
+        "runtime": 106,
+        "director": "Cedric Nicolas-Troyan"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uJgdT1boTSP0dDIjdTgGleg71l4.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uJgdT1boTSP0dDIjdTgGleg71l4.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-860508": {
+      "id": "tmdb-860508",
+      "letterboxdSlug": "the-whisper-man",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-whisper-man/",
+      "title": "The Whisper Man",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-06",
+      "latestWatchedDate": "2026-09-06",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532559676",
+          "watchedDate": "2026-09-06",
+          "reviewDate": "2026-10-11",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Here for Michelle and Adam. Straightforward, but not unenjoyable.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 860508,
+        "posterPath": "/ndRs5lADYm0PeVjuOxaMcInY0o2.jpg",
+        "backdropPath": "/uauoVKKCkNA9iWjgJCL8TdSfLf5.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Thriller"
+        ],
+        "runtime": 111,
+        "director": "James Ashcroft"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/ndRs5lADYm0PeVjuOxaMcInY0o2.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/ndRs5lADYm0PeVjuOxaMcInY0o2.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-445466": {
+      "id": "tmdb-445466",
+      "letterboxdSlug": "idiots",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/idiots-2026/",
+      "title": "Idiots",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-02",
+      "latestWatchedDate": "2026-09-02",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532556546",
+          "watchedDate": "2026-09-02",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "That was so bleak, but moving. Mason Thames is a scary little freak (complimentary).",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 445466,
+        "posterPath": "/l1JFNC1SdgyXVr7BaD5ehaYBvOC.jpg",
+        "backdropPath": "/lneqlgbg3XUjNaeGYk8arhgzczo.jpg",
+        "genres": [
+          "Comedy",
+          "Crime"
+        ],
+        "runtime": 100,
+        "director": "Macon Blair"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/l1JFNC1SdgyXVr7BaD5ehaYBvOC.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/l1JFNC1SdgyXVr7BaD5ehaYBvOC.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1341138": {
+      "id": "tmdb-1341138",
+      "letterboxdSlug": "spa-weekend",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/spa-weekend-2026/",
+      "title": "Spa Weekend",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-01",
+      "latestWatchedDate": "2026-09-01",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532554423",
+          "watchedDate": "2026-09-01",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Was the plot lowkey racist or just my audience?",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1341138,
+        "posterPath": "/uhx4YjT9YbSxrKVE7GWJdjI412J.jpg",
+        "backdropPath": "/8NGPUlR4xKQfgLaWCeXALGF3i27.jpg",
+        "genres": [
+          "Comedy"
+        ],
+        "runtime": 97,
+        "director": "Jon Lucas"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uhx4YjT9YbSxrKVE7GWJdjI412J.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uhx4YjT9YbSxrKVE7GWJdjI412J.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1514026": {
+      "id": "tmdb-1514026",
+      "letterboxdSlug": "buddy",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/buddy-2026/",
+      "title": "Buddy",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-09-01",
+      "latestWatchedDate": "2026-09-01",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532553364",
+          "watchedDate": "2026-09-01",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Give me more weird things like this. The camp worked more than the plot, but I’m not complaining.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1514026,
+        "posterPath": "/1BdZbNvl1SfrrX8J9X5tQzN6Ivu.jpg",
+        "backdropPath": "/ytoLEl5yDaxB8AtZ52uKWjaQ9ql.jpg",
+        "genres": [
+          "Horror",
+          "Comedy",
+          "Fantasy"
+        ],
+        "runtime": 95,
+        "director": "Casper Kelly"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/1BdZbNvl1SfrrX8J9X5tQzN6Ivu.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/1BdZbNvl1SfrrX8J9X5tQzN6Ivu.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1329016": {
+      "id": "tmdb-1329016",
+      "letterboxdSlug": "tony",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/tony-2026/",
+      "title": "Tony",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-08-30",
+      "latestWatchedDate": "2026-08-30",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532551116",
+          "watchedDate": "2026-08-30",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "This felt sleepy to me, but Leo Woodall is rising and I love that for us.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1329016,
+        "posterPath": "/uwZF5guNR5EnXkjIVTk4UPTVGiS.jpg",
+        "backdropPath": "/uQvz6NdyhoWE6dMurFn0BriLIv9.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "runtime": 107,
+        "director": "Matt Johnson"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/uwZF5guNR5EnXkjIVTk4UPTVGiS.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/uwZF5guNR5EnXkjIVTk4UPTVGiS.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1284041": {
       "id": "tmdb-1284041",
       "letterboxdSlug": "the-last-house",
