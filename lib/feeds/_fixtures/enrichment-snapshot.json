@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-10-11T04:45:37.918Z",
+  "capturedAt": "2026-10-11T05:45:37.862Z",
   "meta": {
-    "films": 816,
+    "films": 824,
     "shows": 167,
-    "collections": 78
+    "collections": 79
   },
   "films": {
     "18": {
@@ -13526,6 +13526,136 @@
       ],
       "collection": null
     },
+    "194662": {
+      "ratings": {
+        "imdb": 7.7,
+        "metacritic": 87,
+        "metacriticUser": 8,
+        "tomatoes": 91,
+        "rtAudience": 78,
+        "letterboxd": 4,
+        "trakt": 73
+      },
+      "studios": [
+        "M Productions",
+        "Worldview Entertainment",
+        "New Regency Pictures",
+        "TSG Entertainment",
+        "Le Grisbi Productions"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 18000000,
+      "revenue": 103215094,
+      "cast": [
+        {
+          "id": 2232,
+          "name": "Michael Keaton"
+        },
+        {
+          "id": 54693,
+          "name": "Emma Stone"
+        },
+        {
+          "id": 58225,
+          "name": "Zach Galifianakis"
+        },
+        {
+          "id": 819,
+          "name": "Edward Norton"
+        },
+        {
+          "id": 127558,
+          "name": "Andrea Riseborough"
+        },
+        {
+          "id": 3489,
+          "name": "Naomi Watts"
+        },
+        {
+          "id": 39388,
+          "name": "Amy Ryan"
+        },
+        {
+          "id": 30083,
+          "name": "Lindsay Duncan"
+        },
+        {
+          "id": 28044,
+          "name": "Merritt Wever"
+        },
+        {
+          "id": 155222,
+          "name": "Jeremy Shamos"
+        },
+        {
+          "id": 109144,
+          "name": "Damian Young"
+        },
+        {
+          "id": 1099876,
+          "name": "Kenny Chin"
+        },
+        {
+          "id": 1502376,
+          "name": "Jamahl Garrison-Lowe"
+        },
+        {
+          "id": 122551,
+          "name": "Katherine O'Sullivan"
+        },
+        {
+          "id": 1502377,
+          "name": "Keenan Shimizu"
+        },
+        {
+          "id": 1643952,
+          "name": "Akira Ito"
+        },
+        {
+          "id": 143256,
+          "name": "Natalie Gold"
+        },
+        {
+          "id": 89666,
+          "name": "Michael Siberry"
+        },
+        {
+          "id": 171538,
+          "name": "Clark Middleton"
+        },
+        {
+          "id": 1232513,
+          "name": "William Youmans"
+        }
+      ],
+      "writers": [
+        {
+          "id": 931800,
+          "name": "Nicolás Giacobone"
+        },
+        {
+          "id": 661870,
+          "name": "Armando Bo"
+        },
+        {
+          "id": 223,
+          "name": "Alejandro G. Iñárritu"
+        },
+        {
+          "id": 1281196,
+          "name": "Alexander Dinelaris"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
+    },
     "204922": {
       "ratings": {
         "imdb": 6.3,
@@ -19876,6 +20006,124 @@
         }
       ],
       "collection": null
+    },
+    "396806": {
+      "ratings": {
+        "imdb": 6.1,
+        "metacritic": 54,
+        "metacriticUser": 6,
+        "tomatoes": 38,
+        "rtAudience": 36,
+        "letterboxd": 2.7,
+        "trakt": 64
+      },
+      "studios": [
+        "K5 Film",
+        "K5 International",
+        "Scythia Films",
+        "Road Pictures",
+        "Sierra/Affinity"
+      ],
+      "country": "GB",
+      "language": "en",
+      "certification": "R",
+      "budget": 20000000,
+      "revenue": 1197741,
+      "cast": [
+        {
+          "id": 2296,
+          "name": "Clive Owen"
+        },
+        {
+          "id": 71070,
+          "name": "Amanda Seyfried"
+        },
+        {
+          "id": 10132,
+          "name": "Colm Feore"
+        },
+        {
+          "id": 225411,
+          "name": "Mark O'Brien"
+        },
+        {
+          "id": 47953,
+          "name": "Sonya Walger"
+        },
+        {
+          "id": 86237,
+          "name": "Joe Pingue"
+        },
+        {
+          "id": 94958,
+          "name": "Iddo Goldberg"
+        },
+        {
+          "id": 2137378,
+          "name": "Afiya Bennett"
+        },
+        {
+          "id": 3112254,
+          "name": "Morgan Allen"
+        },
+        {
+          "id": 2137399,
+          "name": "Jeffrey Men"
+        },
+        {
+          "id": 2026182,
+          "name": "James Tam"
+        },
+        {
+          "id": 23534,
+          "name": "Jonathan Potts"
+        },
+        {
+          "id": 35198,
+          "name": "Rachel Roberts"
+        },
+        {
+          "id": 2026184,
+          "name": "Toyin Ishola"
+        },
+        {
+          "id": 224144,
+          "name": "Sebastian Pigott"
+        },
+        {
+          "id": 116485,
+          "name": "David Storch"
+        },
+        {
+          "id": 62674,
+          "name": "Billy Parrott"
+        },
+        {
+          "id": 2026183,
+          "name": "Amadou Kebe"
+        },
+        {
+          "id": 3112256,
+          "name": "Stephanie Christian"
+        },
+        {
+          "id": 3112257,
+          "name": "Natalie Chaves"
+        }
+      ],
+      "writers": [
+        {
+          "id": 8685,
+          "name": "Andrew Niccol"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
+      }
     },
     "399057": {
       "ratings": {
@@ -36091,6 +36339,131 @@
         "id": 726871,
         "name": "Dune Collection",
         "total": 3
+      }
+    },
+    "695721": {
+      "ratings": {
+        "imdb": 6.6,
+        "metacritic": 54,
+        "metacriticUser": 5.7,
+        "tomatoes": 64,
+        "rtAudience": 89,
+        "letterboxd": 3.6,
+        "trakt": 75
+      },
+      "studios": [
+        "Lionsgate",
+        "Color Force",
+        "about:blank",
+        "Studio Babelsberg"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 100000000,
+      "revenue": 337371917,
+      "cast": [
+        {
+          "id": 1524100,
+          "name": "Tom Blyth"
+        },
+        {
+          "id": 2217977,
+          "name": "Rachel Zegler"
+        },
+        {
+          "id": 22970,
+          "name": "Peter Dinklage"
+        },
+        {
+          "id": 17881,
+          "name": "Jason Schwartzman"
+        },
+        {
+          "id": 2340180,
+          "name": "Hunter Schafer"
+        },
+        {
+          "id": 2269067,
+          "name": "Josh Rivera"
+        },
+        {
+          "id": 19492,
+          "name": "Viola Davis"
+        },
+        {
+          "id": 58068,
+          "name": "Fionnula Flanagan"
+        },
+        {
+          "id": 39659,
+          "name": "Burn Gorman"
+        },
+        {
+          "id": 3568188,
+          "name": "Dexter Sol Ansell"
+        },
+        {
+          "id": 4450662,
+          "name": "Rosa Gotzler"
+        },
+        {
+          "id": 213596,
+          "name": "Clemens Schick"
+        },
+        {
+          "id": 1583971,
+          "name": "Ashley Liao"
+        },
+        {
+          "id": 1977981,
+          "name": "Athena Strates"
+        },
+        {
+          "id": 4444754,
+          "name": "Joshua Kantara"
+        },
+        {
+          "id": 2333351,
+          "name": "Amélie Hoeferle"
+        },
+        {
+          "id": 2051651,
+          "name": "Kaitlyn Akinpelumi"
+        },
+        {
+          "id": 1682096,
+          "name": "Florian Burgkart"
+        },
+        {
+          "id": 3304268,
+          "name": "Ayomide Adegun"
+        },
+        {
+          "id": 4450667,
+          "name": "Aaron Finn Schultz"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1273117,
+          "name": "Michael Lesslie"
+        },
+        {
+          "id": 16961,
+          "name": "Michael Arndt"
+        }
+      ],
+      "collection": {
+        "id": 1701563,
+        "name": "The Hunger Games – New Trilogy Collection",
+        "total": 2
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": 32
       }
     },
     "696393": {
@@ -74701,6 +75074,130 @@
       ],
       "collection": null
     },
+    "1236045": {
+      "ratings": {
+        "imdb": null,
+        "metacritic": 33,
+        "metacriticUser": 3.3,
+        "tomatoes": 36,
+        "rtAudience": 43,
+        "letterboxd": 2.5,
+        "trakt": 70
+      },
+      "studios": [
+        "Artists Equity",
+        "Makeready",
+        "Fifth Season"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 880,
+          "name": "Ben Affleck"
+        },
+        {
+          "id": 11703,
+          "name": "Kerry Washington"
+        },
+        {
+          "id": 12214,
+          "name": "Gillian Anderson"
+        },
+        {
+          "id": 215055,
+          "name": "Steven Yeun"
+        },
+        {
+          "id": 983710,
+          "name": "Adriana Paz"
+        },
+        {
+          "id": 936254,
+          "name": "Luis Gerardo Méndez"
+        },
+        {
+          "id": 4039941,
+          "name": "Christopher Woodley"
+        },
+        {
+          "id": 4147610,
+          "name": "Jacob Estrada"
+        },
+        {
+          "id": 1313559,
+          "name": "Ray Fisher"
+        },
+        {
+          "id": 2569895,
+          "name": "Taylor Cooper"
+        },
+        {
+          "id": 154837,
+          "name": "Chris Gann"
+        },
+        {
+          "id": 98215,
+          "name": "Matt Gerald"
+        },
+        {
+          "id": 1585029,
+          "name": "Craig Baxley Jr."
+        },
+        {
+          "id": 186573,
+          "name": "Zack Duhame"
+        },
+        {
+          "id": 1542565,
+          "name": "Brett Sheerin"
+        },
+        {
+          "id": 3387593,
+          "name": "Levi Gilbert"
+        },
+        {
+          "id": 2356114,
+          "name": "Kamy D. Bruder"
+        },
+        {
+          "id": 6537353,
+          "name": "Christie Rios"
+        },
+        {
+          "id": 110998,
+          "name": "Xochitl Romero"
+        },
+        {
+          "id": 3127450,
+          "name": "Elizabeth O'Donnell"
+        }
+      ],
+      "writers": [
+        {
+          "id": 21807,
+          "name": "Billy Ray"
+        },
+        {
+          "id": 880,
+          "name": "Ben Affleck"
+        },
+        {
+          "id": 2443667,
+          "name": "Connor O. McIntyre"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "limited",
+        "wide": false,
+        "ltd": true,
+        "gap": 0
+      }
+    },
     "1236153": {
       "ratings": {
         "imdb": 6.2,
@@ -76548,6 +77045,138 @@
       },
       "writers": [],
       "collection": null
+    },
+    "1248832": {
+      "ratings": {
+        "imdb": 7.4,
+        "metacritic": 46,
+        "metacriticUser": 6.7,
+        "tomatoes": 52,
+        "rtAudience": 73,
+        "letterboxd": 3.9,
+        "trakt": 74
+      },
+      "studios": [
+        "Warner Bros. Pictures",
+        "Legendary Entertainment",
+        "Domain Entertainment"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 180000000,
+      "revenue": 20000000,
+      "cast": [
+        {
+          "id": 500,
+          "name": "Tom Cruise"
+        },
+        {
+          "id": 53240,
+          "name": "Riz Ahmed"
+        },
+        {
+          "id": 1230,
+          "name": "John Goodman"
+        },
+        {
+          "id": 7152,
+          "name": "Sandra Hüller"
+        },
+        {
+          "id": 72873,
+          "name": "Michael Stuhlbarg"
+        },
+        {
+          "id": 88124,
+          "name": "Jesse Plemons"
+        },
+        {
+          "id": 31512,
+          "name": "Robert John Burke"
+        },
+        {
+          "id": 2121005,
+          "name": "Emma D'Arcy"
+        },
+        {
+          "id": 39659,
+          "name": "Burn Gorman"
+        },
+        {
+          "id": 3115932,
+          "name": "Sophie Wilde"
+        },
+        {
+          "id": 1355191,
+          "name": "Danny Kirrane"
+        },
+        {
+          "id": 2061879,
+          "name": "Ross Hatt"
+        },
+        {
+          "id": 1486120,
+          "name": "Mercedes Hernández"
+        },
+        {
+          "id": 1587576,
+          "name": "James Dryden"
+        },
+        {
+          "id": 1656725,
+          "name": "Richard Foster-King"
+        },
+        {
+          "id": 17199,
+          "name": "Corey Johnson"
+        },
+        {
+          "id": 36666,
+          "name": "Pip Torrens"
+        },
+        {
+          "id": 69592,
+          "name": "Stephen Wight"
+        },
+        {
+          "id": 1513194,
+          "name": "Tom Bell"
+        },
+        {
+          "id": 1215021,
+          "name": "Cullen Moss"
+        }
+      ],
+      "writers": [
+        {
+          "id": 223,
+          "name": "Alejandro G. Iñárritu"
+        },
+        {
+          "id": 1050096,
+          "name": "Sabina Berman"
+        },
+        {
+          "id": 21339,
+          "name": "Jez Butterworth"
+        },
+        {
+          "id": 1281196,
+          "name": "Alexander Dinelaris"
+        },
+        {
+          "id": 931800,
+          "name": "Nicolás Giacobone"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
     },
     "1249728": {
       "ratings": {
@@ -78737,6 +79366,126 @@
         }
       ],
       "collection": null
+    },
+    "1283515": {
+      "ratings": {
+        "imdb": 6,
+        "metacritic": 44,
+        "metacriticUser": 4.8,
+        "tomatoes": 32,
+        "rtAudience": 71,
+        "letterboxd": 2.7,
+        "trakt": 69
+      },
+      "studios": [
+        "Eat the Cat",
+        "Semi-Formal Productions",
+        "Somewhere Pictures",
+        "Shiny Penny Productions",
+        "Heartbones Entertainment",
+        "Amazon MGM Studios",
+        "Big Indie Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 40000000,
+      "revenue": 62500000,
+      "cast": [
+        {
+          "id": 118545,
+          "name": "Dakota Johnson"
+        },
+        {
+          "id": 1813,
+          "name": "Anne Hathaway"
+        },
+        {
+          "id": 2299,
+          "name": "Josh Hartnett"
+        },
+        {
+          "id": 5269231,
+          "name": "Brady Wagner"
+        },
+        {
+          "id": 1100144,
+          "name": "Ismael Cruz Cordova"
+        },
+        {
+          "id": 1429011,
+          "name": "Irina Dvorovenko"
+        },
+        {
+          "id": 6497911,
+          "name": "Sienna Kulovitz"
+        },
+        {
+          "id": 221810,
+          "name": "K.K. Moggie"
+        },
+        {
+          "id": 1620969,
+          "name": "Tom Galantich"
+        },
+        {
+          "id": 106187,
+          "name": "Lou Martini Jr."
+        },
+        {
+          "id": 1956107,
+          "name": "Clark Carmichael"
+        },
+        {
+          "id": 71889,
+          "name": "Michael Abbott Jr."
+        },
+        {
+          "id": 5944489,
+          "name": "Stephen Elrod"
+        },
+        {
+          "id": 5854206,
+          "name": "Nathan Tylutki"
+        },
+        {
+          "id": 1907269,
+          "name": "Thursday Farrar"
+        },
+        {
+          "id": 6460521,
+          "name": "Asel Swango"
+        },
+        {
+          "id": 4992172,
+          "name": "Daniel Echevarria"
+        },
+        {
+          "id": 3071550,
+          "name": "Wren Rivera"
+        },
+        {
+          "id": 3713091,
+          "name": "Emily McEnroe"
+        },
+        {
+          "id": 3260037,
+          "name": "Luke Klein"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1114792,
+          "name": "Nick Antosca"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
     },
     "1284016": {
       "ratings": {
@@ -85327,6 +86076,122 @@
       ],
       "collection": null
     },
+    "1381221": {
+      "ratings": {
+        "imdb": 6.8,
+        "metacritic": 68,
+        "metacriticUser": null,
+        "tomatoes": 60,
+        "rtAudience": null,
+        "letterboxd": 3,
+        "trakt": 100
+      },
+      "studios": [
+        "A24",
+        "MACRO",
+        "Confluential Films"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 1682679,
+          "name": "Rosalind Eleazar"
+        },
+        {
+          "id": 1023139,
+          "name": "Adam Driver"
+        },
+        {
+          "id": 206919,
+          "name": "Daniel Kaluuya"
+        },
+        {
+          "id": 84223,
+          "name": "Anna Kendrick"
+        },
+        {
+          "id": 17052,
+          "name": "Topher Grace"
+        },
+        {
+          "id": 2632,
+          "name": "Chris Rock"
+        },
+        {
+          "id": 18471,
+          "name": "Anthony Anderson"
+        },
+        {
+          "id": 17442,
+          "name": "Kelli Garner"
+        },
+        {
+          "id": 357551,
+          "name": "Amy Landecker"
+        },
+        {
+          "id": 10581,
+          "name": "Rich Sommer"
+        },
+        {
+          "id": 21411,
+          "name": "Ice-T"
+        },
+        {
+          "id": 10580,
+          "name": "Tracie Thoms"
+        },
+        {
+          "id": 3220521,
+          "name": "Zaria"
+        },
+        {
+          "id": 1548299,
+          "name": "Parker Sack"
+        },
+        {
+          "id": 52930,
+          "name": "Carlos Jacott"
+        },
+        {
+          "id": 1662651,
+          "name": "Yvonne Orji"
+        },
+        {
+          "id": 1253199,
+          "name": "Alexandra Shipp"
+        },
+        {
+          "id": 6485,
+          "name": "Busta Rhymes"
+        },
+        {
+          "id": 119834,
+          "name": "Necar Zadegan"
+        },
+        {
+          "id": 74615,
+          "name": "Nicole Ari Parker"
+        }
+      ],
+      "writers": [
+        {
+          "id": 2632,
+          "name": "Chris Rock"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "limited",
+        "wide": false,
+        "ltd": true,
+        "gap": null
+      }
+    },
     "1390300": {
       "ratings": {
         "imdb": 6.4,
@@ -88175,6 +89040,125 @@
         }
       ],
       "collection": null
+    },
+    "1492640": {
+      "ratings": {
+        "imdb": 6.2,
+        "metacritic": 46,
+        "metacriticUser": 4.6,
+        "tomatoes": 25,
+        "rtAudience": 62,
+        "letterboxd": 2.7,
+        "trakt": 68
+      },
+      "studios": [
+        "MRC",
+        "2.0 Entertainment"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 934,
+          "name": "Russell Crowe"
+        },
+        {
+          "id": 1277188,
+          "name": "Jacob Tremblay"
+        },
+        {
+          "id": 94185,
+          "name": "Shailene Woodley"
+        },
+        {
+          "id": 82809,
+          "name": "Annabelle Wallis"
+        },
+        {
+          "id": 23498,
+          "name": "Alexander Ludwig"
+        },
+        {
+          "id": 212776,
+          "name": "Marc Menchaca"
+        },
+        {
+          "id": 1336329,
+          "name": "Steven Ogg"
+        },
+        {
+          "id": 7013,
+          "name": "Mark Camacho"
+        },
+        {
+          "id": 2358880,
+          "name": "David Webster"
+        },
+        {
+          "id": 7039,
+          "name": "Bruce Ramsay"
+        },
+        {
+          "id": 1674952,
+          "name": "Michelle Leblanc"
+        },
+        {
+          "id": 1560344,
+          "name": "Gus Halper"
+        },
+        {
+          "id": 4317843,
+          "name": "William Kosovic"
+        },
+        {
+          "id": 565222,
+          "name": "Matthew Kevin Anderson"
+        },
+        {
+          "id": 6172,
+          "name": "Tanya Clarke"
+        },
+        {
+          "id": 1906040,
+          "name": "Emily Lê"
+        },
+        {
+          "id": 4102150,
+          "name": "Veronica Bergr"
+        },
+        {
+          "id": 2755458,
+          "name": "Madison Seguin"
+        },
+        {
+          "id": 1299570,
+          "name": "Michael Laurence"
+        },
+        {
+          "id": 85812,
+          "name": "Michael Buie"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1403622,
+          "name": "Sam Chalsen"
+        },
+        {
+          "id": 1347823,
+          "name": "Nelson Greaves"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "streaming",
+        "wide": false,
+        "ltd": false,
+        "gap": null
+      }
     },
     "1515899": {
       "ratings": {
@@ -111597,6 +112581,24 @@
           "id": 4550,
           "title": "Lady Vengeance",
           "year": "2005",
+          "watched": false
+        }
+      ]
+    },
+    "1701563": {
+      "name": "The Hunger Games – New Trilogy Collection",
+      "total": 2,
+      "parts": [
+        {
+          "id": 695721,
+          "title": "The Hunger Games: The Ballad of Songbirds & Snakes",
+          "year": "2023",
+          "watched": true
+        },
+        {
+          "id": 1300968,
+          "title": "The Hunger Games: Sunrise on the Reaping",
+          "year": "2026",
           "watched": false
         }
       ]
