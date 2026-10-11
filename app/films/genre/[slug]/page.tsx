@@ -58,7 +58,7 @@ const LETTERBOXD_PROFILE_URL =
   "https://letterboxd.com/malxavi/";
 
 // Mirror /films page-size logic — 24 desktop+tablet, 12 Save-Data.
-// Keeps row math clean (1/2/3/4/6 cols all divide evenly).
+// Keeps row math clean (2, 3, 4, and 6 columns all divide evenly).
 const PAGE_SIZE_DEFAULT = 24;
 const PAGE_SIZE_SAVE_DATA = 12;
 

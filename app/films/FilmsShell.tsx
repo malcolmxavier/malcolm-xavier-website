@@ -86,6 +86,7 @@ import { FacetAccordion } from "@/components/filters/FacetAccordion";
 import { SearchOmnibox } from "@/components/filters/SearchOmnibox";
 import type { Suggestion } from "@/components/filters/omnibox-types";
 import { ReviewLensStrip } from "@/components/filters/ReviewLensStrip";
+import { REVIEW_GRID_CLASS } from "@/components/feeds/review-grid";
 import { reviewLenses, type ReviewLens } from "@/lib/feeds/review-lenses";
 
 const RATING_VALUES = [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5] as const;
@@ -861,9 +862,10 @@ export function FilmsShell({
           {films.length > 0 ? (
             <ul
               role="list"
-              className="grid gap-4 sm:gap-6"
+              // Fixed 2/3/4/6 column ramp (never 5) so a full page of
+              // 24 always ends on a complete row—see review-grid.ts.
+              className={REVIEW_GRID_CLASS}
               style={{
-                gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
                 listStyle: "none",
                 padding: 0,
                 margin: 0,

@@ -48,9 +48,9 @@ import { orderForTeaser } from "@/lib/feeds/list-taxonomy";
 import { getShowFeaturedPick } from "@/lib/feeds/featured-pick";
 import {
   buildInProgressCards,
+  firstWatchesInYearByMode,
   seasonNumberForReview,
 } from "@/lib/feeds/serializd-utils";
-import { modesForReview } from "@/lib/feeds/serializd-mode-counts.mjs";
 import {
   indexableTvCollections,
   showsInTvFamily,
@@ -108,49 +108,15 @@ export default function TelevisionLandingPage() {
   const lists = getShowLists();
 
   // Per-mode "this year" counts + averages for the StatsBand's lead
-  // numbers. Derived at request time so they track `new Date()` and stay
-  // correct across the year boundary, and routed through modesForReview
-  // so the miniseries double-count rule matches the lifetime totals shown
-  // alongside (a Show review on a miniseries-pinned show counts in both
-  // Shows and Seasons modes). This mirrors the derivation that used to
-  // live on /television/reviews when the panel rendered there. Don't
-  // increment cybl[r.level] directly — that bypasses the double-count
-  // rule. See lib/feeds/serializd-mode-counts.mjs.
-  const currentYear = new Date().getUTCFullYear();
-  const cybl = { show: 0, season: 0, episode: 0 };
-  const cyblRatingSums = { show: 0, season: 0, episode: 0 };
-  const cyblRatingCounts = { show: 0, season: 0, episode: 0 };
-  for (const show of shows) {
-    for (const r of show.reviews) {
-      const yr = Number.parseInt(r.watchedDate.slice(0, 4), 10);
-      if (yr !== currentYear) continue;
-      for (const mode of modesForReview(r.level, show.isMiniseries)) {
-        cybl[mode]++;
-        if (r.rating !== null) {
-          cyblRatingSums[mode] += r.rating;
-          cyblRatingCounts[mode]++;
-        }
-      }
-    }
-  }
-  const currentYearAvgByLevel: {
-    show: number | null;
-    season: number | null;
-    episode: number | null;
-  } = {
-    show:
-      cyblRatingCounts.show > 0
-        ? cyblRatingSums.show / cyblRatingCounts.show
-        : null,
-    season:
-      cyblRatingCounts.season > 0
-        ? cyblRatingSums.season / cyblRatingCounts.season
-        : null,
-    episode:
-      cyblRatingCounts.episode > 0
-        ? cyblRatingSums.episode / cyblRatingCounts.episode
-        : null,
-  };
+  // numbers. FIRST watches only—a rewatch logged this year doesn't
+  // count—via the same `isFirstWatchInYear` test the /television/stats
+  // dashboard uses. Derived at request time so they track `new Date()`
+  // and stay correct across the year boundary, and routed through
+  // modesForReview (inside the helper) so the miniseries double-count
+  // rule matches the lifetime totals shown alongside. See
+  // lib/feeds/serializd-mode-counts.mjs.
+  const { counts: cybl, averages: currentYearAvgByLevel } =
+    firstWatchesInYearByMode(shows, new Date().getUTCFullYear());
   // Routable franchise collections — drives the "Collections" landing
   // teaser + its link to the core /television/collections page. The teaser
   // shows the top-level families only (no nested subcollection like Real

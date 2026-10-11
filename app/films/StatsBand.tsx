@@ -53,7 +53,8 @@ const RATING_KEYS = [
 type Props = {
   summary: FilmsSummary;
   /**
-   * Films watched in the current calendar year. Derived at request time
+   * Films first watched in the current calendar year (rewatches don't
+   * count—same number as the /films/stats “new this year” tile). Derived at request time
    * in page.tsx (not from the snapshot's frozen count) so it tracks
    * `new Date()` and stays correct across the year boundary — see the
    * page-level derivation comment for why.

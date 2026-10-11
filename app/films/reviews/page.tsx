@@ -234,15 +234,16 @@ export async function generateMetadata({
 }
 
 // 24 is the unified page size across mobile, tablet, and desktop.
-// It divides cleanly into 1/2/3/4/6 columns — every column count
-// the responsive grid produces inside the films container — so no
-// row ever ends incomplete. /music's mobile-vs-desktop split isn't
+// It divides cleanly into 2, 3, 4, and 6 columns—every column count
+// the grid's fixed ramp produces (REVIEW_GRID_CLASS in
+// components/feeds/review-grid.ts, which skips 5 for exactly this
+// reason)—so a full page never ends on an incomplete row. /music's mobile-vs-desktop split isn't
 // needed here: film cards are lighter (poster-only, no track meta)
 // so the same density reads comfortably across viewports.
 const PAGE_SIZE_DEFAULT = 24;
 // Save-Data is an opt-in user signal — when present, we serve half
 // the cards so the bandwidth-conscious user gets a smaller page.
-// 12 keeps row math clean (1/2/3/4/6 cols all divide evenly).
+// 12 keeps row math clean (2, 3, 4, and 6 columns all divide evenly).
 const PAGE_SIZE_SAVE_DATA = 12;
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -264,8 +265,8 @@ export default async function FilmsPage({
   const requestedPage = Number.isFinite(rawPage) && rawPage > 0 ? rawPage : 1;
 
   // Save-Data shrinks the page size; the responsive grid handles
-  // the visual mobile-vs-desktop split via auto-fill, so we don't
-  // need separate viewport-based variants.
+  // the visual mobile-vs-desktop split with its fixed column ramp,
+  // so we don't need separate viewport-based variants.
   const pageSize = saveData ? PAGE_SIZE_SAVE_DATA : PAGE_SIZE_DEFAULT;
 
   // capturedAt is intentionally not surfaced here — the snapshot's

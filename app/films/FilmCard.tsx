@@ -56,7 +56,7 @@ export function FilmCard({
   // film via getFilmBySlug, so old tmdb-<id> URLs still resolve.
   const slug = `${film.letterboxdSlug}-${film.releaseYear}`;
 
-  // Dateline rule. Three branches in priority order:
+  // Dateline rule. Two branches in priority order:
   //   1. Per-review filter active → "Watched <qualifying-watch>".
   //      The qualifying review represents the specific watch the
   //      filter matched, so the dateline names that watch event
@@ -64,24 +64,30 @@ export function FilmCard({
   //      film matched into the 2024 result set would still display
   //      "First watched 2017" — leaving the user no signal for why
   //      the card landed in the 2024 results.
-  //   2. No filter, every review is a rewatch → "Rewatched <date>".
-  //      Malcolm rarely rewatches, so an all-rewatch film usually
-  //      means he didn't log the original watch on Letterboxd and
-  //      the earliest watchedDate is itself a rewatch — labeling
-  //      "First watched" against that date would be a quiet lie.
-  //   3. Default → "First watched <firstWatchedDate>".
-  //      Mixed-review or single-review films read with their oldest
-  //      logged watch as the entry-point context.
-  const allRewatches =
-    film.reviews.length > 0 && film.reviews.every((r) => r.rewatch);
+  //   2. Otherwise the dateline names the film's most recent watch,
+  //      because that is what the default grid order sorts on.
+  //      If the most recent watch was a rewatch → "Rewatched <date>";
+  //      if not, the latest watch is the first one → "First watched".
+  //      An earlier rule always said "First watched <oldest date>" on
+  //      a film with a rewatch, so a film rewatched this week sat at
+  //      the top of the grid labelled with a date weeks older than its
+  //      neighbours, and the card read as misplaced. The first-watch
+  //      date is still listed on the film's own page.
+  //      This also covers a film whose every entry is a rewatch (the
+  //      original watch was never logged): it reads "Rewatched".
+  const latestEntries = film.reviews.filter(
+    (r) => r.watchedDate === film.latestWatchedDate,
+  );
+  const latestIsRewatch =
+    latestEntries.length > 0 && latestEntries.every((r) => r.rewatch);
   let datelineLabel: string;
   let datelineDate: string;
   if (applied.perReviewFilterActive && applied.qualifyingReview) {
     datelineLabel = "Watched";
     datelineDate = applied.qualifyingReview.watchedDate;
-  } else if (allRewatches) {
+  } else if (latestIsRewatch) {
     datelineLabel = "Rewatched";
-    datelineDate = film.reviews[0].watchedDate;
+    datelineDate = film.latestWatchedDate;
   } else {
     datelineLabel = "First watched";
     datelineDate = film.firstWatchedDate;

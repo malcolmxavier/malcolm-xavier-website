@@ -244,7 +244,9 @@ export async function generateMetadata({
   };
 }
 
-// 24 — same divisor logic as /films (clean 1/2/3/4/6 columns).
+// 24, and 12 under Save-Data—same divisor logic as /films: both
+// divide evenly into the 2, 3, 4, and 6 columns the grid's fixed ramp
+// produces (REVIEW_GRID_CLASS in components/feeds/review-grid.ts).
 const PAGE_SIZE_DEFAULT = 24;
 const PAGE_SIZE_SAVE_DATA = 12;
 

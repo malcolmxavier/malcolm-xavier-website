@@ -22,11 +22,14 @@
 
 import { describe, expect, it } from "vitest";
 import {
+  countFilmsFirstWatchedInYear,
   isFirstWatch as isFirstFilmWatch,
   makeReviewFilter,
   type Review as FilmReview,
 } from "../letterboxd-utils";
 import {
+  countSeasonsFirstWatchedInYear,
+  firstWatchesInYearByMode,
   isFirstWatch as isFirstShowWatch,
   makeShowReviewFilter,
   type Review as ShowReview,
@@ -391,6 +394,127 @@ describe("computeTvStats — grain against the committed fixtures", () => {
     );
     expect(stats.lifetime.thisYear).toBe(
       allSeasonWatchesThisYear.length - rewatchedSeasonsThisYear.length,
+    );
+  });
+});
+
+// ─── Landing ↔ dashboard parity ───────────────────────────────────
+//
+// The /films and /television landings show “{n} in {year}” beside a
+// link into the stats dashboards, which show their own “new this year”.
+// Both now read the same helpers, so these tests pin two things: the
+// helpers exclude rewatches, and each dashboard's number IS the helper's
+// number (so the landing, which calls the helper directly, can't drift).
+
+describe("countFilmsFirstWatchedInYear — the shared “films in {year}” count", () => {
+  const films = [
+    // New this year.
+    { reviews: [filmReview({ watchedDate: "2026-03-01" })] },
+    // Old favourite rewatched this year — belongs to 2024, not 2026.
+    {
+      reviews: [
+        filmReview({ watchedDate: "2024-05-01" }),
+        filmReview({ watchedDate: "2026-04-01", rewatch: true }),
+      ],
+    },
+    // Only logged watch is a rewatch this year — belongs to no year.
+    { reviews: [filmReview({ watchedDate: "2026-06-01", rewatch: true })] },
+    // Two first-watch entries straddling the boundary — the earliest wins.
+    {
+      reviews: [
+        filmReview({ watchedDate: "2026-02-01" }),
+        filmReview({ watchedDate: "2025-12-20" }),
+      ],
+    },
+  ];
+
+  it("counts a film only in the year it was first watched", () => {
+    expect(countFilmsFirstWatchedInYear(films, 2026)).toBe(1);
+    expect(countFilmsFirstWatchedInYear(films, 2025)).toBe(1);
+    expect(countFilmsFirstWatchedInYear(films, 2024)).toBe(1);
+  });
+
+  it("never counts a film whose only watch this year is a rewatch", () => {
+    const rewatchOnly = [films[2]];
+    expect(countFilmsFirstWatchedInYear(rewatchOnly, 2026)).toBe(0);
+    const rewatchedFavourite = [films[1]];
+    expect(countFilmsFirstWatchedInYear(rewatchedFavourite, 2026)).toBe(0);
+  });
+
+  it("honours a review filter (the dashboard's filtered path)", () => {
+    // Drop every 2026 review: nothing can be new in 2026 any more.
+    const no2026 = (r: FilmReview) => !r.watchedDate.startsWith("2026");
+    expect(countFilmsFirstWatchedInYear(films, 2026, no2026)).toBe(0);
+  });
+});
+
+describe("firstWatchesInYearByMode — the /television landing counts", () => {
+  const plain = {
+    isMiniseries: false,
+    reviews: [
+      showReview({ level: "season", watchedDate: "2026-02-01", rating: 4 }),
+      // A rewatched season this year — must not count or move the average.
+      showReview({ level: "season", watchedDate: "2026-03-01", rating: 1, isRewatch: true }),
+      showReview({ level: "episode", watchedDate: "2026-02-02", rating: 5 }),
+      showReview({ level: "episode", watchedDate: "2026-02-03", isRewatch: true }),
+      // Last year's season — not this year's.
+      showReview({ level: "season", watchedDate: "2025-11-01" }),
+    ],
+  };
+
+  it("excludes rewatches from every mode's count and average", () => {
+    const { counts, averages } = firstWatchesInYearByMode([plain], 2026);
+    expect(counts).toEqual({ show: 0, season: 1, episode: 1 });
+    expect(averages.season).toBe(4);
+    expect(averages.episode).toBe(5);
+    expect(averages.show).toBeNull();
+  });
+
+  it("matches the dashboard's season count for the same shows", () => {
+    // No miniseries in play, so the two surfaces count the same set.
+    const { counts } = firstWatchesInYearByMode([plain], 2026);
+    expect(counts.season).toBe(countSeasonsFirstWatchedInYear([plain], 2026));
+  });
+
+  it("a show whose only watch this year is a rewatch adds nothing", () => {
+    const rewatchOnly = {
+      isMiniseries: false,
+      reviews: [
+        showReview({ level: "season", watchedDate: "2026-05-01", isRewatch: true }),
+      ],
+    };
+    const { counts } = firstWatchesInYearByMode([rewatchOnly], 2026);
+    expect(counts).toEqual({ show: 0, season: 0, episode: 0 });
+    expect(countSeasonsFirstWatchedInYear([rewatchOnly], 2026)).toBe(0);
+  });
+
+  it("keeps the miniseries double-count rule, the one known divergence", () => {
+    // A Show review on a miniseries counts as a Season on the landing (the
+    // locked double-count rule) but the dashboard reads season-level
+    // reviews only. Pinned so the gap is a documented choice, not drift.
+    const mini = {
+      isMiniseries: true,
+      reviews: [showReview({ level: "show", watchedDate: "2026-07-01" })],
+    };
+    const { counts } = firstWatchesInYearByMode([mini], 2026);
+    expect(counts).toEqual({ show: 1, season: 1, episode: 0 });
+    expect(countSeasonsFirstWatchedInYear([mini], 2026)).toBe(0);
+  });
+});
+
+describe("landing ↔ dashboard wiring against the committed fixtures", () => {
+  const year = new Date().getUTCFullYear();
+
+  it("the /films landing count is the dashboard's “new this year”", () => {
+    // app/films/page.tsx calls exactly this, on exactly this corpus.
+    expect(countFilmsFirstWatchedInYear(getFilms().films, year)).toBe(
+      computeFilmStats().lifetime.thisYear,
+    );
+  });
+
+  it("the dashboard's TV “new this year” is the shared season count", () => {
+    expect(countSeasonsFirstWatchedInYear(getShows().shows, year)).toBe(
+      computeTvStats().lifetime.thisYear,
     );
   });
 });

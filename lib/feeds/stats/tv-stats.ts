@@ -22,6 +22,7 @@
 import { getShowsWithEnrichment } from "../review-corpus";
 import {
   applyShowFilters,
+  countSeasonsFirstWatchedInYear,
   isFirstWatch,
   makeShowReviewFilter,
   summarizeShows,
@@ -358,18 +359,21 @@ export function computeTvStats(filters?: ShowFilters): TvStats {
   // /films counts titles because a film has no season grain; the shared rule
   // is "count first watches of the unit," and the unit differs by cluster.
   //
-  // Reads `seasonDates`, so it is the same event set the cadence tiles plot
-  // — one definition, no chance of the headline and the charts disagreeing.
+  // Same event set the cadence tiles plot (season level, first watch, inside
+  // the active filters), counted through `countSeasonsFirstWatchedInYear`,
+  // whose `isFirstWatchInYear` test the /television landing shares—so a
+  // rewatch can't count on one surface and not the other.
   //
   // Computed here rather than in `summarizeShows` because the persisted
   // summary is written by the refresh scripts (a separate implementation),
   // so the unfiltered page would read the old number while the filtered path
   // recomputed. Computing live keeps both paths on one definition and drops
   // the staleness of a count baked at cron-write time.
-  const currentYear = String(new Date().getUTCFullYear());
-  const newSeasonsThisYear = seasonDates.filter((d) =>
-    d.startsWith(currentYear),
-  ).length;
+  const newSeasonsThisYear = countSeasonsFirstWatchedInYear(
+    snapShows,
+    new Date().getUTCFullYear(),
+    reviewMatchesFilters,
+  );
 
   const byLevel = summary.ratingDistributionByLevel;
 

@@ -41,6 +41,7 @@ import {
   getFilmByLetterboxdSlug,
   filmListCoverPosters,
 } from "@/lib/feeds/letterboxd";
+import { countFilmsFirstWatchedInYear } from "@/lib/feeds/letterboxd-utils";
 import { orderForTeaser } from "@/lib/feeds/list-taxonomy";
 import { Link } from "@/components/primitives/Link";
 import { ShareBar } from "@/components/share/ShareBar";
@@ -118,14 +119,16 @@ export default function FilmsLandingPage() {
   const recent = films.slice(0, NOW_COUNT);
   const featured = getFilmFeaturedPick();
 
-  // Films watched this calendar year — for the StatsBand's lead line.
-  // Derived at request time (not from summary's snapshot-frozen count)
-  // so the "{n} in {year}" figure tracks `new Date()` and can't go stale
-  // across the Jan 1 boundary before the next snapshot refresh.
+  // Films NEW to Malcolm this calendar year—for the StatsBand's lead
+  // line. Uses the same helper as the /films/stats “new this year” tile,
+  // so the two numbers can never disagree: a film counts in the year of
+  // its earliest first watch, and a rewatch never pulls an old film into
+  // this year. Derived at request time (not from summary's
+  // snapshot-frozen count) so the "{n} in {year}" figure tracks
+  // `new Date()` and can't go stale across the Jan 1 boundary before the
+  // next snapshot refresh.
   const currentYear = new Date().getUTCFullYear();
-  const currentYearCount = films.filter((f) =>
-    f.watchedYearSet.includes(currentYear),
-  ).length;
+  const currentYearCount = countFilmsFirstWatchedInYear(films, currentYear);
   // Routable franchise collections — drives the "Collections" landing teaser
   // and its link to the core /films/collections page. Reads the enriched
   // corpus (collection membership lives in the enrichment fixture).

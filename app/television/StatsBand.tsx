@@ -50,7 +50,8 @@ type Mode = "season" | "show" | "episode";
 type Props = {
   summary: TvSummary;
   /**
-   * Per-level counts of reviews logged in the current calendar year,
+   * Per-level counts of FIRST-watch reviews logged in the current
+   * calendar year (rewatches excluded, same test as /television/stats),
    * derived at request time in page.tsx (so they track `new Date()` and
    * stay correct across the year boundary). Both maps apply the
    * miniseries double-count rule (see lib/feeds/serializd-mode-counts.mjs)
@@ -58,7 +59,8 @@ type Props = {
    */
   currentYearByLevel: { show: number; season: number; episode: number };
   /**
-   * Per-mode average rating across reviews logged this year. Null when a
+   * Per-mode average rating across the same first-watch reviews the
+   * count above covers. Null when a
    * mode has zero rated reviews this year — the in-year average is then
    * suppressed rather than rendering NaN★.
    */

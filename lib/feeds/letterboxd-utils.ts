@@ -81,6 +81,49 @@ export function isFirstWatch(review: Review): boolean {
   return !review.rewatch;
 }
 
+/**
+ * How many films were NEW to Malcolm in `year`—the single definition of
+ * “films in {year}” shared by the /films landing's StatsBand and the
+ * /films/stats dashboard's “new this year” tile, so the two numbers can
+ * never disagree.
+ *
+ * A film belongs to the year of its EARLIEST first watch. Rewatching an
+ * old favourite doesn't pull it into this year, and a film whose only
+ * logged watch is a rewatch belongs to no year at all. The count is per
+ * TITLE, not per watch event.
+ *
+ * `reviewMatches` narrows which reviews are considered—the dashboard
+ * passes its active filters (`makeReviewFilter`), the landing passes
+ * nothing, which considers every review.
+ */
+export function countFilmsFirstWatchedInYear(
+  films: Pick<Film, "reviews">[],
+  year: number,
+  reviewMatches: (review: Review) => boolean = () => true,
+): number {
+  let count = 0;
+  for (const film of films) {
+    // Earliest qualifying first watch = the moment this film became new
+    // to him. Dates are day-precision ISO (YYYY-MM-DD), so a plain string
+    // comparison is chronological.
+    let discoveredOn: string | null = null;
+    for (const review of film.reviews || []) {
+      if (!reviewMatches(review)) continue;
+      if (!isFirstWatch(review) || !review.watchedDate) continue;
+      if (discoveredOn === null || review.watchedDate < discoveredOn) {
+        discoveredOn = review.watchedDate;
+      }
+    }
+    if (
+      discoveredOn !== null &&
+      Number.parseInt(discoveredOn.slice(0, 4), 10) === year
+    ) {
+      count++;
+    }
+  }
+  return count;
+}
+
 export type TmdbMeta = {
   /** TMDB movie id. Sticky across refreshes once resolved — used as canonical join key for the Film. */
   id: number;

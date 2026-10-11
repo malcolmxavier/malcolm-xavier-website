@@ -116,6 +116,94 @@ export function isFirstWatch(review: Review): boolean {
   return !review.isRewatch;
 }
 
+/**
+ * True when a review is a FIRST watch logged in `year`—the shared “new
+ * in {year}” test for television. Both the /television landing's
+ * per-mode counts and the /television/stats “seasons watched for the
+ * first time this year” figure go through it, so a rewatch can never
+ * count on one surface and not the other.
+ */
+export function isFirstWatchInYear(review: Review, year: number): boolean {
+  return (
+    isFirstWatch(review) &&
+    Boolean(review.watchedDate) &&
+    review.watchedDate.startsWith(String(year))
+  );
+}
+
+/**
+ * Seasons watched for the first time in `year`—the /television/stats
+ * dashboard's headline “new this year” count. One per season-level
+ * review, rewatches excluded. `reviewMatches` narrows to the dashboard's
+ * active filters; omitted, every review is considered.
+ */
+export function countSeasonsFirstWatchedInYear(
+  shows: Pick<Show, "reviews">[],
+  year: number,
+  reviewMatches: (review: Review) => boolean = () => true,
+): number {
+  let count = 0;
+  for (const show of shows) {
+    for (const r of show.reviews || []) {
+      if (r.level === "season" && isFirstWatchInYear(r, year) && reviewMatches(r)) {
+        count++;
+      }
+    }
+  }
+  return count;
+}
+
+/** One number per landing scope toggle: Shows, Seasons, Episodes. */
+export type PerMode<T> = { show: T; season: T; episode: T };
+
+/**
+ * The /television landing's “{n} in {year}” counts and in-year average
+ * ratings, one per scope toggle (Shows, Seasons, Episodes).
+ *
+ * Counts FIRST watches only, through the same `isFirstWatchInYear` test
+ * the stats dashboard uses, so a rewatch logged this year no longer
+ * inflates the landing. The average covers the same reviews as the
+ * count, so the “{n} in {year}” and “{avg}★ in {year}” pair always
+ * describe one set.
+ *
+ * Each review is routed through `modesForReview`, which applies the
+ * locked miniseries double-count rule (a Show review on a miniseries
+ * also counts as a Season, and vice versa)—the same rule the lifetime
+ * totals beside these numbers follow. That rule is the one way the
+ * Seasons figure here can differ from the dashboard's season count,
+ * which reads season-level reviews only.
+ */
+export function firstWatchesInYearByMode(
+  shows: Pick<Show, "reviews" | "isMiniseries">[],
+  year: number,
+): { counts: PerMode<number>; averages: PerMode<number | null> } {
+  const counts: PerMode<number> = { show: 0, season: 0, episode: 0 };
+  const ratingSums: PerMode<number> = { show: 0, season: 0, episode: 0 };
+  const ratingCounts: PerMode<number> = { show: 0, season: 0, episode: 0 };
+  for (const show of shows) {
+    for (const r of show.reviews || []) {
+      if (!isFirstWatchInYear(r, year)) continue;
+      // Don't increment counts[r.level] directly—that bypasses the
+      // miniseries double-count rule.
+      for (const mode of modesForReview(r.level, show.isMiniseries)) {
+        counts[mode]++;
+        if (r.rating !== null) {
+          ratingSums[mode] += r.rating;
+          ratingCounts[mode]++;
+        }
+      }
+    }
+  }
+  // A mode with no rated reviews this year has no average (null), so the
+  // band never renders NaN★.
+  const avg = (mode: keyof PerMode<number>) =>
+    ratingCounts[mode] > 0 ? ratingSums[mode] / ratingCounts[mode] : null;
+  return {
+    counts,
+    averages: { show: avg("show"), season: avg("season"), episode: avg("episode") },
+  };
+}
+
 export type Season = {
   /**
    * Serializd's seasonId. Verified to equal TMDB's seasonId (the
