@@ -1,30 +1,30 @@
 {
-  "capturedAt": "2026-10-11T04:00:47.935Z",
+  "capturedAt": "2026-10-11T05:00:46.424Z",
   "summary": {
-    "totalFilms": 829,
-    "totalReviews": 831,
+    "totalFilms": 838,
+    "totalReviews": 841,
     "ratingDistribution": {
       "1": 40,
-      "2": 134,
-      "3": 157,
-      "4": 114,
+      "2": 136,
+      "3": 159,
+      "4": 116,
       "5": 16,
-      "4.5": 54,
-      "3.5": 162,
+      "3.5": 165,
+      "4.5": 55,
       "2.5": 105,
       "1.5": 39,
       "0.5": 10
     },
     "genreDistribution": {
-      "Drama": 385,
-      "Thriller": 243,
-      "Science Fiction": 137,
-      "Adventure": 98,
-      "Action": 136,
-      "Crime": 113,
+      "Science Fiction": 140,
+      "Crime": 115,
+      "Mystery": 88,
+      "Thriller": 247,
+      "Drama": 390,
+      "Comedy": 237,
+      "Action": 138,
+      "Adventure": 99,
       "Horror": 138,
-      "Mystery": 86,
-      "Comedy": 234,
       "Family": 22,
       "Romance": 93,
       "Fantasy": 62,
@@ -37,8 +37,8 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 615,
-      "2010s": 140,
+      "2010s": 143,
+      "2020s": 621,
       "2000s": 36,
       "1990s": 17,
       "1980s": 16,
@@ -47,6 +47,140 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-396806",
+      "letterboxdSlug": "anon",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/anon/",
+      "title": "Anon",
+      "releaseYear": 2018,
+      "firstWatchedDate": "2026-10-10",
+      "latestWatchedDate": "2026-10-10",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532620476",
+          "watchedDate": "2026-10-10",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Threatening aura with no teeth.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 396806,
+        "posterPath": "/xhBTO9n3fxy3HJt7WlR9h9vvVmk.jpg",
+        "backdropPath": "/uugcOIfnh8Gz0nxUbduWCoxjWct.jpg",
+        "genres": [
+          "Science Fiction",
+          "Crime",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 100,
+        "director": "Andrew Niccol"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/xhBTO9n3fxy3HJt7WlR9h9vvVmk.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/xhBTO9n3fxy3HJt7WlR9h9vvVmk.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1236045",
+      "letterboxdSlug": "animals",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/animals-2026/",
+      "title": "Animals",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-09",
+      "latestWatchedDate": "2026-10-09",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532619602",
+          "watchedDate": "2026-10-09",
+          "reviewDate": "2026-10-11",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Gillian Anderson speaking so little and doing circles around this cast is so sick! Was this just an excuse for Ben to speak Spanish?",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1236045,
+        "posterPath": "/cyltXU1lAGhRFBuHQIMWBAPj8fI.jpg",
+        "backdropPath": "/tzoarEu7TsG959upiELyYPm5kO9.jpg",
+        "genres": [
+          "Thriller",
+          "Drama"
+        ],
+        "runtime": 106,
+        "director": "Ben Affleck"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/cyltXU1lAGhRFBuHQIMWBAPj8fI.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/cyltXU1lAGhRFBuHQIMWBAPj8fI.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1381221",
+      "letterboxdSlug": "misty-green",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/misty-green/",
+      "title": "Misty Green",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-08",
+      "latestWatchedDate": "2026-10-08",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532617946",
+          "watchedDate": "2026-10-08",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I was very distracted by how gorgeous Rosalind Eleazar is. The meta jokes embedded within such a dark plot were enjoyable. But I wonder if there’s a way we can just stick to telling dramas that center women without it somehow boomeranging back to being concerned with men, especially when regarding Black women. That ending brought the rating down for me, unfortunately.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1381221,
+        "posterPath": "/dUFtfnSfUK5IUfC5XMlMEY36EAp.jpg",
+        "backdropPath": "/vb8ynrTs7xp7gaEIplf0zcjJZeh.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "runtime": 103,
+        "director": "Chris Rock"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/dUFtfnSfUK5IUfC5XMlMEY36EAp.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dUFtfnSfUK5IUfC5XMlMEY36EAp.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1375441",
       "letterboxdSlug": "primetime",
@@ -102,6 +236,283 @@
       ]
     },
     {
+      "id": "tmdb-1248832",
+      "letterboxdSlug": "digger",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/digger-2026/1/",
+      "title": "Digger",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-05",
+      "latestWatchedDate": "2026-10-06",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532614822",
+          "watchedDate": "2026-10-06",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "A rare revision down because I put my finger on what annoyed me. For all the playing with what is the film and what is the play within the film, the cinematography doesn’t really provide reason behind which parts are shot to communicate which way we’re supposed to watch each scene. Also, I questioned if AI was used or if there was just poor editing in the details. For example, the time shown on the video calls don’t line up to the timeline presented in the dialogue. Costumers knocked it out of the park and the play script itself was amazing—I need a full production to be mounted yesterday. It gave me <i>Jerusalem</i> vibes, in a way.",
+          "tags": []
+        },
+        {
+          "guid": "letterboxd-review-1532604260",
+          "watchedDate": "2026-10-05",
+          "reviewDate": "2026-10-11",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "What a thrill. There’s something missing in it for me, but I’m also racing to watch this again. I understand why it’s polarizing, but the theatre kid in me had a ball.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1248832,
+        "posterPath": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg",
+        "backdropPath": "/b7t3r39Oll5qPxBKzLZ8eHMBD7l.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "runtime": 129,
+        "director": "Alejandro G. Iñárritu"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg",
+      "ratingSet": [
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-194662",
+      "letterboxdSlug": "birdman-or-the-unexpected-virtue-of-ignorance",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/birdman-or-the-unexpected-virtue-of-ignorance/",
+      "title": "Birdman or (The Unexpected Virtue of Ignorance)",
+      "releaseYear": 2014,
+      "firstWatchedDate": "2026-10-05",
+      "latestWatchedDate": "2026-10-05",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532608420",
+          "watchedDate": "2026-10-05",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I never knew what this was about and didn’t even realize I was watching a film by Alejandro Iñárritu until it was done. I can see where he improved upon this idea of a story about storytelling in <i>Digger</i>.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 194662,
+        "posterPath": "/rHUg2AuIuLSIYMYFgavVwqt1jtc.jpg",
+        "backdropPath": "/s0OrExdg7i3RLR7oqzHRk4q2kL4.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "runtime": 120,
+        "director": "Alejandro G. Iñárritu"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/rHUg2AuIuLSIYMYFgavVwqt1jtc.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/rHUg2AuIuLSIYMYFgavVwqt1jtc.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1492640",
+      "letterboxdSlug": "unabomber",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/unabomber-2026/",
+      "title": "Unabomber",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-05",
+      "latestWatchedDate": "2026-10-05",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532605852",
+          "watchedDate": "2026-10-05",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I want Jacob Tremblay in better projects than this.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1492640,
+        "posterPath": "/39aMkR8Y5vhCG9dTkjiqRl8AVqp.jpg",
+        "backdropPath": "/58D9nalUYW5L5K0guw7hcpsEJBH.jpg",
+        "genres": [
+          "Thriller",
+          "Drama",
+          "Crime"
+        ],
+        "runtime": 101,
+        "director": "Janus Metz"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/39aMkR8Y5vhCG9dTkjiqRl8AVqp.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/39aMkR8Y5vhCG9dTkjiqRl8AVqp.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1283515",
+      "letterboxdSlug": "verity",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/verity-2026/",
+      "title": "Verity",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-01",
+      "latestWatchedDate": "2026-10-01",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532602166",
+          "watchedDate": "2026-10-01",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Why is everyone so afraid of a little campy fun?",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1283515,
+        "posterPath": "/zPHfsaiMZT1HNz1ZS55iyLKZkFG.jpg",
+        "backdropPath": "/3BoHXmGAfC2qO4wnCpMYV0BzpHD.jpg",
+        "genres": [
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 114,
+        "director": "Michael Showalter"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/zPHfsaiMZT1HNz1ZS55iyLKZkFG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/zPHfsaiMZT1HNz1ZS55iyLKZkFG.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-695721",
+      "letterboxdSlug": "the-hunger-games-the-ballad-of-songbirds-snakes",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games-the-ballad-of-songbirds-snakes/",
+      "title": "The Hunger Games: The Ballad of Songbirds & Snakes",
+      "releaseYear": 2023,
+      "firstWatchedDate": "2026-09-29",
+      "latestWatchedDate": "2026-09-29",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532599798",
+          "watchedDate": "2026-09-29",
+          "reviewDate": "2026-10-11",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Not the actual ballads chile…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 695721,
+        "posterPath": "/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",
+        "backdropPath": "/bk1TitfD4YIGrM6AvljonMCtfnl.jpg",
+        "genres": [
+          "Science Fiction",
+          "Action"
+        ],
+        "runtime": 157,
+        "director": "Francis Lawrence"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-131634",
+      "letterboxdSlug": "the-hunger-games-mockingjay-part-2",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games-mockingjay-part-2/",
+      "title": "The Hunger Games: Mockingjay – Part 2",
+      "releaseYear": 2015,
+      "firstWatchedDate": "2026-09-29",
+      "latestWatchedDate": "2026-09-29",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532598032",
+          "watchedDate": "2026-09-29",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "First time actually finishing the series. So bleak. It really is like this though. Power corrupts so much.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 131634,
+        "posterPath": "/lImKHDfExAulp16grYm8zD5eONE.jpg",
+        "backdropPath": "/qVgLMRVNB5bHU0inmRa0ueShacN.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 137,
+        "director": "Francis Lawrence"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/lImKHDfExAulp16grYm8zD5eONE.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lImKHDfExAulp16grYm8zD5eONE.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
       "id": "tmdb-131631",
       "letterboxdSlug": "the-hunger-games-mockingjay-part-1",
       "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games-mockingjay-part-1/",
@@ -119,7 +530,7 @@
           "watchedDate": "2026-09-29",
           "reviewDate": "2026-10-11",
           "rating": 3.5,
-          "rewatch": false,
+          "rewatch": true,
           "containsSpoilers": false,
           "reviewText": "A chilling reflection of current society all these years later.",
           "tags": []
@@ -36161,6 +36572,140 @@
     }
   ],
   "filmById": {
+    "tmdb-396806": {
+      "id": "tmdb-396806",
+      "letterboxdSlug": "anon",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/anon/",
+      "title": "Anon",
+      "releaseYear": 2018,
+      "firstWatchedDate": "2026-10-10",
+      "latestWatchedDate": "2026-10-10",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532620476",
+          "watchedDate": "2026-10-10",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Threatening aura with no teeth.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 396806,
+        "posterPath": "/xhBTO9n3fxy3HJt7WlR9h9vvVmk.jpg",
+        "backdropPath": "/uugcOIfnh8Gz0nxUbduWCoxjWct.jpg",
+        "genres": [
+          "Science Fiction",
+          "Crime",
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 100,
+        "director": "Andrew Niccol"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/xhBTO9n3fxy3HJt7WlR9h9vvVmk.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/xhBTO9n3fxy3HJt7WlR9h9vvVmk.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1236045": {
+      "id": "tmdb-1236045",
+      "letterboxdSlug": "animals",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/animals-2026/",
+      "title": "Animals",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-09",
+      "latestWatchedDate": "2026-10-09",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532619602",
+          "watchedDate": "2026-10-09",
+          "reviewDate": "2026-10-11",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Gillian Anderson speaking so little and doing circles around this cast is so sick! Was this just an excuse for Ben to speak Spanish?",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1236045,
+        "posterPath": "/cyltXU1lAGhRFBuHQIMWBAPj8fI.jpg",
+        "backdropPath": "/tzoarEu7TsG959upiELyYPm5kO9.jpg",
+        "genres": [
+          "Thriller",
+          "Drama"
+        ],
+        "runtime": 106,
+        "director": "Ben Affleck"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/cyltXU1lAGhRFBuHQIMWBAPj8fI.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/cyltXU1lAGhRFBuHQIMWBAPj8fI.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1381221": {
+      "id": "tmdb-1381221",
+      "letterboxdSlug": "misty-green",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/misty-green/",
+      "title": "Misty Green",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-08",
+      "latestWatchedDate": "2026-10-08",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532617946",
+          "watchedDate": "2026-10-08",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I was very distracted by how gorgeous Rosalind Eleazar is. The meta jokes embedded within such a dark plot were enjoyable. But I wonder if there’s a way we can just stick to telling dramas that center women without it somehow boomeranging back to being concerned with men, especially when regarding Black women. That ending brought the rating down for me, unfortunately.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1381221,
+        "posterPath": "/dUFtfnSfUK5IUfC5XMlMEY36EAp.jpg",
+        "backdropPath": "/vb8ynrTs7xp7gaEIplf0zcjJZeh.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "runtime": 103,
+        "director": "Chris Rock"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/dUFtfnSfUK5IUfC5XMlMEY36EAp.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/dUFtfnSfUK5IUfC5XMlMEY36EAp.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1375441": {
       "id": "tmdb-1375441",
       "letterboxdSlug": "primetime",
@@ -36215,6 +36760,283 @@
         2026
       ]
     },
+    "tmdb-1248832": {
+      "id": "tmdb-1248832",
+      "letterboxdSlug": "digger",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/digger-2026/1/",
+      "title": "Digger",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-05",
+      "latestWatchedDate": "2026-10-06",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532614822",
+          "watchedDate": "2026-10-06",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": true,
+          "containsSpoilers": false,
+          "reviewText": "A rare revision down because I put my finger on what annoyed me. For all the playing with what is the film and what is the play within the film, the cinematography doesn’t really provide reason behind which parts are shot to communicate which way we’re supposed to watch each scene. Also, I questioned if AI was used or if there was just poor editing in the details. For example, the time shown on the video calls don’t line up to the timeline presented in the dialogue. Costumers knocked it out of the park and the play script itself was amazing—I need a full production to be mounted yesterday. It gave me <i>Jerusalem</i> vibes, in a way.",
+          "tags": []
+        },
+        {
+          "guid": "letterboxd-review-1532604260",
+          "watchedDate": "2026-10-05",
+          "reviewDate": "2026-10-11",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "What a thrill. There’s something missing in it for me, but I’m also racing to watch this again. I understand why it’s polarizing, but the theatre kid in me had a ball.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1248832,
+        "posterPath": "/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg",
+        "backdropPath": "/b7t3r39Oll5qPxBKzLZ8eHMBD7l.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "runtime": 129,
+        "director": "Alejandro G. Iñárritu"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/1ATXKrIPJyKNwnJ6lcG088Sa6zi.jpg",
+      "ratingSet": [
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-194662": {
+      "id": "tmdb-194662",
+      "letterboxdSlug": "birdman-or-the-unexpected-virtue-of-ignorance",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/birdman-or-the-unexpected-virtue-of-ignorance/",
+      "title": "Birdman or (The Unexpected Virtue of Ignorance)",
+      "releaseYear": 2014,
+      "firstWatchedDate": "2026-10-05",
+      "latestWatchedDate": "2026-10-05",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532608420",
+          "watchedDate": "2026-10-05",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I never knew what this was about and didn’t even realize I was watching a film by Alejandro Iñárritu until it was done. I can see where he improved upon this idea of a story about storytelling in <i>Digger</i>.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 194662,
+        "posterPath": "/rHUg2AuIuLSIYMYFgavVwqt1jtc.jpg",
+        "backdropPath": "/s0OrExdg7i3RLR7oqzHRk4q2kL4.jpg",
+        "genres": [
+          "Drama",
+          "Comedy"
+        ],
+        "runtime": 120,
+        "director": "Alejandro G. Iñárritu"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/rHUg2AuIuLSIYMYFgavVwqt1jtc.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/rHUg2AuIuLSIYMYFgavVwqt1jtc.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1492640": {
+      "id": "tmdb-1492640",
+      "letterboxdSlug": "unabomber",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/unabomber-2026/",
+      "title": "Unabomber",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-05",
+      "latestWatchedDate": "2026-10-05",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532605852",
+          "watchedDate": "2026-10-05",
+          "reviewDate": "2026-10-11",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I want Jacob Tremblay in better projects than this.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1492640,
+        "posterPath": "/39aMkR8Y5vhCG9dTkjiqRl8AVqp.jpg",
+        "backdropPath": "/58D9nalUYW5L5K0guw7hcpsEJBH.jpg",
+        "genres": [
+          "Thriller",
+          "Drama",
+          "Crime"
+        ],
+        "runtime": 101,
+        "director": "Janus Metz"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/39aMkR8Y5vhCG9dTkjiqRl8AVqp.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/39aMkR8Y5vhCG9dTkjiqRl8AVqp.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1283515": {
+      "id": "tmdb-1283515",
+      "letterboxdSlug": "verity",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/verity-2026/",
+      "title": "Verity",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-01",
+      "latestWatchedDate": "2026-10-01",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532602166",
+          "watchedDate": "2026-10-01",
+          "reviewDate": "2026-10-11",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Why is everyone so afraid of a little campy fun?",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1283515,
+        "posterPath": "/zPHfsaiMZT1HNz1ZS55iyLKZkFG.jpg",
+        "backdropPath": "/3BoHXmGAfC2qO4wnCpMYV0BzpHD.jpg",
+        "genres": [
+          "Mystery",
+          "Thriller"
+        ],
+        "runtime": 114,
+        "director": "Michael Showalter"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/zPHfsaiMZT1HNz1ZS55iyLKZkFG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/zPHfsaiMZT1HNz1ZS55iyLKZkFG.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-695721": {
+      "id": "tmdb-695721",
+      "letterboxdSlug": "the-hunger-games-the-ballad-of-songbirds-snakes",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games-the-ballad-of-songbirds-snakes/",
+      "title": "The Hunger Games: The Ballad of Songbirds & Snakes",
+      "releaseYear": 2023,
+      "firstWatchedDate": "2026-09-29",
+      "latestWatchedDate": "2026-09-29",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532599798",
+          "watchedDate": "2026-09-29",
+          "reviewDate": "2026-10-11",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Not the actual ballads chile…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 695721,
+        "posterPath": "/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",
+        "backdropPath": "/bk1TitfD4YIGrM6AvljonMCtfnl.jpg",
+        "genres": [
+          "Science Fiction",
+          "Action"
+        ],
+        "runtime": 157,
+        "director": "Francis Lawrence"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/mBaXZ95R2OxueZhvQbcEWy2DqyO.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-131634": {
+      "id": "tmdb-131634",
+      "letterboxdSlug": "the-hunger-games-mockingjay-part-2",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-hunger-games-mockingjay-part-2/",
+      "title": "The Hunger Games: Mockingjay – Part 2",
+      "releaseYear": 2015,
+      "firstWatchedDate": "2026-09-29",
+      "latestWatchedDate": "2026-09-29",
+      "firstReviewDate": "2026-10-11",
+      "latestReviewDate": "2026-10-11",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1532598032",
+          "watchedDate": "2026-09-29",
+          "reviewDate": "2026-10-11",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "First time actually finishing the series. So bleak. It really is like this though. Power corrupts so much.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 131634,
+        "posterPath": "/lImKHDfExAulp16grYm8zD5eONE.jpg",
+        "backdropPath": "/qVgLMRVNB5bHU0inmRa0ueShacN.jpg",
+        "genres": [
+          "Action",
+          "Adventure",
+          "Science Fiction"
+        ],
+        "runtime": 137,
+        "director": "Francis Lawrence"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/lImKHDfExAulp16grYm8zD5eONE.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lImKHDfExAulp16grYm8zD5eONE.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-131631": {
       "id": "tmdb-131631",
       "letterboxdSlug": "the-hunger-games-mockingjay-part-1",
@@ -36233,7 +37055,7 @@
           "watchedDate": "2026-09-29",
           "reviewDate": "2026-10-11",
           "rating": 3.5,
-          "rewatch": false,
+          "rewatch": true,
           "containsSpoilers": false,
           "reviewText": "A chilling reflection of current society all these years later.",
           "tags": []
