@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-10-11T06:45:38.021Z",
+  "capturedAt": "2026-10-11T07:45:37.679Z",
   "meta": {
-    "films": 832,
+    "films": 839,
     "shows": 167,
-    "collections": 80
+    "collections": 81
   },
   "films": {
     "18": {
@@ -22973,6 +22973,131 @@
       ],
       "collection": null
     },
+    "445466": {
+      "ratings": {
+        "imdb": 5.6,
+        "metacritic": 62,
+        "metacriticUser": 5.5,
+        "tomatoes": 64,
+        "rtAudience": 57,
+        "letterboxd": 2.8,
+        "trakt": 63
+      },
+      "studios": [
+        "Gramercy Park Entertainment",
+        "Peachtree Media Partners",
+        "Rough House Pictures",
+        "Cosmic Distribution",
+        "Bonneville Pictures",
+        "Newstar Financing",
+        "Three Point Capital",
+        "William Morris Entertainment"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": 1194626,
+      "cast": [
+        {
+          "id": 54697,
+          "name": "Dave Franco"
+        },
+        {
+          "id": 1371398,
+          "name": "O'Shea Jackson Jr."
+        },
+        {
+          "id": 2803710,
+          "name": "Mason Thames"
+        },
+        {
+          "id": 934289,
+          "name": "Kiernan Shipka"
+        },
+        {
+          "id": 22970,
+          "name": "Peter Dinklage"
+        },
+        {
+          "id": 85139,
+          "name": "Nicholas Braun"
+        },
+        {
+          "id": 156744,
+          "name": "Lynn Wanlass"
+        },
+        {
+          "id": 209513,
+          "name": "Macon Blair"
+        },
+        {
+          "id": 1477896,
+          "name": "Grace Junot"
+        },
+        {
+          "id": 1029854,
+          "name": "Lee Eddy"
+        },
+        {
+          "id": 2457170,
+          "name": "Melanie Loren"
+        },
+        {
+          "id": 2806735,
+          "name": "Najah Bradley"
+        },
+        {
+          "id": 1193151,
+          "name": "Killer Mike"
+        },
+        {
+          "id": 3741001,
+          "name": "Dana Elaine"
+        },
+        {
+          "id": 4510525,
+          "name": "Mark Helms"
+        },
+        {
+          "id": 2254587,
+          "name": "Jeffrey Wells"
+        },
+        {
+          "id": 86938,
+          "name": "Tim Ware"
+        },
+        {
+          "id": 3697838,
+          "name": "Judy McDowell"
+        },
+        {
+          "id": 2773176,
+          "name": "Shontelle Thrash"
+        },
+        {
+          "id": 4866794,
+          "name": "Kael Copeland"
+        }
+      ],
+      "writers": [
+        {
+          "id": 209513,
+          "name": "Macon Blair"
+        },
+        {
+          "id": 81334,
+          "name": "Alex Orr"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": 25
+      }
+    },
     "447365": {
       "ratings": {
         "imdb": 7.9,
@@ -31984,6 +32109,122 @@
         "gap": -219
       }
     },
+    "597891": {
+      "ratings": {
+        "imdb": 6.3,
+        "metacritic": 47,
+        "metacriticUser": 6,
+        "tomatoes": 45,
+        "rtAudience": 52,
+        "letterboxd": 2.9,
+        "trakt": 69
+      },
+      "studios": [
+        "Clubhouse Pictures",
+        "87North Productions",
+        "Screen Arcade"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 25000000,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 17628,
+          "name": "Mary Elizabeth Winstead"
+        },
+        {
+          "id": 2417570,
+          "name": "Miku Martineau"
+        },
+        {
+          "id": 57755,
+          "name": "Woody Harrelson"
+        },
+        {
+          "id": 13275,
+          "name": "Tadanobu Asano"
+        },
+        {
+          "id": 2541,
+          "name": "Jun Kunimura"
+        },
+        {
+          "id": 1391420,
+          "name": "MIYAVI"
+        },
+        {
+          "id": 91520,
+          "name": "Michiel Huisman"
+        },
+        {
+          "id": 2210389,
+          "name": "Mari Yamamoto"
+        },
+        {
+          "id": 3176961,
+          "name": "Hirotaka Renge"
+        },
+        {
+          "id": 1736757,
+          "name": "Kazuya Tanabe"
+        },
+        {
+          "id": 3231328,
+          "name": "Cindy Sirinya Bishop"
+        },
+        {
+          "id": 1538417,
+          "name": "Amelia Crouch"
+        },
+        {
+          "id": 2272457,
+          "name": "Ava Caryofyllis"
+        },
+        {
+          "id": 1494163,
+          "name": "Gemma Brooke Allen"
+        },
+        {
+          "id": 3298767,
+          "name": "Hiroyuki Kobayashi"
+        },
+        {
+          "id": 3030352,
+          "name": "Koji Nishiyama"
+        },
+        {
+          "id": 1692273,
+          "name": "Leigh Barwell"
+        },
+        {
+          "id": 141988,
+          "name": "Kazuhiro Muroyama"
+        },
+        {
+          "id": 1605917,
+          "name": "Shinji Uchiyama"
+        },
+        {
+          "id": 94392,
+          "name": "Byron Bishop"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1436975,
+          "name": "Umair Aleem"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "limited",
+        "wide": false,
+        "ltd": true,
+        "gap": 0
+      }
+    },
     "601666": {
       "ratings": {
         "imdb": 6.4,
@@ -33146,6 +33387,126 @@
         "wide": true,
         "ltd": false,
         "gap": null
+      }
+    },
+    "615457": {
+      "ratings": {
+        "imdb": 7.4,
+        "metacritic": 64,
+        "metacriticUser": 7.6,
+        "tomatoes": 83,
+        "rtAudience": 94,
+        "letterboxd": 3.5,
+        "trakt": 77
+      },
+      "studios": [
+        "Eighty Two Films",
+        "87North Productions",
+        "Odenkirk Provissiero Entertainment"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 16000000,
+      "revenue": 57512470,
+      "cast": [
+        {
+          "id": 59410,
+          "name": "Bob Odenkirk"
+        },
+        {
+          "id": 113332,
+          "name": "Aleksey Serebryakov"
+        },
+        {
+          "id": 935,
+          "name": "Connie Nielsen"
+        },
+        {
+          "id": 1062,
+          "name": "Christopher Lloyd"
+        },
+        {
+          "id": 11086,
+          "name": "Michael Ironside"
+        },
+        {
+          "id": 5414,
+          "name": "Colin Salmon"
+        },
+        {
+          "id": 150,
+          "name": "RZA"
+        },
+        {
+          "id": 63814,
+          "name": "Billy MacLellan"
+        },
+        {
+          "id": 1959472,
+          "name": "Araya Mengesha"
+        },
+        {
+          "id": 119251,
+          "name": "Gage Munroe"
+        },
+        {
+          "id": 2593447,
+          "name": "Paisley Cadorath"
+        },
+        {
+          "id": 1337737,
+          "name": "Aleksandr Pal"
+        },
+        {
+          "id": 1847915,
+          "name": "Humberly González"
+        },
+        {
+          "id": 1793734,
+          "name": "Edsson Morales"
+        },
+        {
+          "id": 88702,
+          "name": "J.P. Manoux"
+        },
+        {
+          "id": 1780955,
+          "name": "Adrian McLean"
+        },
+        {
+          "id": 1169024,
+          "name": "Ilya Naishuller"
+        },
+        {
+          "id": 107824,
+          "name": "Sergey Shnurov"
+        },
+        {
+          "id": 61170,
+          "name": "Joanne Rodriguez"
+        },
+        {
+          "id": 2154533,
+          "name": "Stephanie Sy"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1076800,
+          "name": "Derek Kolstad"
+        }
+      ],
+      "collection": {
+        "id": 1129084,
+        "name": "Nobody Collection",
+        "total": 2
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 21
       }
     },
     "615469": {
@@ -45092,6 +45453,124 @@
         }
       ],
       "collection": null
+    },
+    "860508": {
+      "ratings": {
+        "imdb": 6.2,
+        "metacritic": 52,
+        "metacriticUser": 4.9,
+        "tomatoes": 46,
+        "rtAudience": 37,
+        "letterboxd": 2.7,
+        "trakt": 69
+      },
+      "studios": [
+        "AGBO"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 50000000,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 380,
+          "name": "Robert De Niro"
+        },
+        {
+          "id": 11705,
+          "name": "Michelle Monaghan"
+        },
+        {
+          "id": 36801,
+          "name": "Adam Scott"
+        },
+        {
+          "id": 5374936,
+          "name": "Acston Luca Porto"
+        },
+        {
+          "id": 2232,
+          "name": "Michael Keaton"
+        },
+        {
+          "id": 1586047,
+          "name": "Owen Teague"
+        },
+        {
+          "id": 184581,
+          "name": "Hamish Linklater"
+        },
+        {
+          "id": 1136135,
+          "name": "Will Brill"
+        },
+        {
+          "id": 6023452,
+          "name": "Aniela Zeig"
+        },
+        {
+          "id": 6023465,
+          "name": "Exavier Montanez"
+        },
+        {
+          "id": 170963,
+          "name": "Randy Danson"
+        },
+        {
+          "id": 2256,
+          "name": "Robert Clohessy"
+        },
+        {
+          "id": 4342974,
+          "name": "Kimberlee Monroe"
+        },
+        {
+          "id": 2878213,
+          "name": "Alyse Alan Louis"
+        },
+        {
+          "id": 2014133,
+          "name": "Glenn Cunningham"
+        },
+        {
+          "id": 2469401,
+          "name": "James P. Harkins"
+        },
+        {
+          "id": 3813948,
+          "name": "Stewart Zamudio"
+        },
+        {
+          "id": 3130157,
+          "name": "Abdul L. Howard"
+        },
+        {
+          "id": 2302213,
+          "name": "Jacob Berger"
+        },
+        {
+          "id": 6441449,
+          "name": "Ryan Frisson"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1592196,
+          "name": "Ben Jacoby"
+        },
+        {
+          "id": 1625271,
+          "name": "Chase Palmer"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "streaming",
+        "wide": false,
+        "ltd": false,
+        "gap": null
+      }
     },
     "862968": {
       "ratings": {
@@ -84124,6 +84603,134 @@
       ],
       "collection": null
     },
+    "1329016": {
+      "ratings": {
+        "imdb": 7.3,
+        "metacritic": 75,
+        "metacriticUser": 7.1,
+        "tomatoes": 93,
+        "rtAudience": 92,
+        "letterboxd": 3.8,
+        "trakt": 76
+      },
+      "studios": [
+        "Star Thrower Entertainment",
+        "A24",
+        "Zapruder Films"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 15000000,
+      "revenue": 18131048,
+      "cast": [
+        {
+          "id": 3918497,
+          "name": "Dominic Sessa"
+        },
+        {
+          "id": 3131,
+          "name": "Antonio Banderas"
+        },
+        {
+          "id": 1331023,
+          "name": "Emilia Jones"
+        },
+        {
+          "id": 3477880,
+          "name": "Leo Woodall"
+        },
+        {
+          "id": 1400595,
+          "name": "Stavros Halkias"
+        },
+        {
+          "id": 1942129,
+          "name": "Michael Jibrin"
+        },
+        {
+          "id": 221600,
+          "name": "Monica Raymund"
+        },
+        {
+          "id": 10581,
+          "name": "Rich Sommer"
+        },
+        {
+          "id": 52776,
+          "name": "Dagmara Dominczyk"
+        },
+        {
+          "id": 6364844,
+          "name": "Liam Fitch"
+        },
+        {
+          "id": 1456293,
+          "name": "Caroline Portu"
+        },
+        {
+          "id": 3038148,
+          "name": "Joe Burns"
+        },
+        {
+          "id": 1730747,
+          "name": "Allyn Burrows"
+        },
+        {
+          "id": 6249962,
+          "name": "Reece Grover"
+        },
+        {
+          "id": 2500422,
+          "name": "Henry Lynch"
+        },
+        {
+          "id": 6364845,
+          "name": "Ava Davey-Bissett"
+        },
+        {
+          "id": 2557278,
+          "name": "Derek K. Moore"
+        },
+        {
+          "id": 1786725,
+          "name": "Zele Avradopoulos"
+        },
+        {
+          "id": 1256685,
+          "name": "Eric Ripert"
+        },
+        {
+          "id": 6364847,
+          "name": "Joel Alves"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1144092,
+          "name": "Matt Johnson"
+        },
+        {
+          "id": 1319305,
+          "name": "Matthew Miller"
+        },
+        {
+          "id": 2057869,
+          "name": "Todd Bartels"
+        },
+        {
+          "id": 1305358,
+          "name": "Lou Howe"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 25
+      }
+    },
     "1330409": {
       "ratings": {
         "imdb": 7.2,
@@ -84967,6 +85574,125 @@
         }
       ],
       "collection": null
+    },
+    "1341138": {
+      "ratings": {
+        "imdb": 5.1,
+        "metacritic": 33,
+        "metacriticUser": 2.3,
+        "tomatoes": 29,
+        "rtAudience": 74,
+        "letterboxd": 2.4,
+        "trakt": 63
+      },
+      "studios": [
+        "Suzanne Todd Productions",
+        "Black Bear Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 20000000,
+      "revenue": 10154377,
+      "cast": [
+        {
+          "id": 41087,
+          "name": "Leslie Mann"
+        },
+        {
+          "id": 1475128,
+          "name": "Michelle Buteau"
+        },
+        {
+          "id": 1772,
+          "name": "Anna Faris"
+        },
+        {
+          "id": 52848,
+          "name": "Isla Fisher"
+        },
+        {
+          "id": 1992160,
+          "name": "Adam Demos"
+        },
+        {
+          "id": 2300222,
+          "name": "Dominic Ona-Ariki"
+        },
+        {
+          "id": 61779,
+          "name": "Erika Heynatz"
+        },
+        {
+          "id": 4414182,
+          "name": "Courtney Clarke"
+        },
+        {
+          "id": 3472982,
+          "name": "Quinn Aune"
+        },
+        {
+          "id": 3129167,
+          "name": "Sierra Rose"
+        },
+        {
+          "id": 6199845,
+          "name": "Juliet Sargent"
+        },
+        {
+          "id": 6376030,
+          "name": "Everly Graves"
+        },
+        {
+          "id": 1908399,
+          "name": "Kate Lister"
+        },
+        {
+          "id": 1661479,
+          "name": "Yasmin Kassim"
+        },
+        {
+          "id": 75129,
+          "name": "Damian Walshe-Howling"
+        },
+        {
+          "id": 1193834,
+          "name": "Stephen Hunter"
+        },
+        {
+          "id": 3115121,
+          "name": "Tim Appleton"
+        },
+        {
+          "id": 2917828,
+          "name": "Peter Thurnwald"
+        },
+        {
+          "id": 2467788,
+          "name": "Chris Alosio"
+        },
+        {
+          "id": 2199529,
+          "name": "Tim Ross"
+        }
+      ],
+      "writers": [
+        {
+          "id": 52114,
+          "name": "Jon Lucas"
+        },
+        {
+          "id": 52115,
+          "name": "Scott Moore"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": 32
+      }
     },
     "1352624": {
       "ratings": {
@@ -90004,6 +90730,127 @@
         "wide": false,
         "ltd": false,
         "gap": null
+      }
+    },
+    "1514026": {
+      "ratings": {
+        "imdb": 7,
+        "metacritic": 67,
+        "metacriticUser": 6.7,
+        "tomatoes": 88,
+        "rtAudience": 75,
+        "letterboxd": 3.1,
+        "trakt": 70
+      },
+      "studios": [
+        "Sipur",
+        "BoulderLight Pictures",
+        "Low Spark Films",
+        "Substance"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 3000000,
+      "revenue": 26848371,
+      "cast": [
+        {
+          "id": 298410,
+          "name": "Keegan-Michael Key"
+        },
+        {
+          "id": 204392,
+          "name": "Cristin Milioti"
+        },
+        {
+          "id": 3484285,
+          "name": "Delaney Quinn"
+        },
+        {
+          "id": 3173336,
+          "name": "Caleb Williams"
+        },
+        {
+          "id": 4505121,
+          "name": "Madison Skyy Polan"
+        },
+        {
+          "id": 4119575,
+          "name": "Tristan Borders"
+        },
+        {
+          "id": 10872,
+          "name": "Patton Oswalt"
+        },
+        {
+          "id": 6436428,
+          "name": "Jimmica Collins"
+        },
+        {
+          "id": 89599,
+          "name": "Eric Bauza"
+        },
+        {
+          "id": 17052,
+          "name": "Topher Grace"
+        },
+        {
+          "id": 2140091,
+          "name": "Bryson JonSteele"
+        },
+        {
+          "id": 4966857,
+          "name": "Seamus Flynn"
+        },
+        {
+          "id": 2634434,
+          "name": "Luke Speakman"
+        },
+        {
+          "id": 2851330,
+          "name": "Bennie Taylor"
+        },
+        {
+          "id": 2025638,
+          "name": "Phuong Kubacki"
+        },
+        {
+          "id": 6277088,
+          "name": "Devon Hawkes Ludlow"
+        },
+        {
+          "id": 335,
+          "name": "Michael Shannon"
+        },
+        {
+          "id": 15661,
+          "name": "Clint Howard"
+        },
+        {
+          "id": 5955954,
+          "name": "Sergey Zhuravsky"
+        },
+        {
+          "id": 2578299,
+          "name": "Jonathan Yurco"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1232064,
+          "name": "Casper Kelly"
+        },
+        {
+          "id": 1990507,
+          "name": "Jamie King"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 46
       }
     },
     "1515899": {
@@ -113053,6 +113900,24 @@
           "title": "The Platform 2",
           "year": "2024",
           "watched": true
+        }
+      ]
+    },
+    "1129084": {
+      "name": "Nobody Collection",
+      "total": 2,
+      "parts": [
+        {
+          "id": 615457,
+          "title": "Nobody",
+          "year": "2021",
+          "watched": true
+        },
+        {
+          "id": 1007734,
+          "title": "Nobody 2",
+          "year": "2025",
+          "watched": false
         }
       ]
     },
