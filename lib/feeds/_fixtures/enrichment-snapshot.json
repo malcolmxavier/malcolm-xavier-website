@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-08-24T16:46:29.868Z",
+  "capturedAt": "2026-10-11T01:45:37.060Z",
   "meta": {
     "films": 808,
-    "shows": 162,
+    "shows": 165,
     "collections": 77
   },
   "films": {
@@ -106288,6 +106288,32 @@
       ],
       "creators": []
     },
+    "263361": {
+      "ratings": {
+        "imdb": 7,
+        "metacritic": null,
+        "metacriticUser": null,
+        "tomatoes": null,
+        "rtAudience": null,
+        "letterboxd": null,
+        "trakt": 37
+      },
+      "country": "us",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1
+        }
+      ],
+      "cast": [
+        {
+          "id": 1581240,
+          "name": "Karen Huger",
+          "eps": 2
+        }
+      ],
+      "creators": []
+    },
     "270476": {
       "ratings": {
         "imdb": 8.3,
@@ -106941,6 +106967,132 @@
       ],
       "creators": []
     },
+    "278178": {
+      "ratings": {
+        "imdb": 7.1,
+        "metacritic": 56,
+        "metacriticUser": 5.9,
+        "tomatoes": 65,
+        "rtAudience": 59,
+        "letterboxd": 3.6,
+        "trakt": 80
+      },
+      "country": "us",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1
+        }
+      ],
+      "cast": [
+        {
+          "id": 65731,
+          "name": "Sam Worthington",
+          "eps": 8
+        },
+        {
+          "id": 973497,
+          "name": "Britt Lower",
+          "eps": 8
+        },
+        {
+          "id": 8687,
+          "name": "Chi McBride",
+          "eps": 8
+        },
+        {
+          "id": 93376,
+          "name": "Logan Browning",
+          "eps": 8
+        },
+        {
+          "id": 990300,
+          "name": "Erin Richards",
+          "eps": 8
+        },
+        {
+          "id": 17243,
+          "name": "Jonathan Tucker",
+          "eps": 8
+        },
+        {
+          "id": 16501,
+          "name": "Milo Ventimiglia",
+          "eps": 8
+        },
+        {
+          "id": 19740,
+          "name": "Kate Vernon",
+          "eps": 7
+        },
+        {
+          "id": 12978,
+          "name": "Peter Outerbridge",
+          "eps": 6
+        },
+        {
+          "id": 90130,
+          "name": "Aaron Ashmore",
+          "eps": 6
+        },
+        {
+          "id": 231,
+          "name": "Greg Bryk",
+          "eps": 8
+        },
+        {
+          "id": 1833004,
+          "name": "Vas Saranga",
+          "eps": 6
+        },
+        {
+          "id": 289,
+          "name": "Madeleine Stowe",
+          "eps": 5
+        },
+        {
+          "id": 1182525,
+          "name": "Nicola Correia Damude",
+          "eps": 5
+        },
+        {
+          "id": 76638,
+          "name": "Hugh Thompson",
+          "eps": 5
+        },
+        {
+          "id": 171726,
+          "name": "Darrin Baker",
+          "eps": 5
+        },
+        {
+          "id": 83530,
+          "name": "Jefferson Brown",
+          "eps": 5
+        },
+        {
+          "id": 3944659,
+          "name": "Ashton Cressman",
+          "eps": 4
+        },
+        {
+          "id": 2285923,
+          "name": "Gregory Waters",
+          "eps": 3
+        },
+        {
+          "id": 6295590,
+          "name": "Rainn Lawrence",
+          "eps": 4
+        }
+      ],
+      "creators": [
+        {
+          "id": 1232167,
+          "name": "Robert Hull"
+        }
+      ]
+    },
     "280885": {
       "ratings": {
         "imdb": 7.1,
@@ -107159,6 +107311,132 @@
         }
       ],
       "creators": []
+    },
+    "287238": {
+      "ratings": {
+        "imdb": 7.8,
+        "metacritic": 81,
+        "metacriticUser": 6.9,
+        "tomatoes": 99,
+        "rtAudience": 89,
+        "letterboxd": null,
+        "trakt": 82
+      },
+      "country": "US",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1
+        }
+      ],
+      "cast": [
+        {
+          "id": 4730,
+          "name": "Emmy Rossum",
+          "eps": 8
+        },
+        {
+          "id": 1969732,
+          "name": "Lola Petticrew",
+          "eps": 8
+        },
+        {
+          "id": 59233,
+          "name": "Scoot McNairy",
+          "eps": 8
+        },
+        {
+          "id": 1465486,
+          "name": "Quincy Tyler Bernstine",
+          "eps": 8
+        },
+        {
+          "id": 1091324,
+          "name": "Rob Delaney",
+          "eps": 2
+        },
+        {
+          "id": 3125681,
+          "name": "Chloe Troast",
+          "eps": 3
+        },
+        {
+          "id": 1607560,
+          "name": "Alex Morf",
+          "eps": 2
+        },
+        {
+          "id": 15250,
+          "name": "Hope Davis",
+          "eps": 5
+        },
+        {
+          "id": 19489,
+          "name": "Peter McRobbie",
+          "eps": 4
+        },
+        {
+          "id": 146483,
+          "name": "Clark Moore",
+          "eps": 1
+        },
+        {
+          "id": 2699214,
+          "name": "Elise Kibler",
+          "eps": 3
+        },
+        {
+          "id": 1506492,
+          "name": "Lily Autumn Page",
+          "eps": 1
+        },
+        {
+          "id": 1360030,
+          "name": "Ari Blinder",
+          "eps": 1
+        },
+        {
+          "id": 5379619,
+          "name": "Sofia Ko",
+          "eps": 1
+        },
+        {
+          "id": 1311449,
+          "name": "Frank Pando",
+          "eps": 2
+        },
+        {
+          "id": 4950509,
+          "name": "Riley Vinson",
+          "eps": 2
+        },
+        {
+          "id": 1664766,
+          "name": "A.J. Paratore",
+          "eps": 1
+        },
+        {
+          "id": 4527922,
+          "name": "Lana Schupbach",
+          "eps": 1
+        },
+        {
+          "id": 496470,
+          "name": "Jake Lacy",
+          "eps": 6
+        },
+        {
+          "id": 58521,
+          "name": "Constance Shulman",
+          "eps": 2
+        }
+      ],
+      "creators": [
+        {
+          "id": 513378,
+          "name": "Elizabeth Meriwether"
+        }
+      ]
     },
     "287462": {
       "ratings": {
