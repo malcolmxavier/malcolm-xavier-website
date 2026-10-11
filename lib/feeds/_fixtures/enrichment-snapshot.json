@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-10-11T02:45:36.838Z",
+  "capturedAt": "2026-10-11T03:45:37.260Z",
   "meta": {
     "films": 808,
-    "shows": 166,
+    "shows": 167,
     "collections": 77
   },
   "films": {
@@ -108598,6 +108598,127 @@
           "name": "Lee Eisenberg"
         }
       ]
+    },
+    "321954": {
+      "ratings": {
+        "imdb": 6.2,
+        "metacritic": null,
+        "metacriticUser": null,
+        "tomatoes": null,
+        "rtAudience": null,
+        "letterboxd": null,
+        "trakt": 75
+      },
+      "country": "us",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1
+        }
+      ],
+      "cast": [
+        {
+          "id": 1562326,
+          "name": "Stassi Schroeder",
+          "eps": 8
+        },
+        {
+          "id": 995819,
+          "name": "Beau Clark",
+          "eps": 8
+        },
+        {
+          "id": 4356415,
+          "name": "Alex Cooper",
+          "eps": 1
+        },
+        {
+          "id": 6118670,
+          "name": "Jessi Draper",
+          "eps": 1
+        },
+        {
+          "id": 5016951,
+          "name": "Mayci Neeley",
+          "eps": 1
+        },
+        {
+          "id": 5016950,
+          "name": "Mikayla Matthews",
+          "eps": 1
+        },
+        {
+          "id": 38406,
+          "name": "Paris Hilton",
+          "eps": 1
+        },
+        {
+          "id": 2195306,
+          "name": "Brooks Nader",
+          "eps": 1
+        },
+        {
+          "id": 5634461,
+          "name": "Sarah Jane Nader",
+          "eps": 1
+        },
+        {
+          "id": 6388187,
+          "name": "Georgianna Aubin",
+          "eps": 8
+        },
+        {
+          "id": 1254429,
+          "name": "Katie Maloney",
+          "eps": 8
+        },
+        {
+          "id": 6400975,
+          "name": "Georgia Bardetti",
+          "eps": 8
+        },
+        {
+          "id": 6400987,
+          "name": "Taylor Donohue",
+          "eps": 8
+        },
+        {
+          "id": 6192554,
+          "name": "Taylor Strecker",
+          "eps": 8
+        },
+        {
+          "id": 1368651,
+          "name": "Rob Evors",
+          "eps": 8
+        },
+        {
+          "id": 2878092,
+          "name": "Alicia Crowder",
+          "eps": 1
+        },
+        {
+          "id": 3023893,
+          "name": "Sonia Mena",
+          "eps": 1
+        },
+        {
+          "id": 3905697,
+          "name": "Sparkle Stone",
+          "eps": 1
+        },
+        {
+          "id": 6401002,
+          "name": "Dani Kay",
+          "eps": 1
+        },
+        {
+          "id": 6401026,
+          "name": "Kristina Kelly",
+          "eps": 6
+        }
+      ],
+      "creators": []
     },
     "323411": {
       "ratings": {
