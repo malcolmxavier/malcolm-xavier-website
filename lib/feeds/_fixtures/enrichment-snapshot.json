@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-10-11T05:45:37.862Z",
+  "capturedAt": "2026-10-11T06:45:38.021Z",
   "meta": {
-    "films": 824,
+    "films": 832,
     "shows": 167,
-    "collections": 79
+    "collections": 80
   },
   "films": {
     "18": {
@@ -12726,6 +12726,130 @@
         "wide": true,
         "ltd": true,
         "gap": 3297
+      }
+    },
+    "131634": {
+      "ratings": {
+        "imdb": 6.6,
+        "metacritic": 65,
+        "metacriticUser": 6.6,
+        "tomatoes": 70,
+        "rtAudience": 66,
+        "letterboxd": 3.5,
+        "trakt": 73
+      },
+      "studios": [
+        "Lionsgate",
+        "Color Force",
+        "Studio Babelsberg"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 160000000,
+      "revenue": 653428261,
+      "cast": [
+        {
+          "id": 72129,
+          "name": "Jennifer Lawrence"
+        },
+        {
+          "id": 27972,
+          "name": "Josh Hutcherson"
+        },
+        {
+          "id": 96066,
+          "name": "Liam Hemsworth"
+        },
+        {
+          "id": 57755,
+          "name": "Woody Harrelson"
+        },
+        {
+          "id": 9281,
+          "name": "Elizabeth Banks"
+        },
+        {
+          "id": 1231,
+          "name": "Julianne Moore"
+        },
+        {
+          "id": 1233,
+          "name": "Philip Seymour Hoffman"
+        },
+        {
+          "id": 2954,
+          "name": "Jeffrey Wright"
+        },
+        {
+          "id": 2283,
+          "name": "Stanley Tucci"
+        },
+        {
+          "id": 55636,
+          "name": "Donald Sutherland"
+        },
+        {
+          "id": 530025,
+          "name": "Willow Shields"
+        },
+        {
+          "id": 237455,
+          "name": "Sam Claflin"
+        },
+        {
+          "id": 20089,
+          "name": "Jena Malone"
+        },
+        {
+          "id": 932967,
+          "name": "Mahershala Ali"
+        },
+        {
+          "id": 58502,
+          "name": "Natalie Dormer"
+        },
+        {
+          "id": 51682,
+          "name": "Wes Chatham"
+        },
+        {
+          "id": 41820,
+          "name": "Michelle Forbes"
+        },
+        {
+          "id": 20220,
+          "name": "Elden Henson"
+        },
+        {
+          "id": 1366702,
+          "name": "Patina Miller"
+        },
+        {
+          "id": 94103,
+          "name": "Evan Ross"
+        }
+      ],
+      "writers": [
+        {
+          "id": 35550,
+          "name": "Danny Strong"
+        },
+        {
+          "id": 225633,
+          "name": "Peter Craig"
+        }
+      ],
+      "collection": {
+        "id": 131635,
+        "name": "The Hunger Games Collection",
+        "total": 4
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 2933
       }
     },
     "150540": {
@@ -53304,6 +53428,125 @@
       "writers": [],
       "collection": null
     },
+    "977942": {
+      "ratings": {
+        "imdb": 6.2,
+        "metacritic": 56,
+        "metacriticUser": 5.6,
+        "tomatoes": 57,
+        "rtAudience": 65,
+        "letterboxd": 2.8,
+        "trakt": 69
+      },
+      "studios": [
+        "Blumhouse Productions",
+        "Supernix",
+        "Thank You Studios",
+        "Atomic Monster",
+        "The Electric Shadow Company",
+        "FilmNation Entertainment"
+      ],
+      "country": "DE",
+      "language": "en",
+      "certification": "R",
+      "budget": 20000000,
+      "revenue": 8079597,
+      "cast": [
+        {
+          "id": 37625,
+          "name": "Andrew Garfield"
+        },
+        {
+          "id": 478,
+          "name": "Jamie Bell"
+        },
+        {
+          "id": 8435,
+          "name": "Stephen Dillane"
+        },
+        {
+          "id": 1945369,
+          "name": "Woody Norman"
+        },
+        {
+          "id": 2441,
+          "name": "Tom Hollander"
+        },
+        {
+          "id": 1363054,
+          "name": "Cosmo Jarvis"
+        },
+        {
+          "id": 1356758,
+          "name": "Thomasin McKenzie"
+        },
+        {
+          "id": 9012,
+          "name": "Jonny Lee Miller"
+        },
+        {
+          "id": 77795,
+          "name": "Katherine Waterston"
+        },
+        {
+          "id": 25074,
+          "name": "Stanley Townsend"
+        },
+        {
+          "id": 2388828,
+          "name": "Sky Yang"
+        },
+        {
+          "id": 2262886,
+          "name": "Dónal Finn"
+        },
+        {
+          "id": 1919072,
+          "name": "Gerald Tyler"
+        },
+        {
+          "id": 10701,
+          "name": "Simon Kunz"
+        },
+        {
+          "id": 30332,
+          "name": "Mark Redhead"
+        },
+        {
+          "id": 1753296,
+          "name": "Sam Chapman"
+        },
+        {
+          "id": 6475357,
+          "name": "Scout Worsley"
+        },
+        {
+          "id": 4237106,
+          "name": "Anthony Webster"
+        },
+        {
+          "id": 145071,
+          "name": "Jamie Maclachlan"
+        },
+        {
+          "id": 1936708,
+          "name": "Anthony Martin"
+        }
+      ],
+      "writers": [
+        {
+          "id": 25598,
+          "name": "Paul Greengrass"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 19
+      }
+    },
     "979660": {
       "ratings": {
         "imdb": 6.2,
@@ -59208,6 +59451,122 @@
         "wide": true,
         "ltd": true,
         "gap": 25
+      }
+    },
+    "1058424": {
+      "ratings": {
+        "imdb": 6.8,
+        "metacritic": 67,
+        "metacriticUser": 6,
+        "tomatoes": 78,
+        "rtAudience": 77,
+        "letterboxd": 3.2,
+        "trakt": 69
+      },
+      "studios": [
+        "Megabox Plus M",
+        "Forged Films",
+        "Westworld Story"
+      ],
+      "country": "KR",
+      "language": "ko",
+      "certification": "R",
+      "budget": 46000000,
+      "revenue": 41212538,
+      "cast": [
+        {
+          "id": 68903,
+          "name": "Hwang Jung-min"
+        },
+        {
+          "id": 127564,
+          "name": "Zo In-sung"
+        },
+        {
+          "id": 3194501,
+          "name": "Hoyeon"
+        },
+        {
+          "id": 227454,
+          "name": "Alicia Vikander"
+        },
+        {
+          "id": 17288,
+          "name": "Michael Fassbender"
+        },
+        {
+          "id": 1353827,
+          "name": "Taylor Russell"
+        },
+        {
+          "id": 1286537,
+          "name": "Cameron Britton"
+        },
+        {
+          "id": 564847,
+          "name": "Lee Sang-hee"
+        },
+        {
+          "id": 2370779,
+          "name": "Um Mun-suk"
+        },
+        {
+          "id": 1305674,
+          "name": "Im Hyun-sik"
+        },
+        {
+          "id": 1731537,
+          "name": "Hwang Seok-jeong"
+        },
+        {
+          "id": 3214227,
+          "name": "Han Woo-yeol"
+        },
+        {
+          "id": 3963649,
+          "name": "Chyu Kwang-hyun"
+        },
+        {
+          "id": 6353520,
+          "name": "Oh Doo-won"
+        },
+        {
+          "id": 6353522,
+          "name": "Yoo Jun-hong"
+        },
+        {
+          "id": 1497220,
+          "name": "Seo Beom-sik"
+        },
+        {
+          "id": 1953628,
+          "name": "Baek Seung-chul"
+        },
+        {
+          "id": 6370393,
+          "name": "Cho Ji-hoon"
+        },
+        {
+          "id": 6370394,
+          "name": "Kwon Joong"
+        },
+        {
+          "id": 1444366,
+          "name": "Kim Ki-cheon"
+        }
+      ],
+      "writers": [
+        {
+          "id": 75915,
+          "name": "Na Hong-jin"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": 34
       }
     },
     "1058616": {
@@ -71649,6 +72008,123 @@
       ],
       "collection": null
     },
+    "1204680": {
+      "ratings": {
+        "imdb": 7.4,
+        "metacritic": 77,
+        "metacriticUser": 8.1,
+        "tomatoes": 96,
+        "rtAudience": 94,
+        "letterboxd": 3.8,
+        "trakt": 78
+      },
+      "studios": [
+        "Troll Court Entertainment",
+        "Warner Animation Group",
+        "Keylight Pictures",
+        "Warner Bros. Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG",
+      "budget": 72000000,
+      "revenue": 88043208,
+      "cast": [
+        {
+          "id": 62831,
+          "name": "Will Forte"
+        },
+        {
+          "id": 1452046,
+          "name": "Lana Condor"
+        },
+        {
+          "id": 56446,
+          "name": "John Cena"
+        },
+        {
+          "id": 1120700,
+          "name": "Tone Bell"
+        },
+        {
+          "id": 1572541,
+          "name": "Martha Kelly"
+        },
+        {
+          "id": 40481,
+          "name": "Luis Guzmán"
+        },
+        {
+          "id": 1211946,
+          "name": "P.J. Byrne"
+        },
+        {
+          "id": 1542758,
+          "name": "John Early"
+        },
+        {
+          "id": 110928,
+          "name": "Nancy Linehan Charles"
+        },
+        {
+          "id": 41561,
+          "name": "Kenneth Choi"
+        },
+        {
+          "id": 2399150,
+          "name": "Ernie Vigil"
+        },
+        {
+          "id": 89599,
+          "name": "Eric Bauza"
+        },
+        {
+          "id": 95257,
+          "name": "Candi Milo"
+        },
+        {
+          "id": 12077,
+          "name": "Jim Cummings"
+        },
+        {
+          "id": 1361571,
+          "name": "Hayes Hargrove"
+        },
+        {
+          "id": 2025638,
+          "name": "Phuong Kubacki"
+        },
+        {
+          "id": 1686485,
+          "name": "Dani Payne"
+        },
+        {
+          "id": 4150722,
+          "name": "Eddie Garcia"
+        },
+        {
+          "id": 3656231,
+          "name": "Amy Rauch"
+        },
+        {
+          "id": 2577875,
+          "name": "Laura Love Tode"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1887252,
+          "name": "Samy Burch"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 32
+      }
+    },
     "1205515": {
       "ratings": {
         "imdb": 7.1,
@@ -81859,6 +82335,137 @@
       ],
       "collection": null
     },
+    "1302904": {
+      "ratings": {
+        "imdb": 6.3,
+        "metacritic": 44,
+        "metacriticUser": 4.2,
+        "tomatoes": 36,
+        "rtAudience": 91,
+        "letterboxd": 2.9,
+        "trakt": 74
+      },
+      "studios": [
+        "Di Novi Pictures",
+        "Warner Bros. Pictures",
+        "Blossom Films",
+        "Fortis Films",
+        "Domain Entertainment",
+        "Alcon Entertainment"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 75000000,
+      "revenue": 96891326,
+      "cast": [
+        {
+          "id": 18277,
+          "name": "Sandra Bullock"
+        },
+        {
+          "id": 2227,
+          "name": "Nicole Kidman"
+        },
+        {
+          "id": 125025,
+          "name": "Joey King"
+        },
+        {
+          "id": 1181313,
+          "name": "Maisie Williams"
+        },
+        {
+          "id": 1185997,
+          "name": "Xolo Maridueña"
+        },
+        {
+          "id": 72095,
+          "name": "Lee Pace"
+        },
+        {
+          "id": 1902,
+          "name": "Dianne Wiest"
+        },
+        {
+          "id": 8893,
+          "name": "Stockard Channing"
+        },
+        {
+          "id": 3060978,
+          "name": "Solly McLeod"
+        },
+        {
+          "id": 5639097,
+          "name": "Ema Cavolli"
+        },
+        {
+          "id": 2158193,
+          "name": "Cassie Bradley"
+        },
+        {
+          "id": 1488078,
+          "name": "Liz Kingsman"
+        },
+        {
+          "id": 3132378,
+          "name": "Nathan Foad"
+        },
+        {
+          "id": 62975,
+          "name": "Katy Wix"
+        },
+        {
+          "id": 163422,
+          "name": "Diana Quick"
+        },
+        {
+          "id": 5350563,
+          "name": "Ava Galindez"
+        },
+        {
+          "id": 6475262,
+          "name": "Scarlett Nasrat"
+        },
+        {
+          "id": 6475264,
+          "name": "Harriett Scott"
+        },
+        {
+          "id": 1710322,
+          "name": "Amy Bowden"
+        },
+        {
+          "id": 3289470,
+          "name": "Aimée Cassettari"
+        }
+      ],
+      "writers": [
+        {
+          "id": 5575,
+          "name": "Akiva Goldsman"
+        },
+        {
+          "id": 62256,
+          "name": "Georgia Pritchett"
+        },
+        {
+          "id": 940376,
+          "name": "Kelly Marcel"
+        }
+      ],
+      "collection": {
+        "id": 1354706,
+        "name": "Practical Magic Collection",
+        "total": 2
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": 32
+      }
+    },
     "1302916": {
       "ratings": {
         "imdb": 6,
@@ -87483,6 +88090,130 @@
       ],
       "collection": null
     },
+    "1423191": {
+      "ratings": {
+        "imdb": 7.6,
+        "metacritic": 79,
+        "metacriticUser": 7.4,
+        "tomatoes": 96,
+        "rtAudience": 91,
+        "letterboxd": 3.8,
+        "trakt": 77
+      },
+      "studios": [
+        "Constantin Film",
+        "PlayStation Productions",
+        "Vertigo Entertainment",
+        "Columbia Pictures",
+        "Subconscious",
+        "Davis Films",
+        "TriStar Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 75000000,
+      "revenue": 245400000,
+      "cast": [
+        {
+          "id": 148992,
+          "name": "Austin Abrams"
+        },
+        {
+          "id": 1294982,
+          "name": "Paul Walter Hauser"
+        },
+        {
+          "id": 3119545,
+          "name": "Kali Reis"
+        },
+        {
+          "id": 1838225,
+          "name": "Zach Cherry"
+        },
+        {
+          "id": 1169291,
+          "name": "Johnno Wilson"
+        },
+        {
+          "id": 2445714,
+          "name": "Shaun W. Loeser"
+        },
+        {
+          "id": 84833,
+          "name": "Zach Cregger"
+        },
+        {
+          "id": 1362996,
+          "name": "Emily Piggford"
+        },
+        {
+          "id": 1221073,
+          "name": "Will Merrick"
+        },
+        {
+          "id": 5848547,
+          "name": "Zoé Bellas"
+        },
+        {
+          "id": 1548222,
+          "name": "Chris Lew Kum Hoi"
+        },
+        {
+          "id": 225377,
+          "name": "Griffin Newman"
+        },
+        {
+          "id": 2832950,
+          "name": "Magdalena Šittová"
+        },
+        {
+          "id": 183729,
+          "name": "Andrea Miltner"
+        },
+        {
+          "id": 60072,
+          "name": "Sara Paxton"
+        },
+        {
+          "id": 231246,
+          "name": "Karel Dobrý"
+        },
+        {
+          "id": 2347838,
+          "name": "Devon Deshaun Stewart"
+        },
+        {
+          "id": 1807446,
+          "name": "Kellen Goff"
+        },
+        {
+          "id": 5024369,
+          "name": "Isla McRae"
+        },
+        {
+          "id": 2563021,
+          "name": "James Beaumont"
+        }
+      ],
+      "writers": [
+        {
+          "id": 2104243,
+          "name": "Shay Hatten"
+        },
+        {
+          "id": 84833,
+          "name": "Zach Cregger"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
+    },
     "1426306": {
       "ratings": {
         "imdb": 6.7,
@@ -87872,6 +88603,121 @@
         }
       ],
       "collection": null
+    },
+    "1437396": {
+      "ratings": {
+        "imdb": 7.5,
+        "metacritic": 84,
+        "metacriticUser": 5.9,
+        "tomatoes": 97,
+        "rtAudience": 97,
+        "letterboxd": 4,
+        "trakt": 74
+      },
+      "studios": [
+        "Two & Two Pictures",
+        "Orion Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": 223194,
+      "cast": [
+        {
+          "id": 932967,
+          "name": "Mahershala Ali"
+        },
+        {
+          "id": 68842,
+          "name": "John Cho"
+        },
+        {
+          "id": 4808,
+          "name": "Giancarlo Esposito"
+        },
+        {
+          "id": 3164078,
+          "name": "Abubakr Ali"
+        },
+        {
+          "id": 164465,
+          "name": "Laith Nakli"
+        },
+        {
+          "id": 3295330,
+          "name": "Adia"
+        },
+        {
+          "id": 3594874,
+          "name": "Jahleel Kamara"
+        },
+        {
+          "id": 1074676,
+          "name": "Tiffany Boone"
+        },
+        {
+          "id": 2028037,
+          "name": "Tramell Tillman"
+        },
+        {
+          "id": 2055018,
+          "name": "John Henry Ward"
+        },
+        {
+          "id": 2817007,
+          "name": "Alyssa Kim"
+        },
+        {
+          "id": 1467191,
+          "name": "Ashley P. Jones"
+        },
+        {
+          "id": 3423390,
+          "name": "Aaron Goodson"
+        },
+        {
+          "id": 1533696,
+          "name": "Irene Santiago"
+        },
+        {
+          "id": 1729296,
+          "name": "Nettie Kraft"
+        },
+        {
+          "id": 4917980,
+          "name": "Merav Ellis"
+        },
+        {
+          "id": 6466394,
+          "name": "Aisha Azmat Ali"
+        },
+        {
+          "id": 3832049,
+          "name": "Shawn Jain"
+        },
+        {
+          "id": 3645984,
+          "name": "Ali Alsaleh"
+        },
+        {
+          "id": 1381389,
+          "name": "Alec Rayme"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1161025,
+          "name": "Bassam Tariq"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
     },
     "1439741": {
       "ratings": {
@@ -89574,6 +90420,117 @@
         }
       ],
       "collection": null
+    },
+    "1596248": {
+      "ratings": {
+        "imdb": 7.3,
+        "metacritic": 86,
+        "metacriticUser": 5.3,
+        "tomatoes": 95,
+        "rtAudience": 95,
+        "letterboxd": 4,
+        "trakt": 75
+      },
+      "studios": [
+        "Spark Features",
+        "Further Adventures",
+        "Merino Films",
+        "Cedar Road",
+        "LinLay Productions",
+        "MACRO"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 120000,
+      "revenue": 383856,
+      "cast": [
+        {
+          "id": 3041469,
+          "name": "Bodhi Dell"
+        },
+        {
+          "id": 1507385,
+          "name": "J. Alphonse Nicholson"
+        },
+        {
+          "id": 1075037,
+          "name": "Danielle Brooks"
+        },
+        {
+          "id": 5587050,
+          "name": "Kelvin Adekunle"
+        },
+        {
+          "id": 2089573,
+          "name": "Bre-Z"
+        },
+        {
+          "id": 2485303,
+          "name": "Myles Bullock"
+        },
+        {
+          "id": 114929,
+          "name": "J.J. Boone"
+        },
+        {
+          "id": 2748207,
+          "name": "Zaria Kelley"
+        },
+        {
+          "id": 3738522,
+          "name": "Mark K. Lane III"
+        },
+        {
+          "id": 5318114,
+          "name": "Kameron J Meadows"
+        },
+        {
+          "id": 3727684,
+          "name": "Jeremiah King"
+        },
+        {
+          "id": 1852189,
+          "name": "McColm Cephas Jr."
+        },
+        {
+          "id": 1214126,
+          "name": "Bobby McGee"
+        },
+        {
+          "id": 4981067,
+          "name": "London Williams"
+        },
+        {
+          "id": 4619275,
+          "name": "Nandi Nfr Ka"
+        },
+        {
+          "id": 3143330,
+          "name": "Ezekiel Pacheco"
+        },
+        {
+          "id": 5451890,
+          "name": "Maxwell Henderson"
+        },
+        {
+          "id": 6157010,
+          "name": "O'Cean Coleman"
+        }
+      ],
+      "writers": [
+        {
+          "id": 3343379,
+          "name": "Walter Thompson-Hernández"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
     },
     "1596335": {
       "ratings": {
@@ -112294,6 +113251,24 @@
           "title": "Cocaine Bear 2",
           "year": "",
           "watched": false
+        }
+      ]
+    },
+    "1354706": {
+      "name": "Practical Magic Collection",
+      "total": 2,
+      "parts": [
+        {
+          "id": 6435,
+          "title": "Practical Magic",
+          "year": "1998",
+          "watched": false
+        },
+        {
+          "id": 1302904,
+          "title": "Practical Magic 2",
+          "year": "2026",
+          "watched": true
         }
       ]
     },
