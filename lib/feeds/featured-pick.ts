@@ -54,15 +54,15 @@ export type FeaturedPick = {
 // (TMDB) id — the same ids the favorites/Now modules already use.
 
 const FILM_PICK: { slug: string; take: string } | null = {
-  slug: "is-god-is",
+  slug: "digger",
   take:
-    "This one's about Black women getting revenge, so obviously I locked in. This film has stayed top of mind since I saw it a few weeks ago. If you want a fresh modern thriller, start here.",
+    "Often times, a story within a story feels like the B story, but here it's flipped—to the film's benefit. On the one hand, it's a dark sendup of the current political climate and climate change, and on the other, it's a beautiful tribute to the craft of making a production. Tom Cruise by no means is a bad performer, but I was blown away by how good he was in this. I do wonder if this film would be flopping at all or flopping harder if an actor with more stage clout had been cast in his role, though. And somewhat to that point, but not really, you can tell the role was written for Leonardo DiCaprio, who arguably possesses that clout from the types of film work he's done. Wes Anderson was also clearly top of mind, even though we aren't addressing that.",
 };
 
 const TV_PICK: { showId: number; take: string } | null = {
-  showId: 124101, // Hacks
+  showId: 95480, // Slow Horses
   take:
-    "The rare show that gets better as it continues. It is a two-hander about entertainment, ambition, and relationships. It's a beautiful testament to women, comedy, and our human propensity for growth. Watch it for the writing, stay for the most honest portrait of a working partnership on television.",
+    "Slow Horses is back with another banger of a season. This show is so reliably good. It's well-written, well-performed, and always with a tight story and crisp pace. It's clear from this why Jack Lowden's name is being brought up to be the new James Bond, even if his character can't help but lose.",
 };
 
 // ─── Resolvers ─────────────────────────────────────────────────────
