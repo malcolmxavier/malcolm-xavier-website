@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-10-11T03:45:37.260Z",
+  "capturedAt": "2026-10-11T04:45:37.918Z",
   "meta": {
-    "films": 808,
+    "films": 816,
     "shows": 167,
-    "collections": 77
+    "collections": 78
   },
   "films": {
     "18": {
@@ -5472,6 +5472,120 @@
       ],
       "collection": null
     },
+    "4970": {
+      "ratings": {
+        "imdb": 5.9,
+        "metacritic": 38,
+        "metacriticUser": 6,
+        "tomatoes": 15,
+        "rtAudience": 45,
+        "letterboxd": 2.8,
+        "trakt": 63
+      },
+      "studios": [
+        "Dark Castle Entertainment"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 40000000,
+      "revenue": 141591324,
+      "cast": [
+        {
+          "id": 4587,
+          "name": "Halle Berry"
+        },
+        {
+          "id": 3223,
+          "name": "Robert Downey Jr."
+        },
+        {
+          "id": 17764,
+          "name": "Charles S. Dutton"
+        },
+        {
+          "id": 3911,
+          "name": "John Carroll Lynch"
+        },
+        {
+          "id": 1369,
+          "name": "Bernard Hill"
+        },
+        {
+          "id": 955,
+          "name": "Penélope Cruz"
+        },
+        {
+          "id": 8656,
+          "name": "Dorian Harewood"
+        },
+        {
+          "id": 141789,
+          "name": "Bronwen Mantel"
+        },
+        {
+          "id": 76878,
+          "name": "Kathleen Mackey"
+        },
+        {
+          "id": 59198,
+          "name": "Matthew G. Taylor"
+        },
+        {
+          "id": 7014,
+          "name": "Michel Perron"
+        },
+        {
+          "id": 1466507,
+          "name": "Andrea Sheldon"
+        },
+        {
+          "id": 1476892,
+          "name": "Anana Rydvald"
+        },
+        {
+          "id": 2668317,
+          "name": "Laura Mitchell"
+        },
+        {
+          "id": 99185,
+          "name": "Amy Sloan"
+        },
+        {
+          "id": 79623,
+          "name": "Noel Burton"
+        },
+        {
+          "id": 80178,
+          "name": "Benz Antoine"
+        },
+        {
+          "id": 559971,
+          "name": "Andy Bradshaw"
+        },
+        {
+          "id": 30617,
+          "name": "Jason Cavalier"
+        },
+        {
+          "id": 218619,
+          "name": "Jasson Finney"
+        }
+      ],
+      "writers": [
+        {
+          "id": 19656,
+          "name": "Sebastian Gutierrez"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
+      }
+    },
     "7512": {
       "ratings": {
         "imdb": 6.5,
@@ -9908,6 +10022,133 @@
         "total": 2
       }
     },
+    "70160": {
+      "ratings": {
+        "imdb": 7.2,
+        "metacritic": 68,
+        "metacriticUser": 7.1,
+        "tomatoes": 84,
+        "rtAudience": 81,
+        "letterboxd": 3.8,
+        "trakt": 78
+      },
+      "studios": [
+        "Lionsgate",
+        "Color Force"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 75000000,
+      "revenue": 694000000,
+      "cast": [
+        {
+          "id": 72129,
+          "name": "Jennifer Lawrence"
+        },
+        {
+          "id": 27972,
+          "name": "Josh Hutcherson"
+        },
+        {
+          "id": 96066,
+          "name": "Liam Hemsworth"
+        },
+        {
+          "id": 57755,
+          "name": "Woody Harrelson"
+        },
+        {
+          "id": 9281,
+          "name": "Elizabeth Banks"
+        },
+        {
+          "id": 77069,
+          "name": "Lenny Kravitz"
+        },
+        {
+          "id": 2283,
+          "name": "Stanley Tucci"
+        },
+        {
+          "id": 55636,
+          "name": "Donald Sutherland"
+        },
+        {
+          "id": 8210,
+          "name": "Wes Bentley"
+        },
+        {
+          "id": 13014,
+          "name": "Toby Jones"
+        },
+        {
+          "id": 23498,
+          "name": "Alexander Ludwig"
+        },
+        {
+          "id": 77517,
+          "name": "Isabelle Fuhrman"
+        },
+        {
+          "id": 561869,
+          "name": "Amandla Stenberg"
+        },
+        {
+          "id": 530025,
+          "name": "Willow Shields"
+        },
+        {
+          "id": 427,
+          "name": "Sandra Ellis Lafferty"
+        },
+        {
+          "id": 47533,
+          "name": "Paula Malcomson"
+        },
+        {
+          "id": 51456,
+          "name": "Rhoda Griffis"
+        },
+        {
+          "id": 2309646,
+          "name": "Sandino Moya-Smith"
+        },
+        {
+          "id": 1539949,
+          "name": "Raiko Bowman"
+        },
+        {
+          "id": 83602,
+          "name": "Dwayne Boyd"
+        }
+      ],
+      "writers": [
+        {
+          "id": 23964,
+          "name": "Gary Ross"
+        },
+        {
+          "id": 21807,
+          "name": "Billy Ray"
+        },
+        {
+          "id": 189111,
+          "name": "Suzanne Collins"
+        }
+      ],
+      "collection": {
+        "id": 131635,
+        "name": "The Hunger Games Collection",
+        "total": 4
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 4270
+      }
+    },
     "70578": {
       "ratings": {
         "imdb": 5.3,
@@ -11492,6 +11733,129 @@
       ],
       "collection": null
     },
+    "101299": {
+      "ratings": {
+        "imdb": 7.5,
+        "metacritic": 76,
+        "metacriticUser": 7.9,
+        "tomatoes": 90,
+        "rtAudience": 89,
+        "letterboxd": 4,
+        "trakt": 79
+      },
+      "studios": [
+        "Lionsgate",
+        "Color Force"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 130000000,
+      "revenue": 865011746,
+      "cast": [
+        {
+          "id": 72129,
+          "name": "Jennifer Lawrence"
+        },
+        {
+          "id": 27972,
+          "name": "Josh Hutcherson"
+        },
+        {
+          "id": 96066,
+          "name": "Liam Hemsworth"
+        },
+        {
+          "id": 57755,
+          "name": "Woody Harrelson"
+        },
+        {
+          "id": 9281,
+          "name": "Elizabeth Banks"
+        },
+        {
+          "id": 55636,
+          "name": "Donald Sutherland"
+        },
+        {
+          "id": 77069,
+          "name": "Lenny Kravitz"
+        },
+        {
+          "id": 1233,
+          "name": "Philip Seymour Hoffman"
+        },
+        {
+          "id": 2954,
+          "name": "Jeffrey Wright"
+        },
+        {
+          "id": 2283,
+          "name": "Stanley Tucci"
+        },
+        {
+          "id": 13014,
+          "name": "Toby Jones"
+        },
+        {
+          "id": 530025,
+          "name": "Willow Shields"
+        },
+        {
+          "id": 237455,
+          "name": "Sam Claflin"
+        },
+        {
+          "id": 8792,
+          "name": "Lynn Cohen"
+        },
+        {
+          "id": 20089,
+          "name": "Jena Malone"
+        },
+        {
+          "id": 1544399,
+          "name": "Bobby Jordan"
+        },
+        {
+          "id": 99,
+          "name": "Amanda Plummer"
+        },
+        {
+          "id": 1030513,
+          "name": "Jack Quaid"
+        },
+        {
+          "id": 1382356,
+          "name": "Taylor St. Clair"
+        },
+        {
+          "id": 427,
+          "name": "Sandra Ellis Lafferty"
+        }
+      ],
+      "writers": [
+        {
+          "id": 16961,
+          "name": "Michael Arndt"
+        },
+        {
+          "id": 57631,
+          "name": "Simon Beaufoy"
+        }
+      ],
+      "collection": {
+        "id": 131635,
+        "name": "The Hunger Games Collection",
+        "total": 4
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 3661
+      }
+    },
     "102382": {
       "ratings": {
         "imdb": 6.6,
@@ -12239,6 +12603,129 @@
         "id": 135416,
         "name": "Prometheus Collection",
         "total": 2
+      }
+    },
+    "131631": {
+      "ratings": {
+        "imdb": 6.6,
+        "metacritic": 64,
+        "metacriticUser": 6.3,
+        "tomatoes": null,
+        "rtAudience": null,
+        "letterboxd": 3.4,
+        "trakt": 74
+      },
+      "studios": [
+        "Lionsgate",
+        "Color Force"
+      ],
+      "country": "us",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 125000000,
+      "revenue": 755356711,
+      "cast": [
+        {
+          "id": 72129,
+          "name": "Jennifer Lawrence"
+        },
+        {
+          "id": 27972,
+          "name": "Josh Hutcherson"
+        },
+        {
+          "id": 96066,
+          "name": "Liam Hemsworth"
+        },
+        {
+          "id": 57755,
+          "name": "Woody Harrelson"
+        },
+        {
+          "id": 9281,
+          "name": "Elizabeth Banks"
+        },
+        {
+          "id": 1231,
+          "name": "Julianne Moore"
+        },
+        {
+          "id": 1233,
+          "name": "Philip Seymour Hoffman"
+        },
+        {
+          "id": 2954,
+          "name": "Jeffrey Wright"
+        },
+        {
+          "id": 2283,
+          "name": "Stanley Tucci"
+        },
+        {
+          "id": 55636,
+          "name": "Donald Sutherland"
+        },
+        {
+          "id": 530025,
+          "name": "Willow Shields"
+        },
+        {
+          "id": 237455,
+          "name": "Sam Claflin"
+        },
+        {
+          "id": 20089,
+          "name": "Jena Malone"
+        },
+        {
+          "id": 932967,
+          "name": "Mahershala Ali"
+        },
+        {
+          "id": 58502,
+          "name": "Natalie Dormer"
+        },
+        {
+          "id": 51682,
+          "name": "Wes Chatham"
+        },
+        {
+          "id": 20220,
+          "name": "Elden Henson"
+        },
+        {
+          "id": 1366702,
+          "name": "Patina Miller"
+        },
+        {
+          "id": 94103,
+          "name": "Evan Ross"
+        },
+        {
+          "id": 47533,
+          "name": "Paula Malcomson"
+        }
+      ],
+      "writers": [
+        {
+          "id": 35550,
+          "name": "Danny Strong"
+        },
+        {
+          "id": 225633,
+          "name": "Peter Craig"
+        }
+      ],
+      "collection": {
+        "id": 131635,
+        "name": "The Hunger Games Collection",
+        "total": 4
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 3297
       }
     },
     "150540": {
@@ -23874,6 +24361,122 @@
       ],
       "collection": null
     },
+    "483906": {
+      "ratings": {
+        "imdb": 6.3,
+        "metacritic": 19,
+        "metacriticUser": 6.4,
+        "tomatoes": 20,
+        "rtAudience": 70,
+        "letterboxd": 2.6,
+        "trakt": 67
+      },
+      "studios": [
+        "Dark Horse Entertainment",
+        "Constantin Film",
+        "JB Pictures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "NC-17",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 1019,
+          "name": "Mads Mikkelsen"
+        },
+        {
+          "id": 67599,
+          "name": "Vanessa Hudgens"
+        },
+        {
+          "id": 26723,
+          "name": "Katheryn Winnick"
+        },
+        {
+          "id": 180924,
+          "name": "Inga Cadranel"
+        },
+        {
+          "id": 1997524,
+          "name": "Fei Ren"
+        },
+        {
+          "id": 229396,
+          "name": "Ruby O. Fee"
+        },
+        {
+          "id": 26209,
+          "name": "Matt Lucas"
+        },
+        {
+          "id": 112692,
+          "name": "Robert Maillet"
+        },
+        {
+          "id": 1494851,
+          "name": "Anthony Grant"
+        },
+        {
+          "id": 1451899,
+          "name": "Josh Cruddas"
+        },
+        {
+          "id": 1881104,
+          "name": "Lovina Yavari"
+        },
+        {
+          "id": 231517,
+          "name": "Ayisha Issa"
+        },
+        {
+          "id": 138947,
+          "name": "Pedro Miguel Arce"
+        },
+        {
+          "id": 1796129,
+          "name": "Anastasia Marinina"
+        },
+        {
+          "id": 3037,
+          "name": "Richard Dreyfuss"
+        },
+        {
+          "id": 1228013,
+          "name": "Jill Frappier"
+        },
+        {
+          "id": 1908411,
+          "name": "Nia Roam"
+        },
+        {
+          "id": 2320,
+          "name": "Julian Richings"
+        },
+        {
+          "id": 9656,
+          "name": "Johnny Knoxville"
+        },
+        {
+          "id": 2215152,
+          "name": "Roman Lebeau"
+        }
+      ],
+      "writers": [
+        {
+          "id": 86446,
+          "name": "Jayson Rothwell"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "streaming",
+        "wide": false,
+        "ltd": false,
+        "gap": null
+      }
+    },
     "491283": {
       "ratings": {
         "imdb": 6.8,
@@ -24701,6 +25304,126 @@
         "wide": true,
         "ltd": false,
         "gap": 46
+      }
+    },
+    "505225": {
+      "ratings": {
+        "imdb": 4.4,
+        "metacritic": 35,
+        "metacriticUser": 4.3,
+        "tomatoes": 5,
+        "rtAudience": 14,
+        "letterboxd": 1.9,
+        "trakt": 50
+      },
+      "studios": [
+        "Elevated Films",
+        "Little Red Hen",
+        "The Fyzz"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 1813,
+          "name": "Anne Hathaway"
+        },
+        {
+          "id": 880,
+          "name": "Ben Affleck"
+        },
+        {
+          "id": 4810,
+          "name": "Rosie Perez"
+        },
+        {
+          "id": 5293,
+          "name": "Willem Dafoe"
+        },
+        {
+          "id": 39391,
+          "name": "Edi Gathegi"
+        },
+        {
+          "id": 59675,
+          "name": "Mel Rodriguez"
+        },
+        {
+          "id": 1060629,
+          "name": "Onata Aprile"
+        },
+        {
+          "id": 13014,
+          "name": "Toby Jones"
+        },
+        {
+          "id": 64014,
+          "name": "Carlos Leal"
+        },
+        {
+          "id": 1580247,
+          "name": "Ben Chase"
+        },
+        {
+          "id": 163917,
+          "name": "Julian Gamble"
+        },
+        {
+          "id": 1218024,
+          "name": "Robert Sedgwick"
+        },
+        {
+          "id": 42905,
+          "name": "Bill Kelly"
+        },
+        {
+          "id": 37205,
+          "name": "David Vadim"
+        },
+        {
+          "id": 2547455,
+          "name": "César Galindez"
+        },
+        {
+          "id": 2547456,
+          "name": "Diomedes Rodriguez"
+        },
+        {
+          "id": 2547457,
+          "name": "Casiano Ancalle"
+        },
+        {
+          "id": 2547459,
+          "name": "Lee Markham"
+        },
+        {
+          "id": 1821976,
+          "name": "Betty Jeune"
+        },
+        {
+          "id": 202660,
+          "name": "Laura Niemi"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1613757,
+          "name": "Marco Villalobos"
+        },
+        {
+          "id": 472630,
+          "name": "Dee Rees"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "limited",
+        "wide": false,
+        "ltd": true,
+        "gap": 7
       }
     },
     "507089": {
@@ -84255,6 +84978,123 @@
       "writers": [],
       "collection": null
     },
+    "1375441": {
+      "ratings": {
+        "imdb": 7.1,
+        "metacritic": 67,
+        "metacriticUser": 6.1,
+        "tomatoes": 85,
+        "rtAudience": 78,
+        "letterboxd": 3.7,
+        "trakt": 71
+      },
+      "studios": [
+        "A24",
+        "Icki Eneo Arlo",
+        "Square Peg",
+        "Range Media Partners"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 14500000,
+      "revenue": 34139485,
+      "cast": [
+        {
+          "id": 11288,
+          "name": "Robert Pattinson"
+        },
+        {
+          "id": 28044,
+          "name": "Merritt Wever"
+        },
+        {
+          "id": 61263,
+          "name": "Skyler Gisondo"
+        },
+        {
+          "id": 1232599,
+          "name": "Matthew Maher"
+        },
+        {
+          "id": 2344346,
+          "name": "Phoebe Bridgers"
+        },
+        {
+          "id": 5268306,
+          "name": "Victor Brunette"
+        },
+        {
+          "id": 71913,
+          "name": "Bokeem Woodbine"
+        },
+        {
+          "id": 6400465,
+          "name": "Michael Chachere"
+        },
+        {
+          "id": 18355,
+          "name": "Alex Winter"
+        },
+        {
+          "id": 1291350,
+          "name": "Tony Revolori"
+        },
+        {
+          "id": 144582,
+          "name": "Bob Ari"
+        },
+        {
+          "id": 67778,
+          "name": "Jonathan Lipnicki"
+        },
+        {
+          "id": 1740218,
+          "name": "Matt Smith"
+        },
+        {
+          "id": 1772,
+          "name": "Anna Faris"
+        },
+        {
+          "id": 5418598,
+          "name": "Franco Brocato"
+        },
+        {
+          "id": 5418595,
+          "name": "Luca Brocato"
+        },
+        {
+          "id": 1231682,
+          "name": "Jeff Zucker"
+        },
+        {
+          "id": 144160,
+          "name": "Sean Bridgers"
+        },
+        {
+          "id": 14984,
+          "name": "Jessica Hecht"
+        },
+        {
+          "id": 3707208,
+          "name": "Eric Rahill"
+        }
+      ],
+      "writers": [
+        {
+          "id": 5016022,
+          "name": "Ajon Singh"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": 39
+      }
+    },
     "1379266": {
       "ratings": {
         "imdb": 7.5,
@@ -85922,6 +86762,136 @@
         }
       ],
       "collection": null
+    },
+    "1433583": {
+      "ratings": {
+        "imdb": 6.9,
+        "metacritic": 70,
+        "metacriticUser": 8.2,
+        "tomatoes": 94,
+        "rtAudience": 84,
+        "letterboxd": 3.5,
+        "trakt": 74
+      },
+      "studios": [
+        "Fields Entertainment",
+        "Under the Influence Productions",
+        "Augenschein Filmproduktion",
+        "Construction Film",
+        "Logical Content Ventures"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 569,
+          "name": "Ethan Hawke"
+        },
+        {
+          "id": 934,
+          "name": "Russell Crowe"
+        },
+        {
+          "id": 87310,
+          "name": "Julia Jones"
+        },
+        {
+          "id": 1552436,
+          "name": "Austin Amelio"
+        },
+        {
+          "id": 1617697,
+          "name": "Avi Nash"
+        },
+        {
+          "id": 1444453,
+          "name": "Lucas Lynggaard Tønnesen"
+        },
+        {
+          "id": 563559,
+          "name": "Sam Hazeldine"
+        },
+        {
+          "id": 2966859,
+          "name": "George Burgess"
+        },
+        {
+          "id": 2483492,
+          "name": "Jeff Hallman"
+        },
+        {
+          "id": 13362,
+          "name": "Alec Newman"
+        },
+        {
+          "id": 4821279,
+          "name": "Avy-Berry Worrall"
+        },
+        {
+          "id": 4214949,
+          "name": "Cameron Brady"
+        },
+        {
+          "id": 4651523,
+          "name": "Eric Ford"
+        },
+        {
+          "id": 2847518,
+          "name": "Peter Lewys Preston"
+        },
+        {
+          "id": 2154954,
+          "name": "Neil McGarry"
+        },
+        {
+          "id": 2510830,
+          "name": "Dylan Page"
+        },
+        {
+          "id": 4134049,
+          "name": "Ben Plunkett-Reynolds"
+        },
+        {
+          "id": 6491037,
+          "name": "Charlie Kessler"
+        },
+        {
+          "id": 6491038,
+          "name": "Caspar Steinbeck"
+        },
+        {
+          "id": 2196130,
+          "name": "Daniel Gawlowski"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1941468,
+          "name": "Shelby Gaines"
+        },
+        {
+          "id": 3899896,
+          "name": "Matthew Booi"
+        },
+        {
+          "id": 1246413,
+          "name": "Leo Scherman"
+        },
+        {
+          "id": 21808,
+          "name": "Matthew Chapman"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
     },
     "1435092": {
       "ratings": {
@@ -109385,6 +110355,36 @@
           "id": 102382,
           "title": "The Amazing Spider-Man 2",
           "year": "2014",
+          "watched": false
+        }
+      ]
+    },
+    "131635": {
+      "name": "The Hunger Games Collection",
+      "total": 4,
+      "parts": [
+        {
+          "id": 70160,
+          "title": "The Hunger Games",
+          "year": "2012",
+          "watched": true
+        },
+        {
+          "id": 101299,
+          "title": "The Hunger Games: Catching Fire",
+          "year": "2013",
+          "watched": true
+        },
+        {
+          "id": 131631,
+          "title": "The Hunger Games: Mockingjay - Part 1",
+          "year": "2014",
+          "watched": true
+        },
+        {
+          "id": 131634,
+          "title": "The Hunger Games: Mockingjay - Part 2",
+          "year": "2015",
           "watched": false
         }
       ]
