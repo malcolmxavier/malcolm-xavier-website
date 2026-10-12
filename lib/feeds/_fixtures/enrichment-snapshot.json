@@ -1,9 +1,9 @@
 {
-  "capturedAt": "2026-10-11T07:45:37.679Z",
+  "capturedAt": "2026-10-12T05:45:36.814Z",
   "meta": {
-    "films": 839,
-    "shows": 167,
-    "collections": 81
+    "films": 841,
+    "shows": 169,
+    "collections": 82
   },
   "films": {
     "18": {
@@ -55883,6 +55883,131 @@
       ],
       "collection": null
     },
+    "1007734": {
+      "ratings": {
+        "imdb": 6.3,
+        "metacritic": 59,
+        "metacriticUser": 5.9,
+        "tomatoes": 76,
+        "rtAudience": 87,
+        "letterboxd": 2.9,
+        "trakt": 69
+      },
+      "studios": [
+        "Universal Pictures",
+        "87North Productions",
+        "Eighty Two Films",
+        "Odenkirk Provissiero Entertainment"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 25000000,
+      "revenue": 43285109,
+      "cast": [
+        {
+          "id": 59410,
+          "name": "Bob Odenkirk"
+        },
+        {
+          "id": 935,
+          "name": "Connie Nielsen"
+        },
+        {
+          "id": 40543,
+          "name": "John Ortiz"
+        },
+        {
+          "id": 3492,
+          "name": "Colin Hanks"
+        },
+        {
+          "id": 150,
+          "name": "RZA"
+        },
+        {
+          "id": 5414,
+          "name": "Colin Salmon"
+        },
+        {
+          "id": 1062,
+          "name": "Christopher Lloyd"
+        },
+        {
+          "id": 4430,
+          "name": "Sharon Stone"
+        },
+        {
+          "id": 9452,
+          "name": "Daniel Bernhardt"
+        },
+        {
+          "id": 2593447,
+          "name": "Paisley Cadorath"
+        },
+        {
+          "id": 119251,
+          "name": "Gage Munroe"
+        },
+        {
+          "id": 1178763,
+          "name": "Lucius Hoyos"
+        },
+        {
+          "id": 208069,
+          "name": "Jacob Blair"
+        },
+        {
+          "id": 1224890,
+          "name": "David MacInnis"
+        },
+        {
+          "id": 55616,
+          "name": "David Lawrence Brown"
+        },
+        {
+          "id": 5619701,
+          "name": "Denesha Lee-Labiuk"
+        },
+        {
+          "id": 2109762,
+          "name": "Rodrigo Beilfuss"
+        },
+        {
+          "id": 61170,
+          "name": "Joanne Rodriguez"
+        },
+        {
+          "id": 1153566,
+          "name": "Callum Anderson"
+        },
+        {
+          "id": 2537199,
+          "name": "Alec Carlos"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1076800,
+          "name": "Derek Kolstad"
+        },
+        {
+          "id": 4123026,
+          "name": "Aaron Rabin"
+        }
+      ],
+      "collection": {
+        "id": 1129084,
+        "name": "Nobody Collection",
+        "total": 2
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": 18
+      }
+    },
     "1008042": {
       "ratings": {
         "imdb": 7.1,
@@ -80201,6 +80326,126 @@
         "id": 1492780,
         "name": "One of Them Days Collection",
         "total": 2
+      }
+    },
+    "1281331": {
+      "ratings": {
+        "imdb": 6.8,
+        "metacritic": 52,
+        "metacriticUser": 7.1,
+        "tomatoes": 55,
+        "rtAudience": 70,
+        "letterboxd": 3.1,
+        "trakt": 69
+      },
+      "studios": [
+        "Columbia Pictures",
+        "Alcon Entertainment",
+        "TSG Entertainment"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 1640439,
+          "name": "Mikey Madison"
+        },
+        {
+          "id": 206905,
+          "name": "Jeremy Allen White"
+        },
+        {
+          "id": 239271,
+          "name": "Jeremy Strong"
+        },
+        {
+          "id": 109708,
+          "name": "Bill Burr"
+        },
+        {
+          "id": 134774,
+          "name": "Wunmi Mosaku"
+        },
+        {
+          "id": 141034,
+          "name": "Billy Magnussen"
+        },
+        {
+          "id": 92572,
+          "name": "Betty Gilpin"
+        },
+        {
+          "id": 81683,
+          "name": "Gbenga Akinnagbe"
+        },
+        {
+          "id": 2307481,
+          "name": "Anna Lambe"
+        },
+        {
+          "id": 3535989,
+          "name": "Aidan Laprete"
+        },
+        {
+          "id": 4588467,
+          "name": "Kelley Pereira"
+        },
+        {
+          "id": 88928,
+          "name": "Nelson Franklin"
+        },
+        {
+          "id": 117669,
+          "name": "Portia Doubleday"
+        },
+        {
+          "id": 52801,
+          "name": "Patrick Fischler"
+        },
+        {
+          "id": 1651962,
+          "name": "Joseph Brooks"
+        },
+        {
+          "id": 587822,
+          "name": "Tehmina Sunny"
+        },
+        {
+          "id": 1989176,
+          "name": "Sierra Capri"
+        },
+        {
+          "id": 4391187,
+          "name": "Michael Braugher"
+        },
+        {
+          "id": 1846295,
+          "name": "Matthew Nelson-Mahood"
+        },
+        {
+          "id": 231081,
+          "name": "Nathan Witte"
+        }
+      ],
+      "writers": [
+        {
+          "id": 13520,
+          "name": "Aaron Sorkin"
+        }
+      ],
+      "collection": {
+        "id": 1504252,
+        "name": "The Social Network Collection",
+        "total": 2
+      },
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
       }
     },
     "1283320": {
@@ -112478,6 +112723,77 @@
       ],
       "creators": []
     },
+    "321958": {
+      "ratings": {
+        "imdb": 6.1,
+        "metacritic": 68,
+        "metacriticUser": 8.2,
+        "tomatoes": 87,
+        "rtAudience": 43,
+        "letterboxd": null,
+        "trakt": 80
+      },
+      "country": "US",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1
+        }
+      ],
+      "cast": [
+        {
+          "id": 23119,
+          "name": "Peter Krause",
+          "eps": 13
+        },
+        {
+          "id": 15250,
+          "name": "Hope Davis",
+          "eps": 13
+        },
+        {
+          "id": 2126621,
+          "name": "Kat Cunning",
+          "eps": 13
+        },
+        {
+          "id": 1974047,
+          "name": "Tommy O'Brien",
+          "eps": 13
+        },
+        {
+          "id": 3057377,
+          "name": "Taylor Bloom",
+          "eps": 13
+        },
+        {
+          "id": 987035,
+          "name": "Charlie Barnett",
+          "eps": 13
+        },
+        {
+          "id": 2252709,
+          "name": "Antoinette Crowe-Legacy",
+          "eps": 1
+        },
+        {
+          "id": 1417739,
+          "name": "Pico Alexander",
+          "eps": 1
+        },
+        {
+          "id": 34612,
+          "name": "Anna Chlumsky",
+          "eps": 1
+        }
+      ],
+      "creators": [
+        {
+          "id": 1223158,
+          "name": "Joshua Safran"
+        }
+      ]
+    },
     "323411": {
       "ratings": {
         "imdb": null,
@@ -112604,6 +112920,52 @@
           "name": "Rolin Jones"
         }
       ]
+    },
+    "332902": {
+      "ratings": {
+        "imdb": 6.4,
+        "metacritic": null,
+        "metacriticUser": null,
+        "tomatoes": null,
+        "rtAudience": null,
+        "letterboxd": null,
+        "trakt": 60
+      },
+      "country": "US",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1
+        }
+      ],
+      "cast": [
+        {
+          "id": 4402623,
+          "name": "Jeff Lewis",
+          "eps": 4
+        },
+        {
+          "id": 1800341,
+          "name": "Shane Douglas",
+          "eps": 4
+        },
+        {
+          "id": 4227389,
+          "name": "Jamison Scala",
+          "eps": 4
+        },
+        {
+          "id": 4523273,
+          "name": "Aurora Chavez",
+          "eps": 4
+        },
+        {
+          "id": 6447829,
+          "name": "Annie Sharp",
+          "eps": 4
+        }
+      ],
+      "creators": []
     }
   },
   "collectionDetails": {
@@ -114242,6 +114604,24 @@
           "title": "One of Them Days 2",
           "year": "",
           "watched": false
+        }
+      ]
+    },
+    "1504252": {
+      "name": "The Social Network Collection",
+      "total": 2,
+      "parts": [
+        {
+          "id": 37799,
+          "title": "The Social Network",
+          "year": "2010",
+          "watched": false
+        },
+        {
+          "id": 1281331,
+          "title": "The Social Reckoning",
+          "year": "2026",
+          "watched": true
         }
       ]
     },
