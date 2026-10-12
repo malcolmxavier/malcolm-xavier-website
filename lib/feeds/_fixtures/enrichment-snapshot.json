@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-12T05:45:36.814Z",
+  "capturedAt": "2026-10-12T07:45:36.309Z",
   "meta": {
-    "films": 841,
+    "films": 842,
     "shows": 169,
     "collections": 82
   },
@@ -35543,6 +35543,124 @@
         "id": 173710,
         "name": "Planet of the Apes (Reboot) Collection",
         "total": 4
+      }
+    },
+    "653601": {
+      "ratings": {
+        "imdb": 6,
+        "metacritic": 61,
+        "metacriticUser": 6.4,
+        "tomatoes": 72,
+        "rtAudience": 49,
+        "letterboxd": 3,
+        "trakt": 57
+      },
+      "studios": [
+        "Duplass Brothers Productions"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 88029,
+          "name": "Alison Brie"
+        },
+        {
+          "id": 123846,
+          "name": "Debby Ryan"
+        },
+        {
+          "id": 1674830,
+          "name": "John Reynolds"
+        },
+        {
+          "id": 28640,
+          "name": "Molly Shannon"
+        },
+        {
+          "id": 40543,
+          "name": "John Ortiz"
+        },
+        {
+          "id": 449513,
+          "name": "Meredith Hagner"
+        },
+        {
+          "id": 1456280,
+          "name": "Jake Picking"
+        },
+        {
+          "id": 19839,
+          "name": "David Paymer"
+        },
+        {
+          "id": 45405,
+          "name": "Jay Duplass"
+        },
+        {
+          "id": 18271,
+          "name": "Toby Huss"
+        },
+        {
+          "id": 1375338,
+          "name": "Lauren Weedman"
+        },
+        {
+          "id": 183073,
+          "name": "Angela Trimbur"
+        },
+        {
+          "id": 11022,
+          "name": "Aaron Stanford"
+        },
+        {
+          "id": 5661,
+          "name": "Matthew Gray Gubler"
+        },
+        {
+          "id": 17346,
+          "name": "Robin Tunney"
+        },
+        {
+          "id": 781,
+          "name": "Paul Reiser"
+        },
+        {
+          "id": 2833631,
+          "name": "Stella Chestnut"
+        },
+        {
+          "id": 1848508,
+          "name": "Hazel Armenante"
+        },
+        {
+          "id": 1316248,
+          "name": "Mary Apick"
+        },
+        {
+          "id": 1308373,
+          "name": "Dylan Gelula"
+        }
+      ],
+      "writers": [
+        {
+          "id": 17884,
+          "name": "Jeff Baena"
+        },
+        {
+          "id": 88029,
+          "name": "Alison Brie"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "streaming",
+        "wide": false,
+        "ltd": false,
+        "gap": null
       }
     },
     "654754": {
