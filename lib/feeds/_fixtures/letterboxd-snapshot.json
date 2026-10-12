@@ -1,11 +1,11 @@
 {
-  "capturedAt": "2026-10-12T05:00:45.504Z",
+  "capturedAt": "2026-10-12T07:00:44.888Z",
   "summary": {
-    "totalFilms": 841,
-    "totalReviews": 844,
+    "totalFilms": 842,
+    "totalReviews": 845,
     "ratingDistribution": {
       "1": 40,
-      "2": 136,
+      "2": 137,
       "3": 160,
       "4": 116,
       "5": 16,
@@ -16,7 +16,7 @@
       "0.5": 10
     },
     "genreDistribution": {
-      "Drama": 391,
+      "Drama": 392,
       "History": 44,
       "Thriller": 250,
       "Action": 140,
@@ -37,7 +37,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 624,
+      "2020s": 625,
       "2010s": 143,
       "2000s": 36,
       "1990s": 17,
@@ -47,6 +47,49 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-653601",
+      "letterboxdSlug": "horse-girl",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/horse-girl-2020/",
+      "title": "Horse Girl",
+      "releaseYear": 2020,
+      "firstWatchedDate": "2026-10-11",
+      "latestWatchedDate": "2026-10-11",
+      "firstReviewDate": "2026-10-12",
+      "latestReviewDate": "2026-10-12",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1534620689",
+          "watchedDate": "2026-10-11",
+          "reviewDate": "2026-10-12",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I was looking for something weird, and I definitely got that. But more than anything, this was terribly sad. As a film, I’m not sure it works, but I like seeing some performers I like doing things that are less than conventional.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 653601,
+        "posterPath": "/hNQ7st9dFXUXENMcsAuVxcrIBfA.jpg",
+        "backdropPath": "/6vLCEAVBCLCOtDxZOlnp2fkVUCw.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "runtime": 103,
+        "director": "Jeff Baena"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/hNQ7st9dFXUXENMcsAuVxcrIBfA.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/hNQ7st9dFXUXENMcsAuVxcrIBfA.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1281331",
       "letterboxdSlug": "the-social-reckoning",
@@ -36706,6 +36749,49 @@
     }
   ],
   "filmById": {
+    "tmdb-653601": {
+      "id": "tmdb-653601",
+      "letterboxdSlug": "horse-girl",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/horse-girl-2020/",
+      "title": "Horse Girl",
+      "releaseYear": 2020,
+      "firstWatchedDate": "2026-10-11",
+      "latestWatchedDate": "2026-10-11",
+      "firstReviewDate": "2026-10-12",
+      "latestReviewDate": "2026-10-12",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1534620689",
+          "watchedDate": "2026-10-11",
+          "reviewDate": "2026-10-12",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I was looking for something weird, and I definitely got that. But more than anything, this was terribly sad. As a film, I’m not sure it works, but I like seeing some performers I like doing things that are less than conventional.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 653601,
+        "posterPath": "/hNQ7st9dFXUXENMcsAuVxcrIBfA.jpg",
+        "backdropPath": "/6vLCEAVBCLCOtDxZOlnp2fkVUCw.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "runtime": 103,
+        "director": "Jeff Baena"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/hNQ7st9dFXUXENMcsAuVxcrIBfA.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/hNQ7st9dFXUXENMcsAuVxcrIBfA.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1281331": {
       "id": "tmdb-1281331",
       "letterboxdSlug": "the-social-reckoning",
