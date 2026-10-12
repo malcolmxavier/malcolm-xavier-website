@@ -1,34 +1,34 @@
 {
-  "capturedAt": "2026-10-11T07:00:45.358Z",
+  "capturedAt": "2026-10-12T05:00:45.504Z",
   "summary": {
-    "totalFilms": 839,
-    "totalReviews": 842,
+    "totalFilms": 841,
+    "totalReviews": 844,
     "ratingDistribution": {
       "1": 40,
       "2": 136,
-      "3": 159,
+      "3": 160,
       "4": 116,
       "5": 16,
+      "2.5": 106,
       "3.5": 166,
       "4.5": 55,
-      "2.5": 105,
       "1.5": 39,
       "0.5": 10
     },
     "genreDistribution": {
-      "Action": 139,
-      "Thriller": 248,
+      "Drama": 391,
+      "History": 44,
+      "Thriller": 250,
+      "Action": 140,
+      "Crime": 116,
       "Science Fiction": 140,
-      "Crime": 115,
       "Mystery": 88,
-      "Drama": 390,
       "Comedy": 237,
       "Adventure": 99,
       "Horror": 138,
       "Family": 22,
       "Romance": 93,
       "Fantasy": 62,
-      "History": 43,
       "Music": 50,
       "War": 17,
       "Documentary": 59,
@@ -37,7 +37,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 622,
+      "2020s": 624,
       "2010s": 143,
       "2000s": 36,
       "1990s": 17,
@@ -47,6 +47,96 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1281331",
+      "letterboxdSlug": "the-social-reckoning",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-social-reckoning/",
+      "title": "The Social Reckoning",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-11",
+      "latestWatchedDate": "2026-10-11",
+      "firstReviewDate": "2026-10-12",
+      "latestReviewDate": "2026-10-12",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1534498485",
+          "watchedDate": "2026-10-11",
+          "reviewDate": "2026-10-12",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "My biggest gripe is that it bites off more than it can chew while trying to evoke that it cares. But the central issue in the film is true in real life—the average person and politician does not understand the harms of social media, and so does not care. We’ve also moved so far beyond this story that this feels almost kind toward our current reality. Wunmi was great, though—love my girl.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1281331,
+        "posterPath": "/7jK6NuxVg1XuEV7UdNa6KO03IgZ.jpg",
+        "backdropPath": "/wXTaGcqX3jvdXSKCJAkl5jZyrKp.jpg",
+        "genres": [
+          "Drama",
+          "History",
+          "Thriller"
+        ],
+        "runtime": 112,
+        "director": "Aaron Sorkin"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7jK6NuxVg1XuEV7UdNa6KO03IgZ.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7jK6NuxVg1XuEV7UdNa6KO03IgZ.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1007734",
+      "letterboxdSlug": "nobody-2",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/nobody-2/",
+      "title": "Nobody 2",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-10-11",
+      "latestWatchedDate": "2026-10-11",
+      "firstReviewDate": "2026-10-12",
+      "latestReviewDate": "2026-10-12",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1534494699",
+          "watchedDate": "2026-10-11",
+          "reviewDate": "2026-10-12",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Missed opportunity to make this way more of a family affair, and it seems to realize this in the last 20 minutes. The Céline needle drop was everything.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1007734,
+        "posterPath": "/svXVRoRSu6zzFtCzkRsjZS7Lqpd.jpg",
+        "backdropPath": "/82C04rTiXYZ7c8XZv91Nu53w82Y.jpg",
+        "genres": [
+          "Action",
+          "Thriller",
+          "Crime"
+        ],
+        "runtime": 89,
+        "director": "Timo Tjahjanto"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/svXVRoRSu6zzFtCzkRsjZS7Lqpd.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/svXVRoRSu6zzFtCzkRsjZS7Lqpd.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-615457",
       "letterboxdSlug": "nobody",
@@ -36616,6 +36706,96 @@
     }
   ],
   "filmById": {
+    "tmdb-1281331": {
+      "id": "tmdb-1281331",
+      "letterboxdSlug": "the-social-reckoning",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-social-reckoning/",
+      "title": "The Social Reckoning",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-11",
+      "latestWatchedDate": "2026-10-11",
+      "firstReviewDate": "2026-10-12",
+      "latestReviewDate": "2026-10-12",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1534498485",
+          "watchedDate": "2026-10-11",
+          "reviewDate": "2026-10-12",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "My biggest gripe is that it bites off more than it can chew while trying to evoke that it cares. But the central issue in the film is true in real life—the average person and politician does not understand the harms of social media, and so does not care. We’ve also moved so far beyond this story that this feels almost kind toward our current reality. Wunmi was great, though—love my girl.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1281331,
+        "posterPath": "/7jK6NuxVg1XuEV7UdNa6KO03IgZ.jpg",
+        "backdropPath": "/wXTaGcqX3jvdXSKCJAkl5jZyrKp.jpg",
+        "genres": [
+          "Drama",
+          "History",
+          "Thriller"
+        ],
+        "runtime": 112,
+        "director": "Aaron Sorkin"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7jK6NuxVg1XuEV7UdNa6KO03IgZ.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7jK6NuxVg1XuEV7UdNa6KO03IgZ.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1007734": {
+      "id": "tmdb-1007734",
+      "letterboxdSlug": "nobody-2",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/nobody-2/",
+      "title": "Nobody 2",
+      "releaseYear": 2025,
+      "firstWatchedDate": "2026-10-11",
+      "latestWatchedDate": "2026-10-11",
+      "firstReviewDate": "2026-10-12",
+      "latestReviewDate": "2026-10-12",
+      "primaryRating": 3,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1534494699",
+          "watchedDate": "2026-10-11",
+          "reviewDate": "2026-10-12",
+          "rating": 3,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Missed opportunity to make this way more of a family affair, and it seems to realize this in the last 20 minutes. The Céline needle drop was everything.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1007734,
+        "posterPath": "/svXVRoRSu6zzFtCzkRsjZS7Lqpd.jpg",
+        "backdropPath": "/82C04rTiXYZ7c8XZv91Nu53w82Y.jpg",
+        "genres": [
+          "Action",
+          "Thriller",
+          "Crime"
+        ],
+        "runtime": 89,
+        "director": "Timo Tjahjanto"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/svXVRoRSu6zzFtCzkRsjZS7Lqpd.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/svXVRoRSu6zzFtCzkRsjZS7Lqpd.jpg",
+      "ratingSet": [
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-615457": {
       "id": "tmdb-615457",
       "letterboxdSlug": "nobody",
