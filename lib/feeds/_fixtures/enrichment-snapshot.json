@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-12T07:45:36.309Z",
+  "capturedAt": "2026-10-13T02:45:36.351Z",
   "meta": {
-    "films": 842,
+    "films": 843,
     "shows": 169,
     "collections": 82
   },
@@ -72156,6 +72156,126 @@
         }
       ],
       "collection": null
+    },
+    "1187417": {
+      "ratings": {
+        "imdb": 4.8,
+        "metacritic": 69,
+        "metacriticUser": 5.3,
+        "tomatoes": 76,
+        "rtAudience": 30,
+        "letterboxd": 2.6,
+        "trakt": 47
+      },
+      "studios": [
+        "Buffalo Gal Pictures",
+        "Square Peg",
+        "Maze Pictures",
+        "Orogen Entertainment",
+        "ZDF/Arte",
+        "Thin Stuff Productions",
+        "Walking Down Broadway Ltd.",
+        "Laokoon Filmgroup",
+        "Aloe Entertainment",
+        "Ludascripts",
+        "Rabbits Black"
+      ],
+      "country": "CA",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": 450517,
+      "cast": [
+        {
+          "id": 112,
+          "name": "Cate Blanchett"
+        },
+        {
+          "id": 56977,
+          "name": "Roy Dupuis"
+        },
+        {
+          "id": 109319,
+          "name": "Nikki Amuka-Bird"
+        },
+        {
+          "id": 4391,
+          "name": "Charles Dance"
+        },
+        {
+          "id": 1082509,
+          "name": "Takehiro Hira"
+        },
+        {
+          "id": 81125,
+          "name": "Denis Ménochet"
+        },
+        {
+          "id": 149349,
+          "name": "Rolando Ravello"
+        },
+        {
+          "id": 31960,
+          "name": "Zlatko Burić"
+        },
+        {
+          "id": 227454,
+          "name": "Alicia Vikander"
+        },
+        {
+          "id": 4887790,
+          "name": "Alexa Kennedy"
+        },
+        {
+          "id": 1871609,
+          "name": "Ralph Berkin"
+        },
+        {
+          "id": 2077399,
+          "name": "Tomi Kosynus"
+        },
+        {
+          "id": 5092741,
+          "name": "Ádám Bot"
+        },
+        {
+          "id": 5092742,
+          "name": "Viktória Dányi"
+        },
+        {
+          "id": 5092743,
+          "name": "Vivien Ferencz"
+        },
+        {
+          "id": 5092746,
+          "name": "Dorina Mayer"
+        },
+        {
+          "id": 5092748,
+          "name": "Zsófia Temesvári"
+        }
+      ],
+      "writers": [
+        {
+          "id": 97579,
+          "name": "Guy Maddin"
+        },
+        {
+          "id": 1409534,
+          "name": "Evan Johnson"
+        },
+        {
+          "id": 1409538,
+          "name": "Galen Johnson"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 25
+      }
     },
     "1189877": {
       "ratings": {
