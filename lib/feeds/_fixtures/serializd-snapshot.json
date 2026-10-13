@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-10-12T05:31:08.582Z",
+  "capturedAt": "2026-10-13T15:31:12.435Z",
   "summary": {
     "totalShows": 169,
     "totalShowReviews": 43,
     "totalSeasonReviews": 274,
-    "totalEpisodeReviews": 1070,
+    "totalEpisodeReviews": 1071,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
-      "3": 381,
+      "3": 382,
       "4": 264,
       "5": 20,
-      "3.5": 408,
       "2.5": 142,
+      "3.5": 408,
       "1.5": 13,
       "4.5": 72,
       "0.5": 1
@@ -42,20 +42,20 @@
       },
       "episode": {
         "2": 25,
-        "3": 313,
+        "3": 314,
         "4": 208,
         "5": 10,
-        "3.5": 330,
         "2.5": 115,
+        "3.5": 330,
         "1.5": 7,
         "4.5": 61
       }
     },
     "genreDistribution": {
+      "Documentary": 14,
+      "Reality": 32,
       "Talk": 1,
       "Comedy": 57,
-      "Reality": 32,
-      "Documentary": 14,
       "Drama": 102,
       "Crime": 33,
       "Mystery": 35,
@@ -67,9 +67,9 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
+      "2020s": 138,
       "2000s": 6,
       "2010s": 23,
-      "2020s": 138,
       "1970s": 1,
       "1990s": 1
     },
@@ -78,6 +78,111 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-332902",
+      "serializdShowId": 332902,
+      "slug": "still-flipping-out-2026",
+      "name": "Still Flipping Out",
+      "premiereYear": 2026,
+      "premiereDate": "2026-09-28",
+      "serializdUrl": "https://serializd.com/show/332902",
+      "tmdb": {
+        "id": 332902,
+        "name": "Still Flipping Out",
+        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
+        "genres": [
+          "Documentary",
+          "Reality"
+        ],
+        "type": "Reality",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 4
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "seasons": [
+        {
+          "serializdId": 538912,
+          "showId": 332902,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": null,
+          "episodeCount": 4
+        }
+      ],
+      "reviews": [
+        {
+          "id": 92786280,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not a Joey apologist, but we brought him on the show to set up the drama, then kicked him off the show? Feeling very produced…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-12T12:00:00Z",
+          "reviewDate": "2026-10-13T15:13:24Z",
+          "seasonId": 538912,
+          "episodeNumber": 3,
+          "episodeName": "Chumped and Dumped",
+          "tags": []
+        },
+        {
+          "id": 92554347,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-06T12:00:00Z",
+          "reviewDate": "2026-10-12T04:34:06Z",
+          "seasonId": 538912,
+          "episodeNumber": 2,
+          "episodeName": "Sick of the Shtick",
+          "tags": []
+        },
+        {
+          "id": 92554333,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-29T12:00:00Z",
+          "reviewDate": "2026-10-12T04:33:54Z",
+          "seasonId": 538912,
+          "episodeNumber": 1,
+          "episodeName": "Did You Miss Me?",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-13T15:13:24Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-22980",
       "serializdShowId": 22980,
@@ -1277,8 +1382,8 @@
           "showId": 65300,
           "seasonNumber": 11,
           "name": "Season 11",
-          "posterPath": "/wwz1ie2X2xxQa6vtpW6kXH08qMy.jpg",
-          "episodeCount": 7
+          "posterPath": "/gByyRQrVRUzqfDiHjUVeiQbEMOi.jpg",
+          "episodeCount": 10
         }
       ],
       "reviews": [
@@ -4546,95 +4651,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-10-12T04:35:36Z",
       "primaryRating": 4,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-332902",
-      "serializdShowId": 332902,
-      "slug": "still-flipping-out-2026",
-      "name": "Still Flipping Out",
-      "premiereYear": 2026,
-      "premiereDate": "2026-09-28",
-      "serializdUrl": "https://serializd.com/show/332902",
-      "tmdb": {
-        "id": 332902,
-        "name": "Still Flipping Out",
-        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
-        "genres": [
-          "Documentary",
-          "Reality"
-        ],
-        "type": "Reality",
-        "status": "Returning Series",
-        "networks": [
-          "Bravo"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 4
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "seasons": [
-        {
-          "serializdId": 538912,
-          "showId": 332902,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": null,
-          "episodeCount": 4
-        }
-      ],
-      "reviews": [
-        {
-          "id": 92554347,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-06T12:00:00Z",
-          "reviewDate": "2026-10-12T04:34:06Z",
-          "seasonId": 538912,
-          "episodeNumber": 2,
-          "episodeName": "Sick of the Shtick",
-          "tags": []
-        },
-        {
-          "id": 92554333,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-29T12:00:00Z",
-          "reviewDate": "2026-10-12T04:33:54Z",
-          "seasonId": 538912,
-          "episodeNumber": 1,
-          "episodeName": "Did You Miss Me?",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-12T04:34:06Z",
-      "primaryRating": 2.5,
       "liked": false
     },
     {
@@ -34777,6 +34793,111 @@
     }
   ],
   "showById": {
+    "tmdb-tv-332902": {
+      "id": "tmdb-tv-332902",
+      "serializdShowId": 332902,
+      "slug": "still-flipping-out-2026",
+      "name": "Still Flipping Out",
+      "premiereYear": 2026,
+      "premiereDate": "2026-09-28",
+      "serializdUrl": "https://serializd.com/show/332902",
+      "tmdb": {
+        "id": 332902,
+        "name": "Still Flipping Out",
+        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
+        "genres": [
+          "Documentary",
+          "Reality"
+        ],
+        "type": "Reality",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 4
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "seasons": [
+        {
+          "serializdId": 538912,
+          "showId": 332902,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": null,
+          "episodeCount": 4
+        }
+      ],
+      "reviews": [
+        {
+          "id": 92786280,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not a Joey apologist, but we brought him on the show to set up the drama, then kicked him off the show? Feeling very produced…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-12T12:00:00Z",
+          "reviewDate": "2026-10-13T15:13:24Z",
+          "seasonId": 538912,
+          "episodeNumber": 3,
+          "episodeName": "Chumped and Dumped",
+          "tags": []
+        },
+        {
+          "id": 92554347,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-06T12:00:00Z",
+          "reviewDate": "2026-10-12T04:34:06Z",
+          "seasonId": 538912,
+          "episodeNumber": 2,
+          "episodeName": "Sick of the Shtick",
+          "tags": []
+        },
+        {
+          "id": 92554333,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-29T12:00:00Z",
+          "reviewDate": "2026-10-12T04:33:54Z",
+          "seasonId": 538912,
+          "episodeNumber": 1,
+          "episodeName": "Did You Miss Me?",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-13T15:13:24Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     "tmdb-tv-22980": {
       "id": "tmdb-tv-22980",
       "serializdShowId": 22980,
@@ -35976,8 +36097,8 @@
           "showId": 65300,
           "seasonNumber": 11,
           "name": "Season 11",
-          "posterPath": "/wwz1ie2X2xxQa6vtpW6kXH08qMy.jpg",
-          "episodeCount": 7
+          "posterPath": "/gByyRQrVRUzqfDiHjUVeiQbEMOi.jpg",
+          "episodeCount": 10
         }
       ],
       "reviews": [
@@ -39245,95 +39366,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-10-12T04:35:36Z",
       "primaryRating": 4,
-      "liked": false
-    },
-    "tmdb-tv-332902": {
-      "id": "tmdb-tv-332902",
-      "serializdShowId": 332902,
-      "slug": "still-flipping-out-2026",
-      "name": "Still Flipping Out",
-      "premiereYear": 2026,
-      "premiereDate": "2026-09-28",
-      "serializdUrl": "https://serializd.com/show/332902",
-      "tmdb": {
-        "id": 332902,
-        "name": "Still Flipping Out",
-        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
-        "genres": [
-          "Documentary",
-          "Reality"
-        ],
-        "type": "Reality",
-        "status": "Returning Series",
-        "networks": [
-          "Bravo"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 4
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "seasons": [
-        {
-          "serializdId": 538912,
-          "showId": 332902,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": null,
-          "episodeCount": 4
-        }
-      ],
-      "reviews": [
-        {
-          "id": 92554347,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-06T12:00:00Z",
-          "reviewDate": "2026-10-12T04:34:06Z",
-          "seasonId": 538912,
-          "episodeNumber": 2,
-          "episodeName": "Sick of the Shtick",
-          "tags": []
-        },
-        {
-          "id": 92554333,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-29T12:00:00Z",
-          "reviewDate": "2026-10-12T04:33:54Z",
-          "seasonId": 538912,
-          "episodeNumber": 1,
-          "episodeName": "Did You Miss Me?",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-12T04:34:06Z",
-      "primaryRating": 2.5,
       "liked": false
     },
     "tmdb-tv-321958": {
@@ -70503,7 +70535,7 @@
       "serializdShowId": 70523,
       "name": "Dark",
       "premiereDate": "2017-12-01",
-      "bannerImage": "/apbrbWs8M9lyOpJYU5WXrpFbk1Z.jpg",
+      "bannerImage": "/wSXJHO9WHLb0aCwvQrtco7vOmWA.jpg",
       "numSeasons": 3,
       "numEpisodes": 26,
       "watchedSeasonIds": [
