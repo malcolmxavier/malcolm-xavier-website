@@ -1,11 +1,11 @@
 {
-  "capturedAt": "2026-10-12T07:00:44.888Z",
+  "capturedAt": "2026-10-13T02:00:44.853Z",
   "summary": {
-    "totalFilms": 842,
-    "totalReviews": 845,
+    "totalFilms": 843,
+    "totalReviews": 846,
     "ratingDistribution": {
       "1": 40,
-      "2": 137,
+      "2": 138,
       "3": 160,
       "4": 116,
       "5": 16,
@@ -16,6 +16,8 @@
       "0.5": 10
     },
     "genreDistribution": {
+      "Horror": 139,
+      "Comedy": 238,
       "Drama": 392,
       "History": 44,
       "Thriller": 250,
@@ -23,9 +25,7 @@
       "Crime": 116,
       "Science Fiction": 140,
       "Mystery": 88,
-      "Comedy": 237,
       "Adventure": 99,
-      "Horror": 138,
       "Family": 22,
       "Romance": 93,
       "Fantasy": 62,
@@ -37,7 +37,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 625,
+      "2020s": 626,
       "2010s": 143,
       "2000s": 36,
       "1990s": 17,
@@ -47,6 +47,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1187417",
+      "letterboxdSlug": "rumours",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/rumours-2024/",
+      "title": "Rumours",
+      "releaseYear": 2024,
+      "firstWatchedDate": "2026-10-12",
+      "latestWatchedDate": "2026-10-12",
+      "firstReviewDate": "2026-10-13",
+      "latestReviewDate": "2026-10-13",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1535931865",
+          "watchedDate": "2026-10-12",
+          "reviewDate": "2026-10-13",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Flashy, but without substance. Dark and funny, but without meaningful commentary. And perhaps that’s the point.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1187417,
+        "posterPath": "/lAjLzQDyUXxCH4tOBxkRYDbBpY.jpg",
+        "backdropPath": "/zai0upX7orgi1G8ZOTyq2CPUVJD.jpg",
+        "genres": [
+          "Horror",
+          "Comedy"
+        ],
+        "runtime": 104,
+        "director": "Guy Maddin"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/lAjLzQDyUXxCH4tOBxkRYDbBpY.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lAjLzQDyUXxCH4tOBxkRYDbBpY.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-653601",
       "letterboxdSlug": "horse-girl",
@@ -36749,6 +36793,50 @@
     }
   ],
   "filmById": {
+    "tmdb-1187417": {
+      "id": "tmdb-1187417",
+      "letterboxdSlug": "rumours",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/rumours-2024/",
+      "title": "Rumours",
+      "releaseYear": 2024,
+      "firstWatchedDate": "2026-10-12",
+      "latestWatchedDate": "2026-10-12",
+      "firstReviewDate": "2026-10-13",
+      "latestReviewDate": "2026-10-13",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1535931865",
+          "watchedDate": "2026-10-12",
+          "reviewDate": "2026-10-13",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Flashy, but without substance. Dark and funny, but without meaningful commentary. And perhaps that’s the point.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1187417,
+        "posterPath": "/lAjLzQDyUXxCH4tOBxkRYDbBpY.jpg",
+        "backdropPath": "/zai0upX7orgi1G8ZOTyq2CPUVJD.jpg",
+        "genres": [
+          "Horror",
+          "Comedy"
+        ],
+        "runtime": 104,
+        "director": "Guy Maddin"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/lAjLzQDyUXxCH4tOBxkRYDbBpY.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lAjLzQDyUXxCH4tOBxkRYDbBpY.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-653601": {
       "id": "tmdb-653601",
       "letterboxdSlug": "horse-girl",
