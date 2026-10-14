@@ -1,20 +1,20 @@
 {
-  "capturedAt": "2026-10-13T15:31:12.435Z",
+  "capturedAt": "2026-10-14T17:31:17.105Z",
   "summary": {
     "totalShows": 169,
     "totalShowReviews": 43,
     "totalSeasonReviews": 274,
-    "totalEpisodeReviews": 1071,
+    "totalEpisodeReviews": 1072,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 382,
       "4": 264,
       "5": 20,
-      "2.5": 142,
+      "4.5": 73,
       "3.5": 408,
+      "2.5": 142,
       "1.5": 13,
-      "4.5": 72,
       "0.5": 1
     },
     "ratingDistributionByLevel": {
@@ -45,20 +45,20 @@
         "3": 314,
         "4": 208,
         "5": 10,
-        "2.5": 115,
+        "4.5": 62,
         "3.5": 330,
-        "1.5": 7,
-        "4.5": 61
+        "2.5": 115,
+        "1.5": 7
       }
     },
     "genreDistribution": {
+      "Crime": 33,
+      "Drama": 102,
+      "Mystery": 35,
       "Documentary": 14,
       "Reality": 32,
       "Talk": 1,
       "Comedy": 57,
-      "Drama": 102,
-      "Crime": 33,
-      "Mystery": 35,
       "Sci-Fi & Fantasy": 25,
       "Action & Adventure": 18,
       "News": 1,
@@ -78,6 +78,273 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-95480",
+      "serializdShowId": 95480,
+      "slug": "slow-horses-2022",
+      "name": "Slow Horses",
+      "premiereYear": 2022,
+      "premiereDate": "2022-04-01",
+      "serializdUrl": "https://serializd.com/show/95480",
+      "tmdb": {
+        "id": 95480,
+        "name": "Slow Horses",
+        "posterPath": "/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
+        "backdropPath": "/gPQppUnLx9vqPDLz3WwZ2HJsNbt.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Mystery"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 6,
+        "numberOfEpisodes": 36
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
+      "seasons": [
+        {
+          "serializdId": 135858,
+          "showId": 95480,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/oBqlO6ZjTcVFiE0lBj89lAOi18s.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 310117,
+          "showId": 95480,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/8FM8KCgZQSbLLXcZew0MSj6so1k.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 357755,
+          "showId": 95480,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/vJI9OcHFHxDy6ZeEmXfM5zhApXV.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 400149,
+          "showId": 95480,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/lQwWHQHbJkl5pbBX0nKKZpQbly2.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 459284,
+          "showId": 95480,
+          "seasonNumber": 5,
+          "name": "Season 5",
+          "posterPath": "/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 521992,
+          "showId": 95480,
+          "seasonNumber": 6,
+          "name": "Season 6",
+          "posterPath": "/w2jauz2PeSjFQifDObI3qDen4f7.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 92951863,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Banger of an episode. Diana will pay.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-13T12:00:00Z",
+          "reviewDate": "2026-10-14T16:43:00Z",
+          "seasonId": 521992,
+          "episodeNumber": 5,
+          "episodeName": "Sayonara",
+          "tags": []
+        },
+        {
+          "id": 92352341,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’ll be crying over this for a bit. Fuck this season (it’s so good).",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-07T12:00:00Z",
+          "reviewDate": "2026-10-11T02:58:38Z",
+          "seasonId": 521992,
+          "episodeNumber": 4,
+          "episodeName": "Lost & Found",
+          "tags": []
+        },
+        {
+          "id": 92352258,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-30T12:00:00Z",
+          "reviewDate": "2026-10-11T02:57:46Z",
+          "seasonId": 521992,
+          "episodeNumber": 3,
+          "episodeName": "Resurrection",
+          "tags": []
+        },
+        {
+          "id": 92352242,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-23T12:00:00Z",
+          "reviewDate": "2026-10-11T02:57:34Z",
+          "seasonId": 521992,
+          "episodeNumber": 2,
+          "episodeName": "Daddy Issues",
+          "tags": []
+        },
+        {
+          "id": 92352232,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-16T12:00:00Z",
+          "reviewDate": "2026-10-11T02:57:21Z",
+          "seasonId": 521992,
+          "episodeNumber": 1,
+          "episodeName": "Circle of Life",
+          "tags": []
+        },
+        {
+          "id": 45964806,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Another banger of a season. This show is so fresh and reliable in its freshness, which is surprising for a spy dramedy. This crew has really grown on me and I couldn’t probably watch them forever. Long live Roddy Ho.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-10-29T22:24:00Z",
+          "reviewDate": "2025-11-02T23:25:56Z",
+          "seasonId": 459284,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 30638161,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "It feels like they squandered the momentum of the prior season with too much of a time and direction shift. I understand that it’s based off of a book series, but it feels like a missed opportunity for an adaptation to smooth out its events. And I suppose that’s my critique of this whole series already, knowing it’s already renewed for a couple more seasons: it straddles the line too much between series and limited series, without committing to being anthological in any meaningful way. Every interesting self-reference is a whisper, while the others feel like roars. I’m eager for the next season, but not because this one was particularly strong.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-03-30T02:56:00Z",
+          "reviewDate": "2025-03-31T02:56:29Z",
+          "seasonId": 400149,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 30564472,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "They cooked with this season! The story felt much more urgent and was told with greater finesse. The last two episodes, in particular, had me wanting them to slow down (complimentary), so I had more time to savor each setup.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-03-30T01:05:06Z",
+          "reviewDate": "2025-03-30T01:05:06Z",
+          "seasonId": 357755,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 30535502,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A fine season, but a bit formulaic and didn’t really grab my attention the way I had hoped after the first season. Still love cunty Gary Oldman, though.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-03-26T16:11:00Z",
+          "reviewDate": "2025-03-29T16:11:01Z",
+          "seasonId": 310117,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 27759767,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not sure if this was actually good, but I like how sleek it was and how in it I felt while watching. I’m curious to see where this goes and I like the brevity of season; everything felt focused and well-paced.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-02-11T05:37:21Z",
+          "reviewDate": "2025-02-11T05:38:50Z",
+          "seasonId": 135858,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "inProgressSeasonNumbers": [
+        6
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-14T16:43:00Z",
+      "primaryRating": 4.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-332902",
       "serializdShowId": 332902,
@@ -401,7 +668,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 166
+          "episodeCount": 167
         }
       ],
       "reviews": [
@@ -1284,7 +1551,7 @@
           "Bravo"
         ],
         "numberOfSeasons": 11,
-        "numberOfEpisodes": 200
+        "numberOfEpisodes": 203
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/lgSkHpr6LXxsh2YXiBrDZHn5wUR.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lgSkHpr6LXxsh2YXiBrDZHn5wUR.jpg",
@@ -1382,7 +1649,7 @@
           "showId": 65300,
           "seasonNumber": 11,
           "name": "Season 11",
-          "posterPath": "/gByyRQrVRUzqfDiHjUVeiQbEMOi.jpg",
+          "posterPath": "/gbCD1OVAtf7DgBXbDf7XvBFrybN.jpg",
           "episodeCount": 10
         }
       ],
@@ -5007,256 +5274,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-10-11T05:16:41Z",
       "primaryRating": 3.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-95480",
-      "serializdShowId": 95480,
-      "slug": "slow-horses-2022",
-      "name": "Slow Horses",
-      "premiereYear": 2022,
-      "premiereDate": "2022-04-01",
-      "serializdUrl": "https://serializd.com/show/95480",
-      "tmdb": {
-        "id": 95480,
-        "name": "Slow Horses",
-        "posterPath": "/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-        "backdropPath": "/gPQppUnLx9vqPDLz3WwZ2HJsNbt.jpg",
-        "genres": [
-          "Crime",
-          "Drama",
-          "Mystery"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Apple TV"
-        ],
-        "numberOfSeasons": 6,
-        "numberOfEpisodes": 36
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-      "seasons": [
-        {
-          "serializdId": 135858,
-          "showId": 95480,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/oBqlO6ZjTcVFiE0lBj89lAOi18s.jpg",
-          "episodeCount": 6
-        },
-        {
-          "serializdId": 310117,
-          "showId": 95480,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/8FM8KCgZQSbLLXcZew0MSj6so1k.jpg",
-          "episodeCount": 6
-        },
-        {
-          "serializdId": 357755,
-          "showId": 95480,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/vJI9OcHFHxDy6ZeEmXfM5zhApXV.jpg",
-          "episodeCount": 6
-        },
-        {
-          "serializdId": 400149,
-          "showId": 95480,
-          "seasonNumber": 4,
-          "name": "Season 4",
-          "posterPath": "/lQwWHQHbJkl5pbBX0nKKZpQbly2.jpg",
-          "episodeCount": 6
-        },
-        {
-          "serializdId": 459284,
-          "showId": 95480,
-          "seasonNumber": 5,
-          "name": "Season 5",
-          "posterPath": "/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
-          "episodeCount": 6
-        },
-        {
-          "serializdId": 521992,
-          "showId": 95480,
-          "seasonNumber": 6,
-          "name": "Season 6",
-          "posterPath": "/w2jauz2PeSjFQifDObI3qDen4f7.jpg",
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 92352341,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I’ll be crying over this for a bit. Fuck this season (it’s so good).",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-07T12:00:00Z",
-          "reviewDate": "2026-10-11T02:58:38Z",
-          "seasonId": 521992,
-          "episodeNumber": 4,
-          "episodeName": "Lost & Found",
-          "tags": []
-        },
-        {
-          "id": 92352258,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-30T12:00:00Z",
-          "reviewDate": "2026-10-11T02:57:46Z",
-          "seasonId": 521992,
-          "episodeNumber": 3,
-          "episodeName": "Resurrection",
-          "tags": []
-        },
-        {
-          "id": 92352242,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-23T12:00:00Z",
-          "reviewDate": "2026-10-11T02:57:34Z",
-          "seasonId": 521992,
-          "episodeNumber": 2,
-          "episodeName": "Daddy Issues",
-          "tags": []
-        },
-        {
-          "id": 92352232,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-16T12:00:00Z",
-          "reviewDate": "2026-10-11T02:57:21Z",
-          "seasonId": 521992,
-          "episodeNumber": 1,
-          "episodeName": "Circle of Life",
-          "tags": []
-        },
-        {
-          "id": 45964806,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Another banger of a season. This show is so fresh and reliable in its freshness, which is surprising for a spy dramedy. This crew has really grown on me and I couldn’t probably watch them forever. Long live Roddy Ho.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-10-29T22:24:00Z",
-          "reviewDate": "2025-11-02T23:25:56Z",
-          "seasonId": 459284,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 30638161,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "It feels like they squandered the momentum of the prior season with too much of a time and direction shift. I understand that it’s based off of a book series, but it feels like a missed opportunity for an adaptation to smooth out its events. And I suppose that’s my critique of this whole series already, knowing it’s already renewed for a couple more seasons: it straddles the line too much between series and limited series, without committing to being anthological in any meaningful way. Every interesting self-reference is a whisper, while the others feel like roars. I’m eager for the next season, but not because this one was particularly strong.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-03-30T02:56:00Z",
-          "reviewDate": "2025-03-31T02:56:29Z",
-          "seasonId": 400149,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 30564472,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "They cooked with this season! The story felt much more urgent and was told with greater finesse. The last two episodes, in particular, had me wanting them to slow down (complimentary), so I had more time to savor each setup.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-03-30T01:05:06Z",
-          "reviewDate": "2025-03-30T01:05:06Z",
-          "seasonId": 357755,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 30535502,
-          "level": "season",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "A fine season, but a bit formulaic and didn’t really grab my attention the way I had hoped after the first season. Still love cunty Gary Oldman, though.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-03-26T16:11:00Z",
-          "reviewDate": "2025-03-29T16:11:01Z",
-          "seasonId": 310117,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 27759767,
-          "level": "season",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I’m not sure if this was actually good, but I like how sleek it was and how in it I felt while watching. I’m curious to see where this goes and I like the brevity of season; everything felt focused and well-paced.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-02-11T05:37:21Z",
-          "reviewDate": "2025-02-11T05:38:50Z",
-          "seasonId": 135858,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "inProgressSeasonNumbers": [
-        6
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-11T02:58:38Z",
-      "primaryRating": 4,
       "liked": false
     },
     {
@@ -34793,6 +34810,273 @@
     }
   ],
   "showById": {
+    "tmdb-tv-95480": {
+      "id": "tmdb-tv-95480",
+      "serializdShowId": 95480,
+      "slug": "slow-horses-2022",
+      "name": "Slow Horses",
+      "premiereYear": 2022,
+      "premiereDate": "2022-04-01",
+      "serializdUrl": "https://serializd.com/show/95480",
+      "tmdb": {
+        "id": 95480,
+        "name": "Slow Horses",
+        "posterPath": "/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
+        "backdropPath": "/gPQppUnLx9vqPDLz3WwZ2HJsNbt.jpg",
+        "genres": [
+          "Crime",
+          "Drama",
+          "Mystery"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "Apple TV"
+        ],
+        "numberOfSeasons": 6,
+        "numberOfEpisodes": 36
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
+      "seasons": [
+        {
+          "serializdId": 135858,
+          "showId": 95480,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/oBqlO6ZjTcVFiE0lBj89lAOi18s.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 310117,
+          "showId": 95480,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/8FM8KCgZQSbLLXcZew0MSj6so1k.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 357755,
+          "showId": 95480,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/vJI9OcHFHxDy6ZeEmXfM5zhApXV.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 400149,
+          "showId": 95480,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/lQwWHQHbJkl5pbBX0nKKZpQbly2.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 459284,
+          "showId": 95480,
+          "seasonNumber": 5,
+          "name": "Season 5",
+          "posterPath": "/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
+          "episodeCount": 6
+        },
+        {
+          "serializdId": 521992,
+          "showId": 95480,
+          "seasonNumber": 6,
+          "name": "Season 6",
+          "posterPath": "/w2jauz2PeSjFQifDObI3qDen4f7.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 92951863,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Banger of an episode. Diana will pay.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-13T12:00:00Z",
+          "reviewDate": "2026-10-14T16:43:00Z",
+          "seasonId": 521992,
+          "episodeNumber": 5,
+          "episodeName": "Sayonara",
+          "tags": []
+        },
+        {
+          "id": 92352341,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’ll be crying over this for a bit. Fuck this season (it’s so good).",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-07T12:00:00Z",
+          "reviewDate": "2026-10-11T02:58:38Z",
+          "seasonId": 521992,
+          "episodeNumber": 4,
+          "episodeName": "Lost & Found",
+          "tags": []
+        },
+        {
+          "id": 92352258,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-30T12:00:00Z",
+          "reviewDate": "2026-10-11T02:57:46Z",
+          "seasonId": 521992,
+          "episodeNumber": 3,
+          "episodeName": "Resurrection",
+          "tags": []
+        },
+        {
+          "id": 92352242,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-23T12:00:00Z",
+          "reviewDate": "2026-10-11T02:57:34Z",
+          "seasonId": 521992,
+          "episodeNumber": 2,
+          "episodeName": "Daddy Issues",
+          "tags": []
+        },
+        {
+          "id": 92352232,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-16T12:00:00Z",
+          "reviewDate": "2026-10-11T02:57:21Z",
+          "seasonId": 521992,
+          "episodeNumber": 1,
+          "episodeName": "Circle of Life",
+          "tags": []
+        },
+        {
+          "id": 45964806,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Another banger of a season. This show is so fresh and reliable in its freshness, which is surprising for a spy dramedy. This crew has really grown on me and I couldn’t probably watch them forever. Long live Roddy Ho.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-10-29T22:24:00Z",
+          "reviewDate": "2025-11-02T23:25:56Z",
+          "seasonId": 459284,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 30638161,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "It feels like they squandered the momentum of the prior season with too much of a time and direction shift. I understand that it’s based off of a book series, but it feels like a missed opportunity for an adaptation to smooth out its events. And I suppose that’s my critique of this whole series already, knowing it’s already renewed for a couple more seasons: it straddles the line too much between series and limited series, without committing to being anthological in any meaningful way. Every interesting self-reference is a whisper, while the others feel like roars. I’m eager for the next season, but not because this one was particularly strong.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-03-30T02:56:00Z",
+          "reviewDate": "2025-03-31T02:56:29Z",
+          "seasonId": 400149,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 30564472,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "They cooked with this season! The story felt much more urgent and was told with greater finesse. The last two episodes, in particular, had me wanting them to slow down (complimentary), so I had more time to savor each setup.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-03-30T01:05:06Z",
+          "reviewDate": "2025-03-30T01:05:06Z",
+          "seasonId": 357755,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 30535502,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "A fine season, but a bit formulaic and didn’t really grab my attention the way I had hoped after the first season. Still love cunty Gary Oldman, though.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-03-26T16:11:00Z",
+          "reviewDate": "2025-03-29T16:11:01Z",
+          "seasonId": 310117,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 27759767,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not sure if this was actually good, but I like how sleek it was and how in it I felt while watching. I’m curious to see where this goes and I like the brevity of season; everything felt focused and well-paced.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-02-11T05:37:21Z",
+          "reviewDate": "2025-02-11T05:38:50Z",
+          "seasonId": 135858,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "inProgressSeasonNumbers": [
+        6
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-14T16:43:00Z",
+      "primaryRating": 4.5,
+      "liked": false
+    },
     "tmdb-tv-332902": {
       "id": "tmdb-tv-332902",
       "serializdShowId": 332902,
@@ -35116,7 +35400,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 166
+          "episodeCount": 167
         }
       ],
       "reviews": [
@@ -35999,7 +36283,7 @@
           "Bravo"
         ],
         "numberOfSeasons": 11,
-        "numberOfEpisodes": 200
+        "numberOfEpisodes": 203
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/lgSkHpr6LXxsh2YXiBrDZHn5wUR.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/lgSkHpr6LXxsh2YXiBrDZHn5wUR.jpg",
@@ -36097,7 +36381,7 @@
           "showId": 65300,
           "seasonNumber": 11,
           "name": "Season 11",
-          "posterPath": "/gByyRQrVRUzqfDiHjUVeiQbEMOi.jpg",
+          "posterPath": "/gbCD1OVAtf7DgBXbDf7XvBFrybN.jpg",
           "episodeCount": 10
         }
       ],
@@ -39722,256 +40006,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-10-11T05:16:41Z",
       "primaryRating": 3.5,
-      "liked": false
-    },
-    "tmdb-tv-95480": {
-      "id": "tmdb-tv-95480",
-      "serializdShowId": 95480,
-      "slug": "slow-horses-2022",
-      "name": "Slow Horses",
-      "premiereYear": 2022,
-      "premiereDate": "2022-04-01",
-      "serializdUrl": "https://serializd.com/show/95480",
-      "tmdb": {
-        "id": 95480,
-        "name": "Slow Horses",
-        "posterPath": "/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-        "backdropPath": "/gPQppUnLx9vqPDLz3WwZ2HJsNbt.jpg",
-        "genres": [
-          "Crime",
-          "Drama",
-          "Mystery"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "Apple TV"
-        ],
-        "numberOfSeasons": 6,
-        "numberOfEpisodes": 36
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/AdYr4DjOgXvDUMwu6vEhZy1Rnxk.jpg",
-      "seasons": [
-        {
-          "serializdId": 135858,
-          "showId": 95480,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/oBqlO6ZjTcVFiE0lBj89lAOi18s.jpg",
-          "episodeCount": 6
-        },
-        {
-          "serializdId": 310117,
-          "showId": 95480,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/8FM8KCgZQSbLLXcZew0MSj6so1k.jpg",
-          "episodeCount": 6
-        },
-        {
-          "serializdId": 357755,
-          "showId": 95480,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/vJI9OcHFHxDy6ZeEmXfM5zhApXV.jpg",
-          "episodeCount": 6
-        },
-        {
-          "serializdId": 400149,
-          "showId": 95480,
-          "seasonNumber": 4,
-          "name": "Season 4",
-          "posterPath": "/lQwWHQHbJkl5pbBX0nKKZpQbly2.jpg",
-          "episodeCount": 6
-        },
-        {
-          "serializdId": 459284,
-          "showId": 95480,
-          "seasonNumber": 5,
-          "name": "Season 5",
-          "posterPath": "/5RuZZIouptatjV96BdPmKmRsnGg.jpg",
-          "episodeCount": 6
-        },
-        {
-          "serializdId": 521992,
-          "showId": 95480,
-          "seasonNumber": 6,
-          "name": "Season 6",
-          "posterPath": "/w2jauz2PeSjFQifDObI3qDen4f7.jpg",
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 92352341,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I’ll be crying over this for a bit. Fuck this season (it’s so good).",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-07T12:00:00Z",
-          "reviewDate": "2026-10-11T02:58:38Z",
-          "seasonId": 521992,
-          "episodeNumber": 4,
-          "episodeName": "Lost & Found",
-          "tags": []
-        },
-        {
-          "id": 92352258,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-30T12:00:00Z",
-          "reviewDate": "2026-10-11T02:57:46Z",
-          "seasonId": 521992,
-          "episodeNumber": 3,
-          "episodeName": "Resurrection",
-          "tags": []
-        },
-        {
-          "id": 92352242,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-23T12:00:00Z",
-          "reviewDate": "2026-10-11T02:57:34Z",
-          "seasonId": 521992,
-          "episodeNumber": 2,
-          "episodeName": "Daddy Issues",
-          "tags": []
-        },
-        {
-          "id": 92352232,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-16T12:00:00Z",
-          "reviewDate": "2026-10-11T02:57:21Z",
-          "seasonId": 521992,
-          "episodeNumber": 1,
-          "episodeName": "Circle of Life",
-          "tags": []
-        },
-        {
-          "id": 45964806,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Another banger of a season. This show is so fresh and reliable in its freshness, which is surprising for a spy dramedy. This crew has really grown on me and I couldn’t probably watch them forever. Long live Roddy Ho.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-10-29T22:24:00Z",
-          "reviewDate": "2025-11-02T23:25:56Z",
-          "seasonId": 459284,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 30638161,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "It feels like they squandered the momentum of the prior season with too much of a time and direction shift. I understand that it’s based off of a book series, but it feels like a missed opportunity for an adaptation to smooth out its events. And I suppose that’s my critique of this whole series already, knowing it’s already renewed for a couple more seasons: it straddles the line too much between series and limited series, without committing to being anthological in any meaningful way. Every interesting self-reference is a whisper, while the others feel like roars. I’m eager for the next season, but not because this one was particularly strong.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-03-30T02:56:00Z",
-          "reviewDate": "2025-03-31T02:56:29Z",
-          "seasonId": 400149,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 30564472,
-          "level": "season",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "They cooked with this season! The story felt much more urgent and was told with greater finesse. The last two episodes, in particular, had me wanting them to slow down (complimentary), so I had more time to savor each setup.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-03-30T01:05:06Z",
-          "reviewDate": "2025-03-30T01:05:06Z",
-          "seasonId": 357755,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 30535502,
-          "level": "season",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "A fine season, but a bit formulaic and didn’t really grab my attention the way I had hoped after the first season. Still love cunty Gary Oldman, though.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-03-26T16:11:00Z",
-          "reviewDate": "2025-03-29T16:11:01Z",
-          "seasonId": 310117,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 27759767,
-          "level": "season",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I’m not sure if this was actually good, but I like how sleek it was and how in it I felt while watching. I’m curious to see where this goes and I like the brevity of season; everything felt focused and well-paced.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-02-11T05:37:21Z",
-          "reviewDate": "2025-02-11T05:38:50Z",
-          "seasonId": 135858,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "inProgressSeasonNumbers": [
-        6
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-11T02:58:38Z",
-      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-110381": {
