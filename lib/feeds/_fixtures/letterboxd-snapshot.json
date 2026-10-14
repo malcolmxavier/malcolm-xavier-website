@@ -1,29 +1,29 @@
 {
-  "capturedAt": "2026-10-13T02:00:44.853Z",
+  "capturedAt": "2026-10-14T17:00:45.446Z",
   "summary": {
-    "totalFilms": 843,
-    "totalReviews": 846,
+    "totalFilms": 846,
+    "totalReviews": 849,
     "ratingDistribution": {
       "1": 40,
-      "2": 138,
+      "2": 140,
       "3": 160,
       "4": 116,
       "5": 16,
-      "2.5": 106,
+      "2.5": 107,
       "3.5": 166,
       "4.5": 55,
       "1.5": 39,
       "0.5": 10
     },
     "genreDistribution": {
-      "Horror": 139,
-      "Comedy": 238,
-      "Drama": 392,
+      "Horror": 140,
+      "Drama": 393,
+      "Comedy": 239,
+      "Science Fiction": 141,
       "History": 44,
       "Thriller": 250,
       "Action": 140,
       "Crime": 116,
-      "Science Fiction": 140,
       "Mystery": 88,
       "Adventure": 99,
       "Family": 22,
@@ -37,7 +37,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 626,
+      "2020s": 629,
       "2010s": 143,
       "2000s": 36,
       "1990s": 17,
@@ -47,6 +47,136 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1400837",
+      "letterboxdSlug": "other-mommy",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/other-mommy/",
+      "title": "Other Mommy",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-13",
+      "latestWatchedDate": "2026-10-13",
+      "firstReviewDate": "2026-10-14",
+      "latestReviewDate": "2026-10-14",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1537980012",
+          "watchedDate": "2026-10-13",
+          "reviewDate": "2026-10-14",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Justice for Daddo!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1400837,
+        "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg",
+        "backdropPath": "/ncm7djsVTHQQMX2HEbEVxMUFchG.jpg",
+        "genres": [
+          "Horror"
+        ],
+        "runtime": 93,
+        "director": "Rob Savage"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-1401459",
+      "letterboxdSlug": "fjord",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/fjord-2026/",
+      "title": "Fjord",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-13",
+      "latestWatchedDate": "2026-10-13",
+      "firstReviewDate": "2026-10-14",
+      "latestReviewDate": "2026-10-14",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1537978831",
+          "watchedDate": "2026-10-13",
+          "reviewDate": "2026-10-14",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I feel like the runtime takes up a lot of space to ultimately not say that much. I don’t think the film knows if it’s trying to comment on child rearing and abuse, religious persecution, or both. Ostensibly, it’s both, but we never really get there. Mia is the best.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1401459,
+        "posterPath": "/rhKlzjAJCEKUjxEk1qwr4bgbXlG.jpg",
+        "backdropPath": "/rCYzSP07jCA1HuFvrwgaEAPHitT.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "runtime": 146,
+        "director": "Cristian Mungiu"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/rhKlzjAJCEKUjxEk1qwr4bgbXlG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/rhKlzjAJCEKUjxEk1qwr4bgbXlG.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    {
+      "id": "tmdb-653569",
+      "letterboxdSlug": "save-yourselves",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/save-yourselves/",
+      "title": "Save Yourselves!",
+      "releaseYear": 2020,
+      "firstWatchedDate": "2026-10-12",
+      "latestWatchedDate": "2026-10-12",
+      "firstReviewDate": "2026-10-14",
+      "latestReviewDate": "2026-10-14",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1537976527",
+          "watchedDate": "2026-10-12",
+          "reviewDate": "2026-10-14",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Cute and quirky, but not really doing much. Love me some Sunita and John Reynolds, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 653569,
+        "posterPath": "/bvNwVJ3Wh6KeE28TMIczJD6OEPm.jpg",
+        "backdropPath": "/2vJewgdaf0N8BnAgHZ8R7y3w5qQ.jpg",
+        "genres": [
+          "Comedy",
+          "Science Fiction"
+        ],
+        "runtime": 93,
+        "director": "Alex Huston Fischer"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/bvNwVJ3Wh6KeE28TMIczJD6OEPm.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bvNwVJ3Wh6KeE28TMIczJD6OEPm.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1187417",
       "letterboxdSlug": "rumours",
@@ -36793,6 +36923,136 @@
     }
   ],
   "filmById": {
+    "tmdb-1400837": {
+      "id": "tmdb-1400837",
+      "letterboxdSlug": "other-mommy",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/other-mommy/",
+      "title": "Other Mommy",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-13",
+      "latestWatchedDate": "2026-10-13",
+      "firstReviewDate": "2026-10-14",
+      "latestReviewDate": "2026-10-14",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1537980012",
+          "watchedDate": "2026-10-13",
+          "reviewDate": "2026-10-14",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Justice for Daddo!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1400837,
+        "posterPath": "/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg",
+        "backdropPath": "/ncm7djsVTHQQMX2HEbEVxMUFchG.jpg",
+        "genres": [
+          "Horror"
+        ],
+        "runtime": 93,
+        "director": "Rob Savage"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/fGRNCssTRrhYZxNzykGGCoMsAVq.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-1401459": {
+      "id": "tmdb-1401459",
+      "letterboxdSlug": "fjord",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/fjord-2026/",
+      "title": "Fjord",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-13",
+      "latestWatchedDate": "2026-10-13",
+      "firstReviewDate": "2026-10-14",
+      "latestReviewDate": "2026-10-14",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1537978831",
+          "watchedDate": "2026-10-13",
+          "reviewDate": "2026-10-14",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "I feel like the runtime takes up a lot of space to ultimately not say that much. I don’t think the film knows if it’s trying to comment on child rearing and abuse, religious persecution, or both. Ostensibly, it’s both, but we never really get there. Mia is the best.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1401459,
+        "posterPath": "/rhKlzjAJCEKUjxEk1qwr4bgbXlG.jpg",
+        "backdropPath": "/rCYzSP07jCA1HuFvrwgaEAPHitT.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "runtime": 146,
+        "director": "Cristian Mungiu"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/rhKlzjAJCEKUjxEk1qwr4bgbXlG.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/rhKlzjAJCEKUjxEk1qwr4bgbXlG.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
+    "tmdb-653569": {
+      "id": "tmdb-653569",
+      "letterboxdSlug": "save-yourselves",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/save-yourselves/",
+      "title": "Save Yourselves!",
+      "releaseYear": 2020,
+      "firstWatchedDate": "2026-10-12",
+      "latestWatchedDate": "2026-10-12",
+      "firstReviewDate": "2026-10-14",
+      "latestReviewDate": "2026-10-14",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1537976527",
+          "watchedDate": "2026-10-12",
+          "reviewDate": "2026-10-14",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Cute and quirky, but not really doing much. Love me some Sunita and John Reynolds, though!",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 653569,
+        "posterPath": "/bvNwVJ3Wh6KeE28TMIczJD6OEPm.jpg",
+        "backdropPath": "/2vJewgdaf0N8BnAgHZ8R7y3w5qQ.jpg",
+        "genres": [
+          "Comedy",
+          "Science Fiction"
+        ],
+        "runtime": 93,
+        "director": "Alex Huston Fischer"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/bvNwVJ3Wh6KeE28TMIczJD6OEPm.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bvNwVJ3Wh6KeE28TMIczJD6OEPm.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1187417": {
       "id": "tmdb-1187417",
       "letterboxdSlug": "rumours",
