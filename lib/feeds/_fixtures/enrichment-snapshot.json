@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-14T17:45:36.784Z",
+  "capturedAt": "2026-10-14T22:45:36.374Z",
   "meta": {
-    "films": 846,
+    "films": 847,
     "shows": 169,
     "collections": 82
   },
@@ -3485,6 +3485,123 @@
         "id": 531330,
         "name": "Top Gun Collection",
         "total": 3
+      }
+    },
+    "745": {
+      "ratings": {
+        "imdb": 8.2,
+        "metacritic": 64,
+        "metacriticUser": 8.3,
+        "tomatoes": 86,
+        "rtAudience": 90,
+        "letterboxd": 4.1,
+        "trakt": 83
+      },
+      "studios": [
+        "Spyglass Entertainment",
+        "The Kennedy/Marshall Company",
+        "Hollywood Pictures",
+        "Barry Mendel Productions"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "PG-13",
+      "budget": 40000000,
+      "revenue": 672800000,
+      "cast": [
+        {
+          "id": 62,
+          "name": "Bruce Willis"
+        },
+        {
+          "id": 9640,
+          "name": "Haley Joel Osment"
+        },
+        {
+          "id": 3051,
+          "name": "Toni Collette"
+        },
+        {
+          "id": 11616,
+          "name": "Olivia Williams"
+        },
+        {
+          "id": 4940,
+          "name": "Trevor Morgan"
+        },
+        {
+          "id": 2680,
+          "name": "Donnie Wahlberg"
+        },
+        {
+          "id": 52861,
+          "name": "Peter Anthony Tambakis"
+        },
+        {
+          "id": 11619,
+          "name": "Jeffrey Zubernis"
+        },
+        {
+          "id": 11621,
+          "name": "Bruce Norris"
+        },
+        {
+          "id": 10694,
+          "name": "Glenn Fitzgerald"
+        },
+        {
+          "id": 11618,
+          "name": "Greg Wood"
+        },
+        {
+          "id": 11617,
+          "name": "Mischa Barton"
+        },
+        {
+          "id": 1106256,
+          "name": "Angelica Page"
+        },
+        {
+          "id": 1318896,
+          "name": "Lisa Summerour"
+        },
+        {
+          "id": 1559326,
+          "name": "Firdous Bamji"
+        },
+        {
+          "id": 6439,
+          "name": "Samia Shoaib"
+        },
+        {
+          "id": 1810292,
+          "name": "Hayden Saunier"
+        },
+        {
+          "id": 1217630,
+          "name": "Janis Dardaris"
+        },
+        {
+          "id": 1810301,
+          "name": "Neill Hartley"
+        },
+        {
+          "id": 1455909,
+          "name": "Sarah Ripard"
+        }
+      ],
+      "writers": [
+        {
+          "id": 11614,
+          "name": "M. Night Shyamalan"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
       }
     },
     "782": {
