@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-13T02:45:36.351Z",
+  "capturedAt": "2026-10-14T17:45:36.784Z",
   "meta": {
-    "films": 843,
+    "films": 846,
     "shows": 169,
     "collections": 82
   },
@@ -35543,6 +35543,84 @@
         "id": 173710,
         "name": "Planet of the Apes (Reboot) Collection",
         "total": 4
+      }
+    },
+    "653569": {
+      "ratings": {
+        "imdb": 5.8,
+        "metacritic": 67,
+        "metacriticUser": 5.2,
+        "tomatoes": 89,
+        "rtAudience": 60,
+        "letterboxd": 3.1,
+        "trakt": 60
+      },
+      "studios": [
+        "Washington Square Films"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 1375002,
+          "name": "Sunita Mani"
+        },
+        {
+          "id": 1674830,
+          "name": "John Reynolds"
+        },
+        {
+          "id": 1410040,
+          "name": "Ben Sinclair"
+        },
+        {
+          "id": 1542758,
+          "name": "John Early"
+        },
+        {
+          "id": 1726012,
+          "name": "Jo Firestone"
+        },
+        {
+          "id": 1842673,
+          "name": "Gary Richardson"
+        },
+        {
+          "id": 38672,
+          "name": "Johanna Day"
+        },
+        {
+          "id": 2869968,
+          "name": "Stephen Koepfer"
+        },
+        {
+          "id": 1809782,
+          "name": "Zenobia Shroff"
+        },
+        {
+          "id": 12110,
+          "name": "Amy Sedaris"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1786006,
+          "name": "Alex Huston Fischer"
+        },
+        {
+          "id": 566414,
+          "name": "Eleanor Wilson"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "limited",
+        "wide": false,
+        "ltd": true,
+        "gap": 4
       }
     },
     "653601": {
@@ -88645,6 +88723,109 @@
       "writers": [],
       "collection": null
     },
+    "1400837": {
+      "ratings": {
+        "imdb": 5.5,
+        "metacritic": 39,
+        "metacriticUser": 4.3,
+        "tomatoes": 17,
+        "rtAudience": 48,
+        "letterboxd": 2.2,
+        "trakt": 60
+      },
+      "studios": [
+        "Spin a Black Yarn",
+        "Blumhouse Atomic Monster"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 18000000,
+      "revenue": 50868206,
+      "cast": [
+        {
+          "id": 83002,
+          "name": "Jessica Chastain"
+        },
+        {
+          "id": 45405,
+          "name": "Jay Duplass"
+        },
+        {
+          "id": 3484286,
+          "name": "Arabella Olivia Clark"
+        },
+        {
+          "id": 650,
+          "name": "Karen Allen"
+        },
+        {
+          "id": 457386,
+          "name": "Arian Moayed"
+        },
+        {
+          "id": 94797,
+          "name": "Dichen Lachman"
+        },
+        {
+          "id": 1193371,
+          "name": "Sean Kaufman"
+        },
+        {
+          "id": 1542283,
+          "name": "Adam Silver"
+        },
+        {
+          "id": 1672241,
+          "name": "Alec Secăreanu"
+        },
+        {
+          "id": 236702,
+          "name": "Travis Nelson"
+        },
+        {
+          "id": 3804141,
+          "name": "Carrie Dimaculangan"
+        },
+        {
+          "id": 5601579,
+          "name": "Hayley Spelman"
+        },
+        {
+          "id": 6366308,
+          "name": "Rosie Anne O'Gorman"
+        },
+        {
+          "id": 5669761,
+          "name": "Alejandro Nieves"
+        },
+        {
+          "id": 6366311,
+          "name": "Tyrone Kearns"
+        },
+        {
+          "id": 5848502,
+          "name": "Eleanor Jordan O'Farrell"
+        },
+        {
+          "id": 3552672,
+          "name": "Charlie Kirk"
+        }
+      ],
+      "writers": [
+        {
+          "id": 3981236,
+          "name": "Nathan Elston"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
+      }
+    },
     "1401281": {
       "ratings": {
         "imdb": 6.5,
@@ -88773,6 +88954,131 @@
         }
       ],
       "collection": null
+    },
+    "1401459": {
+      "ratings": {
+        "imdb": 7.6,
+        "metacritic": 78,
+        "metacriticUser": 6.8,
+        "tomatoes": 91,
+        "rtAudience": null,
+        "letterboxd": 3.8,
+        "trakt": 75
+      },
+      "studios": [
+        "Mobra Films",
+        "Why Not Productions",
+        "Eye Eye Pictures",
+        "Snowglobe",
+        "Aamu Film Company",
+        "Garagefilm International",
+        "Film i Väst",
+        "Goodfellas",
+        "France 3 Cinéma",
+        "Library Pictures International",
+        "LEAF Entertainment",
+        "Mediefondet Zefyr"
+      ],
+      "country": "RO",
+      "language": "ro",
+      "certification": "R",
+      "budget": 4750000,
+      "revenue": 407491,
+      "cast": [
+        {
+          "id": 60898,
+          "name": "Sebastian Stan"
+        },
+        {
+          "id": 1576786,
+          "name": "Renate Reinsve"
+        },
+        {
+          "id": 1111176,
+          "name": "Lisa Carlehed"
+        },
+        {
+          "id": 79331,
+          "name": "Ellen Dorrit Petersen"
+        },
+        {
+          "id": 1310711,
+          "name": "Lisa Loven Kongsli"
+        },
+        {
+          "id": 3580174,
+          "name": "Henrikke Lund Olsen"
+        },
+        {
+          "id": 563067,
+          "name": "Markus Tønseth"
+        },
+        {
+          "id": 6194923,
+          "name": "Vanessa Ceban"
+        },
+        {
+          "id": 6243075,
+          "name": "Jonathan Ciprian Breazu"
+        },
+        {
+          "id": 47647,
+          "name": "Christian Rubeck"
+        },
+        {
+          "id": 147691,
+          "name": "Øyvind Venstad Kjeksrud"
+        },
+        {
+          "id": 2098843,
+          "name": "Giulia Nahmany"
+        },
+        {
+          "id": 1151227,
+          "name": "Erik Hivju"
+        },
+        {
+          "id": 1822171,
+          "name": "Ingvild Lien"
+        },
+        {
+          "id": 1926949,
+          "name": "Bartek Kaminski"
+        },
+        {
+          "id": 1975316,
+          "name": "Turid Rivertz Vatne"
+        },
+        {
+          "id": 1178619,
+          "name": "Alin Panc"
+        },
+        {
+          "id": 2538010,
+          "name": "Emilie Hetland"
+        },
+        {
+          "id": 522533,
+          "name": "Maria Bock"
+        },
+        {
+          "id": 123453,
+          "name": "Thorbjørn Harr"
+        }
+      ],
+      "writers": [
+        {
+          "id": 20657,
+          "name": "Cristian Mungiu"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
+      }
     },
     "1401905": {
       "ratings": {
