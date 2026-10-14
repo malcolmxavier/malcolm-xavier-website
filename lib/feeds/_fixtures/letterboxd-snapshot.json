@@ -1,13 +1,13 @@
 {
-  "capturedAt": "2026-10-14T17:00:45.446Z",
+  "capturedAt": "2026-10-14T22:00:45.070Z",
   "summary": {
-    "totalFilms": 846,
-    "totalReviews": 849,
+    "totalFilms": 847,
+    "totalReviews": 850,
     "ratingDistribution": {
       "1": 40,
       "2": 140,
       "3": 160,
-      "4": 116,
+      "4": 117,
       "5": 16,
       "2.5": 107,
       "3.5": 166,
@@ -16,15 +16,15 @@
       "0.5": 10
     },
     "genreDistribution": {
+      "Mystery": 89,
+      "Thriller": 251,
+      "Drama": 394,
       "Horror": 140,
-      "Drama": 393,
       "Comedy": 239,
       "Science Fiction": 141,
       "History": 44,
-      "Thriller": 250,
       "Action": 140,
       "Crime": 116,
-      "Mystery": 88,
       "Adventure": 99,
       "Family": 22,
       "Romance": 93,
@@ -37,16 +37,61 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "1990s": 18,
       "2020s": 629,
       "2010s": 143,
       "2000s": 36,
-      "1990s": 17,
       "1980s": 16,
       "1960s": 1,
       "1970s": 4
     }
   },
   "films": [
+    {
+      "id": "tmdb-745",
+      "letterboxdSlug": "the-sixth-sense",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-sixth-sense/",
+      "title": "The Sixth Sense",
+      "releaseYear": 1999,
+      "firstWatchedDate": "2026-10-14",
+      "latestWatchedDate": "2026-10-14",
+      "firstReviewDate": "2026-10-14",
+      "latestReviewDate": "2026-10-14",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1538314082",
+          "watchedDate": "2026-10-14",
+          "reviewDate": "2026-10-14",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Somehow I’ve never actually seen this. Great, and definitely of its time. Haley Joel Osment eats, of course.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 745,
+        "posterPath": "/vOyfUXNFSnaTk7Vk5AjpsKTUWsu.jpg",
+        "backdropPath": "/6TjllWT3cGrPFyqDXurVZ3L8bBi.jpg",
+        "genres": [
+          "Mystery",
+          "Thriller",
+          "Drama"
+        ],
+        "runtime": 107,
+        "director": "M. Night Shyamalan"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vOyfUXNFSnaTk7Vk5AjpsKTUWsu.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vOyfUXNFSnaTk7Vk5AjpsKTUWsu.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1400837",
       "letterboxdSlug": "other-mommy",
@@ -36923,6 +36968,51 @@
     }
   ],
   "filmById": {
+    "tmdb-745": {
+      "id": "tmdb-745",
+      "letterboxdSlug": "the-sixth-sense",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-sixth-sense/",
+      "title": "The Sixth Sense",
+      "releaseYear": 1999,
+      "firstWatchedDate": "2026-10-14",
+      "latestWatchedDate": "2026-10-14",
+      "firstReviewDate": "2026-10-14",
+      "latestReviewDate": "2026-10-14",
+      "primaryRating": 4,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1538314082",
+          "watchedDate": "2026-10-14",
+          "reviewDate": "2026-10-14",
+          "rating": 4,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Somehow I’ve never actually seen this. Great, and definitely of its time. Haley Joel Osment eats, of course.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 745,
+        "posterPath": "/vOyfUXNFSnaTk7Vk5AjpsKTUWsu.jpg",
+        "backdropPath": "/6TjllWT3cGrPFyqDXurVZ3L8bBi.jpg",
+        "genres": [
+          "Mystery",
+          "Thriller",
+          "Drama"
+        ],
+        "runtime": 107,
+        "director": "M. Night Shyamalan"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vOyfUXNFSnaTk7Vk5AjpsKTUWsu.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vOyfUXNFSnaTk7Vk5AjpsKTUWsu.jpg",
+      "ratingSet": [
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1400837": {
       "id": "tmdb-1400837",
       "letterboxdSlug": "other-mommy",
