@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-14T22:45:36.374Z",
+  "capturedAt": "2026-10-15T03:45:36.331Z",
   "meta": {
-    "films": 847,
+    "films": 848,
     "shows": 169,
     "collections": 82
   },
@@ -13093,6 +13093,129 @@
         "id": 1022790,
         "name": "Inside Out Collection",
         "total": 2
+      }
+    },
+    "152532": {
+      "ratings": {
+        "imdb": 7.9,
+        "metacritic": 77,
+        "metacriticUser": 8.1,
+        "tomatoes": 92,
+        "rtAudience": 91,
+        "letterboxd": 4,
+        "trakt": 80
+      },
+      "studios": [
+        "Truth Entertainment",
+        "Voltage Pictures",
+        "CE",
+        "Evolution Independent",
+        "R² Films",
+        "Rainmaker Films"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "R",
+      "budget": 5000000,
+      "revenue": 55736588,
+      "cast": [
+        {
+          "id": 10297,
+          "name": "Matthew McConaughey"
+        },
+        {
+          "id": 9278,
+          "name": "Jennifer Garner"
+        },
+        {
+          "id": 7499,
+          "name": "Jared Leto"
+        },
+        {
+          "id": 81681,
+          "name": "Denis O'Hare"
+        },
+        {
+          "id": 18324,
+          "name": "Steve Zahn"
+        },
+        {
+          "id": 21710,
+          "name": "Michael O'Neill"
+        },
+        {
+          "id": 424,
+          "name": "Dallas Roberts"
+        },
+        {
+          "id": 2171,
+          "name": "Griffin Dunne"
+        },
+        {
+          "id": 114000,
+          "name": "Kevin Rankin"
+        },
+        {
+          "id": 230995,
+          "name": "Donna DuPlantier"
+        },
+        {
+          "id": 29933,
+          "name": "Deneen Tyler"
+        },
+        {
+          "id": 129868,
+          "name": "J.D. Evermore"
+        },
+        {
+          "id": 1299674,
+          "name": "Ian Casselberry"
+        },
+        {
+          "id": 2487741,
+          "name": "Noelle Wilcox"
+        },
+        {
+          "id": 2001500,
+          "name": "Bradford Cox"
+        },
+        {
+          "id": 111029,
+          "name": "Rick Espaillat"
+        },
+        {
+          "id": 112285,
+          "name": "Lawrence Turner"
+        },
+        {
+          "id": 1375265,
+          "name": "Lucius Falick"
+        },
+        {
+          "id": 97446,
+          "name": "James DuMont"
+        },
+        {
+          "id": 1078610,
+          "name": "Jane McNeill"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1133294,
+          "name": "Craig Borten"
+        },
+        {
+          "id": 74342,
+          "name": "Melisa Wallack"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": null
       }
     },
     "157336": {
