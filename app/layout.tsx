@@ -1,12 +1,5 @@
 import type { Metadata } from "next";
-import {
-  DM_Sans,
-  Instrument_Serif,
-  Roboto_Slab,
-  Roboto_Mono,
-  Anonymous_Pro,
-  Big_Shoulders,
-} from "next/font/google";
+import localFont from "next/font/local";
 import { Suspense } from "react";
 import { ThemeProvider } from "next-themes";
 import { Analytics } from "@vercel/analytics/next";
@@ -37,6 +30,43 @@ import "./components.css";
 // which the parser-emitted alias blocks override per sub-brand.
 // ─────────────────────────────────────────────────────────────────
 
+// ─────────────────────────────────────────────────────────────────
+// Why the fonts live in this repo instead of coming from Google
+//
+// Every typeface below used to be downloaded from Google Fonts while
+// the site was being built. Our host rebuilds from scratch on every
+// deploy, so each deploy depended on Google answering in time, and
+// when it didn't, the deploy failed. The font files now sit in
+// `app/fonts/`, one folder per family, so building the site needs
+// nothing from outside the repo.
+//
+// The designs, weights, and styles are the ones Google was serving.
+// Each file covers the two character sets Google split them into,
+// basic Latin and extended Latin, combined in one file. Extended
+// Latin carries letters such as č, ł, ş, and Đ, which turn up in the
+// cast and crew names the film and TV pages print, so those names
+// stay in one typeface instead of switching fonts mid-word. Anonymous
+// Pro is the exception: it is the designer's own file, unchanged, in
+// a web format. Its license reserves the name "Anonymous Pro" for
+// unaltered copies, so we don't trim it. Each folder carries the
+// font's license (SIL Open Font License, or Apache 2.0 for Roboto
+// Slab), which permits shipping the files with the site.
+//
+// While a font file is still loading, the browser shows a standard
+// system font resized to take up the same space (Arial for the sans
+// and mono faces, Times New Roman for the serifs), so text doesn't
+// jump when the real font arrives. That is what `adjustFontFallback`
+// picks below. Big Shoulders is the one face without it; see its
+// note.
+//
+// Where a family is a "variable" font, one file holds every weight,
+// so the same file is listed once per weight we use. That keeps the
+// weights the site can ask for exactly as they were. DM Sans and Big
+// Shoulders can also reshape themselves for different text sizes;
+// Google served them fixed at one setting, and these files are fixed
+// at that same setting, so nothing shifts.
+// ─────────────────────────────────────────────────────────────────
+
 // preload: false on the three cluster-scoped families — recruiter
 // pages don't render Roboto Slab; sub-brand pages don't render
 // Instrument Serif or DM Sans. Default preload: true injected a
@@ -47,36 +77,51 @@ import "./components.css";
 // exchange for a clean console. Roboto Mono stays preloaded — it's
 // used sitewide via Kicker + Dateline.
 
-const dmSans = DM_Sans({
+const dmSans = localFont({
   variable: "--font-dm-sans",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  src: [
+    { path: "./fonts/dm-sans/DMSans-variable.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/dm-sans/DMSans-variable.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/dm-sans/DMSans-variable.woff2", weight: "600", style: "normal" },
+    { path: "./fonts/dm-sans/DMSans-variable.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
   preload: false,
+  adjustFontFallback: "Arial",
 });
 
-const instrumentSerif = Instrument_Serif({
+const instrumentSerif = localFont({
   variable: "--font-instrument-serif",
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal", "italic"],
+  src: [
+    { path: "./fonts/instrument-serif/InstrumentSerif-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/instrument-serif/InstrumentSerif-Italic.woff2", weight: "400", style: "italic" },
+  ],
   display: "swap",
   preload: false,
+  adjustFontFallback: "Times New Roman",
 });
 
-const robotoSlab = Roboto_Slab({
+const robotoSlab = localFont({
   variable: "--font-roboto-slab",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  src: [
+    { path: "./fonts/roboto-slab/RobotoSlab-variable.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/roboto-slab/RobotoSlab-variable.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/roboto-slab/RobotoSlab-variable.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
   preload: false,
+  adjustFontFallback: "Times New Roman",
 });
 
-const robotoMono = Roboto_Mono({
+const robotoMono = localFont({
   variable: "--font-roboto-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  src: [
+    { path: "./fonts/roboto-mono/RobotoMono-variable.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/roboto-mono/RobotoMono-variable.woff2", weight: "500", style: "normal" },
+    { path: "./fonts/roboto-mono/RobotoMono-variable.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
+  adjustFontFallback: "Arial",
 });
 
 // The Booth's own label face. It is the one product surface on this
@@ -90,13 +135,16 @@ const robotoMono = Roboto_Mono({
 // chip is one word of 12px type on every route, so preloading it
 // would buy a font file ahead of the text people are actually here to
 // read. display: swap means it never blocks; the chip renders in the
-// fallback mono for a beat and settles.
-const anonymousPro = Anonymous_Pro({
+// size-matched Arial fallback for a beat and settles.
+const anonymousPro = localFont({
   variable: "--font-anonymous-pro",
-  subsets: ["latin"],
-  weight: ["400", "700"],
+  src: [
+    { path: "./fonts/anonymous-pro/AnonymousPro-Regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/anonymous-pro/AnonymousPro-Bold.woff2", weight: "700", style: "normal" },
+  ],
   display: "swap",
   preload: false,
+  adjustFontFallback: "Arial",
 });
 
 // The Booth's display face, and the other half of the pairing above.
@@ -106,14 +154,24 @@ const anonymousPro = Anonymous_Pro({
 // on /booth and nowhere in the site's own chrome, which is why the
 // nav chip takes the mono alone.
 //
-// Variable weight, so one file covers the 600 the headings set; no
-// weight array is passed for that reason. preload: false because it
-// is one route's face, not the site's.
-const bigShoulders = Big_Shoulders({
+// Variable weight, so one file covers the 600 the headings set; the
+// file is declared across its whole 100–900 range rather than at
+// single weights for that reason. preload: false because it is one
+// route's face, not the site's.
+//
+// adjustFontFallback: false because that is how it has always loaded.
+// Google had no measurements on file for Big Shoulders, so it never
+// got a resized stand-in, and a stand-in sized for a face this narrow
+// would look visibly different in the moment before the real font
+// lands. Turning it on is its own decision, not part of moving files.
+const bigShoulders = localFont({
   variable: "--font-big-shoulders",
-  subsets: ["latin"],
+  src: "./fonts/big-shoulders/BigShoulders-variable.woff2",
+  weight: "100 900",
+  style: "normal",
   display: "swap",
   preload: false,
+  adjustFontFallback: false,
 });
 
 // ─────────────────────────────────────────────────────────────────
