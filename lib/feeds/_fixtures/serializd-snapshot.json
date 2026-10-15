@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-10-15T20:31:13.958Z",
+  "capturedAt": "2026-10-15T21:31:20.614Z",
   "summary": {
     "totalShows": 169,
     "totalShowReviews": 43,
     "totalSeasonReviews": 275,
-    "totalEpisodeReviews": 1084,
+    "totalEpisodeReviews": 1085,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 385,
-      "4": 266,
+      "4": 267,
       "5": 20,
       "3.5": 415,
       "4.5": 74,
@@ -43,7 +43,7 @@
       "episode": {
         "2": 25,
         "3": 317,
-        "4": 210,
+        "4": 211,
         "5": 10,
         "3.5": 336,
         "4.5": 63,
@@ -148,6 +148,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93129867,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T20:31:31Z",
+          "seasonId": 62357,
+          "episodeNumber": 5,
+          "episodeName": "Dumb Starbucks",
+          "tags": []
+        },
         {
           "id": 93125912,
           "level": "episode",
@@ -375,8 +391,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-15T20:06:45Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-10-15T20:31:31Z",
+      "primaryRating": 4,
       "liked": false
     },
     {
@@ -35094,6 +35110,22 @@
       ],
       "reviews": [
         {
+          "id": 93129867,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T20:31:31Z",
+          "seasonId": 62357,
+          "episodeNumber": 5,
+          "episodeName": "Dumb Starbucks",
+          "tags": []
+        },
+        {
           "id": 93125912,
           "level": "episode",
           "rating": 3,
@@ -35320,8 +35352,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-15T20:06:45Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-10-15T20:31:31Z",
+      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-22980": {
