@@ -41,6 +41,7 @@
 
 import { ImageResponse } from "next/og";
 import { loadGoogleFont } from "@/lib/og/load-google-font";
+import { excerpt as trimToExcerpt } from "@/lib/excerpt";
 
 export type ReviewCardFormat = "landscape" | "story";
 export type ReviewCardSubBrand = "film" | "tv";
@@ -98,29 +99,6 @@ const EXCERPT_BUDGET: Record<ReviewCardFormat, number> = {
   landscape: 210,
   story: 200,
 };
-
-/**
- * Trim review prose to a card budget without cutting mid-word.
- *
- * Strips the inline HTML markup Letterboxd preserves in the review
- * text (currently just `<i>…</i>` for italics) — the on-page renderer
- * turns those into <em> nodes, but this card is flat text, so the raw
- * tags would otherwise render literally ("<i>Jurassic Park</i>").
- * Then collapses whitespace (review text carries paragraph breaks),
- * backs off to the last space before the budget, and appends an
- * ellipsis. Returns the whole string when it already fits.
- */
-function truncateExcerpt(text: string, budget: number): string {
-  const stripped = text.replace(/<\/?[a-z][^>]*>/gi, "");
-  const collapsed = stripped.replace(/\s+/g, " ").trim();
-  if (collapsed.length <= budget) return collapsed;
-  const clipped = collapsed.slice(0, budget);
-  const lastSpace = clipped.lastIndexOf(" ");
-  // Guard against a budget that lands inside a single very long token
-  // (no space to back off to) — fall back to the hard clip in that case.
-  const base = lastSpace > budget * 0.6 ? clipped.slice(0, lastSpace) : clipped;
-  return `${base.trimEnd()}…`;
-}
 
 // Shared 5-point star path (viewBox 0–24), rendered filled or outlined.
 const STAR_PATH =
@@ -236,7 +214,7 @@ export async function renderReviewCard(
   const kicker = contextLabel
     ? `${baseKicker} · ${contextLabel.toUpperCase()}`
     : baseKicker;
-  const excerpt = truncateExcerpt(input.excerpt, EXCERPT_BUDGET[format]);
+  const excerpt = trimToExcerpt(input.excerpt, EXCERPT_BUDGET[format]);
   const yearText = year !== null && year !== "" ? String(year) : "";
   // The rating renders as the 5-slot star strip (see StarStrip) — the
   // same visual language as the on-site StarRating — so no numeric

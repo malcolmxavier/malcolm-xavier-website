@@ -43,6 +43,7 @@ import { StarRating } from "@/components/primitives/StarRating";
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL, twitterAttribution } from "@/lib/site-config";
+import { excerpt } from "@/lib/excerpt";
 import { ShareBar } from "@/components/share/ShareBar";
 import { ReviewShare } from "@/components/share/ReviewShare";
 import {
@@ -116,13 +117,11 @@ export async function generateMetadata({
     show.reviews.find((r) => r.level === "show" && r.reviewText.trim() !== "") ??
     show.reviews.find((r) => r.level === "season" && r.reviewText.trim() !== "") ??
     show.reviews.find((r) => r.reviewText.trim() !== "");
-  const trimmedProse = sourceReview
-    ? sourceReview.reviewText.replace(/\s+/g, " ").trim()
-    : "";
+  // excerpt() strips the inline <i> markup, cuts between whole
+  // characters (so an emoji is never split into a "�"), and backs off
+  // to a word boundary; 154 + the ellipsis keeps it within ~155.
   const description =
-    trimmedProse.length > 155
-      ? `${trimmedProse.slice(0, 152)}…`
-      : trimmedProse ||
+    (sourceReview ? excerpt(sourceReview.reviewText, 154) : "") ||
         `Reviews of ${show.name} (${show.premiereYear}) by Malcolm Xavier across show, season, and episode levels.`;
 
   // OG image: prefer TMDB backdrop (1280×720) — landscape, ideal

@@ -88,6 +88,7 @@ import {
 import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { SITE_URL, twitterAttribution } from "@/lib/site-config";
+import { excerpt } from "@/lib/excerpt";
 import { ShareBar } from "@/components/share/ShareBar";
 import { BackToFilms } from "./BackToFilms";
 
@@ -122,13 +123,11 @@ export async function generateMetadata({
   // stripped of paragraph breaks. Letterboxd's profile uses this
   // same approach for OG/SERP snippets.
   const review = film.reviews[0];
-  const trimmedProse = review
-    ? review.reviewText.replace(/\s+/g, " ").trim()
-    : "";
+  // excerpt() strips the inline <i> markup, cuts between whole
+  // characters (so an emoji is never split into a "�"), and backs off
+  // to a word boundary; 154 + the ellipsis keeps it within ~155.
   const description =
-    trimmedProse.length > 155
-      ? `${trimmedProse.slice(0, 152)}…`
-      : trimmedProse ||
+    (review ? excerpt(review.reviewText, 154) : "") ||
         `Review of ${film.title} (${film.releaseYear}) by Malcolm Xavier.`;
 
   // OG image: prefer TMDB backdrop (1280×720, landscape, fits OG
