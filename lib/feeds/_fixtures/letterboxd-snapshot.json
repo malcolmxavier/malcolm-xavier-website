@@ -1,28 +1,28 @@
 {
-  "capturedAt": "2026-10-14T22:00:45.070Z",
+  "capturedAt": "2026-10-15T03:00:44.967Z",
   "summary": {
-    "totalFilms": 847,
-    "totalReviews": 850,
+    "totalFilms": 848,
+    "totalReviews": 851,
     "ratingDistribution": {
       "1": 40,
       "2": 140,
       "3": 160,
       "4": 117,
       "5": 16,
-      "2.5": 107,
+      "2.5": 108,
       "3.5": 166,
       "4.5": 55,
       "1.5": 39,
       "0.5": 10
     },
     "genreDistribution": {
+      "Drama": 395,
+      "History": 45,
       "Mystery": 89,
       "Thriller": 251,
-      "Drama": 394,
       "Horror": 140,
       "Comedy": 239,
       "Science Fiction": 141,
-      "History": 44,
       "Action": 140,
       "Crime": 116,
       "Adventure": 99,
@@ -37,9 +37,9 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "2010s": 144,
       "1990s": 18,
       "2020s": 629,
-      "2010s": 143,
       "2000s": 36,
       "1980s": 16,
       "1960s": 1,
@@ -47,6 +47,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-152532",
+      "letterboxdSlug": "dallas-buyers-club",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/dallas-buyers-club/",
+      "title": "Dallas Buyers Club",
+      "releaseYear": 2013,
+      "firstWatchedDate": "2026-10-14",
+      "latestWatchedDate": "2026-10-14",
+      "firstReviewDate": "2026-10-15",
+      "latestReviewDate": "2026-10-15",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1538628143",
+          "watchedDate": "2026-10-14",
+          "reviewDate": "2026-10-15",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Well-produced, but I don’t think any elements together or in part would ever make a story like this, told by these people, compelling to me. You can see where this propelled McConaughey’s and Leto’s careers, but why them and not queer people?",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 152532,
+        "posterPath": "/7Fdh7gUq3plvQqxRbNYhWvDABXA.jpg",
+        "backdropPath": "/sbVKj98cq0FztCukzu47bu0H8o7.jpg",
+        "genres": [
+          "Drama",
+          "History"
+        ],
+        "runtime": 117,
+        "director": "Jean-Marc Vallée"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7Fdh7gUq3plvQqxRbNYhWvDABXA.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7Fdh7gUq3plvQqxRbNYhWvDABXA.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-745",
       "letterboxdSlug": "the-sixth-sense",
@@ -36968,6 +37012,50 @@
     }
   ],
   "filmById": {
+    "tmdb-152532": {
+      "id": "tmdb-152532",
+      "letterboxdSlug": "dallas-buyers-club",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/dallas-buyers-club/",
+      "title": "Dallas Buyers Club",
+      "releaseYear": 2013,
+      "firstWatchedDate": "2026-10-14",
+      "latestWatchedDate": "2026-10-14",
+      "firstReviewDate": "2026-10-15",
+      "latestReviewDate": "2026-10-15",
+      "primaryRating": 2.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1538628143",
+          "watchedDate": "2026-10-14",
+          "reviewDate": "2026-10-15",
+          "rating": 2.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Well-produced, but I don’t think any elements together or in part would ever make a story like this, told by these people, compelling to me. You can see where this propelled McConaughey’s and Leto’s careers, but why them and not queer people?",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 152532,
+        "posterPath": "/7Fdh7gUq3plvQqxRbNYhWvDABXA.jpg",
+        "backdropPath": "/sbVKj98cq0FztCukzu47bu0H8o7.jpg",
+        "genres": [
+          "Drama",
+          "History"
+        ],
+        "runtime": 117,
+        "director": "Jean-Marc Vallée"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/7Fdh7gUq3plvQqxRbNYhWvDABXA.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/7Fdh7gUq3plvQqxRbNYhWvDABXA.jpg",
+      "ratingSet": [
+        2.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-745": {
       "id": "tmdb-745",
       "letterboxdSlug": "the-sixth-sense",
