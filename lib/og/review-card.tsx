@@ -42,6 +42,11 @@
 import { ImageResponse } from "next/og";
 import { loadGoogleFont } from "@/lib/og/load-google-font";
 import { excerpt as trimToExcerpt } from "@/lib/excerpt";
+import { installEmojiSource } from "@/lib/og/emoji";
+
+// Draw emoji from the maintained Twemoji set, including ones newer than
+// next/og's built-in 2022 set (see lib/og/emoji.ts).
+installEmojiSource();
 
 export type ReviewCardFormat = "landscape" | "story";
 export type ReviewCardSubBrand = "film" | "tv";
