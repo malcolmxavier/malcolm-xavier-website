@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-10-16T17:31:14.793Z",
+  "capturedAt": "2026-10-16T18:31:21.659Z",
   "summary": {
     "totalShows": 169,
     "totalShowReviews": 43,
-    "totalSeasonReviews": 275,
-    "totalEpisodeReviews": 1091,
+    "totalSeasonReviews": 276,
+    "totalEpisodeReviews": 1093,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 387,
-      "4": 268,
+      "4": 271,
       "5": 20,
       "3.5": 418,
       "4.5": 74,
@@ -32,7 +32,7 @@
         "1": 3,
         "2": 23,
         "3": 65,
-        "4": 55,
+        "4": 56,
         "5": 9,
         "3.5": 76,
         "4.5": 11,
@@ -43,7 +43,7 @@
       "episode": {
         "2": 25,
         "3": 319,
-        "4": 212,
+        "4": 214,
         "5": 10,
         "3.5": 339,
         "4.5": 63,
@@ -148,6 +148,54 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93267343,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T18:10:07Z",
+          "seasonId": 70990,
+          "episodeNumber": 1,
+          "episodeName": "Electronics Store",
+          "tags": []
+        },
+        {
+          "id": 93267313,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T18:09:56Z",
+          "seasonId": 62357,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 93267287,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T18:09:46Z",
+          "seasonId": 62357,
+          "episodeNumber": 8,
+          "episodeName": "Toy Company / Movie Theatre",
+          "tags": []
+        },
         {
           "id": 93261642,
           "level": "episode",
@@ -415,16 +463,17 @@
         2026
       ],
       "reviewedSeasonNumbers": [
-        1
+        1,
+        2
       ],
       "inProgressSeasonNumbers": [
-        2
+        3
       ],
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-16T17:29:29Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-10-16T18:10:07Z",
+      "primaryRating": 4,
       "liked": false
     },
     {
@@ -35237,6 +35286,54 @@
       ],
       "reviews": [
         {
+          "id": 93267343,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T18:10:07Z",
+          "seasonId": 70990,
+          "episodeNumber": 1,
+          "episodeName": "Electronics Store",
+          "tags": []
+        },
+        {
+          "id": 93267313,
+          "level": "season",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T18:09:56Z",
+          "seasonId": 62357,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 93267287,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T18:09:46Z",
+          "seasonId": 62357,
+          "episodeNumber": 8,
+          "episodeName": "Toy Company / Movie Theatre",
+          "tags": []
+        },
+        {
           "id": 93261642,
           "level": "episode",
           "rating": 3.5,
@@ -35503,16 +35600,17 @@
         2026
       ],
       "reviewedSeasonNumbers": [
-        1
+        1,
+        2
       ],
       "inProgressSeasonNumbers": [
-        2
+        3
       ],
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-16T17:29:29Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-10-16T18:10:07Z",
+      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-110381": {
