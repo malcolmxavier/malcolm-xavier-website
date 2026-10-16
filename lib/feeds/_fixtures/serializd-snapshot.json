@@ -1,14 +1,14 @@
 {
-  "capturedAt": "2026-10-16T18:31:21.659Z",
+  "capturedAt": "2026-10-16T20:31:15.906Z",
   "summary": {
     "totalShows": 169,
     "totalShowReviews": 43,
     "totalSeasonReviews": 276,
-    "totalEpisodeReviews": 1093,
+    "totalEpisodeReviews": 1094,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
-      "3": 387,
+      "3": 388,
       "4": 271,
       "5": 20,
       "3.5": 418,
@@ -42,7 +42,7 @@
       },
       "episode": {
         "2": 25,
-        "3": 319,
+        "3": 320,
         "4": 214,
         "5": 10,
         "3.5": 339,
@@ -148,6 +148,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93282240,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "He’s only getting into hotter water as this show goes on.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T19:50:13Z",
+          "seasonId": 70990,
+          "episodeNumber": 2,
+          "episodeName": "Horseback Riding / Man Zone",
+          "tags": []
+        },
         {
           "id": 93267343,
           "level": "episode",
@@ -472,8 +488,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-16T18:10:07Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-10-16T19:50:13Z",
+      "primaryRating": 3,
       "liked": false
     },
     {
@@ -35286,6 +35302,22 @@
       ],
       "reviews": [
         {
+          "id": 93282240,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "He’s only getting into hotter water as this show goes on.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T19:50:13Z",
+          "seasonId": 70990,
+          "episodeNumber": 2,
+          "episodeName": "Horseback Riding / Man Zone",
+          "tags": []
+        },
+        {
           "id": 93267343,
           "level": "episode",
           "rating": 4,
@@ -35609,8 +35641,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-16T18:10:07Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-10-16T19:50:13Z",
+      "primaryRating": 3,
       "liked": false
     },
     "tmdb-tv-110381": {
