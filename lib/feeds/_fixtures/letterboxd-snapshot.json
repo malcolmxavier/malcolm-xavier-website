@@ -1,25 +1,25 @@
 {
-  "capturedAt": "2026-10-15T03:00:44.967Z",
+  "capturedAt": "2026-10-16T04:00:49.598Z",
   "summary": {
-    "totalFilms": 848,
-    "totalReviews": 851,
+    "totalFilms": 849,
+    "totalReviews": 852,
     "ratingDistribution": {
       "1": 40,
       "2": 140,
       "3": 160,
       "4": 117,
       "5": 16,
+      "3.5": 167,
       "2.5": 108,
-      "3.5": 166,
       "4.5": 55,
       "1.5": 39,
       "0.5": 10
     },
     "genreDistribution": {
+      "Thriller": 252,
       "Drama": 395,
       "History": 45,
       "Mystery": 89,
-      "Thriller": 251,
       "Horror": 140,
       "Comedy": 239,
       "Science Fiction": 141,
@@ -37,9 +37,9 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "2020s": 630,
       "2010s": 144,
       "1990s": 18,
-      "2020s": 629,
       "2000s": 36,
       "1980s": 16,
       "1960s": 1,
@@ -47,6 +47,49 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1255833",
+      "letterboxdSlug": "whalefall",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/whalefall/",
+      "title": "Whalefall",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-15",
+      "latestWatchedDate": "2026-10-15",
+      "firstReviewDate": "2026-10-16",
+      "latestReviewDate": "2026-10-16",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1540013671",
+          "watchedDate": "2026-10-15",
+          "reviewDate": "2026-10-16",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "My Austin Abram’s long continues to perform well quarter over quarter. It feels like he pushes at acting from the standpoint of being unafraid to embarrass himself from the standpoint of what manliness looks like—and I love that in a leading man. He really shines in the second act. The third act, however, became over-dependent on the father-son trope set up in the first. Is Mitt the whale? Doesn’t matter. Unclear why they were so reticent to show that Jay’s hand is obviously blown clean off.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1255833,
+        "posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
+        "backdropPath": "/shW2jHkQLZVv4Fko2rJDqTGU0gx.jpg",
+        "genres": [
+          "Thriller"
+        ],
+        "runtime": 106,
+        "director": "Brian Duffield"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-152532",
       "letterboxdSlug": "dallas-buyers-club",
@@ -37012,6 +37055,49 @@
     }
   ],
   "filmById": {
+    "tmdb-1255833": {
+      "id": "tmdb-1255833",
+      "letterboxdSlug": "whalefall",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/whalefall/",
+      "title": "Whalefall",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-15",
+      "latestWatchedDate": "2026-10-15",
+      "firstReviewDate": "2026-10-16",
+      "latestReviewDate": "2026-10-16",
+      "primaryRating": 3.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1540013671",
+          "watchedDate": "2026-10-15",
+          "reviewDate": "2026-10-16",
+          "rating": 3.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "My Austin Abram’s long continues to perform well quarter over quarter. It feels like he pushes at acting from the standpoint of being unafraid to embarrass himself from the standpoint of what manliness looks like—and I love that in a leading man. He really shines in the second act. The third act, however, became over-dependent on the father-son trope set up in the first. Is Mitt the whale? Doesn’t matter. Unclear why they were so reticent to show that Jay’s hand is obviously blown clean off.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1255833,
+        "posterPath": "/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
+        "backdropPath": "/shW2jHkQLZVv4Fko2rJDqTGU0gx.jpg",
+        "genres": [
+          "Thriller"
+        ],
+        "runtime": 106,
+        "director": "Brian Duffield"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vjTYUTgh9nO88i6HZ4YPRhiFL05.jpg",
+      "ratingSet": [
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-152532": {
       "id": "tmdb-152532",
       "letterboxdSlug": "dallas-buyers-club",
