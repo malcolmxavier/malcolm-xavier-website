@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-10-16T06:31:15.156Z",
+  "capturedAt": "2026-10-16T17:31:14.793Z",
   "summary": {
     "totalShows": 169,
     "totalShowReviews": 43,
     "totalSeasonReviews": 275,
-    "totalEpisodeReviews": 1089,
+    "totalEpisodeReviews": 1091,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
-      "3": 386,
+      "3": 387,
       "4": 268,
       "5": 20,
-      "3.5": 417,
+      "3.5": 418,
       "4.5": 74,
       "2.5": 142,
       "1.5": 13,
@@ -42,22 +42,22 @@
       },
       "episode": {
         "2": 25,
-        "3": 318,
+        "3": 319,
         "4": 212,
         "5": 10,
-        "3.5": 338,
+        "3.5": 339,
         "4.5": 63,
         "2.5": 115,
         "1.5": 7
       }
     },
     "genreDistribution": {
+      "Comedy": 57,
+      "Documentary": 14,
       "Reality": 32,
       "Drama": 102,
       "Action & Adventure": 18,
       "Crime": 33,
-      "Comedy": 57,
-      "Documentary": 14,
       "Talk": 1,
       "Mystery": 35,
       "Sci-Fi & Fantasy": 25,
@@ -67,9 +67,9 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
+      "2010s": 23,
       "2020s": 138,
       "2000s": 6,
-      "2010s": 23,
       "1970s": 1,
       "1990s": 1
     },
@@ -78,6 +78,355 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-58957",
+      "serializdShowId": 58957,
+      "slug": "nathan-for-you-2013",
+      "name": "Nathan for You",
+      "premiereYear": 2013,
+      "premiereDate": "2013-02-28",
+      "serializdUrl": "https://serializd.com/show/58957",
+      "tmdb": {
+        "id": 58957,
+        "name": "Nathan for You",
+        "posterPath": "/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+        "backdropPath": "/5ix5qtVlLR2O0sgAJp5urHLbGZe.jpg",
+        "genres": [
+          "Comedy",
+          "Documentary"
+        ],
+        "type": "Reality",
+        "status": "Ended",
+        "networks": [
+          "Comedy Central"
+        ],
+        "numberOfSeasons": 4,
+        "numberOfEpisodes": 31
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+      "seasons": [
+        {
+          "serializdId": 121803,
+          "showId": 58957,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/qaNkOdWN1Fo2AeqLNXlX9QLie1w.jpg",
+          "episodeCount": 1
+        },
+        {
+          "serializdId": 62356,
+          "showId": 58957,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/yxsH3BIEgiO4feFsjkBwdHXDInF.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 62357,
+          "showId": 58957,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/j9LF7lNGelcuegjF71oF99DnfLU.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 70990,
+          "showId": 58957,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/vZLGWhCF2dGj6vvPeYE3Gg2FN7y.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 91677,
+          "showId": 58957,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/wR6lIIaqmZPOdtnQrvQV9XjbzDq.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 93261642,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I hope you’re hungry for nothing in context. Wow.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T17:29:29Z",
+          "seasonId": 62357,
+          "episodeNumber": 7,
+          "episodeName": "Taxi Service / Hot Dog Stand",
+          "tags": []
+        },
+        {
+          "id": 93257116,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T16:52:27Z",
+          "seasonId": 62357,
+          "episodeNumber": 6,
+          "episodeName": "Dating Website / Party Planner",
+          "tags": []
+        },
+        {
+          "id": 93129867,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T20:31:31Z",
+          "seasonId": 62357,
+          "episodeNumber": 5,
+          "episodeName": "Dumb Starbucks",
+          "tags": []
+        },
+        {
+          "id": 93125912,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T20:06:45Z",
+          "seasonId": 62357,
+          "episodeNumber": 4,
+          "episodeName": "Liquor Store / Exterminator / Car Wash",
+          "tags": []
+        },
+        {
+          "id": 93122484,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Kind of an iconic idea to do maid service like that.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T19:44:49Z",
+          "seasonId": 62357,
+          "episodeNumber": 3,
+          "episodeName": "Pet Store / Maid Service",
+          "tags": []
+        },
+        {
+          "id": 93118837,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Not J*hnny D*pp…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T19:18:06Z",
+          "seasonId": 62357,
+          "episodeNumber": 2,
+          "episodeName": "Souvenir Shop / E.L.A.I.F.F.",
+          "tags": []
+        },
+        {
+          "id": 93118742,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Why did he give that picture?!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T19:17:22Z",
+          "seasonId": 62357,
+          "episodeNumber": 1,
+          "episodeName": "Mechanic / Realtor",
+          "tags": []
+        },
+        {
+          "id": 93100243,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I love whatever is wrong with this man. He’s just like me for real.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T16:57:38Z",
+          "seasonId": 62356,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 93100221,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T16:57:25Z",
+          "seasonId": 62356,
+          "episodeNumber": 8,
+          "episodeName": "Private Investigator / Taxi Company",
+          "tags": []
+        },
+        {
+          "id": 93100208,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T16:57:21Z",
+          "seasonId": 62356,
+          "episodeNumber": 5,
+          "episodeName": "Haunted House / The Hunk",
+          "tags": []
+        },
+        {
+          "id": 93094240,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T16:07:01Z",
+          "seasonId": 62356,
+          "episodeNumber": 6,
+          "episodeName": "Funeral Home / Burger Joint / Skydiving",
+          "tags": []
+        },
+        {
+          "id": 93094197,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "🥴🥴 (Also, on streaming this and episode 5 are swapped…)",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T16:06:47Z",
+          "seasonId": 62356,
+          "episodeNumber": 7,
+          "episodeName": "The Claw of Shame",
+          "tags": []
+        },
+        {
+          "id": 93041145,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "That last beat almost made me forget about the racism.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-14T12:00:00Z",
+          "reviewDate": "2026-10-15T05:41:43Z",
+          "seasonId": 62356,
+          "episodeNumber": 4,
+          "episodeName": "Gas Station / Caricature Artist",
+          "tags": []
+        },
+        {
+          "id": 93039035,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Not a politically incorrect usage of Indian in…checks notes…2013.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-14T12:00:00Z",
+          "reviewDate": "2026-10-15T05:06:54Z",
+          "seasonId": 62356,
+          "episodeNumber": 3,
+          "episodeName": "Clothing Store / Restaurant",
+          "tags": []
+        },
+        {
+          "id": 74161883,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Nathan as an elf…why he kinda…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-08T04:58:25Z",
+          "reviewDate": "2026-07-08T04:58:25Z",
+          "seasonId": 62356,
+          "episodeNumber": 2,
+          "episodeName": "Santa / Petting Zoo",
+          "tags": []
+        },
+        {
+          "id": 74149856,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m genuinely amazed this show was greenlit. But honestly it’s so perfectly 2013.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-08T04:37:08Z",
+          "reviewDate": "2026-07-08T04:37:23Z",
+          "seasonId": 62356,
+          "episodeNumber": 1,
+          "episodeName": "Yogurt Shop / Pizzeria",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [
+        2
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-16T17:29:29Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-110381",
       "serializdShowId": 110381,
@@ -415,7 +764,7 @@
         "id": 1416,
         "name": "Grey's Anatomy",
         "posterPath": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
-        "backdropPath": "/jP0Rhj9OTPDAwQlHQwOLFDdeE8t.jpg",
+        "backdropPath": "/A4NwkQXTXElE5iAsne5RpvS8R2Z.jpg",
         "genres": [
           "Drama"
         ],
@@ -424,8 +773,8 @@
         "networks": [
           "ABC"
         ],
-        "numberOfSeasons": 22,
-        "numberOfEpisodes": 465
+        "numberOfSeasons": 23,
+        "numberOfEpisodes": 466
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
@@ -460,7 +809,7 @@
           "seasonNumber": 3,
           "name": "Season 3",
           "posterPath": "/aY7NuvFj5Uzliy0nrFxVWmlZFiK.jpg",
-          "episodeCount": 25
+          "episodeCount": 24
         },
         {
           "serializdId": 3716,
@@ -468,7 +817,7 @@
           "seasonNumber": 4,
           "name": "Season 4",
           "posterPath": "/gDQR39nMdjAvGyWe4lOPCj4iMQx.jpg",
-          "episodeCount": 17
+          "episodeCount": 16
         },
         {
           "serializdId": 3717,
@@ -484,7 +833,7 @@
           "seasonNumber": 6,
           "name": "Season 6",
           "posterPath": "/8oclDsuHPZIVXh311u5SHlTNQzA.jpg",
-          "episodeCount": 24
+          "episodeCount": 22
         },
         {
           "serializdId": 3721,
@@ -500,7 +849,7 @@
           "seasonNumber": 8,
           "name": "Season 8",
           "posterPath": "/pvuMQwMPWDqunRiajmeGQmUF0zS.jpg",
-          "episodeCount": 24
+          "episodeCount": 23
         },
         {
           "serializdId": 3724,
@@ -555,7 +904,7 @@
           "showId": 1416,
           "seasonNumber": 15,
           "name": "Season 15",
-          "posterPath": "/ravweBHwq9jkxQDDDwmqpyBDvCf.jpg",
+          "posterPath": "/eqgIOObafPJitt8JNh1LuO2fvqu.jpg",
           "episodeCount": 25
         },
         {
@@ -620,7 +969,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
-          "episodeCount": null
+          "episodeCount": 6
         }
       ],
       "reviews": [
@@ -939,7 +1288,7 @@
         "id": 284838,
         "name": "9-1-1: Nashville",
         "posterPath": "/4Dl0LysUOEWOhitzAfrKFkBeefu.jpg",
-        "backdropPath": "/eO4cbYrbYIwn6uFZgpvdfD9eY9o.jpg",
+        "backdropPath": "/sRPi31iwyuDxcIcLYW3aeQDpLxq.jpg",
         "genres": [
           "Drama",
           "Action & Adventure"
@@ -949,8 +1298,8 @@
         "networks": [
           "ABC"
         ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 18
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 24
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/4Dl0LysUOEWOhitzAfrKFkBeefu.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4Dl0LysUOEWOhitzAfrKFkBeefu.jpg",
@@ -968,8 +1317,8 @@
           "showId": 284838,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/qiPLhZc7w7iKOVowfJsD1CrxSAo.jpg",
-          "episodeCount": null
+          "posterPath": "/63JFLM8L8H1Jlp62kZGPvSKc50j.jpg",
+          "episodeCount": 6
         }
       ],
       "reviews": [
@@ -1245,8 +1594,8 @@
           "ABC",
           "FOX"
         ],
-        "numberOfSeasons": 9,
-        "numberOfEpisodes": 142
+        "numberOfSeasons": 10,
+        "numberOfEpisodes": 148
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/6njUqsd3By2mJsdZm1P0moPLzs3.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6njUqsd3By2mJsdZm1P0moPLzs3.jpg",
@@ -1256,7 +1605,7 @@
           "showId": 75219,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/pNDfftsiCLLUZxy7dUbGW4daRjH.jpg",
+          "posterPath": "/ntx7MwBrT2iR6dmBjWIpY0S6YzP.jpg",
           "episodeCount": 10
         },
         {
@@ -1264,7 +1613,7 @@
           "showId": 75219,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/o8gfGyvvU1YhCC0RMVktzDbsph0.jpg",
+          "posterPath": "/y1DevO17Yv07od6crq3QvuuCOeY.jpg",
           "episodeCount": 18
         },
         {
@@ -1288,7 +1637,7 @@
           "showId": 75219,
           "seasonNumber": 5,
           "name": "Season 5",
-          "posterPath": "/3srnnHY50xmss50SS7B2XJ1j31i.jpg",
+          "posterPath": "/pximRFGjGTyjSTPSIxbiTMAut0N.jpg",
           "episodeCount": 18
         },
         {
@@ -1329,7 +1678,7 @@
           "seasonNumber": 10,
           "name": "Season 10",
           "posterPath": "/u6HuWWohheyzAj5PUn4rBd0eH92.jpg",
-          "episodeCount": null
+          "episodeCount": 6
         }
       ],
       "reviews": [
@@ -1625,323 +1974,6 @@
       "liked": false
     },
     {
-      "id": "tmdb-tv-58957",
-      "serializdShowId": 58957,
-      "slug": "nathan-for-you-2013",
-      "name": "Nathan for You",
-      "premiereYear": 2013,
-      "premiereDate": "2013-02-28",
-      "serializdUrl": "https://serializd.com/show/58957",
-      "tmdb": {
-        "id": 58957,
-        "name": "Nathan for You",
-        "posterPath": "/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
-        "backdropPath": "/5ix5qtVlLR2O0sgAJp5urHLbGZe.jpg",
-        "genres": [
-          "Comedy",
-          "Documentary"
-        ],
-        "type": "Reality",
-        "status": "Ended",
-        "networks": [
-          "Comedy Central"
-        ],
-        "numberOfSeasons": 4,
-        "numberOfEpisodes": 31
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
-      "seasons": [
-        {
-          "serializdId": 121803,
-          "showId": 58957,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/qaNkOdWN1Fo2AeqLNXlX9QLie1w.jpg",
-          "episodeCount": 1
-        },
-        {
-          "serializdId": 62356,
-          "showId": 58957,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/yxsH3BIEgiO4feFsjkBwdHXDInF.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 62357,
-          "showId": 58957,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/j9LF7lNGelcuegjF71oF99DnfLU.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 70990,
-          "showId": 58957,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/vZLGWhCF2dGj6vvPeYE3Gg2FN7y.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 91677,
-          "showId": 58957,
-          "seasonNumber": 4,
-          "name": "Season 4",
-          "posterPath": "/wR6lIIaqmZPOdtnQrvQV9XjbzDq.jpg",
-          "episodeCount": 7
-        }
-      ],
-      "reviews": [
-        {
-          "id": 93129867,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T20:31:31Z",
-          "seasonId": 62357,
-          "episodeNumber": 5,
-          "episodeName": "Dumb Starbucks",
-          "tags": []
-        },
-        {
-          "id": 93125912,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T20:06:45Z",
-          "seasonId": 62357,
-          "episodeNumber": 4,
-          "episodeName": "Liquor Store / Exterminator / Car Wash",
-          "tags": []
-        },
-        {
-          "id": 93122484,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Kind of an iconic idea to do maid service like that.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T19:44:49Z",
-          "seasonId": 62357,
-          "episodeNumber": 3,
-          "episodeName": "Pet Store / Maid Service",
-          "tags": []
-        },
-        {
-          "id": 93118837,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Not J*hnny D*pp…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T19:18:06Z",
-          "seasonId": 62357,
-          "episodeNumber": 2,
-          "episodeName": "Souvenir Shop / E.L.A.I.F.F.",
-          "tags": []
-        },
-        {
-          "id": 93118742,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Why did he give that picture?!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T19:17:22Z",
-          "seasonId": 62357,
-          "episodeNumber": 1,
-          "episodeName": "Mechanic / Realtor",
-          "tags": []
-        },
-        {
-          "id": 93100243,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I love whatever is wrong with this man. He’s just like me for real.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T16:57:38Z",
-          "seasonId": 62356,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 93100221,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T16:57:25Z",
-          "seasonId": 62356,
-          "episodeNumber": 8,
-          "episodeName": "Private Investigator / Taxi Company",
-          "tags": []
-        },
-        {
-          "id": 93100208,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T16:57:21Z",
-          "seasonId": 62356,
-          "episodeNumber": 5,
-          "episodeName": "Haunted House / The Hunk",
-          "tags": []
-        },
-        {
-          "id": 93094240,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T16:07:01Z",
-          "seasonId": 62356,
-          "episodeNumber": 6,
-          "episodeName": "Funeral Home / Burger Joint / Skydiving",
-          "tags": []
-        },
-        {
-          "id": 93094197,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "🥴🥴 (Also, on streaming this and episode 5 are swapped…)",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T16:06:47Z",
-          "seasonId": 62356,
-          "episodeNumber": 7,
-          "episodeName": "The Claw of Shame",
-          "tags": []
-        },
-        {
-          "id": 93041145,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "That last beat almost made me forget about the racism.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-14T12:00:00Z",
-          "reviewDate": "2026-10-15T05:41:43Z",
-          "seasonId": 62356,
-          "episodeNumber": 4,
-          "episodeName": "Gas Station / Caricature Artist",
-          "tags": []
-        },
-        {
-          "id": 93039035,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Not a politically incorrect usage of Indian in…checks notes…2013.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-14T12:00:00Z",
-          "reviewDate": "2026-10-15T05:06:54Z",
-          "seasonId": 62356,
-          "episodeNumber": 3,
-          "episodeName": "Clothing Store / Restaurant",
-          "tags": []
-        },
-        {
-          "id": 74161883,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Nathan as an elf…why he kinda…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-08T04:58:25Z",
-          "reviewDate": "2026-07-08T04:58:25Z",
-          "seasonId": 62356,
-          "episodeNumber": 2,
-          "episodeName": "Santa / Petting Zoo",
-          "tags": []
-        },
-        {
-          "id": 74149856,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I’m genuinely amazed this show was greenlit. But honestly it’s so perfectly 2013.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-08T04:37:08Z",
-          "reviewDate": "2026-07-08T04:37:23Z",
-          "seasonId": 62356,
-          "episodeNumber": 1,
-          "episodeName": "Yogurt Shop / Pizzeria",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [
-        2
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-15T20:31:31Z",
-      "primaryRating": 4,
-      "liked": false
-    },
-    {
       "id": "tmdb-tv-22980",
       "serializdShowId": 22980,
       "slug": "watch-what-happens-live-with-andy-cohen-2009",
@@ -2159,7 +2191,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 168
+          "episodeCount": 169
         }
       ],
       "reviews": [
@@ -3868,7 +3900,7 @@
           "Bravo"
         ],
         "numberOfSeasons": 1,
-        "numberOfEpisodes": 4
+        "numberOfEpisodes": 6
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
@@ -35134,6 +35166,355 @@
     }
   ],
   "showById": {
+    "tmdb-tv-58957": {
+      "id": "tmdb-tv-58957",
+      "serializdShowId": 58957,
+      "slug": "nathan-for-you-2013",
+      "name": "Nathan for You",
+      "premiereYear": 2013,
+      "premiereDate": "2013-02-28",
+      "serializdUrl": "https://serializd.com/show/58957",
+      "tmdb": {
+        "id": 58957,
+        "name": "Nathan for You",
+        "posterPath": "/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+        "backdropPath": "/5ix5qtVlLR2O0sgAJp5urHLbGZe.jpg",
+        "genres": [
+          "Comedy",
+          "Documentary"
+        ],
+        "type": "Reality",
+        "status": "Ended",
+        "networks": [
+          "Comedy Central"
+        ],
+        "numberOfSeasons": 4,
+        "numberOfEpisodes": 31
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
+      "seasons": [
+        {
+          "serializdId": 121803,
+          "showId": 58957,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/qaNkOdWN1Fo2AeqLNXlX9QLie1w.jpg",
+          "episodeCount": 1
+        },
+        {
+          "serializdId": 62356,
+          "showId": 58957,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/yxsH3BIEgiO4feFsjkBwdHXDInF.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 62357,
+          "showId": 58957,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/j9LF7lNGelcuegjF71oF99DnfLU.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 70990,
+          "showId": 58957,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/vZLGWhCF2dGj6vvPeYE3Gg2FN7y.jpg",
+          "episodeCount": 8
+        },
+        {
+          "serializdId": 91677,
+          "showId": 58957,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/wR6lIIaqmZPOdtnQrvQV9XjbzDq.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 93261642,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I hope you’re hungry for nothing in context. Wow.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T17:29:29Z",
+          "seasonId": 62357,
+          "episodeNumber": 7,
+          "episodeName": "Taxi Service / Hot Dog Stand",
+          "tags": []
+        },
+        {
+          "id": 93257116,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-16T16:52:27Z",
+          "seasonId": 62357,
+          "episodeNumber": 6,
+          "episodeName": "Dating Website / Party Planner",
+          "tags": []
+        },
+        {
+          "id": 93129867,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T20:31:31Z",
+          "seasonId": 62357,
+          "episodeNumber": 5,
+          "episodeName": "Dumb Starbucks",
+          "tags": []
+        },
+        {
+          "id": 93125912,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T20:06:45Z",
+          "seasonId": 62357,
+          "episodeNumber": 4,
+          "episodeName": "Liquor Store / Exterminator / Car Wash",
+          "tags": []
+        },
+        {
+          "id": 93122484,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Kind of an iconic idea to do maid service like that.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T19:44:49Z",
+          "seasonId": 62357,
+          "episodeNumber": 3,
+          "episodeName": "Pet Store / Maid Service",
+          "tags": []
+        },
+        {
+          "id": 93118837,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Not J*hnny D*pp…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T19:18:06Z",
+          "seasonId": 62357,
+          "episodeNumber": 2,
+          "episodeName": "Souvenir Shop / E.L.A.I.F.F.",
+          "tags": []
+        },
+        {
+          "id": 93118742,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Why did he give that picture?!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T19:17:22Z",
+          "seasonId": 62357,
+          "episodeNumber": 1,
+          "episodeName": "Mechanic / Realtor",
+          "tags": []
+        },
+        {
+          "id": 93100243,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I love whatever is wrong with this man. He’s just like me for real.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T16:57:38Z",
+          "seasonId": 62356,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 93100221,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T16:57:25Z",
+          "seasonId": 62356,
+          "episodeNumber": 8,
+          "episodeName": "Private Investigator / Taxi Company",
+          "tags": []
+        },
+        {
+          "id": 93100208,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T16:57:21Z",
+          "seasonId": 62356,
+          "episodeNumber": 5,
+          "episodeName": "Haunted House / The Hunk",
+          "tags": []
+        },
+        {
+          "id": 93094240,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T16:07:01Z",
+          "seasonId": 62356,
+          "episodeNumber": 6,
+          "episodeName": "Funeral Home / Burger Joint / Skydiving",
+          "tags": []
+        },
+        {
+          "id": 93094197,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "🥴🥴 (Also, on streaming this and episode 5 are swapped…)",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-15T16:06:47Z",
+          "seasonId": 62356,
+          "episodeNumber": 7,
+          "episodeName": "The Claw of Shame",
+          "tags": []
+        },
+        {
+          "id": 93041145,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "That last beat almost made me forget about the racism.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-14T12:00:00Z",
+          "reviewDate": "2026-10-15T05:41:43Z",
+          "seasonId": 62356,
+          "episodeNumber": 4,
+          "episodeName": "Gas Station / Caricature Artist",
+          "tags": []
+        },
+        {
+          "id": 93039035,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Not a politically incorrect usage of Indian in…checks notes…2013.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-14T12:00:00Z",
+          "reviewDate": "2026-10-15T05:06:54Z",
+          "seasonId": 62356,
+          "episodeNumber": 3,
+          "episodeName": "Clothing Store / Restaurant",
+          "tags": []
+        },
+        {
+          "id": 74161883,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Nathan as an elf…why he kinda…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-08T04:58:25Z",
+          "reviewDate": "2026-07-08T04:58:25Z",
+          "seasonId": 62356,
+          "episodeNumber": 2,
+          "episodeName": "Santa / Petting Zoo",
+          "tags": []
+        },
+        {
+          "id": 74149856,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I’m genuinely amazed this show was greenlit. But honestly it’s so perfectly 2013.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-07-08T04:37:08Z",
+          "reviewDate": "2026-07-08T04:37:23Z",
+          "seasonId": 62356,
+          "episodeNumber": 1,
+          "episodeName": "Yogurt Shop / Pizzeria",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [
+        2
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-16T17:29:29Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     "tmdb-tv-110381": {
       "id": "tmdb-tv-110381",
       "serializdShowId": 110381,
@@ -35471,7 +35852,7 @@
         "id": 1416,
         "name": "Grey's Anatomy",
         "posterPath": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
-        "backdropPath": "/jP0Rhj9OTPDAwQlHQwOLFDdeE8t.jpg",
+        "backdropPath": "/A4NwkQXTXElE5iAsne5RpvS8R2Z.jpg",
         "genres": [
           "Drama"
         ],
@@ -35480,8 +35861,8 @@
         "networks": [
           "ABC"
         ],
-        "numberOfSeasons": 22,
-        "numberOfEpisodes": 465
+        "numberOfSeasons": 23,
+        "numberOfEpisodes": 466
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
@@ -35516,7 +35897,7 @@
           "seasonNumber": 3,
           "name": "Season 3",
           "posterPath": "/aY7NuvFj5Uzliy0nrFxVWmlZFiK.jpg",
-          "episodeCount": 25
+          "episodeCount": 24
         },
         {
           "serializdId": 3716,
@@ -35524,7 +35905,7 @@
           "seasonNumber": 4,
           "name": "Season 4",
           "posterPath": "/gDQR39nMdjAvGyWe4lOPCj4iMQx.jpg",
-          "episodeCount": 17
+          "episodeCount": 16
         },
         {
           "serializdId": 3717,
@@ -35540,7 +35921,7 @@
           "seasonNumber": 6,
           "name": "Season 6",
           "posterPath": "/8oclDsuHPZIVXh311u5SHlTNQzA.jpg",
-          "episodeCount": 24
+          "episodeCount": 22
         },
         {
           "serializdId": 3721,
@@ -35556,7 +35937,7 @@
           "seasonNumber": 8,
           "name": "Season 8",
           "posterPath": "/pvuMQwMPWDqunRiajmeGQmUF0zS.jpg",
-          "episodeCount": 24
+          "episodeCount": 23
         },
         {
           "serializdId": 3724,
@@ -35611,7 +35992,7 @@
           "showId": 1416,
           "seasonNumber": 15,
           "name": "Season 15",
-          "posterPath": "/ravweBHwq9jkxQDDDwmqpyBDvCf.jpg",
+          "posterPath": "/eqgIOObafPJitt8JNh1LuO2fvqu.jpg",
           "episodeCount": 25
         },
         {
@@ -35676,7 +36057,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
-          "episodeCount": null
+          "episodeCount": 6
         }
       ],
       "reviews": [
@@ -35995,7 +36376,7 @@
         "id": 284838,
         "name": "9-1-1: Nashville",
         "posterPath": "/4Dl0LysUOEWOhitzAfrKFkBeefu.jpg",
-        "backdropPath": "/eO4cbYrbYIwn6uFZgpvdfD9eY9o.jpg",
+        "backdropPath": "/sRPi31iwyuDxcIcLYW3aeQDpLxq.jpg",
         "genres": [
           "Drama",
           "Action & Adventure"
@@ -36005,8 +36386,8 @@
         "networks": [
           "ABC"
         ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 18
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 24
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/4Dl0LysUOEWOhitzAfrKFkBeefu.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/4Dl0LysUOEWOhitzAfrKFkBeefu.jpg",
@@ -36024,8 +36405,8 @@
           "showId": 284838,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/qiPLhZc7w7iKOVowfJsD1CrxSAo.jpg",
-          "episodeCount": null
+          "posterPath": "/63JFLM8L8H1Jlp62kZGPvSKc50j.jpg",
+          "episodeCount": 6
         }
       ],
       "reviews": [
@@ -36301,8 +36682,8 @@
           "ABC",
           "FOX"
         ],
-        "numberOfSeasons": 9,
-        "numberOfEpisodes": 142
+        "numberOfSeasons": 10,
+        "numberOfEpisodes": 148
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/6njUqsd3By2mJsdZm1P0moPLzs3.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6njUqsd3By2mJsdZm1P0moPLzs3.jpg",
@@ -36312,7 +36693,7 @@
           "showId": 75219,
           "seasonNumber": 1,
           "name": "Season 1",
-          "posterPath": "/pNDfftsiCLLUZxy7dUbGW4daRjH.jpg",
+          "posterPath": "/ntx7MwBrT2iR6dmBjWIpY0S6YzP.jpg",
           "episodeCount": 10
         },
         {
@@ -36320,7 +36701,7 @@
           "showId": 75219,
           "seasonNumber": 2,
           "name": "Season 2",
-          "posterPath": "/o8gfGyvvU1YhCC0RMVktzDbsph0.jpg",
+          "posterPath": "/y1DevO17Yv07od6crq3QvuuCOeY.jpg",
           "episodeCount": 18
         },
         {
@@ -36344,7 +36725,7 @@
           "showId": 75219,
           "seasonNumber": 5,
           "name": "Season 5",
-          "posterPath": "/3srnnHY50xmss50SS7B2XJ1j31i.jpg",
+          "posterPath": "/pximRFGjGTyjSTPSIxbiTMAut0N.jpg",
           "episodeCount": 18
         },
         {
@@ -36385,7 +36766,7 @@
           "seasonNumber": 10,
           "name": "Season 10",
           "posterPath": "/u6HuWWohheyzAj5PUn4rBd0eH92.jpg",
-          "episodeCount": null
+          "episodeCount": 6
         }
       ],
       "reviews": [
@@ -36680,323 +37061,6 @@
       "primaryRating": 3,
       "liked": false
     },
-    "tmdb-tv-58957": {
-      "id": "tmdb-tv-58957",
-      "serializdShowId": 58957,
-      "slug": "nathan-for-you-2013",
-      "name": "Nathan for You",
-      "premiereYear": 2013,
-      "premiereDate": "2013-02-28",
-      "serializdUrl": "https://serializd.com/show/58957",
-      "tmdb": {
-        "id": 58957,
-        "name": "Nathan for You",
-        "posterPath": "/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
-        "backdropPath": "/5ix5qtVlLR2O0sgAJp5urHLbGZe.jpg",
-        "genres": [
-          "Comedy",
-          "Documentary"
-        ],
-        "type": "Reality",
-        "status": "Ended",
-        "networks": [
-          "Comedy Central"
-        ],
-        "numberOfSeasons": 4,
-        "numberOfEpisodes": 31
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/6tGXlz61c44onUg6EdRkbhjcaPA.jpg",
-      "seasons": [
-        {
-          "serializdId": 121803,
-          "showId": 58957,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/qaNkOdWN1Fo2AeqLNXlX9QLie1w.jpg",
-          "episodeCount": 1
-        },
-        {
-          "serializdId": 62356,
-          "showId": 58957,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/yxsH3BIEgiO4feFsjkBwdHXDInF.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 62357,
-          "showId": 58957,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/j9LF7lNGelcuegjF71oF99DnfLU.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 70990,
-          "showId": 58957,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/vZLGWhCF2dGj6vvPeYE3Gg2FN7y.jpg",
-          "episodeCount": 8
-        },
-        {
-          "serializdId": 91677,
-          "showId": 58957,
-          "seasonNumber": 4,
-          "name": "Season 4",
-          "posterPath": "/wR6lIIaqmZPOdtnQrvQV9XjbzDq.jpg",
-          "episodeCount": 7
-        }
-      ],
-      "reviews": [
-        {
-          "id": 93129867,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T20:31:31Z",
-          "seasonId": 62357,
-          "episodeNumber": 5,
-          "episodeName": "Dumb Starbucks",
-          "tags": []
-        },
-        {
-          "id": 93125912,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T20:06:45Z",
-          "seasonId": 62357,
-          "episodeNumber": 4,
-          "episodeName": "Liquor Store / Exterminator / Car Wash",
-          "tags": []
-        },
-        {
-          "id": 93122484,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Kind of an iconic idea to do maid service like that.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T19:44:49Z",
-          "seasonId": 62357,
-          "episodeNumber": 3,
-          "episodeName": "Pet Store / Maid Service",
-          "tags": []
-        },
-        {
-          "id": 93118837,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Not J*hnny D*pp…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T19:18:06Z",
-          "seasonId": 62357,
-          "episodeNumber": 2,
-          "episodeName": "Souvenir Shop / E.L.A.I.F.F.",
-          "tags": []
-        },
-        {
-          "id": 93118742,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Why did he give that picture?!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T19:17:22Z",
-          "seasonId": 62357,
-          "episodeNumber": 1,
-          "episodeName": "Mechanic / Realtor",
-          "tags": []
-        },
-        {
-          "id": 93100243,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I love whatever is wrong with this man. He’s just like me for real.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T16:57:38Z",
-          "seasonId": 62356,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 93100221,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T16:57:25Z",
-          "seasonId": 62356,
-          "episodeNumber": 8,
-          "episodeName": "Private Investigator / Taxi Company",
-          "tags": []
-        },
-        {
-          "id": 93100208,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T16:57:21Z",
-          "seasonId": 62356,
-          "episodeNumber": 5,
-          "episodeName": "Haunted House / The Hunk",
-          "tags": []
-        },
-        {
-          "id": 93094240,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T16:07:01Z",
-          "seasonId": 62356,
-          "episodeNumber": 6,
-          "episodeName": "Funeral Home / Burger Joint / Skydiving",
-          "tags": []
-        },
-        {
-          "id": 93094197,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "🥴🥴 (Also, on streaming this and episode 5 are swapped…)",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-15T16:06:47Z",
-          "seasonId": 62356,
-          "episodeNumber": 7,
-          "episodeName": "The Claw of Shame",
-          "tags": []
-        },
-        {
-          "id": 93041145,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "That last beat almost made me forget about the racism.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-14T12:00:00Z",
-          "reviewDate": "2026-10-15T05:41:43Z",
-          "seasonId": 62356,
-          "episodeNumber": 4,
-          "episodeName": "Gas Station / Caricature Artist",
-          "tags": []
-        },
-        {
-          "id": 93039035,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Not a politically incorrect usage of Indian in…checks notes…2013.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-14T12:00:00Z",
-          "reviewDate": "2026-10-15T05:06:54Z",
-          "seasonId": 62356,
-          "episodeNumber": 3,
-          "episodeName": "Clothing Store / Restaurant",
-          "tags": []
-        },
-        {
-          "id": 74161883,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Nathan as an elf…why he kinda…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-08T04:58:25Z",
-          "reviewDate": "2026-07-08T04:58:25Z",
-          "seasonId": 62356,
-          "episodeNumber": 2,
-          "episodeName": "Santa / Petting Zoo",
-          "tags": []
-        },
-        {
-          "id": 74149856,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "I’m genuinely amazed this show was greenlit. But honestly it’s so perfectly 2013.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-07-08T04:37:08Z",
-          "reviewDate": "2026-07-08T04:37:23Z",
-          "seasonId": 62356,
-          "episodeNumber": 1,
-          "episodeName": "Yogurt Shop / Pizzeria",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [
-        2
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-15T20:31:31Z",
-      "primaryRating": 4,
-      "liked": false
-    },
     "tmdb-tv-22980": {
       "id": "tmdb-tv-22980",
       "serializdShowId": 22980,
@@ -37215,7 +37279,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 168
+          "episodeCount": 169
         }
       ],
       "reviews": [
@@ -38924,7 +38988,7 @@
           "Bravo"
         ],
         "numberOfSeasons": 1,
-        "numberOfEpisodes": 4
+        "numberOfEpisodes": 6
       },
       "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
       "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
