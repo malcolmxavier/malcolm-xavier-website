@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-10-17T22:31:16.761Z",
+  "capturedAt": "2026-10-17T23:31:13.615Z",
   "summary": {
     "totalShows": 169,
     "totalShowReviews": 43,
     "totalSeasonReviews": 278,
-    "totalEpisodeReviews": 1102,
+    "totalEpisodeReviews": 1104,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 388,
-      "4": 274,
+      "4": 275,
       "5": 21,
-      "3.5": 423,
+      "3.5": 424,
       "4.5": 75,
       "2.5": 142,
       "1.5": 13,
@@ -43,9 +43,9 @@
       "episode": {
         "2": 25,
         "3": 320,
-        "4": 217,
+        "4": 218,
         "5": 11,
-        "3.5": 343,
+        "3.5": 344,
         "4.5": 63,
         "2.5": 115,
         "1.5": 7
@@ -73,7 +73,7 @@
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 15,
+    "showsInProgressCount": 16,
     "totalWatchedShows": 355,
     "totalWatchedOnlyShows": 186
   },
@@ -148,6 +148,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93479811,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-17T12:00:00Z",
+          "reviewDate": "2026-10-17T22:53:10Z",
+          "seasonId": 91677,
+          "episodeNumber": 2,
+          "episodeName": "Chili Shop / Massage Parlor",
+          "tags": []
+        },
+        {
+          "id": 93477617,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Living for the escalation of investment to get these ideas off the ground.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-17T12:00:00Z",
+          "reviewDate": "2026-10-17T22:36:12Z",
+          "seasonId": 91677,
+          "episodeNumber": 1,
+          "episodeName": "The Richards Tip",
+          "tags": []
+        },
         {
           "id": 93469603,
           "level": "season",
@@ -629,11 +661,13 @@
         2,
         3
       ],
-      "inProgressSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        4
+      ],
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-17T21:44:26Z",
+      "latestActivityDate": "2026-10-17T22:53:10Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -35463,6 +35497,38 @@
       ],
       "reviews": [
         {
+          "id": 93479811,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-17T12:00:00Z",
+          "reviewDate": "2026-10-17T22:53:10Z",
+          "seasonId": 91677,
+          "episodeNumber": 2,
+          "episodeName": "Chili Shop / Massage Parlor",
+          "tags": []
+        },
+        {
+          "id": 93477617,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Living for the escalation of investment to get these ideas off the ground.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-17T12:00:00Z",
+          "reviewDate": "2026-10-17T22:36:12Z",
+          "seasonId": 91677,
+          "episodeNumber": 1,
+          "episodeName": "The Richards Tip",
+          "tags": []
+        },
+        {
           "id": 93469603,
           "level": "season",
           "rating": 3.5,
@@ -35943,11 +36009,13 @@
         2,
         3
       ],
-      "inProgressSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        4
+      ],
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-17T21:44:26Z",
+      "latestActivityDate": "2026-10-17T22:53:10Z",
       "primaryRating": 3.5,
       "liked": false
     },
