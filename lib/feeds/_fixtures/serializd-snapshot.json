@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-10-16T20:31:15.906Z",
+  "capturedAt": "2026-10-17T00:31:15.282Z",
   "summary": {
     "totalShows": 169,
     "totalShowReviews": 43,
     "totalSeasonReviews": 276,
-    "totalEpisodeReviews": 1094,
+    "totalEpisodeReviews": 1096,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 388,
-      "4": 271,
+      "4": 272,
       "5": 20,
-      "3.5": 418,
+      "3.5": 419,
       "4.5": 74,
       "2.5": 142,
       "1.5": 13,
@@ -43,9 +43,9 @@
       "episode": {
         "2": 25,
         "3": 320,
-        "4": 214,
+        "4": 215,
         "5": 10,
-        "3.5": 339,
+        "3.5": 340,
         "4.5": 63,
         "2.5": 115,
         "1.5": 7
@@ -148,6 +148,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93325341,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "The last beat and Nathan breaking the plate…little devil.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T00:23:16Z",
+          "seasonId": 70990,
+          "episodeNumber": 4,
+          "episodeName": "Sporting Goods Store / Antique Shop",
+          "tags": []
+        },
+        {
+          "id": 93325226,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The wigs!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T00:22:09Z",
+          "seasonId": 70990,
+          "episodeNumber": 3,
+          "episodeName": "The Movement",
+          "tags": []
+        },
         {
           "id": 93282240,
           "level": "episode",
@@ -488,8 +520,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-16T19:50:13Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-10-17T00:23:16Z",
+      "primaryRating": 4,
       "liked": false
     },
     {
@@ -35302,6 +35334,38 @@
       ],
       "reviews": [
         {
+          "id": 93325341,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "The last beat and Nathan breaking the plate…little devil.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T00:23:16Z",
+          "seasonId": 70990,
+          "episodeNumber": 4,
+          "episodeName": "Sporting Goods Store / Antique Shop",
+          "tags": []
+        },
+        {
+          "id": 93325226,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "The wigs!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T00:22:09Z",
+          "seasonId": 70990,
+          "episodeNumber": 3,
+          "episodeName": "The Movement",
+          "tags": []
+        },
+        {
           "id": 93282240,
           "level": "episode",
           "rating": 3,
@@ -35641,8 +35705,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-16T19:50:13Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-10-17T00:23:16Z",
+      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-110381": {
