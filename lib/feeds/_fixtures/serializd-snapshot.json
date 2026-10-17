@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-10-17T00:31:15.282Z",
+  "capturedAt": "2026-10-17T02:31:11.472Z",
   "summary": {
     "totalShows": 169,
     "totalShowReviews": 43,
     "totalSeasonReviews": 276,
-    "totalEpisodeReviews": 1096,
+    "totalEpisodeReviews": 1098,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 388,
       "4": 272,
-      "5": 20,
-      "3.5": 419,
+      "5": 21,
+      "3.5": 420,
       "4.5": 74,
       "2.5": 142,
       "1.5": 13,
@@ -44,8 +44,8 @@
         "2": 25,
         "3": 320,
         "4": 215,
-        "5": 10,
-        "3.5": 340,
+        "5": 11,
+        "3.5": 341,
         "4.5": 63,
         "2.5": 115,
         "1.5": 7
@@ -148,6 +148,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93337881,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Not the orgy…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T02:07:43Z",
+          "seasonId": 70990,
+          "episodeNumber": 6,
+          "episodeName": "Hotel / Travel Agent",
+          "tags": []
+        },
+        {
+          "id": 93337034,
+          "level": "episode",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "Nathan Fielder, theatre director, is so compelling. I especially loved the “I love you” bit because it actually seemed to get a better performance out of the actor as much as it maybe healed Nathan himself. Bring back smoking indoors, I don’t care.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T01:59:24Z",
+          "seasonId": 70990,
+          "episodeNumber": 5,
+          "episodeName": "Smokers Allowed",
+          "tags": []
+        },
         {
           "id": 93325341,
           "level": "episode",
@@ -505,7 +537,8 @@
         3,
         3.5,
         4,
-        4.5
+        4.5,
+        5
       ],
       "watchedYearSet": [
         2026
@@ -520,8 +553,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-17T00:23:16Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-10-17T02:07:43Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -35334,6 +35367,38 @@
       ],
       "reviews": [
         {
+          "id": 93337881,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Not the orgy…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T02:07:43Z",
+          "seasonId": 70990,
+          "episodeNumber": 6,
+          "episodeName": "Hotel / Travel Agent",
+          "tags": []
+        },
+        {
+          "id": 93337034,
+          "level": "episode",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "Nathan Fielder, theatre director, is so compelling. I especially loved the “I love you” bit because it actually seemed to get a better performance out of the actor as much as it maybe healed Nathan himself. Bring back smoking indoors, I don’t care.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T01:59:24Z",
+          "seasonId": 70990,
+          "episodeNumber": 5,
+          "episodeName": "Smokers Allowed",
+          "tags": []
+        },
+        {
           "id": 93325341,
           "level": "episode",
           "rating": 4,
@@ -35690,7 +35755,8 @@
         3,
         3.5,
         4,
-        4.5
+        4.5,
+        5
       ],
       "watchedYearSet": [
         2026
@@ -35705,8 +35771,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-17T00:23:16Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-10-17T02:07:43Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-110381": {
