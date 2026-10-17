@@ -1,27 +1,27 @@
 {
-  "capturedAt": "2026-10-16T04:00:49.598Z",
+  "capturedAt": "2026-10-17T21:00:45.113Z",
   "summary": {
-    "totalFilms": 849,
-    "totalReviews": 852,
+    "totalFilms": 850,
+    "totalReviews": 853,
     "ratingDistribution": {
       "1": 40,
       "2": 140,
       "3": 160,
       "4": 117,
       "5": 16,
+      "4.5": 56,
       "3.5": 167,
       "2.5": 108,
-      "4.5": 55,
       "1.5": 39,
       "0.5": 10
     },
     "genreDistribution": {
+      "Comedy": 240,
+      "Drama": 396,
       "Thriller": 252,
-      "Drama": 395,
       "History": 45,
       "Mystery": 89,
       "Horror": 140,
-      "Comedy": 239,
       "Science Fiction": 141,
       "Action": 140,
       "Crime": 116,
@@ -37,7 +37,7 @@
       "Western": 3
     },
     "decadeDistribution": {
-      "2020s": 630,
+      "2020s": 631,
       "2010s": 144,
       "1990s": 18,
       "2000s": 36,
@@ -47,6 +47,50 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-685691",
+      "letterboxdSlug": "bardo-false-chronicle-of-a-handful-of-truths",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/bardo-false-chronicle-of-a-handful-of-truths/",
+      "title": "BARDO, False Chronicle of a Handful of Truths",
+      "releaseYear": 2022,
+      "firstWatchedDate": "2026-10-17",
+      "latestWatchedDate": "2026-10-17",
+      "firstReviewDate": "2026-10-17",
+      "latestReviewDate": "2026-10-17",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1542344209",
+          "watchedDate": "2026-10-17",
+          "reviewDate": "2026-10-17",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "A visual feast and sprawling tale that leaves one asking: “Is anyone okay?” The second scene between Silverio and Lucia was especially beautiful. It scares me how few people recognize the signs of a stroke…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 685691,
+        "posterPath": "/3e6RA0CzFDC0pz5TqiRlbHcsc2n.jpg",
+        "backdropPath": "/8xCL0U7CaDltwYI9327BU401IMp.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "runtime": 159,
+        "director": "Alejandro G. Iñárritu"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3e6RA0CzFDC0pz5TqiRlbHcsc2n.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3e6RA0CzFDC0pz5TqiRlbHcsc2n.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-1255833",
       "letterboxdSlug": "whalefall",
@@ -37055,6 +37099,50 @@
     }
   ],
   "filmById": {
+    "tmdb-685691": {
+      "id": "tmdb-685691",
+      "letterboxdSlug": "bardo-false-chronicle-of-a-handful-of-truths",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/bardo-false-chronicle-of-a-handful-of-truths/",
+      "title": "BARDO, False Chronicle of a Handful of Truths",
+      "releaseYear": 2022,
+      "firstWatchedDate": "2026-10-17",
+      "latestWatchedDate": "2026-10-17",
+      "firstReviewDate": "2026-10-17",
+      "latestReviewDate": "2026-10-17",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1542344209",
+          "watchedDate": "2026-10-17",
+          "reviewDate": "2026-10-17",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "A visual feast and sprawling tale that leaves one asking: “Is anyone okay?” The second scene between Silverio and Lucia was especially beautiful. It scares me how few people recognize the signs of a stroke…",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 685691,
+        "posterPath": "/3e6RA0CzFDC0pz5TqiRlbHcsc2n.jpg",
+        "backdropPath": "/8xCL0U7CaDltwYI9327BU401IMp.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "runtime": 159,
+        "director": "Alejandro G. Iñárritu"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/3e6RA0CzFDC0pz5TqiRlbHcsc2n.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/3e6RA0CzFDC0pz5TqiRlbHcsc2n.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-1255833": {
       "id": "tmdb-1255833",
       "letterboxdSlug": "whalefall",
