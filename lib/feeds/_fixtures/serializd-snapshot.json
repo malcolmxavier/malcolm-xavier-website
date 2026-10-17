@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-10-17T03:31:10.134Z",
+  "capturedAt": "2026-10-17T16:31:22.036Z",
   "summary": {
     "totalShows": 169,
     "totalShowReviews": 43,
-    "totalSeasonReviews": 276,
-    "totalEpisodeReviews": 1099,
+    "totalSeasonReviews": 277,
+    "totalEpisodeReviews": 1100,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 388,
-      "4": 273,
+      "4": 274,
       "5": 21,
+      "4.5": 75,
       "3.5": 420,
-      "4.5": 74,
       "2.5": 142,
       "1.5": 13,
       "0.5": 1
@@ -34,8 +34,8 @@
         "3": 65,
         "4": 56,
         "5": 9,
+        "4.5": 12,
         "3.5": 76,
-        "4.5": 11,
         "2.5": 26,
         "1.5": 6,
         "0.5": 1
@@ -43,7 +43,7 @@
       "episode": {
         "2": 25,
         "3": 320,
-        "4": 216,
+        "4": 217,
         "5": 11,
         "3.5": 341,
         "4.5": 63,
@@ -73,7 +73,7 @@
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 16,
+    "showsInProgressCount": 15,
     "totalWatchedShows": 355,
     "totalWatchedOnlyShows": 186
   },
@@ -148,6 +148,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93418832,
+          "level": "season",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "The increasing prevalence of the single-focus episodes really works for me. It’s a shame to see this show feeling like it’s just finding its footing, knowing there’s only one season left.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T16:20:33Z",
+          "seasonId": 70990,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 93418700,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Why was the prosthesis removal so moving?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T16:19:35Z",
+          "seasonId": 70990,
+          "episodeNumber": 8,
+          "episodeName": "The Hero",
+          "tags": []
+        },
         {
           "id": 93341402,
           "level": "episode",
@@ -561,16 +593,15 @@
       ],
       "reviewedSeasonNumbers": [
         1,
-        2
-      ],
-      "inProgressSeasonNumbers": [
+        2,
         3
       ],
+      "inProgressSeasonNumbers": [],
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-17T02:46:33Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-10-17T16:20:33Z",
+      "primaryRating": 4.5,
       "liked": false
     },
     {
@@ -2337,7 +2368,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 169
+          "episodeCount": 171
         }
       ],
       "reviews": [
@@ -35383,6 +35414,38 @@
       ],
       "reviews": [
         {
+          "id": 93418832,
+          "level": "season",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "The increasing prevalence of the single-focus episodes really works for me. It’s a shame to see this show feeling like it’s just finding its footing, knowing there’s only one season left.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T16:20:33Z",
+          "seasonId": 70990,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 93418700,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Why was the prosthesis removal so moving?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-16T12:00:00Z",
+          "reviewDate": "2026-10-17T16:19:35Z",
+          "seasonId": 70990,
+          "episodeNumber": 8,
+          "episodeName": "The Hero",
+          "tags": []
+        },
+        {
           "id": 93341402,
           "level": "episode",
           "rating": 4,
@@ -35795,16 +35858,15 @@
       ],
       "reviewedSeasonNumbers": [
         1,
-        2
-      ],
-      "inProgressSeasonNumbers": [
+        2,
         3
       ],
+      "inProgressSeasonNumbers": [],
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-17T02:46:33Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-10-17T16:20:33Z",
+      "primaryRating": 4.5,
       "liked": false
     },
     "tmdb-tv-110381": {
@@ -37571,7 +37633,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 169
+          "episodeCount": 171
         }
       ],
       "reviews": [
