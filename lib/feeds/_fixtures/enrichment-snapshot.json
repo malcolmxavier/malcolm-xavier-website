@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-16T04:45:36.386Z",
+  "capturedAt": "2026-10-17T21:45:36.342Z",
   "meta": {
-    "films": 849,
+    "films": 850,
     "shows": 169,
     "collections": 82
   },
@@ -37021,6 +37021,125 @@
         }
       ],
       "collection": null
+    },
+    "685691": {
+      "ratings": {
+        "imdb": 6.7,
+        "metacritic": 55,
+        "metacriticUser": 6.8,
+        "tomatoes": 60,
+        "rtAudience": 68,
+        "letterboxd": 3.5,
+        "trakt": 65
+      },
+      "studios": [
+        "Redrum",
+        "M Productions"
+      ],
+      "country": "MX",
+      "language": "es",
+      "certification": "R",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 1603,
+          "name": "Daniel Giménez Cacho"
+        },
+        {
+          "id": 1020042,
+          "name": "Griselda Siciliani"
+        },
+        {
+          "id": 3400640,
+          "name": "Íker Sánchez Solano"
+        },
+        {
+          "id": 2747742,
+          "name": "Ximena Lamadrid"
+        },
+        {
+          "id": 141627,
+          "name": "Luz Jiménez"
+        },
+        {
+          "id": 1043767,
+          "name": "Luis Couturier"
+        },
+        {
+          "id": 1855703,
+          "name": "Francisco Rubio"
+        },
+        {
+          "id": 947768,
+          "name": "Andrés Almeida"
+        },
+        {
+          "id": 1701986,
+          "name": "Clementina Guadarrama"
+        },
+        {
+          "id": 6067,
+          "name": "Jay O. Sanders"
+        },
+        {
+          "id": 89445,
+          "name": "Noé Hernández"
+        },
+        {
+          "id": 1358509,
+          "name": "Fabiola Guajardo"
+        },
+        {
+          "id": 966038,
+          "name": "Mar Carrera"
+        },
+        {
+          "id": 1451581,
+          "name": "Rubén Zamora"
+        },
+        {
+          "id": 205349,
+          "name": "Omar Leyva"
+        },
+        {
+          "id": 2004100,
+          "name": "Grace Shen"
+        },
+        {
+          "id": 1928408,
+          "name": "Edison Ruiz"
+        },
+        {
+          "id": 3400634,
+          "name": "Daniel Damuzi"
+        },
+        {
+          "id": 3400642,
+          "name": "Alex Guevara"
+        },
+        {
+          "id": 3400635,
+          "name": "Misha Arias De La Cantolla"
+        }
+      ],
+      "writers": [
+        {
+          "id": 931800,
+          "name": "Nicolás Giacobone"
+        },
+        {
+          "id": 223,
+          "name": "Alejandro G. Iñárritu"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": true,
+        "gap": 42
+      }
     },
     "687163": {
       "ratings": {
