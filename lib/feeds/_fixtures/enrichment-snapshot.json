@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-18T03:45:36.357Z",
+  "capturedAt": "2026-10-18T23:45:36.357Z",
   "meta": {
-    "films": 850,
+    "films": 851,
     "shows": 170,
     "collections": 82
   },
@@ -30726,6 +30726,121 @@
         }
       ],
       "collection": null
+    },
+    "566228": {
+      "ratings": {
+        "imdb": 7.2,
+        "metacritic": 66,
+        "metacriticUser": 7.3,
+        "tomatoes": 78,
+        "rtAudience": 75,
+        "letterboxd": 3.3,
+        "trakt": 73
+      },
+      "studios": [
+        "Jigsaw Productions",
+        "HBO Documentary Films"
+      ],
+      "country": "US",
+      "language": "en",
+      "certification": "12",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 2269143,
+          "name": "Elizabeth Holmes"
+        },
+        {
+          "id": 71797,
+          "name": "Alex Gibney"
+        },
+        {
+          "id": 1018679,
+          "name": "Dan Ariely"
+        },
+        {
+          "id": 2649548,
+          "name": "Roger Parloff"
+        },
+        {
+          "id": 930811,
+          "name": "Ken Auletta"
+        },
+        {
+          "id": 2649594,
+          "name": "Erika Cheung"
+        },
+        {
+          "id": 2318167,
+          "name": "Cheryl Gafner"
+        },
+        {
+          "id": 2649596,
+          "name": "Dave Philippides"
+        },
+        {
+          "id": 3765538,
+          "name": "Douglas Matje"
+        },
+        {
+          "id": 3765541,
+          "name": "Ryan Wistort"
+        },
+        {
+          "id": 2649600,
+          "name": "Tony Nugent"
+        },
+        {
+          "id": 2649468,
+          "name": "Phyllis Gardner"
+        },
+        {
+          "id": 3765560,
+          "name": "Channing Robertson"
+        },
+        {
+          "id": 3765570,
+          "name": "Don Lucas"
+        },
+        {
+          "id": 1078502,
+          "name": "Tim Draper"
+        },
+        {
+          "id": 2318165,
+          "name": "Tyler Shultz"
+        },
+        {
+          "id": 2318168,
+          "name": "Rochelle Gibbons"
+        },
+        {
+          "id": 3765615,
+          "name": "Matt Hernan"
+        },
+        {
+          "id": 3765630,
+          "name": "Patrick O'Neill"
+        },
+        {
+          "id": 18533,
+          "name": "Errol Morris"
+        }
+      ],
+      "writers": [
+        {
+          "id": 71797,
+          "name": "Alex Gibney"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "theatrical",
+        "wide": true,
+        "ltd": false,
+        "gap": null
+      }
     },
     "567609": {
       "ratings": {
