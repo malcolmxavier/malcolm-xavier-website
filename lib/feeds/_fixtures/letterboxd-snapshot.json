@@ -1,11 +1,11 @@
 {
-  "capturedAt": "2026-10-17T21:00:45.113Z",
+  "capturedAt": "2026-10-18T23:00:45.043Z",
   "summary": {
-    "totalFilms": 850,
-    "totalReviews": 853,
+    "totalFilms": 851,
+    "totalReviews": 854,
     "ratingDistribution": {
       "1": 40,
-      "2": 140,
+      "2": 141,
       "3": 160,
       "4": 117,
       "5": 16,
@@ -16,6 +16,7 @@
       "0.5": 10
     },
     "genreDistribution": {
+      "Documentary": 60,
       "Comedy": 240,
       "Drama": 396,
       "Thriller": 252,
@@ -31,14 +32,13 @@
       "Fantasy": 62,
       "Music": 50,
       "War": 17,
-      "Documentary": 59,
       "Animation": 43,
       "TV Movie": 5,
       "Western": 3
     },
     "decadeDistribution": {
+      "2010s": 145,
       "2020s": 631,
-      "2010s": 144,
       "1990s": 18,
       "2000s": 36,
       "1980s": 16,
@@ -47,6 +47,49 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-566228",
+      "letterboxdSlug": "the-inventor-out-for-blood-in-silicon-valley",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-inventor-out-for-blood-in-silicon-valley/",
+      "title": "The Inventor: Out for Blood in Silicon Valley",
+      "releaseYear": 2019,
+      "firstWatchedDate": "2026-10-18",
+      "latestWatchedDate": "2026-10-18",
+      "firstReviewDate": "2026-10-18",
+      "latestReviewDate": "2026-10-18",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1544499062",
+          "watchedDate": "2026-10-18",
+          "reviewDate": "2026-10-18",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Not a ton of insight, and like many documentaries of its type seeks to exculpate the many other hands beyond Elizabeth Holmes’s from their responsibly in platforming Theranos’s harm. A decent light refresher before <i>You Can See Everything</i>, though.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 566228,
+        "posterPath": "/u21ImPnHHX2SFgkdHIjwlpEwRux.jpg",
+        "backdropPath": "/911kCT2YwGBhFz1CNDfb0La8ybG.jpg",
+        "genres": [
+          "Documentary"
+        ],
+        "runtime": 119,
+        "director": "Alex Gibney"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/u21ImPnHHX2SFgkdHIjwlpEwRux.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/u21ImPnHHX2SFgkdHIjwlpEwRux.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-685691",
       "letterboxdSlug": "bardo-false-chronicle-of-a-handful-of-truths",
@@ -37099,6 +37142,49 @@
     }
   ],
   "filmById": {
+    "tmdb-566228": {
+      "id": "tmdb-566228",
+      "letterboxdSlug": "the-inventor-out-for-blood-in-silicon-valley",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/the-inventor-out-for-blood-in-silicon-valley/",
+      "title": "The Inventor: Out for Blood in Silicon Valley",
+      "releaseYear": 2019,
+      "firstWatchedDate": "2026-10-18",
+      "latestWatchedDate": "2026-10-18",
+      "firstReviewDate": "2026-10-18",
+      "latestReviewDate": "2026-10-18",
+      "primaryRating": 2,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1544499062",
+          "watchedDate": "2026-10-18",
+          "reviewDate": "2026-10-18",
+          "rating": 2,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Not a ton of insight, and like many documentaries of its type seeks to exculpate the many other hands beyond Elizabeth Holmes’s from their responsibly in platforming Theranos’s harm. A decent light refresher before <i>You Can See Everything</i>, though.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 566228,
+        "posterPath": "/u21ImPnHHX2SFgkdHIjwlpEwRux.jpg",
+        "backdropPath": "/911kCT2YwGBhFz1CNDfb0La8ybG.jpg",
+        "genres": [
+          "Documentary"
+        ],
+        "runtime": 119,
+        "director": "Alex Gibney"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/u21ImPnHHX2SFgkdHIjwlpEwRux.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/u21ImPnHHX2SFgkdHIjwlpEwRux.jpg",
+      "ratingSet": [
+        2
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-685691": {
       "id": "tmdb-685691",
       "letterboxdSlug": "bardo-false-chronicle-of-a-handful-of-truths",
