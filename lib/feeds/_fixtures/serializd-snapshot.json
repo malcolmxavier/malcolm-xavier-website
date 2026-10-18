@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-10-18T16:31:16.462Z",
+  "capturedAt": "2026-10-18T17:31:18.795Z",
   "summary": {
     "totalShows": 170,
     "totalShowReviews": 44,
-    "totalSeasonReviews": 279,
-    "totalEpisodeReviews": 1115,
+    "totalSeasonReviews": 280,
+    "totalEpisodeReviews": 1117,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 388,
-      "4": 280,
+      "4": 281,
       "5": 24,
-      "4.5": 77,
+      "4.5": 79,
       "3.5": 427,
       "2.5": 142,
       "1.5": 13,
@@ -34,8 +34,8 @@
         "3": 65,
         "4": 57,
         "5": 9,
+        "4.5": 13,
         "3.5": 77,
-        "4.5": 12,
         "2.5": 26,
         "1.5": 6,
         "0.5": 1
@@ -43,9 +43,9 @@
       "episode": {
         "2": 25,
         "3": 320,
-        "4": 221,
+        "4": 222,
         "5": 14,
-        "4.5": 65,
+        "4.5": 66,
         "3.5": 347,
         "2.5": 115,
         "1.5": 7
@@ -124,6 +124,54 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93595568,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-18T12:00:00Z",
+          "reviewDate": "2026-10-18T17:15:15Z",
+          "seasonId": 444322,
+          "episodeNumber": 1,
+          "episodeName": "Gotta Have Fun",
+          "tags": []
+        },
+        {
+          "id": 93591346,
+          "level": "season",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "It’s nice to see my favorite format from Nathan For You in full effect. There are so many levels that nothing is real and everything is. And I love that. It’s still fuck Angela, though, for real.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-18T12:00:00Z",
+          "reviewDate": "2026-10-18T16:48:44Z",
+          "seasonId": 297810,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 93591196,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "i mean, yea…I don’t think these younger kids are gonna be well, Nathan!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-18T12:00:00Z",
+          "reviewDate": "2026-10-18T16:47:32Z",
+          "seasonId": 297810,
+          "episodeNumber": 6,
+          "episodeName": "Pretend Daddy",
+          "tags": []
+        },
         {
           "id": 93578888,
           "level": "episode",
@@ -213,15 +261,17 @@
       "watchedYearSet": [
         2026
       ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
+      "reviewedSeasonNumbers": [
         1
+      ],
+      "inProgressSeasonNumbers": [
+        2
       ],
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-18T15:32:48Z",
-      "primaryRating": 4.5,
+      "latestActivityDate": "2026-10-18T17:15:15Z",
+      "primaryRating": 4,
       "liked": false
     },
     {
@@ -2151,7 +2201,7 @@
       "tmdb": {
         "id": 1416,
         "name": "Grey's Anatomy",
-        "posterPath": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
+        "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
         "backdropPath": "/A4NwkQXTXElE5iAsne5RpvS8R2Z.jpg",
         "genres": [
           "Drama"
@@ -2164,8 +2214,8 @@
         "numberOfSeasons": 23,
         "numberOfEpisodes": 466
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
       "seasons": [
         {
           "serializdId": 3722,
@@ -35756,6 +35806,54 @@
       ],
       "reviews": [
         {
+          "id": 93595568,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-18T12:00:00Z",
+          "reviewDate": "2026-10-18T17:15:15Z",
+          "seasonId": 444322,
+          "episodeNumber": 1,
+          "episodeName": "Gotta Have Fun",
+          "tags": []
+        },
+        {
+          "id": 93591346,
+          "level": "season",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "It’s nice to see my favorite format from Nathan For You in full effect. There are so many levels that nothing is real and everything is. And I love that. It’s still fuck Angela, though, for real.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-18T12:00:00Z",
+          "reviewDate": "2026-10-18T16:48:44Z",
+          "seasonId": 297810,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 93591196,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "i mean, yea…I don’t think these younger kids are gonna be well, Nathan!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-18T12:00:00Z",
+          "reviewDate": "2026-10-18T16:47:32Z",
+          "seasonId": 297810,
+          "episodeNumber": 6,
+          "episodeName": "Pretend Daddy",
+          "tags": []
+        },
+        {
           "id": 93578888,
           "level": "episode",
           "rating": 4.5,
@@ -35844,15 +35942,17 @@
       "watchedYearSet": [
         2026
       ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
+      "reviewedSeasonNumbers": [
         1
+      ],
+      "inProgressSeasonNumbers": [
+        2
       ],
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-18T15:32:48Z",
-      "primaryRating": 4.5,
+      "latestActivityDate": "2026-10-18T17:15:15Z",
+      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-58957": {
@@ -37782,7 +37882,7 @@
       "tmdb": {
         "id": 1416,
         "name": "Grey's Anatomy",
-        "posterPath": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
+        "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
         "backdropPath": "/A4NwkQXTXElE5iAsne5RpvS8R2Z.jpg",
         "genres": [
           "Drama"
@@ -37795,8 +37895,8 @@
         "numberOfSeasons": 23,
         "numberOfEpisodes": 466
       },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
       "seasons": [
         {
           "serializdId": 3722,
