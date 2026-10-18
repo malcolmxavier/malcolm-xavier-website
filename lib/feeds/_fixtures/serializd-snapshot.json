@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-10-18T03:31:14.438Z",
+  "capturedAt": "2026-10-18T04:31:11.154Z",
   "summary": {
     "totalShows": 170,
     "totalShowReviews": 44,
     "totalSeasonReviews": 279,
-    "totalEpisodeReviews": 1111,
+    "totalEpisodeReviews": 1113,
     "ratingDistribution": {
       "1": 3,
       "2": 48,
       "3": 388,
-      "4": 279,
+      "4": 280,
       "5": 23,
+      "4.5": 76,
       "3.5": 427,
-      "4.5": 75,
       "2.5": 142,
       "1.5": 13,
       "0.5": 1
@@ -43,10 +43,10 @@
       "episode": {
         "2": 25,
         "3": 320,
-        "4": 220,
+        "4": 221,
         "5": 13,
+        "4.5": 64,
         "3.5": 347,
-        "4.5": 63,
         "2.5": 115,
         "1.5": 7
       }
@@ -125,6 +125,38 @@
       ],
       "reviews": [
         {
+          "id": 93513196,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "The timeline acceleration sequence at the end fucked me up. This woman’s sense of religion…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-17T12:00:00Z",
+          "reviewDate": "2026-10-18T04:22:24Z",
+          "seasonId": 297810,
+          "episodeNumber": 3,
+          "episodeName": "Gold Digger",
+          "tags": []
+        },
+        {
+          "id": 93511315,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Yea, Robin needed to go.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-17T12:00:00Z",
+          "reviewDate": "2026-10-18T04:03:06Z",
+          "seasonId": 297810,
+          "episodeNumber": 2,
+          "episodeName": "Scion",
+          "tags": []
+        },
+        {
           "id": 93507745,
           "level": "episode",
           "rating": 5,
@@ -142,6 +174,8 @@
         }
       ],
       "ratingSet": [
+        4,
+        4.5,
         5
       ],
       "watchedYearSet": [
@@ -154,8 +188,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-18T03:25:15Z",
-      "primaryRating": 5,
+      "latestActivityDate": "2026-10-18T04:22:24Z",
+      "primaryRating": 4.5,
       "liked": false
     },
     {
@@ -35690,6 +35724,38 @@
       ],
       "reviews": [
         {
+          "id": 93513196,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "The timeline acceleration sequence at the end fucked me up. This woman’s sense of religion…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-17T12:00:00Z",
+          "reviewDate": "2026-10-18T04:22:24Z",
+          "seasonId": 297810,
+          "episodeNumber": 3,
+          "episodeName": "Gold Digger",
+          "tags": []
+        },
+        {
+          "id": 93511315,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Yea, Robin needed to go.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-17T12:00:00Z",
+          "reviewDate": "2026-10-18T04:03:06Z",
+          "seasonId": 297810,
+          "episodeNumber": 2,
+          "episodeName": "Scion",
+          "tags": []
+        },
+        {
           "id": 93507745,
           "level": "episode",
           "rating": 5,
@@ -35707,6 +35773,8 @@
         }
       ],
       "ratingSet": [
+        4,
+        4.5,
         5
       ],
       "watchedYearSet": [
@@ -35719,8 +35787,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-18T03:25:15Z",
-      "primaryRating": 5,
+      "latestActivityDate": "2026-10-18T04:22:24Z",
+      "primaryRating": 4.5,
       "liked": false
     },
     "tmdb-tv-58957": {
