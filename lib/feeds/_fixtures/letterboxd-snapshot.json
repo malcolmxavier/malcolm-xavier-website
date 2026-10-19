@@ -1,23 +1,23 @@
 {
-  "capturedAt": "2026-10-18T23:00:45.043Z",
+  "capturedAt": "2026-10-19T16:00:44.679Z",
   "summary": {
-    "totalFilms": 851,
-    "totalReviews": 854,
+    "totalFilms": 852,
+    "totalReviews": 855,
     "ratingDistribution": {
       "1": 40,
       "2": 141,
       "3": 160,
       "4": 117,
       "5": 16,
-      "4.5": 56,
+      "4.5": 57,
       "3.5": 167,
       "2.5": 108,
       "1.5": 39,
       "0.5": 10
     },
     "genreDistribution": {
+      "Comedy": 241,
       "Documentary": 60,
-      "Comedy": 240,
       "Drama": 396,
       "Thriller": 252,
       "History": 45,
@@ -37,8 +37,8 @@
       "Western": 3
     },
     "decadeDistribution": {
+      "2020s": 632,
       "2010s": 145,
-      "2020s": 631,
       "1990s": 18,
       "2000s": 36,
       "1980s": 16,
@@ -47,6 +47,49 @@
     }
   },
   "films": [
+    {
+      "id": "tmdb-1771844",
+      "letterboxdSlug": "kate-berlant-parmesan",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/kate-berlant-parmesan/",
+      "title": "Kate Berlant: Parmesan",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-18",
+      "latestWatchedDate": "2026-10-18",
+      "firstReviewDate": "2026-10-19",
+      "latestReviewDate": "2026-10-19",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1545497474",
+          "watchedDate": "2026-10-18",
+          "reviewDate": "2026-10-19",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Kate Berlant is relentlessly hilarious. I’m not sure if I’ve ever laughed through the entirety of a comedy special. It’s such a treat to watch someone who is so aware that they’re funny without it feeling like a shtick—in this special that is bounded by the exposition of her self examination and that makes it all the more comedic. This is not her beginning, but perhaps the beginning of her explosion. I can’t wait to see what she does next.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1771844,
+        "posterPath": "/t4dw7pBmcs0JkB8h4CLSix88EEM.jpg",
+        "backdropPath": "/7C22EDwURBWO1fuLuNBkGLzZVoN.jpg",
+        "genres": [
+          "Comedy"
+        ],
+        "runtime": 64,
+        "director": "Doron Max Hagay"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/t4dw7pBmcs0JkB8h4CLSix88EEM.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/t4dw7pBmcs0JkB8h4CLSix88EEM.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     {
       "id": "tmdb-566228",
       "letterboxdSlug": "the-inventor-out-for-blood-in-silicon-valley",
@@ -37142,6 +37185,49 @@
     }
   ],
   "filmById": {
+    "tmdb-1771844": {
+      "id": "tmdb-1771844",
+      "letterboxdSlug": "kate-berlant-parmesan",
+      "letterboxdUrl": "https://letterboxd.com/malxavi/film/kate-berlant-parmesan/",
+      "title": "Kate Berlant: Parmesan",
+      "releaseYear": 2026,
+      "firstWatchedDate": "2026-10-18",
+      "latestWatchedDate": "2026-10-18",
+      "firstReviewDate": "2026-10-19",
+      "latestReviewDate": "2026-10-19",
+      "primaryRating": 4.5,
+      "liked": false,
+      "reviews": [
+        {
+          "guid": "letterboxd-review-1545497474",
+          "watchedDate": "2026-10-18",
+          "reviewDate": "2026-10-19",
+          "rating": 4.5,
+          "rewatch": false,
+          "containsSpoilers": false,
+          "reviewText": "Kate Berlant is relentlessly hilarious. I’m not sure if I’ve ever laughed through the entirety of a comedy special. It’s such a treat to watch someone who is so aware that they’re funny without it feeling like a shtick—in this special that is bounded by the exposition of her self examination and that makes it all the more comedic. This is not her beginning, but perhaps the beginning of her explosion. I can’t wait to see what she does next.",
+          "tags": []
+        }
+      ],
+      "tmdb": {
+        "id": 1771844,
+        "posterPath": "/t4dw7pBmcs0JkB8h4CLSix88EEM.jpg",
+        "backdropPath": "/7C22EDwURBWO1fuLuNBkGLzZVoN.jpg",
+        "genres": [
+          "Comedy"
+        ],
+        "runtime": 64,
+        "director": "Doron Max Hagay"
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/t4dw7pBmcs0JkB8h4CLSix88EEM.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/t4dw7pBmcs0JkB8h4CLSix88EEM.jpg",
+      "ratingSet": [
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ]
+    },
     "tmdb-566228": {
       "id": "tmdb-566228",
       "letterboxdSlug": "the-inventor-out-for-blood-in-silicon-valley",
