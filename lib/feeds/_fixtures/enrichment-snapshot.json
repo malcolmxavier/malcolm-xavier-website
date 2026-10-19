@@ -1,7 +1,7 @@
 {
-  "capturedAt": "2026-10-18T23:45:36.357Z",
+  "capturedAt": "2026-10-19T16:45:36.473Z",
   "meta": {
-    "films": 851,
+    "films": 852,
     "shows": 170,
     "collections": 82
   },
@@ -93149,6 +93149,42 @@
       },
       "writers": [],
       "collection": null
+    },
+    "1771844": {
+      "ratings": {
+        "imdb": 5.8,
+        "metacritic": null,
+        "metacriticUser": null,
+        "tomatoes": null,
+        "rtAudience": null,
+        "letterboxd": null,
+        "trakt": 70
+      },
+      "studios": [],
+      "country": "US",
+      "language": "en",
+      "certification": "12",
+      "budget": null,
+      "revenue": null,
+      "cast": [
+        {
+          "id": 1436999,
+          "name": "Kate Berlant"
+        }
+      ],
+      "writers": [
+        {
+          "id": 1436999,
+          "name": "Kate Berlant"
+        }
+      ],
+      "collection": null,
+      "release": {
+        "cls": "streaming",
+        "wide": false,
+        "ltd": false,
+        "gap": null
+      }
     }
   },
   "shows": {
