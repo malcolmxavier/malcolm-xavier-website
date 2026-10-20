@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-10-20T06:31:13.244Z",
+  "capturedAt": "2026-10-20T20:31:23.228Z",
   "summary": {
     "totalShows": 170,
     "totalShowReviews": 44,
     "totalSeasonReviews": 281,
-    "totalEpisodeReviews": 1127,
+    "totalEpisodeReviews": 1129,
     "ratingDistribution": {
       "1": 4,
       "2": 48,
       "3": 391,
       "4": 284,
       "5": 24,
-      "3.5": 429,
+      "3.5": 431,
       "2.5": 143,
       "1.5": 13,
       "4.5": 80,
@@ -46,7 +46,7 @@
         "3": 322,
         "4": 225,
         "5": 14,
-        "3.5": 349,
+        "3.5": 351,
         "2.5": 116,
         "1.5": 7,
         "4.5": 67
@@ -301,6 +301,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93934588,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Grey’s Anatomy mentioned.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-20T20:23:45Z",
+          "seasonId": 492037,
+          "episodeNumber": 140,
+          "episodeName": "Ariana Biermann, Gia Giudice & Ava Dash",
+          "tags": []
+        },
+        {
+          "id": 93934528,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-20T20:23:24Z",
+          "seasonId": 492037,
+          "episodeNumber": 139,
+          "episodeName": "Carole Radziwill & Daisy Toye",
+          "tags": []
+        },
         {
           "id": 93846751,
           "level": "episode",
@@ -1187,8 +1219,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-20T05:45:00Z",
-      "primaryRating": 1,
+      "latestActivityDate": "2026-10-20T20:23:45Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -36162,6 +36194,38 @@
       ],
       "reviews": [
         {
+          "id": 93934588,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Grey’s Anatomy mentioned.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-20T20:23:45Z",
+          "seasonId": 492037,
+          "episodeNumber": 140,
+          "episodeName": "Ariana Biermann, Gia Giudice & Ava Dash",
+          "tags": []
+        },
+        {
+          "id": 93934528,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-20T20:23:24Z",
+          "seasonId": 492037,
+          "episodeNumber": 139,
+          "episodeName": "Carole Radziwill & Daisy Toye",
+          "tags": []
+        },
+        {
           "id": 93846751,
           "level": "episode",
           "rating": 1,
@@ -37047,8 +37111,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-20T05:45:00Z",
-      "primaryRating": 1,
+      "latestActivityDate": "2026-10-20T20:23:45Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-332902": {
