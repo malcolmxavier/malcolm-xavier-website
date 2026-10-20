@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-10-20T20:31:23.228Z",
+  "capturedAt": "2026-10-20T22:31:25.172Z",
   "summary": {
     "totalShows": 170,
     "totalShowReviews": 44,
     "totalSeasonReviews": 281,
-    "totalEpisodeReviews": 1129,
+    "totalEpisodeReviews": 1131,
     "ratingDistribution": {
       "1": 4,
       "2": 48,
-      "3": 391,
+      "3": 392,
       "4": 284,
       "5": 24,
-      "3.5": 431,
+      "3.5": 432,
       "2.5": 143,
       "1.5": 13,
       "4.5": 80,
@@ -43,10 +43,10 @@
       "episode": {
         "1": 1,
         "2": 25,
-        "3": 322,
+        "3": 323,
         "4": 225,
         "5": 14,
-        "3.5": 351,
+        "3.5": 352,
         "2.5": 116,
         "1.5": 7,
         "4.5": 67
@@ -301,6 +301,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93952683,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-20T22:18:57Z",
+          "seasonId": 492037,
+          "episodeNumber": 145,
+          "episodeName": "Bronwyn Newport & Jon Lovett",
+          "tags": []
+        },
+        {
+          "id": 93952663,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-20T22:18:47Z",
+          "seasonId": 492037,
+          "episodeNumber": 144,
+          "episodeName": "Jessel Taank & Chelsea Frei",
+          "tags": []
+        },
         {
           "id": 93934588,
           "level": "episode",
@@ -1219,8 +1251,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-20T20:23:45Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-10-20T22:18:57Z",
+      "primaryRating": 3,
       "liked": false
     },
     {
@@ -5853,7 +5885,7 @@
           "reviewDate": "2026-10-17T21:44:14Z",
           "seasonId": 121803,
           "episodeNumber": 1,
-          "episodeName": "Nathan For You: A Celebration",
+          "episodeName": "Nathan for You: A Celebration",
           "tags": []
         },
         {
@@ -36194,6 +36226,38 @@
       ],
       "reviews": [
         {
+          "id": 93952683,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-20T22:18:57Z",
+          "seasonId": 492037,
+          "episodeNumber": 145,
+          "episodeName": "Bronwyn Newport & Jon Lovett",
+          "tags": []
+        },
+        {
+          "id": 93952663,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-20T22:18:47Z",
+          "seasonId": 492037,
+          "episodeNumber": 144,
+          "episodeName": "Jessel Taank & Chelsea Frei",
+          "tags": []
+        },
+        {
           "id": 93934588,
           "level": "episode",
           "rating": 3.5,
@@ -37111,8 +37175,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-20T20:23:45Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-10-20T22:18:57Z",
+      "primaryRating": 3,
       "liked": false
     },
     "tmdb-tv-332902": {
@@ -41745,7 +41809,7 @@
           "reviewDate": "2026-10-17T21:44:14Z",
           "seasonId": 121803,
           "episodeNumber": 1,
-          "episodeName": "Nathan For You: A Celebration",
+          "episodeName": "Nathan for You: A Celebration",
           "tags": []
         },
         {
