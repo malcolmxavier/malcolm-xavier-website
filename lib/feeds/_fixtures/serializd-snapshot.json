@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-10-21T04:31:18.153Z",
+  "capturedAt": "2026-10-21T06:31:13.015Z",
   "summary": {
-    "totalShows": 170,
+    "totalShows": 171,
     "totalShowReviews": 44,
     "totalSeasonReviews": 281,
-    "totalEpisodeReviews": 1139,
+    "totalEpisodeReviews": 1141,
     "ratingDistribution": {
       "1": 4,
       "2": 49,
       "3": 393,
-      "4": 286,
+      "4": 287,
       "5": 24,
-      "3.5": 433,
+      "3.5": 434,
       "4.5": 80,
       "2.5": 146,
       "1.5": 13,
@@ -44,16 +44,16 @@
         "1": 1,
         "2": 26,
         "3": 324,
-        "4": 227,
+        "4": 228,
         "5": 14,
-        "3.5": 353,
+        "3.5": 354,
         "4.5": 67,
         "1.5": 7,
         "2.5": 119
       }
     },
     "genreDistribution": {
-      "Reality": 32,
+      "Reality": 33,
       "Drama": 102,
       "Crime": 33,
       "Talk": 1,
@@ -68,17 +68,105 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
+      "2020s": 140,
       "2000s": 6,
-      "2020s": 139,
       "2010s": 23,
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 16,
-    "totalWatchedShows": 356,
+    "showsInProgressCount": 17,
+    "totalWatchedShows": 357,
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-332204",
+      "serializdShowId": 332204,
+      "slug": "vanderpump-rules-lisa-las-vegas-2026",
+      "name": "Vanderpump Rules: Lisa Las Vegas",
+      "premiereYear": 2026,
+      "premiereDate": "2026-10-20",
+      "serializdUrl": "https://serializd.com/show/332204",
+      "tmdb": {
+        "id": 332204,
+        "name": "Vanderpump Rules: Lisa Las Vegas",
+        "posterPath": "/e0eX28mqJ2GEH8D85felMO6EqIm.jpg",
+        "backdropPath": "/yOkqPYKZl1DTCEN398ljc56Q0cv.jpg",
+        "genres": [
+          "Reality"
+        ],
+        "type": "Miniseries",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 3
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/e0eX28mqJ2GEH8D85felMO6EqIm.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/e0eX28mqJ2GEH8D85felMO6EqIm.jpg",
+      "seasons": [
+        {
+          "serializdId": 537431,
+          "showId": 332204,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/e0eX28mqJ2GEH8D85felMO6EqIm.jpg",
+          "episodeCount": 3
+        }
+      ],
+      "reviews": [
+        {
+          "id": 93999815,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I love hospitality. Kyle lives rent-free in Lisa’s mind…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T06:02:02Z",
+          "seasonId": 537431,
+          "episodeNumber": 2,
+          "episodeName": "Part 2: If It Was Easy, Everyone Would Do It",
+          "tags": []
+        },
+        {
+          "id": 93999391,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "LVP reminding us why she’s the queen. Her energy toward Angelica is exactly how I feel—heavy on the “whatever.”",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T05:55:21Z",
+          "seasonId": 537431,
+          "episodeNumber": 1,
+          "episodeName": "Part 1: Vegas? That's Epic, Baby!",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-10-21T06:02:02Z",
+      "primaryRating": 4,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-14808",
       "serializdShowId": 14808,
@@ -36132,6 +36220,94 @@
     }
   ],
   "showById": {
+    "tmdb-tv-332204": {
+      "id": "tmdb-tv-332204",
+      "serializdShowId": 332204,
+      "slug": "vanderpump-rules-lisa-las-vegas-2026",
+      "name": "Vanderpump Rules: Lisa Las Vegas",
+      "premiereYear": 2026,
+      "premiereDate": "2026-10-20",
+      "serializdUrl": "https://serializd.com/show/332204",
+      "tmdb": {
+        "id": 332204,
+        "name": "Vanderpump Rules: Lisa Las Vegas",
+        "posterPath": "/e0eX28mqJ2GEH8D85felMO6EqIm.jpg",
+        "backdropPath": "/yOkqPYKZl1DTCEN398ljc56Q0cv.jpg",
+        "genres": [
+          "Reality"
+        ],
+        "type": "Miniseries",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 3
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/e0eX28mqJ2GEH8D85felMO6EqIm.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/e0eX28mqJ2GEH8D85felMO6EqIm.jpg",
+      "seasons": [
+        {
+          "serializdId": 537431,
+          "showId": 332204,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/e0eX28mqJ2GEH8D85felMO6EqIm.jpg",
+          "episodeCount": 3
+        }
+      ],
+      "reviews": [
+        {
+          "id": 93999815,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I love hospitality. Kyle lives rent-free in Lisa’s mind…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T06:02:02Z",
+          "seasonId": 537431,
+          "episodeNumber": 2,
+          "episodeName": "Part 2: If It Was Easy, Everyone Would Do It",
+          "tags": []
+        },
+        {
+          "id": 93999391,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "LVP reminding us why she’s the queen. Her energy toward Angelica is exactly how I feel—heavy on the “whatever.”",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T05:55:21Z",
+          "seasonId": 537431,
+          "episodeNumber": 1,
+          "episodeName": "Part 1: Vegas? That's Epic, Baby!",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-10-21T06:02:02Z",
+      "primaryRating": 4,
+      "liked": false
+    },
     "tmdb-tv-14808": {
       "id": "tmdb-tv-14808",
       "serializdShowId": 14808,
