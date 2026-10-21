@@ -577,8 +577,9 @@ export function summarizeShows(
 
     for (const r of show.reviews) {
       const ratingKey = r.rating !== null ? String(r.rating) : null;
-      // notASeason drops the review from the season count + season
-      // distribution only; the lifetime distribution below still has it.
+      // notASeason moves the review from the season count + season
+      // distribution to the episode ones; the lifetime distribution
+      // below still has it once.
       for (const mode of modesForReview(
         r.level,
         show.isMiniseries,

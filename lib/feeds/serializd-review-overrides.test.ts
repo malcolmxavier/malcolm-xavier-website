@@ -215,16 +215,18 @@ describe("notASeason", () => {
   });
   const season = review({ id: 12, rating: 4, seasonId: 10 });
 
-  it("drops only the season bucket from the mode rule", () => {
-    expect(modesForReview("season", false, true)).toEqual([]);
-    expect(modesForReview("season", true, true)).toEqual(["show"]);
+  it("moves the season bucket to episode in the mode rule", () => {
+    expect(modesForReview("season", false, true)).toEqual(["episode"]);
+    expect(modesForReview("season", true, true)).toEqual(["show", "episode"]);
     expect(modesForReview("season", false)).toEqual(["season"]);
   });
 
-  it("is out of the season count, distribution, and average, but in the lifetime distribution", () => {
+  it("counts as an episode, not a season, and once in the lifetime distribution", () => {
     const summary = summarizeShows([show([specials, season])], BASE_SUMMARY);
     expect(summary.totalSeasonReviews).toBe(1);
+    expect(summary.totalEpisodeReviews).toBe(1);
     expect(summary.ratingDistributionByLevel.season).toEqual({ "4": 1 });
+    expect(summary.ratingDistributionByLevel.episode).toEqual({ "2": 1 });
     expect(summary.ratingDistribution).toEqual({ "2": 1, "4": 1 });
     expect(
       seasonRating({ reviews: [specials, season], mine: null } as unknown as EnrichedShow),
