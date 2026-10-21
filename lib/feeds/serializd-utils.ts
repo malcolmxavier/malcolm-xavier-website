@@ -102,7 +102,91 @@ export type Review = {
   episodeNumber: number | null;
   episodeName: string | null;
   tags: string[];
+  /**
+   * Per-review editorial pins from data/television/overrides.json
+   * (gridWithoutProse / undatedReviews / notASeason). Stamped onto
+   * the review in memory by the snapshot reader, never persisted to
+   * the fixture—see lib/feeds/serializd-review-overrides.mjs. Absent
+   * on every review no override names. Read it through
+   * `hasReviewOverride` and the predicates beside it rather than
+   * poking the field directly.
+   */
+  overrides?: Partial<Record<ReviewOverrideKey, true>>;
 };
+
+/** The per-review override maps in data/television/overrides.json. */
+export type ReviewOverrideKey =
+  | "gridWithoutProse"
+  | "undatedReviews"
+  | "notASeason";
+
+/** True when overrides.json pins this review under `key`. */
+export function hasReviewOverride(
+  review: Pick<Review, "overrides">,
+  key: ReviewOverrideKey,
+): boolean {
+  return review.overrides?.[key] === true;
+}
+
+/**
+ * True when the review carries a watch date that means something.
+ * False when there's no date at all, or when overrides.json#
+ * undatedReviews pins the date as a placeholder (watched before
+ * logging habits, so Serializd holds whatever date it was backfilled
+ * with). Every date-based computation—first-watch-in-year counts,
+ * cadence series, watched-year filters—gates on this; the rating
+ * still counts everywhere ratings count, and the date still renders
+ * as-is on the show page.
+ */
+export function hasDatedWatch(review: Pick<Review, "watchedDate" | "overrides">): boolean {
+  return Boolean(review.watchedDate) && !hasReviewOverride(review, "undatedReviews");
+}
+
+/**
+ * A show's distinct watched years, ascending—the `watchedYearSet`
+ * the watched-year filter rail reads. Same rule as the snapshot
+ * writer (scripts/bootstrap-serializd-snapshot.mjs), plus the
+ * undated gate, so the reader can rebuild it at load.
+ */
+export function watchedYearSetOf(
+  reviews: Pick<Review, "watchedDate" | "overrides">[],
+): number[] {
+  const years = new Set<number>();
+  for (const r of reviews) {
+    if (!hasDatedWatch(r)) continue;
+    const year = Number.parseInt(r.watchedDate.slice(0, 4), 10);
+    if (Number.isFinite(year)) years.add(year);
+  }
+  return [...years].sort((a, b) => a - b);
+}
+
+/**
+ * True when a review counts as a season for season-grain numbers:
+ * season counts, the season rating distribution and average, the
+ * season cadence series. Season-level, unless overrides.json#
+ * notASeason says otherwise—a per-review pin, so Specials in general
+ * still count.
+ */
+export function countsAsSeason(review: Pick<Review, "level" | "overrides">): boolean {
+  return review.level === "season" && !hasReviewOverride(review, "notASeason");
+}
+
+/**
+ * True when a Show- or Season-level review surfaces as a card on the
+ * /television grid: it has prose, or overrides.json#gridWithoutProse
+ * admits it without. Shared by the card builder and ShowCard's
+ * “N reviews” badge so the badge counts exactly the cards the grid
+ * can show.
+ */
+export function isSurfacedAsCard(
+  review: Pick<Review, "level" | "reviewText" | "overrides">,
+): boolean {
+  if (review.level === "episode") return false;
+  return (
+    review.reviewText.trim() !== "" ||
+    hasReviewOverride(review, "gridWithoutProse")
+  );
+}
 
 /**
  * True when a review represents a FIRST watch of that season/episode.
@@ -126,7 +210,7 @@ export function isFirstWatch(review: Review): boolean {
 export function isFirstWatchInYear(review: Review, year: number): boolean {
   return (
     isFirstWatch(review) &&
-    Boolean(review.watchedDate) &&
+    hasDatedWatch(review) &&
     review.watchedDate.startsWith(String(year))
   );
 }
@@ -145,7 +229,7 @@ export function countSeasonsFirstWatchedInYear(
   let count = 0;
   for (const show of shows) {
     for (const r of show.reviews || []) {
-      if (r.level === "season" && isFirstWatchInYear(r, year) && reviewMatches(r)) {
+      if (countsAsSeason(r) && isFirstWatchInYear(r, year) && reviewMatches(r)) {
         count++;
       }
     }
@@ -184,8 +268,12 @@ export function firstWatchesInYearByMode(
     for (const r of show.reviews || []) {
       if (!isFirstWatchInYear(r, year)) continue;
       // Don't increment counts[r.level] directly—that bypasses the
-      // miniseries double-count rule.
-      for (const mode of modesForReview(r.level, show.isMiniseries)) {
+      // miniseries double-count rule (and the notASeason pin).
+      for (const mode of modesForReview(
+        r.level,
+        show.isMiniseries,
+        hasReviewOverride(r, "notASeason"),
+      )) {
         counts[mode]++;
         if (r.rating !== null) {
           ratingSums[mode] += r.rating;
@@ -306,7 +394,9 @@ export type Show = {
   // Pre-computed for filter speed (mirrors Film.ratingSet /
   // Film.watchedYearSet). Building these once at snapshot-write
   // time keeps the per-render filter pass O(showCount) rather
-  // than O(showCount × reviewCount).
+  // than O(showCount × reviewCount). watchedYearSet skips undated
+  // reviews (overrides.json#undatedReviews); the snapshot reader
+  // rebuilds it at load so an override edit lands without a refresh.
   ratingSet: number[];
   watchedYearSet: number[];
   /**
@@ -447,7 +537,9 @@ export type TvSummary = {
  *
  * Honours the miniseries double-count rule via the canonical `modesForReview`
  * (lib/feeds/serializd-mode-counts.mjs) at every per-level count surface (per
- * the television-double-count memory). The
+ * the television-double-count memory), and the notASeason pin through the
+ * same helper. The snapshot reader also runs this over the full corpus at
+ * load, so the unfiltered pages read override-aware totals too. The
  * watched-only totals can't be derived from the reviewed `Show[]` alone, so
  * they're carried through from the shipped corpus-wide summary — they're not
  * surfaced in any tile, so a stale value there is invisible (documented).
@@ -485,7 +577,13 @@ export function summarizeShows(
 
     for (const r of show.reviews) {
       const ratingKey = r.rating !== null ? String(r.rating) : null;
-      for (const mode of modesForReview(r.level, show.isMiniseries)) {
+      // notASeason drops the review from the season count + season
+      // distribution only; the lifetime distribution below still has it.
+      for (const mode of modesForReview(
+        r.level,
+        show.isMiniseries,
+        hasReviewOverride(r, "notASeason"),
+      )) {
         if (mode === "show") totalShowReviews++;
         else if (mode === "season") totalSeasonReviews++;
         else if (mode === "episode") totalEpisodeReviews++;
@@ -918,7 +1016,9 @@ export type AppliedShow = {
  * Surfacing them as cards before the writeup lands would create
  * empty-ish cards. The cleanup pass surfaces these in
  * `cleanup/missing-prose.md` so Malcolm can backfill prose or
- * accept the drop.
+ * accept the drop. The exception is an explicit editorial pin:
+ * overrides.json#gridWithoutProse admits a named review as a card
+ * with no prose (see `isSurfacedAsCard`).
  *
  * Episodes are exempt from the prose requirement — episode entries
  * are quick-log territory, and episode reviews surface as nested
@@ -938,8 +1038,10 @@ export type CompletedCard = {
   show: Show;
   /**
    * The Show-level review (cardKind="show") or Season-level
-   * review (cardKind="season"). Always present and always has
-   * prose for completed cards (level-specific scope filter).
+   * review (cardKind="season"). Always present. Has prose unless
+   * overrides.json#gridWithoutProse admitted it without (see
+   * `isSurfacedAsCard`), so a card renderer must not assume
+   * `reviewText` is non-empty.
    */
   review: Review;
   cardKind: "show" | "season";
@@ -969,8 +1071,9 @@ export type InProgressCard = {
 /**
  * Build the flat list of completed cards from the snapshot's
  * shows. One card per qualifying Show- or Season-level review.
- * The level-specific scope filter (Show + Season require prose)
- * is applied here so consumers see only cards worth surfacing.
+ * The level-specific scope filter (Show + Season require prose,
+ * bar the gridWithoutProse allowlist) is applied here so consumers
+ * see only cards worth surfacing.
  *
  * Order of emission per show: Show card first (if any), then
  * Season cards in seasonNumber asc. The caller then re-sorts
@@ -981,7 +1084,7 @@ export function buildCompletedCards(shows: Show[]): CompletedCard[] {
   for (const show of shows) {
     for (const review of show.reviews) {
       if (review.level === "episode") continue;
-      if (review.reviewText.trim() === "") continue;
+      if (!isSurfacedAsCard(review)) continue;
       cards.push({
         show,
         review,
@@ -1361,11 +1464,15 @@ export function applyCompletedCardFilters(
         continue;
       }
     }
+    // An undated review (overrides.json#undatedReviews) can't answer a
+    // "when was it watched" filter, so any date filter drops its card.
     if (filters.watchedYears && filters.watchedYears.length > 0) {
+      if (!hasDatedWatch(card.review)) continue;
       const year = Number.parseInt(card.review.watchedDate.slice(0, 4), 10);
       if (!filters.watchedYears.includes(year)) continue;
     }
     if (twelveMoCutoffMs !== null) {
+      if (!hasDatedWatch(card.review)) continue;
       const watchedMs = new Date(card.review.watchedDate).getTime();
       if (!Number.isFinite(watchedMs) || watchedMs < twelveMoCutoffMs) continue;
     }
@@ -1610,11 +1717,15 @@ function reviewPassesPerReviewFilters(
       return false;
     }
   }
+  // An undated review (overrides.json#undatedReviews) never qualifies
+  // under a date filter—same rule as the card-level pass.
   if (filters.watchedYears && filters.watchedYears.length > 0) {
+    if (!hasDatedWatch(review)) return false;
     const year = Number.parseInt(review.watchedDate.slice(0, 4), 10);
     if (!filters.watchedYears.includes(year)) return false;
   }
   if (twelveMoCutoffMs !== null) {
+    if (!hasDatedWatch(review)) return false;
     const watchedMs = new Date(review.watchedDate).getTime();
     if (!Number.isFinite(watchedMs) || watchedMs < twelveMoCutoffMs) return false;
   }

@@ -23,6 +23,8 @@ import { getShowsWithEnrichment } from "../review-corpus";
 import {
   applyShowFilters,
   countSeasonsFirstWatchedInYear,
+  countsAsSeason,
+  hasDatedWatch,
   isFirstWatch,
   makeShowReviewFilter,
   summarizeShows,
@@ -81,10 +83,11 @@ import { hasActiveFilter } from "./filter-url-state";
  * back to a show-level review rating, then `mine`, then null. Remapping
  * each show's `mine` to this value (in computeTvStats / connected-stats)
  * moves every tile that ranks on a rating onto the season signal at once.
+ * A review pinned notASeason (overrides.json) isn't a season observation.
  */
 export function seasonRating(s: EnrichedShow): number | null {
   const seasonRatings = (s.reviews || [])
-    .filter((r) => r.level === "season" && r.rating != null)
+    .filter((r) => countsAsSeason(r) && r.rating != null)
     .map((r) => r.rating as number);
   if (seasonRatings.length) {
     return seasonRatings.reduce((a, b) => a + b, 0) / seasonRatings.length;
@@ -327,6 +330,10 @@ export function computeTvStats(filters?: ShowFilters): TvStats {
   // before the enrichment cron reaches it still belongs on a "when did I
   // watch" chart. See the TvCorpus comment.
   //
+  // The level split goes through `countsAsSeason` (a notASeason pin is no
+  // season completion), and `hasDatedWatch` drops a review whose date is a
+  // placeholder (overrides.json#undatedReviews) — it has no point to plot.
+  //
   // Two gates beyond the level split, matching /films:
   // - `isFirstWatch` — these are discovery tiles, so a rewatched season
   //   doesn't plot a second point.
@@ -340,8 +347,8 @@ export function computeTvStats(filters?: ShowFilters): TvStats {
       (s.reviews || [])
         .filter(
           (r) =>
-            r.level === level &&
-            r.watchedDate &&
+            (level === "season" ? countsAsSeason(r) : r.level === level) &&
+            hasDatedWatch(r) &&
             isFirstWatch(r) &&
             reviewMatchesFilters(r),
         )
@@ -392,7 +399,7 @@ export function computeTvStats(filters?: ShowFilters): TvStats {
   const seasonMean = avgFromDist(byLevel.season);
   const genreRows = shows.flatMap((s) =>
     (s.reviews ?? [])
-      .filter((r) => r.level === "season" && r.rating != null)
+      .filter((r) => countsAsSeason(r) && r.rating != null)
       .map((r) => ({ genres: s.genres ?? [], rating: r.rating as number })),
   );
 

@@ -31,6 +31,7 @@ import { TrackOnClick } from "@/components/analytics/TrackOnClick";
 import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import {
   formatWatchedDate,
+  isSurfacedAsCard,
   resolveSeasonPosterUrl,
   type CompletedCard,
 } from "@/lib/feeds/serializd-utils";
@@ -105,12 +106,9 @@ export function ShowCard({
   // The Show review counts; we display "N reviews" badge if this
   // show has more than one Show-or-Season review surfaced as a
   // card (a soft signal Malcolm has multiple writeups across the
-  // show's run).
-  const surfacedReviewCount = show.reviews.filter(
-    (r) =>
-      (r.level === "show" || r.level === "season") &&
-      r.reviewText.trim() !== "",
-  ).length;
+  // show's run). Same predicate as buildCompletedCards, so a
+  // gridWithoutProse card counts here exactly as it does on the grid.
+  const surfacedReviewCount = show.reviews.filter(isSurfacedAsCard).length;
 
   return (
     <article className="h-full">

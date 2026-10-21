@@ -17,6 +17,11 @@ import "server-only";
 import { readFileSync } from "node:fs";
 import path from "node:path";
 
+import {
+  parseReviewOverrides,
+  stampReviewOverrides,
+} from "./serializd-review-overrides.mjs";
+import { summarizeShows, watchedYearSetOf } from "./serializd-utils";
 import type {
   Show,
   ShowFavorite,
@@ -187,6 +192,7 @@ function loadCache(): SnapshotCache {
         `\`npm run television:bootstrap\`.`,
     );
   }
+  applyReviewOverrides(parsed);
   cachedState = {
     snapshot: parsed,
     slugMap: buildSlugMap(parsed.shows),
@@ -198,6 +204,41 @@ function loadCache(): SnapshotCache {
 
 function loadSnapshot(): SerializdSnapshot {
   return loadCache().snapshot;
+}
+
+/**
+ * Apply the per-review editorial overrides (gridWithoutProse /
+ * undatedReviews / notASeason) to a freshly parsed snapshot, in
+ * place, before any index is built over it.
+ *
+ * Done here rather than trusted to the fixture because the fixture
+ * is only rewritten when Serializd is refreshed, while an override
+ * is an editorial edit that should land on the next deploy. So:
+ *   • each named review gets its `overrides` stamp, which the pure
+ *     helpers in serializd-utils read (card builder, date gates,
+ *     season gates);
+ *   • every show's watchedYearSet is rebuilt so an undated review
+ *     can't put its placeholder year on the watched-year rail;
+ *   • the summary is recomputed through `summarizeShows`, so the
+ *     pages that read `summary.*` unfiltered (StatsBand, the reviews
+ *     catalog line, the stats lifetime block) see the same
+ *     override-aware totals the filtered path computes.
+ * With no overrides set this is a no-op on the numbers: the
+ * recomputed summary and year sets are identical to what the
+ * bootstrap wrote.
+ *
+ * `showById` holds separate copies of each show after JSON.parse
+ * (the legacy-id fallback in getShowBySlug reads them), so it gets
+ * the same treatment.
+ */
+function applyReviewOverrides(snap: SerializdSnapshot): void {
+  const parsed = parseReviewOverrides(readOverridesFile());
+  const copies = [...snap.shows, ...Object.values(snap.showById)];
+  stampReviewOverrides(copies, parsed);
+  for (const show of copies) {
+    show.watchedYearSet = watchedYearSetOf(show.reviews);
+  }
+  snap.summary = summarizeShows(snap.shows, snap.summary);
 }
 
 // ─── Read API ────────────────────────────────────────────────────
@@ -356,6 +397,29 @@ export function getShowFavorites(): ShowFavorite[] {
 // ─── Editorial overrides reader ──────────────────────────────────
 
 /**
+ * data/television/overrides.json, parsed once per process and shared
+ * by every reader below. Null when the file is missing or malformed—
+ * each reader treats that as "no overrides" (fail-soft, so a typo in
+ * overrides.json never blanks a page).
+ */
+let cachedOverridesRaw: unknown | undefined;
+
+function readOverridesFile(): unknown {
+  if (cachedOverridesRaw !== undefined) return cachedOverridesRaw;
+  try {
+    cachedOverridesRaw = JSON.parse(
+      readFileSync(
+        path.resolve(process.cwd(), "data/television/overrides.json"),
+        "utf-8",
+      ),
+    );
+  } catch {
+    cachedOverridesRaw = null;
+  }
+  return cachedOverridesRaw;
+}
+
+/**
  * Set of Serializd showIds the user has pinned as "exclude from
  * the /watching page" via data/television/overrides.json#
  * excludeFromWatching. Used by /television/watching to filter
@@ -376,29 +440,21 @@ let cachedWatchingExclusions: Set<number> | null = null;
 
 export function getWatchingExclusions(): Set<number> {
   if (cachedWatchingExclusions) return cachedWatchingExclusions;
-  const overridesPath = path.resolve(
-    process.cwd(),
-    "data/television/overrides.json",
-  );
-  try {
-    const raw = readFileSync(overridesPath, "utf-8");
-    const parsed = JSON.parse(raw) as {
-      excludeFromWatching?: Record<string, unknown>;
-    };
-    const map = parsed.excludeFromWatching ?? {};
-    const ids = new Set<number>();
+  const parsed = readOverridesFile() as {
+    excludeFromWatching?: Record<string, unknown>;
+  } | null;
+  const map = parsed?.excludeFromWatching ?? {};
+  const ids = new Set<number>();
+  if (typeof map === "object" && map !== null) {
     for (const [key, value] of Object.entries(map)) {
       if (key.startsWith("_")) continue;
       if (value !== true) continue;
       const id = Number.parseInt(key, 10);
       if (Number.isFinite(id)) ids.add(id);
     }
-    cachedWatchingExclusions = ids;
-    return ids;
-  } catch {
-    cachedWatchingExclusions = new Set();
-    return cachedWatchingExclusions;
   }
+  cachedWatchingExclusions = ids;
+  return ids;
 }
 
 // ─── Diagnostic ──────────────────────────────────────────────────

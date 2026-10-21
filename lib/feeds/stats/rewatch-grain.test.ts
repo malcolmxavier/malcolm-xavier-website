@@ -29,7 +29,9 @@ import {
 } from "../letterboxd-utils";
 import {
   countSeasonsFirstWatchedInYear,
+  countsAsSeason,
   firstWatchesInYearByMode,
+  hasDatedWatch,
   isFirstWatch as isFirstShowWatch,
   makeShowReviewFilter,
   type Review as ShowReview,
@@ -285,6 +287,10 @@ describe("computeTvStats — grain against the committed fixtures", () => {
   // enrichment cron hasn't reached yet — measuring against the enriched
   // subset would silently pass while shows went missing from the charts.
   const shows = getShows().shows;
+  // The oracles below count season watch events through the same two
+  // predicates the compute body uses—`countsAsSeason` (notASeason pin)
+  // and `hasDatedWatch` (undatedReviews pin)—so an override in
+  // data/television/overrides.json moves both sides together.
 
   it("season cadence plots first watches only", () => {
     const plotted = stats.temporal.seasonsByWeekday.reduce((s, [, n]) => s + n, 0);
@@ -292,7 +298,7 @@ describe("computeTvStats — grain against the committed fixtures", () => {
       (n, s) =>
         n +
         (s.reviews || []).filter(
-          (r) => r.level === "season" && r.watchedDate && isFirstShowWatch(r),
+          (r) => countsAsSeason(r) && hasDatedWatch(r) && isFirstShowWatch(r),
         ).length,
       0,
     );
@@ -304,14 +310,14 @@ describe("computeTvStats — grain against the committed fixtures", () => {
     const seasonWatchEvents = shows.reduce(
       (n, s) =>
         n +
-        (s.reviews || []).filter((r) => r.level === "season" && r.watchedDate).length,
+        (s.reviews || []).filter((r) => countsAsSeason(r) && hasDatedWatch(r)).length,
       0,
     );
     const rewatched = shows.reduce(
       (n, s) =>
         n +
         (s.reviews || []).filter(
-          (r) => r.level === "season" && r.watchedDate && !isFirstShowWatch(r),
+          (r) => countsAsSeason(r) && hasDatedWatch(r) && !isFirstShowWatch(r),
         ).length,
       0,
     );
@@ -335,7 +341,7 @@ describe("computeTvStats — grain against the committed fixtures", () => {
         (n, s) =>
           n +
           (s.reviews || []).filter(
-            (r) => r.level === "season" && r.watchedDate && isFirstShowWatch(r),
+            (r) => countsAsSeason(r) && hasDatedWatch(r) && isFirstShowWatch(r),
           ).length,
         0,
       );
@@ -354,8 +360,9 @@ describe("computeTvStats — grain against the committed fixtures", () => {
     const seasonFirstWatches = shows.flatMap((s) =>
       (s.reviews || []).filter(
         (r) =>
-          r.level === "season" &&
-          r.watchedDate?.startsWith(year) &&
+          countsAsSeason(r) &&
+          hasDatedWatch(r) &&
+          r.watchedDate.startsWith(year) &&
           isFirstShowWatch(r),
       ),
     );
@@ -366,7 +373,7 @@ describe("computeTvStats — grain against the committed fixtures", () => {
     // must not collapse to the count of shows first started this year.
     const showsStartedThisYear = shows.filter((s) => {
       const firsts = (s.reviews || [])
-        .filter((r) => r.watchedDate && isFirstShowWatch(r))
+        .filter((r) => hasDatedWatch(r) && isFirstShowWatch(r))
         .map((r) => r.watchedDate as string)
         .sort();
       return firsts.length > 0 && firsts[0].startsWith(year);
@@ -382,14 +389,16 @@ describe("computeTvStats — grain against the committed fixtures", () => {
     const rewatchedSeasonsThisYear = shows.flatMap((s) =>
       (s.reviews || []).filter(
         (r) =>
-          r.level === "season" &&
-          r.watchedDate?.startsWith(year) &&
+          countsAsSeason(r) &&
+          hasDatedWatch(r) &&
+          r.watchedDate.startsWith(year) &&
           !isFirstShowWatch(r),
       ),
     );
     const allSeasonWatchesThisYear = shows.flatMap((s) =>
       (s.reviews || []).filter(
-        (r) => r.level === "season" && r.watchedDate?.startsWith(year),
+        (r) =>
+          countsAsSeason(r) && hasDatedWatch(r) && r.watchedDate.startsWith(year),
       ),
     );
     expect(stats.lifetime.thisYear).toBe(

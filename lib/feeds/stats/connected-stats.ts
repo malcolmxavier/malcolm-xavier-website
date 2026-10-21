@@ -31,6 +31,8 @@ import {
 import type { FilmFilters, Film } from "../letterboxd-utils";
 import {
   applyShowFilters,
+  countsAsSeason,
+  hasDatedWatch,
   summarizeShows,
   parseShowFilters,
   isFirstWatch as isFirstShowWatch,
@@ -371,7 +373,9 @@ export function computeConnectedStats(filters?: ConnectedFilters): ConnectedStat
   // watch events that satisfy the active filters (a title can survive a
   // filter on one review while carrying others outside it). Same rule
   // as the /films and /television temporal bands, so the three pages
-  // can't disagree about what a plotted point means.
+  // can't disagree about what a plotted point means — including the TV
+  // side's override gates (notASeason, undatedReviews), which go through
+  // the same predicates the /television cadence tiles use.
   const filmReviewMatchesFilters = makeReviewFilter(filters);
   const showReviewMatchesFilters = makeShowReviewFilter(filters);
   const filmDates = snapFilms.flatMap((f) =>
@@ -385,8 +389,8 @@ export function computeConnectedStats(filters?: ConnectedFilters): ConnectedStat
     (s.reviews || [])
       .filter(
         (r) =>
-          r.level === "season" &&
-          r.watchedDate &&
+          countsAsSeason(r) &&
+          hasDatedWatch(r) &&
           isFirstShowWatch(r) &&
           showReviewMatchesFilters(r),
       )

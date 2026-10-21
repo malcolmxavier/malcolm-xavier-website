@@ -54,6 +54,7 @@ import {
   renderReport,
 } from "../lib/feeds/serializd-cleanup.mjs";
 import { modesForReview } from "../lib/feeds/serializd-mode-counts.mjs";
+import { parseReviewOverrides } from "../lib/feeds/serializd-review-overrides.mjs";
 
 // ─── Paths ───────────────────────────────────────────────────────
 
@@ -430,6 +431,7 @@ function resolveIsMiniseries(show, overrides) {
  */
 function deriveShowFields(show, overrides, watchedSeasonsByShowId) {
   show.isMiniseries = resolveIsMiniseries(show, overrides);
+  const { undatedReviews } = parseReviewOverrides(overrides);
   // Watched-but-unreviewed candidates come from two sources,
   // applied as a UNION:
   //   1. Serializd's watchedpage_v2 API — the canonical source.
@@ -472,7 +474,11 @@ function deriveShowFields(show, overrides, watchedSeasonsByShowId) {
 
   for (const r of show.reviews) {
     if (r.rating !== null) ratingSet.add(r.rating);
-    if (r.watchedDate) {
+    // An undated review (overrides.json#undatedReviews) carries a
+    // placeholder date, so its year never reaches the watched-year
+    // rail. Mirrors watchedYearSetOf in serializd-utils, which the
+    // request-time reader uses to rebuild this set at load.
+    if (r.watchedDate && !undatedReviews.has(r.id)) {
       const year = Number.parseInt(r.watchedDate.slice(0, 4), 10);
       if (Number.isFinite(year)) watchedYearSet.add(year);
     }
@@ -672,7 +678,8 @@ function reconcileOrphanSeasons(shows, serializdSeasonsByShow) {
  * CompletedCard / CardKind comments in serializd-utils for the
  * grid-vs-summary split.
  */
-function aggregateSummary(shows) {
+function aggregateSummary(shows, overrides) {
+  const { notASeason } = parseReviewOverrides(overrides);
   let totalShowReviews = 0;
   let totalSeasonReviews = 0;
   let totalEpisodeReviews = 0;
@@ -699,8 +706,14 @@ function aggregateSummary(shows) {
       // miniseries double-count rule). Don't hand-roll this here —
       // any drift between this loop and the in-year loop in
       // app/television/page.tsx is exactly what the helper exists
-      // to prevent.
-      for (const mode of modesForReview(r.level, show.isMiniseries)) {
+      // to prevent. The notASeason pin rides the same helper, so a
+      // pinned review drops out of the season count + season
+      // distribution and stays in the lifetime one below.
+      for (const mode of modesForReview(
+        r.level,
+        show.isMiniseries,
+        notASeason.has(r.id),
+      )) {
         if (mode === "show") totalShowReviews++;
         else if (mode === "season") totalSeasonReviews++;
         else if (mode === "episode") totalEpisodeReviews++;
@@ -744,12 +757,12 @@ function addToBucket(bucket, key) {
 
 // ─── Snapshot envelope ────────────────────────────────────────────
 
-function buildSnapshot(shows) {
+function buildSnapshot(shows, overrides) {
   // Sort shows by latestActivityDate desc so the snapshot's natural
   // order matches the listing page's default sort (no per-render
   // re-sort needed).
   shows.sort((a, b) => b.latestActivityDate.localeCompare(a.latestActivityDate));
-  const summary = aggregateSummary(shows);
+  const summary = aggregateSummary(shows, overrides);
   const showById = {};
   for (const s of shows) showById[s.id] = s;
   return {
@@ -837,6 +850,12 @@ function loadOverridesFromDisk() {
       posterPath: raw.posterPath ?? {},
       isMiniseries: raw.isMiniseries ?? {},
       watchedSeasons: raw.watchedSeasons ?? {},
+      // Per-review maps, parsed by serializd-review-overrides.mjs
+      // where they're read (the cron route hands the raw file in, so
+      // both paths go through the same parser).
+      gridWithoutProse: raw.gridWithoutProse ?? {},
+      undatedReviews: raw.undatedReviews ?? {},
+      notASeason: raw.notASeason ?? {},
     };
   } catch {
     return { tmdbId: {}, posterPath: {}, isMiniseries: {}, watchedSeasons: {} };
@@ -1091,7 +1110,7 @@ export async function bootstrapSnapshot(options = {}) {
   console.log(
     `      ${miniseriesCount}/${shows.length} shows flagged isMiniseries (TMDB type + overrides).`,
   );
-  const snapshot = buildSnapshot(shows);
+  const snapshot = buildSnapshot(shows, overrides);
   console.log(
     `      Show reviews: ${snapshot.summary.totalShowReviews} | ` +
       `Season: ${snapshot.summary.totalSeasonReviews} | ` +

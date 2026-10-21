@@ -5,7 +5,10 @@
     "posterPath": "Maps Serializd showId -> TMDB poster path (e.g. '/abc123.jpg'). Use when Malcolm wants to honor a non-default poster choice from Serializd that TMDB's default doesn't match.",
     "isMiniseries": "Maps Serializd showId -> boolean. True forces Show-card placement when TMDB type would otherwise route to Season cards; false forces the inverse. Surfaces in cleanup/maybe-miniseries.md as candidates.",
     "watchedSeasons": "Maps Serializd showId -> array of season numbers Malcolm has watched but never reviewed on Serializd. Pre-Serializd viewing history lives here (e.g. Game of Thrones seasons 1-8 watched live; never logged). Renders as a 'Watched · No writeup' badge on the show detail page. The bootstrap dedupes against reviewedSeasonNumbers + inProgressSeasonNumbers so a season only counts as watched-unreviewed if it has zero review activity in Serializd.",
-    "excludeFromWatching": "Maps Serializd showId -> boolean. When true, the show is suppressed from /television/watching even if it has in-progress seasons. Editorial pin for perpetual / never-ending shows (talk shows, weekly variety, daily soaps) where the in-progress signal is permanent noise rather than a meaningful 'mid-watch' state. Does NOT affect SummaryPanel counts or listing-page card placement — purely a /watching display filter."
+    "excludeFromWatching": "Maps Serializd showId -> boolean. When true, the show is suppressed from /television/watching even if it has in-progress seasons. Editorial pin for perpetual / never-ending shows (talk shows, weekly variety, daily soaps) where the in-progress signal is permanent noise rather than a meaningful 'mid-watch' state. Does NOT affect SummaryPanel counts or listing-page card placement — purely a /watching display filter.",
+    "gridWithoutProse": "Maps Serializd REVIEW id (not showId) -> true. A Show- or Season-level review with no prose that should still appear as a card on the /television grid. By default a rating-only Show/Season entry is a placeholder log waiting on a writeup and is kept off the grid (see cleanup/missing-prose.md); this pins one in when the rating alone is the whole take. An allowlisted review also counts toward its show's 'N reviews' badge, and drops out of missing-prose.md since this pin is the decision that report asks for.",
+    "undatedReviews": "Maps Serializd REVIEW id -> true. A rated review whose watchedDate is a placeholder — watched before Malcolm's logging habits, so Serializd holds whatever date it was backfilled with. The rating still counts everywhere ratings count; the review is kept out of every date-based computation (first-watched-in-year counts, the cadence/pace charts, the watched-year filter and its chip rail). No display change: the show page still renders the date Serializd has.",
+    "notASeason": "Maps Serializd REVIEW id -> true. A Season-level review that shouldn't count as a season — e.g. a single episode Serializd files as a 'Specials' season. Dropped from season counts, the Seasons rating distribution and average, and the season cadence / first-watch counts; still counted once in the lifetime all-levels rating distribution, and still renders wherever it renders today. Strictly per review id — this is NOT a general rule for season 0."
   },
   "tmdbId": {},
   "posterPath": {},
@@ -52,5 +55,18 @@
     "_comment": "Perpetual shows where 'in-progress' is structurally permanent — talk-show / weekly-variety formats that will never be 'finished'. Suppressed from /television/watching only; still counted in SummaryPanel + listed on /television.",
     "1667": true,
     "22980": true
+  },
+  "gridWithoutProse": {
+    "_comment": "Nathan for You: Season 2 and Specials, logged rating-only in Oct 2026.",
+    "93267313": true,
+    "93469603": true
+  },
+  "undatedReviews": {
+    "_comment": "BEEF Season 1: logged Apr 2026 with a 2024-01-01 placeholder watchedDate.",
+    "62883203": true
+  },
+  "notASeason": {
+    "_comment": "Nathan for You Specials (season 0): an episode Serializd files as a season.",
+    "93469603": true
   }
 }
