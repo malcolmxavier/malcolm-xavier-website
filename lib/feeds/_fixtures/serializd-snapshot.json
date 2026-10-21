@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-10-21T16:31:18.314Z",
+  "capturedAt": "2026-10-21T22:31:14.868Z",
   "summary": {
     "totalShows": 171,
     "totalShowReviews": 44,
-    "totalSeasonReviews": 281,
-    "totalEpisodeReviews": 1142,
+    "totalSeasonReviews": 280,
+    "totalEpisodeReviews": 1145,
     "ratingDistribution": {
       "1": 4,
       "2": 49,
       "3": 393,
       "4": 287,
       "5": 24,
-      "4.5": 81,
+      "4.5": 82,
+      "3.5": 435,
       "2.5": 146,
-      "3.5": 434,
       "1.5": 13,
       "0.5": 1
     },
@@ -35,7 +35,7 @@
         "4": 57,
         "5": 9,
         "2.5": 26,
-        "3.5": 77,
+        "3.5": 76,
         "4.5": 13,
         "1.5": 6,
         "0.5": 1
@@ -46,9 +46,9 @@
         "3": 324,
         "4": 228,
         "5": 14,
-        "4.5": 68,
+        "4.5": 69,
+        "3.5": 356,
         "2.5": 119,
-        "3.5": 354,
         "1.5": 7
       }
     },
@@ -301,6 +301,38 @@
         }
       ],
       "reviews": [
+        {
+          "id": 94097619,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Ricki Lake needs to be a housewife at this point. She’s ready!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-21T21:36:33Z",
+          "seasonId": 492037,
+          "episodeNumber": 155,
+          "episodeName": "Mary Cosby & Ricki Lake",
+          "tags": []
+        },
+        {
+          "id": 94097560,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-21T21:36:07Z",
+          "seasonId": 492037,
+          "episodeNumber": 154,
+          "episodeName": "Hailey Glassman & Sai de Silva",
+          "tags": []
+        },
         {
           "id": 94049081,
           "level": "episode",
@@ -1363,7 +1395,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-21T15:38:05Z",
+      "latestActivityDate": "2026-10-21T21:36:33Z",
       "primaryRating": 4.5,
       "liked": false
     },
@@ -1379,7 +1411,7 @@
         "id": 332204,
         "name": "Vanderpump Rules: Lisa Las Vegas",
         "posterPath": "/e0eX28mqJ2GEH8D85felMO6EqIm.jpg",
-        "backdropPath": "/yOkqPYKZl1DTCEN398ljc56Q0cv.jpg",
+        "backdropPath": "/hbr5EvZoPh1ikwgQ7Sh9TuIYBsB.jpg",
         "genres": [
           "Reality"
         ],
@@ -22844,7 +22876,6 @@
         4.5
       ],
       "watchedYearSet": [
-        2024,
         2026
       ],
       "reviewedSeasonNumbers": [
@@ -36459,6 +36490,38 @@
       ],
       "reviews": [
         {
+          "id": 94097619,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Ricki Lake needs to be a housewife at this point. She’s ready!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-21T21:36:33Z",
+          "seasonId": 492037,
+          "episodeNumber": 155,
+          "episodeName": "Mary Cosby & Ricki Lake",
+          "tags": []
+        },
+        {
+          "id": 94097560,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-21T21:36:07Z",
+          "seasonId": 492037,
+          "episodeNumber": 154,
+          "episodeName": "Hailey Glassman & Sai de Silva",
+          "tags": []
+        },
+        {
           "id": 94049081,
           "level": "episode",
           "rating": 4.5,
@@ -37520,7 +37583,7 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-21T15:38:05Z",
+      "latestActivityDate": "2026-10-21T21:36:33Z",
       "primaryRating": 4.5,
       "liked": false
     },
@@ -37536,7 +37599,7 @@
         "id": 332204,
         "name": "Vanderpump Rules: Lisa Las Vegas",
         "posterPath": "/e0eX28mqJ2GEH8D85felMO6EqIm.jpg",
-        "backdropPath": "/yOkqPYKZl1DTCEN398ljc56Q0cv.jpg",
+        "backdropPath": "/hbr5EvZoPh1ikwgQ7Sh9TuIYBsB.jpg",
         "genres": [
           "Reality"
         ],
@@ -59001,7 +59064,6 @@
         4.5
       ],
       "watchedYearSet": [
-        2024,
         2026
       ],
       "reviewedSeasonNumbers": [
