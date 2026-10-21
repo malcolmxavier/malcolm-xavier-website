@@ -125,6 +125,7 @@ export async function GET(request: Request) {
     newReviews: unknown[];
     editedReviews: unknown[];
     backfillCount: number;
+    unreviewedChanges: number;
   };
   try {
     result = await refreshSnapshotIncremental({
@@ -167,6 +168,7 @@ export async function GET(request: Request) {
         newReviews: result.newReviews.length,
         editedReviews: result.editedReviews.length,
         backfill: result.backfillCount,
+        unreviewed: result.unreviewedChanges,
       },
       githubToken,
     );
@@ -190,6 +192,7 @@ export async function GET(request: Request) {
       newReviews: result.newReviews.length,
       editedReviews: result.editedReviews.length,
       backfillCount: result.backfillCount,
+      unreviewedChanges: result.unreviewedChanges,
     },
     githubCommitSha: pushResult.commitSha,
   });
@@ -214,6 +217,7 @@ async function pushSnapshotToGitHub(
     newReviews: number;
     editedReviews: number;
     backfill: number;
+    unreviewed: number;
   },
   token: string,
 ): Promise<{ commitSha: string }> {
@@ -248,7 +252,9 @@ async function pushSnapshotToGitHub(
       ? `Auto-refresh /films snapshot from RSS`
       : delta.editedReviews > 0
         ? `Auto-refresh /films snapshot (review edit)`
-        : `Auto-refresh /films snapshot (guid backfill)`;
+        : delta.unreviewed > 0
+          ? `Auto-refresh /films snapshot (log with no review)`
+          : `Auto-refresh /films snapshot (guid backfill)`;
   const deltaParts: string[] = [];
   if (delta.newFilms > 0) deltaParts.push(`${delta.newFilms} new film(s)`);
   if (delta.newReviews > 0)
@@ -257,6 +263,8 @@ async function pushSnapshotToGitHub(
     deltaParts.push(`${delta.editedReviews} edit(s)`);
   if (delta.backfill > 0)
     deltaParts.push(`${delta.backfill} guid backfill(s)`);
+  if (delta.unreviewed > 0)
+    deltaParts.push(`${delta.unreviewed} change(s) to logs with no review`);
   const message =
     `${subject}\n\n` +
     `Picked up ${deltaParts.join(", ") || "no-op"} from https://letterboxd.com/malxavi/rss/\n` +

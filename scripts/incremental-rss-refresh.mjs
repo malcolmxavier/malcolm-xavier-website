@@ -222,6 +222,76 @@ async function fetchRss() {
 
 // ─── Snapshot merge ─────────────────────────────────────────────
 
+// ─── Logs with no review text ───────────────────────────────────
+//
+// A diary entry logged without a review still appears in the RSS
+// feed, and Letterboxd fills its description with a generated line
+// ("Watched on Saturday October 18, 2026.") where the prose would be.
+// Merged as-is, that line would publish as a review. /films is
+// prose-only (the CSV importer has always dropped these rows), and a
+// rating without a review is never intended—so such an entry is kept
+// off the catalog entirely and recorded in `snapshot.unreviewedLogs`
+// instead. Nothing on the site reads that list; it is there so the
+// Booth can raise a card asking for the review (or flagging an error).
+// When the review is written, the same entry comes back with prose,
+// merges as a review, and drops off the list.
+
+const GENERATED_LOG_LINE =
+  /^(?:Re)?[Ww]atched on [A-Z][a-z]+day,? [A-Z][a-z]+ \d{1,2},? \d{4}\.?$/;
+
+/** True when an RSS entry carries no review prose of its own. */
+export function isTextlessEntry(entry) {
+  const text = (entry.reviewText ?? "").trim();
+  return text === "" || GENERATED_LOG_LINE.test(text);
+}
+
+/** Stable identity for a log: the RSS guid, else title-year-date. */
+function unreviewedKey(entry) {
+  return entry.guid || `${entry.filmTitle}-${entry.filmYear}-${entry.watchedDate}`;
+}
+
+/**
+ * Record a text-less entry in `snapshot.unreviewedLogs`, or refresh
+ * its fields if it is already there. Returns true when the list
+ * changed, so the caller knows the snapshot needs writing.
+ */
+export function recordUnreviewedLog(snapshot, entry) {
+  const logs = (snapshot.unreviewedLogs ??= []);
+  const key = unreviewedKey(entry);
+  const record = {
+    key,
+    filmTitle: entry.filmTitle,
+    filmYear: entry.filmYear,
+    watchedDate: entry.watchedDate,
+    rating: entry.rating,
+    rewatch: entry.rewatch,
+    link: entry.link,
+  };
+  const i = logs.findIndex((l) => l.key === key);
+  if (i === -1) {
+    logs.push(record);
+    return true;
+  }
+  const same = Object.keys(record).every((k) => logs[i][k] === record[k]);
+  if (same) return false;
+  logs[i] = record;
+  return true;
+}
+
+/**
+ * Drop an entry's record from `snapshot.unreviewedLogs` once it comes
+ * back with prose. Returns true when something was removed.
+ */
+export function clearUnreviewedLog(snapshot, entry) {
+  const logs = snapshot.unreviewedLogs;
+  if (!logs?.length) return false;
+  const key = unreviewedKey(entry);
+  const kept = logs.filter((l) => l.key !== key);
+  if (kept.length === logs.length) return false;
+  snapshot.unreviewedLogs = kept;
+  return true;
+}
+
 /**
  * Find or create a film in the snapshot for the given RSS entry.
  * Identity is `slugify(filmTitle)-filmYear` — same convention the
@@ -637,8 +707,19 @@ export async function refreshSnapshotIncremental(options = {}) {
   // liked at the watch-event level; our snapshot stores it at the
   // film level (mirroring the most-recent review's liked flag).
   const entriesByFilmId = new Map();
+  // Changes to snapshot.unreviewedLogs: a text-less log recorded or
+  // updated, or one cleared because its review has now been written.
+  let unreviewedChanges = 0;
 
   for (const entry of entries) {
+    // Before findOrCreateFilm, so a text-less log of an unseen film
+    // never creates a catalog entry with no review on it.
+    if (isTextlessEntry(entry)) {
+      if (recordUnreviewedLog(snapshot, entry)) unreviewedChanges++;
+      continue;
+    }
+    if (clearUnreviewedLog(snapshot, entry)) unreviewedChanges++;
+
     const { film, isNew } = findOrCreateFilm(snapshot, entry);
     if (isNew) newFilms.push(film);
 
@@ -680,14 +761,18 @@ export async function refreshSnapshotIncremental(options = {}) {
         ? `, ${editedReviews.length} edit(s) on existing reviews`
         : "") +
       (backfillCount > 0
-        ? `, ${backfillCount} guid backfill(s) on legacy reviews.`
+        ? `, ${backfillCount} guid backfill(s) on legacy reviews`
+        : "") +
+      (unreviewedChanges > 0
+        ? `, ${unreviewedChanges} change(s) to logs with no review.`
         : "."),
   );
 
   if (
     newReviews.length === 0 &&
     editedReviews.length === 0 &&
-    backfillCount === 0
+    backfillCount === 0 &&
+    unreviewedChanges === 0
   ) {
     console.log("\nNo changes — snapshot is up to date.");
     return {
@@ -699,6 +784,7 @@ export async function refreshSnapshotIncremental(options = {}) {
       newReviews: [],
       editedReviews: [],
       backfillCount: 0,
+      unreviewedChanges: 0,
     };
   }
 
@@ -790,6 +876,7 @@ export async function refreshSnapshotIncremental(options = {}) {
     newReviews,
     editedReviews,
     backfillCount,
+    unreviewedChanges,
   };
 }
 
