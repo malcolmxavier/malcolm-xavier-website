@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-10-20T22:31:25.172Z",
+  "capturedAt": "2026-10-21T01:31:11.743Z",
   "summary": {
     "totalShows": 170,
     "totalShowReviews": 44,
     "totalSeasonReviews": 281,
-    "totalEpisodeReviews": 1131,
+    "totalEpisodeReviews": 1134,
     "ratingDistribution": {
       "1": 4,
-      "2": 48,
+      "2": 49,
       "3": 392,
       "4": 284,
       "5": 24,
+      "2.5": 145,
       "3.5": 432,
-      "2.5": 143,
       "1.5": 13,
       "4.5": 80,
       "0.5": 1
@@ -42,12 +42,12 @@
       },
       "episode": {
         "1": 1,
-        "2": 25,
+        "2": 26,
         "3": 323,
         "4": 225,
         "5": 14,
+        "2.5": 118,
         "3.5": 352,
-        "2.5": 116,
         "1.5": 7,
         "4.5": 67
       }
@@ -301,6 +301,54 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93971312,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T00:45:51Z",
+          "seasonId": 492037,
+          "episodeNumber": 149,
+          "episodeName": "Erin Lichy & Jessica Tarlov",
+          "tags": []
+        },
+        {
+          "id": 93971256,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "I don’t like how Andy kept saying he wanted to tickle Benny’s tummy.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T00:45:27Z",
+          "seasonId": 492037,
+          "episodeNumber": 147,
+          "episodeName": "Becky G & Benny Blanco",
+          "tags": []
+        },
+        {
+          "id": 93971203,
+          "level": "episode",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T00:44:59Z",
+          "seasonId": 492037,
+          "episodeNumber": 142,
+          "episodeName": "Alexia Nepola & Marysol Patton",
+          "tags": []
+        },
         {
           "id": 93952683,
           "level": "episode",
@@ -1251,8 +1299,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-20T22:18:57Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-10-21T00:45:51Z",
+      "primaryRating": 2.5,
       "liked": false
     },
     {
@@ -36226,6 +36274,54 @@
       ],
       "reviews": [
         {
+          "id": 93971312,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T00:45:51Z",
+          "seasonId": 492037,
+          "episodeNumber": 149,
+          "episodeName": "Erin Lichy & Jessica Tarlov",
+          "tags": []
+        },
+        {
+          "id": 93971256,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "I don’t like how Andy kept saying he wanted to tickle Benny’s tummy.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T00:45:27Z",
+          "seasonId": 492037,
+          "episodeNumber": 147,
+          "episodeName": "Becky G & Benny Blanco",
+          "tags": []
+        },
+        {
+          "id": 93971203,
+          "level": "episode",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T00:44:59Z",
+          "seasonId": 492037,
+          "episodeNumber": 142,
+          "episodeName": "Alexia Nepola & Marysol Patton",
+          "tags": []
+        },
+        {
           "id": 93952683,
           "level": "episode",
           "rating": 3,
@@ -37175,8 +37271,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-20T22:18:57Z",
-      "primaryRating": 3,
+      "latestActivityDate": "2026-10-21T00:45:51Z",
+      "primaryRating": 2.5,
       "liked": false
     },
     "tmdb-tv-332902": {
