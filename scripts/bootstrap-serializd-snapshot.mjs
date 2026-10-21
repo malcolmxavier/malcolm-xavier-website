@@ -294,8 +294,9 @@ function buildSkeletonShows(rawReviews) {
   return { shows: [...showMap.values()], serializdSeasonsByShow };
 }
 
-/** Transform a raw API review into our snapshot Review shape. */
-function normalizeReview(r) {
+/** Transform a raw API review into our snapshot Review shape. Exported
+ *  so the probe compares a re-fetched review through the same mapping. */
+export function normalizeReview(r) {
   return {
     id: r.id,
     level: inferReviewLevel(r),

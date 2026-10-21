@@ -49,6 +49,7 @@ import { bootstrapSnapshot } from "@/scripts/bootstrap-serializd-snapshot.mjs";
 import {
   probeForNewReviews,
   logProbeFindings,
+  logEditedFindings,
 } from "@/scripts/refresh-serializd-incremental.mjs";
 
 // Cron must always re-run; never serve cached output.
@@ -135,7 +136,12 @@ export async function GET(request: Request) {
   }
 
   // ─── Probe ──────────────────────────────────────────────────────
-  let probe: { hasNew: boolean; probedCount: number; newReviews: unknown[] };
+  let probe: {
+    hasNew: boolean;
+    probedCount: number;
+    newReviews: unknown[];
+    editedReviews: { id: number; fields: string[] }[];
+  };
   try {
     probe = await probeForNewReviews(prevSnapshot);
   } catch (err) {
@@ -170,9 +176,10 @@ export async function GET(request: Request) {
   }
 
   console.log(
-    `Probe: ${probe.newReviews.length} new ${probe.newReviews.length === 1 ? "entry" : "entries"} on page 1.`,
+    `Probe: ${probe.newReviews.length} new, ${probe.editedReviews.length} edited on page 1.`,
   );
   logProbeFindings(probe.newReviews);
+  logEditedFindings(probe.editedReviews);
 
   // ─── Bootstrap (in-memory) ──────────────────────────────────────
   let bootstrapResult: { snapshot: unknown; hasBlockingIssues: boolean };
@@ -214,6 +221,7 @@ export async function GET(request: Request) {
     pushResult = await pushSnapshotToGitHub(
       bootstrapResult.snapshot,
       probe.newReviews.length,
+      probe.editedReviews.length,
       githubToken,
     );
   } catch (err) {
@@ -232,6 +240,7 @@ export async function GET(request: Request) {
     stage: "push",
     action: "snapshot-updated",
     newReviewsOnProbe: probe.newReviews.length,
+    editedReviewsOnProbe: probe.editedReviews.length,
     githubCommitSha: pushResult.commitSha,
   });
 }
@@ -251,6 +260,7 @@ export async function GET(request: Request) {
 async function pushSnapshotToGitHub(
   snapshot: unknown,
   newReviewCount: number,
+  editedReviewCount: number,
   token: string,
 ): Promise<{ commitSha: string }> {
   const githubHeaders = {
@@ -276,7 +286,7 @@ async function pushSnapshotToGitHub(
   const newContent = JSON.stringify(snapshot, null, 2) + "\n";
   const message =
     `Auto-refresh /television snapshot from Serializd\n\n` +
-    `Picked up ${newReviewCount} new ${newReviewCount === 1 ? "review" : "reviews"} from https://serializd.com/user/malxavi\n` +
+    `Picked up ${newReviewCount} new and ${editedReviewCount} edited ${newReviewCount + editedReviewCount === 1 ? "review" : "reviews"} from https://serializd.com/user/malxavi\n` +
     `via the Vercel cron at /api/cron/television-refresh.`;
 
   const putRes = await fetch(contentsUrl, {

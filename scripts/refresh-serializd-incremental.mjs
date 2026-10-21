@@ -16,8 +16,12 @@
 //      already captured.
 //   2. Fetch diary page 1 (the 24 most-recent entries — the
 //      Serializd analog of "RSS window").
-//   3. If every probed review id is already known → exit 0 (no-op).
-//      The common case on most ticks; ~1 API call total.
+//   3. If every probed review id is already known AND none of them
+//      has been edited since the snapshot (text, rating, watch date,
+//      like, rewatch, spoiler flag) → exit 0 (no-op). The common
+//      case on most ticks; ~1 API call total. Edits count because an
+//      id-only check let added prose or a fixed date sit unseen until
+//      the next brand-new log; it only sees edits inside page 1.
 //   4. Else → call bootstrapSnapshot({ writeToDisk: true }) which
 //      re-paginates the full diary, re-applies sticky-TMDB
 //      carryover (so TMDB is hit only for shows that are genuinely
@@ -39,7 +43,10 @@ import { readFileSync, existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { bootstrapSnapshot } from "./bootstrap-serializd-snapshot.mjs";
+import {
+  bootstrapSnapshot,
+  normalizeReview,
+} from "./bootstrap-serializd-snapshot.mjs";
 
 const SNAPSHOT_PATH = path.resolve(
   process.cwd(),
@@ -57,25 +64,51 @@ const SERIALIZD_HEADERS = {
     "malxavi.com /television cluster - read-only, snapshot-driven, hourly (https://malxavi.com)",
 };
 
+/** Snapshot Review fields an edit on Serializd can change. */
+const EDITABLE_FIELDS = [
+  "reviewText",
+  "rating",
+  "watchedDate",
+  "liked",
+  "isRewatch",
+  "containsSpoiler",
+];
+
+/**
+ * Pure helper: the fields on which a re-fetched raw review differs
+ * from the snapshot's copy of it, compared through the bootstrap's
+ * own `normalizeReview` so a field the bootstrap reshapes (rating
+ * 1-10 → 0.5-5, `like` → `liked`) can't read as a perpetual edit and
+ * drive a rewrite every hour. Empty array means no edit.
+ */
+export function editedFields(known, raw) {
+  const fresh = normalizeReview(raw);
+  return EDITABLE_FIELDS.filter((f) => (known[f] ?? null) !== (fresh[f] ?? null));
+}
+
 /**
  * Pure helper: given a parsed snapshot JSON, fetch Serializd diary
- * page 1 and return the new review ids that aren't already captured.
+ * page 1 and return the review ids that aren't already captured,
+ * plus the known ones that have been edited since.
  *
  * Returns:
- *   { hasNew, probedCount, newReviews }
+ *   { hasNew, probedCount, newReviews, editedReviews }
  *     - hasNew: boolean — true if any probed review id is unknown
+ *       OR any known one was edited (either means rewrite)
  *     - probedCount: number — total entries returned by page 1
  *     - newReviews: array — the raw Serializd review entries (with
  *       embedded targetEntity) for any unknown ids; useful for log
  *       lines and for future "show me the diff" surfaces
+ *     - editedReviews: array — { id, fields } for each known review
+ *       whose editable fields changed on Serializd
  *
  * Throws if the probe HTTP call fails. Callers decide whether to
  * retry, surface the error to logs, or return non-zero from CI.
  */
 export async function probeForNewReviews(snapshot) {
-  const knownReviewIds = new Set();
+  const knownReviews = new Map();
   for (const show of snapshot?.shows ?? []) {
-    for (const r of show.reviews ?? []) knownReviewIds.add(r.id);
+    for (const r of show.reviews ?? []) knownReviews.set(r.id, r);
   }
 
   const url = `${SERIALIZD_API_BASE}/api/user/${SERIALIZD_USER}/diary?page=1&include_target=ALL`;
@@ -87,14 +120,20 @@ export async function probeForNewReviews(snapshot) {
   }
   const json = await res.json();
   const probedReviews = json.reviews ?? [];
-  const newReviews = probedReviews.filter(
-    (r) => !knownReviewIds.has(r.id),
-  );
+  const newReviews = probedReviews.filter((r) => !knownReviews.has(r.id));
+  const editedReviews = [];
+  for (const r of probedReviews) {
+    const known = knownReviews.get(r.id);
+    if (!known) continue;
+    const fields = editedFields(known, r);
+    if (fields.length > 0) editedReviews.push({ id: r.id, fields });
+  }
 
   return {
-    hasNew: newReviews.length > 0,
+    hasNew: newReviews.length > 0 || editedReviews.length > 0,
     probedCount: probedReviews.length,
     newReviews,
+    editedReviews,
   };
 }
 
@@ -117,6 +156,13 @@ export function logProbeFindings(newReviews) {
   }
   if (newReviews.length > 5) {
     console.log(`  • …and ${newReviews.length - 5} more.`);
+  }
+}
+
+/** One log line per edited review: id and the fields that moved. */
+export function logEditedFindings(editedReviews) {
+  for (const e of editedReviews ?? []) {
+    console.log(`  • [${e.id}] edited: ${e.fields.join(", ")}`);
   }
 }
 
@@ -144,22 +190,24 @@ async function cli() {
     `Snapshot loaded: ${snap.shows?.length ?? 0} shows, ${knownCount} reviews known.`,
   );
 
-  const { hasNew, probedCount, newReviews } = await probeForNewReviews(snap);
+  const { hasNew, probedCount, newReviews, editedReviews } =
+    await probeForNewReviews(snap);
   if (probedCount === 0) {
     console.log("Probe returned 0 reviews. Nothing to do.");
     return;
   }
   if (!hasNew) {
     console.log(
-      `Probe: no new entries on page 1 (${probedCount} probed). Snapshot is current — exiting without rewrite.`,
+      `Probe: no new or edited entries on page 1 (${probedCount} probed). Snapshot is current — exiting without rewrite.`,
     );
     return;
   }
 
   console.log(
-    `Probe: ${newReviews.length} new ${newReviews.length === 1 ? "entry" : "entries"} on page 1. Running full bootstrap...`,
+    `Probe: ${newReviews.length} new, ${editedReviews.length} edited on page 1. Running full bootstrap...`,
   );
   logProbeFindings(newReviews);
+  logEditedFindings(editedReviews);
 
   const { hasBlockingIssues } = await bootstrapSnapshot({ writeToDisk: true });
   if (hasBlockingIssues) process.exit(1);
