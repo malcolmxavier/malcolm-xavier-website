@@ -1,17 +1,17 @@
 {
-  "capturedAt": "2026-10-21T02:31:11.579Z",
+  "capturedAt": "2026-10-21T03:31:13.320Z",
   "summary": {
     "totalShows": 170,
     "totalShowReviews": 44,
     "totalSeasonReviews": 281,
-    "totalEpisodeReviews": 1136,
+    "totalEpisodeReviews": 1137,
     "ratingDistribution": {
       "1": 4,
       "2": 49,
       "3": 393,
       "4": 285,
       "5": 24,
-      "2.5": 145,
+      "2.5": 146,
       "3.5": 432,
       "1.5": 13,
       "4.5": 80,
@@ -46,7 +46,7 @@
         "3": 324,
         "4": 226,
         "5": 14,
-        "2.5": 118,
+        "2.5": 119,
         "3.5": 352,
         "1.5": 7,
         "4.5": 67
@@ -301,6 +301,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 93984108,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T02:52:02Z",
+          "seasonId": 492037,
+          "episodeNumber": 153,
+          "episodeName": "Jeff Lewis & Joe Bradley",
+          "tags": []
+        },
         {
           "id": 93981226,
           "level": "episode",
@@ -1331,8 +1347,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-21T02:23:22Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-10-21T02:52:02Z",
+      "primaryRating": 2.5,
       "liked": false
     },
     {
@@ -36306,6 +36322,22 @@
       ],
       "reviews": [
         {
+          "id": 93984108,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-20T12:00:00Z",
+          "reviewDate": "2026-10-21T02:52:02Z",
+          "seasonId": 492037,
+          "episodeNumber": 153,
+          "episodeName": "Jeff Lewis & Joe Bradley",
+          "tags": []
+        },
+        {
           "id": 93981226,
           "level": "episode",
           "rating": 4,
@@ -37335,8 +37367,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-21T02:23:22Z",
-      "primaryRating": 4,
+      "latestActivityDate": "2026-10-21T02:52:02Z",
+      "primaryRating": 2.5,
       "liked": false
     },
     "tmdb-tv-332902": {
