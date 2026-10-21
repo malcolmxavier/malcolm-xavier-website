@@ -2046,6 +2046,21 @@ export function resolveSeasonPosterUrl(
   return `https://image.tmdb.org/t/p/w342${season.posterPath}`;
 }
 
+/**
+ * How a season is named on the site. Season 0 is TMDB's "Specials"
+ * bucket—bonus episodes, not a season in the run—so it is never
+ * called "Season 0"; that label sat between numbered seasons on the
+ * grid and read as a numbering error.
+ */
+export function seasonLabel(seasonNumber: number): string {
+  return seasonNumber === 0 ? "Specials" : `Season ${seasonNumber}`;
+}
+
+/** Compact form for badges and "S# · E#" lines: "S2" / "Specials". */
+export function seasonShortLabel(seasonNumber: number): string {
+  return seasonNumber === 0 ? "Specials" : `S${seasonNumber}`;
+}
+
 /** "Season 1, Episode 2" / "Season 1" / "" — used in card datelines and detail headers. */
 export function formatLevelLabel(
   review: Review,
@@ -2055,10 +2070,10 @@ export function formatLevelLabel(
     case "show":
       return "";
     case "season":
-      return seasonNumber !== null ? `Season ${seasonNumber}` : "";
+      return seasonNumber !== null ? seasonLabel(seasonNumber) : "";
     case "episode": {
       if (seasonNumber === null || review.episodeNumber === null) return "";
-      return `Season ${seasonNumber}, Episode ${review.episodeNumber}`;
+      return `${seasonLabel(seasonNumber)}, Episode ${review.episodeNumber}`;
     }
   }
 }

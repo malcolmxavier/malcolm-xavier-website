@@ -30,6 +30,8 @@ import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import {
   formatWatchedDate,
   resolveSeasonPosterUrl,
+  seasonLabel,
+  seasonShortLabel,
   type InProgressCard as InProgressCardType,
 } from "@/lib/feeds/serializd-utils";
 
@@ -159,7 +161,7 @@ export function InProgressCard({
                   filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))",
                 }}
               >
-                S{seasonNumber}
+                {seasonShortLabel(seasonNumber)}
               </span>
               {/* In-progress badge (bottom-left) — distinguishes
                   these cards from completed Season cards on
@@ -214,7 +216,7 @@ export function InProgressCard({
               </Headline>
               <Kicker>
                 {show.premiereYear || ""}
-                {seasonNumber !== null ? ` · Season ${seasonNumber}` : ""}
+                {seasonNumber !== null ? ` · ${seasonLabel(seasonNumber)}` : ""}
               </Kicker>
             </Stack>
 

@@ -33,6 +33,8 @@ import {
   formatWatchedDate,
   isSurfacedAsCard,
   resolveSeasonPosterUrl,
+  seasonLabel,
+  seasonShortLabel,
   type CompletedCard,
 } from "@/lib/feeds/serializd-utils";
 
@@ -261,7 +263,7 @@ export function ShowCard({
                     filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.4))",
                   }}
                 >
-                  S{seasonNumber}
+                  {seasonShortLabel(seasonNumber)}
                 </span>
               ) : null}
             </div>
@@ -282,7 +284,7 @@ export function ShowCard({
               <Kicker>
                 {show.premiereYear || ""}
                 {cardKind === "season" && seasonNumber !== null
-                  ? ` · Season ${seasonNumber}`
+                  ? ` · ${seasonLabel(seasonNumber)}`
                   : ""}
                 {cardKind === "show" ? " · Show review" : ""}
               </Kicker>

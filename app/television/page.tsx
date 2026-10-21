@@ -50,6 +50,7 @@ import {
   buildInProgressCards,
   firstWatchesInYearByMode,
   seasonNumberForReview,
+  seasonShortLabel,
 } from "@/lib/feeds/serializd-utils";
 import {
   indexableTvCollections,
@@ -465,7 +466,7 @@ export default function TelevisionLandingPage() {
                   // Secondary line: "Show · S# · E#" (each part omitted when
                   // unknown — episode-level reviews normally have both).
                   const seLabel =
-                    (seasonNumber !== null ? ` · S${seasonNumber}` : "") +
+                    (seasonNumber !== null ? ` · ${seasonShortLabel(seasonNumber)}` : "") +
                     (review.episodeNumber !== null
                       ? ` · E${review.episodeNumber}`
                       : "");

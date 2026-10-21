@@ -27,6 +27,8 @@ import {
   isFirstWatchInYear,
   isSurfacedAsCard,
   makeShowReviewFilter,
+  seasonLabel,
+  seasonShortLabel,
   summarizeShows,
   watchedYearSetOf,
   type Review,
@@ -291,5 +293,16 @@ describe("snapshot reader — overrides applied at load", () => {
       ({ r }) => parsed.undatedReviews.has(r.id) || parsed.notASeason.has(r.id),
     );
     expect(plotted).toBe(firstSeasonWatches.length - pinnedOut.length);
+  });
+});
+
+// ─── Season labels ────────────────────────────────────────────────
+
+describe("seasonLabel", () => {
+  it("names season 0 Specials rather than numbering it", () => {
+    expect(seasonLabel(0)).toBe("Specials");
+    expect(seasonShortLabel(0)).toBe("Specials");
+    expect(seasonLabel(2)).toBe("Season 2");
+    expect(seasonShortLabel(2)).toBe("S2");
   });
 });

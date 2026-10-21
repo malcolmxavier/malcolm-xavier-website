@@ -64,6 +64,7 @@ import {
   parseShowFilters,
   parseShowSort,
   resolveSeasonPosterUrl,
+  seasonLabel,
   seasonNumberForReview,
   showFacetValues,
   slugifyGenre,
@@ -1790,7 +1791,7 @@ function buildPageJsonLd(show: Show) {
             const sn = seasonNumberForReview(show, review);
             const seasonName =
               sn !== null
-                ? `${show.name}: Season ${sn}`
+                ? `${show.name}: ${seasonLabel(sn)}`
                 : `${show.name}: Season`;
             const seasonUrl =
               sn !== null
