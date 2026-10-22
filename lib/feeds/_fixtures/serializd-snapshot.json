@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-10-22T02:31:10.639Z",
+  "capturedAt": "2026-10-22T03:31:34.385Z",
   "summary": {
     "totalShows": 171,
     "totalShowReviews": 44,
     "totalSeasonReviews": 280,
-    "totalEpisodeReviews": 1149,
+    "totalEpisodeReviews": 1152,
     "ratingDistribution": {
       "1": 4,
       "2": 50,
       "3": 394,
-      "4": 287,
+      "4": 288,
       "5": 24,
+      "3.5": 438,
       "4.5": 83,
-      "3.5": 436,
       "2.5": 146,
       "1.5": 13,
       "0.5": 1
@@ -44,10 +44,10 @@
         "1": 1,
         "2": 27,
         "3": 325,
-        "4": 228,
+        "4": 229,
         "5": 14,
+        "3.5": 359,
         "4.5": 70,
-        "3.5": 357,
         "2.5": 119,
         "1.5": 7
       }
@@ -301,6 +301,54 @@
         }
       ],
       "reviews": [
+        {
+          "id": 94137630,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I just love when it gets shady.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T03:22:51Z",
+          "seasonId": 492037,
+          "episodeNumber": 167,
+          "episodeName": "Jemele Hill & Gizelle Bryant",
+          "tags": []
+        },
+        {
+          "id": 94136226,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Do Daisy and Hilary Duff have the same doctor?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T03:05:28Z",
+          "seasonId": 492037,
+          "episodeNumber": 164,
+          "episodeName": "Craig Conover & Daisy Toye",
+          "tags": []
+        },
+        {
+          "id": 94136185,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Peter the father and horny James lowkey flirting with Andy…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T03:04:55Z",
+          "seasonId": 492037,
+          "episodeNumber": 163,
+          "episodeName": "James McAvoy & Peter Krause",
+          "tags": []
+        },
         {
           "id": 94128655,
           "level": "episode",
@@ -1459,8 +1507,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-22T01:48:32Z",
-      "primaryRating": 4.5,
+      "latestActivityDate": "2026-10-22T03:22:51Z",
+      "primaryRating": 4,
       "liked": false
     },
     {
@@ -36554,6 +36602,54 @@
       ],
       "reviews": [
         {
+          "id": 94137630,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "I just love when it gets shady.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T03:22:51Z",
+          "seasonId": 492037,
+          "episodeNumber": 167,
+          "episodeName": "Jemele Hill & Gizelle Bryant",
+          "tags": []
+        },
+        {
+          "id": 94136226,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Do Daisy and Hilary Duff have the same doctor?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T03:05:28Z",
+          "seasonId": 492037,
+          "episodeNumber": 164,
+          "episodeName": "Craig Conover & Daisy Toye",
+          "tags": []
+        },
+        {
+          "id": 94136185,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Peter the father and horny James lowkey flirting with Andy…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T03:04:55Z",
+          "seasonId": 492037,
+          "episodeNumber": 163,
+          "episodeName": "James McAvoy & Peter Krause",
+          "tags": []
+        },
+        {
           "id": 94128655,
           "level": "episode",
           "rating": 4.5,
@@ -37711,8 +37807,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-22T01:48:32Z",
-      "primaryRating": 4.5,
+      "latestActivityDate": "2026-10-22T03:22:51Z",
+      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-332204": {
