@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-10-21T22:31:14.868Z",
+  "capturedAt": "2026-10-22T01:31:16.922Z",
   "summary": {
     "totalShows": 171,
     "totalShowReviews": 44,
     "totalSeasonReviews": 280,
-    "totalEpisodeReviews": 1145,
+    "totalEpisodeReviews": 1148,
     "ratingDistribution": {
       "1": 4,
-      "2": 49,
-      "3": 393,
+      "2": 50,
+      "3": 394,
       "4": 287,
       "5": 24,
+      "3.5": 436,
       "4.5": 82,
-      "3.5": 435,
       "2.5": 146,
       "1.5": 13,
       "0.5": 1
@@ -42,12 +42,12 @@
       },
       "episode": {
         "1": 1,
-        "2": 26,
-        "3": 324,
+        "2": 27,
+        "3": 325,
         "4": 228,
         "5": 14,
+        "3.5": 357,
         "4.5": 69,
-        "3.5": 356,
         "2.5": 119,
         "1.5": 7
       }
@@ -297,10 +297,58 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 171
+          "episodeCount": 172
         }
       ],
       "reviews": [
+        {
+          "id": 94125769,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Didn’t see S.E. having the lowkey hits for Rob Sand coming, but hey!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T01:26:14Z",
+          "seasonId": 492037,
+          "episodeNumber": 159,
+          "episodeName": "Erika Hammond & S.E. Cupp",
+          "tags": []
+        },
+        {
+          "id": 94123751,
+          "level": "episode",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T01:02:08Z",
+          "seasonId": 492037,
+          "episodeNumber": 158,
+          "episodeName": "Capt. Sandy Yawn & Brandi Carlile",
+          "tags": []
+        },
+        {
+          "id": 94122761,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "You’re just…baby gorgeous…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T00:52:31Z",
+          "seasonId": 492037,
+          "episodeNumber": 157,
+          "episodeName": "Lisa Barlow & Teresa Giudice",
+          "tags": []
+        },
         {
           "id": 94097619,
           "level": "episode",
@@ -1395,8 +1443,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-21T21:36:33Z",
-      "primaryRating": 4.5,
+      "latestActivityDate": "2026-10-22T01:26:14Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -36485,10 +36533,58 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 171
+          "episodeCount": 172
         }
       ],
       "reviews": [
+        {
+          "id": 94125769,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Didn’t see S.E. having the lowkey hits for Rob Sand coming, but hey!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T01:26:14Z",
+          "seasonId": 492037,
+          "episodeNumber": 159,
+          "episodeName": "Erika Hammond & S.E. Cupp",
+          "tags": []
+        },
+        {
+          "id": 94123751,
+          "level": "episode",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T01:02:08Z",
+          "seasonId": 492037,
+          "episodeNumber": 158,
+          "episodeName": "Capt. Sandy Yawn & Brandi Carlile",
+          "tags": []
+        },
+        {
+          "id": 94122761,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "You’re just…baby gorgeous…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T00:52:31Z",
+          "seasonId": 492037,
+          "episodeNumber": 157,
+          "episodeName": "Lisa Barlow & Teresa Giudice",
+          "tags": []
+        },
         {
           "id": 94097619,
           "level": "episode",
@@ -37583,8 +37679,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-21T21:36:33Z",
-      "primaryRating": 4.5,
+      "latestActivityDate": "2026-10-22T01:26:14Z",
+      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-332204": {
