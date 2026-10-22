@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-10-22T01:31:16.922Z",
+  "capturedAt": "2026-10-22T02:31:10.639Z",
   "summary": {
     "totalShows": 171,
     "totalShowReviews": 44,
     "totalSeasonReviews": 280,
-    "totalEpisodeReviews": 1148,
+    "totalEpisodeReviews": 1149,
     "ratingDistribution": {
       "1": 4,
       "2": 50,
       "3": 394,
       "4": 287,
       "5": 24,
+      "4.5": 83,
       "3.5": 436,
-      "4.5": 82,
       "2.5": 146,
       "1.5": 13,
       "0.5": 1
@@ -46,8 +46,8 @@
         "3": 325,
         "4": 228,
         "5": 14,
+        "4.5": 70,
         "3.5": 357,
-        "4.5": 69,
         "2.5": 119,
         "1.5": 7
       }
@@ -301,6 +301,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 94128655,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "That was a perfectly chaotic episode, but Tripp is a wet blanket that proved that poll correct by being a bad sport. Why even have him there if he’s not gonna be happy and engaged, Heather?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T01:48:32Z",
+          "seasonId": 492037,
+          "episodeNumber": 160,
+          "episodeName": "Heather Gay & Bryan Safi",
+          "tags": []
+        },
         {
           "id": 94125769,
           "level": "episode",
@@ -1443,8 +1459,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-22T01:26:14Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-10-22T01:48:32Z",
+      "primaryRating": 4.5,
       "liked": false
     },
     {
@@ -36538,6 +36554,22 @@
       ],
       "reviews": [
         {
+          "id": 94128655,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "That was a perfectly chaotic episode, but Tripp is a wet blanket that proved that poll correct by being a bad sport. Why even have him there if he’s not gonna be happy and engaged, Heather?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-21T12:00:00Z",
+          "reviewDate": "2026-10-22T01:48:32Z",
+          "seasonId": 492037,
+          "episodeNumber": 160,
+          "episodeName": "Heather Gay & Bryan Safi",
+          "tags": []
+        },
+        {
           "id": 94125769,
           "level": "episode",
           "rating": 3.5,
@@ -37679,8 +37711,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-22T01:26:14Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-10-22T01:48:32Z",
+      "primaryRating": 4.5,
       "liked": false
     },
     "tmdb-tv-332204": {
