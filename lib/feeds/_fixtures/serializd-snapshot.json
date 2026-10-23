@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-10-23T05:31:14.310Z",
+  "capturedAt": "2026-10-23T16:31:20.586Z",
   "summary": {
     "totalShows": 171,
     "totalShowReviews": 44,
     "totalSeasonReviews": 283,
-    "totalEpisodeReviews": 1163,
+    "totalEpisodeReviews": 1165,
     "ratingDistribution": {
       "1": 4,
       "2": 50,
-      "3": 396,
+      "3": 397,
       "4": 292,
       "5": 25,
+      "2.5": 147,
       "3.5": 442,
       "1.5": 13,
-      "2.5": 146,
       "4.5": 85,
       "0.5": 1
     },
@@ -34,30 +34,30 @@
         "3": 66,
         "4": 57,
         "5": 9,
-        "1.5": 6,
         "2.5": 26,
-        "4.5": 14,
         "3.5": 78,
+        "1.5": 6,
+        "4.5": 14,
         "0.5": 1
       },
       "episode": {
         "1": 1,
         "2": 27,
-        "3": 327,
+        "3": 328,
         "4": 233,
         "5": 15,
+        "2.5": 120,
         "3.5": 362,
-        "2.5": 119,
         "1.5": 7,
         "4.5": 71
       }
     },
     "genreDistribution": {
       "Drama": 102,
+      "Comedy": 58,
       "Action & Adventure": 18,
       "Crime": 33,
       "Mystery": 35,
-      "Comedy": 58,
       "Talk": 1,
       "Reality": 33,
       "Documentary": 15,
@@ -68,9 +68,9 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
+      "2000s": 6,
       "2020s": 140,
       "2010s": 23,
-      "2000s": 6,
       "1970s": 1,
       "1990s": 1
     },
@@ -79,6 +79,712 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-1416",
+      "serializdShowId": 1416,
+      "slug": "greys-anatomy-2005",
+      "name": "Grey's Anatomy",
+      "premiereYear": 2005,
+      "premiereDate": "2005-03-27",
+      "serializdUrl": "https://serializd.com/show/1416",
+      "tmdb": {
+        "id": 1416,
+        "name": "Grey's Anatomy",
+        "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
+        "backdropPath": "/A4NwkQXTXElE5iAsne5RpvS8R2Z.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "ABC"
+        ],
+        "numberOfSeasons": 23,
+        "numberOfEpisodes": 466
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
+      "seasons": [
+        {
+          "serializdId": 3722,
+          "showId": 1416,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/snQYndfsEr3Sto2jOmkmsQuUXAQ.jpg",
+          "episodeCount": 68
+        },
+        {
+          "serializdId": 3718,
+          "showId": 1416,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/ulGju8GyXE36wCgmvyFJL3sLiVm.jpg",
+          "episodeCount": 9
+        },
+        {
+          "serializdId": 3719,
+          "showId": 1416,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/bO0S3fU8Tcqn0g5DCmDcX1oqA2t.jpg",
+          "episodeCount": 27
+        },
+        {
+          "serializdId": 3715,
+          "showId": 1416,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/aY7NuvFj5Uzliy0nrFxVWmlZFiK.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 3716,
+          "showId": 1416,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/gDQR39nMdjAvGyWe4lOPCj4iMQx.jpg",
+          "episodeCount": 16
+        },
+        {
+          "serializdId": 3717,
+          "showId": 1416,
+          "seasonNumber": 5,
+          "name": "Season 5",
+          "posterPath": "/bnOS0AKjbfPY1xVqF80qk0iBQBX.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 3720,
+          "showId": 1416,
+          "seasonNumber": 6,
+          "name": "Season 6",
+          "posterPath": "/8oclDsuHPZIVXh311u5SHlTNQzA.jpg",
+          "episodeCount": 22
+        },
+        {
+          "serializdId": 3721,
+          "showId": 1416,
+          "seasonNumber": 7,
+          "name": "Season 7",
+          "posterPath": "/wmGUedMQJkmSZFYJA35AKPrHsGJ.jpg",
+          "episodeCount": 22
+        },
+        {
+          "serializdId": 3723,
+          "showId": 1416,
+          "seasonNumber": 8,
+          "name": "Season 8",
+          "posterPath": "/pvuMQwMPWDqunRiajmeGQmUF0zS.jpg",
+          "episodeCount": 23
+        },
+        {
+          "serializdId": 3724,
+          "showId": 1416,
+          "seasonNumber": 9,
+          "name": "Season 9",
+          "posterPath": "/gLP8aeWDfoOIqp1EFEMLSoHlIHW.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 3725,
+          "showId": 1416,
+          "seasonNumber": 10,
+          "name": "Season 10",
+          "posterPath": "/h0z0USK1KerDJu02c218zFMIa52.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 62051,
+          "showId": 1416,
+          "seasonNumber": 11,
+          "name": "Season 11",
+          "posterPath": "/AvMxKxyj6zIG5fR0fg7D6bWH4AY.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 70494,
+          "showId": 1416,
+          "seasonNumber": 12,
+          "name": "Season 12",
+          "posterPath": "/b8pkzoNM5X0XSwppEA7jTID5Dcm.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 79174,
+          "showId": 1416,
+          "seasonNumber": 13,
+          "name": "Season 13",
+          "posterPath": "/i4gNHaY1MzP50zcjgw3ew2hKCCW.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 92088,
+          "showId": 1416,
+          "seasonNumber": 14,
+          "name": "Season 14",
+          "posterPath": "/2eSQFbeZZ7lCru40Q0UYGJ20itx.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 108798,
+          "showId": 1416,
+          "seasonNumber": 15,
+          "name": "Season 15",
+          "posterPath": "/eqgIOObafPJitt8JNh1LuO2fvqu.jpg",
+          "episodeCount": 25
+        },
+        {
+          "serializdId": 129348,
+          "showId": 1416,
+          "seasonNumber": 16,
+          "name": "Season 16",
+          "posterPath": "/obzo1GdJUQ0OPnW9T9SNOCBxhD.jpg",
+          "episodeCount": 21
+        },
+        {
+          "serializdId": 163320,
+          "showId": 1416,
+          "seasonNumber": 17,
+          "name": "Season 17",
+          "posterPath": "/clnyhPqj1SNgpAdeSS6a6fwE6Bo.jpg",
+          "episodeCount": 17
+        },
+        {
+          "serializdId": 202440,
+          "showId": 1416,
+          "seasonNumber": 18,
+          "name": "Season 18",
+          "posterPath": "/zPIug5giU8oug6Xes5K1sTfQJxY.jpg",
+          "episodeCount": 20
+        },
+        {
+          "serializdId": 297653,
+          "showId": 1416,
+          "seasonNumber": 19,
+          "name": "Season 19",
+          "posterPath": "/daSFbrt8QCXV2hSwB0hqYjbj681.jpg",
+          "episodeCount": 20
+        },
+        {
+          "serializdId": 366034,
+          "showId": 1416,
+          "seasonNumber": 20,
+          "name": "Season 20",
+          "posterPath": "/jcEl8SISNfGdlQFwLzeEtsjDvpw.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 401696,
+          "showId": 1416,
+          "seasonNumber": 21,
+          "name": "Season 21",
+          "posterPath": "/7jEVqXC14bhfAzSPgr896dMdDv6.jpg",
+          "episodeCount": 18
+        },
+        {
+          "serializdId": 465873,
+          "showId": 1416,
+          "seasonNumber": 22,
+          "name": "Season 22",
+          "posterPath": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
+          "episodeCount": 18
+        },
+        {
+          "serializdId": 532939,
+          "showId": 1416,
+          "seasonNumber": 23,
+          "name": "Season 23",
+          "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94337997,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-22T12:00:00Z",
+          "reviewDate": "2026-10-23T16:25:23Z",
+          "seasonId": 532939,
+          "episodeNumber": 2,
+          "episodeName": "Slippin' and Slidin'",
+          "tags": []
+        },
+        {
+          "id": 93192789,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "It’s really giving beginning of the end…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-16T06:02:26Z",
+          "seasonId": 532939,
+          "episodeNumber": 1,
+          "episodeName": "Collide",
+          "tags": []
+        },
+        {
+          "id": 65093180,
+          "level": "season",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "It’s like I’m still watching, but to what end? This show is a shadow of its former self. Even at its most melodramatic, it at least gave enjoyable camp. Whatever has been happening lately has reached its zenith in this season. Everything felt hollow and phoned in, in a way that I am just not familiar with on this show.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-09T06:25:12Z",
+          "reviewDate": "2026-05-09T06:27:01Z",
+          "seasonId": 465873,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 65093104,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Oh my god, take all of Amelia’s pain, double it and give it to Teddy and Owen!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-09T06:22:16Z",
+          "reviewDate": "2026-05-09T06:25:00Z",
+          "seasonId": 465873,
+          "episodeNumber": 18,
+          "episodeName": "Bridge over Troubled Water",
+          "tags": []
+        },
+        {
+          "id": 64765116,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "And if they kill him off, I will dance. What of it?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-06T00:29:08Z",
+          "reviewDate": "2026-05-06T00:29:26Z",
+          "seasonId": 465873,
+          "episodeNumber": 17,
+          "episodeName": "Through the Fire",
+          "tags": []
+        },
+        {
+          "id": 61306792,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I just want my people to know general peace for a second.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-05T23:37:39Z",
+          "reviewDate": "2026-04-05T23:38:07Z",
+          "seasonId": 465873,
+          "episodeNumber": 16,
+          "episodeName": "Feel It Still",
+          "tags": []
+        },
+        {
+          "id": 61175990,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Niggas be bitches, too.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-05T04:23:33Z",
+          "reviewDate": "2026-04-05T04:23:51Z",
+          "seasonId": 465873,
+          "episodeNumber": 15,
+          "episodeName": "Take Me to the River",
+          "tags": []
+        },
+        {
+          "id": 59530288,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "This episode was written just to piss me off?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-21T05:21:04Z",
+          "reviewDate": "2026-03-21T05:21:20Z",
+          "seasonId": 465873,
+          "episodeNumber": 14,
+          "episodeName": "Wrecking Ball",
+          "tags": []
+        },
+        {
+          "id": 59394568,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Mohanti must die.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-19T21:58:39Z",
+          "reviewDate": "2026-03-19T21:58:56Z",
+          "seasonId": 465873,
+          "episodeNumber": 13,
+          "episodeName": "Love the Way You Lie",
+          "tags": []
+        },
+        {
+          "id": 58342966,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Everyone is pissing me off — bad!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-08T23:20:37Z",
+          "reviewDate": "2026-03-08T23:21:06Z",
+          "seasonId": 465873,
+          "episodeNumber": 12,
+          "episodeName": "Get Lucky",
+          "tags": []
+        },
+        {
+          "id": 58043822,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Here they go, starting mess with Amelia again.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-02T23:33:00Z",
+          "reviewDate": "2026-03-05T23:33:25Z",
+          "seasonId": 465873,
+          "episodeNumber": 11,
+          "episodeName": "(If You Want It) Do It Yourself",
+          "tags": []
+        },
+        {
+          "id": 54613879,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Addison and Amelia in the same OR — I used to pray for times like this!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-02-01T05:20:08Z",
+          "reviewDate": "2026-02-01T05:20:32Z",
+          "seasonId": 465873,
+          "episodeNumber": 10,
+          "episodeName": "Strip That Down",
+          "tags": []
+        },
+        {
+          "id": 54024691,
+          "level": "episode",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "I miss Caterina Scorsone…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-27T06:36:29Z",
+          "reviewDate": "2026-01-27T06:36:29Z",
+          "seasonId": 465873,
+          "episodeNumber": 9,
+          "episodeName": "Fortunate Son",
+          "tags": []
+        },
+        {
+          "id": 52891537,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Millin, stand up!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-16T20:22:00Z",
+          "reviewDate": "2026-01-17T20:22:58Z",
+          "seasonId": 465873,
+          "episodeNumber": 8,
+          "episodeName": "Heavy on Me",
+          "tags": []
+        },
+        {
+          "id": 52143565,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-11T05:48:43Z",
+          "reviewDate": "2026-01-11T05:48:46Z",
+          "seasonId": 465873,
+          "episodeNumber": 7,
+          "episodeName": "Skyfall",
+          "tags": []
+        },
+        {
+          "id": 35855123,
+          "level": "season",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Like, I guess. I just don’t give a fuck about Teddy and Owen is my problem.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-05-19T20:09:00Z",
+          "reviewDate": "2025-06-19T20:09:26Z",
+          "seasonId": 401696,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 16347094,
+          "level": "season",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "They really threw this season away. I know they’re trialing less Meredith, but even in her absence she is the only thing I’m interested in. Seated for the downfall of Catherine Fox, though!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-05-30T20:42:00Z",
+          "reviewDate": "2024-06-01T20:43:38Z",
+          "seasonId": 366034,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2,
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2024,
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        20,
+        21,
+        22
+      ],
+      "inProgressSeasonNumbers": [
+        23
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-23T16:25:23Z",
+      "primaryRating": 2.5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-260458",
+      "serializdShowId": 260458,
+      "slug": "adults-2025",
+      "name": "Adults",
+      "premiereYear": 2025,
+      "premiereDate": "2025-05-28",
+      "serializdUrl": "https://serializd.com/show/260458",
+      "tmdb": {
+        "id": 260458,
+        "name": "Adults",
+        "posterPath": "/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
+        "backdropPath": "/plx2cifejzcbGPYDtpsYS2mpajB.jpg",
+        "genres": [
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "FX",
+          "FXX"
+        ],
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 17
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
+      "seasons": [
+        {
+          "serializdId": 404551,
+          "showId": 260458,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/lypznNe82xNRw6O9580JvpnUkN6.jpg",
+          "episodeCount": 9
+        },
+        {
+          "serializdId": 482504,
+          "showId": 260458,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/wuNXP2LATRZjbpxtAfp5Aj85mcD.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94337962,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-23T12:00:00Z",
+          "reviewDate": "2026-10-23T16:25:05Z",
+          "seasonId": 482504,
+          "episodeNumber": 5,
+          "episodeName": "Room Swap",
+          "tags": []
+        },
+        {
+          "id": 94268417,
+          "level": "episode",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "My personal worst nightmare. Anton’s lowkey pull needs to be studied. Bonus points for the 24 nod.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-22T12:00:00Z",
+          "reviewDate": "2026-10-23T02:23:49Z",
+          "seasonId": 482504,
+          "episodeNumber": 4,
+          "episodeName": "Raccoon",
+          "tags": []
+        },
+        {
+          "id": 94264740,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-22T12:00:00Z",
+          "reviewDate": "2026-10-23T01:40:14Z",
+          "seasonId": 482504,
+          "episodeNumber": 3,
+          "episodeName": "Talia",
+          "tags": []
+        },
+        {
+          "id": 94264729,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Isaac Cole Powell needs to be in at least 5 more episodes.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-22T12:00:00Z",
+          "reviewDate": "2026-10-23T01:40:08Z",
+          "seasonId": 482504,
+          "episodeNumber": 2,
+          "episodeName": "Fake ID",
+          "tags": []
+        },
+        {
+          "id": 94264676,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-22T12:00:00Z",
+          "reviewDate": "2026-10-23T01:39:40Z",
+          "seasonId": 482504,
+          "episodeNumber": 1,
+          "episodeName": "The Scrub",
+          "tags": []
+        },
+        {
+          "id": 94264618,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Came here for Jack Innanen and wasn’t disappointed. This is reminiscent of Broad City, meaning there are many unremarkable elements because I am not the audience. Like why would he flash his interview panel…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-06-16T12:00:00Z",
+          "reviewDate": "2026-10-23T01:39:02Z",
+          "seasonId": 404551,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        5
+      ],
+      "watchedYearSet": [
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [
+        2
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-23T16:25:05Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-284838",
       "serializdShowId": 284838,
@@ -1108,155 +1814,6 @@
       "liked": false
     },
     {
-      "id": "tmdb-tv-260458",
-      "serializdShowId": 260458,
-      "slug": "adults-2025",
-      "name": "Adults",
-      "premiereYear": 2025,
-      "premiereDate": "2025-05-28",
-      "serializdUrl": "https://serializd.com/show/260458",
-      "tmdb": {
-        "id": 260458,
-        "name": "Adults",
-        "posterPath": "/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
-        "backdropPath": "/plx2cifejzcbGPYDtpsYS2mpajB.jpg",
-        "genres": [
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "FX",
-          "FXX"
-        ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 17
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
-      "seasons": [
-        {
-          "serializdId": 404551,
-          "showId": 260458,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/lypznNe82xNRw6O9580JvpnUkN6.jpg",
-          "episodeCount": 9
-        },
-        {
-          "serializdId": 482504,
-          "showId": 260458,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/wuNXP2LATRZjbpxtAfp5Aj85mcD.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 94268417,
-          "level": "episode",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "My personal worst nightmare. Anton’s lowkey pull needs to be studied. Bonus points for the 24 nod.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-22T12:00:00Z",
-          "reviewDate": "2026-10-23T02:23:49Z",
-          "seasonId": 482504,
-          "episodeNumber": 4,
-          "episodeName": "Raccoon",
-          "tags": []
-        },
-        {
-          "id": 94264740,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-22T12:00:00Z",
-          "reviewDate": "2026-10-23T01:40:14Z",
-          "seasonId": 482504,
-          "episodeNumber": 3,
-          "episodeName": "Talia",
-          "tags": []
-        },
-        {
-          "id": 94264729,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Isaac Cole Powell needs to be in at least 5 more episodes.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-22T12:00:00Z",
-          "reviewDate": "2026-10-23T01:40:08Z",
-          "seasonId": 482504,
-          "episodeNumber": 2,
-          "episodeName": "Fake ID",
-          "tags": []
-        },
-        {
-          "id": 94264676,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-22T12:00:00Z",
-          "reviewDate": "2026-10-23T01:39:40Z",
-          "seasonId": 482504,
-          "episodeNumber": 1,
-          "episodeName": "The Scrub",
-          "tags": []
-        },
-        {
-          "id": 94264618,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Came here for Jack Innanen and wasn’t disappointed. This is reminiscent of Broad City, meaning there are many unremarkable elements because I am not the audience. Like why would he flash his interview panel…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-06-16T12:00:00Z",
-          "reviewDate": "2026-10-23T01:39:02Z",
-          "seasonId": 404551,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4,
-        5
-      ],
-      "watchedYearSet": [
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [
-        2
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-23T02:23:49Z",
-      "primaryRating": 5,
-      "liked": false
-    },
-    {
       "id": "tmdb-tv-125935",
       "serializdShowId": 125935,
       "slug": "abbott-elementary-2021",
@@ -1933,7 +2490,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 173
+          "episodeCount": 174
         }
       ],
       "reviews": [
@@ -9304,530 +9861,6 @@
       "hasShowReview": false,
       "isMiniseries": false,
       "latestActivityDate": "2026-10-17T20:44:05Z",
-      "primaryRating": 3.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-1416",
-      "serializdShowId": 1416,
-      "slug": "greys-anatomy-2005",
-      "name": "Grey's Anatomy",
-      "premiereYear": 2005,
-      "premiereDate": "2005-03-27",
-      "serializdUrl": "https://serializd.com/show/1416",
-      "tmdb": {
-        "id": 1416,
-        "name": "Grey's Anatomy",
-        "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
-        "backdropPath": "/A4NwkQXTXElE5iAsne5RpvS8R2Z.jpg",
-        "genres": [
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "ABC"
-        ],
-        "numberOfSeasons": 23,
-        "numberOfEpisodes": 466
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
-      "seasons": [
-        {
-          "serializdId": 3722,
-          "showId": 1416,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/snQYndfsEr3Sto2jOmkmsQuUXAQ.jpg",
-          "episodeCount": 68
-        },
-        {
-          "serializdId": 3718,
-          "showId": 1416,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/ulGju8GyXE36wCgmvyFJL3sLiVm.jpg",
-          "episodeCount": 9
-        },
-        {
-          "serializdId": 3719,
-          "showId": 1416,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/bO0S3fU8Tcqn0g5DCmDcX1oqA2t.jpg",
-          "episodeCount": 27
-        },
-        {
-          "serializdId": 3715,
-          "showId": 1416,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/aY7NuvFj5Uzliy0nrFxVWmlZFiK.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 3716,
-          "showId": 1416,
-          "seasonNumber": 4,
-          "name": "Season 4",
-          "posterPath": "/gDQR39nMdjAvGyWe4lOPCj4iMQx.jpg",
-          "episodeCount": 16
-        },
-        {
-          "serializdId": 3717,
-          "showId": 1416,
-          "seasonNumber": 5,
-          "name": "Season 5",
-          "posterPath": "/bnOS0AKjbfPY1xVqF80qk0iBQBX.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 3720,
-          "showId": 1416,
-          "seasonNumber": 6,
-          "name": "Season 6",
-          "posterPath": "/8oclDsuHPZIVXh311u5SHlTNQzA.jpg",
-          "episodeCount": 22
-        },
-        {
-          "serializdId": 3721,
-          "showId": 1416,
-          "seasonNumber": 7,
-          "name": "Season 7",
-          "posterPath": "/wmGUedMQJkmSZFYJA35AKPrHsGJ.jpg",
-          "episodeCount": 22
-        },
-        {
-          "serializdId": 3723,
-          "showId": 1416,
-          "seasonNumber": 8,
-          "name": "Season 8",
-          "posterPath": "/pvuMQwMPWDqunRiajmeGQmUF0zS.jpg",
-          "episodeCount": 23
-        },
-        {
-          "serializdId": 3724,
-          "showId": 1416,
-          "seasonNumber": 9,
-          "name": "Season 9",
-          "posterPath": "/gLP8aeWDfoOIqp1EFEMLSoHlIHW.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 3725,
-          "showId": 1416,
-          "seasonNumber": 10,
-          "name": "Season 10",
-          "posterPath": "/h0z0USK1KerDJu02c218zFMIa52.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 62051,
-          "showId": 1416,
-          "seasonNumber": 11,
-          "name": "Season 11",
-          "posterPath": "/AvMxKxyj6zIG5fR0fg7D6bWH4AY.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 70494,
-          "showId": 1416,
-          "seasonNumber": 12,
-          "name": "Season 12",
-          "posterPath": "/b8pkzoNM5X0XSwppEA7jTID5Dcm.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 79174,
-          "showId": 1416,
-          "seasonNumber": 13,
-          "name": "Season 13",
-          "posterPath": "/i4gNHaY1MzP50zcjgw3ew2hKCCW.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 92088,
-          "showId": 1416,
-          "seasonNumber": 14,
-          "name": "Season 14",
-          "posterPath": "/2eSQFbeZZ7lCru40Q0UYGJ20itx.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 108798,
-          "showId": 1416,
-          "seasonNumber": 15,
-          "name": "Season 15",
-          "posterPath": "/eqgIOObafPJitt8JNh1LuO2fvqu.jpg",
-          "episodeCount": 25
-        },
-        {
-          "serializdId": 129348,
-          "showId": 1416,
-          "seasonNumber": 16,
-          "name": "Season 16",
-          "posterPath": "/obzo1GdJUQ0OPnW9T9SNOCBxhD.jpg",
-          "episodeCount": 21
-        },
-        {
-          "serializdId": 163320,
-          "showId": 1416,
-          "seasonNumber": 17,
-          "name": "Season 17",
-          "posterPath": "/clnyhPqj1SNgpAdeSS6a6fwE6Bo.jpg",
-          "episodeCount": 17
-        },
-        {
-          "serializdId": 202440,
-          "showId": 1416,
-          "seasonNumber": 18,
-          "name": "Season 18",
-          "posterPath": "/zPIug5giU8oug6Xes5K1sTfQJxY.jpg",
-          "episodeCount": 20
-        },
-        {
-          "serializdId": 297653,
-          "showId": 1416,
-          "seasonNumber": 19,
-          "name": "Season 19",
-          "posterPath": "/daSFbrt8QCXV2hSwB0hqYjbj681.jpg",
-          "episodeCount": 20
-        },
-        {
-          "serializdId": 366034,
-          "showId": 1416,
-          "seasonNumber": 20,
-          "name": "Season 20",
-          "posterPath": "/jcEl8SISNfGdlQFwLzeEtsjDvpw.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 401696,
-          "showId": 1416,
-          "seasonNumber": 21,
-          "name": "Season 21",
-          "posterPath": "/7jEVqXC14bhfAzSPgr896dMdDv6.jpg",
-          "episodeCount": 18
-        },
-        {
-          "serializdId": 465873,
-          "showId": 1416,
-          "seasonNumber": 22,
-          "name": "Season 22",
-          "posterPath": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
-          "episodeCount": 18
-        },
-        {
-          "serializdId": 532939,
-          "showId": 1416,
-          "seasonNumber": 23,
-          "name": "Season 23",
-          "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 93192789,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "It’s really giving beginning of the end…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-16T06:02:26Z",
-          "seasonId": 532939,
-          "episodeNumber": 1,
-          "episodeName": "Collide",
-          "tags": []
-        },
-        {
-          "id": 65093180,
-          "level": "season",
-          "rating": 2,
-          "liked": false,
-          "reviewText": "It’s like I’m still watching, but to what end? This show is a shadow of its former self. Even at its most melodramatic, it at least gave enjoyable camp. Whatever has been happening lately has reached its zenith in this season. Everything felt hollow and phoned in, in a way that I am just not familiar with on this show.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-09T06:25:12Z",
-          "reviewDate": "2026-05-09T06:27:01Z",
-          "seasonId": 465873,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 65093104,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Oh my god, take all of Amelia’s pain, double it and give it to Teddy and Owen!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-09T06:22:16Z",
-          "reviewDate": "2026-05-09T06:25:00Z",
-          "seasonId": 465873,
-          "episodeNumber": 18,
-          "episodeName": "Bridge over Troubled Water",
-          "tags": []
-        },
-        {
-          "id": 64765116,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "And if they kill him off, I will dance. What of it?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-06T00:29:08Z",
-          "reviewDate": "2026-05-06T00:29:26Z",
-          "seasonId": 465873,
-          "episodeNumber": 17,
-          "episodeName": "Through the Fire",
-          "tags": []
-        },
-        {
-          "id": 61306792,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I just want my people to know general peace for a second.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-05T23:37:39Z",
-          "reviewDate": "2026-04-05T23:38:07Z",
-          "seasonId": 465873,
-          "episodeNumber": 16,
-          "episodeName": "Feel It Still",
-          "tags": []
-        },
-        {
-          "id": 61175990,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "Niggas be bitches, too.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-05T04:23:33Z",
-          "reviewDate": "2026-04-05T04:23:51Z",
-          "seasonId": 465873,
-          "episodeNumber": 15,
-          "episodeName": "Take Me to the River",
-          "tags": []
-        },
-        {
-          "id": 59530288,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "This episode was written just to piss me off?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-21T05:21:04Z",
-          "reviewDate": "2026-03-21T05:21:20Z",
-          "seasonId": 465873,
-          "episodeNumber": 14,
-          "episodeName": "Wrecking Ball",
-          "tags": []
-        },
-        {
-          "id": 59394568,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Mohanti must die.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-19T21:58:39Z",
-          "reviewDate": "2026-03-19T21:58:56Z",
-          "seasonId": 465873,
-          "episodeNumber": 13,
-          "episodeName": "Love the Way You Lie",
-          "tags": []
-        },
-        {
-          "id": 58342966,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Everyone is pissing me off — bad!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-08T23:20:37Z",
-          "reviewDate": "2026-03-08T23:21:06Z",
-          "seasonId": 465873,
-          "episodeNumber": 12,
-          "episodeName": "Get Lucky",
-          "tags": []
-        },
-        {
-          "id": 58043822,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "Here they go, starting mess with Amelia again.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-02T23:33:00Z",
-          "reviewDate": "2026-03-05T23:33:25Z",
-          "seasonId": 465873,
-          "episodeNumber": 11,
-          "episodeName": "(If You Want It) Do It Yourself",
-          "tags": []
-        },
-        {
-          "id": 54613879,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Addison and Amelia in the same OR — I used to pray for times like this!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-02-01T05:20:08Z",
-          "reviewDate": "2026-02-01T05:20:32Z",
-          "seasonId": 465873,
-          "episodeNumber": 10,
-          "episodeName": "Strip That Down",
-          "tags": []
-        },
-        {
-          "id": 54024691,
-          "level": "episode",
-          "rating": 2,
-          "liked": false,
-          "reviewText": "I miss Caterina Scorsone…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-27T06:36:29Z",
-          "reviewDate": "2026-01-27T06:36:29Z",
-          "seasonId": 465873,
-          "episodeNumber": 9,
-          "episodeName": "Fortunate Son",
-          "tags": []
-        },
-        {
-          "id": 52891537,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Millin, stand up!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-16T20:22:00Z",
-          "reviewDate": "2026-01-17T20:22:58Z",
-          "seasonId": 465873,
-          "episodeNumber": 8,
-          "episodeName": "Heavy on Me",
-          "tags": []
-        },
-        {
-          "id": 52143565,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-11T05:48:43Z",
-          "reviewDate": "2026-01-11T05:48:46Z",
-          "seasonId": 465873,
-          "episodeNumber": 7,
-          "episodeName": "Skyfall",
-          "tags": []
-        },
-        {
-          "id": 35855123,
-          "level": "season",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "Like, I guess. I just don’t give a fuck about Teddy and Owen is my problem.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-05-19T20:09:00Z",
-          "reviewDate": "2025-06-19T20:09:26Z",
-          "seasonId": 401696,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 16347094,
-          "level": "season",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "They really threw this season away. I know they’re trialing less Meredith, but even in her absence she is the only thing I’m interested in. Seated for the downfall of Catherine Fox, though!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-05-30T20:42:00Z",
-          "reviewDate": "2024-06-01T20:43:38Z",
-          "seasonId": 366034,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2,
-        2.5,
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2024,
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        20,
-        21,
-        22
-      ],
-      "inProgressSeasonNumbers": [
-        23
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-16T06:02:26Z",
       "primaryRating": 3.5,
       "liked": false
     },
@@ -36592,6 +36625,712 @@
     }
   ],
   "showById": {
+    "tmdb-tv-1416": {
+      "id": "tmdb-tv-1416",
+      "serializdShowId": 1416,
+      "slug": "greys-anatomy-2005",
+      "name": "Grey's Anatomy",
+      "premiereYear": 2005,
+      "premiereDate": "2005-03-27",
+      "serializdUrl": "https://serializd.com/show/1416",
+      "tmdb": {
+        "id": 1416,
+        "name": "Grey's Anatomy",
+        "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
+        "backdropPath": "/A4NwkQXTXElE5iAsne5RpvS8R2Z.jpg",
+        "genres": [
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "ABC"
+        ],
+        "numberOfSeasons": 23,
+        "numberOfEpisodes": 466
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
+      "seasons": [
+        {
+          "serializdId": 3722,
+          "showId": 1416,
+          "seasonNumber": 0,
+          "name": "Specials",
+          "posterPath": "/snQYndfsEr3Sto2jOmkmsQuUXAQ.jpg",
+          "episodeCount": 68
+        },
+        {
+          "serializdId": 3718,
+          "showId": 1416,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/ulGju8GyXE36wCgmvyFJL3sLiVm.jpg",
+          "episodeCount": 9
+        },
+        {
+          "serializdId": 3719,
+          "showId": 1416,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/bO0S3fU8Tcqn0g5DCmDcX1oqA2t.jpg",
+          "episodeCount": 27
+        },
+        {
+          "serializdId": 3715,
+          "showId": 1416,
+          "seasonNumber": 3,
+          "name": "Season 3",
+          "posterPath": "/aY7NuvFj5Uzliy0nrFxVWmlZFiK.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 3716,
+          "showId": 1416,
+          "seasonNumber": 4,
+          "name": "Season 4",
+          "posterPath": "/gDQR39nMdjAvGyWe4lOPCj4iMQx.jpg",
+          "episodeCount": 16
+        },
+        {
+          "serializdId": 3717,
+          "showId": 1416,
+          "seasonNumber": 5,
+          "name": "Season 5",
+          "posterPath": "/bnOS0AKjbfPY1xVqF80qk0iBQBX.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 3720,
+          "showId": 1416,
+          "seasonNumber": 6,
+          "name": "Season 6",
+          "posterPath": "/8oclDsuHPZIVXh311u5SHlTNQzA.jpg",
+          "episodeCount": 22
+        },
+        {
+          "serializdId": 3721,
+          "showId": 1416,
+          "seasonNumber": 7,
+          "name": "Season 7",
+          "posterPath": "/wmGUedMQJkmSZFYJA35AKPrHsGJ.jpg",
+          "episodeCount": 22
+        },
+        {
+          "serializdId": 3723,
+          "showId": 1416,
+          "seasonNumber": 8,
+          "name": "Season 8",
+          "posterPath": "/pvuMQwMPWDqunRiajmeGQmUF0zS.jpg",
+          "episodeCount": 23
+        },
+        {
+          "serializdId": 3724,
+          "showId": 1416,
+          "seasonNumber": 9,
+          "name": "Season 9",
+          "posterPath": "/gLP8aeWDfoOIqp1EFEMLSoHlIHW.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 3725,
+          "showId": 1416,
+          "seasonNumber": 10,
+          "name": "Season 10",
+          "posterPath": "/h0z0USK1KerDJu02c218zFMIa52.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 62051,
+          "showId": 1416,
+          "seasonNumber": 11,
+          "name": "Season 11",
+          "posterPath": "/AvMxKxyj6zIG5fR0fg7D6bWH4AY.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 70494,
+          "showId": 1416,
+          "seasonNumber": 12,
+          "name": "Season 12",
+          "posterPath": "/b8pkzoNM5X0XSwppEA7jTID5Dcm.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 79174,
+          "showId": 1416,
+          "seasonNumber": 13,
+          "name": "Season 13",
+          "posterPath": "/i4gNHaY1MzP50zcjgw3ew2hKCCW.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 92088,
+          "showId": 1416,
+          "seasonNumber": 14,
+          "name": "Season 14",
+          "posterPath": "/2eSQFbeZZ7lCru40Q0UYGJ20itx.jpg",
+          "episodeCount": 24
+        },
+        {
+          "serializdId": 108798,
+          "showId": 1416,
+          "seasonNumber": 15,
+          "name": "Season 15",
+          "posterPath": "/eqgIOObafPJitt8JNh1LuO2fvqu.jpg",
+          "episodeCount": 25
+        },
+        {
+          "serializdId": 129348,
+          "showId": 1416,
+          "seasonNumber": 16,
+          "name": "Season 16",
+          "posterPath": "/obzo1GdJUQ0OPnW9T9SNOCBxhD.jpg",
+          "episodeCount": 21
+        },
+        {
+          "serializdId": 163320,
+          "showId": 1416,
+          "seasonNumber": 17,
+          "name": "Season 17",
+          "posterPath": "/clnyhPqj1SNgpAdeSS6a6fwE6Bo.jpg",
+          "episodeCount": 17
+        },
+        {
+          "serializdId": 202440,
+          "showId": 1416,
+          "seasonNumber": 18,
+          "name": "Season 18",
+          "posterPath": "/zPIug5giU8oug6Xes5K1sTfQJxY.jpg",
+          "episodeCount": 20
+        },
+        {
+          "serializdId": 297653,
+          "showId": 1416,
+          "seasonNumber": 19,
+          "name": "Season 19",
+          "posterPath": "/daSFbrt8QCXV2hSwB0hqYjbj681.jpg",
+          "episodeCount": 20
+        },
+        {
+          "serializdId": 366034,
+          "showId": 1416,
+          "seasonNumber": 20,
+          "name": "Season 20",
+          "posterPath": "/jcEl8SISNfGdlQFwLzeEtsjDvpw.jpg",
+          "episodeCount": 10
+        },
+        {
+          "serializdId": 401696,
+          "showId": 1416,
+          "seasonNumber": 21,
+          "name": "Season 21",
+          "posterPath": "/7jEVqXC14bhfAzSPgr896dMdDv6.jpg",
+          "episodeCount": 18
+        },
+        {
+          "serializdId": 465873,
+          "showId": 1416,
+          "seasonNumber": 22,
+          "name": "Season 22",
+          "posterPath": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
+          "episodeCount": 18
+        },
+        {
+          "serializdId": 532939,
+          "showId": 1416,
+          "seasonNumber": 23,
+          "name": "Season 23",
+          "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94337997,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-22T12:00:00Z",
+          "reviewDate": "2026-10-23T16:25:23Z",
+          "seasonId": 532939,
+          "episodeNumber": 2,
+          "episodeName": "Slippin' and Slidin'",
+          "tags": []
+        },
+        {
+          "id": 93192789,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "It’s really giving beginning of the end…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-15T12:00:00Z",
+          "reviewDate": "2026-10-16T06:02:26Z",
+          "seasonId": 532939,
+          "episodeNumber": 1,
+          "episodeName": "Collide",
+          "tags": []
+        },
+        {
+          "id": 65093180,
+          "level": "season",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "It’s like I’m still watching, but to what end? This show is a shadow of its former self. Even at its most melodramatic, it at least gave enjoyable camp. Whatever has been happening lately has reached its zenith in this season. Everything felt hollow and phoned in, in a way that I am just not familiar with on this show.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-09T06:25:12Z",
+          "reviewDate": "2026-05-09T06:27:01Z",
+          "seasonId": 465873,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 65093104,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Oh my god, take all of Amelia’s pain, double it and give it to Teddy and Owen!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-09T06:22:16Z",
+          "reviewDate": "2026-05-09T06:25:00Z",
+          "seasonId": 465873,
+          "episodeNumber": 18,
+          "episodeName": "Bridge over Troubled Water",
+          "tags": []
+        },
+        {
+          "id": 64765116,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "And if they kill him off, I will dance. What of it?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-05-06T00:29:08Z",
+          "reviewDate": "2026-05-06T00:29:26Z",
+          "seasonId": 465873,
+          "episodeNumber": 17,
+          "episodeName": "Through the Fire",
+          "tags": []
+        },
+        {
+          "id": 61306792,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I just want my people to know general peace for a second.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-05T23:37:39Z",
+          "reviewDate": "2026-04-05T23:38:07Z",
+          "seasonId": 465873,
+          "episodeNumber": 16,
+          "episodeName": "Feel It Still",
+          "tags": []
+        },
+        {
+          "id": 61175990,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Niggas be bitches, too.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-05T04:23:33Z",
+          "reviewDate": "2026-04-05T04:23:51Z",
+          "seasonId": 465873,
+          "episodeNumber": 15,
+          "episodeName": "Take Me to the River",
+          "tags": []
+        },
+        {
+          "id": 59530288,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "This episode was written just to piss me off?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-21T05:21:04Z",
+          "reviewDate": "2026-03-21T05:21:20Z",
+          "seasonId": 465873,
+          "episodeNumber": 14,
+          "episodeName": "Wrecking Ball",
+          "tags": []
+        },
+        {
+          "id": 59394568,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Mohanti must die.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-19T21:58:39Z",
+          "reviewDate": "2026-03-19T21:58:56Z",
+          "seasonId": 465873,
+          "episodeNumber": 13,
+          "episodeName": "Love the Way You Lie",
+          "tags": []
+        },
+        {
+          "id": 58342966,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Everyone is pissing me off — bad!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-08T23:20:37Z",
+          "reviewDate": "2026-03-08T23:21:06Z",
+          "seasonId": 465873,
+          "episodeNumber": 12,
+          "episodeName": "Get Lucky",
+          "tags": []
+        },
+        {
+          "id": 58043822,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Here they go, starting mess with Amelia again.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-03-02T23:33:00Z",
+          "reviewDate": "2026-03-05T23:33:25Z",
+          "seasonId": 465873,
+          "episodeNumber": 11,
+          "episodeName": "(If You Want It) Do It Yourself",
+          "tags": []
+        },
+        {
+          "id": 54613879,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Addison and Amelia in the same OR — I used to pray for times like this!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-02-01T05:20:08Z",
+          "reviewDate": "2026-02-01T05:20:32Z",
+          "seasonId": 465873,
+          "episodeNumber": 10,
+          "episodeName": "Strip That Down",
+          "tags": []
+        },
+        {
+          "id": 54024691,
+          "level": "episode",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "I miss Caterina Scorsone…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-27T06:36:29Z",
+          "reviewDate": "2026-01-27T06:36:29Z",
+          "seasonId": 465873,
+          "episodeNumber": 9,
+          "episodeName": "Fortunate Son",
+          "tags": []
+        },
+        {
+          "id": 52891537,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Millin, stand up!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-16T20:22:00Z",
+          "reviewDate": "2026-01-17T20:22:58Z",
+          "seasonId": 465873,
+          "episodeNumber": 8,
+          "episodeName": "Heavy on Me",
+          "tags": []
+        },
+        {
+          "id": 52143565,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-01-11T05:48:43Z",
+          "reviewDate": "2026-01-11T05:48:46Z",
+          "seasonId": 465873,
+          "episodeNumber": 7,
+          "episodeName": "Skyfall",
+          "tags": []
+        },
+        {
+          "id": 35855123,
+          "level": "season",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "Like, I guess. I just don’t give a fuck about Teddy and Owen is my problem.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-05-19T20:09:00Z",
+          "reviewDate": "2025-06-19T20:09:26Z",
+          "seasonId": 401696,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 16347094,
+          "level": "season",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "They really threw this season away. I know they’re trialing less Meredith, but even in her absence she is the only thing I’m interested in. Seated for the downfall of Catherine Fox, though!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2024-05-30T20:42:00Z",
+          "reviewDate": "2024-06-01T20:43:38Z",
+          "seasonId": 366034,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2,
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2024,
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        20,
+        21,
+        22
+      ],
+      "inProgressSeasonNumbers": [
+        23
+      ],
+      "watchedUnreviewedSeasonNumbers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-23T16:25:23Z",
+      "primaryRating": 2.5,
+      "liked": false
+    },
+    "tmdb-tv-260458": {
+      "id": "tmdb-tv-260458",
+      "serializdShowId": 260458,
+      "slug": "adults-2025",
+      "name": "Adults",
+      "premiereYear": 2025,
+      "premiereDate": "2025-05-28",
+      "serializdUrl": "https://serializd.com/show/260458",
+      "tmdb": {
+        "id": 260458,
+        "name": "Adults",
+        "posterPath": "/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
+        "backdropPath": "/plx2cifejzcbGPYDtpsYS2mpajB.jpg",
+        "genres": [
+          "Comedy"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "FX",
+          "FXX"
+        ],
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 17
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
+      "seasons": [
+        {
+          "serializdId": 404551,
+          "showId": 260458,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/lypznNe82xNRw6O9580JvpnUkN6.jpg",
+          "episodeCount": 9
+        },
+        {
+          "serializdId": 482504,
+          "showId": 260458,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/wuNXP2LATRZjbpxtAfp5Aj85mcD.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94337962,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-23T12:00:00Z",
+          "reviewDate": "2026-10-23T16:25:05Z",
+          "seasonId": 482504,
+          "episodeNumber": 5,
+          "episodeName": "Room Swap",
+          "tags": []
+        },
+        {
+          "id": 94268417,
+          "level": "episode",
+          "rating": 5,
+          "liked": false,
+          "reviewText": "My personal worst nightmare. Anton’s lowkey pull needs to be studied. Bonus points for the 24 nod.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-22T12:00:00Z",
+          "reviewDate": "2026-10-23T02:23:49Z",
+          "seasonId": 482504,
+          "episodeNumber": 4,
+          "episodeName": "Raccoon",
+          "tags": []
+        },
+        {
+          "id": 94264740,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-22T12:00:00Z",
+          "reviewDate": "2026-10-23T01:40:14Z",
+          "seasonId": 482504,
+          "episodeNumber": 3,
+          "episodeName": "Talia",
+          "tags": []
+        },
+        {
+          "id": 94264729,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Isaac Cole Powell needs to be in at least 5 more episodes.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-22T12:00:00Z",
+          "reviewDate": "2026-10-23T01:40:08Z",
+          "seasonId": 482504,
+          "episodeNumber": 2,
+          "episodeName": "Fake ID",
+          "tags": []
+        },
+        {
+          "id": 94264676,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-22T12:00:00Z",
+          "reviewDate": "2026-10-23T01:39:40Z",
+          "seasonId": 482504,
+          "episodeNumber": 1,
+          "episodeName": "The Scrub",
+          "tags": []
+        },
+        {
+          "id": 94264618,
+          "level": "season",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Came here for Jack Innanen and wasn’t disappointed. This is reminiscent of Broad City, meaning there are many unremarkable elements because I am not the audience. Like why would he flash his interview panel…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2025-06-16T12:00:00Z",
+          "reviewDate": "2026-10-23T01:39:02Z",
+          "seasonId": 404551,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        5
+      ],
+      "watchedYearSet": [
+        2025,
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [
+        2
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-23T16:25:05Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     "tmdb-tv-284838": {
       "id": "tmdb-tv-284838",
       "serializdShowId": 284838,
@@ -37620,155 +38359,6 @@
       "primaryRating": 4.5,
       "liked": false
     },
-    "tmdb-tv-260458": {
-      "id": "tmdb-tv-260458",
-      "serializdShowId": 260458,
-      "slug": "adults-2025",
-      "name": "Adults",
-      "premiereYear": 2025,
-      "premiereDate": "2025-05-28",
-      "serializdUrl": "https://serializd.com/show/260458",
-      "tmdb": {
-        "id": 260458,
-        "name": "Adults",
-        "posterPath": "/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
-        "backdropPath": "/plx2cifejzcbGPYDtpsYS2mpajB.jpg",
-        "genres": [
-          "Comedy"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "FX",
-          "FXX"
-        ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 17
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/h8GrwttOjjQEoQJ72W9ugkyIVaB.jpg",
-      "seasons": [
-        {
-          "serializdId": 404551,
-          "showId": 260458,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/lypznNe82xNRw6O9580JvpnUkN6.jpg",
-          "episodeCount": 9
-        },
-        {
-          "serializdId": 482504,
-          "showId": 260458,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/wuNXP2LATRZjbpxtAfp5Aj85mcD.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 94268417,
-          "level": "episode",
-          "rating": 5,
-          "liked": false,
-          "reviewText": "My personal worst nightmare. Anton’s lowkey pull needs to be studied. Bonus points for the 24 nod.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-22T12:00:00Z",
-          "reviewDate": "2026-10-23T02:23:49Z",
-          "seasonId": 482504,
-          "episodeNumber": 4,
-          "episodeName": "Raccoon",
-          "tags": []
-        },
-        {
-          "id": 94264740,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-22T12:00:00Z",
-          "reviewDate": "2026-10-23T01:40:14Z",
-          "seasonId": 482504,
-          "episodeNumber": 3,
-          "episodeName": "Talia",
-          "tags": []
-        },
-        {
-          "id": 94264729,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Isaac Cole Powell needs to be in at least 5 more episodes.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-22T12:00:00Z",
-          "reviewDate": "2026-10-23T01:40:08Z",
-          "seasonId": 482504,
-          "episodeNumber": 2,
-          "episodeName": "Fake ID",
-          "tags": []
-        },
-        {
-          "id": 94264676,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-22T12:00:00Z",
-          "reviewDate": "2026-10-23T01:39:40Z",
-          "seasonId": 482504,
-          "episodeNumber": 1,
-          "episodeName": "The Scrub",
-          "tags": []
-        },
-        {
-          "id": 94264618,
-          "level": "season",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Came here for Jack Innanen and wasn’t disappointed. This is reminiscent of Broad City, meaning there are many unremarkable elements because I am not the audience. Like why would he flash his interview panel…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-06-16T12:00:00Z",
-          "reviewDate": "2026-10-23T01:39:02Z",
-          "seasonId": 404551,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3.5,
-        4,
-        5
-      ],
-      "watchedYearSet": [
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [
-        2
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-23T02:23:49Z",
-      "primaryRating": 5,
-      "liked": false
-    },
     "tmdb-tv-125935": {
       "id": "tmdb-tv-125935",
       "serializdShowId": 125935,
@@ -38446,7 +39036,7 @@
           "seasonNumber": 23,
           "name": "Season 23",
           "posterPath": "/wG4e3leA8pSx745WxvlZD432gZ2.jpg",
-          "episodeCount": 173
+          "episodeCount": 174
         }
       ],
       "reviews": [
@@ -45817,530 +46407,6 @@
       "hasShowReview": false,
       "isMiniseries": false,
       "latestActivityDate": "2026-10-17T20:44:05Z",
-      "primaryRating": 3.5,
-      "liked": false
-    },
-    "tmdb-tv-1416": {
-      "id": "tmdb-tv-1416",
-      "serializdShowId": 1416,
-      "slug": "greys-anatomy-2005",
-      "name": "Grey's Anatomy",
-      "premiereYear": 2005,
-      "premiereDate": "2005-03-27",
-      "serializdUrl": "https://serializd.com/show/1416",
-      "tmdb": {
-        "id": 1416,
-        "name": "Grey's Anatomy",
-        "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
-        "backdropPath": "/A4NwkQXTXElE5iAsne5RpvS8R2Z.jpg",
-        "genres": [
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "ABC"
-        ],
-        "numberOfSeasons": 23,
-        "numberOfEpisodes": 466
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
-      "seasons": [
-        {
-          "serializdId": 3722,
-          "showId": 1416,
-          "seasonNumber": 0,
-          "name": "Specials",
-          "posterPath": "/snQYndfsEr3Sto2jOmkmsQuUXAQ.jpg",
-          "episodeCount": 68
-        },
-        {
-          "serializdId": 3718,
-          "showId": 1416,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/ulGju8GyXE36wCgmvyFJL3sLiVm.jpg",
-          "episodeCount": 9
-        },
-        {
-          "serializdId": 3719,
-          "showId": 1416,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/bO0S3fU8Tcqn0g5DCmDcX1oqA2t.jpg",
-          "episodeCount": 27
-        },
-        {
-          "serializdId": 3715,
-          "showId": 1416,
-          "seasonNumber": 3,
-          "name": "Season 3",
-          "posterPath": "/aY7NuvFj5Uzliy0nrFxVWmlZFiK.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 3716,
-          "showId": 1416,
-          "seasonNumber": 4,
-          "name": "Season 4",
-          "posterPath": "/gDQR39nMdjAvGyWe4lOPCj4iMQx.jpg",
-          "episodeCount": 16
-        },
-        {
-          "serializdId": 3717,
-          "showId": 1416,
-          "seasonNumber": 5,
-          "name": "Season 5",
-          "posterPath": "/bnOS0AKjbfPY1xVqF80qk0iBQBX.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 3720,
-          "showId": 1416,
-          "seasonNumber": 6,
-          "name": "Season 6",
-          "posterPath": "/8oclDsuHPZIVXh311u5SHlTNQzA.jpg",
-          "episodeCount": 22
-        },
-        {
-          "serializdId": 3721,
-          "showId": 1416,
-          "seasonNumber": 7,
-          "name": "Season 7",
-          "posterPath": "/wmGUedMQJkmSZFYJA35AKPrHsGJ.jpg",
-          "episodeCount": 22
-        },
-        {
-          "serializdId": 3723,
-          "showId": 1416,
-          "seasonNumber": 8,
-          "name": "Season 8",
-          "posterPath": "/pvuMQwMPWDqunRiajmeGQmUF0zS.jpg",
-          "episodeCount": 23
-        },
-        {
-          "serializdId": 3724,
-          "showId": 1416,
-          "seasonNumber": 9,
-          "name": "Season 9",
-          "posterPath": "/gLP8aeWDfoOIqp1EFEMLSoHlIHW.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 3725,
-          "showId": 1416,
-          "seasonNumber": 10,
-          "name": "Season 10",
-          "posterPath": "/h0z0USK1KerDJu02c218zFMIa52.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 62051,
-          "showId": 1416,
-          "seasonNumber": 11,
-          "name": "Season 11",
-          "posterPath": "/AvMxKxyj6zIG5fR0fg7D6bWH4AY.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 70494,
-          "showId": 1416,
-          "seasonNumber": 12,
-          "name": "Season 12",
-          "posterPath": "/b8pkzoNM5X0XSwppEA7jTID5Dcm.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 79174,
-          "showId": 1416,
-          "seasonNumber": 13,
-          "name": "Season 13",
-          "posterPath": "/i4gNHaY1MzP50zcjgw3ew2hKCCW.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 92088,
-          "showId": 1416,
-          "seasonNumber": 14,
-          "name": "Season 14",
-          "posterPath": "/2eSQFbeZZ7lCru40Q0UYGJ20itx.jpg",
-          "episodeCount": 24
-        },
-        {
-          "serializdId": 108798,
-          "showId": 1416,
-          "seasonNumber": 15,
-          "name": "Season 15",
-          "posterPath": "/eqgIOObafPJitt8JNh1LuO2fvqu.jpg",
-          "episodeCount": 25
-        },
-        {
-          "serializdId": 129348,
-          "showId": 1416,
-          "seasonNumber": 16,
-          "name": "Season 16",
-          "posterPath": "/obzo1GdJUQ0OPnW9T9SNOCBxhD.jpg",
-          "episodeCount": 21
-        },
-        {
-          "serializdId": 163320,
-          "showId": 1416,
-          "seasonNumber": 17,
-          "name": "Season 17",
-          "posterPath": "/clnyhPqj1SNgpAdeSS6a6fwE6Bo.jpg",
-          "episodeCount": 17
-        },
-        {
-          "serializdId": 202440,
-          "showId": 1416,
-          "seasonNumber": 18,
-          "name": "Season 18",
-          "posterPath": "/zPIug5giU8oug6Xes5K1sTfQJxY.jpg",
-          "episodeCount": 20
-        },
-        {
-          "serializdId": 297653,
-          "showId": 1416,
-          "seasonNumber": 19,
-          "name": "Season 19",
-          "posterPath": "/daSFbrt8QCXV2hSwB0hqYjbj681.jpg",
-          "episodeCount": 20
-        },
-        {
-          "serializdId": 366034,
-          "showId": 1416,
-          "seasonNumber": 20,
-          "name": "Season 20",
-          "posterPath": "/jcEl8SISNfGdlQFwLzeEtsjDvpw.jpg",
-          "episodeCount": 10
-        },
-        {
-          "serializdId": 401696,
-          "showId": 1416,
-          "seasonNumber": 21,
-          "name": "Season 21",
-          "posterPath": "/7jEVqXC14bhfAzSPgr896dMdDv6.jpg",
-          "episodeCount": 18
-        },
-        {
-          "serializdId": 465873,
-          "showId": 1416,
-          "seasonNumber": 22,
-          "name": "Season 22",
-          "posterPath": "/hjJkrLXhWvGHpLeLBDFznpBTY1S.jpg",
-          "episodeCount": 18
-        },
-        {
-          "serializdId": 532939,
-          "showId": 1416,
-          "seasonNumber": 23,
-          "name": "Season 23",
-          "posterPath": "/gO8Fo47KV1opiutRDdBS5jclTQB.jpg",
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 93192789,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "It’s really giving beginning of the end…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-15T12:00:00Z",
-          "reviewDate": "2026-10-16T06:02:26Z",
-          "seasonId": 532939,
-          "episodeNumber": 1,
-          "episodeName": "Collide",
-          "tags": []
-        },
-        {
-          "id": 65093180,
-          "level": "season",
-          "rating": 2,
-          "liked": false,
-          "reviewText": "It’s like I’m still watching, but to what end? This show is a shadow of its former self. Even at its most melodramatic, it at least gave enjoyable camp. Whatever has been happening lately has reached its zenith in this season. Everything felt hollow and phoned in, in a way that I am just not familiar with on this show.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-09T06:25:12Z",
-          "reviewDate": "2026-05-09T06:27:01Z",
-          "seasonId": 465873,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 65093104,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Oh my god, take all of Amelia’s pain, double it and give it to Teddy and Owen!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-09T06:22:16Z",
-          "reviewDate": "2026-05-09T06:25:00Z",
-          "seasonId": 465873,
-          "episodeNumber": 18,
-          "episodeName": "Bridge over Troubled Water",
-          "tags": []
-        },
-        {
-          "id": 64765116,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "And if they kill him off, I will dance. What of it?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-05-06T00:29:08Z",
-          "reviewDate": "2026-05-06T00:29:26Z",
-          "seasonId": 465873,
-          "episodeNumber": 17,
-          "episodeName": "Through the Fire",
-          "tags": []
-        },
-        {
-          "id": 61306792,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I just want my people to know general peace for a second.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-05T23:37:39Z",
-          "reviewDate": "2026-04-05T23:38:07Z",
-          "seasonId": 465873,
-          "episodeNumber": 16,
-          "episodeName": "Feel It Still",
-          "tags": []
-        },
-        {
-          "id": 61175990,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "Niggas be bitches, too.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-05T04:23:33Z",
-          "reviewDate": "2026-04-05T04:23:51Z",
-          "seasonId": 465873,
-          "episodeNumber": 15,
-          "episodeName": "Take Me to the River",
-          "tags": []
-        },
-        {
-          "id": 59530288,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "This episode was written just to piss me off?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-21T05:21:04Z",
-          "reviewDate": "2026-03-21T05:21:20Z",
-          "seasonId": 465873,
-          "episodeNumber": 14,
-          "episodeName": "Wrecking Ball",
-          "tags": []
-        },
-        {
-          "id": 59394568,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Mohanti must die.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-19T21:58:39Z",
-          "reviewDate": "2026-03-19T21:58:56Z",
-          "seasonId": 465873,
-          "episodeNumber": 13,
-          "episodeName": "Love the Way You Lie",
-          "tags": []
-        },
-        {
-          "id": 58342966,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Everyone is pissing me off — bad!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-08T23:20:37Z",
-          "reviewDate": "2026-03-08T23:21:06Z",
-          "seasonId": 465873,
-          "episodeNumber": 12,
-          "episodeName": "Get Lucky",
-          "tags": []
-        },
-        {
-          "id": 58043822,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "Here they go, starting mess with Amelia again.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-03-02T23:33:00Z",
-          "reviewDate": "2026-03-05T23:33:25Z",
-          "seasonId": 465873,
-          "episodeNumber": 11,
-          "episodeName": "(If You Want It) Do It Yourself",
-          "tags": []
-        },
-        {
-          "id": 54613879,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Addison and Amelia in the same OR — I used to pray for times like this!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-02-01T05:20:08Z",
-          "reviewDate": "2026-02-01T05:20:32Z",
-          "seasonId": 465873,
-          "episodeNumber": 10,
-          "episodeName": "Strip That Down",
-          "tags": []
-        },
-        {
-          "id": 54024691,
-          "level": "episode",
-          "rating": 2,
-          "liked": false,
-          "reviewText": "I miss Caterina Scorsone…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-27T06:36:29Z",
-          "reviewDate": "2026-01-27T06:36:29Z",
-          "seasonId": 465873,
-          "episodeNumber": 9,
-          "episodeName": "Fortunate Son",
-          "tags": []
-        },
-        {
-          "id": 52891537,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Millin, stand up!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-16T20:22:00Z",
-          "reviewDate": "2026-01-17T20:22:58Z",
-          "seasonId": 465873,
-          "episodeNumber": 8,
-          "episodeName": "Heavy on Me",
-          "tags": []
-        },
-        {
-          "id": 52143565,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-01-11T05:48:43Z",
-          "reviewDate": "2026-01-11T05:48:46Z",
-          "seasonId": 465873,
-          "episodeNumber": 7,
-          "episodeName": "Skyfall",
-          "tags": []
-        },
-        {
-          "id": 35855123,
-          "level": "season",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "Like, I guess. I just don’t give a fuck about Teddy and Owen is my problem.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2025-05-19T20:09:00Z",
-          "reviewDate": "2025-06-19T20:09:26Z",
-          "seasonId": 401696,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 16347094,
-          "level": "season",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "They really threw this season away. I know they’re trialing less Meredith, but even in her absence she is the only thing I’m interested in. Seated for the downfall of Catherine Fox, though!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2024-05-30T20:42:00Z",
-          "reviewDate": "2024-06-01T20:43:38Z",
-          "seasonId": 366034,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2,
-        2.5,
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2024,
-        2025,
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        20,
-        21,
-        22
-      ],
-      "inProgressSeasonNumbers": [
-        23
-      ],
-      "watchedUnreviewedSeasonNumbers": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19
-      ],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-16T06:02:26Z",
       "primaryRating": 3.5,
       "liked": false
     },
