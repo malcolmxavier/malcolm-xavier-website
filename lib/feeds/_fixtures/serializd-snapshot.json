@@ -1,18 +1,18 @@
 {
-  "capturedAt": "2026-10-24T00:31:14.404Z",
+  "capturedAt": "2026-10-24T04:31:11.634Z",
   "summary": {
-    "totalShows": 171,
+    "totalShows": 172,
     "totalShowReviews": 44,
     "totalSeasonReviews": 284,
-    "totalEpisodeReviews": 1169,
+    "totalEpisodeReviews": 1171,
     "ratingDistribution": {
       "1": 4,
       "2": 50,
-      "3": 399,
+      "3": 400,
       "4": 292,
       "5": 25,
+      "3.5": 443,
       "4.5": 88,
-      "3.5": 442,
       "2.5": 147,
       "1.5": 13,
       "0.5": 1
@@ -43,22 +43,22 @@
       "episode": {
         "1": 1,
         "2": 27,
-        "3": 330,
+        "3": 331,
         "4": 233,
         "5": 15,
+        "3.5": 363,
         "4.5": 73,
-        "3.5": 362,
         "2.5": 120,
         "1.5": 7
       }
     },
     "genreDistribution": {
+      "Drama": 103,
+      "Mystery": 36,
       "Comedy": 58,
       "Reality": 33,
-      "Drama": 102,
       "Action & Adventure": 18,
       "Crime": 33,
-      "Mystery": 35,
       "Talk": 1,
       "Documentary": 15,
       "Sci-Fi & Fantasy": 25,
@@ -68,17 +68,106 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
-      "2020s": 140,
+      "2020s": 141,
       "2000s": 6,
       "2010s": 23,
       "1970s": 1,
       "1990s": 1
     },
-    "showsInProgressCount": 15,
-    "totalWatchedShows": 357,
+    "showsInProgressCount": 16,
+    "totalWatchedShows": 358,
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-285322",
+      "serializdShowId": 285322,
+      "slug": "below-2026",
+      "name": "Below",
+      "premiereYear": 2026,
+      "premiereDate": "2026-10-08",
+      "serializdUrl": "https://serializd.com/show/285322",
+      "tmdb": {
+        "id": 285322,
+        "name": "Below",
+        "posterPath": "/vgLqqhMUbljp585qPp1EFCyJtcz.jpg",
+        "backdropPath": "/cn0feYcDvVzVjUDoXa1O8sRgzz.jpg",
+        "genres": [
+          "Drama",
+          "Mystery"
+        ],
+        "type": "Miniseries",
+        "status": "Ended",
+        "networks": [
+          "Netflix"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vgLqqhMUbljp585qPp1EFCyJtcz.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vgLqqhMUbljp585qPp1EFCyJtcz.jpg",
+      "seasons": [
+        {
+          "serializdId": 444323,
+          "showId": 285322,
+          "seasonNumber": 1,
+          "name": "Limited Series",
+          "posterPath": "/qadm9To9UfMVenVzGVLt0m0iuxv.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94420062,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-23T12:00:00Z",
+          "reviewDate": "2026-10-24T04:12:04Z",
+          "seasonId": 444323,
+          "episodeNumber": 2,
+          "episodeName": "Crown and Anchor",
+          "tags": []
+        },
+        {
+          "id": 94420040,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-23T12:00:00Z",
+          "reviewDate": "2026-10-24T04:11:46Z",
+          "seasonId": 444323,
+          "episodeNumber": 1,
+          "episodeName": "Come Home Year",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-10-24T04:12:04Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-260458",
       "serializdShowId": 260458,
@@ -36705,6 +36794,95 @@
     }
   ],
   "showById": {
+    "tmdb-tv-285322": {
+      "id": "tmdb-tv-285322",
+      "serializdShowId": 285322,
+      "slug": "below-2026",
+      "name": "Below",
+      "premiereYear": 2026,
+      "premiereDate": "2026-10-08",
+      "serializdUrl": "https://serializd.com/show/285322",
+      "tmdb": {
+        "id": 285322,
+        "name": "Below",
+        "posterPath": "/vgLqqhMUbljp585qPp1EFCyJtcz.jpg",
+        "backdropPath": "/cn0feYcDvVzVjUDoXa1O8sRgzz.jpg",
+        "genres": [
+          "Drama",
+          "Mystery"
+        ],
+        "type": "Miniseries",
+        "status": "Ended",
+        "networks": [
+          "Netflix"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/vgLqqhMUbljp585qPp1EFCyJtcz.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/vgLqqhMUbljp585qPp1EFCyJtcz.jpg",
+      "seasons": [
+        {
+          "serializdId": 444323,
+          "showId": 285322,
+          "seasonNumber": 1,
+          "name": "Limited Series",
+          "posterPath": "/qadm9To9UfMVenVzGVLt0m0iuxv.jpg",
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94420062,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-23T12:00:00Z",
+          "reviewDate": "2026-10-24T04:12:04Z",
+          "seasonId": 444323,
+          "episodeNumber": 2,
+          "episodeName": "Crown and Anchor",
+          "tags": []
+        },
+        {
+          "id": 94420040,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-23T12:00:00Z",
+          "reviewDate": "2026-10-24T04:11:46Z",
+          "seasonId": 444323,
+          "episodeNumber": 1,
+          "episodeName": "Come Home Year",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-10-24T04:12:04Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     "tmdb-tv-260458": {
       "id": "tmdb-tv-260458",
       "serializdShowId": 260458,
