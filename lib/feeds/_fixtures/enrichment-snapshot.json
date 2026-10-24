@@ -1,8 +1,8 @@
 {
-  "capturedAt": "2026-10-21T06:45:36.401Z",
+  "capturedAt": "2026-10-24T04:45:37.023Z",
   "meta": {
     "films": 852,
-    "shows": 171,
+    "shows": 172,
     "collections": 82
   },
   "films": {
@@ -112641,6 +112641,132 @@
         {
           "id": 1233037,
           "name": "Rashad Raisani"
+        }
+      ]
+    },
+    "285322": {
+      "ratings": {
+        "imdb": 6.3,
+        "metacritic": 70,
+        "metacriticUser": 6.4,
+        "tomatoes": 88,
+        "rtAudience": 51,
+        "letterboxd": 3.1,
+        "trakt": 72
+      },
+      "country": "ca",
+      "language": "en",
+      "seasons": [
+        {
+          "n": 1
+        }
+      ],
+      "cast": [
+        {
+          "id": 2299,
+          "name": "Josh Hartnett",
+          "eps": 6
+        },
+        {
+          "id": 1110405,
+          "name": "Mackenzie Davis",
+          "eps": 6
+        },
+        {
+          "id": 1448222,
+          "name": "Charlie Heaton",
+          "eps": 6
+        },
+        {
+          "id": 1723618,
+          "name": "Ruby Stokes",
+          "eps": 6
+        },
+        {
+          "id": 2542587,
+          "name": "Kaleb Horn",
+          "eps": 6
+        },
+        {
+          "id": 1196041,
+          "name": "Rohan Campbell",
+          "eps": 6
+        },
+        {
+          "id": 2200107,
+          "name": "Willow Kean",
+          "eps": 6
+        },
+        {
+          "id": 7005,
+          "name": "Mary Walsh",
+          "eps": 6
+        },
+        {
+          "id": 57395,
+          "name": "Natasha Henstridge",
+          "eps": 6
+        },
+        {
+          "id": 81096,
+          "name": "Joshua Close",
+          "eps": 6
+        },
+        {
+          "id": 1432083,
+          "name": "Joel Thomas Hynes",
+          "eps": 1
+        },
+        {
+          "id": 171726,
+          "name": "Darrin Baker",
+          "eps": 2
+        },
+        {
+          "id": 1670059,
+          "name": "Stephen Oates",
+          "eps": 4
+        },
+        {
+          "id": 929943,
+          "name": "Zehra Leverman",
+          "eps": 2
+        },
+        {
+          "id": 4026007,
+          "name": "Pat Dempsey",
+          "eps": 1
+        },
+        {
+          "id": 587619,
+          "name": "Frank Holden",
+          "eps": 6
+        },
+        {
+          "id": 1670055,
+          "name": "Lawrence Barry",
+          "eps": 6
+        },
+        {
+          "id": 1697394,
+          "name": "James Hawksley",
+          "eps": 1
+        },
+        {
+          "id": 1670162,
+          "name": "Rhiannon Morgan",
+          "eps": 1
+        },
+        {
+          "id": 2947413,
+          "name": "Paddy Daly",
+          "eps": 1
+        }
+      ],
+      "creators": [
+        {
+          "id": 159780,
+          "name": "Jesse McKeown"
         }
       ]
     },
