@@ -1,15 +1,15 @@
 {
-  "capturedAt": "2026-10-27T03:31:14.872Z",
+  "capturedAt": "2026-10-27T04:31:16.109Z",
   "summary": {
     "totalShows": 174,
     "totalShowReviews": 45,
     "totalSeasonReviews": 285,
-    "totalEpisodeReviews": 1189,
+    "totalEpisodeReviews": 1190,
     "ratingDistribution": {
       "1": 4,
       "2": 50,
       "3": 408,
-      "4": 294,
+      "4": 295,
       "5": 25,
       "3.5": 449,
       "4.5": 89,
@@ -44,7 +44,7 @@
         "1": 1,
         "2": 27,
         "3": 339,
-        "4": 235,
+        "4": 236,
         "5": 15,
         "3.5": 369,
         "4.5": 74,
@@ -117,6 +117,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 94877515,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Cal, you in danger, girl.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T03:53:29Z",
+          "seasonId": 400373,
+          "episodeNumber": 6,
+          "episodeName": "The Great Try",
+          "tags": []
+        },
         {
           "id": 94873103,
           "level": "episode",
@@ -214,8 +230,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": true,
-      "latestActivityDate": "2026-10-27T02:58:22Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-10-27T03:53:29Z",
+      "primaryRating": 4,
       "liked": false
     },
     {
@@ -37262,6 +37278,22 @@
       ],
       "reviews": [
         {
+          "id": 94877515,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Cal, you in danger, girl.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T03:53:29Z",
+          "seasonId": 400373,
+          "episodeNumber": 6,
+          "episodeName": "The Great Try",
+          "tags": []
+        },
+        {
           "id": 94873103,
           "level": "episode",
           "rating": 3.5,
@@ -37358,8 +37390,8 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": true,
-      "latestActivityDate": "2026-10-27T02:58:22Z",
-      "primaryRating": 3.5,
+      "latestActivityDate": "2026-10-27T03:53:29Z",
+      "primaryRating": 4,
       "liked": false
     },
     "tmdb-tv-285418": {
