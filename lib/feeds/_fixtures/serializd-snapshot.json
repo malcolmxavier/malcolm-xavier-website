@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-10-27T04:31:16.109Z",
+  "capturedAt": "2026-10-27T19:31:16.393Z",
   "summary": {
     "totalShows": 174,
     "totalShowReviews": 45,
     "totalSeasonReviews": 285,
-    "totalEpisodeReviews": 1190,
+    "totalEpisodeReviews": 1191,
     "ratingDistribution": {
       "1": 4,
       "2": 50,
       "3": 408,
       "4": 295,
       "5": 25,
-      "3.5": 449,
-      "4.5": 89,
+      "3.5": 450,
       "2.5": 149,
+      "4.5": 89,
       "1.5": 13,
       "0.5": 1
     },
@@ -46,21 +46,21 @@
         "3": 339,
         "4": 236,
         "5": 15,
-        "3.5": 369,
-        "4.5": 74,
+        "3.5": 370,
         "2.5": 121,
+        "4.5": 74,
         "1.5": 7
       }
     },
     "genreDistribution": {
+      "Documentary": 15,
+      "Reality": 33,
       "Drama": 105,
       "Crime": 34,
       "Comedy": 59,
       "Talk": 1,
-      "Reality": 33,
       "Mystery": 36,
       "Action & Adventure": 18,
-      "Documentary": 15,
       "Sci-Fi & Fantasy": 25,
       "News": 1,
       "Animation": 5,
@@ -79,6 +79,144 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-332902",
+      "serializdShowId": 332902,
+      "slug": "still-flipping-out-2026",
+      "name": "Still Flipping Out",
+      "premiereYear": 2026,
+      "premiereDate": "2026-09-28",
+      "serializdUrl": "https://serializd.com/show/332902",
+      "tmdb": {
+        "id": 332902,
+        "name": "Still Flipping Out",
+        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
+        "genres": [
+          "Documentary",
+          "Reality"
+        ],
+        "type": "Reality",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "seasons": [
+        {
+          "serializdId": 538912,
+          "showId": 332902,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": null,
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94948625,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I see both sides like Chanel.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-27T12:00:00Z",
+          "reviewDate": "2026-10-27T18:34:54Z",
+          "seasonId": 538912,
+          "episodeNumber": 5,
+          "episodeName": "Totes Inappropes",
+          "tags": []
+        },
+        {
+          "id": 93846704,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-19T12:00:00Z",
+          "reviewDate": "2026-10-20T05:44:16Z",
+          "seasonId": 538912,
+          "episodeNumber": 4,
+          "episodeName": "In Thickness and in Health",
+          "tags": []
+        },
+        {
+          "id": 92786280,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not a Joey apologist, but we brought him on the show to set up the drama, then kicked him off the show? Feeling very produced…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-12T12:00:00Z",
+          "reviewDate": "2026-10-13T15:13:24Z",
+          "seasonId": 538912,
+          "episodeNumber": 3,
+          "episodeName": "Chumped and Dumped",
+          "tags": []
+        },
+        {
+          "id": 92554347,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-06T12:00:00Z",
+          "reviewDate": "2026-10-12T04:34:06Z",
+          "seasonId": 538912,
+          "episodeNumber": 2,
+          "episodeName": "Sick of the Shtick",
+          "tags": []
+        },
+        {
+          "id": 92554333,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-29T12:00:00Z",
+          "reviewDate": "2026-10-12T04:33:54Z",
+          "seasonId": 538912,
+          "episodeNumber": 1,
+          "episodeName": "Did You Miss Me?",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-27T18:34:54Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-258165",
       "serializdShowId": 258165,
@@ -9350,127 +9488,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-10-21T04:01:03Z",
       "primaryRating": 4,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-332902",
-      "serializdShowId": 332902,
-      "slug": "still-flipping-out-2026",
-      "name": "Still Flipping Out",
-      "premiereYear": 2026,
-      "premiereDate": "2026-09-28",
-      "serializdUrl": "https://serializd.com/show/332902",
-      "tmdb": {
-        "id": 332902,
-        "name": "Still Flipping Out",
-        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
-        "genres": [
-          "Documentary",
-          "Reality"
-        ],
-        "type": "Reality",
-        "status": "Returning Series",
-        "networks": [
-          "Bravo"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 6
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "seasons": [
-        {
-          "serializdId": 538912,
-          "showId": 332902,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": null,
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 93846704,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-19T12:00:00Z",
-          "reviewDate": "2026-10-20T05:44:16Z",
-          "seasonId": 538912,
-          "episodeNumber": 4,
-          "episodeName": "In Thickness and in Health",
-          "tags": []
-        },
-        {
-          "id": 92786280,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I’m not a Joey apologist, but we brought him on the show to set up the drama, then kicked him off the show? Feeling very produced…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-12T12:00:00Z",
-          "reviewDate": "2026-10-13T15:13:24Z",
-          "seasonId": 538912,
-          "episodeNumber": 3,
-          "episodeName": "Chumped and Dumped",
-          "tags": []
-        },
-        {
-          "id": 92554347,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-06T12:00:00Z",
-          "reviewDate": "2026-10-12T04:34:06Z",
-          "seasonId": 538912,
-          "episodeNumber": 2,
-          "episodeName": "Sick of the Shtick",
-          "tags": []
-        },
-        {
-          "id": 92554333,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-29T12:00:00Z",
-          "reviewDate": "2026-10-12T04:33:54Z",
-          "seasonId": 538912,
-          "episodeNumber": 1,
-          "episodeName": "Did You Miss Me?",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-20T05:44:16Z",
-      "primaryRating": 2.5,
       "liked": false
     },
     {
@@ -37239,6 +37256,144 @@
     }
   ],
   "showById": {
+    "tmdb-tv-332902": {
+      "id": "tmdb-tv-332902",
+      "serializdShowId": 332902,
+      "slug": "still-flipping-out-2026",
+      "name": "Still Flipping Out",
+      "premiereYear": 2026,
+      "premiereDate": "2026-09-28",
+      "serializdUrl": "https://serializd.com/show/332902",
+      "tmdb": {
+        "id": 332902,
+        "name": "Still Flipping Out",
+        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
+        "genres": [
+          "Documentary",
+          "Reality"
+        ],
+        "type": "Reality",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "seasons": [
+        {
+          "serializdId": 538912,
+          "showId": 332902,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": null,
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94948625,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I see both sides like Chanel.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-27T12:00:00Z",
+          "reviewDate": "2026-10-27T18:34:54Z",
+          "seasonId": 538912,
+          "episodeNumber": 5,
+          "episodeName": "Totes Inappropes",
+          "tags": []
+        },
+        {
+          "id": 93846704,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-19T12:00:00Z",
+          "reviewDate": "2026-10-20T05:44:16Z",
+          "seasonId": 538912,
+          "episodeNumber": 4,
+          "episodeName": "In Thickness and in Health",
+          "tags": []
+        },
+        {
+          "id": 92786280,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not a Joey apologist, but we brought him on the show to set up the drama, then kicked him off the show? Feeling very produced…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-12T12:00:00Z",
+          "reviewDate": "2026-10-13T15:13:24Z",
+          "seasonId": 538912,
+          "episodeNumber": 3,
+          "episodeName": "Chumped and Dumped",
+          "tags": []
+        },
+        {
+          "id": 92554347,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-06T12:00:00Z",
+          "reviewDate": "2026-10-12T04:34:06Z",
+          "seasonId": 538912,
+          "episodeNumber": 2,
+          "episodeName": "Sick of the Shtick",
+          "tags": []
+        },
+        {
+          "id": 92554333,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-29T12:00:00Z",
+          "reviewDate": "2026-10-12T04:33:54Z",
+          "seasonId": 538912,
+          "episodeNumber": 1,
+          "episodeName": "Did You Miss Me?",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-27T18:34:54Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
     "tmdb-tv-258165": {
       "id": "tmdb-tv-258165",
       "serializdShowId": 258165,
@@ -46510,127 +46665,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-10-21T04:01:03Z",
       "primaryRating": 4,
-      "liked": false
-    },
-    "tmdb-tv-332902": {
-      "id": "tmdb-tv-332902",
-      "serializdShowId": 332902,
-      "slug": "still-flipping-out-2026",
-      "name": "Still Flipping Out",
-      "premiereYear": 2026,
-      "premiereDate": "2026-09-28",
-      "serializdUrl": "https://serializd.com/show/332902",
-      "tmdb": {
-        "id": 332902,
-        "name": "Still Flipping Out",
-        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
-        "genres": [
-          "Documentary",
-          "Reality"
-        ],
-        "type": "Reality",
-        "status": "Returning Series",
-        "networks": [
-          "Bravo"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 6
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "seasons": [
-        {
-          "serializdId": 538912,
-          "showId": 332902,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": null,
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 93846704,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-19T12:00:00Z",
-          "reviewDate": "2026-10-20T05:44:16Z",
-          "seasonId": 538912,
-          "episodeNumber": 4,
-          "episodeName": "In Thickness and in Health",
-          "tags": []
-        },
-        {
-          "id": 92786280,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I’m not a Joey apologist, but we brought him on the show to set up the drama, then kicked him off the show? Feeling very produced…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-12T12:00:00Z",
-          "reviewDate": "2026-10-13T15:13:24Z",
-          "seasonId": 538912,
-          "episodeNumber": 3,
-          "episodeName": "Chumped and Dumped",
-          "tags": []
-        },
-        {
-          "id": 92554347,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-06T12:00:00Z",
-          "reviewDate": "2026-10-12T04:34:06Z",
-          "seasonId": 538912,
-          "episodeNumber": 2,
-          "episodeName": "Sick of the Shtick",
-          "tags": []
-        },
-        {
-          "id": 92554333,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-29T12:00:00Z",
-          "reviewDate": "2026-10-12T04:33:54Z",
-          "seasonId": 538912,
-          "episodeNumber": 1,
-          "episodeName": "Did You Miss Me?",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-20T05:44:16Z",
-      "primaryRating": 2.5,
       "liked": false
     },
     "tmdb-tv-204284": {
