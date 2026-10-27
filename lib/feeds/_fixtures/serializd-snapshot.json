@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-10-27T19:31:16.393Z",
+  "capturedAt": "2026-10-27T21:31:20.766Z",
   "summary": {
     "totalShows": 174,
     "totalShowReviews": 45,
     "totalSeasonReviews": 285,
-    "totalEpisodeReviews": 1191,
+    "totalEpisodeReviews": 1192,
     "ratingDistribution": {
       "1": 4,
-      "2": 50,
+      "2": 51,
       "3": 408,
       "4": 295,
       "5": 25,
       "3.5": 450,
-      "2.5": 149,
       "4.5": 89,
+      "2.5": 149,
       "1.5": 13,
       "0.5": 1
     },
@@ -42,23 +42,23 @@
       },
       "episode": {
         "1": 1,
-        "2": 27,
+        "2": 28,
         "3": 339,
         "4": 236,
         "5": 15,
         "3.5": 370,
-        "2.5": 121,
         "4.5": 74,
+        "2.5": 121,
         "1.5": 7
       }
     },
     "genreDistribution": {
+      "Talk": 1,
+      "Comedy": 59,
       "Documentary": 15,
       "Reality": 33,
       "Drama": 105,
       "Crime": 34,
-      "Comedy": 59,
-      "Talk": 1,
       "Mystery": 36,
       "Action & Adventure": 18,
       "Sci-Fi & Fantasy": 25,
@@ -68,8 +68,8 @@
       "War & Politics": 2
     },
     "decadeDistribution": {
-      "2020s": 143,
       "2000s": 6,
+      "2020s": 143,
       "2010s": 23,
       "1970s": 1,
       "1990s": 1
@@ -79,468 +79,6 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
-    {
-      "id": "tmdb-tv-332902",
-      "serializdShowId": 332902,
-      "slug": "still-flipping-out-2026",
-      "name": "Still Flipping Out",
-      "premiereYear": 2026,
-      "premiereDate": "2026-09-28",
-      "serializdUrl": "https://serializd.com/show/332902",
-      "tmdb": {
-        "id": 332902,
-        "name": "Still Flipping Out",
-        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
-        "genres": [
-          "Documentary",
-          "Reality"
-        ],
-        "type": "Reality",
-        "status": "Returning Series",
-        "networks": [
-          "Bravo"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 6
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "seasons": [
-        {
-          "serializdId": 538912,
-          "showId": 332902,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": null,
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 94948625,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I see both sides like Chanel.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-27T12:00:00Z",
-          "reviewDate": "2026-10-27T18:34:54Z",
-          "seasonId": 538912,
-          "episodeNumber": 5,
-          "episodeName": "Totes Inappropes",
-          "tags": []
-        },
-        {
-          "id": 93846704,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-19T12:00:00Z",
-          "reviewDate": "2026-10-20T05:44:16Z",
-          "seasonId": 538912,
-          "episodeNumber": 4,
-          "episodeName": "In Thickness and in Health",
-          "tags": []
-        },
-        {
-          "id": 92786280,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I’m not a Joey apologist, but we brought him on the show to set up the drama, then kicked him off the show? Feeling very produced…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-12T12:00:00Z",
-          "reviewDate": "2026-10-13T15:13:24Z",
-          "seasonId": 538912,
-          "episodeNumber": 3,
-          "episodeName": "Chumped and Dumped",
-          "tags": []
-        },
-        {
-          "id": 92554347,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-06T12:00:00Z",
-          "reviewDate": "2026-10-12T04:34:06Z",
-          "seasonId": 538912,
-          "episodeNumber": 2,
-          "episodeName": "Sick of the Shtick",
-          "tags": []
-        },
-        {
-          "id": 92554333,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-29T12:00:00Z",
-          "reviewDate": "2026-10-12T04:33:54Z",
-          "seasonId": 538912,
-          "episodeNumber": 1,
-          "episodeName": "Did You Miss Me?",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-27T18:34:54Z",
-      "primaryRating": 3.5,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-258165",
-      "serializdShowId": 258165,
-      "slug": "east-of-eden-2026",
-      "name": "East of Eden",
-      "premiereYear": 2026,
-      "premiereDate": "2026-10-01",
-      "serializdUrl": "https://serializd.com/show/258165",
-      "tmdb": {
-        "id": 258165,
-        "name": "East of Eden",
-        "posterPath": "/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
-        "backdropPath": "/70RZX7kNjA0Qjn6HigB1oMvFJ8R.jpg",
-        "genres": [
-          "Drama",
-          "Crime"
-        ],
-        "type": "Miniseries",
-        "status": "Ended",
-        "networks": [
-          "Netflix"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 7
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
-      "seasons": [
-        {
-          "serializdId": 400373,
-          "showId": 258165,
-          "seasonNumber": 1,
-          "name": "Limited Series",
-          "posterPath": "/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
-          "episodeCount": 7
-        }
-      ],
-      "reviews": [
-        {
-          "id": 94877515,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Cal, you in danger, girl.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T03:53:29Z",
-          "seasonId": 400373,
-          "episodeNumber": 6,
-          "episodeName": "The Great Try",
-          "tags": []
-        },
-        {
-          "id": 94873103,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:58:22Z",
-          "seasonId": 400373,
-          "episodeNumber": 5,
-          "episodeName": "Departure",
-          "tags": []
-        },
-        {
-          "id": 94871168,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Justice for Martha.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:35:38Z",
-          "seasonId": 400373,
-          "episodeNumber": 4,
-          "episodeName": "Kate",
-          "tags": []
-        },
-        {
-          "id": 94871132,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:35:19Z",
-          "seasonId": 400373,
-          "episodeNumber": 3,
-          "episodeName": "In the Valley",
-          "tags": []
-        },
-        {
-          "id": 94871091,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "Big Cathy, not the little one!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:34:46Z",
-          "seasonId": 400373,
-          "episodeNumber": 2,
-          "episodeName": "Cathy",
-          "tags": []
-        },
-        {
-          "id": 94871076,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:34:37Z",
-          "seasonId": 400373,
-          "episodeNumber": 1,
-          "episodeName": "Brothers",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": true,
-      "latestActivityDate": "2026-10-27T03:53:29Z",
-      "primaryRating": 4,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-285418",
-      "serializdShowId": 285418,
-      "slug": "youth-2026",
-      "name": "Youth",
-      "premiereYear": 2026,
-      "premiereDate": "2026-09-21",
-      "serializdUrl": "https://serializd.com/show/285418",
-      "tmdb": {
-        "id": 285418,
-        "name": "Youth",
-        "posterPath": "/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
-        "backdropPath": "/iEISXRsDv8Q2PA6i9cAQd2DH9bN.jpg",
-        "genres": [
-          "Comedy",
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO Max"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
-      "seasons": [
-        {
-          "serializdId": 444466,
-          "showId": 285418,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 94871721,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Alex and Pat actually talk about it immediately challenge.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:41:32Z",
-          "seasonId": 444466,
-          "episodeNumber": 7,
-          "episodeName": "Last Night on Earth",
-          "tags": []
-        },
-        {
-          "id": 94871662,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:40:53Z",
-          "seasonId": 444466,
-          "episodeNumber": 6,
-          "episodeName": "Desperate Measures",
-          "tags": []
-        },
-        {
-          "id": 94871607,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:40:20Z",
-          "seasonId": 444466,
-          "episodeNumber": 5,
-          "episodeName": "The Holiday",
-          "tags": []
-        },
-        {
-          "id": 94871583,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I actually hate Michael, thanks.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:40:00Z",
-          "seasonId": 444466,
-          "episodeNumber": 4,
-          "episodeName": "Michael Man",
-          "tags": []
-        },
-        {
-          "id": 94871547,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "The sauna of it all…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:39:39Z",
-          "seasonId": 444466,
-          "episodeNumber": 3,
-          "episodeName": "Welcome to the Rat's Nest",
-          "tags": []
-        },
-        {
-          "id": 94871476,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:38:48Z",
-          "seasonId": 444466,
-          "episodeNumber": 2,
-          "episodeName": "Wagon Burner",
-          "tags": []
-        },
-        {
-          "id": 94871435,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:38:23Z",
-          "seasonId": 444466,
-          "episodeNumber": 1,
-          "episodeName": "Lockjaw",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-27T02:41:32Z",
-      "primaryRating": 3,
-      "liked": false
-    },
     {
       "id": "tmdb-tv-22980",
       "serializdShowId": 22980,
@@ -763,6 +301,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 94968398,
+          "level": "episode",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-27T12:00:00Z",
+          "reviewDate": "2026-10-27T21:02:39Z",
+          "seasonId": 492037,
+          "episodeNumber": 173,
+          "episodeName": "Charmers & Captains",
+          "tags": []
+        },
         {
           "id": 94871363,
           "level": "episode",
@@ -2001,7 +1555,469 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-27T02:37:45Z",
+      "latestActivityDate": "2026-10-27T21:02:39Z",
+      "primaryRating": 2,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-332902",
+      "serializdShowId": 332902,
+      "slug": "still-flipping-out-2026",
+      "name": "Still Flipping Out",
+      "premiereYear": 2026,
+      "premiereDate": "2026-09-28",
+      "serializdUrl": "https://serializd.com/show/332902",
+      "tmdb": {
+        "id": 332902,
+        "name": "Still Flipping Out",
+        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
+        "genres": [
+          "Documentary",
+          "Reality"
+        ],
+        "type": "Reality",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "seasons": [
+        {
+          "serializdId": 538912,
+          "showId": 332902,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": null,
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94948625,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I see both sides like Chanel.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-27T12:00:00Z",
+          "reviewDate": "2026-10-27T18:34:54Z",
+          "seasonId": 538912,
+          "episodeNumber": 5,
+          "episodeName": "Totes Inappropes",
+          "tags": []
+        },
+        {
+          "id": 93846704,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-19T12:00:00Z",
+          "reviewDate": "2026-10-20T05:44:16Z",
+          "seasonId": 538912,
+          "episodeNumber": 4,
+          "episodeName": "In Thickness and in Health",
+          "tags": []
+        },
+        {
+          "id": 92786280,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not a Joey apologist, but we brought him on the show to set up the drama, then kicked him off the show? Feeling very produced…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-12T12:00:00Z",
+          "reviewDate": "2026-10-13T15:13:24Z",
+          "seasonId": 538912,
+          "episodeNumber": 3,
+          "episodeName": "Chumped and Dumped",
+          "tags": []
+        },
+        {
+          "id": 92554347,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-06T12:00:00Z",
+          "reviewDate": "2026-10-12T04:34:06Z",
+          "seasonId": 538912,
+          "episodeNumber": 2,
+          "episodeName": "Sick of the Shtick",
+          "tags": []
+        },
+        {
+          "id": 92554333,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-29T12:00:00Z",
+          "reviewDate": "2026-10-12T04:33:54Z",
+          "seasonId": 538912,
+          "episodeNumber": 1,
+          "episodeName": "Did You Miss Me?",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-27T18:34:54Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-258165",
+      "serializdShowId": 258165,
+      "slug": "east-of-eden-2026",
+      "name": "East of Eden",
+      "premiereYear": 2026,
+      "premiereDate": "2026-10-01",
+      "serializdUrl": "https://serializd.com/show/258165",
+      "tmdb": {
+        "id": 258165,
+        "name": "East of Eden",
+        "posterPath": "/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
+        "backdropPath": "/70RZX7kNjA0Qjn6HigB1oMvFJ8R.jpg",
+        "genres": [
+          "Drama",
+          "Crime"
+        ],
+        "type": "Miniseries",
+        "status": "Ended",
+        "networks": [
+          "Netflix"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 7
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
+      "seasons": [
+        {
+          "serializdId": 400373,
+          "showId": 258165,
+          "seasonNumber": 1,
+          "name": "Limited Series",
+          "posterPath": "/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94877515,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Cal, you in danger, girl.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T03:53:29Z",
+          "seasonId": 400373,
+          "episodeNumber": 6,
+          "episodeName": "The Great Try",
+          "tags": []
+        },
+        {
+          "id": 94873103,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:58:22Z",
+          "seasonId": 400373,
+          "episodeNumber": 5,
+          "episodeName": "Departure",
+          "tags": []
+        },
+        {
+          "id": 94871168,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Justice for Martha.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:35:38Z",
+          "seasonId": 400373,
+          "episodeNumber": 4,
+          "episodeName": "Kate",
+          "tags": []
+        },
+        {
+          "id": 94871132,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:35:19Z",
+          "seasonId": 400373,
+          "episodeNumber": 3,
+          "episodeName": "In the Valley",
+          "tags": []
+        },
+        {
+          "id": 94871091,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Big Cathy, not the little one!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:34:46Z",
+          "seasonId": 400373,
+          "episodeNumber": 2,
+          "episodeName": "Cathy",
+          "tags": []
+        },
+        {
+          "id": 94871076,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:34:37Z",
+          "seasonId": 400373,
+          "episodeNumber": 1,
+          "episodeName": "Brothers",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-10-27T03:53:29Z",
+      "primaryRating": 4,
+      "liked": false
+    },
+    {
+      "id": "tmdb-tv-285418",
+      "serializdShowId": 285418,
+      "slug": "youth-2026",
+      "name": "Youth",
+      "premiereYear": 2026,
+      "premiereDate": "2026-09-21",
+      "serializdUrl": "https://serializd.com/show/285418",
+      "tmdb": {
+        "id": 285418,
+        "name": "Youth",
+        "posterPath": "/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
+        "backdropPath": "/iEISXRsDv8Q2PA6i9cAQd2DH9bN.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO Max"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
+      "seasons": [
+        {
+          "serializdId": 444466,
+          "showId": 285418,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94871721,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Alex and Pat actually talk about it immediately challenge.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:41:32Z",
+          "seasonId": 444466,
+          "episodeNumber": 7,
+          "episodeName": "Last Night on Earth",
+          "tags": []
+        },
+        {
+          "id": 94871662,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:40:53Z",
+          "seasonId": 444466,
+          "episodeNumber": 6,
+          "episodeName": "Desperate Measures",
+          "tags": []
+        },
+        {
+          "id": 94871607,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:40:20Z",
+          "seasonId": 444466,
+          "episodeNumber": 5,
+          "episodeName": "The Holiday",
+          "tags": []
+        },
+        {
+          "id": 94871583,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I actually hate Michael, thanks.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:40:00Z",
+          "seasonId": 444466,
+          "episodeNumber": 4,
+          "episodeName": "Michael Man",
+          "tags": []
+        },
+        {
+          "id": 94871547,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "The sauna of it all…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:39:39Z",
+          "seasonId": 444466,
+          "episodeNumber": 3,
+          "episodeName": "Welcome to the Rat's Nest",
+          "tags": []
+        },
+        {
+          "id": 94871476,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:38:48Z",
+          "seasonId": 444466,
+          "episodeNumber": 2,
+          "episodeName": "Wagon Burner",
+          "tags": []
+        },
+        {
+          "id": 94871435,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:38:23Z",
+          "seasonId": 444466,
+          "episodeNumber": 1,
+          "episodeName": "Lockjaw",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-27T02:41:32Z",
       "primaryRating": 3,
       "liked": false
     },
@@ -8953,7 +8969,7 @@
           "seasonNumber": 16,
           "name": "Season 16",
           "posterPath": "/t664cIE1pEVDJj0KAMefmvZNQac.jpg",
-          "episodeCount": 12
+          "episodeCount": 14
         }
       ],
       "reviews": [
@@ -37256,468 +37272,6 @@
     }
   ],
   "showById": {
-    "tmdb-tv-332902": {
-      "id": "tmdb-tv-332902",
-      "serializdShowId": 332902,
-      "slug": "still-flipping-out-2026",
-      "name": "Still Flipping Out",
-      "premiereYear": 2026,
-      "premiereDate": "2026-09-28",
-      "serializdUrl": "https://serializd.com/show/332902",
-      "tmdb": {
-        "id": 332902,
-        "name": "Still Flipping Out",
-        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
-        "genres": [
-          "Documentary",
-          "Reality"
-        ],
-        "type": "Reality",
-        "status": "Returning Series",
-        "networks": [
-          "Bravo"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 6
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
-      "seasons": [
-        {
-          "serializdId": 538912,
-          "showId": 332902,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": null,
-          "episodeCount": 6
-        }
-      ],
-      "reviews": [
-        {
-          "id": 94948625,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I see both sides like Chanel.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-27T12:00:00Z",
-          "reviewDate": "2026-10-27T18:34:54Z",
-          "seasonId": 538912,
-          "episodeNumber": 5,
-          "episodeName": "Totes Inappropes",
-          "tags": []
-        },
-        {
-          "id": 93846704,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-19T12:00:00Z",
-          "reviewDate": "2026-10-20T05:44:16Z",
-          "seasonId": 538912,
-          "episodeNumber": 4,
-          "episodeName": "In Thickness and in Health",
-          "tags": []
-        },
-        {
-          "id": 92786280,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "I’m not a Joey apologist, but we brought him on the show to set up the drama, then kicked him off the show? Feeling very produced…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-12T12:00:00Z",
-          "reviewDate": "2026-10-13T15:13:24Z",
-          "seasonId": 538912,
-          "episodeNumber": 3,
-          "episodeName": "Chumped and Dumped",
-          "tags": []
-        },
-        {
-          "id": 92554347,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-06T12:00:00Z",
-          "reviewDate": "2026-10-12T04:34:06Z",
-          "seasonId": 538912,
-          "episodeNumber": 2,
-          "episodeName": "Sick of the Shtick",
-          "tags": []
-        },
-        {
-          "id": 92554333,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-09-29T12:00:00Z",
-          "reviewDate": "2026-10-12T04:33:54Z",
-          "seasonId": 538912,
-          "episodeNumber": 1,
-          "episodeName": "Did You Miss Me?",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-27T18:34:54Z",
-      "primaryRating": 3.5,
-      "liked": false
-    },
-    "tmdb-tv-258165": {
-      "id": "tmdb-tv-258165",
-      "serializdShowId": 258165,
-      "slug": "east-of-eden-2026",
-      "name": "East of Eden",
-      "premiereYear": 2026,
-      "premiereDate": "2026-10-01",
-      "serializdUrl": "https://serializd.com/show/258165",
-      "tmdb": {
-        "id": 258165,
-        "name": "East of Eden",
-        "posterPath": "/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
-        "backdropPath": "/70RZX7kNjA0Qjn6HigB1oMvFJ8R.jpg",
-        "genres": [
-          "Drama",
-          "Crime"
-        ],
-        "type": "Miniseries",
-        "status": "Ended",
-        "networks": [
-          "Netflix"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 7
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
-      "seasons": [
-        {
-          "serializdId": 400373,
-          "showId": 258165,
-          "seasonNumber": 1,
-          "name": "Limited Series",
-          "posterPath": "/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
-          "episodeCount": 7
-        }
-      ],
-      "reviews": [
-        {
-          "id": 94877515,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Cal, you in danger, girl.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T03:53:29Z",
-          "seasonId": 400373,
-          "episodeNumber": 6,
-          "episodeName": "The Great Try",
-          "tags": []
-        },
-        {
-          "id": 94873103,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:58:22Z",
-          "seasonId": 400373,
-          "episodeNumber": 5,
-          "episodeName": "Departure",
-          "tags": []
-        },
-        {
-          "id": 94871168,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Justice for Martha.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:35:38Z",
-          "seasonId": 400373,
-          "episodeNumber": 4,
-          "episodeName": "Kate",
-          "tags": []
-        },
-        {
-          "id": 94871132,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:35:19Z",
-          "seasonId": 400373,
-          "episodeNumber": 3,
-          "episodeName": "In the Valley",
-          "tags": []
-        },
-        {
-          "id": 94871091,
-          "level": "episode",
-          "rating": 4.5,
-          "liked": false,
-          "reviewText": "Big Cathy, not the little one!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:34:46Z",
-          "seasonId": 400373,
-          "episodeNumber": 2,
-          "episodeName": "Cathy",
-          "tags": []
-        },
-        {
-          "id": 94871076,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:34:37Z",
-          "seasonId": 400373,
-          "episodeNumber": 1,
-          "episodeName": "Brothers",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5,
-        4,
-        4.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": true,
-      "latestActivityDate": "2026-10-27T03:53:29Z",
-      "primaryRating": 4,
-      "liked": false
-    },
-    "tmdb-tv-285418": {
-      "id": "tmdb-tv-285418",
-      "serializdShowId": 285418,
-      "slug": "youth-2026",
-      "name": "Youth",
-      "premiereYear": 2026,
-      "premiereDate": "2026-09-21",
-      "serializdUrl": "https://serializd.com/show/285418",
-      "tmdb": {
-        "id": 285418,
-        "name": "Youth",
-        "posterPath": "/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
-        "backdropPath": "/iEISXRsDv8Q2PA6i9cAQd2DH9bN.jpg",
-        "genres": [
-          "Comedy",
-          "Drama"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "HBO Max"
-        ],
-        "numberOfSeasons": 1,
-        "numberOfEpisodes": 8
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
-      "seasons": [
-        {
-          "serializdId": 444466,
-          "showId": 285418,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
-          "episodeCount": 8
-        }
-      ],
-      "reviews": [
-        {
-          "id": 94871721,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "Alex and Pat actually talk about it immediately challenge.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:41:32Z",
-          "seasonId": 444466,
-          "episodeNumber": 7,
-          "episodeName": "Last Night on Earth",
-          "tags": []
-        },
-        {
-          "id": 94871662,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:40:53Z",
-          "seasonId": 444466,
-          "episodeNumber": 6,
-          "episodeName": "Desperate Measures",
-          "tags": []
-        },
-        {
-          "id": 94871607,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:40:20Z",
-          "seasonId": 444466,
-          "episodeNumber": 5,
-          "episodeName": "The Holiday",
-          "tags": []
-        },
-        {
-          "id": 94871583,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I actually hate Michael, thanks.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:40:00Z",
-          "seasonId": 444466,
-          "episodeNumber": 4,
-          "episodeName": "Michael Man",
-          "tags": []
-        },
-        {
-          "id": 94871547,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "The sauna of it all…",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-26T12:00:00Z",
-          "reviewDate": "2026-10-27T02:39:39Z",
-          "seasonId": 444466,
-          "episodeNumber": 3,
-          "episodeName": "Welcome to the Rat's Nest",
-          "tags": []
-        },
-        {
-          "id": 94871476,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:38:48Z",
-          "seasonId": 444466,
-          "episodeNumber": 2,
-          "episodeName": "Wagon Burner",
-          "tags": []
-        },
-        {
-          "id": 94871435,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-25T12:00:00Z",
-          "reviewDate": "2026-10-27T02:38:23Z",
-          "seasonId": 444466,
-          "episodeNumber": 1,
-          "episodeName": "Lockjaw",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        3,
-        3.5
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [],
-      "inProgressSeasonNumbers": [
-        1
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-27T02:41:32Z",
-      "primaryRating": 3,
-      "liked": false
-    },
     "tmdb-tv-22980": {
       "id": "tmdb-tv-22980",
       "serializdShowId": 22980,
@@ -37940,6 +37494,22 @@
         }
       ],
       "reviews": [
+        {
+          "id": 94968398,
+          "level": "episode",
+          "rating": 2,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-27T12:00:00Z",
+          "reviewDate": "2026-10-27T21:02:39Z",
+          "seasonId": 492037,
+          "episodeNumber": 173,
+          "episodeName": "Charmers & Captains",
+          "tags": []
+        },
         {
           "id": 94871363,
           "level": "episode",
@@ -39178,7 +38748,469 @@
       "watchedUnreviewedSeasonNumbers": [],
       "hasShowReview": false,
       "isMiniseries": false,
-      "latestActivityDate": "2026-10-27T02:37:45Z",
+      "latestActivityDate": "2026-10-27T21:02:39Z",
+      "primaryRating": 2,
+      "liked": false
+    },
+    "tmdb-tv-332902": {
+      "id": "tmdb-tv-332902",
+      "serializdShowId": 332902,
+      "slug": "still-flipping-out-2026",
+      "name": "Still Flipping Out",
+      "premiereYear": 2026,
+      "premiereDate": "2026-09-28",
+      "serializdUrl": "https://serializd.com/show/332902",
+      "tmdb": {
+        "id": 332902,
+        "name": "Still Flipping Out",
+        "posterPath": "/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+        "backdropPath": "/c3ONhXmAmsdhwh7VvsN7Pa41o6w.jpg",
+        "genres": [
+          "Documentary",
+          "Reality"
+        ],
+        "type": "Reality",
+        "status": "Returning Series",
+        "networks": [
+          "Bravo"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 6
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/kQFp9NnbyVTLRMjCtbpqKJgsQRb.jpg",
+      "seasons": [
+        {
+          "serializdId": 538912,
+          "showId": 332902,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": null,
+          "episodeCount": 6
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94948625,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I see both sides like Chanel.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-27T12:00:00Z",
+          "reviewDate": "2026-10-27T18:34:54Z",
+          "seasonId": 538912,
+          "episodeNumber": 5,
+          "episodeName": "Totes Inappropes",
+          "tags": []
+        },
+        {
+          "id": 93846704,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-19T12:00:00Z",
+          "reviewDate": "2026-10-20T05:44:16Z",
+          "seasonId": 538912,
+          "episodeNumber": 4,
+          "episodeName": "In Thickness and in Health",
+          "tags": []
+        },
+        {
+          "id": 92786280,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "I’m not a Joey apologist, but we brought him on the show to set up the drama, then kicked him off the show? Feeling very produced…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-12T12:00:00Z",
+          "reviewDate": "2026-10-13T15:13:24Z",
+          "seasonId": 538912,
+          "episodeNumber": 3,
+          "episodeName": "Chumped and Dumped",
+          "tags": []
+        },
+        {
+          "id": 92554347,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-06T12:00:00Z",
+          "reviewDate": "2026-10-12T04:34:06Z",
+          "seasonId": 538912,
+          "episodeNumber": 2,
+          "episodeName": "Sick of the Shtick",
+          "tags": []
+        },
+        {
+          "id": 92554333,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "So, my first run as a Bravo fan was Flipping Out and My Life on the D List, so this feels very full circle. Why is Joey Zauzig here…?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-09-29T12:00:00Z",
+          "reviewDate": "2026-10-12T04:33:54Z",
+          "seasonId": 538912,
+          "episodeNumber": 1,
+          "episodeName": "Did You Miss Me?",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-27T18:34:54Z",
+      "primaryRating": 3.5,
+      "liked": false
+    },
+    "tmdb-tv-258165": {
+      "id": "tmdb-tv-258165",
+      "serializdShowId": 258165,
+      "slug": "east-of-eden-2026",
+      "name": "East of Eden",
+      "premiereYear": 2026,
+      "premiereDate": "2026-10-01",
+      "serializdUrl": "https://serializd.com/show/258165",
+      "tmdb": {
+        "id": 258165,
+        "name": "East of Eden",
+        "posterPath": "/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
+        "backdropPath": "/70RZX7kNjA0Qjn6HigB1oMvFJ8R.jpg",
+        "genres": [
+          "Drama",
+          "Crime"
+        ],
+        "type": "Miniseries",
+        "status": "Ended",
+        "networks": [
+          "Netflix"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 7
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
+      "seasons": [
+        {
+          "serializdId": 400373,
+          "showId": 258165,
+          "seasonNumber": 1,
+          "name": "Limited Series",
+          "posterPath": "/axdUor6gLMTrrB1UF4Qfy0TTSyX.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94877515,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Cal, you in danger, girl.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T03:53:29Z",
+          "seasonId": 400373,
+          "episodeNumber": 6,
+          "episodeName": "The Great Try",
+          "tags": []
+        },
+        {
+          "id": 94873103,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:58:22Z",
+          "seasonId": 400373,
+          "episodeNumber": 5,
+          "episodeName": "Departure",
+          "tags": []
+        },
+        {
+          "id": 94871168,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Justice for Martha.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:35:38Z",
+          "seasonId": 400373,
+          "episodeNumber": 4,
+          "episodeName": "Kate",
+          "tags": []
+        },
+        {
+          "id": 94871132,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:35:19Z",
+          "seasonId": 400373,
+          "episodeNumber": 3,
+          "episodeName": "In the Valley",
+          "tags": []
+        },
+        {
+          "id": 94871091,
+          "level": "episode",
+          "rating": 4.5,
+          "liked": false,
+          "reviewText": "Big Cathy, not the little one!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:34:46Z",
+          "seasonId": 400373,
+          "episodeNumber": 2,
+          "episodeName": "Cathy",
+          "tags": []
+        },
+        {
+          "id": 94871076,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:34:37Z",
+          "seasonId": 400373,
+          "episodeNumber": 1,
+          "episodeName": "Brothers",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5,
+        4,
+        4.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": true,
+      "latestActivityDate": "2026-10-27T03:53:29Z",
+      "primaryRating": 4,
+      "liked": false
+    },
+    "tmdb-tv-285418": {
+      "id": "tmdb-tv-285418",
+      "serializdShowId": 285418,
+      "slug": "youth-2026",
+      "name": "Youth",
+      "premiereYear": 2026,
+      "premiereDate": "2026-09-21",
+      "serializdUrl": "https://serializd.com/show/285418",
+      "tmdb": {
+        "id": 285418,
+        "name": "Youth",
+        "posterPath": "/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
+        "backdropPath": "/iEISXRsDv8Q2PA6i9cAQd2DH9bN.jpg",
+        "genres": [
+          "Comedy",
+          "Drama"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "HBO Max"
+        ],
+        "numberOfSeasons": 1,
+        "numberOfEpisodes": 8
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
+      "seasons": [
+        {
+          "serializdId": 444466,
+          "showId": 285418,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/bk1zbzbu0xaYQuIANv4Pe8HHyAY.jpg",
+          "episodeCount": 8
+        }
+      ],
+      "reviews": [
+        {
+          "id": 94871721,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Alex and Pat actually talk about it immediately challenge.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:41:32Z",
+          "seasonId": 444466,
+          "episodeNumber": 7,
+          "episodeName": "Last Night on Earth",
+          "tags": []
+        },
+        {
+          "id": 94871662,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:40:53Z",
+          "seasonId": 444466,
+          "episodeNumber": 6,
+          "episodeName": "Desperate Measures",
+          "tags": []
+        },
+        {
+          "id": 94871607,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:40:20Z",
+          "seasonId": 444466,
+          "episodeNumber": 5,
+          "episodeName": "The Holiday",
+          "tags": []
+        },
+        {
+          "id": 94871583,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I actually hate Michael, thanks.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:40:00Z",
+          "seasonId": 444466,
+          "episodeNumber": 4,
+          "episodeName": "Michael Man",
+          "tags": []
+        },
+        {
+          "id": 94871547,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "The sauna of it all…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-26T12:00:00Z",
+          "reviewDate": "2026-10-27T02:39:39Z",
+          "seasonId": 444466,
+          "episodeNumber": 3,
+          "episodeName": "Welcome to the Rat's Nest",
+          "tags": []
+        },
+        {
+          "id": 94871476,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:38:48Z",
+          "seasonId": 444466,
+          "episodeNumber": 2,
+          "episodeName": "Wagon Burner",
+          "tags": []
+        },
+        {
+          "id": 94871435,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-25T12:00:00Z",
+          "reviewDate": "2026-10-27T02:38:23Z",
+          "seasonId": 444466,
+          "episodeNumber": 1,
+          "episodeName": "Lockjaw",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        3,
+        3.5
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [],
+      "inProgressSeasonNumbers": [
+        1
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-10-27T02:41:32Z",
       "primaryRating": 3,
       "liked": false
     },
@@ -46130,7 +46162,7 @@
           "seasonNumber": 16,
           "name": "Season 16",
           "posterPath": "/t664cIE1pEVDJj0KAMefmvZNQac.jpg",
-          "episodeCount": 12
+          "episodeCount": 14
         }
       ],
       "reviews": [
