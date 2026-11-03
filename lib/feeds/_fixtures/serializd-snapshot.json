@@ -1,19 +1,19 @@
 {
-  "capturedAt": "2026-11-03T03:31:14.250Z",
+  "capturedAt": "2026-11-03T05:31:14.769Z",
   "summary": {
     "totalShows": 174,
     "totalShowReviews": 46,
     "totalSeasonReviews": 287,
-    "totalEpisodeReviews": 1207,
+    "totalEpisodeReviews": 1208,
     "ratingDistribution": {
       "1": 4,
       "2": 51,
-      "3": 413,
+      "3": 414,
       "4": 299,
       "5": 25,
       "3.5": 457,
-      "4.5": 90,
       "2.5": 149,
+      "4.5": 90,
       "1.5": 13,
       "0.5": 1
     },
@@ -43,23 +43,23 @@
       "episode": {
         "1": 1,
         "2": 28,
-        "3": 344,
+        "3": 345,
         "4": 240,
         "5": 15,
         "3.5": 375,
-        "4.5": 75,
         "2.5": 121,
+        "4.5": 75,
         "1.5": 7
       }
     },
     "genreDistribution": {
+      "Crime": 34,
+      "Mystery": 36,
       "Comedy": 58,
       "Drama": 104,
       "Talk": 1,
       "Reality": 33,
       "Action & Adventure": 18,
-      "Crime": 34,
-      "Mystery": 36,
       "Documentary": 15,
       "Sci-Fi & Fantasy": 25,
       "News": 1,
@@ -79,6 +79,267 @@
     "totalWatchedOnlyShows": 186
   },
   "shows": [
+    {
+      "id": "tmdb-tv-302074",
+      "serializdShowId": 302074,
+      "slug": "r-j-decker-2026",
+      "name": "R.J. Decker",
+      "premiereYear": 2026,
+      "premiereDate": "2026-03-03",
+      "serializdUrl": "https://serializd.com/show/302074",
+      "tmdb": {
+        "id": 302074,
+        "name": "R.J. Decker",
+        "posterPath": "/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
+        "backdropPath": "/uahJs4jteV8pfVXPlBgBzjmoqFa.jpg",
+        "genres": [
+          "Crime",
+          "Mystery"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "ABC"
+        ],
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 16
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
+      "seasons": [
+        {
+          "serializdId": 478070,
+          "showId": 302074,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg",
+          "episodeCount": 9
+        },
+        {
+          "serializdId": 532868,
+          "showId": 302074,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 95856507,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Some of those guys were very hot…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-11-02T12:00:00Z",
+          "reviewDate": "2026-11-03T05:23:42Z",
+          "seasonId": 532868,
+          "episodeNumber": 2,
+          "episodeName": "Manos: Hands of Fate",
+          "tags": []
+        },
+        {
+          "id": 95075877,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Masterful procedural, but procedural (meaning obvious) nonetheless.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-28T12:00:00Z",
+          "reviewDate": "2026-10-28T16:58:59Z",
+          "seasonId": 532868,
+          "episodeNumber": 1,
+          "episodeName": "The Point of Us Breaking",
+          "tags": []
+        },
+        {
+          "id": 64131562,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "They lost me in the back half, but a decent mid-season premiere.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-30T01:35:05Z",
+          "reviewDate": "2026-04-30T01:35:41Z",
+          "seasonId": 478070,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 64131500,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-30T01:34:47Z",
+          "reviewDate": "2026-04-30T01:34:51Z",
+          "seasonId": 478070,
+          "episodeNumber": 9,
+          "episodeName": "Even Walls Fall Down",
+          "tags": []
+        },
+        {
+          "id": 64131486,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-23T01:34:00Z",
+          "reviewDate": "2026-04-30T01:34:39Z",
+          "seasonId": 478070,
+          "episodeNumber": 8,
+          "episodeName": "Burn the Boats",
+          "tags": []
+        },
+        {
+          "id": 62440785,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-15T06:10:14Z",
+          "reviewDate": "2026-04-15T06:10:18Z",
+          "seasonId": 478070,
+          "episodeNumber": 7,
+          "episodeName": "You've Got Bale",
+          "tags": []
+        },
+        {
+          "id": 61640365,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-07T15:37:00Z",
+          "reviewDate": "2026-04-08T15:37:30Z",
+          "seasonId": 478070,
+          "episodeNumber": 6,
+          "episodeName": "Brenner's Back",
+          "tags": []
+        },
+        {
+          "id": 61640339,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-07T15:37:00Z",
+          "reviewDate": "2026-04-08T15:37:09Z",
+          "seasonId": 478070,
+          "episodeNumber": 5,
+          "episodeName": "Burn Notice",
+          "tags": []
+        },
+        {
+          "id": 61588545,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-08T03:14:37Z",
+          "reviewDate": "2026-04-08T03:14:40Z",
+          "seasonId": 478070,
+          "episodeNumber": 4,
+          "episodeName": "In Vanity Veritas",
+          "tags": []
+        },
+        {
+          "id": 61583123,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Do I like South Florida aesthetics or do I need a vacation?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-08T02:11:51Z",
+          "reviewDate": "2026-04-08T02:12:17Z",
+          "seasonId": 478070,
+          "episodeNumber": 3,
+          "episodeName": "The Needle and the Damage Done",
+          "tags": []
+        },
+        {
+          "id": 61579091,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Obsessed with how dialled in Kevin Rankin and costume design are on who his character is. I just feel like I’m observing a level of collaboration there I don’t usually in network. Also, hey Pej Vahdat!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-08T01:19:07Z",
+          "reviewDate": "2026-04-08T01:20:31Z",
+          "seasonId": 478070,
+          "episodeNumber": 2,
+          "episodeName": "Twenty Pounds of Clem in a Ten-Pound Bag",
+          "tags": []
+        },
+        {
+          "id": 61575634,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I’m biting.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-08T00:35:15Z",
+          "reviewDate": "2026-04-08T00:35:24Z",
+          "seasonId": 478070,
+          "episodeNumber": 1,
+          "episodeName": "Pilot",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [
+        2
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-11-03T05:23:42Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     {
       "id": "tmdb-tv-125935",
       "serializdShowId": 125935,
@@ -7889,251 +8150,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-11-03T02:33:24Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    {
-      "id": "tmdb-tv-302074",
-      "serializdShowId": 302074,
-      "slug": "r-j-decker-2026",
-      "name": "R.J. Decker",
-      "premiereYear": 2026,
-      "premiereDate": "2026-03-03",
-      "serializdUrl": "https://serializd.com/show/302074",
-      "tmdb": {
-        "id": 302074,
-        "name": "R.J. Decker",
-        "posterPath": "/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
-        "backdropPath": "/uahJs4jteV8pfVXPlBgBzjmoqFa.jpg",
-        "genres": [
-          "Crime",
-          "Mystery"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "ABC"
-        ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 16
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
-      "seasons": [
-        {
-          "serializdId": 478070,
-          "showId": 302074,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg",
-          "episodeCount": 9
-        },
-        {
-          "serializdId": 532868,
-          "showId": 302074,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
-          "episodeCount": 7
-        }
-      ],
-      "reviews": [
-        {
-          "id": 95075877,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Masterful procedural, but procedural (meaning obvious) nonetheless.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-28T12:00:00Z",
-          "reviewDate": "2026-10-28T16:58:59Z",
-          "seasonId": 532868,
-          "episodeNumber": 1,
-          "episodeName": "The Point of Us Breaking",
-          "tags": []
-        },
-        {
-          "id": 64131562,
-          "level": "season",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "They lost me in the back half, but a decent mid-season premiere.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-30T01:35:05Z",
-          "reviewDate": "2026-04-30T01:35:41Z",
-          "seasonId": 478070,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 64131500,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-30T01:34:47Z",
-          "reviewDate": "2026-04-30T01:34:51Z",
-          "seasonId": 478070,
-          "episodeNumber": 9,
-          "episodeName": "Even Walls Fall Down",
-          "tags": []
-        },
-        {
-          "id": 64131486,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-23T01:34:00Z",
-          "reviewDate": "2026-04-30T01:34:39Z",
-          "seasonId": 478070,
-          "episodeNumber": 8,
-          "episodeName": "Burn the Boats",
-          "tags": []
-        },
-        {
-          "id": 62440785,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-15T06:10:14Z",
-          "reviewDate": "2026-04-15T06:10:18Z",
-          "seasonId": 478070,
-          "episodeNumber": 7,
-          "episodeName": "You've Got Bale",
-          "tags": []
-        },
-        {
-          "id": 61640365,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-07T15:37:00Z",
-          "reviewDate": "2026-04-08T15:37:30Z",
-          "seasonId": 478070,
-          "episodeNumber": 6,
-          "episodeName": "Brenner's Back",
-          "tags": []
-        },
-        {
-          "id": 61640339,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-07T15:37:00Z",
-          "reviewDate": "2026-04-08T15:37:09Z",
-          "seasonId": 478070,
-          "episodeNumber": 5,
-          "episodeName": "Burn Notice",
-          "tags": []
-        },
-        {
-          "id": 61588545,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-08T03:14:37Z",
-          "reviewDate": "2026-04-08T03:14:40Z",
-          "seasonId": 478070,
-          "episodeNumber": 4,
-          "episodeName": "In Vanity Veritas",
-          "tags": []
-        },
-        {
-          "id": 61583123,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Do I like South Florida aesthetics or do I need a vacation?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-08T02:11:51Z",
-          "reviewDate": "2026-04-08T02:12:17Z",
-          "seasonId": 478070,
-          "episodeNumber": 3,
-          "episodeName": "The Needle and the Damage Done",
-          "tags": []
-        },
-        {
-          "id": 61579091,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Obsessed with how dialled in Kevin Rankin and costume design are on who his character is. I just feel like I’m observing a level of collaboration there I don’t usually in network. Also, hey Pej Vahdat!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-08T01:19:07Z",
-          "reviewDate": "2026-04-08T01:20:31Z",
-          "seasonId": 478070,
-          "episodeNumber": 2,
-          "episodeName": "Twenty Pounds of Clem in a Ten-Pound Bag",
-          "tags": []
-        },
-        {
-          "id": 61575634,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I’m biting.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-08T00:35:15Z",
-          "reviewDate": "2026-04-08T00:35:24Z",
-          "seasonId": 478070,
-          "episodeNumber": 1,
-          "episodeName": "Pilot",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [
-        2
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-28T16:58:59Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     {
@@ -26952,7 +26968,7 @@
           "seasonNumber": 52,
           "name": "Season 52",
           "posterPath": "/udqHK9Gpdt34cic3W3VLqgJBlXI.jpg",
-          "episodeCount": 9
+          "episodeCount": 20
         }
       ],
       "reviews": [
@@ -37546,6 +37562,267 @@
     }
   ],
   "showById": {
+    "tmdb-tv-302074": {
+      "id": "tmdb-tv-302074",
+      "serializdShowId": 302074,
+      "slug": "r-j-decker-2026",
+      "name": "R.J. Decker",
+      "premiereYear": 2026,
+      "premiereDate": "2026-03-03",
+      "serializdUrl": "https://serializd.com/show/302074",
+      "tmdb": {
+        "id": 302074,
+        "name": "R.J. Decker",
+        "posterPath": "/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
+        "backdropPath": "/uahJs4jteV8pfVXPlBgBzjmoqFa.jpg",
+        "genres": [
+          "Crime",
+          "Mystery"
+        ],
+        "type": "Scripted",
+        "status": "Returning Series",
+        "networks": [
+          "ABC"
+        ],
+        "numberOfSeasons": 2,
+        "numberOfEpisodes": 16
+      },
+      "posterUrl": "https://image.tmdb.org/t/p/w342/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
+      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
+      "seasons": [
+        {
+          "serializdId": 478070,
+          "showId": 302074,
+          "seasonNumber": 1,
+          "name": "Season 1",
+          "posterPath": "/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg",
+          "episodeCount": 9
+        },
+        {
+          "serializdId": 532868,
+          "showId": 302074,
+          "seasonNumber": 2,
+          "name": "Season 2",
+          "posterPath": "/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
+          "episodeCount": 7
+        }
+      ],
+      "reviews": [
+        {
+          "id": 95856507,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "Some of those guys were very hot…",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-11-02T12:00:00Z",
+          "reviewDate": "2026-11-03T05:23:42Z",
+          "seasonId": 532868,
+          "episodeNumber": 2,
+          "episodeName": "Manos: Hands of Fate",
+          "tags": []
+        },
+        {
+          "id": 95075877,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Masterful procedural, but procedural (meaning obvious) nonetheless.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-10-28T12:00:00Z",
+          "reviewDate": "2026-10-28T16:58:59Z",
+          "seasonId": 532868,
+          "episodeNumber": 1,
+          "episodeName": "The Point of Us Breaking",
+          "tags": []
+        },
+        {
+          "id": 64131562,
+          "level": "season",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "They lost me in the back half, but a decent mid-season premiere.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-30T01:35:05Z",
+          "reviewDate": "2026-04-30T01:35:41Z",
+          "seasonId": 478070,
+          "episodeNumber": null,
+          "episodeName": null,
+          "tags": []
+        },
+        {
+          "id": 64131500,
+          "level": "episode",
+          "rating": 2.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-30T01:34:47Z",
+          "reviewDate": "2026-04-30T01:34:51Z",
+          "seasonId": 478070,
+          "episodeNumber": 9,
+          "episodeName": "Even Walls Fall Down",
+          "tags": []
+        },
+        {
+          "id": 64131486,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-23T01:34:00Z",
+          "reviewDate": "2026-04-30T01:34:39Z",
+          "seasonId": 478070,
+          "episodeNumber": 8,
+          "episodeName": "Burn the Boats",
+          "tags": []
+        },
+        {
+          "id": 62440785,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-15T06:10:14Z",
+          "reviewDate": "2026-04-15T06:10:18Z",
+          "seasonId": 478070,
+          "episodeNumber": 7,
+          "episodeName": "You've Got Bale",
+          "tags": []
+        },
+        {
+          "id": 61640365,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-07T15:37:00Z",
+          "reviewDate": "2026-04-08T15:37:30Z",
+          "seasonId": 478070,
+          "episodeNumber": 6,
+          "episodeName": "Brenner's Back",
+          "tags": []
+        },
+        {
+          "id": 61640339,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-07T15:37:00Z",
+          "reviewDate": "2026-04-08T15:37:09Z",
+          "seasonId": 478070,
+          "episodeNumber": 5,
+          "episodeName": "Burn Notice",
+          "tags": []
+        },
+        {
+          "id": 61588545,
+          "level": "episode",
+          "rating": 3,
+          "liked": false,
+          "reviewText": "",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-08T03:14:37Z",
+          "reviewDate": "2026-04-08T03:14:40Z",
+          "seasonId": 478070,
+          "episodeNumber": 4,
+          "episodeName": "In Vanity Veritas",
+          "tags": []
+        },
+        {
+          "id": 61583123,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "Do I like South Florida aesthetics or do I need a vacation?",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-08T02:11:51Z",
+          "reviewDate": "2026-04-08T02:12:17Z",
+          "seasonId": 478070,
+          "episodeNumber": 3,
+          "episodeName": "The Needle and the Damage Done",
+          "tags": []
+        },
+        {
+          "id": 61579091,
+          "level": "episode",
+          "rating": 4,
+          "liked": false,
+          "reviewText": "Obsessed with how dialled in Kevin Rankin and costume design are on who his character is. I just feel like I’m observing a level of collaboration there I don’t usually in network. Also, hey Pej Vahdat!",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-08T01:19:07Z",
+          "reviewDate": "2026-04-08T01:20:31Z",
+          "seasonId": 478070,
+          "episodeNumber": 2,
+          "episodeName": "Twenty Pounds of Clem in a Ten-Pound Bag",
+          "tags": []
+        },
+        {
+          "id": 61575634,
+          "level": "episode",
+          "rating": 3.5,
+          "liked": false,
+          "reviewText": "I’m biting.",
+          "containsSpoiler": false,
+          "isRewatch": false,
+          "isLog": true,
+          "watchedDate": "2026-04-08T00:35:15Z",
+          "reviewDate": "2026-04-08T00:35:24Z",
+          "seasonId": 478070,
+          "episodeNumber": 1,
+          "episodeName": "Pilot",
+          "tags": []
+        }
+      ],
+      "ratingSet": [
+        2.5,
+        3,
+        3.5,
+        4
+      ],
+      "watchedYearSet": [
+        2026
+      ],
+      "reviewedSeasonNumbers": [
+        1
+      ],
+      "inProgressSeasonNumbers": [
+        2
+      ],
+      "watchedUnreviewedSeasonNumbers": [],
+      "hasShowReview": false,
+      "isMiniseries": false,
+      "latestActivityDate": "2026-11-03T05:23:42Z",
+      "primaryRating": 3,
+      "liked": false
+    },
     "tmdb-tv-125935": {
       "id": "tmdb-tv-125935",
       "serializdShowId": 125935,
@@ -45356,251 +45633,6 @@
       "isMiniseries": false,
       "latestActivityDate": "2026-11-03T02:33:24Z",
       "primaryRating": 3,
-      "liked": false
-    },
-    "tmdb-tv-302074": {
-      "id": "tmdb-tv-302074",
-      "serializdShowId": 302074,
-      "slug": "r-j-decker-2026",
-      "name": "R.J. Decker",
-      "premiereYear": 2026,
-      "premiereDate": "2026-03-03",
-      "serializdUrl": "https://serializd.com/show/302074",
-      "tmdb": {
-        "id": 302074,
-        "name": "R.J. Decker",
-        "posterPath": "/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
-        "backdropPath": "/uahJs4jteV8pfVXPlBgBzjmoqFa.jpg",
-        "genres": [
-          "Crime",
-          "Mystery"
-        ],
-        "type": "Scripted",
-        "status": "Returning Series",
-        "networks": [
-          "ABC"
-        ],
-        "numberOfSeasons": 2,
-        "numberOfEpisodes": 16
-      },
-      "posterUrl": "https://image.tmdb.org/t/p/w342/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
-      "posterFallbackUrl": "https://image.tmdb.org/t/p/w342/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
-      "seasons": [
-        {
-          "serializdId": 478070,
-          "showId": 302074,
-          "seasonNumber": 1,
-          "name": "Season 1",
-          "posterPath": "/bkMdvmjj1zEnVqZTPskBREDzTuS.jpg",
-          "episodeCount": 9
-        },
-        {
-          "serializdId": 532868,
-          "showId": 302074,
-          "seasonNumber": 2,
-          "name": "Season 2",
-          "posterPath": "/iNOXveSqB5tUTmGKxp5flQuQ72f.jpg",
-          "episodeCount": 7
-        }
-      ],
-      "reviews": [
-        {
-          "id": 95075877,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Masterful procedural, but procedural (meaning obvious) nonetheless.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-10-28T12:00:00Z",
-          "reviewDate": "2026-10-28T16:58:59Z",
-          "seasonId": 532868,
-          "episodeNumber": 1,
-          "episodeName": "The Point of Us Breaking",
-          "tags": []
-        },
-        {
-          "id": 64131562,
-          "level": "season",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "They lost me in the back half, but a decent mid-season premiere.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-30T01:35:05Z",
-          "reviewDate": "2026-04-30T01:35:41Z",
-          "seasonId": 478070,
-          "episodeNumber": null,
-          "episodeName": null,
-          "tags": []
-        },
-        {
-          "id": 64131500,
-          "level": "episode",
-          "rating": 2.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-30T01:34:47Z",
-          "reviewDate": "2026-04-30T01:34:51Z",
-          "seasonId": 478070,
-          "episodeNumber": 9,
-          "episodeName": "Even Walls Fall Down",
-          "tags": []
-        },
-        {
-          "id": 64131486,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-23T01:34:00Z",
-          "reviewDate": "2026-04-30T01:34:39Z",
-          "seasonId": 478070,
-          "episodeNumber": 8,
-          "episodeName": "Burn the Boats",
-          "tags": []
-        },
-        {
-          "id": 62440785,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-15T06:10:14Z",
-          "reviewDate": "2026-04-15T06:10:18Z",
-          "seasonId": 478070,
-          "episodeNumber": 7,
-          "episodeName": "You've Got Bale",
-          "tags": []
-        },
-        {
-          "id": 61640365,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-07T15:37:00Z",
-          "reviewDate": "2026-04-08T15:37:30Z",
-          "seasonId": 478070,
-          "episodeNumber": 6,
-          "episodeName": "Brenner's Back",
-          "tags": []
-        },
-        {
-          "id": 61640339,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-07T15:37:00Z",
-          "reviewDate": "2026-04-08T15:37:09Z",
-          "seasonId": 478070,
-          "episodeNumber": 5,
-          "episodeName": "Burn Notice",
-          "tags": []
-        },
-        {
-          "id": 61588545,
-          "level": "episode",
-          "rating": 3,
-          "liked": false,
-          "reviewText": "",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-08T03:14:37Z",
-          "reviewDate": "2026-04-08T03:14:40Z",
-          "seasonId": 478070,
-          "episodeNumber": 4,
-          "episodeName": "In Vanity Veritas",
-          "tags": []
-        },
-        {
-          "id": 61583123,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "Do I like South Florida aesthetics or do I need a vacation?",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-08T02:11:51Z",
-          "reviewDate": "2026-04-08T02:12:17Z",
-          "seasonId": 478070,
-          "episodeNumber": 3,
-          "episodeName": "The Needle and the Damage Done",
-          "tags": []
-        },
-        {
-          "id": 61579091,
-          "level": "episode",
-          "rating": 4,
-          "liked": false,
-          "reviewText": "Obsessed with how dialled in Kevin Rankin and costume design are on who his character is. I just feel like I’m observing a level of collaboration there I don’t usually in network. Also, hey Pej Vahdat!",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-08T01:19:07Z",
-          "reviewDate": "2026-04-08T01:20:31Z",
-          "seasonId": 478070,
-          "episodeNumber": 2,
-          "episodeName": "Twenty Pounds of Clem in a Ten-Pound Bag",
-          "tags": []
-        },
-        {
-          "id": 61575634,
-          "level": "episode",
-          "rating": 3.5,
-          "liked": false,
-          "reviewText": "I’m biting.",
-          "containsSpoiler": false,
-          "isRewatch": false,
-          "isLog": true,
-          "watchedDate": "2026-04-08T00:35:15Z",
-          "reviewDate": "2026-04-08T00:35:24Z",
-          "seasonId": 478070,
-          "episodeNumber": 1,
-          "episodeName": "Pilot",
-          "tags": []
-        }
-      ],
-      "ratingSet": [
-        2.5,
-        3,
-        3.5,
-        4
-      ],
-      "watchedYearSet": [
-        2026
-      ],
-      "reviewedSeasonNumbers": [
-        1
-      ],
-      "inProgressSeasonNumbers": [
-        2
-      ],
-      "watchedUnreviewedSeasonNumbers": [],
-      "hasShowReview": false,
-      "isMiniseries": false,
-      "latestActivityDate": "2026-10-28T16:58:59Z",
-      "primaryRating": 3.5,
       "liked": false
     },
     "tmdb-tv-14808": {
@@ -64419,7 +64451,7 @@
           "seasonNumber": 52,
           "name": "Season 52",
           "posterPath": "/udqHK9Gpdt34cic3W3VLqgJBlXI.jpg",
-          "episodeCount": 9
+          "episodeCount": 20
         }
       ],
       "reviews": [
